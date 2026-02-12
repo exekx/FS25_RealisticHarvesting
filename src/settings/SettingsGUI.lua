@@ -35,6 +35,15 @@ function SettingsGUI:registerConsoleCommands()
     -- Команда для скидання налаштувань
     addConsoleCommand("rhmResetSettings", "Reset all settings to defaults", "consoleCommandResetSettings", self)
     
+    -- === COMBINE SETTINGS COMMANDS ===
+    addConsoleCommand("rhm_status", "Show combine settings status", "consoleCommandCombineStatus", self)
+    addConsoleCommand("rhm_auto", "Set combine to AUTO mode", "consoleCommandCombineAuto", self)
+    addConsoleCommand("rhm_manual", "Set combine to MANUAL mode", "consoleCommandCombineManual", self)
+    addConsoleCommand("rhm_set", "Set combine parameter (usage: rhm_set <param> <value>)", "consoleCommandCombineSet", self)
+    addConsoleCommand("rhm_load", "Load combine profile (usage: rhm_load <profile>)", "consoleCommandCombineLoad", self)
+    addConsoleCommand("rhm_save", "Save combine profile (usage: rhm_save <name>)", "consoleCommandCombineSave", self)
+    addConsoleCommand("rhm_profiles", "List all saved profiles", "consoleCommandCombineProfiles", self)
+    
     -- Logging.info("RHM: Console commands registered")
 end
 
@@ -205,5 +214,181 @@ function SettingsGUI:consoleCommandResetSettings()
     end
     
     return "Error: RHM not initialized"
+end
+
+-- ============================================================================
+-- COMBINE SETTINGS CONSOLE COMMANDS
+-- ============================================================================
+
+---Отримує поточний активний комбайн гравця
+---@return table|nil vehicle Комбайн або nil
+function SettingsGUI:getCurrentCombine()
+    -- Отримуємо поточну техніку (з fallback методами)
+    local vehicle = nil
+    
+    -- 1. Standard way
+    if g_currentMission and g_currentMission.controlledVehicle then
+        vehicle = g_currentMission.controlledVehicle
+    -- 2. Local player fallback
+    elseif g_localPlayer and g_localPlayer.getCurrentVehicle then
+        vehicle = g_localPlayer:getCurrentVehicle()
+    -- 3. Iterate entered vehicles (extreme fallback)
+    elseif g_currentMission and g_currentMission.vehicles then
+        for _, v in pairs(g_currentMission.vehicles) do
+            if v.getIsEntered and v:getIsEntered() then
+                vehicle = v
+                break
+            end
+        end
+    end
+    
+    if not vehicle then
+        return nil
+    end
+    
+    -- Перевіряємо чи є наш spec
+    local specName = "spec_FS25_RealisticHarvesting.rhm_Combine"
+    if vehicle[specName] or vehicle.spec_rhm_Combine then
+        return vehicle
+    end
+    
+    return nil
+end
+
+---Показує статус налаштувань комбайна
+function SettingsGUI:consoleCommandCombineStatus()
+    local vehicle = self:getCurrentCombine()
+    if not vehicle then
+        return "[X] You must be in a combine to use this command"
+    end
+    
+    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
+        return "[X] Combine Settings GUI not initialized"
+    end
+    
+    local gui = g_realisticHarvestManager.combineSettingsGUI
+    gui:open(vehicle)  -- open() вже викликає printStatus()
+    
+    return ""
+end
+
+---Встановити AUTO режим
+function SettingsGUI:consoleCommandCombineAuto()
+    local vehicle = self:getCurrentCombine()
+    if not vehicle then
+        return "[X] You must be in a combine to use this command"
+    end
+    
+    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
+        return "[X] Combine Settings GUI not initialized"
+    end
+    
+    local gui = g_realisticHarvestManager.combineSettingsGUI
+    gui:open(vehicle)
+    gui:setModeAuto()
+    
+    return "[OK] Mode set to AUTO"
+end
+
+---Встановити MANUAL режим
+function SettingsGUI:consoleCommandCombineManual()
+    local vehicle = self:getCurrentCombine()
+    if not vehicle then
+        return "[X] You must be in a combine to use this command"
+    end
+    
+    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
+        return "[X] Combine Settings GUI not initialized"
+    end
+    
+    local gui = g_realisticHarvestManager.combineSettingsGUI
+    gui:open(vehicle)
+    gui:setModeManual()
+    
+    return "[OK] Mode set to MANUAL"
+end
+
+---Встановити параметр
+function SettingsGUI:consoleCommandCombineSet(param, value)
+    local vehicle = self:getCurrentCombine()
+    if not vehicle then
+        return "[X] You must be in a combine to use this command"
+    end
+    
+    if not param or not value then
+        return "[X] Usage: rhm_set <param> <value>\\n   Valid params: fan, upperSieve, lowerSieve, rotor, feeder"
+    end
+    
+    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
+        return "[X] Combine Settings GUI not initialized"
+    end
+    
+    local gui = g_realisticHarvestManager.combineSettingsGUI
+    gui:open(vehicle)
+    gui:setParameter(param, value)
+    
+    return string.format("[OK] %s set to %s%%", param, value)
+end
+
+---Завантажити профіль
+function SettingsGUI:consoleCommandCombineLoad(profileName)
+    local vehicle = self:getCurrentCombine()
+    if not vehicle then
+        return "[X] You must be in a combine to use this command"
+    end
+    
+    if not profileName then
+        return "[X] Usage: rhm_load <profile>\\n   Use rhm_profiles to see available profiles"
+    end
+    
+    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
+        return "[X] Combine Settings GUI not initialized"
+    end
+    
+    local gui = g_realisticHarvestManager.combineSettingsGUI
+    gui:open(vehicle)
+    gui:loadProfile(profileName)
+    
+    return string.format("[OK] Profile loaded: %s", profileName)
+end
+
+---Зберегти профіль
+function SettingsGUI:consoleCommandCombineSave(profileName)
+    local vehicle = self:getCurrentCombine()
+    if not vehicle then
+        return "[X] You must be in a combine to use this command"
+    end
+    
+    if not profileName then
+        return "[X] Usage: rhm_save <name>"
+    end
+    
+    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
+        return "[X] Combine Settings GUI not initialized"
+    end
+    
+    local gui = g_realisticHarvestManager.combineSettingsGUI
+    gui:open(vehicle)
+    gui:saveProfile(profileName)
+    
+    return string.format("[OK] Profile saved: %s", profileName)
+end
+
+---Показати всі профілі
+function SettingsGUI:consoleCommandCombineProfiles()
+    local vehicle = self:getCurrentCombine()
+    if not vehicle then
+        return "[X] You must be in a combine to use this command"
+    end
+    
+    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
+        return "[X] Combine Settings GUI not initialized"
+    end
+    
+    local gui = g_realisticHarvestManager.combineSettingsGUI
+    gui:open(vehicle)
+    gui:listProfiles()
+    
+    return "Profiles listed in console"
 end
 

@@ -41,6 +41,9 @@ function RealisticHarvestManager.new(mission, modDirectory, modName)
     self.settingsGUI = SettingsGUI.new()
     self.settingsGUI:registerConsoleCommands()
     
+    -- Створюємо GUI для налаштувань комбайна
+    self.combineSettingsGUI = CombineSettingsGUI.new()
+    
     -- Завантаження збережених даних при старті
     self.settings:load()
     
@@ -58,7 +61,19 @@ function RealisticHarvestManager.new(mission, modDirectory, modName)
         self.debugLogInterval = 10000  -- 10 секунд в мілісекундах
     end
     
+    -- Create Calibration GUI
+    if mission:getIsClient() then
+        self.calibrationGUI = CombineCalibrationGUI.new(modDirectory)
+    end
+    
     return self
+end
+
+-- Toggle the Calibration GUI
+function RealisticHarvestManager:toggleMenu(vehicle)
+    if self.calibrationGUI then
+        self.calibrationGUI:toggle(vehicle)
+    end
 end
 
 -- Викликається після завантаження місії
@@ -114,7 +129,6 @@ local function findCombineInHierarchy(vehicle, checkedVehicles)
     return nil
 end
 
--- Викликається кожен кадр
 -- Helper: Find the actual vehicle the player is controlling
 function RealisticHarvestManager:getControlledVehicle()
     -- 1. Check standard game function
@@ -140,6 +154,11 @@ end
 
 -- Викликається кожен кадр
 function RealisticHarvestManager:update(dt)
+    -- Update GUI
+    if self.calibrationGUI then
+        self.calibrationGUI:update(dt)
+    end
+
     -- Оновлюємо HUD якщо він існує
     if self.hud then
         -- Знаходимо, де зараз гравець
@@ -163,47 +182,6 @@ function RealisticHarvestManager:update(dt)
             
             -- Оновлюємо дані HUD
             self.hud:update(dt)
-            
-            --[[ DEBUG LOGGING ВИМКНЕНО
-            -- Просте Debug Logging (кожні 10 секунд)
-            self.debugLogTimer = self.debugLogTimer + dt
-            if self.debugLogTimer >= self.debugLogInterval then
-                self.debugLogTimer = 0
-                
-                local spec = combineVehicle.spec_rhm_Combine
-                if spec and spec.data then
-                    local data = spec.data
-                    local cropLoss = "OK"
-                    if data.cropLoss >= 0.5 then
-                        cropLoss = "HIGH"
-                    elseif data.cropLoss >= 0.2 then
-                        cropLoss = "MED"
-                    elseif data.cropLoss > 0 then
-                        cropLoss = "LOW"
-                    end
-                    
-                    -- Отримуємо назву культури
-                    local cropName = "Unknown"
-                    if spec.lastFillType and g_fillTypeManager then
-                        local fillType = g_fillTypeManager:getFillTypeByIndex(spec.lastFillType)
-                        if fillType and fillType.title then
-                            cropName = fillType.title
-                        end
-                    end
-                    
-                    print("=== RHM DEBUG ===")
-                    print(string.format("  Combine: %s", combineVehicle:getFullName()))
-                    print(string.format("  Crop: %s", cropName))
-                    print(string.format("  Difficulty: Motor=%d, Loss=%d", self.settings.difficultyMotor, self.settings.difficultyLoss))
-                    print(string.format("  Speed: %.1f km/h (Recommended: %.1f km/h)", combineVehicle:getLastSpeed(), data.recommendedSpeed or 0))
-                    print(string.format("  Load: %.1f%%", data.load or 0))
-                    print(string.format("  Crop Loss: %s (%.2f)", cropLoss, data.cropLoss or 0))
-                    print(string.format("  Yield: %.2f t/ha", data.yield or 0))
-                    print(string.format("  Throughput: %.2f t/h", data.tonPerHour or 0))
-                    print("=================")
-                end
-            end
-            ]]--
         else
             -- Скидаємо комбайн якщо не активний
             self.hud:setVehicle(nil)
@@ -213,7 +191,12 @@ end
 
 -- Викликається кожен кадр для МАЛЮВАННЯ HUD
 function RealisticHarvestManager:draw()
-    -- НЕ малюємо якщо відкрито меню/GUI
+    -- Draw GUI (always on top)
+    if self.calibrationGUI then
+        self.calibrationGUI:draw()
+    end
+
+    -- НЕ малюємо HUD якщо відкрито меню гри (ESC)
     if g_gui:getIsGuiVisible() then
         return
     end
@@ -241,17 +224,20 @@ function RealisticHarvestManager:delete()
         self.hud:delete()
         self.hud = nil
     end
+    if self.calibrationGUI then
+        self.calibrationGUI:delete()
+    end
 end
 
----Обробка mouse events для drag & drop HUD
----@param posX number Mouse X position
----@param posY number Mouse Y position
----@param isDown boolean Mouse button down
----@param isUp boolean Mouse button up
----@param button number Mouse button index
+---Обробка mouse events
 function RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.mission:getIsClient() then
         return
+    end
+    
+    -- GUI has priority
+    if self.calibrationGUI and self.calibrationGUI:mouseEvent(posX, posY, isDown, isUp, button) then
+        return true
     end
     
     if self.hud then

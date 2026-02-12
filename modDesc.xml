@@ -2,7 +2,7 @@
 <modDesc descVersion="105">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.3.2.0</version>
+    <version>1.4.0.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -30,6 +30,14 @@ Features:
 - Support for all harvest types (Grain, Forage, Roots, Cotton)
 - Pickup Header support (Swathing)
 - Experimental NEXAT support
+- Combine Settings & Calibration System
+
+Changelog 1.4.0.0:
+- NEW: Interactive Combine Settings & Calibration Menu (RShift + K).
+- NEW: Manual Control Mode - Adjust Fan, Rotor, Sieves, and Feeder.
+- NEW: Incorrect settings cause additional Crop Loss (displayed in GUI).
+- NEW: Profile System - Save/Load custom settings for each crop.
+- NEW: New crops start with neutral (50%) settings, requiring calibration.
 
 Changelog 1.3.2.0:
 - NEW: Physical Crop Loss System! Losses now reduce actual grain collected in bunker.
@@ -78,6 +86,13 @@ Funktionen:
 - Unterstützung für Baumwollernter, Hackfruchternter und teilweise Feldhäcksler
 - Experimentelle NEXAT-Unterstützung
 
+Changelog 1.4.0.0:
+- NEU: Interaktives Mähdrescher-Einstellungsmenü (RShift + K).
+- NEU: Manueller Modus - Anpassung von Gebläse, Rotor, Sieben und Einzug.
+- NEU: Falsche Einstellungen führen zu zusätzlichen Ernteverlusten.
+- NEU: Profilsystem - Speichern/Laden von Einstellungen.
+- NEU: Neue Früchte starten mit 50% Effizienz, Kalibrierung erforderlich.
+
 Changelog 1.3.2.0:
 - NEU: Physisches Ernteverlustsystem! Verluste reduzieren jetzt das tatsächlich geerntete Getreide.
 - NEU: Ernteverluste beginnen bei 95% Motorlast (zuvor 100%).
@@ -124,6 +139,13 @@ Fonctionnalités:
 - Support multijoueur complet avec paramètres côté serveur
 - Support pour moissonneuses à coton, récolteuses de racines et support partiel pour ensileuses
 - Support expérimental NEXAT
+
+Changelog 1.4.0.0:
+- NOUVEAU: Menu de réglage et de calibrage interactif (RShift + K).
+- NOUVEAU: Mode manuel - Réglage du ventilateur, du rotor, des tamis.
+- NOUVEAU: Les réglages incorrects entraînent des pertes de récolte supplémentaires.
+- NOUVEAU: Système de profil - Enregistrer/Charger les réglages.
+- NOUVEAU: Les nouvelles cultures commencent avec une efficacité de 50%.
 
 Changelog 1.3.2.0:
 - NOUVEAU: Système de perte de récolte physique! Les pertes réduisent maintenant le grain réellement collecté.
@@ -172,6 +194,13 @@ Funkcje:
 - Wsparcie dla kombajnów bawełnianych, kombajnów korzeniowych i częściowe wsparcie dla sieczkarni
 - Eksperymentalne wsparcie dla NEXAT
 
+Changelog 1.4.0.0:
+- NOWOŚĆ: Interaktywne menu ustawień i kalibracji kombajnu (RShift + K).
+- NOWOŚĆ: Tryb ręczny - Regulacja wentylatora, rotora, sit.
+- NOWOŚĆ: Nieprawidłowe ustawienia powodują dodatkowe straty plonów.
+- NOWOŚĆ: System profili - Zapisz/Wczytaj ustawienia.
+- NOWOŚĆ: Nowe uprawy zaczynają się od 50% wydajności.
+
 Changelog 1.3.2.0:
 - NOWOŚĆ: Fizyczny system strat plonów! Straty teraz zmniejszają rzeczywiście zebraną ilość ziarna.
 - NOWOŚĆ: Straty plonów zaczynają się przy 95% obciążenia silnika (poprzednio 100%).
@@ -218,6 +247,13 @@ Características:
 - Soporte multijugador completo con configuración del servidor
 - Soporte para cosechadoras de algodón, cosechadoras de raíces y soporte parcial para picadoras
 - Soporte experimental para NEXAT
+
+Changelog 1.4.0.0:
+- NUEVO: Menú interactivo de configuración y calibración (RShift + K).
+- NUEVO: Modo manual - Ajuste de ventilador, rotor, tamices.
+- NUEVO: La configuración incorrecta causa pérdidas de cosecha adicionales.
+- NUEVO: Sistema de perfiles - Guardar/Cargar configuraciones.
+- NUEVO: Los nuevos cultivos comienzan con un 50% de eficiencia.
 
 Changelog 1.3.2.0:
 - NUEVO: ¡Sistema de pérdida de cosecha física! Las pérdidas ahora reducen el grano realmente recolectado.
@@ -266,6 +302,13 @@ Caratteristiche:
 - Supporto per raccoglitrici cotone, raccoglitrici radici e supporto parziale per trincia
 - Supporto sperimentale NEXAT
 
+Changelog 1.4.0.0:
+- NUOVO: Menu interattivo impostazioni e calibrazione (RShift + K).
+- NUOVO: Modalità manuale - Regolazione ventola, rotore, setacci.
+- NUOVO: Impostazioni errate causano perdite di raccolto aggiuntive.
+- NUOVO: Sistema profili - Salva/Carica impostazioni.
+- NUOVO: Le nuove colture iniziano con un'efficienza del 50%.
+
 Changelog 1.3.2.0:
 - NUOVO: Sistema di perdita di raccolto fisica! Le perdite riducono ora il grano effettivamente raccolto.
 - NUOVO: Le perdite di raccolto iniziano al 95% di carico motore (prima 100%).
@@ -312,6 +355,13 @@ Funkce:
 - Plná podpora multiplayeru s nastavením na straně serveru
 - Podpora pro sklízecí stroje na bavlnu, sklízecí stroje na kořenovou zeleninu a částečná podpora pro sklízecí řezačky
 - Experimentální podpora NEXAT
+
+Changelog 1.4.0.0:
+- NOVINKA: Interaktivní menu nastavení a kalibrace (RShift + K).
+- NOVINKA: Manuální režim - Nastavení ventilátoru, rotoru, sít.
+- NOVINKA: Nesprávné nastavení způsobuje dodatečné ztráty úrody.
+- NOVINKA: Systém profilů - Uložit/Načíst nastavení.
+- NOVINKA: Nové plodiny začínají s 50% účinností.
 
 Changelog 1.3.2.0:
 - NOVINKA: Fyzický systém ztráty úrody! Ztráty nyní snižují skutečně sklizené zrní.
@@ -360,6 +410,13 @@ Recursos:
 - Suporte para colheitadeiras de algodão, colheitadeiras de raízes e suporte parcial para forrageiras
 - Suporte experimental para NEXAT
 
+Changelog 1.4.0.0:
+- NOVO: Menu interativo de configurações e calibração (RShift + K).
+- NOVO: Modo Manual - Ajuste de Ventilador, Rotor, Peneiras.
+- NOVO: Configurações incorretas causam perda adicional de colheita.
+- NOVO: Sistema de Perfil - Salvar/Carregar configurações.
+- NOVO: Novas culturas começam com 50% de eficiência.
+
 Changelog 1.3.2.0:
 - NOVO: Sistema de perda de colheita física! As perdas agora reduzem o grão realmente coletado.
 - NOVO: As perdas de colheita começam em 95% de carga do motor (antes 100%).
@@ -406,6 +463,13 @@ Changelog 1.1.0.0:
 - Повна підтримка мультиплеєра з налаштуваннями на стороні сервера
 - Підтримка бавовняних комбайнів, коренезбиральних комбайнів та часткова підтримка кормозбиральних комбайнів
 - Експериментальна підтримка NEXAT
+
+Зміни 1.4.0.0:
+- НОВЕ: Інтерактивне меню налаштувань комбайна (RShift + K).
+- НОВЕ: Ручний режим - налаштування Вентилятора, Ротора, Решіт та Подавача.
+- НОВЕ: Неправильні налаштування викликають додаткові втрати врожаю.
+- НОВЕ: Система профілів - Збереження/Завантаження налаштувань.
+- НОВЕ: Нові культури стартують з 50% ефективності, вимагають калібрування.
 
 Зміни 1.3.2.0:
 - НОВЕ: Фізична система втрат врожаю! Втрати тепер зменшують реальну кількість зерна в бункері.
@@ -454,6 +518,13 @@ Changelog 1.1.0.0:
 - Поддержка хлопкоуборочных комбайнов, корнеуборочных комбайнов и частичная поддержка кормоуборочных комбайнов
 - Экспериментальная поддержка NEXAT
 
+Изменения 1.4.0.0:
+- НОВОЕ: Интерактивное меню настроек комбайна (RShift + K).
+- НОВОЕ: Ручной режим - настройки Вентилятора, Ротора, Решет и Подачи.
+- НОВОЕ: Неправильные настройки вызывают дополнительные потери урожая.
+- НОВОЕ: Система профилей - Сохранение/Загрузка настроек.
+- НОВОЕ: Новые культуры стартуют с 50% эффективности, требуют калибровки.
+
 Изменения 1.3.2.0:
 - НОВОЕ: Физическая система потерь урожая! Потери теперь уменьшают реально собранное зерно.
 - НОВОЕ: Потери урожая начинаются при 95% нагрузке двигателя (ранее 100%).
@@ -501,6 +572,13 @@ Funkciók:
 - Támogatás gyapotbetakarítókhoz, gyökérnövény-betakarítókhoz, valamint részleges támogatás silózó betakarítókhoz
 - Kísérleti NEXAT támogatás
 
+Változások 1.4.0.0:
+- ÚJ: Interaktív kombájn beállítási és kalibrációs menü (RShift + K).
+- ÚJ: Kézi üzemmód - Ventilátor, rotor, rosták beállítása.
+- ÚJ: A helytelen beállítások további termésveszteséget okoznak.
+- ÚJ: Profilrendszer - Beállítások mentése/betöltése.
+- ÚJ: Az új termények 50%-os hatékonysággal indulnak.
+
 Változások 1.3.2.0:
 - ÚJ: Fizikai termésveszteség rendszer! A veszteségek most csökkentik a ténylegesen összegyűjtött gabonát.
 - ÚJ: A termésveszteségek 95%-os motorterhelésnél kezdődnek (korábban 100%).
@@ -544,11 +622,15 @@ Változások 1.1.0.0:
 
     <actions>
         <action name="RHM_TOGGLE_CURSOR" category="VEHICLE" />
+        <action name="RHM_OPEN_MENU" category="VEHICLE" />
     </actions>
     
     <inputBinding>
         <actionBinding action="RHM_TOGGLE_CURSOR">
             <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_RIGHT" />
+        </actionBinding>
+        <actionBinding action="RHM_OPEN_MENU">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_rshift KEY_k" />
         </actionBinding>
     </inputBinding>
 
@@ -598,6 +680,20 @@ Változások 1.1.0.0:
             <uk>Показати курсор HUD</uk>
             <ru>Показать курсор HUD</ru>
             <hu>HUD kurzor váltás</hu>
+        </text>
+
+        <text name="input_RHM_OPEN_MENU">
+            <en>Combine Settings Menu</en>
+            <de>Mähdrescher-Menü</de>
+            <fr>Menu Récolte</fr>
+            <pl>Menu Kombajnu</pl>
+            <es>Menú Cosechadora</es>
+            <it>Menu Mietitrebbia</it>
+            <cz>Menu Kombajnu</cz>
+            <br>Menu Colheitadeira</br>
+            <uk>Меню Налаштувань Жнив</uk>
+            <ru>Меню Настроек Жатвы</ru>
+            <hu>Kombájn Menü</hu>
         </text>
         
         <text name="rhm_difficulty"><en>Difficulty</en><uk>Складність</uk><de>Schwierigkeit</de><fr>Difficulté</fr><pl>Trudność</pl><es>Dificultad</es><it>Difficoltà</it><cz>Obtížnost</cz><br>Dificuldade</br><ru>Сложность</ru><hu>Nehézség</hu></text>

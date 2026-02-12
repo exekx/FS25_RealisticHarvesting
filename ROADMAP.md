@@ -7,7 +7,14 @@
 
 ## 📜 Version History (Changelog)
 
-### v1.3.2.0 (Current)
+### v1.4.0.0 (Current)
+**New Features:**
+*   **Combine Calibration:** Full manual control over Fan Speed, Rotor Speed, Sieve Openings, and Feeder House.
+*   **Settings Penalty:** Incorrect calibration now causes crop loss (displayed in HUD).
+*   **Profile System:** Save and load custom settings profiles for different crops/conditions.
+*   **GUI:** Interactive graphical menu (RShift+K) to manage settings and profiles.
+
+### v1.3.2.0
 **New Features:**
 *   **Physical Crop Loss System:** Crop losses now physically reduce the amount of grain collected in the bunker!
 *   **95% Load Threshold:** Losses start at 95% engine load (previously 100%) for earlier feedback.
@@ -77,8 +84,8 @@ Based on community feedback and suggestions, here is the plan for future updates
     *   *Idea:* Replace % numbers with a relative "Low / Med / High" scale for the Realistic difficulty setting, mimicking real loss monitors.
 
 ### Phase 3: The "Operator" Update (Long Term)
-*   **Manual Machine Settings:**
-    *   *Idea:* Ability to manually adjust Feeder House, Fan Speed, Sieve openings, and Rotor RPM for different crops. Incorrect settings = higher losses/dirty grain.
+*   ~~**Manual Machine Settings:**~~ ✅ **COMPLETED in v1.4.0.0** - Implemented full manual control over combine components.
+    *   *Implemented:* Fan Speed, Rotor Speed, Sieve Openings, and Feeder House adjustment.
 *   **Store Customization - Automation:**
     *   *Idea:* Buyable "Auto-Combine" module in the shop. Casual players can buy automation to handle settings, while enthusiasts can save money by setting it manually.
 

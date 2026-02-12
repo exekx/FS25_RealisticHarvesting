@@ -1,6 +1,6 @@
 ﻿# 🌾 Realistic Harvesting - Farming Simulator 25
 
-[![Version](https://img.shields.io/badge/version-1.3.2.0-green.svg)](https://github.com/exekx/FS25_RealisticHarvesting)
+[![Version](https://img.shields.io/badge/version-1.4.0.0-green.svg)](https://github.com/exekx/FS25_RealisticHarvesting)
 [![FS25](https://img.shields.io/badge/FS25-Compatible-blue.svg)](https://www.farming-simulator.com/)
 [![Multiplayer](https://img.shields.io/badge/Multiplayer-Supported-brightgreen.svg)](https://github.com/exekx/FS25_RealisticHarvesting)
 [![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red.svg)](LICENSE)
@@ -39,6 +39,7 @@
     *   **Cotton Harvesters**: Supported
     *   **Nexat System**: Specialized support for Nexat carrier and headers
 *   **🌱 Crop-Specific Physics**: Different resistance values for various crop types (e.g., Wheat vs. Corn vs. Rice).
+*   **🔧 Combine Calibration**: Manual control over Fan, Rotor, Sieves, and Feeder. Optimize settings for each crop to minimize losses!
 *   **⚙️ Independent Control**: Option to start threshing and cutter separately (ideal for immersion and roleplay).
 *   **⚙️ Global Settings**: Configurations are saved globally in `modSettings/`, persistent across all savegames.
 
@@ -125,6 +126,45 @@ A modern, non-intrusive HUD appears when you enter a harvester.
     *   **Yield**: Live yield data (t/ha or bu/ac).
     *   **Speed**: Current vs Recommended speed to prevent clogging.
     *   **Loss**: Visual indicator of crop loss (Low/Med/High).
+
+    *   **Loss**: Visual indicator of crop loss (Low/Med/High).
+
+---
+
+## 🔧 Combine Calibration Guide
+
+New in v1.4.0.0 is the interactive **Combine Calibration System**.
+
+### How to Access
+Press **Right Shift + K** while in a combine to open the Calibration Menu.
+
+### Manual vs Auto
+*   **Manual Mode (Default)**: You must adjust the Fan, Rotor, Upper Sieve, Lower Sieve, and Feeder House speed manually.
+    *   New crops start at **50% efficiency** (neutral settings). This is safe but not optimal!
+    *   You need to tweak values to match the crop type. Incorrect settings will increase **Crop Loss**.
+*   **Auto Mode**: Automatically applies the perfect settings for the current crop.
+    *   Enable by clicking the "AUTO" button in the menu.
+
+### Crop Loss Penalties
+*   The HUD now displays **Engine Load** and **Loss**.
+*   **Loss** is affected by:
+    1.  **Overloading**: Driving too fast (Engine Load > 95%).
+    2.  **Bad Settings**: Incorrect calibration (deviation from optimal values).
+*   High losses (RED) mean you are losing real grain! Slow down or improve your settings.
+
+### Examples
+
+> **Accurate Settings (Optimal)**
+>
+> ![GUI Accurate Settings](docs/images/gui_accurate.png)
+>
+> *Low loss, high efficiency.*
+
+> **Inaccurate Settings (High Loss)**
+>
+> ![GUI Inaccurate Settings](docs/images/gui_inaccurate.png)
+>
+> *High loss due to poor calibration.*
 
 ---
 

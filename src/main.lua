@@ -12,6 +12,10 @@ source(modDirectory .. "src/utils/UnitConverter.lua")  -- Unit conversion utilit
 source(modDirectory .. "src/settings/SettingsUI.lua")
 source(modDirectory .. "src/hud/HUDRenderer.lua")
 source(modDirectory .. "src/hud/DraggableHUD.lua")
+source(modDirectory .. "src/gui/CombineSettingsGUI.lua")  -- Combine settings console UI
+source(modDirectory .. "src/gui/CombineCalibrationGUI.lua")  -- Visual calibration GUI
+source(modDirectory .. "src/data/CombineSettingsDatabase.lua")  -- Combine settings database
+source(modDirectory .. "src/settings/CombineMemory.lua")  -- Combine settings memory
 source(modDirectory .. "src/logic/LoadCalculator.lua")  -- Розрахунок навантаження
 source(modDirectory .. "src/rhm_Combine.lua")  -- Specialization для комбайна
 source(modDirectory .. "src/rhm_Cutter.lua")  -- Налаштування для жаток (КРИТИЧНО для роздільного запуску!)

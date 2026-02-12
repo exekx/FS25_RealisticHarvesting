@@ -49,6 +49,10 @@ function LoadCalculator.new(modDirectory)
     -- Накопичувач для розрахунку навантаження
     self.loadAccumulatedMass = 0 -- кг
     
+    -- Combine Settings System
+    self.combineMemory = nil  -- Буде встановлено з rhm_Combine
+    self.currentCrop = nil    -- Поточна культура для розрахунку settings loss
+    
     print("RHM: LoadCalculator initialized")
     
     return self
@@ -674,6 +678,88 @@ function LoadCalculator:calculateCropLoss()
     end
     
     return self.cropLoss
+end
+
+---Розраховує втрати від неправильних налаштувань комбайна
+---@return number settingsLoss Втрати від налаштувань (0-50%)
+function LoadCalculator:calculateSettingsLoss()
+    -- Якщо немає memory або культури - втрат немає
+    if not self.combineMemory or not self.currentCrop then
+        return 0
+    end
+    
+    -- Якщо режим AUTO - втрат немає (оптимальні налаштування)
+    if self.combineMemory.mode == "AUTO" then
+        return 0
+    end
+    
+    -- Отримуємо оптимальні налаштування для культури
+    local optimalSettings = CombineSettingsDatabase:getSettingsForCrop(self.currentCrop)
+    if not optimalSettings then
+        return 0  -- Невідома культура - без штрафу
+    end
+    
+    local currentSettings = self.combineMemory.currentSettings
+    local totalDeviation = 0
+    local paramCount = 0
+    
+    -- Розраховуємо відхилення для кожного параметра
+    for param, optimalData in pairs(optimalSettings) do
+        if currentSettings[param] then
+            local currentValue = currentSettings[param]
+            local optimalValue = optimalData.optimal
+            local tolerance = optimalData.tolerance
+            
+            -- Абсолютне відхилення
+            local deviation = math.abs(currentValue - optimalValue)
+            
+            -- Якщо в межах толерантності - штрафу немає
+            if deviation <= tolerance then
+                -- Все добре, штраф 0
+            else
+                -- Поза толерантністю - розраховуємо штраф
+                local excessDeviation = deviation - tolerance
+                
+                -- Прогресивний штраф: більше відхилення = набагато більший штраф
+                -- Формула: (excess / 10)^2 * множник
+                local paramPenalty = (excessDeviation / 10)^2 * 5
+                
+                totalDeviation = totalDeviation + paramPenalty
+            end
+            
+            paramCount = paramCount + 1
+        end
+    end
+    
+    -- Обмежуємо максимум до 50%
+    local settingsLoss = math.min(totalDeviation, 50)
+    
+    return settingsLoss
+end
+
+---Розраховує загальні втрати врожаю (базові + налаштування)
+---@return number totalLoss Загальні втрати (0-50%)
+function LoadCalculator:calculateTotalCropLoss()
+    -- Базові втрати від перевантаження
+    local baseLoss = self:calculateCropLoss()
+    
+    -- Втрати від налаштувань
+    local settingsLoss = self:calculateSettingsLoss()
+    
+    -- TODO: В майбутньому додати:
+    -- local moistureLoss = self:calculateMoistureLoss()
+    -- local speedLoss = self:calculateSpeedLoss()
+    
+    -- Загальні втрати (сумуються)
+    local totalLoss = baseLoss + settingsLoss
+    
+    -- Обмежуємо максимум
+    totalLoss = math.min(totalLoss, 50)
+    
+    -- Зберігаємо для відображення в HUD
+    self.cropLoss = totalLoss
+    
+    return totalLoss
 end
 
 ---Отримує поточні втрати врожаю

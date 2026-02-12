@@ -51,9 +51,9 @@ function rhm_Combine.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onReadStream", rhm_Combine)
     SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", rhm_Combine)
     
-    -- SAVEGAME XML: Disabled - functions are commented out
-    -- SpecializationUtil.registerEventListener(vehicleType, "saveToXMLFile", rhm_Combine)
-    -- SpecializationUtil.registerEventListener(vehicleType, "loadFromXMLFile", rhm_Combine)
+    -- SAVEGAME XML: Enabled
+    SpecializationUtil.registerEventListener(vehicleType, "saveToXMLFile", rhm_Combine)
+    SpecializationUtil.registerEventListener(vehicleType, "loadFromXMLFile", rhm_Combine)
     
     -- MULTIPLAYER: Синхронізація даних між сервером і клієнтом
     SpecializationUtil.registerEventListener(vehicleType, "onReadUpdateStream", rhm_Combine)
@@ -100,6 +100,15 @@ function rhm_Combine:onLoad(savegame)
     -- Отримуємо базову продуктивність з потужності двигуна
     local basePerf = spec.loadCalculator:getBasePerformanceFromPower(self)
     spec.loadCalculator:setBasePerformance(basePerf)
+    
+    -- === COMBINE SETTINGS SYSTEM ===
+    -- Створюємо систему пам'яті для налаштувань комбайна
+    spec.combineMemory = CombineMemory.new(self)
+    
+    -- Підключаємо memory до LoadCalculator для розрахунку settings loss
+    spec.loadCalculator.combineMemory = spec.combineMemory
+    
+    print("RHM: [OK] Combine Settings System initialized")
     
     -- Ініціалізуємо дані для HUD
     spec.data = {
@@ -160,9 +169,51 @@ function rhm_Combine:addCutterArea(superFunc, area, realArea, inputFruitType, ou
         spec.lastLiters = (spec.lastLiters or 0) + retLiters
     end
     
-    -- Зберігаємо тип культури
+    -- Зберігаємо тип культури та обробляємо зміну
     if outputFillType and outputFillType ~= FillType.UNKNOWN then
         spec.lastFillType = outputFillType
+        
+        -- === CROP AUTO-DETECTION ===
+        -- Визначаємо назву культури з fillType напряму через name
+        local cropName = nil
+        
+        if g_fillTypeManager then
+            local fillTypeObj = g_fillTypeManager:getFillTypeByIndex(outputFillType)
+            if fillTypeObj and fillTypeObj.name then
+                local fillTypeName = fillTypeObj.name
+                
+                -- Маппінг: fillType.name -> cropName (використовується в AUTO режимі)
+                local fillTypeMapping = {
+                    ["WHEAT"] = "WHEAT",
+                    ["BARLEY"] = "BARLEY",
+                    ["OAT"] = "OAT",
+                    ["CANOLA"] = "CANOLA",
+                    ["SUNFLOWER"] = "SUNFLOWER",
+                    ["MAIZE"] = "CORN",  -- Кукурудза в грі називається MAIZE
+                    ["SOYBEAN"] = "SOYBEAN",
+                    ["SORGHUM"] = "SORGHUM",
+                    ["RICE"] = "RICE",
+                    ["RICE_LONG_GRAIN"] = "RICE_LONG_GRAIN",
+                }
+                
+                cropName = fillTypeMapping[fillTypeName]
+            end
+        end
+        
+        if cropName then
+            -- Оновлюємо поточну культуру в LoadCalculator
+            spec.loadCalculator.currentCrop = cropName
+            
+            -- Перевіряємо чи змінилася культура
+            if cropName ~= spec.combineMemory.currentCrop then
+                -- Культура змінилася!
+                print(string.format("RHM: [CROP] Detected crop: %s", cropName))
+                -- Викликаємо статично, щоб уникнути помилки missing method
+                rhm_Combine.onCropTypeChanged(self, cropName)
+            end
+        end
+    else
+        print("RHM DEBUG: outputFillType is nil or UNKNOWN, skipping crop detection")
     end
     
     -- DEBUG: Uncomment to see values in console
@@ -171,6 +222,33 @@ function rhm_Combine:addCutterArea(superFunc, area, realArea, inputFruitType, ou
     -- end
     
     return retLiters, retStrawLiters
+end
+
+---Викликається при зміні типу культури
+---@param newCropName string Нова назва культури
+function rhm_Combine:onCropTypeChanged(newCropName)
+    local spec = self.spec_rhm_Combine
+    if not spec or not spec.combineMemory then
+        return
+    end
+    
+    if rhm_Combine.debug then
+        print(string.format("RHM: Crop changed to %s", newCropName))
+    end
+    
+    -- Оновлюємо currentCrop в пам'яті
+    spec.combineMemory.currentCrop = newCropName
+    
+    -- Перевіряємо чи увімкнено авто-перемикання
+    if spec.combineMemory.autoSwitchEnabled then
+        -- Шукаємо збережений профіль
+        if spec.combineMemory.savedProfiles[newCropName] then
+            spec.combineMemory:loadProfile(newCropName)
+        else
+            -- Немає профілю - авто-конфігурація
+            spec.combineMemory:autoConfigureForCrop(newCropName)
+        end
+    end
 end
 
 -- Перевизначаємо getSpeedLimit для автоматичного обмеження швидкості
@@ -523,8 +601,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             print("   ALL will be removed from bunker!")
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
         else
-            -- Нормальний режим: розраховуємо crop loss
-            cropLoss = spec.loadCalculator:calculateCropLoss()
+            -- Нормальний режим: розраховуємо crop loss (включаючи втрати від налаштувань)
+            cropLoss = spec.loadCalculator:calculateTotalCropLoss()
         end
         
         if cropLoss > 0 then
@@ -556,11 +634,11 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                         nil
                     )
                     
-                    -- Debug logging
-                    if rhm_Combine.debug or TEST_CROP_LOSS_MODE or cropLoss > 1 then
-                        local emoji = TEST_CROP_LOSS_MODE and "🧪" or "🌾"
+                    -- Debug logging (only for significant losses or debug mode)
+                    if rhm_Combine.debug or TEST_CROP_LOSS_MODE or cropLoss > 10 then
+                        local prefix = TEST_CROP_LOSS_MODE and "[TEST]" or "[LOSS]"
                         print(string.format("RHM: %s Crop Loss Applied: %.1f L lost (%.1f%% of %.1f L harvest)", 
-                            emoji, lostLiters, cropLoss, liters))
+                            prefix, lostLiters, cropLoss, liters))
                     end
                 else
                     print("RHM: Warning - Could not find fill unit for crop loss removal")
@@ -578,7 +656,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- Оновлюємо дані для HUD
     if spec.data then
         spec.data.load = spec.loadCalculator:getEngineLoad()
-        spec.data.cropLoss = spec.loadCalculator:calculateCropLoss()
+        spec.data.cropLoss = spec.loadCalculator:calculateTotalCropLoss()
         spec.data.tonPerHour = spec.loadCalculator:getTonPerHour()
         spec.data.litersPerHour = spec.loadCalculator:getLitersPerHour() -- NEW: Volume flow
         spec.data.recommendedSpeed = spec.loadCalculator:getSpeedLimit()
@@ -610,74 +688,129 @@ end
 ---Збереження стану в savegame файл
 ---@param xmlFile XMLFile
 ---@param key string
--- saveToXMLFile disabled - causes XML schema validation errors
--- Values are calculated dynamically, no need to save/load
---[[function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
+-- SAVEGAME FUNCTIONS  
+-- ============================================================================
+
+---Збереження стану в savegame файл
+---@param xmlFile XMLFile
+---@param key string
+function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local spec = self.spec_rhm_Combine
-    if not spec then
+    if not spec or not spec.combineMemory then
         return
     end
     
-    -- Зберігаємо базову продуктивність LoadCalculator
-    if spec.loadCalculator then
-        xmlFile:setValue(key .. "#basePerformance", spec.loadCalculator.basePerformance or 0)
-        xmlFile:setValue(key .. "#genuineSpeedLimit", spec.loadCalculator.genuineSpeedLimit or 15)
+    -- Зберігаємо профілі
+    local profilesKey = key .. ".combineMemory.profiles"
+    local i = 0
+    
+    for name, profile in pairs(spec.combineMemory.savedProfiles) do
+        local profileKey = string.format("%s.profile(%d)", profilesKey, i)
+        
+        xmlFile:setValue(profileKey .. "#name", name)
+        xmlFile:setValue(profileKey .. "#cropType", profile.cropType)
+        xmlFile:setValue(profileKey .. "#customized", profile.customized)
+        
+        -- Settings
+        local settingsKey = profileKey .. ".settings"
+        xmlFile:setValue(settingsKey .. "#fan", profile.settings.fan)
+        xmlFile:setValue(settingsKey .. "#upperSieve", profile.settings.upperSieve)
+        xmlFile:setValue(settingsKey .. "#lowerSieve", profile.settings.lowerSieve)
+        xmlFile:setValue(settingsKey .. "#rotor", profile.settings.rotor)
+        xmlFile:setValue(settingsKey .. "#feeder", profile.settings.feeder)
+        
+        -- Stats
+        local statsKey = profileKey .. ".stats"
+        xmlFile:setValue(statsKey .. "#timesUsed", profile.stats.timesUsed)
+        xmlFile:setValue(statsKey .. "#lastUsed", profile.stats.lastUsed)
+        xmlFile:setValue(statsKey .. "#totalHarvested", profile.stats.totalHarvested)
+        xmlFile:setValue(statsKey .. "#averageLoss", profile.stats.averageLoss)
+        
+        i = i + 1
     end
     
-    if rhm_Combine.debug then
-        print("RHM: saveToXMLFile completed for " .. tostring(self:getFullName()))
+    -- Зберігаємо поточні налаштування та режим
+    local currentKey = key .. ".combineMemory.current"
+    xmlFile:setValue(currentKey .. "#mode", spec.combineMemory.mode)
+    if spec.combineMemory.currentCrop then
+        xmlFile:setValue(currentKey .. "#currentCrop", spec.combineMemory.currentCrop)
     end
-end--]]
+    
+    -- Current settings values
+    xmlFile:setValue(currentKey .. "#fan", spec.combineMemory.currentSettings.fan)
+    xmlFile:setValue(currentKey .. "#upperSieve", spec.combineMemory.currentSettings.upperSieve)
+    xmlFile:setValue(currentKey .. "#lowerSieve", spec.combineMemory.currentSettings.lowerSieve)
+    xmlFile:setValue(currentKey .. "#rotor", spec.combineMemory.currentSettings.rotor)
+    xmlFile:setValue(currentKey .. "#feeder", spec.combineMemory.currentSettings.feeder)
+    
+    if rhm_Combine.debug then
+        print(string.format("RHM: Saved %d profiles for %s", i, self:getName()))
+    end
+end
 
--- loadFromXMLFile disabled - causes XML schema validation errors
--- Values are calculated dynamically, no need to save/load
---[[---Завантаження стану з savegame файлу
+---Завантаження стану з savegame файлу
 ---@param xmlFile XMLFile
 ---@param key string  
 ---@param resetVehicles table
 function rhm_Combine:loadFromXMLFile(xmlFile, key, resetVehicles)
-    if rhm_Combine.debug then
-        print(string.format("RHM: loadFromXMLFile called for %s with key: %s", 
-            tostring(self:getFullName()), tostring(key)))
-    end
-    
     local spec = self.spec_rhm_Combine
-    if not spec then
-        if rhm_Combine.debug then
-            print("RHM: loadFromXMLFile - spec not found, skipping")
-        end
+    if not spec or not spec.combineMemory then
         return
     end
     
-    if not spec.loadCalculator then
-        if rhm_Combine.debug then
-            print("RHM: loadFromXMLFile - loadCalculator not found, skipping")
+    -- Завантажуємо профілі
+    local profilesKey = key .. ".combineMemory.profiles"
+    local i = 0
+    
+    while true do
+        local profileKey = string.format("%s.profile(%d)", profilesKey, i)
+        if not xmlFile:hasProperty(profileKey) then
+            break
         end
-        return
+        
+        local name = xmlFile:getValue(profileKey .. "#name")
+        local cropType = xmlFile:getValue(profileKey .. "#cropType")
+        
+        if name and cropType then
+            local profile = {
+                cropType = cropType,
+                customized = xmlFile:getValue(profileKey .. "#customized", false),
+                settings = {
+                    fan = xmlFile:getValue(profileKey .. ".settings#fan", 50),
+                    upperSieve = xmlFile:getValue(profileKey .. ".settings#upperSieve", 50),
+                    lowerSieve = xmlFile:getValue(profileKey .. ".settings#lowerSieve", 50),
+                    rotor = xmlFile:getValue(profileKey .. ".settings#rotor", 50),
+                    feeder = xmlFile:getValue(profileKey .. ".settings#feeder", 50),
+                },
+                stats = {
+                    timesUsed = xmlFile:getValue(profileKey .. ".stats#timesUsed", 0),
+                    lastUsed = xmlFile:getValue(profileKey .. ".stats#lastUsed", "2024-01-01 00:00:00"),
+                    totalHarvested = xmlFile:getValue(profileKey .. ".stats#totalHarvested", 0),
+                    averageLoss = xmlFile:getValue(profileKey .. ".stats#averageLoss", 0),
+                }
+            }
+            
+            spec.combineMemory.savedProfiles[name] = profile
+        end
+        
+        i = i + 1
     end
     
-    -- Безпечне завантаження базової продуктивності з default значенням
-    local basePerf = xmlFile:getValue(key .. "#basePerformance", spec.loadCalculator.basePerfMass)
-    if basePerf and tonumber(basePerf) and basePerf > 0 then
-        spec.loadCalculator:setBasePerformance(tonumber(basePerf))
-        if rhm_Combine.debug then
-            print(string.format("RHM: Loaded basePerformance: %.2f kg/s", basePerf))
-        end
-    end
+    -- Завантажуємо поточні налаштування
+    local currentKey = key .. ".combineMemory.current"
+    spec.combineMemory.mode = xmlFile:getValue(currentKey .. "#mode", "AUTO")
+    spec.combineMemory.currentCrop = xmlFile:getValue(currentKey .. "#currentCrop")
     
-    -- Безпечне завантаження genuineSpeedLimit з default значенням  
-    local speedLimit = xmlFile:getValue(key .. "#genuineSpeedLimit", spec.loadCalculator.genuineSpeedLimit)
-    if speedLimit and tonumber(speedLimit) and speedLimit > 0 then
-        spec.loadCalculator:setGenuineSpeedLimit(tonumber(speedLimit))
-        if rhm_Combine.debug then
-            print(string.format("RHM: Loaded genuineSpeedLimit: %.1f km/h", speedLimit))
-        end
-    end
+    spec.combineMemory.currentSettings.fan = xmlFile:getValue(currentKey .. "#fan", 50)
+    spec.combineMemory.currentSettings.upperSieve = xmlFile:getValue(currentKey .. "#upperSieve", 50)
+    spec.combineMemory.currentSettings.lowerSieve = xmlFile:getValue(currentKey .. "#lowerSieve", 50)
+    spec.combineMemory.currentSettings.rotor = xmlFile:getValue(currentKey .. "#rotor", 50)
+    spec.combineMemory.currentSettings.feeder = xmlFile:getValue(currentKey .. "#feeder", 50)
     
     if rhm_Combine.debug then
-        print(string.format("RHM: loadFromXMLFile completed for %s", tostring(self:getFullName())))
+        print(string.format("RHM: Loaded %d profiles for %s", i, self:getName()))
     end
-end--]]
+end
 
 -- ============================================================================
 -- MULTIPLAYER SYNCHRONIZATION
@@ -807,9 +940,13 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
         if isActiveForInputIgnoreSelection then
             -- Реєструємо дію Перемикання Курсора (RMB за замовчуванням)
             local _, eventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_TOGGLE_CURSOR, self, rhm_Combine.actionToggleCursor, false, true, false, true, nil)
-            
-            -- Встановлюємо пріоритет тексту
             g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
+            
+            -- Реєструємо дію Відкриття Меню (RShift+K)
+            if InputAction.RHM_OPEN_MENU then
+                local _, menuEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_OPEN_MENU, self, rhm_Combine.actionOpenMenu, false, true, false, true, nil)
+                g_inputBinding:setActionEventTextPriority(menuEventId, GS_PRIO_HIGH)
+            end
         end
     end
 end
@@ -820,6 +957,19 @@ function rhm_Combine:actionToggleCursor(actionName, inputValue, callbackState, i
         g_realisticHarvestManager:toggleCursor()
     end
 end
+
+function rhm_Combine:actionOpenMenu(actionName, inputValue, callbackState, isAnalog)
+    if g_realisticHarvestManager then
+        g_realisticHarvestManager:toggleMenu(self)
+    end
+end
+
+-- ============================================================================
+-- COMBINE SETTINGS SYSTEM
+-- ============================================================================
+
+---Обробка зміни типу культури (викликається при детекції нової культури)
+---@param newCropName string Назва нової культури
 
 
 
