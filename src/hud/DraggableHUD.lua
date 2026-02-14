@@ -240,39 +240,44 @@ function DraggableHUD:draw()
     self.backgroundOverlay:render()
     self.headerOverlay:render()
     
-    -- Draw header text
+    -- Draw header text (Line 1: Title)
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(1, 1, 1, 1)
-    local headerTextSize = 0.013
-    -- setTextFontSize removed (passed to renderText)
+    local titleTextSize = 0.013
     local headerTextX = self.x + self.width / 2
-    local headerTextY = self.y + self.height + self.headerHeight / 2 - headerTextSize / 2
-    renderText(headerTextX, headerTextY, headerTextSize, "Realistic Harvesting")
+    local titleTextY = self.y + self.height + self.headerHeight * 0.65
+    renderText(headerTextX, titleTextY, titleTextSize, "Realistic Harvesting")
+    
+    -- Draw header text (Line 2: Settings button - centered, smaller)
+    setTextBold(false)
+    setTextAlignment(RenderText.ALIGN_CENTER)
+    
+    -- Check if mouse is hovering over settings button area
+    local settingsButtonArea = {
+        x = self.x, 
+        y = self.y + self.height, 
+        w = self.width, 
+        h = self.headerHeight * 0.4
+    }
+    local mx, my = g_inputBinding:getMousePosition()
+    local isHovered = mx >= settingsButtonArea.x and mx <= settingsButtonArea.x + settingsButtonArea.w and
+                      my >= settingsButtonArea.y and my <= settingsButtonArea.y + settingsButtonArea.h
+    
+    -- Change color on hover
+    if isHovered then
+        setTextColor(0.6, 1.0, 1.0, 1)  -- Bright cyan on hover
+    else
+        setTextColor(0.8, 0.8, 1.0, 1)  -- Light blue default
+    end
+    
+    local settingsTextSize = 0.009
+    local settingsTextY = self.y + self.height + self.headerHeight * 0.20
+    renderText(headerTextX, settingsTextY, settingsTextSize, "Settings")
     setTextBold(false)
     
-    -- Draw Settings Button (Right side of header)
-    local btnW = 0.02 * self.uiScale
-    local btnH = self.headerHeight * 0.8
-    local btnX = self.x + self.width - btnW - (0.002 * self.uiScale)
-    local btnY = self.y + self.height + (self.headerHeight - btnH) / 2
-    
-    -- Background
-    if self.headerOverlay then
-        -- We reuse header overlay? No, need separate overlay or just render a rect if we had a helper.
-        -- Since we don't have a drawRect helper here, we can use a new overlay or just accept text if no background.
-        -- BUT, we can reuse icons['load'] temporarily as a white box if we wanted, or just render text "[ MENU ]".
-        -- Let's render text "[ CALIB ]" which is clickable.
-        
-        setTextBold(true)
-        setTextAlignment(RenderText.ALIGN_RIGHT)
-        local btnTextSize = 0.010 * self.uiScale
-        renderText(self.x + self.width - (0.005 * self.uiScale), headerTextY, btnTextSize, "[ CALIB ]")
-        setTextBold(false)
-        
-        -- Store button area for mouse event
-        self.menuButtonArea = {x = self.x + self.width - (0.04 * self.uiScale), y = self.y + self.height, w = 0.04 * self.uiScale, h = self.headerHeight}
-    end
+    -- Store button area for mouse event (full width of header for easier clicking)
+    self.menuButtonArea = settingsButtonArea
     
     -- Draw HUD content
     self:drawContent()

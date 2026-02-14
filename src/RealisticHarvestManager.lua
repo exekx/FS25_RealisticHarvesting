@@ -13,6 +13,9 @@ function RealisticHarvestManager.new(mission, modDirectory, modName)
     self.settingsManager = SettingsManager.new()
     self.settings = Settings.new(self.settingsManager)
     
+    -- Storage for camera rotation state
+    self.savedCameraRotatableInfo = {}
+    
     -- Підготовка UI
     if mission:getIsClient() and g_gui then
         self.settingsUI = SettingsUI.new(self.settings)
@@ -254,11 +257,27 @@ function RealisticHarvestManager:toggleCursor()
     self.isCursorVisible = not self.isCursorVisible
     g_inputBinding:setShowMouseCursor(self.isCursorVisible)
     
-    if self.isCursorVisible and g_currentMission then
-         -- Повідомляємо користувача
-         g_currentMission:showBlinkingWarning("RHM: HUD Cursor Enabled - Drag HUD to move", 3000)
+    -- Get current vehicle
+    local vehicle = self:getControlledVehicle()
+    
+    if self.isCursorVisible then
+        -- Enable cursor mode
+        if g_currentMission then
+            -- Повідомляємо користувача
+            g_currentMission:showBlinkingWarning("RHM: HUD Cursor Enabled - Drag HUD to move", 3000)
+        end
+        
+        -- Block camera rotation (Courseplay method)
+        if vehicle then
+            RHMInputUtil.setCameraRotation(vehicle, false, self.savedCameraRotatableInfo)
+        end
     else
-         -- Скидаємо якщо вимкнули
-         g_inputBinding:setShowMouseCursor(false)
+        -- Disable cursor mode
+        g_inputBinding:setShowMouseCursor(false)
+        
+        -- Restore camera rotation
+        if vehicle then
+            RHMInputUtil.setCameraRotation(vehicle, true, self.savedCameraRotatableInfo)
+        end
     end
 end

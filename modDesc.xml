@@ -38,7 +38,14 @@ Changelog 1.4.0.0:
 - NEW: Incorrect settings cause additional Crop Loss (displayed in GUI).
 - NEW: Profile System - Save/Load custom settings for each crop.
 - NEW: New crops start with neutral (50%) settings, requiring calibration.
+- NEW: Crop Loss display now shows +/- signs (- for losses, + for bonuses, 0 for optimal).
+- NEW: Manual adjustment buttons (+/-) always visible in Calibration GUI for easier tuning.
+- FIXED: Camera rotation properly blocked when cursor is active (HUD drag/GUI interaction).
 - FIXED: HUD resetting to off-screen positions. Added auto-fix and reset command.
+- FIXED: CombineCalibrationGUI nil reference errors during initialization.
+- FIXED: CombineMemory syntax error preventing mod from loading.
+- IMPROVED: Input blocking now uses proper camera.isRotatable method (Courseplay-based).
+- IMPROVED: GUI hint text repositioned to prevent overlap with buttons.
 
 Changelog 1.3.2.0:
 - NEW: Physical Crop Loss System! Losses now reduce actual grain collected in bunker.

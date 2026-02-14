@@ -31,14 +31,26 @@ function CombineCalibrationGUI.new(modDirectory)
             error = {0.9, 0.2, 0.2, 1},   -- Red
             success = {0.2, 0.8, 0.2, 1}, -- Green
             button = {0.2, 0.2, 0.2, 1},
-            buttonHover = {0.3, 0.3, 0.3, 1},
-            buttonActive = {0.4, 0.4, 0.4, 1}
+            buttonHover = {0.3, 0.4, 0.5, 1}, -- Blueish highlight on hover
+            buttonActive = {0.4, 0.4, 0.4, 1},
+            paramRowHover = {0.15, 0.15, 0.15, 0.8} -- Subtle row highlight
         }
     }
     
     -- State
     self.activeVehicle = nil
     self.hoveredElement = nil
+    self.mouseX = 0
+    self.mouseY = 0
+    self.hoveredParameter = nil  -- Track which parameter row is hovered
+    
+    -- Storage for camera rotation and zoom state
+    self.savedCameraRotatableInfo = {}
+    self.savedCameraZoomInfo = {}
+    
+    -- Wheel scroll debouncing (Courseplay style)
+    self.lastScrollTimeStamp = 0
+    self.scrollDelayMs = 100  -- Milliseconds between wheel events
     
     -- Buttons registry for click handling
     self.buttons = {} 
@@ -79,6 +91,12 @@ function CombineCalibrationGUI:open(vehicle)
     g_inputBinding:setShowMouseCursor(true)
     self.isCursorActive = true
     
+    -- Block camera rotation AND zoom (Courseplay method)
+    if vehicle and vehicle.spec_enterable then
+        RHMInputUtil.setCameraRotation(vehicle, false, self.savedCameraRotatableInfo)
+        RHMInputUtil.setCameraZoom(vehicle, false, self.savedCameraZoomInfo)
+    end
+    
     -- Use passed vehicle or fallback
     self.activeVehicle = vehicle or (g_currentMission and g_currentMission.controlledVehicle)
 end
@@ -89,9 +107,17 @@ function CombineCalibrationGUI:close()
     self.isOpen = false
     self.isCursorActive = false
     
+    local vehicle = self.activeVehicle
+    
     -- Restore cursor
     local rhmCursor = g_realisticHarvestManager and g_realisticHarvestManager.isCursorVisible
     g_inputBinding:setShowMouseCursor(rhmCursor or false)
+    
+    -- Restore camera rotation and zoom (only if RHM cursor is also not active)
+    if vehicle and vehicle.spec_enterable and not rhmCursor then
+        RHMInputUtil.setCameraRotation(vehicle, true, self.savedCameraRotatableInfo)
+        RHMInputUtil.setCameraZoom(vehicle, true, self.savedCameraZoomInfo)
+    end
 end
 
 function CombineCalibrationGUI:cycleCrop(direction)
@@ -155,6 +181,7 @@ function CombineCalibrationGUI:draw()
     
     -- Reset button registry for this frame
     self.buttons = {}
+    self.hoveredParameter = nil  -- Reset hover state
     
     local ui = self.ui
     local x, y = ui.x, ui.y
@@ -279,6 +306,24 @@ function CombineCalibrationGUI:draw()
     setTextColor(unpack(ui.colors.textDim))
     renderText(x + w/2, cy + 0.005, ui.fontSize * 0.9, "RShift+K to Close")
     
+    -- COURSEPLAY-STYLE: Active wheel event polling (AFTER parameters are drawn)
+    -- Now hoveredParameter is set, so we can handle wheel scroll
+    if self.lastScrollTimeStamp + self.scrollDelayMs < g_time then
+        local mx, my = g_inputBinding:getMousePosition()
+        
+        -- Check if mouse is inside GUI
+        if mx >= ui.x and mx <= ui.x + ui.w and my >= ui.y and my <= ui.y + ui.h then
+            -- Check for wheel press
+            if Input.isMouseButtonPressed(Input.MOUSE_BUTTON_WHEEL_UP) then
+                self.lastScrollTimeStamp = g_time
+                self:handleWheelScroll(1, mx, my)  -- +1 for up
+            elseif Input.isMouseButtonPressed(Input.MOUSE_BUTTON_WHEEL_DOWN) then
+                self.lastScrollTimeStamp = g_time
+                self:handleWheelScroll(-1, mx, my)  -- -1 for down
+            end
+        end
+    end
+    
     -- Restore defaults
     setTextBold(false)
     setTextColor(1, 1, 1, 1)
@@ -290,6 +335,9 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
     local val = memory.currentSettings[param] or 0
     local optimal = 0
     local isOptimal = false
+    
+    -- Check if mouse is hovering over this row
+    local isHovered = self:checkHover(x, y - 0.003, w, ui.lineHeight)
     
     -- Check optimal from DB if available
     if CombineSettingsDatabase and memory.currentCrop then
@@ -307,9 +355,26 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
     setTextColor(unpack(ui.colors.text))
     renderText(x, y + 0.005, ui.fontSize, label)
     
-    -- Value
+    -- Value box with hover highlight (center area only)
+    local valBoxX = x + w * 0.25  -- Start at 25% of row width
+    local valBoxW = w * 0.5       -- 50% of row width for value area
+    local valBoxY = y - 0.003
+    local valBoxH = ui.lineHeight
+    
+    -- Check if hovered over VALUE BOX specifically
+    local isValueHovered = self:checkHover(valBoxX, valBoxY, valBoxW, valBoxH)
+    if isValueHovered then
+        -- Set hoveredParameter for wheel scroll
+        self.hoveredParameter = param
+    end
+    
     local valColor = isOptimal and ui.colors.success or ui.colors.text
     if memory.autoSwitchEnabled then valColor = ui.colors.textDim end -- Dim in auto mode
+    
+    -- Override color if hovered - bright cyan like buttons
+    if isValueHovered then
+        valColor = {0.6, 1.0, 1.0, 1}
+    end
     
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(valColor))
@@ -331,13 +396,18 @@ end
 function CombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOverride)
     -- Check hover
     local isHovered = self:checkHover(x, y, w, h)
-    local color = colorOverride or self.ui.colors.button
-    if isHovered then color = self.ui.colors.buttonHover end
     
-    self:drawRect(x, y, w, h, color)
+    -- Draw button background (same color always)
+    local bgColor = colorOverride or self.ui.colors.button
+    self:drawRect(x, y, w, h, bgColor)
     
+    -- Change TEXT color on hover (like HUD Settings button)
     setTextAlignment(RenderText.ALIGN_CENTER)
-    setTextColor(1, 1, 1, 1)
+    if isHovered then
+        setTextColor(0.6, 1.0, 1.0, 1)  -- Bright cyan on hover
+    else
+        setTextColor(1, 1, 1, 1)  -- White default
+    end
     renderText(x + w/2, y + h/2 - self.ui.fontSize/2.5, self.ui.fontSize, text)
     
     -- Register click area
@@ -354,7 +424,11 @@ function CombineCalibrationGUI:drawRect(x, y, w, h, color)
 end
 
 function CombineCalibrationGUI:checkHover(x, y, w, h)
-    local mx, my = g_inputBinding:getMousePosition()
+    -- Use tracked mouse position from mouseEvent, fallback to getMousePosition
+    local mx, my = self.mouseX, self.mouseY
+    if not mx or not my then
+        mx, my = g_inputBinding:getMousePosition()
+    end
     return mx >= x and mx <= x + w and my >= y and my <= y + h
 end
 
@@ -362,21 +436,92 @@ end
 function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.isOpen then return end
     
+    -- Always track mouse position for hover effects (every frame)
+    self.mouseX = posX
+    self.mouseY = posY
+    
+    -- Check if inside GUI window
+    local insideGUI = posX >= self.ui.x and posX <= self.ui.x + self.ui.w and
+                      posY >= self.ui.y and posY <= self.ui.y + self.ui.h
+    
+    -- PRIORITY: Consume ALL wheel events when inside GUI to prevent camera zoom
+    local isWheel = button == Input.MOUSE_BUTTON_WHEEL_UP or button == Input.MOUSE_BUTTON_WHEEL_DOWN
+    if isWheel and insideGUI then
+        -- Handle parameter adjustment ONLY on isDown to prevent double-trigger
+        if isDown then
+            local wheelUp = button == Input.MOUSE_BUTTON_WHEEL_UP
+            local delta = wheelUp and 1 or -1
+            
+            -- Check for Shift modifier (5x faster)
+            if Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift) then
+                delta = delta * 5
+            end
+            
+            -- Check if mouse is over a parameter and adjust
+            local param = self:getParameterAtMouse(posX, posY)
+            if param then
+                local spec = self.activeVehicle.spec_rhm_Combine
+                if spec and spec.combineMemory then
+                    local currentVal = spec.combineMemory.currentSettings[param]
+                    spec.combineMemory:updateSetting(param, currentVal + delta)
+                end
+            end
+        end
+        -- ALWAYS return true for wheel events inside GUI
+        return true
+    end
+    
+    -- Handle button clicks
     if isDown and button == Input.MOUSE_BUTTON_LEFT then
         for _, btn in ipairs(self.buttons) do
             if posX >= btn.x and posX <= btn.x + btn.w and posY >= btn.y and posY <= btn.y + btn.h then
                 if btn.callback then
                     btn.callback()
-                    -- Add sound effect?
                 end
                 return true -- Consumed
             end
         end
     end
     
-    -- Detect click inside window to prevent camera movement/interaction with game world
-    if posX >= self.ui.x and posX <= self.ui.x + self.ui.w and
-       posY >= self.ui.y and posY <= self.ui.y + self.ui.h then
-       return true -- Consume event inside window
+    -- Consume all events inside GUI window
+    if insideGUI then
+       return true
     end
+end
+
+---Handle wheel scroll (Courseplay style - called from draw cycle)
+---@param direction number 1 for up, -1 for down
+---@param posX number Mouse X position
+---@param posY number Mouse Y position
+function CombineCalibrationGUI:handleWheelScroll(direction, posX, posY)
+    -- Check for Shift modifier (5x faster)
+    local delta = direction
+    if Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift) then
+        delta = delta * 5
+    end
+    
+    -- This will check if mouse is over a parameter (set during draw)
+    -- We need to manually check here since hoveredParameter is set later in draw
+    -- For now, we can use current mouse position to determine parameter
+    
+    -- Apply to active vehicle's settings
+    if self.activeVehicle and self.activeVehicle.spec_rhm_Combine then
+        local spec = self.activeVehicle.spec_rhm_Combine
+        if spec.combineMemory and self.hoveredParameter then
+            local currentVal = spec.combineMemory.currentSettings[self.hoveredParameter]
+            spec.combineMemory:updateSetting(self.hoveredParameter, currentVal + delta)
+        end
+    end
+end
+
+---Get parameter name at mouse position (for wheel scroll)
+---@param x number
+---@param y number
+---@return string|nil Parameter name if mouse is over a parameter row
+function CombineCalibrationGUI:getParameterAtMouse(x, y)
+    -- This will be populated during draw() with clickable parameter areas
+    if self.hoveredParameter then
+        return self.hoveredParameter
+    end
+    return nil
 end

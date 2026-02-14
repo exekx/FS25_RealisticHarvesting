@@ -6,6 +6,7 @@ source(modDirectory .. "src/settings/Settings.lua")
 source(modDirectory .. "src/settings/SettingsGUI.lua")  -- Console commands for settings
 source(modDirectory .. "src/network/SettingsSyncEvent.lua")  -- Network event for settings sync
 source(modDirectory .. "src/network/SettingsSync.lua")  -- Settings sync helper
+source(modDirectory .. "src/utils/RHMInputUtil.lua")  -- Input control utility (camera blocking)
 source(modDirectory .. "src/utils/UIHelper.lua")
 source(modDirectory .. "src/utils/UnitConverter.lua")  -- Unit conversion utility
 source(modDirectory .. "src/settings/SettingsUI.lua")
