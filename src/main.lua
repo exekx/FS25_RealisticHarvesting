@@ -1,7 +1,6 @@
 local modDirectory = g_currentModDirectory
 local modName = g_currentModName
 
--- Завантаження модулів
 source(modDirectory .. "src/settings/SettingsManager.lua")
 source(modDirectory .. "src/settings/Settings.lua")
 source(modDirectory .. "src/settings/SettingsGUI.lua")  -- Console commands for settings

@@ -296,6 +296,21 @@ function LoadCalculator:update(vehicle, dt, mass)
     -- Оновлюємо масу (замість площі)
     self.loadAccumulatedMass = (self.loadAccumulatedMass or 0) + mass
     
+    -- INSTANT REACTION FIX:
+    -- Якщо почали збирати (mass > 0), а ліміт все ще максимальний - негайно обмежуємо
+    -- Не чекаємо 1.5 секунди вимірювання
+    if mass > 0 and self.speedLimit >= (self.genuineSpeedLimit - 0.1) then
+         if self.workingSpeedLimit > 0 and self.workingSpeedLimit < 12 then
+             self.speedLimit = self.workingSpeedLimit
+         else
+             self.speedLimit = 5.0 -- Консервативний старт
+             self.workingSpeedLimit = 5.0
+         end
+         if self.debug then
+            print("RHM: Instant start limit applied: " .. tostring(self.speedLimit))
+         end
+    end
+    
     -- Оновлюємо час
     self.currentTime = self.currentTime + dt
     
@@ -693,48 +708,14 @@ function LoadCalculator:calculateSettingsLoss()
         return 0
     end
     
-    -- Отримуємо оптимальні налаштування для культури
-    local optimalSettings = CombineSettingsDatabase:getSettingsForCrop(self.currentCrop)
-    if not optimalSettings then
-        return 0  -- Невідома культура - без штрафу
-    end
+    -- Отримуємо результат перевірки налаштувань (включаючи бонус)
+    local netPenalty, _ = self.combineMemory:checkSettingsForCrop(self.currentCrop)
     
-    local currentSettings = self.combineMemory.currentSettings
-    local totalDeviation = 0
-    local paramCount = 0
+    -- netPenalty може бути від'ємним (бонус) або додатнім (штраф)
+    -- Обмежуємо діапазон: Максимальний бонус -5%, Максимальний штраф 30%
+    local settingsFactor = math.max(-5, math.min(netPenalty, 30))
     
-    -- Розраховуємо відхилення для кожного параметра
-    for param, optimalData in pairs(optimalSettings) do
-        if currentSettings[param] then
-            local currentValue = currentSettings[param]
-            local optimalValue = optimalData.optimal
-            local tolerance = optimalData.tolerance
-            
-            -- Абсолютне відхилення
-            local deviation = math.abs(currentValue - optimalValue)
-            
-            -- Якщо в межах толерантності - штрафу немає
-            if deviation <= tolerance then
-                -- Все добре, штраф 0
-            else
-                -- Поза толерантністю - розраховуємо штраф
-                local excessDeviation = deviation - tolerance
-                
-                -- Прогресивний штраф: більше відхилення = набагато більший штраф
-                -- Формула: (excess / 10)^2 * множник
-                local paramPenalty = (excessDeviation / 10)^2 * 5
-                
-                totalDeviation = totalDeviation + paramPenalty
-            end
-            
-            paramCount = paramCount + 1
-        end
-    end
-    
-    -- Обмежуємо максимум до 50%
-    local settingsLoss = math.min(totalDeviation, 50)
-    
-    return settingsLoss
+    return settingsFactor
 end
 
 ---Розраховує загальні втрати врожаю (базові + налаштування)
@@ -865,7 +846,30 @@ function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
     
     -- Interpolate noise for smoothness
     -- (Simplified: just apply current noise)
-    self.currentYield = smoothedYield * (self.noiseOffset or 1.0)
+    
+    -- Apply User Calibration
+    local calibration = 1.0
+    if self.combineMemory and self.combineMemory.currentYieldCalibration then
+        calibration = self.combineMemory.currentYieldCalibration
+    end
+    
+    self.currentYield = smoothedYield * (self.noiseOffset or 1.0) * calibration
+end
+
+---Встановити реальну врожайність з rhm_Combine (User Request)
+---@param yieldTha number Врожайність в т/га
+function LoadCalculator:setRealTimeYield(yieldTha)
+    -- Apply smoothing (Simple moving average)
+    self.yieldBuffer = self.yieldBuffer or {}
+    table.insert(self.yieldBuffer, yieldTha)
+    if #self.yieldBuffer > 20 then table.remove(self.yieldBuffer, 1) end
+    
+    local sum = 0
+    for _, v in ipairs(self.yieldBuffer) do sum = sum + v end
+    local smoothedYield = sum / #self.yieldBuffer
+
+    -- No Calibration - Pure Real-time Yield (User Request)
+    self.currentYield = smoothedYield
 end
 
 ---Отримує форматований рядок врожайності

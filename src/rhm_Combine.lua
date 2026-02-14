@@ -173,7 +173,33 @@ function rhm_Combine:addCutterArea(superFunc, area, realArea, inputFruitType, ou
     if outputFillType and outputFillType ~= FillType.UNKNOWN then
         spec.lastFillType = outputFillType
         
-        -- === CROP AUTO-DETECTION ===
+        -- === YIELD CALCULATION (User Request) ===
+        -- Calculate yield directly from cutter data: Yield = Mass / Area
+        if (retLiters or 0) > 0 and areaForYield > 0.001 then
+            local density = 0.75 -- Fallback
+            
+            -- Try to get real density
+            if g_fillTypeManager then
+                local fillTypeObj = g_fillTypeManager:getFillTypeByIndex(spec.lastFillType or outputFillType)
+                if fillTypeObj and fillTypeObj.massPerLiter then
+                    -- Game uses t/m3 ? No. massPerLiter is usually around 0.0007 (0.7 kg/l)
+                    -- Wait, standard values: Wheat ~ 0.00078 t/l = 0.78 kg/l
+                    density = fillTypeObj.massPerLiter * 1000 -- Convert to kg/l (approx)
+                end
+            end
+            
+            -- Formula: (Liters * kg/l) / (Area_ha * 10000) * 10 = t/ha ?
+            -- Simpler: (Mass_kg / Area_m2) * 10 = t/ha
+            local massKg = retLiters * density
+            local yieldTha = (massKg / areaForYield) * 10
+            
+            -- Send to LoadCalculator
+            if spec.loadCalculator then
+                spec.loadCalculator:setRealTimeYield(yieldTha)
+            end
+        end
+
+        -- === CROP LOSS CALCULATION ===
         -- Визначаємо назву культури з fillType напряму через name
         local cropName = nil
         
@@ -217,8 +243,11 @@ function rhm_Combine:addCutterArea(superFunc, area, realArea, inputFruitType, ou
     end
     
     -- DEBUG: Uncomment to see values in console
-    -- if (retLiters or 0) > 0 then
-    --     print(string.format("RHM: cut=%.4f real=%.4f L=%.4f", area, realArea, retLiters))
+    -- if (retLiters or 0) > 0 and areaForYield > 0 then
+    --    local areaHa = areaForYield / 10000
+    --    local yieldL_Ha = retLiters / areaHa
+    --    print(string.format("RHM YIELD DEBUG: Liters=%.2f, Area=%.4f m2, Yield=%.0f L/ha", 
+    --        retLiters, areaForYield, yieldL_Ha))
     -- end
     
     return retLiters, retStrawLiters
@@ -246,7 +275,7 @@ function rhm_Combine:onCropTypeChanged(newCropName)
             spec.combineMemory:loadProfile(newCropName)
         else
             -- Немає профілю - авто-конфігурація
-            spec.combineMemory:autoConfigureForCrop(newCropName)
+            spec.combineMemory:autoConfigureForCrop(newCropName, true) -- Force Optimal (Auto Mode) by default
         end
     end
 end
@@ -596,13 +625,19 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             -- ТЕСТ: Примусові 100% втрати
             cropLoss = 100
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-            print("🧪 TEST MODE: FORCING 100% CROP LOSS")
+            print(" TEST MODE: FORCING 100% CROP LOSS")
             print("   Harvested: " .. liters .. " L")
             print("   ALL will be removed from bunker!")
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
         else
             -- Нормальний режим: розраховуємо crop loss (включаючи втрати від налаштувань)
             cropLoss = spec.loadCalculator:calculateTotalCropLoss()
+            
+            -- Оновлюємо статистику профілю (періодично або при зупинці, але тут кожен кадр?)
+            -- updateStatistics просто додає до накопичувача, тому не можна викликати щокадру з повною сумою?
+            -- Wait! updateStatistics ADDS tons. If we call it every frame with 'liters' (which is lastLiters for this frame), it works.
+            -- spec.lastLiters is reset at end of function.
+            spec.combineMemory:updateStatistics(liters, cropLoss, spec.combineMemory.currentCrop)
         end
         
         if cropLoss > 0 then

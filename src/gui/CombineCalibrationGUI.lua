@@ -94,6 +94,32 @@ function CombineCalibrationGUI:close()
     g_inputBinding:setShowMouseCursor(rhmCursor or false)
 end
 
+function CombineCalibrationGUI:cycleCrop(direction)
+    local allCrops = CombineSettingsDatabase:getAllCropNames()
+    -- Find current index
+    local current = self.activeVehicle.spec_rhm_Combine.combineMemory.currentCrop
+    local index = 1
+    
+    -- If current is nil, start at 1
+    if current then
+        for i, name in ipairs(allCrops) do
+            if name == current then 
+                index = i 
+                break 
+            end
+        end
+    end
+    
+    -- Update index
+    index = index + direction
+    if index > #allCrops then index = 1 end
+    if index < 1 then index = #allCrops end
+    
+    -- Switch
+    local newCrop = allCrops[index]
+    self.activeVehicle.spec_rhm_Combine.combineMemory:switchCrop(newCrop)
+end
+
 ---Main update loop
 function CombineCalibrationGUI:update(dt)
     if not self.isOpen then return end
@@ -154,19 +180,53 @@ function CombineCalibrationGUI:draw()
     end
     
     local spec = self.activeVehicle.spec_rhm_Combine
+    
+    if not spec or not spec.combineMemory then
+        setTextAlignment(RenderText.ALIGN_CENTER)
+        renderText(x + w/2, cy, ui.fontSize, "Combine not initialized")
+        return
+    end
+    
     local memory = spec.combineMemory
     
     -- 3. Crop Info
     setTextAlignment(RenderText.ALIGN_LEFT)
-    renderText(x + ui.margin, cy, ui.fontSize, string.format("Crop: %s", memory.currentCrop or "NONE"))
+    renderText(x + ui.margin, cy + 0.005, ui.fontSize, "Crop:")
     
-    -- Mode Toggle
-    local modeText = memory.autoSwitchEnabled and "AUTO" or "MANUAL"
-    local modeColor = memory.autoSwitchEnabled and ui.colors.success or ui.colors.warning
+    local cropName = memory.currentCrop or "NONE"
+    local cropX = x + ui.margin + 0.05 -- Offset for label
     
-    self:drawButton(x + w - ui.margin - 0.08, cy - 0.005, 0.08, 0.03, modeText, function()
-        memory:toggleAutoMode()
-    end, modeColor)
+    -- Previous Button [<]
+    self:drawButton(cropX, cy, 0.025, 0.035, "<", function()
+        self:cycleCrop(-1)
+    end)
+    
+    -- Crop Name
+    setTextAlignment(RenderText.ALIGN_CENTER)
+    renderText(cropX + 0.025 + 0.07, cy + 0.005, ui.fontSize, cropName)
+    
+    -- Next Button [>]
+    self:drawButton(cropX + 0.025 + 0.14, cy, 0.025, 0.035, ">", function()
+        self:cycleCrop(1)
+    end)
+    
+    cy = cy - ui.lineHeight * 1.2
+    
+    -- Mode Buttons (User Request: Split Auto and Preset)
+    setTextAlignment(RenderText.ALIGN_LEFT)
+    -- renderText(x + ui.margin, cy + 0.005, ui.fontSize, "Presets:") -- Label optional, maybe just buttons
+    
+    local btnWidth = (w - ui.margin * 2.5 - 0.01) / 2 -- Slightly narrower
+    
+    -- [ AUTO ] Button (Default optimal)
+    self:drawButton(x + ui.margin, cy, btnWidth, 0.035, "AUTO", function()
+        memory:autoConfigureForCrop(memory.currentCrop, true) -- Force optimal (now suboptimal/safe)
+    end, {0.9, 0.7, 0.1, 1}) -- Yellowish
+    
+    -- [ LOAD ] Button (User Preset)
+    self:drawButton(x + w - ui.margin - btnWidth, cy, btnWidth, 0.035, "LOAD PRESET", function()
+        memory:loadUserPreset()
+    end, {0.1, 0.5, 0.9, 1}) -- Blueish
     
     cy = cy - ui.lineHeight * 1.5
     
@@ -181,17 +241,24 @@ function CombineCalibrationGUI:draw()
     
     cy = cy - ui.lineHeight * 0.5
     
+    cy = cy - ui.lineHeight * 0.5
+    
+    -- Yield Calibration REMOVED (User Request)
     -- 5. Loss Status
     local load = (spec.loadCalculator and spec.loadCalculator.engineLoad or 0) * 100
     local loss = spec.loadCalculator and spec.loadCalculator.cropLoss or 0
     
+    local lossColor = ui.colors.text
+    if loss > 0.1 then lossColor = ui.colors.warning end
+    if loss > 2.0 then lossColor = ui.colors.error end
+    
     setTextAlignment(RenderText.ALIGN_LEFT)
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x + ui.margin, cy, ui.fontSize, string.format("Engine Load: %d%%", load))
+    renderText(x + ui.margin, cy + 0.005, ui.fontSize, string.format("Engine Load: %.0f%%", load))
     
-    local lossColor = loss > 1 and ui.colors.error or ui.colors.success
+    setTextAlignment(RenderText.ALIGN_RIGHT)
     setTextColor(unpack(lossColor))
-    renderText(x + w/2, cy, ui.fontSize, string.format("Loss: %.1f%%", loss))
+    renderText(x + w - ui.margin, cy + 0.005, ui.fontSize, string.format("Loss: %.1f%%", loss))
     
     cy = cy - ui.lineHeight * 1.5
     
@@ -205,10 +272,12 @@ function CombineCalibrationGUI:draw()
          memory:autoConfigureForCrop(memory.currentCrop)
     end, ui.colors.warning)
     
+    cy = cy - ui.lineHeight
+    
     -- Tooltip/Hint
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x + w/2, y + ui.margin, ui.fontSize * 0.8, "RShift+K to Close")
+    renderText(x + w/2, cy + 0.005, ui.fontSize * 0.9, "RShift+K to Close")
     
     -- Restore defaults
     setTextBold(false)
@@ -246,20 +315,16 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
     setTextColor(unpack(valColor))
     renderText(x + w * 0.5, y + 0.005, ui.fontSize, string.format("%d%%", val))
     
-    -- Buttons [-] [+]
-    if not memory.autoSwitchEnabled then
-        -- Minus
-        self:drawButton(x + w - ui.buttonW*2 - 0.005, y, ui.buttonW, ui.buttonH, "-", function()
-            memory:updateSetting(param, val - 1) -- Step 1%
-        end)
-        
-        -- Plus
-        self:drawButton(x + w - ui.buttonW, y, ui.buttonW, ui.buttonH, "+", function()
-            memory:updateSetting(param, val + 1) -- Step 1%
-        end)
-        
-        -- Fast adjustment (Shift click logic handled in mouseEvent or by holding? For now simple click)
-    end
+    -- Buttons [-] [+] (Always visible, auto-switch to MANUAL on click)
+    -- Minus
+    self:drawButton(x + w - ui.buttonW*2 - 0.005, y, ui.buttonW, ui.buttonH, "-", function()
+        memory:updateSetting(param, val - 1) -- This auto-switches to MANUAL
+    end)
+    
+    -- Plus
+    self:drawButton(x + w - ui.buttonW, y, ui.buttonW, ui.buttonH, "+", function()
+        memory:updateSetting(param, val + 1) -- This auto-switches to MANUAL
+    end)
 end
 
 ---Helper to draw a button

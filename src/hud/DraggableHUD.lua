@@ -251,6 +251,29 @@ function DraggableHUD:draw()
     renderText(headerTextX, headerTextY, headerTextSize, "Realistic Harvesting")
     setTextBold(false)
     
+    -- Draw Settings Button (Right side of header)
+    local btnW = 0.02 * self.uiScale
+    local btnH = self.headerHeight * 0.8
+    local btnX = self.x + self.width - btnW - (0.002 * self.uiScale)
+    local btnY = self.y + self.height + (self.headerHeight - btnH) / 2
+    
+    -- Background
+    if self.headerOverlay then
+        -- We reuse header overlay? No, need separate overlay or just render a rect if we had a helper.
+        -- Since we don't have a drawRect helper here, we can use a new overlay or just accept text if no background.
+        -- BUT, we can reuse icons['load'] temporarily as a white box if we wanted, or just render text "[ MENU ]".
+        -- Let's render text "[ CALIB ]" which is clickable.
+        
+        setTextBold(true)
+        setTextAlignment(RenderText.ALIGN_RIGHT)
+        local btnTextSize = 0.010 * self.uiScale
+        renderText(self.x + self.width - (0.005 * self.uiScale), headerTextY, btnTextSize, "[ CALIB ]")
+        setTextBold(false)
+        
+        -- Store button area for mouse event
+        self.menuButtonArea = {x = self.x + self.width - (0.04 * self.uiScale), y = self.y + self.height, w = 0.04 * self.uiScale, h = self.headerHeight}
+    end
+    
     -- Draw HUD content
     self:drawContent()
     setTextBold(false) -- Reset bold state
@@ -330,13 +353,26 @@ function DraggableHUD:drawContent()
     -- Row 4: Crop Loss (loss)
     if self.settings.showCropLoss then
         local lossVal = self.data.cropLoss or 0
-        local lossStr = string.format("%.1f%%", lossVal)
+        
+        -- Format with +/- sign
+        local lossStr
+        if lossVal > 0.1 then
+            -- Loss (red/yellow) - show as negative
+            lossStr = string.format("-%.1f%%", lossVal)
+        elseif lossVal < -0.1 then
+            -- Bonus (green) - show as positive
+            lossStr = string.format("+%.1f%%", math.abs(lossVal))
+        else
+            -- Neutral (0)
+            lossStr = "0%"
+        end
         
         -- Color coding for loss
         local r, g, b = 1, 1, 1
-        if lossVal > 3.0 then r, g, b = 0.9, 0.1, 0.1 -- Red
-        elseif lossVal > 1.0 then r, g, b = 0.9, 0.8, 0.1 -- Yellow
-        else r, g, b = 0.2, 0.8, 0.2 end -- Green
+        if lossVal > 3.0 then r, g, b = 0.9, 0.1, 0.1 -- Red (high loss)
+        elseif lossVal > 1.0 then r, g, b = 0.9, 0.8, 0.1 -- Yellow (medium loss)
+        elseif lossVal < -0.1 then r, g, b = 0.2, 1.0, 0.2 -- Bright green (bonus)
+        else r, g, b = 0.2, 0.8, 0.2 end -- Green (optimal)
         
         self:drawRow(iconX, textX, textY, iconWidth, iconHeight, textSize, "loss", lossStr, lossVal, r, g, b)
         textY = textY - lineHeight
@@ -486,6 +522,18 @@ function DraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
         return false
     end
     
+    -- Check Menu Button Click
+    if self.menuButtonArea and isDown then
+        if posX >= self.menuButtonArea.x and posX <= (self.menuButtonArea.x + self.menuButtonArea.w) and
+           posY >= self.menuButtonArea.y and posY <= (self.menuButtonArea.y + self.menuButtonArea.h) then
+            
+            if g_realisticHarvestManager then
+                g_realisticHarvestManager:toggleMenu(self.vehicle)
+                return true
+            end
+        end
+    end
+    
     -- Handle start and end of dragging
     if isDown and self:isMouseOverHeader(posX, posY) then
         if not self.dragging then
@@ -502,6 +550,12 @@ function DraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
         if self.dragging then
             self.dragging = false
             print(string.format("RHM: Drag stopped at (%.3f, %.3f)", self.x, self.y))
+            
+            -- Save settings on drag end (once)
+            if self.settings and self.settings.save then
+                self.settings:save()
+            end
+            
             return true
         end
     end
@@ -520,14 +574,12 @@ function DraggableHUD:moveTo(x, y)
     
     self:setPosition(x, y)
     
-    -- Save to settings
+    -- Save to settings object (memory only)
     self.settings.hudPosX = x
     self.settings.hudPosY = y
     
-    -- Trigger save
-    if self.settings and self.settings.save then
-        self.settings:save()
-    end
+    -- Removed settings:save() from here to prevent Async Task exhaustion (called every frame)
+    -- Save is now triggered on Drag Stop
 end
 
 ---Unload resources

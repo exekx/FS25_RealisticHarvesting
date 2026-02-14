@@ -6,64 +6,64 @@ CombineSettingsDatabase = {}
 local templates = {
     -- Середні зернові (пшениця, ячмінь)
     grain_medium = {
-        fan = {optimal = 65, min = 50, max = 80, tolerance = 10},
-        upperSieve = {optimal = 60, min = 50, max = 70, tolerance = 8},
-        lowerSieve = {optimal = 70, min = 60, max = 80, tolerance = 8},
-        rotor = {optimal = 75, min = 65, max = 85, tolerance = 8},
-        feeder = {optimal = 50, min = 30, max = 70, tolerance = 15},
+        fan = {optimal = 65, min = 50, max = 80, tolerance = 7},  -- Was 10
+        upperSieve = {optimal = 60, min = 50, max = 70, tolerance = 6}, -- Was 8
+        lowerSieve = {optimal = 70, min = 60, max = 80, tolerance = 6}, -- Was 8
+        rotor = {optimal = 75, min = 65, max = 85, tolerance = 6}, -- Was 8
+        feeder = {optimal = 50, min = 30, max = 70, tolerance = 10},-- Was 15
     },
     
     -- Легкі зернові (овес)
     grain_light = {
-        fan = {optimal = 70, min = 55, max = 85, tolerance = 10},
-        upperSieve = {optimal = 65, min = 55, max = 75, tolerance = 8},
-        lowerSieve = {optimal = 75, min = 65, max = 85, tolerance = 8},
-        rotor = {optimal = 80, min = 70, max = 90, tolerance = 8},
-        feeder = {optimal = 55, min = 35, max = 75, tolerance = 15},
+        fan = {optimal = 70, min = 55, max = 85, tolerance = 7},
+        upperSieve = {optimal = 65, min = 55, max = 75, tolerance = 6},
+        lowerSieve = {optimal = 75, min = 65, max = 85, tolerance = 6},
+        rotor = {optimal = 80, min = 70, max = 90, tolerance = 6},
+        feeder = {optimal = 55, min = 35, max = 75, tolerance = 10},
     },
     
     -- Легкі олійні (ріпак)
     oilseed_light = {
-        fan = {optimal = 45, min = 30, max = 60, tolerance = 8},
-        upperSieve = {optimal = 40, min = 30, max = 50, tolerance = 6},
-        lowerSieve = {optimal = 50, min = 40, max = 60, tolerance = 6},
-        rotor = {optimal = 60, min = 50, max = 70, tolerance = 8},
-        feeder = {optimal = 40, min = 25, max = 55, tolerance = 12},
+        fan = {optimal = 45, min = 30, max = 60, tolerance = 6}, -- Was 8
+        upperSieve = {optimal = 40, min = 30, max = 50, tolerance = 4}, -- Was 6
+        lowerSieve = {optimal = 50, min = 40, max = 60, tolerance = 4}, -- Was 6
+        rotor = {optimal = 60, min = 50, max = 70, tolerance = 6}, -- Was 8
+        feeder = {optimal = 40, min = 25, max = 55, tolerance = 8}, -- Was 12
     },
     
     -- Важкі олійні (соняшник)
     oilseed_heavy = {
-        fan = {optimal = 55, min = 40, max = 70, tolerance = 10},
-        upperSieve = {optimal = 70, min = 60, max = 80, tolerance = 8},
-        lowerSieve = {optimal = 80, min = 70, max = 90, tolerance = 8},
-        rotor = {optimal = 65, min = 55, max = 75, tolerance = 8},
-        feeder = {optimal = 60, min = 45, max = 75, tolerance = 12},
+        fan = {optimal = 55, min = 40, max = 70, tolerance = 7}, -- Was 10
+        upperSieve = {optimal = 70, min = 60, max = 80, tolerance = 6},
+        lowerSieve = {optimal = 80, min = 70, max = 90, tolerance = 6},
+        rotor = {optimal = 65, min = 55, max = 75, tolerance = 6},
+        feeder = {optimal = 60, min = 45, max = 75, tolerance = 10},
     },
     
     -- Кукурудза
     corn = {
-        fan = {optimal = 85, min = 70, max = 95, tolerance = 8},
-        upperSieve = {optimal = 80, min = 70, max = 90, tolerance = 8},
-        lowerSieve = {optimal = 85, min = 75, max = 95, tolerance = 8},
-        rotor = {optimal = 90, min = 80, max = 100, tolerance = 6},
-        feeder = {optimal = 70, min = 55, max = 85, tolerance = 12},
+        fan = {optimal = 85, min = 70, max = 95, tolerance = 6}, -- Was 8
+        upperSieve = {optimal = 80, min = 70, max = 90, tolerance = 6},
+        lowerSieve = {optimal = 85, min = 75, max = 95, tolerance = 6},
+        rotor = {optimal = 90, min = 80, max = 100, tolerance = 5}, -- Was 6
+        feeder = {optimal = 70, min = 55, max = 85, tolerance = 10},
     },
     
     -- Бобові (соя)
     legume = {
-        fan = {optimal = 50, min = 35, max = 65, tolerance = 10},
-        upperSieve = {optimal = 50, min = 40, max = 60, tolerance = 8},
-        lowerSieve = {optimal = 60, min = 50, max = 70, tolerance = 8},
-        rotor = {optimal = 55, min = 45, max = 65, tolerance = 8},
-        feeder = {optimal = 35, min = 20, max = 50, tolerance = 12},
+        fan = {optimal = 50, min = 35, max = 65, tolerance = 7},
+        upperSieve = {optimal = 50, min = 40, max = 60, tolerance = 6},
+        lowerSieve = {optimal = 60, min = 50, max = 70, tolerance = 6},
+        rotor = {optimal = 55, min = 45, max = 65, tolerance = 6},
+        feeder = {optimal = 35, min = 20, max = 50, tolerance = 8},
     },
     -- Рис
     rice = {
-        fan = {optimal = 80, min = 70, max = 90, tolerance = 10},
-        upperSieve = {optimal = 70, min = 60, max = 80, tolerance = 8},
-        lowerSieve = {optimal = 70, min = 60, max = 80, tolerance = 8},
-        rotor = {optimal = 85, min = 75, max = 95, tolerance = 8},
-        feeder = {optimal = 60, min = 40, max = 80, tolerance = 15},
+        fan = {optimal = 80, min = 70, max = 90, tolerance = 7},
+        upperSieve = {optimal = 70, min = 60, max = 80, tolerance = 6},
+        lowerSieve = {optimal = 70, min = 60, max = 80, tolerance = 6},
+        rotor = {optimal = 85, min = 75, max = 95, tolerance = 6},
+        feeder = {optimal = 60, min = 40, max = 80, tolerance = 12}, -- Was 15
     },
 }
 
