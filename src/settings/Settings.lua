@@ -188,6 +188,8 @@ function Settings:resetToDefaults()
     self.enableIndependentLaunch = true -- Default: enabled
     self.hudOffsetX = 0
     self.hudOffsetY = 350
+    self.hudPosX = nil -- Reset to auto
+    self.hudPosY = nil -- Reset to auto
     
     -- Зберігаємо
     self:save()

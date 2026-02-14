@@ -316,6 +316,13 @@ function SettingsUI:ensureResetButton(settingsFrame)
                     if g_realisticHarvestManager.settingsUI then
                         g_realisticHarvestManager.settingsUI:refreshUI()
                     end
+                    
+                    -- Force HUD position reset immediately
+                    if g_realisticHarvestManager.hud then
+                        -- Get default position (since settings are now nil)
+                        local x, y = g_realisticHarvestManager.hud:getPosition()
+                        g_realisticHarvestManager.hud:setPosition(x, y)
+                    end
                 end
             end,
             showWhenPaused = true

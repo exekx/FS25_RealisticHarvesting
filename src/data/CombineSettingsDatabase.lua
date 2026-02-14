@@ -88,6 +88,24 @@ CombineSettingsDatabase.crops = {
     
     -- Бобові
     ["SOYBEAN"] = { name = "Соя", nameEN = "Soybean", template = templates.legume, group = "legume", fillType = FillType.SOYBEAN },
+    ["PEA"] = { name = "Горох", nameEN = "Peas", template = templates.legume, group = "legume", fillType = FillType.PEA },
+    ["LENTIL"] = { name = "Сочевиця", nameEN = "Lentil", template = templates.legume, group = "legume", fillType = nil }, -- Mod crop
+    ["CHICKPEA"] = { name = "Нут", nameEN = "Chickpea", template = templates.legume, group = "legume", fillType = nil }, -- Mod crop
+
+    -- Додаткові зернові (Mod crops)
+    ["RYE"] = { name = "Жито", nameEN = "Rye", template = templates.grain_medium, group = "grain_medium", fillType = nil },
+    ["SPELT"] = { name = "Спельта", nameEN = "Spelt", template = templates.grain_light, group = "grain_light", fillType = nil },
+    ["TRITICALE"] = { name = "Тритикале", nameEN = "Triticale", template = templates.grain_medium, group = "grain_medium", fillType = nil },
+    ["MILLET"] = { name = "Просо", nameEN = "Millet", template = templates.grain_light, group = "grain_light", fillType = nil },
+    ["BUCKWHEAT"] = { name = "Гречка", nameEN = "Buckwheat", template = templates.grain_medium, group = "grain_medium", fillType = nil },
+    
+    -- Додаткові олійні (Mod crops)
+    ["LINSEED"] = { name = "Льон", nameEN = "Linseed/Flax", template = templates.oilseed_light, group = "oilseed_light", fillType = nil }, -- Flax/Linseed
+    ["MUSTARD"] = { name = "Гірчиця", nameEN = "Mustard", template = templates.oilseed_light, group = "oilseed_light", fillType = nil },
+    ["POPPY"] = { name = "Мак", nameEN = "Poppy", template = templates.oilseed_light, group = "oilseed_light", fillType = nil },
+    
+    -- Волокнисті
+    ["HEMP"] = { name = "Коноплі (зерно)", nameEN = "Hemp", template = templates.oilseed_heavy, group = "oilseed_heavy", fillType = nil }, -- Mod crop
 }
 
 ---Отримати налаштування для культури за назвою
@@ -130,6 +148,23 @@ function CombineSettingsDatabase:getCropNameFromFillType(fillType)
         ["SORGHUM"] = "SORGHUM",
         ["RICE"] = "RICE",
         ["RICE_LONG_GRAIN"] = "RICE_LONG_GRAIN",
+        
+        -- FS25 New & Mod Crops
+        ["PEA"] = "PEA",
+        ["LENTIL"] = "LENTIL",
+        ["CHICKPEA"] = "CHICKPEA",
+        
+        ["RYE"] = "RYE",
+        ["SPELT"] = "SPELT",
+        ["TRITICALE"] = "TRITICALE",
+        ["MILLET"] = "MILLET",
+        ["BUCKWHEAT"] = "BUCKWHEAT",
+        
+        ["LINSEED"] = "LINSEED",
+        ["FLAX"] = "LINSEED", -- Alias
+        ["MUSTARD"] = "MUSTARD",
+        ["POPPY"] = "POPPY",
+        ["HEMP"] = "HEMP",
     }
     
     return fillTypeMapping[fillTypeName]

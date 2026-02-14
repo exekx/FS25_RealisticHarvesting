@@ -34,6 +34,9 @@ function SettingsGUI:registerConsoleCommands()
     
     -- Команда для скидання налаштувань
     addConsoleCommand("rhmResetSettings", "Reset all settings to defaults", "consoleCommandResetSettings", self)
+
+    -- Команда для скидання позиції HUD
+    addConsoleCommand("rhmResetHUD", "Reset HUD position to default", "consoleCommandResetHUD", self)
     
     -- === COMBINE SETTINGS COMMANDS ===
     addConsoleCommand("rhm_status", "Show combine settings status", "consoleCommandCombineStatus", self)
@@ -150,54 +153,15 @@ function SettingsGUI:consoleCommandShowSettings()
 end
 
 function SettingsGUI:consoleCommandSetHUDOffset(offset)
-    local offsetY = tonumber(offset)
-    if not offsetY or offsetY < 100 or offsetY > 500 then
-        Logging.warning("RHM: Invalid HUD offset. Use value between 100 and 500")
-        return "Invalid offset (use 100-500)"
-    end
-    
-    if g_realisticHarvestManager and g_realisticHarvestManager.settings then
-        local settings = g_realisticHarvestManager.settings
-        settings.hudOffsetY = offsetY
-        settings:save()
-        
-        -- Оновити HUD якщо він активний
-        if g_realisticHarvestManager.hud then
-            g_realisticHarvestManager.hud.posY = offsetY / g_screenHeight
-        end
-        
-        return string.format("HUD Offset Y set to: %d", offsetY)
-    end
-    
-    return "Error: RHM not initialized"
+    return "WARNING: This command is deprecated. Please use Right Click to drag the HUD, or use rhmResetHUD to reset position."
 end
 
 function SettingsGUI:consoleCommandMoveHUDLeft()
-    if g_realisticHarvestManager and g_realisticHarvestManager.settings then
-        local settings = g_realisticHarvestManager.settings
-        settings.hudOffsetX = math.max(-200, settings.hudOffsetX - 10)
-        settings:save()
-        
-        -- Позиція оновиться автоматично в HUD:draw() на наступному кадрі
-        
-        return string.format("HUD Offset X: %d (moved LEFT)", settings.hudOffsetX)
-    end
-    
-    return "Error: RHM not initialized"
+    return "WARNING: This command is deprecated. Please use Right Click to drag the HUD."
 end
 
 function SettingsGUI:consoleCommandMoveHUDRight()
-    if g_realisticHarvestManager and g_realisticHarvestManager.settings then
-        local settings = g_realisticHarvestManager.settings
-        settings.hudOffsetX = math.min(200, settings.hudOffsetX + 10)
-        settings:save()
-        
-        -- Позиція оновиться автоматично в HUD:draw() на наступному кадрі
-        
-        return string.format("HUD Offset X: %d (moved RIGHT)", settings.hudOffsetX)
-    end
-    
-    return "Error: RHM not initialized"
+    return "WARNING: This command is deprecated. Please use Right Click to drag the HUD."
 end
 
 ---Консольна команда для скидання налаштувань
@@ -210,9 +174,35 @@ function SettingsGUI:consoleCommandResetSettings()
             g_realisticHarvestManager.settingsUI:refreshUI()
         end
         
-        return "RHM: Settings reset to defaults! UI refreshed. (Difficulty: Normal, Speed Limit: ON, Crop Loss: ON, HUD: ON)"
+        -- Скидаємо позицію HUD
+        if g_realisticHarvestManager.hud then
+            -- Force position reset by getting default because settings are now nil
+            local x, y = g_realisticHarvestManager.hud:getPosition()
+            g_realisticHarvestManager.hud:setPosition(x, y)
+        end
+        
+        return "RHM: Settings reset to defaults! UI refreshed. HUD position reset."
     end
     
+    return "Error: RHM not initialized"
+end
+
+---Консольна команда для скидання позиції HUD
+function SettingsGUI:consoleCommandResetHUD()
+    if g_realisticHarvestManager and g_realisticHarvestManager.settings then
+        local settings = g_realisticHarvestManager.settings
+        settings.hudPosX = nil
+        settings.hudPosY = nil
+        settings:save()
+        
+        if g_realisticHarvestManager.hud then
+            -- Force position reset
+            local x, y = g_realisticHarvestManager.hud:getPosition()
+            g_realisticHarvestManager.hud:setPosition(x, y)
+        end
+        
+        return "RHM: HUD position reset to default."
+    end
     return "Error: RHM not initialized"
 end
 
@@ -283,10 +273,12 @@ function SettingsGUI:consoleCommandCombineAuto()
         return "[X] Combine Settings GUI not initialized"
     end
     
-    local gui = g_realisticHarvestManager.combineSettingsGUI
-    gui:open(vehicle)
-    gui:setModeAuto()
+    local spec = vehicle.spec_rhm_Combine
+    if not spec or not spec.combineMemory then
+        return "[X] Combine Memory not found"
+    end
     
+    spec.combineMemory:setMode("AUTO")
     return "[OK] Mode set to AUTO"
 end
 
@@ -297,14 +289,12 @@ function SettingsGUI:consoleCommandCombineManual()
         return "[X] You must be in a combine to use this command"
     end
     
-    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
-        return "[X] Combine Settings GUI not initialized"
+    local spec = vehicle.spec_rhm_Combine
+    if not spec or not spec.combineMemory then
+        return "[X] Combine Memory not found"
     end
     
-    local gui = g_realisticHarvestManager.combineSettingsGUI
-    gui:open(vehicle)
-    gui:setModeManual()
-    
+    spec.combineMemory:setMode("MANUAL")
     return "[OK] Mode set to MANUAL"
 end
 
@@ -319,15 +309,22 @@ function SettingsGUI:consoleCommandCombineSet(param, value)
         return "[X] Usage: rhm_set <param> <value>\\n   Valid params: fan, upperSieve, lowerSieve, rotor, feeder"
     end
     
-    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
-        return "[X] Combine Settings GUI not initialized"
+    local spec = vehicle.spec_rhm_Combine
+    if not spec or not spec.combineMemory then
+        return "[X] Combine Memory not found"
     end
     
-    local gui = g_realisticHarvestManager.combineSettingsGUI
-    gui:open(vehicle)
-    gui:setParameter(param, value)
+    local val = tonumber(value)
+    if not val then
+        return "[X] Value must be a number"
+    end
     
-    return string.format("[OK] %s set to %s%%", param, value)
+    local success = spec.combineMemory:setParameter(param, val)
+    if success then
+        return string.format("[OK] %s set to %d%%", param, val)
+    else
+        return string.format("[X] Failed to set %s. Invalid parameter?", param)
+    end
 end
 
 ---Завантажити профіль
@@ -341,15 +338,17 @@ function SettingsGUI:consoleCommandCombineLoad(profileName)
         return "[X] Usage: rhm_load <profile>\\n   Use rhm_profiles to see available profiles"
     end
     
-    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
-        return "[X] Combine Settings GUI not initialized"
+    local spec = vehicle.spec_rhm_Combine
+    if not spec or not spec.combineMemory then
+        return "[X] Combine Memory not found"
     end
     
-    local gui = g_realisticHarvestManager.combineSettingsGUI
-    gui:open(vehicle)
-    gui:loadProfile(profileName)
-    
-    return string.format("[OK] Profile loaded: %s", profileName)
+    local success = spec.combineMemory:loadProfile(profileName)
+    if success then
+        return string.format("[OK] Profile loaded: %s", profileName)
+    else
+        return string.format("[X] Profile not found: %s", profileName)
+    end
 end
 
 ---Зберегти профіль
@@ -363,15 +362,21 @@ function SettingsGUI:consoleCommandCombineSave(profileName)
         return "[X] Usage: rhm_save <name>"
     end
     
-    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
-        return "[X] Combine Settings GUI not initialized"
+    local spec = vehicle.spec_rhm_Combine
+    if not spec or not spec.combineMemory then
+        return "[X] Combine Memory not found"
     end
     
-    local gui = g_realisticHarvestManager.combineSettingsGUI
-    gui:open(vehicle)
-    gui:saveProfile(profileName)
+    -- Для збереження потрібна назва культури, якщо це новий профіль
+    -- Але saveCurrentProfile бере customName як другий аргумент
+    local currentCrop = spec.combineMemory.currentCrop or "UNKNOWN"
+    local success = spec.combineMemory:saveCurrentProfile(currentCrop, profileName)
     
-    return string.format("[OK] Profile saved: %s", profileName)
+    if success then
+        return string.format("[OK] Profile saved: %s", profileName)
+    else
+        return "[X] Failed to save profile"
+    end
 end
 
 ---Показати всі профілі
@@ -381,14 +386,22 @@ function SettingsGUI:consoleCommandCombineProfiles()
         return "[X] You must be in a combine to use this command"
     end
     
-    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
-        return "[X] Combine Settings GUI not initialized"
+    local spec = vehicle.spec_rhm_Combine
+    if not spec or not spec.combineMemory then
+        return "[X] Combine Memory not found"
     end
     
-    local gui = g_realisticHarvestManager.combineSettingsGUI
-    gui:open(vehicle)
-    gui:listProfiles()
+    local names = spec.combineMemory:getProfileNames()
+    local info = "=== Saved Profiles ===\n"
+    if #names == 0 then
+        info = info .. "No profiles found."
+    else
+        for _, name in ipairs(names) do
+            info = info .. "- " .. name .. "\n"
+        end
+    end
     
-    return "Profiles listed in console"
+    print(info)
+    return info
 end
 

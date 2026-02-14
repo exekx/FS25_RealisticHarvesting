@@ -122,8 +122,23 @@ end
 ---@return number posY
 function DraggableHUD:getPosition()
     -- Use saved position if available
-    if self.settings.hudPosX and self.settings.hudPosY then
-        return self.settings.hudPosX, self.settings.hudPosY
+    local x = self.settings.hudPosX
+    local y = self.settings.hudPosY
+    
+    if x and y then
+        -- Validate coordinates (must be on screen)
+        -- Allow small margin for error, but reset if completely off-screen
+        if x >= -0.1 and x <= 1.1 and y >= -0.1 and y <= 1.1 then
+            
+            -- Clamp to strict safe bounds [0, 1] for rendering
+            x = math.max(0, math.min(1 - (self.width or 0), x))
+            y = math.max(0, math.min(1 - (self.height or 0), y))
+            
+            return x, y
+        else
+            print(string.format("RHM: Saved HUD position (%.2f, %.2f) is off-screen. Resetting to default.", x, y))
+            -- Proceed to default...
+        end
     end
     
     -- Default position: left of speed meter
