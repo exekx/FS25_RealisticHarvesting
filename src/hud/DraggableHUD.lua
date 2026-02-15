@@ -64,7 +64,7 @@ function DraggableHUD:load()
     -- Resize based on UI scale (More compact box, but room for larger text)
     self.width = 0.09 * self.uiScale -- Reduced from 0.11, slightly larger than 0.085
     self.height = 0.155 * self.uiScale -- Reduced from 0.18
-    self.headerHeight = 0.024 * self.uiScale
+    self.headerHeight = 0.030 * self.uiScale -- Increased from 0.024 to fix text overflow
     
     -- Get saved position or default
     self.x, self.y = self:getPosition()

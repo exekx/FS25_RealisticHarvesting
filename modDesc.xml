@@ -33,6 +33,9 @@ Features:
 - Combine Settings & Calibration System
 
 Changelog 1.4.0.0:
+- NEW: Added compatibility with "HUD Hider" mods (HUD aligns with game visibility).
+- FIXED: Productivity (T/h) calculation bug causing sudden jumps.
+- FIXED: GUI closing unexpectedly during gameplay.
 - NEW: Interactive Combine Settings & Calibration Menu (RShift + K).
 - NEW: Manual Control Mode - Adjust Fan, Rotor, Sieves, and Feeder.
 - NEW: Incorrect settings cause additional Crop Loss (displayed in GUI).
@@ -42,9 +45,7 @@ Changelog 1.4.0.0:
 - NEW: Manual adjustment buttons (+/-) always visible in Calibration GUI for easier tuning.
 - FIXED: Camera rotation properly blocked when cursor is active (HUD drag/GUI interaction).
 - FIXED: HUD resetting to off-screen positions. Added auto-fix and reset command.
-- FIXED: CombineCalibrationGUI nil reference errors during initialization.
-- FIXED: CombineMemory syntax error preventing mod from loading.
-- IMPROVED: Input blocking now uses proper camera.isRotatable method (Courseplay-based).
+- IMPROVED: Input blocking now uses proper camera.isRotatable method.
 - IMPROVED: GUI hint text repositioned to prevent overlap with buttons.
 
 Changelog 1.3.2.0:
@@ -95,12 +96,20 @@ Funktionen:
 - Experimentelle NEXAT-Unterstützung
 
 Changelog 1.4.0.0:
-- NEU: Interaktives Mähdrescher-Einstellungsmenü (RShift + K).
-- NEU: Manueller Modus - Anpassung von Gebläse, Rotor, Sieben und Einzug.
-- NEU: Falsche Einstellungen führen zu zusätzlichen Ernteverlusten.
-- NEU: Profilsystem - Speichern/Laden von Einstellungen.
-- NEU: Neue Früchte starten mit 50% Effizienz, Kalibrierung erforderlich.
-- BEHOBEN: HUD wurde außerhalb des Bildschirms angezeigt. Auto-Reset hinzugefügt.
+- NEU: Kompatibilität mit "HUD Hider"-Mods hinzugefügt (HUD passt sich der Spielsichtbarkeit an).
+- BEHOBEN: Fehler bei der Produktivitätsberechnung (T/h), der plötzliche Sprünge verursachte.
+- BEHOBEN: GUI schloss sich unerwartet während des Spiels.
+- NEU: Interaktives Mähdrescher-Einstellungs- & Kalibrierungsmenü (RShift + K).
+- NEU: Manueller Steuerungsmodus - Anpassung von Gebläse, Rotor, Sieben und Einzug.
+- NEU: Falsche Einstellungen verursachen zusätzlichen Ernteverlust (im GUI angezeigt).
+- NEU: Profilsystem - Speichern/Laden eigener Einstellungen für jede Fruchtart.
+- NEU: Neue Früchte starten mit neutralen (50%) Einstellungen und erfordern Kalibrierung.
+- NEU: Ernteverlust-Anzeige zeigt jetzt +/- Zeichen (- für Verluste, + für Boni, 0 für optimal).
+- NEU: Manuelle Einstellbuttons (+/-) im Kalibrierungs-GUI immer sichtbar für einfachere Abstimmung.
+- BEHOBEN: Kameradrehung wird korrekt blockiert, wenn der Cursor aktiv ist (HUD ziehen/GUI-Interaktion).
+- BEHOBEN: HUD setzte sich auf Positionen außerhalb des Bildschirms zurück. Auto-Fix und Reset-Befehl hinzugefügt.
+- VERBESSERT: Eingabeblockierung nutzt nun die korrekte camera.isRotatable-Methode.
+- VERBESSERT: GUI-Hinweistext neu positioniert, um Überlappung mit Buttons zu verhindern.
 
 Changelog 1.3.2.0:
 - NEU: Physisches Ernteverlustsystem! Verluste reduzieren jetzt das tatsächlich geerntete Getreide.
@@ -130,13 +139,13 @@ Changelog 1.2.0.0:
 - Unterstützung für Baumwollernter hinzugefügt
 - Teilweise Unterstützung für Feldhäcksler hinzugefügt
 - Multiplayer-Synchronisierungsprobleme behoben
-- Einstellungsmenü-Konflikt mit anderen Mods behoben
+- Einstellungsmenü-Konflikt mit anderen Mods
 - Einheitensystem-Anzeige verbessert (Imperial/Metrisch)
 
 Changelog 1.1.0.0:
 - Neue Funktion: Schaltfläche "Einstellungen zurücksetzen" zur Fußzeile des Einstellungsmenüs hinzugefügt (Taste: X)
 - UI-Verbesserungen: Seitenbeschreibungen für alle Einstellungen im Menü hinzugefügt (Tooltips)
-- Lokalisierung: Vollständige Übersetzungsunterstützung für 10 Sprachen (EN, DE, FR, PL, ES, IT, CZ, PT-BR, UK, RU)
+- Lokalisation: Vollständige Übersetzungsunterstützung für 10 Sprachen (EN, DE, FR, PL, ES, IT, CZ, PT-BR, UK, RU)
 - Fehlerbehebungen: Verbesserte Stabilität des Einstellungsmenüs]]></de>
         <fr><![CDATA[Ajoute des mécaniques de récolte réalistes à vos moissonneuses-batteuses.
 
@@ -150,18 +159,26 @@ Fonctionnalités:
 - Support expérimental NEXAT
 
 Changelog 1.4.0.0:
-- NOUVEAU: Menu de réglage et de calibrage interactif (RShift + K).
-- NOUVEAU: Mode manuel - Réglage du ventilateur, du rotor, des tamis.
-- NOUVEAU: Les réglages incorrects entraînent des pertes de récolte supplémentaires.
-- NOUVEAU: Système de profil - Enregistrer/Charger les réglages.
-- NOUVEAU: Les nouvelles cultures commencent avec une efficacité de 50%.
-- CORRIGÉ: Problème de HUD hors écran. Ajout de la réinitialisation automatique.
+- NOUVEAU: Compatibilité ajoutée avec les mods "HUD Hider" (le HUD s'aligne sur la visibilité du jeu).
+- CORRIGÉ: Bug de calcul de la productivité (T/h) causant des sauts soudains.
+- CORRIGÉ: Fermeture inattendue de l'interface graphique pendant le jeu.
+- NOUVEAU: Menu interactif de réglages et de calibrage de la moissonneuse (RShift + K).
+- NOUVEAU: Mode de contrôle manuel - Ajustez le ventilateur, le rotor, les tamis et le convoyeur.
+- NOUVEAU: Des réglages incorrects entraînent des pertes de récolte supplémentaires (affiché dans l'interface).
+- NOUVEAU: Système de profils - Sauvegardez/Chargez des réglages personnalisés pour chaque culture.
+- NOUVEAU: Les nouvelles cultures commencent avec des réglages neutres (50%), nécessitant un calibrage.
+- NOUVEAU: L'affichage des pertes de récolte montre maintenant des signes +/- (- pour les pertes, + pour les bonus, 0 pour optimal).
+- NOUVEAU: Boutons de réglage manuel (+/-) toujours visibles dans l'interface de calibrage pour un ajustement plus facile.
+- CORRIGÉ: Rotation de la caméra correctement bloquée lorsque le curseur est actif.
+- CORRIGÉ: Réinitialisation du HUD hors écran. Ajout d'une correction automatique et d'une commande de réinitialisation.
+- AMÉLIORÉ: Le blocage des entrées utilise maintenant la méthode correcte camera.isRotatable.
+- AMÉLIORÉ: Texte d'aide de l'interface repositionné pour éviter le chevauchement avec les boutons.
 
 Changelog 1.3.2.0:
 - NOUVEAU: Système de perte de récolte physique! Les pertes réduisent maintenant le grain réellement collecté.
 - NOUVEAU: Les pertes de récolte commencent à 95% de charge moteur (au lieu de 100%).
 - NOUVEAU: Formule de perte progressive - surcharge plus élevée = perte exponentiellement plus grande.
-- AMÉLIORÉ: Les pénalités de perte affectent maintenant directement le rendement.
+- AMÉLIORÉ: Les pénalités par pertes affectent maintenant directement le rendement.
 
 Changelog 1.3.1.0:
 - NOUVEAU: Le menu des paramètres est réorganisé en sections "Simulation" et "Affichage".
@@ -205,12 +222,20 @@ Funkcje:
 - Eksperymentalne wsparcie dla NEXAT
 
 Changelog 1.4.0.0:
+- NOWOŚĆ: Dodano kompatybilność z modami "HUD Hider" (HUD dostosowuje się do widoczności gry).
+- NAPRAWIONO: Błąd obliczania produktywności (T/h), powodujący nagłe skoki.
+- NAPRAWIONO: Nieoczekiwane zamykanie GUI podczas rozgrywki.
 - NOWOŚĆ: Interaktywne menu ustawień i kalibracji kombajnu (RShift + K).
-- NOWOŚĆ: Tryb ręczny - Regulacja wentylatora, rotora, sit.
-- NOWOŚĆ: Nieprawidłowe ustawienia powodują dodatkowe straty plonów.
-- NOWOŚĆ: System profili - Zapisz/Wczytaj ustawienia.
-- NOWOŚĆ: Nowe uprawy zaczynają się od 50% wydajności.
-- NAPRAWIONO: HUD pojawiał się poza ekranem. Dodano automatyczny reset.
+- NOWOŚĆ: Tryb sterowania ręcznego - Regulacja wentylatora, rotora, sit i podajnika.
+- NOWOŚĆ: Nieprawidłowe ustawienia powodują dodatkowe straty plonów (wyświetlane w GUI).
+- NOWOŚĆ: System profili - Zapisuj/Wczytuj własne ustawienia dla każdej uprawy.
+- NOWOŚĆ: Nowe uprawy zaczynają z neutralnymi (50%) ustawieniami, wymagającymi kalibracji.
+- NOWOŚĆ: Wyświetlanie strat plonów pokazuje teraz znaki +/- (- dla strat, + dla bonusów, 0 dla optimum).
+- NOWOŚĆ: Przyciski ręcznej regulacji (+/-) zawsze widoczne w GUI kalibracji dla łatwiejszego dostrajania.
+- NAPRAWIONO: Obrót kamery poprawnie zablokowany, gdy kursor jest aktywny.
+- NAPRAWIONO: Resetowanie HUD do pozycji poza ekranem. Dodano automatyczną naprawę i komendę resetu.
+- ULEPSZONO: Blokowanie wejścia używa teraz poprawnej metody camera.isRotatable.
+- ULEPSZONO: Tekst podpowiedzi GUI przesunięty, aby zapobiec nakładaniu się na przyciski.
 
 Changelog 1.3.2.0:
 - NOWOŚĆ: Fizyczny system strat plonów! Straty teraz zmniejszają rzeczywiście zebraną ilość ziarna.
@@ -226,7 +251,7 @@ Changelog 1.3.1.0:
 - ULEPSZONO: Konfigurowalna zawartość HUD (przełączanie poszczególnych elementów).
 
 Changelog 1.3.0.0:
-- NOWOŚĆ: Monitor plonów! Zobacz plon w czasie rzeczywistym w t/ha lub bu/ac (przełączane w ustawieniach) (#10)
+- NOWOŚĆ: Monitor plonów! Zobacz plon w czasie rzeczywistym w t/ha lub bu/ac (umschaltbar in den Einstellungen) (#10)
 - NOWOŚĆ: Całkowicie przepisana logika obliczania obciążenia oparta na przepustowości masy (t/h) zamiast powierzchni.
 - NOWOŚĆ: Dodano eksperymentalne wsparcie dla systemu NEXAT.
 - ULEPSZONO: Tekst HUD jest teraz pogrubiony dla lepszej widoczności.
@@ -260,12 +285,20 @@ Características:
 - Soporte experimental para NEXAT
 
 Changelog 1.4.0.0:
-- NUEVO: Menú interactivo de configuración y calibración (RShift + K).
-- NUEVO: Modo manual - Ajuste de ventilador, rotor, tamices.
-- NUEVO: La configuración incorrecta causa pérdidas de cosecha adicionales.
-- NUEVO: Sistema de perfiles - Guardar/Cargar configuraciones.
-- NUEVO: Los nuevos cultivos comienzan con un 50% de eficiencia.
-- CORREGIDO: HUD aparecía fuera de la pantalla. Adicionado reset automático.
+- NUEVO: Añadida compatibilidad con mods "HUD Hider" (el HUD se alinea con la visibilidad del juego).
+- CORREGIDO: Error de cálculo de productividad (T/h) que causaba saltos repentinos.
+- CORREGIDO: Cierre inesperado de la interfaz durante el juego.
+- NUEVO: Menú interactivo de configuración y calibración de cosechadora (RShift + K).
+- NUEVO: Modo de control manual: ajuste el ventilador, el rotor, los tamices y el alimentador.
+- NUEVO: La configuración incorrecta causa pérdidas de cosecha adicionales (se muestra en la GUI).
+- NUEVO: Sistema de perfiles: guarde/cargue configuraciones personalizadas para cada cultivo.
+- NUEVO: Los nuevos cultivos comienzan con una configuración neutral (50%), lo que requiere calibración.
+- NUEVO: La pantalla de pérdida de cosecha ahora muestra signos +/- (- para pérdidas, + para bonificaciones, 0 para óptimo).
+- NUEVO: Botones de ajuste manual (+/-) siempre visibles en la GUI de calibración para un ajuste más fácil.
+- CORREGIDO: La rotación de la cámara se bloquea correctamente cuando el cursor está activo.
+- CORREGIDO: El HUD se restablecía a posiciones fuera de la pantalla. Se agregó corrección automática y comando de restablecimiento.
+- MEJORADO: El bloqueo de entrada ahora utiliza el método camera.isRotatable correcto.
+- MEJORADO: Texto de sugerencia de GUI reposicionado para evitar superposiciones con botones.
 
 Changelog 1.3.2.0:
 - NUEVO: ¡Sistema de pérdida de cosecha física! Las pérdidas ahora reducen el grano realmente recolectado.
@@ -315,12 +348,20 @@ Caratteristiche:
 - Supporto sperimentale NEXAT
 
 Changelog 1.4.0.0:
-- NUOVO: Menu interattivo impostazioni e calibrazione (RShift + K).
-- NUOVO: Modalità manuale - Regolazione ventola, rotore, setacci.
-- NUOVO: Impostazioni errate causano perdite di raccolto aggiuntive.
-- NUOVO: Sistema profili - Salva/Carica impostazioni.
-- NUOVO: Le nuove colture iniziano con un'efficienza del 50%.
-- RISOLTO: L'HUD appariva fuori dallo schermo. Aggiunto reset automatico.
+- NUOVO: Aggiunta compatibilità con mod "HUD Hider" (l'HUD si allinea con la visibilità del gioco).
+- RISOLTO: Bug nel calcolo della produttività (T/h) che causava salti improvvisi.
+- RISOLTO: Chiusura inaspettata della GUI durante il gioco.
+- NUOVO: Menu interattivo impostazioni e calibrazione mietitrebbia (RShift + K).
+- NUOVO: Modalità controllo manuale - Regola ventola, rotore, setacci e alimentatore.
+- NUOVO: Impostazioni errate causano perdite di raccolto aggiuntive (mostrate nella GUI).
+- NUOVO: Sistema profili - Salva/Carica impostazioni personalizzate per ogni coltura.
+- NUOVO: Le nuove colture iniziano con impostazioni neutre (50%), richiedendo la calibrazione.
+- NUOVO: Il display delle perdite di raccolto ora mostra segni +/- (- per perdite, + per bonus, 0 per ottimale).
+- NUOVO: Pulsanti di regolazione manuale (+/-) sempre visibili nella GUI di calibrazione.
+- RISOLTO: Rotazione telecamera bloccata correttamente quando il cursore è attivo.
+- RISOLTO: HUD resettato su posizioni fuori schermo. Aggiunto fix automatico e comando reset.
+- MIGLIORATO: Il blocco input ora usa il metodo corretto camera.isRotatable.
+- MIGLIORATO: Testo suggerimento GUI riposizionato per evitare sovrapposizioni con i pulsanti.
 
 Changelog 1.3.2.0:
 - NUOVO: Sistema di perdita di raccolto fisica! Le perdite riducono ora il grano effettivamente raccolto.
@@ -344,7 +385,7 @@ Changelog 1.3.0.0:
 
 Changelog 1.2.1.0:
 - Corretto calcolo produttività che mostrava valori errati (era 1000x troppo basso)
-- Migliorata precisione conversione massa-volume usando densità reale colture
+- Migliorata accuratezza conversione massa-volume usando densità reale colture
 
 Changelog 1.2.0.0:
 - Aggiunto supporto per raccoglitrici cotone
@@ -370,12 +411,20 @@ Funkce:
 - Experimentální podpora NEXAT
 
 Changelog 1.4.0.0:
-- NOVINKA: Interaktivní menu nastavení a kalibrace (RShift + K).
-- NOVINKA: Manuální režim - Nastavení ventilátoru, rotoru, sít.
-- NOVINKA: Nesprávné nastavení způsobuje dodatečné ztráty úrody.
-- NOVINKA: Systém profilů - Uložit/Načíst nastavení.
-- NOVINKA: Nové plodiny začínají s 50% účinností.
-- OPRAVENO: HUD se zobrazoval mimo obrazovku. Přidán automatický reset.
+- NOVINKA: Přidána kompatibilita s mody "HUD Hider" (HUD se přizpůsobuje viditelnosti hry).
+- OPRAVENO: Chyba výpočtu produktivity (T/h) způsobující náhlé skoky.
+- OPRAVENO: Neočekávané zavření GUI během hry.
+- NOVINKA: Interaktivní menu nastavení a kalibrace kombajnu (RShift + K).
+- NOVINKA: Manuální režim ovládání - Nastavení ventilátoru, rotoru, sít a podavače.
+- NOVINKA: Nesprávné nastavení způsobuje dodatečné ztráty úrody (zobrazeno v GUI).
+- NOVINKA: Systém profilů - Uložení/Načtení vlastního nastavení pro každou plodinu.
+- NOVINKA: Nové plodiny začínají s neutrálním (50%) nastavením, vyžadují kalibraci.
+- NOVINKA: Zobrazení ztrát úrody nyní ukazuje znaménka +/- (- pro ztráty, + pro bonusy, 0 pro optimální).
+- NOVINKA: Tlačítka manuálního nastavení (+/-) jsou v kalibraci vždy viditelná pro snadnější ladění.
+- OPRAVENO: Otáčení kamery je správně blokováno, když je kurzor aktivní.
+- OPRAVENO: HUD se resetoval na pozice mimo obrazovku. Přidána automatická oprava a příkaz reset.
+- VYLEPŠENO: Blokování vstupu nyní používá správnou metodu camera.isRotatable.
+- VYLEPŠENO: Text nápovědy GUI přemístěn, aby se nepřekrýval s tlačítky.
 
 Changelog 1.3.2.0:
 - NOVINKA: Fyzický systém ztráty úrody! Ztráty nyní snižují skutečně sklizené zrní.
@@ -425,12 +474,20 @@ Recursos:
 - Suporte experimental para NEXAT
 
 Changelog 1.4.0.0:
-- NOVO: Menu interativo de configurações e calibração (RShift + K).
-- NOVO: Modo Manual - Ajuste de Ventilador, Rotor, Peneiras.
-- NOVO: Configurações incorretas causam perda adicional de colheita.
-- NOVO: Sistema de Perfil - Salvar/Carregar configurações.
-- NOVO: Novas colheitas começam com 50% de eficiência.
-- CORRIGIDO: HUD aparecia fora da tela. Adicionado reset automático.
+- NOVO: Adicionada compatibilidade com mods "HUD Hider" (HUD alinha com visibilidade do jogo).
+- CORRIGIDO: Bug no cálculo de produtividade (T/h) causando saltos repentinos.
+- CORRIGIDO: Fechamento inesperado da GUI durante o jogo.
+- NOVO: Menu Interativo de Configurações e Calibração da Colheitadeira (RShift + K).
+- NOVO: Modo de Controle Manual - Ajuste Ventilador, Rotor, Peneiras e Alimentador.
+- NOVO: Configurações incorretas causam perda adicional de colheita (exibido na GUI).
+- NOVO: Sistema de Perfil - Salvar/Carregar configurações personalizadas para cada cultura.
+- NOVO: Novas colheitas começam com configurações neutras (50%), exigindo calibração.
+- NOVO: Exibição de Perda de Colheita agora mostra sinais +/- (- para perdas, + para bônus, 0 para ideal).
+- NOVO: Botões de ajuste manual (+/-) sempre visíveis na GUI de Calibração para ajuste mais fácil.
+- CORRIGIDO: Rotação da câmera bloqueada corretamente quando o cursor está ativo.
+- CORRIGIDO: HUD redefinindo para posições fora da tela. Adicionado correção automática e comando de reset.
+- MELHORADO: Bloqueio de entrada agora usa o método correto camera.isRotatable.
+- MELHORADO: Texto de dica da GUI reposicionado para evitar sobreposição com botões.
 
 Changelog 1.3.2.0:
 - NOVO: Sistema de perda de colheita física! As perdas agora reduzem o grão realmente coletado.
@@ -480,12 +537,20 @@ Changelog 1.1.0.0:
 - Експериментальна підтримка NEXAT
 
 Зміни 1.4.0.0:
-- НОВЕ: Інтерактивне меню налаштувань комбайна (RShift + K).
-- НОВЕ: Ручний режим - налаштування Вентилятора, Ротора, Решіт та Подавача.
-- НОВЕ: Неправильні налаштування викликають додаткові втрати врожаю.
-- НОВЕ: Система профілів - Збереження/Завантаження налаштувань.
-- НОВЕ: Нові культури починаються з 50% ефективності.
-- ВИПРАВЛЕНО: Проблема, коли HUD зникав за межами екрану. Додано авто-скидання.
+- НОВЕ: Додано сумісність з модами "HUD Hider" (HUD зникає разом з інтерфейсом гри).
+- ВИПРАВЛЕНО: Помилка розрахунку продуктивності (T/h), що викликала раптові стрибки.
+- ВИПРАВЛЕНО: Несподіване закриття інтерфейсу під час гри.
+- НОВЕ: Інтерактивне меню налаштувань та калібрування комбайна (RShift + K).
+- НОВЕ: Ручний режим керування - Налаштування вентилятора, ротора, решіт та подачі.
+- НОВЕ: Неправильні налаштування спричиняють додаткові втрати врожаю (відображається в меню).
+- НОВЕ: Система профілів - Збереження/Завантаження власних налаштувань для кожної культури.
+- НОВЕ: Нові культури починаються з нейтральних (50%) налаштувань, потребують калібрування.
+- НОВЕ: Індикатор втрат врожаю тепер показує знаки +/- (- для втрат, + для бонусів, 0 для оптимуму).
+- НОВЕ: Кнопки ручного налаштування (+/-) завжди видимі в меню калібрування.
+- ВИПРАВЛЕНО: Обертання камери правильно блокується, коли курсор активний.
+- ВИПРАВЛЕНО: HUD скидався на позиції поза екраном. Додано автовиправлення та команду скидання.
+- ПОКРАЩЕНО: Блокування введення тепер використовує правильний метод camera.isRotatable.
+- ПОКРАЩЕНО: Текст підказок в меню переміщено, щоб не перекривав кнопки.
 
 Зміни 1.3.2.0:
 - НОВЕ: Фізична система втрат врожаю! Втрати тепер зменшують реальну кількість зерна в бункері.
@@ -523,7 +588,7 @@ Changelog 1.1.0.0:
 - Покращення інтерфейсу: Бічні описи для всіх налаштувань (підказки)
 - Локалізація: Повна підтримка перекладу для 10 мов (EN, DE, FR, PL, ES, IT, CZ, PT-BR, UK, RU)
 - Виправлення помилок: Покращено стабільність меню налаштувань]]></uk>
-        <ru><![CDATA[Добавляет реалистичную механику уборки урожая к вашим комбайнам.
+    <ru><![CDATA[Добавляет реалистичную механику уборки урожая к вашим комбайнам.
 
 Функции:
 - Динамический расчет нагрузки двигателя на основе плотности культур и ширины жатки
@@ -535,12 +600,20 @@ Changelog 1.1.0.0:
 - Экспериментальная поддержка NEXAT
 
 Изменения 1.4.0.0:
-- НОВОЕ: Интерактивное меню настроек комбайна (RShift + K).
-- НОВОЕ: Ручной режим - настройки Вентилятора, Ротора, Решет и Подачи.
-- НОВОЕ: Неправильные настройки вызывают дополнительные потери урожая.
-- НОВОЕ: Система профилей - Сохранение/Загрузка настроек.
-- НОВОЕ: Новые культуры начинаются с 50% эффективности.
-- ИСПРАВЛЕНО: Проблема, когда HUD исчезал за пределами экрана. Добавлен авто-сброс.
+- НОВОЕ: Добавлена совместимость с модами "HUD Hider" (HUD исчезает вместе с интерфейсом).
+- ИСПРАВЛЕНО: Ошибка расчета производительности (T/h), вызывающая скачки.
+- ИСПРАВЛЕНО: Неожиданное закрытие интерфейса во время игры.
+- НОВОЕ: Интерактивное меню настроек и калибровки комбайна (RShift + K).
+- НОВОЕ: Ручной режим управления - Настройка вентилятора, ротора, решет и подачи.
+- НОВОЕ: Неправильные настройки вызывают дополнительные потери урожая (отображается в меню).
+- НОВОЕ: Система профилей - Сохранение/Загрузка пользовательских настроек для каждой культуры.
+- НОВОЕ: Новые культуры начинаются с нейтральных (50%) настроек, требуют калибровки.
+- НОВОЕ: Индикатор потерь урожая теперь показывает знаки +/- (- для потерь, + для бонусов, 0 для оптимума).
+- НОВОЕ: Кнопки ручной настройки (+/-) всегда видимы в меню калибровки.
+- ИСПРАВЛЕНО: Вращение камеры правильно блокируется, когда курсор активен.
+- ИСПРАВЛЕНО: HUD сбрасывался на позиции за пределами экрана. Добавлено автоисправление и команда сброса.
+- УЛУЧШЕНО: Блокировка ввода теперь использует правильный метод camera.isRotatable.
+- УЛУЧШЕНО: Текст подсказок в меню перемещен, чтобы не перекрывал кнопки.
 
 Изменения 1.3.2.0:
 - НОВОЕ: Физическая система потерь урожая! Потери теперь уменьшают реально собранное зерно.
@@ -574,11 +647,11 @@ Changelog 1.1.0.0:
 - Улучшено отображение системы единиц (Имперская/Метрическая)
 
 Изменения 1.1.0.0:
-- Новая функция: Кнопка "Сбросить настройки" в нижней части меню (клавиша: X)
+- Новая функция: Кнопка "Сбросить настройки" в нижней части меню (клавіша: X)
 - Улучшения интерфейса: Боковые описания для всех настроек (подсказки)
 - Локализация: Полная поддержка перевода для 10 языков (EN, DE, FR, PL, ES, IT, CZ, PT-BR, UK, RU)
 - Исправления ошибок: Улучшена стабильность меню налаштувань]]></ru>
-        <hu><![CDATA[Valósághű betakarítási mechanikákat ad hozzá a kombájnjaidhoz.
+    <hu><![CDATA[Valósághű betakarítási mechanikákat ad hozzá a kombájnjaidhoz.
 
 Funkciók:
 - Dinamikus motor­terhelés-számítás a termény sűrűsége és a vágóasztal szélessége alapján
@@ -590,12 +663,20 @@ Funkciók:
 - Kísérleti NEXAT támogatás
 
 Változások 1.4.0.0:
+- ÚJ: Kompatibilitás a "HUD Hider" modokkal (a HUD követi a játék láthatóságát).
+- JAVÍTVA: A termelékenység (T/h) számítási hibája, amely hirtelen ugrásokat okozott.
+- JAVÍTVA: A GUI váratlan bezáródása játék közben.
 - ÚJ: Interaktív kombájn beállítási és kalibrációs menü (RShift + K).
-- ÚJ: Kézi üzemmód - Ventilátor, rotor, rosták beállítása.
-- ÚJ: A helytelen beállítások további termésveszteséget okoznak.
-- ÚJ: Profilrendszer - Beállítások mentése/betöltése.
-- ÚJ: Az új termények 50%-os hatékonysággal indulnak.
-- JAVÍTVA: A HUD a képernyőn kívül jelent meg. Automatikus visszaállítás hozzáadva.
+- ÚJ: Kézi vezérlési mód - Ventilátor, rotor, rosták és adagoló beállítása.
+- ÚJ: A helytelen beállítások további termésveszteséget okoznak (megjelenik a GUI-ban).
+- ÚJ: Profilrendszer - Egyéni beállítások mentése/betöltése minden terményhez.
+- ÚJ: Az új növények semleges (50%) beállításokkal indulnak, kalibrálást igényelnek.
+- ÚJ: A termésveszteség kijelzője mostantól +/- jeleket mutat (- a veszteségeknél, + a bónuszoknál, 0 az optimálisnál).
+- ÚJ: A kézi beállító gombok (+/-) mindig láthatók a kalibrációs GUI-ban a könnyebb hangolás érdekében.
+- JAVÍTVA: A kamera forgatása megfelelően blokkolva van, amikor a kurzor aktív.
+- JAVÍTVA: A HUD képernyőn kívüli pozíciókra állt vissza. Automatikus javítás és visszaállítási parancs hozzáadva.
+- JAVÍTVA: A bemenet blokkolása most már a megfelelő camera.isRotatable módszert használja.
+- JAVÍTVA: A GUI tippszöveg áthelyezve, hogy ne takarja ki a gombokat.
 
 Változások 1.3.2.0:
 - ÚJ: Fizikai termésveszteség rendszer! A veszteségek most csökkentik a ténylegesen összegyűjtött gabonát.

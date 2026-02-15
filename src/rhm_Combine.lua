@@ -173,31 +173,15 @@ function rhm_Combine:addCutterArea(superFunc, area, realArea, inputFruitType, ou
     if outputFillType and outputFillType ~= FillType.UNKNOWN then
         spec.lastFillType = outputFillType
         
-        -- === YIELD CALCULATION (User Request) ===
-        -- Calculate yield directly from cutter data: Yield = Mass / Area
-        if (retLiters or 0) > 0 and areaForYield > 0.001 then
-            local density = 0.75 -- Fallback
-            
-            -- Try to get real density
-            if g_fillTypeManager then
-                local fillTypeObj = g_fillTypeManager:getFillTypeByIndex(spec.lastFillType or outputFillType)
-                if fillTypeObj and fillTypeObj.massPerLiter then
-                    -- Game uses t/m3 ? No. massPerLiter is usually around 0.0007 (0.7 kg/l)
-                    -- Wait, standard values: Wheat ~ 0.00078 t/l = 0.78 kg/l
-                    density = fillTypeObj.massPerLiter * 1000 -- Convert to kg/l (approx)
-                end
-            end
-            
-            -- Formula: (Liters * kg/l) / (Area_ha * 10000) * 10 = t/ha ?
-            -- Simpler: (Mass_kg / Area_m2) * 10 = t/ha
-            local massKg = retLiters * density
-            local yieldTha = (massKg / areaForYield) * 10
-            
-            -- Send to LoadCalculator
-            if spec.loadCalculator then
-                spec.loadCalculator:setRealTimeYield(yieldTha)
-            end
-        end
+        -- === YIELD CALCULATION REMOVED ===
+        -- Reason: Calculating yield per-slice (addCutterArea) is statistically wrong because
+        -- it treats small slices (partial overlap) equally to large slices in the moving average buffer.
+        -- We now rely on 'onUpdateTick' which aggregates Total Mass / Total Area for the frame,
+        -- providing a mathematically correct weighted average.
+        
+        -- if (retLiters or 0) > 0 and areaForYield > 0.001 then
+        --    ...
+        -- end
 
         -- === CROP LOSS CALCULATION ===
         -- Визначаємо назву культури з fillType напряму через name

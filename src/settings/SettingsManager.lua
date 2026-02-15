@@ -17,6 +17,10 @@ SettingsManager.SERVER_SETTINGS = {
 SettingsManager.CLIENT_SETTINGS = {
     "showHUD",
     "showYield",
+    "showLoad",          -- NEW: Show Engine Load
+    "showProductivity",  -- NEW: Show Productivity (t/h)
+    "showCropLoss",      -- NEW: Show Crop Loss
+    "showSpeed",         -- NEW: Show Speed
     "hudOffsetX",
     "hudOffsetY",
     "hudPosX",      -- NEW: Saved HUD X position

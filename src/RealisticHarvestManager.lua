@@ -194,13 +194,18 @@ end
 
 -- Викликається кожен кадр для МАЛЮВАННЯ HUD
 function RealisticHarvestManager:draw()
+    -- НЕ малюємо НІЧОГО (ні HUD, ни GUI) якщо відкрито меню гри (ESC) або інші GUI
+    if g_gui:getIsGuiVisible() then
+        return
+    end
+
     -- Draw GUI (always on top)
     if self.calibrationGUI then
         self.calibrationGUI:draw()
     end
-
-    -- НЕ малюємо HUD якщо відкрито меню гри (ESC)
-    if g_gui:getIsGuiVisible() then
+    
+    -- HUD HIDER SUPPORT: Check if game HUD is visible
+    if g_currentMission and g_currentMission.hud and not g_currentMission.hud:getIsVisible() then
         return
     end
     

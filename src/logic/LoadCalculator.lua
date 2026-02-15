@@ -763,7 +763,7 @@ end
 
 ---Оновлює продуктивність на основі зібраної маси та об'єму
 ---@param mass number Маса зібраного врожаю в кг
----@param liters number Об'єм зібраного врожаю в л
+---@param liters number Обєм зібраного врожаю в л
 ---@param dt number Delta time в мс
 function LoadCalculator:updateProductivity(mass, liters, dt)
     self.totalOutputMass = self.totalOutputMass + mass
@@ -780,31 +780,20 @@ function LoadCalculator:updateProductivity(mass, liters, dt)
             -- T/h = (Mass_kg / 1000) / (Time_ms / 3600000)
             local hours = self.productivityTime / 3600000
             self.tonPerHour = (self.productivityMass / 1000) / hours
-            self.litersPerHour = self.productivityLiters / hours
+            self.litersPerHour = (self.productivityLiters or 0) / hours
         end
         
-        -- Reset counters
-        self.productivityMass = 0
-        self.productivityLiters = 0
-        self.productivityTime = 0
+        -- Reset counters with SMOOTHING (keep 20% to prevent drops)
+        self.productivityMass = self.productivityMass * 0.2
+        self.productivityLiters = (self.productivityLiters or 0) * 0.2
+        self.productivityTime = self.productivityTime * 0.2
+        
     elseif self.tonPerHour == 0 and self.productivityTime > 1000 and self.productivityMass > 0 then
-        -- Швидкий старт: якщо показує 0, а ми вже працюємо 1с - оновити негайно
+        -- Швидкий старт
         local hours = self.productivityTime / 3600000
         self.tonPerHour = (self.productivityMass / 1000) / hours
-        self.litersPerHour = self.productivityLiters / hours
+        self.litersPerHour = (self.productivityLiters or 0) / hours
     end
-    -- Ми розраховуємо миттєву врожайність базуючись на даних цього кадру
-    -- Area passed is usually in m2.
-    -- Yield (t/ha) = (Mass_kg / Area_m2) * 10
-    -- Yield (bu/ac) = (Liters / Area_m2) * 114.84 (Volumetric)
-    
-    -- Але нам треба площу. В addCutterArea площа приходить.
-    -- Ми додали параметр 'area' в updateProductivity? Ні, ще ні.
-    -- Але ми можемо вирахувати approximate area, якщо знаємо масу і crop factor?
-    -- Ні, краще передати реальну площу.
-    
-    -- Тимчасове рішення: якщо area не передана, yield = 0
-    -- (Ми змінимо rhm_Combine щоб передавав area)
 end
 
 ---Оновлює продуктивність і ВРОЖАЙНІСТЬ
@@ -826,7 +815,6 @@ function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
     
     -- 2. Apply smoothing (Simple moving average)
     -- BUFFER: 20 ticks seems good (~10 frames if called every update, or less if updateProductivity is called less often)
-    -- Але updateProductivity викликається кожен кадр коли є жнива
     
     self.yieldBuffer = self.yieldBuffer or {}
     table.insert(self.yieldBuffer, rawYield)
@@ -836,16 +824,8 @@ function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
     for _, v in ipairs(self.yieldBuffer) do sum = sum + v end
     local smoothedYield = sum / #self.yieldBuffer
     
-    -- 3. Add Noise (+/- 5%) for realism
-    -- Noise should change slowly, not every frame
-    if not self.noiseOffset or (self.noiseTimer and self.noiseTimer > 500) then
-        self.noiseOffset = 1.0 + (math.random() - 0.5) * 0.1 -- +/- 5%
-        self.noiseTimer = 0
-    end
-    self.noiseTimer = (self.noiseTimer or 0) + dt
-    
-    -- Interpolate noise for smoothness
-    -- (Simplified: just apply current noise)
+    -- 3. REMOVED Noise (+/- 5%) - User requested actual values
+    -- Noise factor removed for stability
     
     -- Apply User Calibration
     local calibration = 1.0
@@ -853,7 +833,7 @@ function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
         calibration = self.combineMemory.currentYieldCalibration
     end
     
-    self.currentYield = smoothedYield * (self.noiseOffset or 1.0) * calibration
+    self.currentYield = smoothedYield * calibration
 end
 
 ---Встановити реальну врожайність з rhm_Combine (User Request)
@@ -876,49 +856,24 @@ end
 ---@param unitSystem number (1=Metric, 2=Imperial, 3=Bushels)
 ---@return string, string (Value, Unit)
 function LoadCalculator:getYieldText(unitSystem)
+    -- BUGFIX: Removed duplicate T/h calculation that was causing jumps
+    -- This method is now a PURE GETTER for Yield only
+    
     local yield = self.currentYield or 0
     
     if yield < 0.1 then return "0.0", "t/ha" end
     
     if unitSystem == 2 then -- Imperial (UK/US tons per acre?) 
         -- 1 t/ha = 0.446 t/ac (approx short ton) or just use t/ac
-        -- Let's assume t/ac
         local t_ac = yield * 0.446
         return string.format("%.2f", t_ac), "t/ac"
         
     elseif unitSystem == 3 then -- Bushels (bu/ac)
-        -- Approximation: 1 t/ha wheat ~= 15 bu/ac? No.
-        -- 1 t/ha = 1000 kg/ha
-        -- Wheat ~27.2 kg/bu (60 lbs)
-        -- 1000 / 27.2 = 36.7 bu/ha
-        -- 1 ha = 2.47 ac
-        -- 36.7 / 2.47 = ~14.8 bu/ac per t/ha
-        -- So mulitplier is ~15.
-        
-        -- Better uses Liters?
-        -- We stored Mass based yield. 
-        -- Let's stick to Mass based for consistency with game "Yield" mechanics.
         -- Standard conversion factor (avg for grains): ~15
         local bu_ac = yield * 15 
         return string.format("%.0f", bu_ac), "bu/ac"
         
     else -- Metric (t/ha)
         return string.format("%.1f", yield), "t/ha"
-    end
-    
-    -- Оновлюємо T/h та L/h кожні 3 секунди для стабільного значення
-    if self.productivityTime >= self.productivityUpdateInterval then
-        if self.productivityTime > 0 then
-            -- Формула: (кг / мс) * (3600000 мс/год) / (1000 кг/тонна) = т/год
-            -- Спрощено: (кг / мс) * 3600 = т/год
-            self.tonPerHour = (self.productivityMass / self.productivityTime) * 3600
-            -- Формула: (л / мс) * (3600000 мс/год) = л/год
-            self.litersPerHour = (self.productivityLiters / self.productivityTime) * 3600000
-        end
-        
-        -- Скидаємо накопичення з невеликим перекриттям для плавності
-        self.productivityMass = self.productivityMass * 0.2
-        self.productivityLiters = self.productivityLiters * 0.2
-        self.productivityTime = self.productivityTime * 0.2
     end
 end

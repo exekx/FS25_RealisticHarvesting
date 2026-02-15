@@ -184,6 +184,10 @@ function Settings:resetToDefaults()
     self.enableCropLoss = true
     self.showHUD = true
     self.showYield = true
+    self.showLoad = true          -- Reset default
+    self.showProductivity = true  -- Reset default
+    self.showCropLoss = true      -- Reset default
+    self.showSpeed = true         -- Reset default
     self.showSpeedometer = true
     self.enableIndependentLaunch = true -- Default: enabled
     self.hudOffsetX = 0
