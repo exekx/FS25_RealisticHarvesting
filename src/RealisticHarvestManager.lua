@@ -272,7 +272,6 @@ function RealisticHarvestManager:toggleCursor()
             g_currentMission:showBlinkingWarning("RHM: HUD Cursor Enabled - Drag HUD to move", 3000)
         end
         
-        -- Block camera rotation (Courseplay method)
         if vehicle then
             RHMInputUtil.setCameraRotation(vehicle, false, self.savedCameraRotatableInfo)
         end

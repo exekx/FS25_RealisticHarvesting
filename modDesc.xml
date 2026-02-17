@@ -1288,5 +1288,31 @@ Változások 1.1.0.0:
             <ru>ВЫСОКИЕ</ru>
             <hu>MAGAS</hu>
         </text>
+        <text name="rhm_warning_turn_on_combine">
+            <en>Turn on Thresher first!</en>
+            <de>Erst Drescher einschalten!</de>
+            <fr>Activez d'abord la batteuse !</fr>
+            <pl>Włącz najpierw młocarnię!</pl>
+            <es>¡Enciende la trilladora primero!</es>
+            <it>Accendi prima la trebbiatrice!</it>
+            <cz>Nejdříve zapněte mlátičku!</cz>
+            <br>Ligue a debulhadora primeiro!</br>
+            <uk>Увімкніть спочатку комбайн!</uk>
+            <ru>Включите сначала комбайн!</ru>
+            <hu>Először a cséplőt kapcsold be!</hu>
+        </text>
+        <text name="rhm_warning_turn_on_cutter">
+            <en>Turn on Header!</en>
+            <de>Schneidwerk einschalten!</de>
+            <fr>Activez la barre de coupe !</fr>
+            <pl>Włącz heder!</pl>
+            <es>¡Enciende el cabezal!</es>
+            <it>Accendi la testata!</it>
+            <cz>Zapněte žací lištu!</cz>
+            <br>Ligue a plataforma!</br>
+            <uk>Увімкніть жатку!</uk>
+            <ru>Включите жатку!</ru>
+            <hu>Kapcsold be a vágóasztalt!</hu>
+        </text>
     </l10n>
 </modDesc>

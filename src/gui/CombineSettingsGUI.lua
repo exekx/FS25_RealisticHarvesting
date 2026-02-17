@@ -38,6 +38,13 @@ function CombineSettingsGUI:open(vehicle)
     self.combineMemory = spec.combineMemory
     self.currentVehicle = vehicle
     
+    -- CHECK VEHICLE TYPE
+    -- Disable settings for Root Crop, Forage, Cotton, and Vegetable harvesters
+    -- VEHICLE TYPE CHECK REMOVED:
+    -- Settings are now enabled for ALL harvester types (Root, Veg, Grain)
+    -- This allows users to tweak "Processing Speed" (Rotor) and "Cleaning" (Fan/Sieves)
+    -- for potatoes, onions, beets, etc. using mapped templates.
+    
     -- Виводимо інформацію в консоль
     self:printStatus()
     

@@ -57,7 +57,7 @@ local templates = {
         rotor = {optimal = 55, min = 45, max = 65, tolerance = 6},
         feeder = {optimal = 35, min = 20, max = 50, tolerance = 8},
     },
-    -- Рис
+    -- Rice
     rice = {
         fan = {optimal = 80, min = 70, max = 90, tolerance = 7},
         upperSieve = {optimal = 70, min = 60, max = 80, tolerance = 6},
@@ -65,8 +65,44 @@ local templates = {
         rotor = {optimal = 85, min = 75, max = 95, tolerance = 6},
         feeder = {optimal = 60, min = 40, max = 80, tolerance = 12}, -- Was 15
     },
-}
+    
+    -- Коренеплоди важкі (Картопля, Буряк)
+    -- Rotor = Cleaning System Speed, Fan = Airflow/Blower
+    root_heavy = {
+        fan = {optimal = 40, min = 20, max = 60, tolerance = 10}, -- Low air
+        upperSieve = {optimal = 80, min = 60, max = 100, tolerance = 10}, -- Large grid
+        lowerSieve = {optimal = 80, min = 60, max = 100, tolerance = 10},
+        rotor = {optimal = 50, min = 30, max = 70, tolerance = 10}, -- Slow speed to prevent damage
+        feeder = {optimal = 50, min = 30, max = 70, tolerance = 10},
+    },
+    
+    -- Коренеплоди легкі / Овочі (Морква, Пастернак)
+    root_light = {
+        fan = {optimal = 50, min = 30, max = 70, tolerance = 10},
+        upperSieve = {optimal = 70, min = 50, max = 90, tolerance = 10},
+        lowerSieve = {optimal = 70, min = 50, max = 90, tolerance = 10},
+        rotor = {optimal = 60, min = 40, max = 80, tolerance = 10},
+        feeder = {optimal = 60, min = 40, max = 80, tolerance = 10},
+    },
 
+    -- Цибуля (потребує продувки)
+    vegetable_sensitive = {
+        fan = {optimal = 75, min = 55, max = 95, tolerance = 10}, -- High air for skins
+        upperSieve = {optimal = 60, min = 40, max = 80, tolerance = 10},
+        lowerSieve = {optimal = 60, min = 40, max = 80, tolerance = 10},
+        rotor = {optimal = 55, min = 35, max = 75, tolerance = 10}, 
+        feeder = {optimal = 55, min = 35, max = 75, tolerance = 10},
+    },
+
+    -- Зелень (Шпинат)
+    leafy = {
+        fan = {optimal = 30, min = 10, max = 50, tolerance = 10}, -- Low air (leaves fly away)
+        upperSieve = {optimal = 50, min = 30, max = 70, tolerance = 10},
+        lowerSieve = {optimal = 50, min = 30, max = 70, tolerance = 10},
+        rotor = {optimal = 40, min = 20, max = 60, tolerance = 10}, -- Gentle
+        feeder = {optimal = 40, min = 20, max = 60, tolerance = 10},
+    },
+}
 ---Прив'язка культур до шаблонів та fillType з гри
 CombineSettingsDatabase.crops = {
     -- Зернові
@@ -106,6 +142,19 @@ CombineSettingsDatabase.crops = {
     
     -- Волокнисті
     ["HEMP"] = { name = "Коноплі (зерно)", nameEN = "Hemp", template = templates.oilseed_heavy, group = "oilseed_heavy", fillType = nil }, -- Mod crop
+    
+    -- Root & Veg
+    ["POTATO"] = { name = "Картопля", nameEN = "Potato", template = templates.root_heavy, group = "root", fillType = FillType.POTATO },
+    ["SUGARBEET"] = { name = "Цукровий Буряк", nameEN = "Sugarbeet", template = templates.root_heavy, group = "root", fillType = FillType.SUGARBEET },
+    ["BEETROOT"] = { name = "Буряк", nameEN = "Beetroot", template = templates.root_heavy, group = "root", fillType = FillType.BEETROOT },
+    
+    ["CARROT"] = { name = "Морква", nameEN = "Carrot", template = templates.root_light, group = "root", fillType = FillType.CARROT },
+    ["PARSNIP"] = { name = "Пастернак", nameEN = "Parsnip", template = templates.root_light, group = "root", fillType = FillType.PARSNIP },
+    
+    ["ONION"] = { name = "Цибуля", nameEN = "Onion", template = templates.vegetable_sensitive, group = "vegetable", fillType = FillType.ONION },
+    
+    ["SPINACH"] = { name = "Шпинат", nameEN = "Spinach", template = templates.leafy, group = "vegetable", fillType = FillType.SPINACH },
+    ["GREENBEAN"] = { name = "Зелена Квасоля", nameEN = "Green Bean", template = templates.legume, group = "legume", fillType = FillType.GREENBEAN },
 }
 
 ---Отримати налаштування для культури за назвою
@@ -165,6 +214,16 @@ function CombineSettingsDatabase:getCropNameFromFillType(fillType)
         ["MUSTARD"] = "MUSTARD",
         ["POPPY"] = "POPPY",
         ["HEMP"] = "HEMP",
+        
+        -- Root/Veg
+        ["POTATO"] = "POTATO",
+        ["SUGARBEET"] = "SUGARBEET",
+        ["BEETROOT"] = "BEETROOT",
+        ["CARROT"] = "CARROT",
+        ["PARSNIP"] = "PARSNIP",
+        ["ONION"] = "ONION",
+        ["SPINACH"] = "SPINACH",
+        ["GREENBEAN"] = "GREENBEAN",
     }
     
     return fillTypeMapping[fillTypeName]

@@ -1,6 +1,5 @@
 ---@class DraggableHUD
 ---Draggable HUD for Realistic Harvesting mod
----Based on Courseplay's CpHudMoveableElement approach
 DraggableHUD = {}
 DraggableHUD.__index = DraggableHUD
 
@@ -36,7 +35,7 @@ function DraggableHUD.new(modDirectory, settings)
     self.headerHeight = 0.028
     self.uiScale = 1.0
     
-    -- Drag state (matching Courseplay's approach)
+    -- Drag state
     self.dragging = false
     self.dragStartX = nil
     self.dragOffsetX = nil
@@ -69,7 +68,7 @@ function DraggableHUD:load()
     -- Get saved position or default
     self.x, self.y = self:getPosition()
     
-    -- Create header overlay (green like Courseplay)
+    -- Create header overlay
     local headerTexture = self.modDirectory .. "textures/hud_background.dds"
     self.headerOverlay = Overlay.new(headerTexture, self.x, self.y + self.height, self.width, self.headerHeight)
     self.headerOverlay:setColor(0.22323, 0.40724, 0.00368, 1)
@@ -510,7 +509,7 @@ function DraggableHUD:isMouseOverHeader(posX, posY)
            posY >= (self.y + self.height) and posY <= (self.y + self.height + self.headerHeight)
 end
 
----Handle mouse event (Courseplay approach)
+---Handle mouse event
 ---@param posX number
 ---@param posY number
 ---@param isDown boolean

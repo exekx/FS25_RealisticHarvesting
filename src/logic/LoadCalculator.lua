@@ -147,19 +147,34 @@ function LoadCalculator:loadDefaultCropFactors()
     if FruitType.PEA then self.CROP_FACTORS[FruitType.PEA] = 1.0 end
     
     -- Root Crops (Massive Mass -> Low Factors)
-    if FruitType.SUGARBEET then self.CROP_FACTORS[FruitType.SUGARBEET] = 0.2 end
-    if FruitType.POTATO then self.CROP_FACTORS[FruitType.POTATO] = 0.25 end
-    if FruitType.CARROT then self.CROP_FACTORS[FruitType.CARROT] = 0.15 end
-    if FruitType.PARSNIP then self.CROP_FACTORS[FruitType.PARSNIP] = 0.15 end
-    if FruitType.BEETROOT then self.CROP_FACTORS[FruitType.BEETROOT] = 0.15 end
+    -- Root Crops (Massive Mass -> Low Factors)
+    if FruitType.SUGARBEET then self.CROP_FACTORS[FruitType.SUGARBEET] = 0.35 end
+    if FruitType.POTATO then self.CROP_FACTORS[FruitType.POTATO] = 0.40 end
+    
+    -- Vegetable Crops (High Volume -> Low Factors)
+    -- Tuned for High Yield Maps (approx 10x standard)
+    if FruitType.CARROT then self.CROP_FACTORS[FruitType.CARROT] = 0.30 end
+    if FruitType.PARSNIP then self.CROP_FACTORS[FruitType.PARSNIP] = 0.30 end
+    if FruitType.BEETROOT then self.CROP_FACTORS[FruitType.BEETROOT] = 0.30 end
+    if FruitType.ONION then self.CROP_FACTORS[FruitType.ONION] = 0.30 end 
+    
+    -- Leafy / Others
+    if FruitType.SPINACH then self.CROP_FACTORS[FruitType.SPINACH] = 0.3 end
+    
+    -- Pulses
+    if FruitType.PEA then self.CROP_FACTORS[FruitType.PEA] = 1.0 end
+    if FruitType.GREENBEAN then self.CROP_FACTORS[FruitType.GREENBEAN] = 0.8 end
     
     -- Special
     if FruitType.COTTON then self.CROP_FACTORS[FruitType.COTTON] = 3.0 end -- Light but slow
     if FruitType.SUGARCANE then self.CROP_FACTORS[FruitType.SUGARCANE] = 0.1 end -- Massive mass
     
     -- Other
-    if FruitType.POPLAR then self.CROP_FACTORS[FruitType.POPLAR] = 0.5 end 
+    if FruitType.POPLAR then self.CROP_FACTORS[FruitType.POPLAR] = 0.2 end -- massive yield (6.6 l/m2)
     if FruitType.OILSEEDRADISH then self.CROP_FACTORS[FruitType.OILSEEDRADISH] = 0.5 end
+    
+    if FruitType.GRAPE then self.CROP_FACTORS[FruitType.GRAPE] = 0.5 end
+    if FruitType.OLIVE then self.CROP_FACTORS[FruitType.OLIVE] = 0.5 end
 end
 
 ---Встановлює базову продуктивність комбайна mass-based
@@ -192,16 +207,61 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
     if category == "forageHarvesters" or category == "forageHarvesterCutters" then
         coef = 0.150  -- Кормозбиральні: ~150-200 t/h -> 0.15 kg/s per HP
     elseif category == "beetVehicles" or category == "beetHarvesting" then
-        coef = 0.080  -- Бурякозбиральні: very high throughput
+        coef = 0.060  -- Бурякозбиральні: very high throughput
     elseif category == "potatoVehicles" then
         coef = 0.060  -- Картоплезбиральні
     elseif category == "cottonVehicles" then
         coef = 0.015  -- Бавовна (легка, повільна обробка)
+    elseif category == "vegetableVehicles" then
+        coef = 0.060  -- Овочева техніка (Adjusted for realistic load)
     end
     
     -- Спробувати отримати потужність з motorized spec
     if vehicle.spec_motorized and vehicle.spec_motorized.motor then
         power = vehicle.spec_motorized.motor.hp or 0
+    end
+    
+    -- SMART DETECTION: If category didn't match specific types (still default 0.035), checks fillTypes AND Names
+    if math.abs(coef - 0.035) < 0.001 then
+        local isVegetable = false
+        
+        -- 1. Check FillTypes (if available)
+        if vehicle.getFillUnitFillTypes and vehicle.spec_fillUnit then
+            for _, fillUnit in ipairs(vehicle.spec_fillUnit.fillUnits) do
+                 if fillUnit.supportedFillTypes then
+                     for fillTypeIndex, _ in pairs(fillUnit.supportedFillTypes) do
+                        local fillType = g_fillTypeManager:getFillTypeByIndex(fillTypeIndex)
+                        if fillType and fillType.name then
+                            local name = string.upper(fillType.name)
+                            if name == "ONION" or name == "CARROT" or name == "BEETROOT" or name == "PARSNIP" then
+                                isVegetable = true
+                                break
+                            end
+                        end
+                     end
+                 end
+                 if isVegetable then break end
+            end
+        end
+        
+        -- 2. Check Vehicle Name / Filename (Fallback for windrowers/diggers like UR-205)
+        if not isVegetable then
+            local name = string.lower(vehicle:getFullName() or "")
+            local xml = string.lower(vehicle.configFileName or "")
+            
+            if name:find("onion") or name:find("carrot") or name:find("vegetable") or 
+               xml:find("onion") or xml:find("carrot") or xml:find("vegetable") or
+               name:find("ur%-%d+") or name:find("umr") or name:find("keiler") or -- UR-205, UMR, Ropa Keiler
+               xml:find("ur_") or xml:find("umr_") then
+                isVegetable = true
+                print(string.format("RHM: Smart Detection -> Found keyword in name/xml (%s), assuming Vegetable", name))
+            end
+        end
+        
+        if isVegetable then
+            coef = 0.060 -- Standardized vegetable coeff
+            print("RHM: Applied Vegetable Coef (0.060)")
+        end
     end
     
     -- Debug entry

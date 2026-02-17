@@ -506,10 +506,46 @@ function rhm_Combine:verifyCombine(superFunc, fruitType, outputFillType)
     return superFunc(self, fruitType, outputFillType)
 end
 
+---Check for safety warnings (Client Side)
+function rhm_Combine:updateWarnings(dt)
+    -- Only for active vehicle
+    if not self:getIsActiveForInput(true) then
+        return
+    end
+
+    local isCombineOn = self:getIsTurnedOn()
+    local spec_combine = self.spec_combine
+    
+    -- Iterate attached cutters
+    if spec_combine.attachedCutters then
+        for cutter, _ in pairs(spec_combine.attachedCutters) do
+            local isCutterOn = cutter:getIsTurnedOn()
+            local isLowered = cutter:getIsLowered()
+            
+            -- CASE 1: Cutter ON but Thresher OFF (Critical)
+            if isCutterOn and not isCombineOn then
+                g_currentMission:showBlinkingWarning(g_i18n:getText("rhm_warning_turn_on_combine"), 2000)
+                break -- Priority warning
+            end
+            
+            -- CASE 2: Thresher ON but Cutter OFF and Lowered (Likely forgot to turn on)
+            if isCombineOn and not isCutterOn and isLowered then
+                g_currentMission:showBlinkingWarning(g_i18n:getText("rhm_warning_turn_on_cutter"), 2000)
+                break
+            end
+        end
+    end
+end
+
 -- Викликається періодично для оновлення логіки
 function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSelection, isSelected)
     if rhm_Combine.debug then
         print("RHM: rhm_Combine:onUpdateTick called")
+    end
+    
+    -- Client Side Logic (Warnings)
+    if self.isClient then
+        rhm_Combine.updateWarnings(self, dt)
     end
     
     if not self.isServer then

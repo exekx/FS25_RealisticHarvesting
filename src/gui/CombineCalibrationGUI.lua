@@ -48,7 +48,7 @@ function CombineCalibrationGUI.new(modDirectory)
     self.savedCameraRotatableInfo = {}
     self.savedCameraZoomInfo = {}
     
-    -- Wheel scroll debouncing (Courseplay style)
+    -- Wheel scroll debouncing
     self.lastScrollTimeStamp = 0
     self.scrollDelayMs = 100  -- Milliseconds between wheel events
     
@@ -91,7 +91,7 @@ function CombineCalibrationGUI:open(vehicle)
     g_inputBinding:setShowMouseCursor(true)
     self.isCursorActive = true
     
-    -- Block camera rotation AND zoom (Courseplay method)
+    -- Block camera rotation AND zoom
     if vehicle and vehicle.spec_enterable then
         RHMInputUtil.setCameraRotation(vehicle, false, self.savedCameraRotatableInfo)
         RHMInputUtil.setCameraZoom(vehicle, false, self.savedCameraZoomInfo)
@@ -306,7 +306,6 @@ function CombineCalibrationGUI:draw()
     setTextColor(unpack(ui.colors.textDim))
     renderText(x + w/2, cy + 0.005, ui.fontSize * 0.9, "RShift+K to Close")
     
-    -- COURSEPLAY-STYLE: Active wheel event polling (AFTER parameters are drawn)
     -- Now hoveredParameter is set, so we can handle wheel scroll
     if self.lastScrollTimeStamp + self.scrollDelayMs < g_time then
         local mx, my = g_inputBinding:getMousePosition()
@@ -489,7 +488,7 @@ function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
     end
 end
 
----Handle wheel scroll (Courseplay style - called from draw cycle)
+---Handle wheel scroll
 ---@param direction number 1 for up, -1 for down
 ---@param posX number Mouse X position
 ---@param posY number Mouse Y position

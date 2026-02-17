@@ -375,7 +375,10 @@ function CombineMemory:updateStatistics(harvestedLiters, cropLoss, cropName)
             -- Actually, let's assume standard densities for our known crops
             local densities = {
                 WHEAT=0.78, BARLEY=0.70, OAT=0.50, CANOLA=0.68, SUNFLOWER=0.35,
-                SOYBEAN=0.75, CORN=0.80, SORGHUM=0.75, RICE=0.60
+                SOYBEAN=0.75, CORN=0.80, SORGHUM=0.75, RICE=0.60,
+                ONION=0.55, POTATO=0.65, SUGARBEET=0.65, CARROT=0.58, BEETROOT=0.60, PARSNIP=0.58,
+                SPINACH=0.35, PEA=0.81, GREENBEAN=0.50,
+                RYE=0.72, SPELT=0.75, TRITICALE=0.70, MILLET=0.75, POPLAR=0.40
             }
             if densities[cropName] then density = densities[cropName] end
         end
