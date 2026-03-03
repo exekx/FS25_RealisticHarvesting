@@ -593,12 +593,13 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         return
     end
     
-    -- Перевіряємо чи жатка працює
+    -- Перевіряємо чи жатка працює (Fix for Courseplay, which has weird movingDirection)
     local cutterIsTurnedOn = false  -- FIX: завжди скидаємо перед циклом
     for cutter, _ in pairs(spec_combine.attachedCutters) do
         if cutter.spec_cutter then
             local spec_cutter = cutter.spec_cutter
-            if self.movingDirection == spec_cutter.movingDirection 
+            -- Removed self.movingDirection == spec_cutter.movingDirection check since Courseplay can break it
+            if cutter:getIsTurnedOn() 
                 and self:getLastSpeed() > 0.5 
                 and (spec_cutter.allowCuttingWhileRaised or cutter:getIsLowered(true)) then
                 cutterIsTurnedOn = true
@@ -713,6 +714,24 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         -- NEW: Yield Monitor Data
         spec.data.yield = spec.loadCalculator.currentYield or 0
     end
+    
+    -- ========================================================================
+    -- AI / COURSEPLAY WORKAROUND (Server Side)
+    -- ========================================================================
+    -- Courseplay uses its own speed controller that bypasses getSpeedLimit().
+    -- We must enforce the requested speed limit directly on the motor.
+    if self.isServer and self:getIsAIActive() then
+        if self.spec_motorized and self.spec_motorized.motor then
+            local motor = self.spec_motorized.motor
+            local currentLimit = spec.loadCalculator:getSpeedLimit()
+            
+            -- If the AI tries to drive faster than our dynamic limit, force the motor to slow down
+            if motor.speedLimit > currentLimit then
+                motor:setSpeedLimit(currentLimit)
+            end
+        end
+    end
+    -- ========================================================================
     
     -- === OVERLOAD WARNING ===
     -- Сервер визначає рівень: 0=норма, 1=HIGH(120%+), 2=CRITICAL(150%+)

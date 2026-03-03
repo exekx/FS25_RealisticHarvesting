@@ -345,17 +345,26 @@ end
 
 ---Перемкнути режим авто (wrapper для GUI)
 function CombineMemory:toggleAutoMode()
-    self.autoSwitchEnabled = not self.autoSwitchEnabled
-    
-    if self.autoSwitchEnabled then
-        self.mode = "AUTO"
-        if self.currentCrop then
-            self:autoConfigureForCrop(self.currentCrop, true) -- Force optimal
-        end
+    -- Якщо ми на клієнті в мультиплеєрі, надсилаємо запит на сервер
+    if g_client and self.combine and not g_server then
+        local targetMode = not self.autoSwitchEnabled
+        local event = CombineSettingsEvent.new(self.combine, "AUTO_MODE", targetMode and 1 or 0)
+        g_client:getServerConnection():sendEvent(event)
+        print(string.format("RHM: [Sync] Sent AUTO mode request to server: %s", targetMode and "ON" or "OFF"))
     else
-        self.mode = "MANUAL"
+        -- Одиночна гра або ми сервер: застосовуємо відразу
+        self.autoSwitchEnabled = not self.autoSwitchEnabled
+        
+        if self.autoSwitchEnabled then
+            self.mode = "AUTO"
+            if self.currentCrop then
+                self:autoConfigureForCrop(self.currentCrop, true) -- Force optimal
+            end
+        else
+            self.mode = "MANUAL"
+        end
+        print(string.format("RHM: Auto Switch %s", self.autoSwitchEnabled and "ENABLED" or "DISABLED"))
     end
-    print(string.format("RHM: Auto Switch %s", self.autoSwitchEnabled and "ENABLED" or "DISABLED"))
 end
 
 ---Зберегти профіль (wrapper для GUI)
