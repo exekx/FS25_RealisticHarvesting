@@ -7,7 +7,33 @@
 
 ## 📜 Version History (Changelog)
 
-### v1.4.1.0 (Current)
+### v1.4.2.0 (Current)
+**New Features:**
+*   **Machine-Specific Settings:** Each machine type now has its own set of parameters in the Calibration GUI:
+    *   🌾 **Grain Combines** — Fan Speed, Rotor Speed, Upper Sieve, Lower Sieve, Feeder House
+    *   🌿 **Forage Harvesters** — Fan Speed, Drum Speed, Feeder House
+    *   🥔 **Root/Vegetable Harvesters** — Fan Speed, Roller Speed, Feeder House
+    *   🪡 **Cotton Pickers** — Fan Speed, Picker Speed, Feeder House
+*   **Manual Crop Selection:** Players can now switch crops in the Calibration GUI without actively harvesting, instantly applying optimal settings.
+*   **Preview Loss:** The GUI now shows a real-time **Preview Loss %** calculated from how far current settings deviate from the crop's optimal template — visible even when the machine is idle.
+*   **Per-Crop Optimal Settings:** Each root/vegetable crop now has unique optimal values instead of a shared generic template:
+    *   🥔 Potato: Fan 35%, Roller 40%, Feeder 70%
+    *   🧅 Onion: Fan **75%** (strong air for leaf separation), Roller 45%
+    *   🥕 Carrot/Parsnip: Fan **30%**, Roller **35%**, Feeder 75%
+    *   🥬 Spinach: Fan **20%**, Roller **25%** (minimal to avoid damage)
+    *   🫘 Green Bean: Fan 45%, Roller 38%, Feeder 62%
+
+**Fixed:**
+*   **Auto Crop Detection Broken for Forage/Root/Veg:** The local `fillTypeMapping` in `addCutterArea` only contained 10 grain crops. Replaced with a single call to `CombineSettingsDatabase:getCropNameFromFillType()` — now detects all machine types including CHAFF, ONION, POTATO, SPINACH, GREENBEAN.
+*   **`autoConfigureForCrop` Hardcoded Grain Params:** Settings auto-config was applying `fan/upperSieve/lowerSieve/rotor/feeder` even on forage/root harvesters (which only have 3 params). Now dynamically iterates active params based on machine type.
+*   **All Root/Veg Crops Showing Same Settings:** All 8 root/veg crops shared a single `root_harvest` template. Each now has its own template with distinct realistic values.
+
+**Improved:**
+*   **Crop Factors Rebalanced** — `SPINACH`: 0.3→**3.0**, `GREENBEAN`: 0.8→**2.5** for realistic engine load on vegetable harvesters.
+*   **Localization:** All GUI text strings (title, buttons, labels, hints) now use `g_i18n` with full translations across all 10 languages.
+*   **CHAFF, GRASS, SILAGE, COTTON** added to `fillTypeMapping` for complete auto-detection coverage.
+
+### v1.4.1.0
 **Fixed:**
 *   **DLC Compatibility:** Fixed game crash `attempt to call missing method 'getIsControlled'` when using Highland DLC equipment (NH 8040 + Holaras tools). Added a safe nil guard before calling the method.
 *   **Courseplay — Second Combine Stuck at 10 km/h:** Removed incorrect `movingDirection` check from `getSpeedLimit()`. Courseplay speed workaround now only activates when the cutter is actually harvesting.

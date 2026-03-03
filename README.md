@@ -1,6 +1,6 @@
 ﻿# Realistic Harvesting — Farming Simulator 25
 
-[![Version](https://img.shields.io/badge/version-1.4.1.0-green.svg)](https://github.com/exekx/FS25_RealisticHarvesting)
+[![Version](https://img.shields.io/badge/version-1.4.2.0-green.svg)](https://github.com/exekx/FS25_RealisticHarvesting)
 [![FS25](https://img.shields.io/badge/FS25-Compatible-blue.svg)](https://www.farming-simulator.com/)
 [![Multiplayer](https://img.shields.io/badge/Multiplayer-Supported-brightgreen.svg)](https://github.com/exekx/FS25_RealisticHarvesting)
 [![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red.svg)](LICENSE)
@@ -90,7 +90,11 @@ Losses happen from two sources:
 *Full trailer when harvesting correctly*
 
 ### 2. Poor Calibration (Settings)
-If your combine's Fan, Rotor, Sieves, or Feeder are set incorrectly for the current crop, you'll incur a calibration penalty on top of speed losses.
+If your combine's settings are incorrect for the current crop, you'll incur a calibration penalty on top of speed losses.
+
+Each machine type now has **unique controls** — different parameters appear depending on whether you're driving a grain combine, forage harvester, root harvester, or cotton picker.
+
+> **Preview Loss** in the Calibration Menu shows the estimated penalty from your current settings — even when you're not harvesting!
 
 New saves start at **neutral settings (50%)** — safe, but not optimal.
 
@@ -153,90 +157,69 @@ The calibration system uses a **continuous curve** for each parameter:
 
 ---
 
-## Zero Loss Settings Reference
+---
 
-These are the ranges where calibration contributes **0% loss** when all parameters are set correctly.
+## Calibration Settings Reference — Zero Loss Zones
 
-### Standard Grain — Wheat, Barley
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 62 – 69 |
-| **Rotor Speed** | 72 – 78 |
-| **Upper Sieve** | 57 – 63 |
-| **Lower Sieve** | 67 – 73 |
-| **Feeder House** | 45 – 55 |
+The **Zero Loss Zone** is the range where settings contribute 0% penalty. Values outside this range start adding crop loss.
 
-### Light Grain — Oat
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 67 – 74 |
-| **Rotor Speed** | 77 – 83 |
-| **Upper Sieve** | 62 – 68 |
-| **Lower Sieve** | 72 – 78 |
-| **Feeder House** | 50 – 60 |
+Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops manually — the GUI shows a **Preview Loss %** even without harvesting.
 
-### Corn (Maize)
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 82 – 88 |
-| **Rotor Speed** | 88 – 93 |
-| **Upper Sieve** | 77 – 83 |
-| **Lower Sieve** | 82 – 88 |
-| **Feeder House** | 65 – 75 |
+---
 
-### Soybean / Legumes
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 47 – 54 |
-| **Rotor Speed** | 52 – 58 |
-| **Upper Sieve** | 47 – 53 |
-| **Lower Sieve** | 57 – 63 |
-| **Feeder House** | 31 – 39 |
+### 🌾 Grain Combines — 5 Parameters
+*(Fan Speed · Rotor Speed · Upper Sieve · Lower Sieve · Feeder House)*
 
-### Canola (Rapeseed)
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 42 – 48 |
-| **Rotor Speed** | 57 – 63 |
-| **Upper Sieve** | 38 – 42 |
-| **Lower Sieve** | 48 – 52 |
-| **Feeder House** | 36 – 44 |
+| Crop | Fan | Rotor | Upper Sieve | Lower Sieve | Feeder |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| **Wheat / Barley** | 58–72 | 69–81 | 54–66 | 64–76 | 40–60 |
+| **Oat** | 63–77 | 74–86 | 59–71 | 69–81 | 45–65 |
+| **Corn (Maize)** | 79–91 | 85–95 | 74–86 | 79–91 | 60–80 |
+| **Soybean / Pea / Legumes** | 43–57 | 48–62 | 44–56 | 54–66 | 27–43 |
+| **Canola (Rapeseed)** | 39–51 | 54–66 | 36–44 | 46–54 | 32–48 |
+| **Sunflower** | 48–62 | 59–71 | 64–76 | 74–86 | 50–70 |
+| **Rice** | 73–87 | 79–91 | 64–76 | 64–76 | 48–72 |
+| **Sorghum** | 58–72 | 69–81 | 54–66 | 64–76 | 40–60 |
 
-### Sunflower
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 52 – 59 |
-| **Rotor Speed** | 62 – 68 |
-| **Upper Sieve** | 67 – 73 |
-| **Lower Sieve** | 77 – 83 |
-| **Feeder House** | 55 – 65 |
+---
 
-### Rice
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 77 – 84 |
-| **Rotor Speed** | 82 – 88 |
-| **Upper Sieve** | 67 – 73 |
-| **Lower Sieve** | 67 – 73 |
-| **Feeder House** | 54 – 66 |
+### 🌿 Forage Harvesters — 3 Parameters
+*(Fan Speed · Drum Speed · Feeder House)*
 
-### Root Crops — Potato, Sugarbeet
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 35 – 45 |
-| **Rotor Speed** | 45 – 55 |
-| **Upper Sieve** | 75 – 85 |
-| **Lower Sieve** | 75 – 85 |
-| **Feeder House** | 45 – 55 |
+| Crop | Fan | Drum | Feeder |
+|:---|:---:|:---:|:---:|
+| **Grass / Dry Grass** | 50–70 | 55–75 | 45–65 |
+| **Corn Silage (CHAFF)** | 60–80 | 70–90 | 60–80 |
 
-### Vegetables — Carrot, Onion, Beetroot, etc.
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 57 – 67 |
-| **Rotor Speed** | 52 – 62 |
-| **Upper Sieve** | 60 – 70 |
-| **Lower Sieve** | 60 – 70 |
-| **Feeder House** | 52 – 62 |
+---
+
+### 🥔 Root & Vegetable Harvesters — 3 Parameters
+*(Fan Speed · Roller Speed · Feeder House)*
+
+> Each crop has **unique optimal values** — check the Calibration Menu when switching crops!
+
+| Crop | Fan (optimal) | Roller (optimal) | Feeder (optimal) | Notes |
+|:---|:---:|:---:|:---:|:---|
+| **Potato** | **35%** | **40%** | **70%** | Low air (soil doesn't blow), gentle roller (potato bruises easily) |
+| **Sugarbeet** | **40%** | **55%** | **65%** | Harder than potato, faster roller ok |
+| **Beetroot** | **38%** | **48%** | **68%** | Between potato and sugarbeet |
+| **Onion** | **75%** ⬆️ | **45%** | **55%** | Strong airflow needed to separate skins and leaves |
+| **Carrot / Parsnip** | **30%** | **35%** | **75%** ⬆️ | Very gentle — fragile root, fast feeder to lift |
+| **Spinach** | **20%** ⬇️ | **25%** ⬇️ | **60%** | Minimal settings — leaves fly and tear easily |
+| **Green Bean** | **45%** | **38%** | **62%** | Moderate, careful — pods crack |
+
+**Tolerance zone:** ±5–8% from the optimal value shown above.
+
+---
+
+### 🪡 Cotton Pickers — 3 Parameters
+*(Fan Speed · Picker Speed · Feeder House)*
+
+| Parameter | Optimal | Zero Loss Zone |
+|:---|:---:|:---:|
+| **Fan Speed** | 50% | 40–60 |
+| **Picker Speed** | 55% | 45–65 |
+| **Feeder House** | 45% | 35–55 |
 
 ---
 

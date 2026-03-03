@@ -5,24 +5,25 @@ local CombineMemory_mt = Class(CombineMemory)
 
 ---Створити новий екземпляр пам'яті комбайна
 ---@param combine table Посилання на комбайн
+---@param machineType string|nil "grain"|"forage"|"root"|"cotton" — тип машини
 ---@return table self Новий екземпляр CombineMemory
-function CombineMemory.new(combine)
+function CombineMemory.new(combine, machineType)
     local self = setmetatable({}, CombineMemory_mt)
     
     self.combine = combine
+    self.machineType = machineType or "grain"
     
     -- Поточний активний профіль
     self.currentProfile = nil
     self.currentCrop = nil
     
     -- Поточні налаштування (активний стан комбайна)
-    self.currentSettings = {
-        fan = 50,         -- Вентилятор 0-100%
-        upperSieve = 50,  -- Верхнє сито 0-100%
-        lowerSieve = 50,  -- Нижнє сито 0-100%
-        rotor = 50,       -- Ротор 0-100%
-        feeder = 50,      -- Подавач 0-100%
-    }
+    -- Динамічно ініціалізуємо тільки параметри для цього типу машини
+    self.currentSettings = {}
+    local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
+    for _, paramName in ipairs(activeParams) do
+        self.currentSettings[paramName] = 50
+    end
     
     -- Калібрування врожайності (множник 0.5 - 2.0)
     self.currentYieldCalibration = 1.0
@@ -85,22 +86,24 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
             return math.max(0, math.min(100, value))
         end
 
-        self.currentSettings.fan = getAutoValue(optimalSettings.fan.optimal)
-        self.currentSettings.upperSieve = getAutoValue(optimalSettings.upperSieve.optimal)
-        self.currentSettings.lowerSieve = getAutoValue(optimalSettings.lowerSieve.optimal)
-        self.currentSettings.rotor = getAutoValue(optimalSettings.rotor.optimal)
-        self.currentSettings.feeder = getAutoValue(optimalSettings.feeder.optimal)
+        -- Динамічно ітеруємо по активних параметрах для цього типу машини
+        local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
+        for _, pName in ipairs(activeParams) do
+            if optimalSettings[pName] then
+                self.currentSettings[pName] = getAutoValue(optimalSettings[pName].optimal)
+            else
+                self.currentSettings[pName] = 50  -- fallback if template missing this param
+            end
+        end
         
         self.mode = "AUTO"
-        print(string.format("RHM: [OK] Auto settings applied for: %s (random deviation 1-10 from optimal)", cropName))
+        print(string.format("RHM: [OK] Auto settings applied for: %s (machineType=%s, random deviation 1-10)", cropName, self.machineType))
     else
-        -- Встановлюємо дефолтні значення (50%) (MANUAL MODE)
-        -- Це змушує гравця налаштовувати вручну
-        self.currentSettings.fan = 50
-        self.currentSettings.upperSieve = 50
-        self.currentSettings.lowerSieve = 50
-        self.currentSettings.rotor = 50
-        self.currentSettings.feeder = 50
+        -- Reset all active params to 50% (MANUAL MODE)
+        local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
+        for _, pName in ipairs(activeParams) do
+            self.currentSettings[pName] = 50
+        end
         
         self.mode = "MANUAL"
         print(string.format("RHM: [OK] Default settings (50%%) applied for: %s (MANUAL)", cropName))

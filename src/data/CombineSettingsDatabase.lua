@@ -102,8 +102,151 @@ local templates = {
         rotor = {optimal = 40, min = 20, max = 60, tolerance = 10}, -- Gentle
         feeder = {optimal = 40, min = 20, max = 60, tolerance = 10},
     },
+
+    -- ============================
+    -- FORAGE HARVESTER TEMPLATES
+    -- (rotor = Drum RPM, fan = Intake Blower, feeder = Feed Roll)
+    -- ============================
+    forage_grass = {
+        fan    = {optimal = 60, min = 40, max = 80, tolerance = 10},
+        rotor  = {optimal = 65, min = 45, max = 85, tolerance = 10},
+        feeder = {optimal = 55, min = 35, max = 75, tolerance = 10},
+    },
+    forage_corn = {
+        fan    = {optimal = 70, min = 50, max = 90, tolerance = 10},
+        rotor  = {optimal = 80, min = 60, max = 100, tolerance = 10},
+        feeder = {optimal = 70, min = 50, max = 90, tolerance = 10},
+    },
+
+    -- ============================
+    -- ROOT HARVEST TEMPLATES
+    -- (fan = Separation/Blower, rotor = Cleaning Roller Speed, feeder = Elevator/Chain Speed)
+    -- ============================
+    
+    -- Картопля: низький обдув (щоб не здувало грунт на бруківку), повільний ролик (щоб не пошкодити),
+    -- швидкий елеватор (картопля важка, треба витягнути)
+    root_potato = {
+        fan    = {optimal = 35, min = 15, max = 55, tolerance = 8},   -- Низький: земля прилипає, не дме
+        rotor  = {optimal = 40, min = 20, max = 60, tolerance = 8},   -- Повільно: картопля м'яка, легко пошкодити
+        feeder = {optimal = 70, min = 50, max = 90, tolerance = 8},   -- Швидко: важка, треба підняти
+    },
+    
+    -- Цукровий буряк: важчий від картоплі, витримує більше
+    root_sugarbeet = {
+        fan    = {optimal = 40, min = 20, max = 60, tolerance = 8},
+        rotor  = {optimal = 55, min = 35, max = 75, tolerance = 8},   -- Трохи швидше: буряк твердіший
+        feeder = {optimal = 65, min = 45, max = 85, tolerance = 8},
+    },
+    
+    -- Буряк (звичайний): між картоплею та цукровим
+    root_beetroot = {
+        fan    = {optimal = 38, min = 18, max = 58, tolerance = 8},
+        rotor  = {optimal = 48, min = 28, max = 68, tolerance = 8},
+        feeder = {optimal = 68, min = 48, max = 88, tolerance = 8},
+    },
+    
+    -- Цибуля: ПОТРІБЕН СИЛЬНИЙ ОБДУВ для відокремлення шкірок та гички
+    root_onion = {
+        fan    = {optimal = 75, min = 55, max = 95, tolerance = 8},   -- Висока: відокремлює шкірку і листя
+        rotor  = {optimal = 45, min = 25, max = 65, tolerance = 8},   -- Помірно: цибуля ніжна
+        feeder = {optimal = 55, min = 35, max = 75, tolerance = 8},
+    },
+    
+    -- Морква / Пастернак: коренеплоди в землі, потрібна обережна очистка
+    root_carrot = {
+        fan    = {optimal = 30, min = 10, max = 50, tolerance = 8},   -- Низький: морква легка, здується
+        rotor  = {optimal = 35, min = 15, max = 55, tolerance = 8},   -- Дуже повільно: крихка коренева
+        feeder = {optimal = 75, min = 55, max = 95, tolerance = 8},   -- Швидко: транспортувати нагору
+    },
+    
+    -- Шпинат: найніжніша культура, листя легко пошкодити
+    root_spinach = {
+        fan    = {optimal = 20, min = 5,  max = 40, tolerance = 5},   -- Мінімальний: листя летить
+        rotor  = {optimal = 25, min = 10, max = 45, tolerance = 5},   -- Дуже повільно: листя рветься
+        feeder = {optimal = 60, min = 40, max = 80, tolerance = 8},   -- Помірно: деліка транспортування
+    },
+    
+    -- Зелена квасоля: ніжна стручкова
+    root_greenbean = {
+        fan    = {optimal = 45, min = 25, max = 65, tolerance = 8},   -- Помірний: відокремити листя
+        rotor  = {optimal = 38, min = 18, max = 58, tolerance = 8},   -- Повільно: стручки ламаються
+        feeder = {optimal = 62, min = 42, max = 82, tolerance = 8},
+    },
+
+    -- Загальний fallback для root (якщо нова культура без власного шаблону)
+    root_harvest = {
+        fan    = {optimal = 45, min = 25, max = 65, tolerance = 10},
+        rotor  = {optimal = 50, min = 30, max = 70, tolerance = 10},
+        feeder = {optimal = 55, min = 35, max = 75, tolerance = 10},
+    },
+
+    -- ============================
+    -- COTTON PICKER TEMPLATES
+    -- (rotor = Picker Spindle RPM, fan = Basket Duct Fan, feeder = Conveyor)
+    -- ============================
+    cotton_picker = {
+        fan    = {optimal = 50, min = 30, max = 70, tolerance = 10},
+        rotor  = {optimal = 55, min = 35, max = 75, tolerance = 10},
+        feeder = {optimal = 45, min = 25, max = 65, tolerance = 10},
+    },
 }
----Прив'язка культур до шаблонів та fillType з гри
+---@field machineParams table Active parameters per machine type
+---@field machineParamLabels table L10n keys for parameter labels per machine type
+
+---Active parameters per machine type (defines which sliders appear in GUI)
+CombineSettingsDatabase.machineParams = {
+    grain   = { "fan", "rotor", "upperSieve", "lowerSieve", "feeder" },
+    forage  = { "fan", "rotor", "feeder" },
+    root    = { "fan", "rotor", "feeder" },
+    cotton  = { "fan", "rotor", "feeder" },
+}
+
+---L10n key overrides for parameter labels per machine type
+---Falls back to generic "rhm_ui_<param>" if no override defined
+CombineSettingsDatabase.machineParamLabels = {
+    grain = {
+        fan        = "rhm_ui_fan_speed",
+        rotor      = "rhm_ui_rotor_speed",
+        upperSieve = "rhm_ui_upper_sieve",
+        lowerSieve = "rhm_ui_lower_sieve",
+        feeder     = "rhm_ui_feeder_speed",
+    },
+    forage = {
+        fan    = "rhm_ui_fan_speed",
+        rotor  = "rhm_ui_drum_speed",    -- Drum, not Rotor
+        feeder = "rhm_ui_feeder_speed",
+    },
+    root = {
+        fan    = "rhm_ui_fan_speed",
+        rotor  = "rhm_ui_roller_speed",  -- Roller/cleaning drum
+        feeder = "rhm_ui_feeder_speed",
+    },
+    cotton = {
+        fan    = "rhm_ui_fan_speed",
+        rotor  = "rhm_ui_picker_speed",  -- Picker/spindle
+        feeder = "rhm_ui_feeder_speed",
+    },
+}
+
+---Get active parameter names for a machine type
+---@param machineType string  "grain"|"forage"|"root"|"cotton"
+---@return table params Ordered list of active parameter names
+function CombineSettingsDatabase:getParamsForMachineType(machineType)
+    return self.machineParams[machineType] or self.machineParams.grain
+end
+
+---Get l10n key for a parameter label given machine type
+---@param machineType string
+---@param paramName string
+---@return string l10nKey
+function CombineSettingsDatabase:getParamLabel(machineType, paramName)
+    local labels = self.machineParamLabels[machineType]
+    if labels and labels[paramName] then
+        return labels[paramName]
+    end
+    return "rhm_ui_" .. paramName
+end
+
 -- FIX: Всі fillType огорнуті в умовний вираз для захисту від nil
 -- якщо FillType.WHEAT == nil (DLC/мод не встановлений) -> повертаємо nil безпечно
 local function safeFillType(ft)
@@ -112,54 +255,60 @@ end
 
 CombineSettingsDatabase.crops = {
     -- Зернові
-    ["WHEAT"]   = { name = "Пшениця",            nameEN = "Wheat",            template = templates.grain_medium,        group = "grain",       fillType = safeFillType(FillType.WHEAT) },
-    ["BARLEY"]  = { name = "Ячмінь",             nameEN = "Barley",           template = templates.grain_medium,        group = "grain",       fillType = safeFillType(FillType.BARLEY) },
-    ["OAT"]     = { name = "Овес",               nameEN = "Oat",              template = templates.grain_light,         group = "grain",       fillType = safeFillType(FillType.OAT) },
-    ["SORGHUM"] = { name = "Сорго",              nameEN = "Sorghum",          template = templates.grain_medium,        group = "grain",       fillType = safeFillType(FillType.SORGHUM) },
+    ["WHEAT"]   = { name = "Пшениця",            nameEN = "Wheat",            template = templates.grain_medium,  machineType = "grain", group = "grain",       fillType = safeFillType(FillType.WHEAT) },
+    ["BARLEY"]  = { name = "Ячмінь",             nameEN = "Barley",           template = templates.grain_medium,  machineType = "grain", group = "grain",       fillType = safeFillType(FillType.BARLEY) },
+    ["OAT"]     = { name = "Овес",               nameEN = "Oat",              template = templates.grain_light,   machineType = "grain", group = "grain",       fillType = safeFillType(FillType.OAT) },
+    ["SORGHUM"] = { name = "Сорго",              nameEN = "Sorghum",          template = templates.grain_medium,  machineType = "grain", group = "grain",       fillType = safeFillType(FillType.SORGHUM) },
     
     -- Рис
-    ["RICE"]            = { name = "Рис",               nameEN = "Rice",             template = templates.rice,                group = "rice",        fillType = safeFillType(FillType.RICE) },
-    ["RICE_LONG_GRAIN"] = { name = "Рис (довгозерний)", nameEN = "Rice (Long Grain)", template = templates.rice,               group = "rice",        fillType = safeFillType(FillType.RICE_LONG_GRAIN) },
+    ["RICE"]            = { name = "Рис",               nameEN = "Rice",             template = templates.rice,          machineType = "grain", group = "rice",        fillType = safeFillType(FillType.RICE) },
+    ["RICE_LONG_GRAIN"] = { name = "Рис (довгозерний)", nameEN = "Rice (Long Grain)", template = templates.rice,          machineType = "grain", group = "rice",        fillType = safeFillType(FillType.RICE_LONG_GRAIN) },
     
     -- Олійні
-    ["CANOLA"]    = { name = "Ріпак",             nameEN = "Canola",          template = templates.oilseed_light,       group = "oilseed",     fillType = safeFillType(FillType.CANOLA) },
-    ["SUNFLOWER"] = { name = "Соняшник",          nameEN = "Sunflower",       template = templates.oilseed_heavy,       group = "oilseed",     fillType = safeFillType(FillType.SUNFLOWER) },
+    ["CANOLA"]    = { name = "Ріпак",             nameEN = "Canola",          template = templates.oilseed_light, machineType = "grain", group = "oilseed",     fillType = safeFillType(FillType.CANOLA) },
+    ["SUNFLOWER"] = { name = "Соняшник",          nameEN = "Sunflower",       template = templates.oilseed_heavy, machineType = "grain", group = "oilseed",     fillType = safeFillType(FillType.SUNFLOWER) },
     
     -- Кукурудза
-    ["CORN"] = { name = "Кукурудза", nameEN = "Corn", template = templates.corn, group = "corn", fillType = safeFillType(FillType.MAIZE) },
+    ["CORN"] = { name = "Кукурудза", nameEN = "Corn", template = templates.corn,          machineType = "grain", group = "corn",        fillType = safeFillType(FillType.MAIZE) },
     
     -- Бобові
-    ["SOYBEAN"]  = { name = "Соя",           nameEN = "Soybean",   template = templates.legume, group = "legume", fillType = safeFillType(FillType.SOYBEAN) },
-    ["PEA"]      = { name = "Горох",         nameEN = "Peas",      template = templates.legume, group = "legume", fillType = safeFillType(FillType.PEA) },
-    ["LENTIL"]   = { name = "Сочевиця",      nameEN = "Lentil",    template = templates.legume, group = "legume", fillType = nil },  -- Mod crop
-    ["CHICKPEA"] = { name = "Нут",           nameEN = "Chickpea",  template = templates.legume, group = "legume", fillType = nil },  -- Mod crop
+    ["SOYBEAN"]  = { name = "Соя",           nameEN = "Soybean",   template = templates.legume,        machineType = "grain", group = "legume",      fillType = safeFillType(FillType.SOYBEAN) },
+    ["PEA"]      = { name = "Горох",         nameEN = "Peas",      template = templates.legume,        machineType = "grain", group = "legume",      fillType = safeFillType(FillType.PEA) },
+    ["LENTIL"]   = { name = "Сочевиця",      nameEN = "Lentil",    template = templates.legume,        machineType = "grain", group = "legume",      fillType = nil },
+    ["CHICKPEA"] = { name = "Нут",           nameEN = "Chickpea",  template = templates.legume,        machineType = "grain", group = "legume",      fillType = nil },
 
-    -- Додаткові зернові (Mod crops) — fillType = nil (не стандартні в FS25)
-    ["RYE"]       = { name = "Жито",     nameEN = "Rye",       template = templates.grain_medium, group = "grain_medium", fillType = nil },
-    ["SPELT"]     = { name = "Спельта",  nameEN = "Spelt",     template = templates.grain_light,  group = "grain_light",  fillType = nil },
-    ["TRITICALE"] = { name = "Тритикале",nameEN = "Triticale", template = templates.grain_medium, group = "grain_medium", fillType = nil },
-    ["MILLET"]    = { name = "Просо",    nameEN = "Millet",    template = templates.grain_light,  group = "grain_light",  fillType = nil },
-    ["BUCKWHEAT"] = { name = "Гречка",   nameEN = "Buckwheat", template = templates.grain_medium, group = "grain_medium", fillType = nil },
+    -- Додаткові зернові (Mod crops)
+    ["RYE"]       = { name = "Жито",     nameEN = "Rye",       template = templates.grain_medium,  machineType = "grain", group = "grain", fillType = nil },
+    ["SPELT"]     = { name = "Спельта",  nameEN = "Spelt",     template = templates.grain_light,   machineType = "grain", group = "grain", fillType = nil },
+    ["TRITICALE"] = { name = "Тритикале",nameEN = "Triticale", template = templates.grain_medium,  machineType = "grain", group = "grain", fillType = nil },
+    ["MILLET"]    = { name = "Просо",    nameEN = "Millet",    template = templates.grain_light,   machineType = "grain", group = "grain", fillType = nil },
+    ["BUCKWHEAT"] = { name = "Гречка",   nameEN = "Buckwheat", template = templates.grain_medium,  machineType = "grain", group = "grain", fillType = nil },
     
     -- Додаткові олійні (Mod crops)
-    ["LINSEED"] = { name = "Льон",     nameEN = "Linseed/Flax", template = templates.oilseed_light, group = "oilseed_light", fillType = nil },
-    ["MUSTARD"] = { name = "Гірчиця", nameEN = "Mustard",       template = templates.oilseed_light, group = "oilseed_light", fillType = nil },
-    ["POPPY"]   = { name = "Мак",     nameEN = "Poppy",         template = templates.oilseed_light, group = "oilseed_light", fillType = nil },
+    ["LINSEED"] = { name = "Льон",     nameEN = "Linseed/Flax", template = templates.oilseed_light, machineType = "grain", group = "oilseed", fillType = nil },
+    ["MUSTARD"] = { name = "Гірчиця", nameEN = "Mustard",       template = templates.oilseed_light, machineType = "grain", group = "oilseed", fillType = nil },
+    ["POPPY"]   = { name = "Мак",     nameEN = "Poppy",         template = templates.oilseed_light, machineType = "grain", group = "oilseed", fillType = nil },
     
     -- Волокнисті (Mod crops)
-    ["HEMP"] = { name = "Коноплі (зерно)", nameEN = "Hemp", template = templates.oilseed_heavy, group = "oilseed_heavy", fillType = nil },
+    ["HEMP"] = { name = "Коноплі (зерно)", nameEN = "Hemp", template = templates.oilseed_heavy, machineType = "grain", group = "oilseed", fillType = nil },
     
-    -- Root & Veg
-    ["POTATO"]    = { name = "Картопля",       nameEN = "Potato",    template = templates.root_heavy,        group = "root",      fillType = safeFillType(FillType.POTATO) },
-    ["SUGARBEET"] = { name = "Цукровий Буряк", nameEN = "Sugarbeet", template = templates.root_heavy,        group = "root",      fillType = safeFillType(FillType.SUGARBEET) },
-    ["BEETROOT"]  = { name = "Буряк",          nameEN = "Beetroot",  template = templates.root_heavy,        group = "root",      fillType = safeFillType(FillType.BEETROOT) },
-    
-    ["CARROT"]  = { name = "Морква",   nameEN = "Carrot",  template = templates.root_light,       group = "root",      fillType = safeFillType(FillType.CARROT) },
-    ["PARSNIP"] = { name = "Пастернак",nameEN = "Parsnip", template = templates.root_light,       group = "root",      fillType = safeFillType(FillType.PARSNIP) },
-    
-    ["ONION"]    = { name = "Цибуля",        nameEN = "Onion",      template = templates.vegetable_sensitive, group = "vegetable", fillType = safeFillType(FillType.ONION) },
-    ["SPINACH"]  = { name = "Шпинат",        nameEN = "Spinach",    template = templates.leafy,               group = "vegetable", fillType = safeFillType(FillType.SPINACH) },
-    ["GREENBEAN"]= { name = "Зелена Квасоля",nameEN = "Green Bean", template = templates.legume,              group = "legume",    fillType = safeFillType(FillType.GREENBEAN) },
+    -- Root & Veg (machineType = "root") — кожна культура має власний шаблон
+    ["POTATO"]    = { name = "Картопля",       nameEN = "Potato",    template = templates.root_potato,    machineType = "root", group = "root",      fillType = safeFillType(FillType.POTATO) },
+    ["SUGARBEET"] = { name = "Цукровий Буряк", nameEN = "Sugarbeet", template = templates.root_sugarbeet, machineType = "root", group = "root",      fillType = safeFillType(FillType.SUGARBEET) },
+    ["BEETROOT"]  = { name = "Буряк",          nameEN = "Beetroot",  template = templates.root_beetroot,  machineType = "root", group = "root",      fillType = safeFillType(FillType.BEETROOT) },
+    ["CARROT"]    = { name = "Морква",          nameEN = "Carrot",    template = templates.root_carrot,    machineType = "root", group = "root",      fillType = safeFillType(FillType.CARROT) },
+    ["PARSNIP"]   = { name = "Пастернак",       nameEN = "Parsnip",   template = templates.root_carrot,    machineType = "root", group = "root",      fillType = safeFillType(FillType.PARSNIP) },
+    ["ONION"]     = { name = "Цибуля",          nameEN = "Onion",     template = templates.root_onion,     machineType = "root", group = "root",      fillType = safeFillType(FillType.ONION) },
+    ["SPINACH"]   = { name = "Шпинат",          nameEN = "Spinach",   template = templates.root_spinach,   machineType = "root", group = "vegetable", fillType = safeFillType(FillType.SPINACH) },
+    ["GREENBEAN"] = { name = "Зелена Квасоля",  nameEN = "Green Bean",template = templates.root_greenbean,  machineType = "root", group = "vegetable", fillType = safeFillType(FillType.GREENBEAN) },
+
+    -- Форажні (для кормозбирального комбайна) (machineType = "forage")
+    ["GRASS"]   = { name = "Трава",       nameEN = "Grass",        template = templates.forage_grass,  machineType = "forage", group = "forage", fillType = safeFillType(FillType.GRASS) },
+    ["DRYGRASS"]= { name = "Суха Трава",  nameEN = "Dry Grass",    template = templates.forage_grass,  machineType = "forage", group = "forage", fillType = safeFillType(FillType.DRYGRASS) },
+    ["MAIZE_FORAGE"] = { name = "Кукурудза на силос", nameEN = "Corn Silage", template = templates.forage_corn, machineType = "forage", group = "forage", fillType = safeFillType(FillType.MAIZE) },
+
+    -- Бавовник (machineType = "cotton")
+    ["COTTON"] = { name = "Бавовник", nameEN = "Cotton", template = templates.cotton_picker, machineType = "cotton", group = "cotton", fillType = safeFillType(FillType.COTTON) },
 }
 
 ---Отримати налаштування для культури за назвою
@@ -229,6 +378,16 @@ function CombineSettingsDatabase:getCropNameFromFillType(fillType)
         ["ONION"] = "ONION",
         ["SPINACH"] = "SPINACH",
         ["GREENBEAN"] = "GREENBEAN",
+
+        -- Forage outputs (кормозбиральний виводить CHAFF або GRASS, не MAIZE)
+        ["CHAFF"] = "MAIZE_FORAGE",    -- кукурудза на силос → forage corn template
+        ["GRASS"] = "GRASS",
+        ["DRYGRASS"] = "DRYGRASS",
+        ["TALLGRASS"] = "GRASS",       -- висока трава = ті самі налаштування як трава
+        ["SILAGE"] = "MAIZE_FORAGE",   -- прямий вивід силосу (деякі машини)
+
+        -- Cotton
+        ["COTTON"] = "COTTON",
     }
     
     return fillTypeMapping[fillTypeName]
@@ -250,6 +409,53 @@ function CombineSettingsDatabase:getAllCropNames()
     end
     table.sort(names)
     return names
+end
+
+---Отримати список культур для конкретного типу машини
+---@param machineType string "grain"|"forage"|"root"|"cotton"
+---@return table cropNames Відсортований масив назв культур для цього типу
+function CombineSettingsDatabase:getCropNamesForMachineType(machineType)
+    local names = {}
+    for cropName, cropData in pairs(self.crops) do
+        if cropData.machineType == machineType then
+            table.insert(names, cropName)
+        end
+    end
+    table.sort(names)
+    return names
+end
+
+---Розрахувати передбачувані втрати врожаю для культури з поточними налаштуваннями
+---@param cropName string Назва культури
+---@param settings table Поточні налаштування {fan=N, rotor=N, ...}
+---@return number totalPenalty Загальний штраф (%),  table warnings Список попереджень
+function CombineSettingsDatabase:calcSettingsLossPreview(cropName, settings)
+    local template = self:getSettingsForCrop(cropName)
+    if not template then return 0, {} end
+    
+    local totalPenalty = 0
+    local warnings = {}
+    
+    for paramName, paramData in pairs(template) do
+        local val = settings[paramName]
+        if val and paramData.optimal then
+            local diff = math.abs(val - paramData.optimal)
+            local tol = paramData.tolerance or 5
+            if diff > tol then
+                local penalty = (diff - tol) * 0.15  -- 0.15% loss per unit above tolerance
+                totalPenalty = totalPenalty + penalty
+                table.insert(warnings, {
+                    param = paramName,
+                    current = val,
+                    optimal = paramData.optimal,
+                    diff = diff,
+                    penalty = penalty,
+                })
+            end
+        end
+    end
+    
+    return math.min(totalPenalty, 25.0), warnings  -- cap at 25%
 end
 
 ---Перевірити чи налаштування в межах допустимого діапазону

@@ -192,14 +192,86 @@ function rhm_Combine:onLoad(savegame)
     local basePerf = spec.loadCalculator:getBasePerformanceFromPower(self)
     spec.loadCalculator:setBasePerformance(basePerf)
     
+    -- === MACHINE TYPE DETECTION ===
+    -- Based on actual FS25 log analysis of spec_combine and vehicle spec fields.
+    --
+    -- Signal summary (verified from log):
+    --   Grain combine  → spec_combine.allowThreshingDuringRain = false
+    --                    + spec_combine.strawEffects.n > 0  (has straw processing)
+    --   Root harvester → self.spec_fruitPreparer present (cleaning/preparing drum)
+    --                    OR spec_cutter present + no spec_pipe (direct-cut veg harvester)
+    --   Forage harv.   → allowThreshingDuringRain = true + spec_pipe + no spec_cutter
+    --   Cotton         → allowThreshingDuringRain = true + FillType.COTTON in output
+
+    local machineType = "grain"  -- safe default
+    local sc = self.spec_combine
+
+    if sc then
+        local canThreshInRain = sc.allowThreshingDuringRain
+        local hasStrawEffects = sc.strawEffects and #sc.strawEffects > 0
+
+        if self.spec_fruitPreparer then
+            -- Root/potato/sugarbeet harvesters have a fruit preparer (cleaning / dirt removal)
+            machineType = "root"
+
+        elseif not canThreshInRain and hasStrawEffects then
+            -- Standard grain combine: cannot work in rain, produces straw
+            machineType = "grain"
+
+        elseif canThreshInRain then
+            local hasPipe   = self.spec_pipe   ~= nil
+            local hasCutter = self.spec_cutter ~= nil
+
+            if hasPipe and not hasCutter then
+                -- Forage harvester: pivotable discharge pipe, no separate cutter spec
+                machineType = "forage"
+
+            elseif hasCutter and not hasPipe then
+                -- Direct-cut vegetable harvester (Holaras UMR-style)
+                machineType = "root"
+
+            elseif hasPipe and hasCutter then
+                -- Both pipe and cutter → likely root harvester with elevator pipe
+                machineType = "root"
+
+            else
+                -- Unusual: threshes in rain but no pipe/cutter → treat as grain
+                machineType = "grain"
+            end
+        end
+    end
+
+    -- Cotton picker override: if the fill unit stores COTTON, treat as cotton
+    if FillType.COTTON and machineType == "grain" then
+        local fu = self.spec_fillUnit
+        if fu and fu.fillUnits then
+            for _, unit in ipairs(fu.fillUnits) do
+                if unit.fillType == FillType.COTTON then
+                    machineType = "cotton"
+                    break
+                end
+            end
+        end
+    end
+
+    spec.machineType = machineType
+    print(string.format("RHM: [OK] Machine type detected: %s (pipe=%s, cutter=%s, rainOK=%s, fruitPrep=%s)",
+        machineType,
+        tostring(self.spec_pipe ~= nil),
+        tostring(self.spec_cutter ~= nil),
+        tostring(sc and sc.allowThreshingDuringRain),
+        tostring(self.spec_fruitPreparer ~= nil)))
+
+
     -- === COMBINE SETTINGS SYSTEM ===
     -- Створюємо систему пам'яті для налаштувань комбайна
-    spec.combineMemory = CombineMemory.new(self)
+    spec.combineMemory = CombineMemory.new(self, machineType)
     
     -- Підключаємо memory до LoadCalculator для розрахунку settings loss
     spec.loadCalculator.combineMemory = spec.combineMemory
     
     print("RHM: [OK] Combine Settings System initialized")
+
     
     -- Ініціалізуємо дані для HUD
     spec.data = {
@@ -275,31 +347,16 @@ function rhm_Combine:addCutterArea(superFunc, area, realArea, inputFruitType, ou
         --    ...
         -- end
 
-        -- === CROP LOSS CALCULATION ===
-        -- Визначаємо назву культури з fillType напряму через name
-        local cropName = nil
+        -- Визначаємо назву культури через CombineSettingsDatabase — повна таблиця
+        -- Включає: зернові, коренеплоди (POTATO/ONION/CARROT/...), овочі (SPINACH/GREENBEAN)
+        -- та кормові виводи (CHAFF→MAIZE_FORAGE, GRASS→GRASS)
+        local cropName = CombineSettingsDatabase:getCropNameFromFillType(outputFillType)
         
-        if g_fillTypeManager then
-            local fillTypeObj = g_fillTypeManager:getFillTypeByIndex(outputFillType)
-            if fillTypeObj and fillTypeObj.name then
-                local fillTypeName = fillTypeObj.name
-                
-                -- Маппінг: fillType.name -> cropName (використовується в AUTO режимі)
-                local fillTypeMapping = {
-                    ["WHEAT"] = "WHEAT",
-                    ["BARLEY"] = "BARLEY",
-                    ["OAT"] = "OAT",
-                    ["CANOLA"] = "CANOLA",
-                    ["SUNFLOWER"] = "SUNFLOWER",
-                    ["MAIZE"] = "CORN",  -- Кукурудза в грі називається MAIZE
-                    ["SOYBEAN"] = "SOYBEAN",
-                    ["SORGHUM"] = "SORGHUM",
-                    ["RICE"] = "RICE",
-                    ["RICE_LONG_GRAIN"] = "RICE_LONG_GRAIN",
-                }
-                
-                cropName = fillTypeMapping[fillTypeName]
-            end
+        -- Fallback для кормозбиральних: вони виводять CHAFF, але inputFruitType = MAIZE
+        -- getCropNameFromFillType(CHAFF) вже повертає "MAIZE_FORAGE" тому це зазвичай спрацьовує,
+        -- але якщо ні — пробуємо inputFruitType
+        if not cropName and inputFruitType and inputFruitType ~= FillType.UNKNOWN then
+            cropName = CombineSettingsDatabase:getCropNameFromFillType(inputFruitType)
         end
         
         if cropName then

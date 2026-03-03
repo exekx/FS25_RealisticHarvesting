@@ -190,29 +190,30 @@ function CombineCalibrationGUI:close()
 end
 
 function CombineCalibrationGUI:cycleCrop(direction)
-    local allCrops = CombineSettingsDatabase:getAllCropNames()
-    -- Find current index
-    local current = self.activeVehicle.spec_rhm_Combine.combineMemory.currentCrop
+    local spec = self.activeVehicle.spec_rhm_Combine
+    local machineType = spec.machineType or "grain"
+    -- Show only crops relevant to this machine type
+    local crops = CombineSettingsDatabase:getCropNamesForMachineType(machineType)
+    if #crops == 0 then return end
+    
+    local current = spec.combineMemory.currentCrop
     local index = 1
     
-    -- If current is nil, start at 1
     if current then
-        for i, name in ipairs(allCrops) do
-            if name == current then 
-                index = i 
-                break 
+        for i, name in ipairs(crops) do
+            if name == current then
+                index = i
+                break
             end
         end
     end
     
-    -- Update index
     index = index + direction
-    if index > #allCrops then index = 1 end
-    if index < 1 then index = #allCrops end
+    if index > #crops then index = 1 end
+    if index < 1 then index = #crops end
     
-    -- Switch
-    local newCrop = allCrops[index]
-    self.activeVehicle.spec_rhm_Combine.combineMemory:switchCrop(newCrop)
+    local newCrop = crops[index]
+    spec.combineMemory:switchCrop(newCrop)
 end
 
 ---Main update loop
@@ -296,7 +297,7 @@ function CombineCalibrationGUI:draw()
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(ui.colors.text))
-    renderText(x + w/2, y + h - ui.headerHeight + 0.01, ui.titleSize, "COMBINE SETTINGS")
+    renderText(x + w/2, y + h - ui.headerHeight + 0.01, ui.titleSize, g_i18n:getText("rhm_gui_title"))
     
     -- Content Start Y
     local cy = y + h - ui.headerHeight - ui.margin - ui.lineHeight
@@ -304,7 +305,7 @@ function CombineCalibrationGUI:draw()
     if not self.activeVehicle then
         if self.debug then print("RHM: [GUI] draw() rendering 'No Combine Selected'") end
         setTextAlignment(RenderText.ALIGN_CENTER)
-        renderText(x + w/2, cy, ui.fontSize, "No Combine Selected")
+        renderText(x + w/2, cy, ui.fontSize, g_i18n:getText("rhm_gui_no_combine"))
         return
     end
     
@@ -313,7 +314,7 @@ function CombineCalibrationGUI:draw()
     if not spec or not spec.combineMemory then
         if self.debug then print("RHM: [GUI] draw() rendering 'Combine not initialized' | spec="..tostring(spec~=nil).." memory="..tostring(spec and spec.combineMemory~=nil)) end
         setTextAlignment(RenderText.ALIGN_CENTER)
-        renderText(x + w/2, cy, ui.fontSize, "Combine not initialized")
+        renderText(x + w/2, cy, ui.fontSize, g_i18n:getText("rhm_gui_not_init"))
         return
     end
     
@@ -321,7 +322,7 @@ function CombineCalibrationGUI:draw()
     
     -- 3. Crop Info
     setTextAlignment(RenderText.ALIGN_LEFT)
-    renderText(x + ui.margin, cy + 0.005, ui.fontSize, "Crop:")
+    renderText(x + ui.margin, cy + 0.005, ui.fontSize, g_i18n:getText("rhm_gui_crop"))
     
     local cropName = memory.currentCrop or "NONE"
     local cropX = x + ui.margin + 0.05 -- Offset for label
@@ -333,7 +334,7 @@ function CombineCalibrationGUI:draw()
     
     -- Crop Name
     setTextAlignment(RenderText.ALIGN_CENTER)
-    renderText(cropX + 0.025 + 0.07, cy + 0.005, ui.fontSize, cropName)
+    renderText(cropX + 0.025 + 0.07, cy + 0.005, ui.fontSize, memory.currentCrop or g_i18n:getText("rhm_gui_none"))
     
     -- Next Button [>]
     self:drawButton(cropX + 0.025 + 0.14, cy, 0.025, 0.035, ">", function()
@@ -349,23 +350,25 @@ function CombineCalibrationGUI:draw()
     local btnWidth = (w - ui.margin * 2.5 - 0.01) / 2 -- Slightly narrower
     
     -- [ AUTO ] Button (Default optimal)
-    self:drawButton(x + ui.margin, cy, btnWidth, 0.035, "AUTO", function()
-        memory:autoConfigureForCrop(memory.currentCrop, true) -- Force optimal (now suboptimal/safe)
-    end, {0.9, 0.7, 0.1, 1}) -- Yellowish
+    self:drawButton(x + ui.margin, cy, btnWidth, 0.035, g_i18n:getText("rhm_gui_btn_auto"), function()
+        memory:autoConfigureForCrop(memory.currentCrop, true)
+    end, {0.9, 0.7, 0.1, 1})
     
     -- [ LOAD ] Button (User Preset)
-    self:drawButton(x + w - ui.margin - btnWidth, cy, btnWidth, 0.035, "LOAD PRESET", function()
+    self:drawButton(x + w - ui.margin - btnWidth, cy, btnWidth, 0.035, g_i18n:getText("rhm_gui_btn_load_preset"), function()
         memory:loadUserPreset()
-    end, {0.1, 0.5, 0.9, 1}) -- Blueish
+    end, {0.1, 0.5, 0.9, 1})
     
     cy = cy - ui.lineHeight * 1.5
     
-    -- 4. Parameters
-    local params = {"fan", "rotor", "upperSieve", "lowerSieve", "feeder"}
-    local labels = {fan="Fan Speed", rotor="Rotor Speed", upperSieve="Upper Sieve", lowerSieve="Lower Sieve", feeder="Feeder House"}
+    -- 4. Parameters — dynamically based on machine type
+    local machineType = spec.machineType or "grain"
+    local activeParams = CombineSettingsDatabase:getParamsForMachineType(machineType)
     
-    for _, param in ipairs(params) do
-        self:drawParameterRow(x + ui.margin, cy, w - ui.margin*2, param, labels[param], memory, ui)
+    for _, param in ipairs(activeParams) do
+        local labelKey = CombineSettingsDatabase:getParamLabel(machineType, param)
+        local label = g_i18n:hasText(labelKey) and g_i18n:getText(labelKey) or param
+        self:drawParameterRow(x + ui.margin, cy, w - ui.margin*2, param, label, memory, ui)
         cy = cy - ui.lineHeight
     end
     
@@ -373,33 +376,37 @@ function CombineCalibrationGUI:draw()
     
     cy = cy - ui.lineHeight * 0.5
     
-    -- Yield Calibration REMOVED (User Request)
-    -- 5. Loss Status
+    -- 5. Loss Status — settings-based preview (always shown, accurate)
+    -- cropLoss in LoadCalculator is not populated → always use calcSettingsLossPreview
     local load = (spec.loadCalculator and spec.loadCalculator.engineLoad or 0) * 100
-    local loss = spec.loadCalculator and spec.loadCalculator.cropLoss or 0
+    
+    local previewLoss = 0
+    if memory.currentCrop then
+        previewLoss = CombineSettingsDatabase:calcSettingsLossPreview(memory.currentCrop, memory.currentSettings)
+    end
     
     local lossColor = ui.colors.text
-    if loss > 0.1 then lossColor = ui.colors.warning end
-    if loss > 2.0 then lossColor = ui.colors.error end
+    if previewLoss > 0.5 then lossColor = ui.colors.warning end
+    if previewLoss > 3.0 then lossColor = ui.colors.error end
     
     setTextAlignment(RenderText.ALIGN_LEFT)
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x + ui.margin, cy + 0.005, ui.fontSize, string.format("Engine Load: %.0f%%", load))
+    renderText(x + ui.margin, cy + 0.005, ui.fontSize, string.format(g_i18n:getText("rhm_gui_engine_load"), load))
     
     setTextAlignment(RenderText.ALIGN_RIGHT)
     setTextColor(unpack(lossColor))
-    renderText(x + w - ui.margin, cy + 0.005, ui.fontSize, string.format("Loss: %.1f%%", loss))
+    renderText(x + w - ui.margin, cy + 0.005, ui.fontSize, string.format(g_i18n:getText("rhm_gui_preview_loss"), previewLoss))
+
     
     cy = cy - ui.lineHeight * 1.5
     
     -- 6. Profile Management
-    self:drawButton(x + ui.margin, cy, 0.12, 0.035, "SAVE PROFILE", function()
-        -- Save logic to Global ProfileManager
+    self:drawButton(x + ui.margin, cy, 0.12, 0.035, g_i18n:getText("rhm_gui_btn_save"), function()
         memory:saveCurrentProfile(memory.currentCrop)
     end)
     
-    self:drawButton(x + w - ui.margin - 0.12, cy, 0.12, 0.035, "RESET DEFAULT", function()
-         memory:autoConfigureForCrop(memory.currentCrop)
+    self:drawButton(x + w - ui.margin - 0.12, cy, 0.12, 0.035, g_i18n:getText("rhm_gui_btn_reset"), function()
+        memory:autoConfigureForCrop(memory.currentCrop)
     end, ui.colors.warning)
     
     cy = cy - ui.lineHeight
@@ -407,7 +414,7 @@ function CombineCalibrationGUI:draw()
     -- Tooltip/Hint
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x + w/2, cy + 0.005, ui.fontSize * 0.9, "RShift+K to Close")
+    renderText(x + w/2, cy + 0.005, ui.fontSize * 0.9, g_i18n:getText("rhm_gui_close_hint"))
     
     -- Now hoveredParameter is set, so we can handle wheel scroll
     if self.lastScrollTimeStamp + self.scrollDelayMs < g_time then

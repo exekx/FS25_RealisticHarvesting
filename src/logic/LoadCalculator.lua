@@ -96,8 +96,8 @@ function LoadCalculator:loadDefaultCropFactors()
     -- Rice Long - Factor 1.5 for ~5 km/h
     if FruitType.RICELONGGRAIN then self.CROP_FACTORS[FruitType.RICELONGGRAIN] = 1.5 end
     
-    -- Pulses
-    if FruitType.PEA then self.CROP_FACTORS[FruitType.PEA] = 1.0 end
+    -- Pulses (Legumes harvested by grain combine or special header)
+    -- PEA: lightweight grain, similar to soybean in handling → factor 1.2
     
     -- Root Crops (Massive Mass -> Low Factors)
     -- Root Crops (Massive Mass -> Low Factors)
@@ -111,12 +111,14 @@ function LoadCalculator:loadDefaultCropFactors()
     if FruitType.BEETROOT then self.CROP_FACTORS[FruitType.BEETROOT] = 0.30 end
     if FruitType.ONION then self.CROP_FACTORS[FruitType.ONION] = 0.30 end 
     
-    -- Leafy / Others
-    if FruitType.SPINACH then self.CROP_FACTORS[FruitType.SPINACH] = 0.3 end
-    
-    -- Pulses
-    if FruitType.PEA then self.CROP_FACTORS[FruitType.PEA] = 1.0 end
-    if FruitType.GREENBEAN then self.CROP_FACTORS[FruitType.GREENBEAN] = 0.8 end
+    -- Leafy / Tender Vegetables (light mass → need HIGH factor for realistic engine load)
+    -- Spinach is very light (~0.02 kg/m2 fresh) but vegetable harvesters run slow speeds.
+    -- Factor 3.0 ensures realistic engine load on low-basePerfMass vegetable harvesters.
+    if FruitType.SPINACH then self.CROP_FACTORS[FruitType.SPINACH] = 3.0 end
+
+    -- Pulses (harvested by standard or vegetable combine)
+    if FruitType.PEA then self.CROP_FACTORS[FruitType.PEA] = 1.2 end        -- Similar to wheat
+    if FruitType.GREENBEAN then self.CROP_FACTORS[FruitType.GREENBEAN] = 2.5 end -- Light, gentle harvest
     
     -- Special
     if FruitType.COTTON then self.CROP_FACTORS[FruitType.COTTON] = 3.0 end -- Light but slow

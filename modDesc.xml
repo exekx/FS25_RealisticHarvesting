@@ -1338,6 +1338,74 @@ Változások 1.1.0.0:
             <hu>Villogó figyelmeztetések megjelenítése túlterhelés esetén (Magas/Kritikus)</hu>
         </text>
         
+        <!-- ============================= -->
+        <!-- CALIBRATION GUI STRINGS       -->
+        <!-- ============================= -->
+        <text name="rhm_gui_title"><en>Combine Settings</en><de>Mähdreschereinstellungen</de><fr>Paramètres Moissonneuse</fr><pl>Ustawienia Kombajnu</pl><es>Ajustes Cosechadora</es><it>Impostazioni Mietitrebbia</it><cz>Nastavení Kombajnu</cz><uk>Налаштування Комбайна</uk><ru>Настройки Комбайна</ru><hu>Kombájn Beállítások</hu></text>
+        <text name="rhm_gui_crop"><en>Crop:</en><de>Kultur:</de><fr>Culture:</fr><pl>Kultura:</pl><es>Cultivo:</es><it>Coltura:</it><cz>Plodina:</cz><uk>Культура:</uk><ru>Культура:</ru><hu>Növény:</hu></text>
+        <text name="rhm_gui_none"><en>NONE</en><de>KEINE</de><fr>AUCUN</fr><pl>BRAK</pl><es>NINGUNO</es><it>NESSUNO</it><cz>ŽÁDNÁ</cz><uk>НЕМАЄ</uk><ru>НЕТ</ru><hu>NINCS</hu></text>
+        <text name="rhm_gui_btn_auto"><en>AUTO</en><de>AUTO</de><fr>AUTO</fr><pl>AUTO</pl><es>AUTO</es><it>AUTO</it><cz>AUTO</cz><uk>АВТО</uk><ru>АВТО</ru><hu>AUTO</hu></text>
+        <text name="rhm_gui_btn_load_preset"><en>Load Preset</en><de>Profil laden</de><fr>Charger profil</fr><pl>Wczytaj profil</pl><es>Cargar perfil</es><it>Carica profilo</it><cz>Načíst profil</cz><uk>Завантажити профіль</uk><ru>Загрузить профиль</ru><hu>Profil betöltése</hu></text>
+        <text name="rhm_gui_btn_save"><en>Save Profile</en><de>Profil speichern</de><fr>Sauvegarder</fr><pl>Zapisz profil</pl><es>Guardar perfil</es><it>Salva profilo</it><cz>Uložit profil</cz><uk>Зберегти профіль</uk><ru>Сохранить профиль</ru><hu>Profil mentése</hu></text>
+        <text name="rhm_gui_btn_reset"><en>Reset Default</en><de>Zurücksetzen</de><fr>Réinitialiser</fr><pl>Resetuj</pl><es>Restablecer</es><it>Ripristina</it><cz>Obnovit</cz><uk>Скинути</uk><ru>Сбросить</ru><hu>Alaphelyzetbe</hu></text>
+        <text name="rhm_gui_engine_load"><en>Engine Load: %.0f%%</en><de>Motorlast: %.0f%%</de><fr>Charge moteur: %.0f%%</fr><pl>Obciążenie silnika: %.0f%%</pl><es>Carga motor: %.0f%%</es><it>Carico motore: %.0f%%</it><cz>Zatížení motoru: %.0f%%</cz><uk>Навант. двигуна: %.0f%%</uk><ru>Нагрузка двиг.: %.0f%%</ru><hu>Motorterhelés: %.0f%%</hu></text>
+        <text name="rhm_gui_loss"><en>Loss: %.1f%%</en><de>Verlust: %.1f%%</de><fr>Perte: %.1f%%</fr><pl>Strata: %.1f%%</pl><es>Pérdida: %.1f%%</es><it>Perdita: %.1f%%</it><cz>Ztráta: %.1f%%</cz><uk>Втрати: %.1f%%</uk><ru>Потери: %.1f%%</ru><hu>Veszteség: %.1f%%</hu></text>
+        <text name="rhm_gui_preview_loss"><en>Preview Loss: %.1f%%</en><de>Vorsch. Verlust: %.1f%%</de><fr>Perte (aperçu): %.1f%%</fr><pl>Szac. strata: %.1f%%</pl><es>Pérdida (vista): %.1f%%</es><it>Perdita (antepr.): %.1f%%</it><cz>Odhad ztráty: %.1f%%</cz><uk>Прогноз втрат: %.1f%%</uk><ru>Прогноз потерь: %.1f%%</ru><hu>Becsült veszteség: %.1f%%</hu></text>
+        <text name="rhm_gui_close_hint"><en>RShift+K to Close</en><de>RShift+K zum Schließen</de><fr>RShift+K pour fermer</fr><pl>RShift+K aby zamknąć</pl><es>RShift+K para cerrar</es><it>RShift+K per chiudere</it><cz>RShift+K pro zavření</cz><uk>RShift+K щоб закрити</uk><ru>RShift+K чтобы закрыть</ru><hu>RShift+K a bezáráshoz</hu></text>
+        <text name="rhm_gui_no_combine"><en>No Combine Selected</en><de>Kein Mähdrescher gewählt</de><fr>Aucune moissonneuse</fr><pl>Brak kombajnu</pl><es>Sin cosechadora</es><it>Nessuna mietitrebbia</it><cz>Žádný kombajn</cz><uk>Комбайн не обрано</uk><ru>Комбайн не выбран</ru><hu>Nincs kombájn kiválasztva</hu></text>
+        <text name="rhm_gui_not_init"><en>Combine Not Initialized</en><de>Kombajn nicht initialisiert</de><fr>Moissonneuse non initialisée</fr><pl>Kombajn nie zainicjowany</pl><es>Cosechadora no inicializada</es><it>Mietitrebbia non inizializzata</it><cz>Kombajn neinicializován</cz><uk>Комбайн не ініціалізовано</uk><ru>Комбайн не инициализирован</ru><hu>Kombájn nincs inicializálva</hu></text>
+
+        <!-- ============================= -->
+        <!-- MACHINE-TYPE PARAMETER LABELS -->
+        <!-- ============================= -->
+        <text name="rhm_ui_fan_speed">
+            <en>Fan Speed</en><de>Lüftergeschwindigkeit</de><fr>Vitesse du ventilateur</fr>
+            <pl>Prędkość wentylatora</pl><es>Velocidad del ventilador</es><it>Velocità ventola</it>
+            <cz>Rychlost ventilátoru</cz><uk>Швидкість вентилятора</uk><ru>Скорость вентилятора</ru><hu>Ventilátorsebesség</hu>
+        </text>
+
+        <text name="rhm_ui_rotor_speed">
+            <en>Rotor Speed</en><de>Rotorgeschwindigkeit</de><fr>Vitesse du rotor</fr>
+            <pl>Prędkość rotora</pl><es>Velocidad del rotor</es><it>Velocità rotore</it>
+            <cz>Rychlost rotoru</cz><uk>Швидкість ротора</uk><ru>Скорость ротора</ru><hu>Rotorsebesség</hu>
+        </text>
+
+        <text name="rhm_ui_upper_sieve">
+            <en>Upper Sieve</en><de>Obersieb</de><fr>Grille supérieure</fr>
+            <pl>Górne sito</pl><es>Criba superior</es><it>Setaccio superiore</it>
+            <cz>Horní síto</cz><uk>Верхнє сито</uk><ru>Верхнее решето</ru><hu>Felső rosta</hu>
+        </text>
+
+        <text name="rhm_ui_lower_sieve">
+            <en>Lower Sieve</en><de>Untersieb</de><fr>Grille inférieure</fr>
+            <pl>Dolne sito</pl><es>Criba inferior</es><it>Setaccio inferiore</it>
+            <cz>Dolní síto</cz><uk>Нижнє сито</uk><ru>Нижнее решето</ru><hu>Alsó rosta</hu>
+        </text>
+
+        <text name="rhm_ui_feeder_speed">
+            <en>Feeder House</en><de>Schrägförderer</de><fr>Convoyeur d'alimentation</fr>
+            <pl>Dom podajnika</pl><es>Casa del alimentador</es><it>Convogliatore di alimentazione</it>
+            <cz>Podavač</cz><uk>Подавальний транспортер</uk><ru>Наклонная камера</ru><hu>Adagolóház</hu>
+        </text>
+
+        <text name="rhm_ui_drum_speed">
+            <en>Drum Speed</en><de>Trommelgeschwindigkeit</de><fr>Vitesse du tambour</fr>
+            <pl>Prędkość bębna</pl><es>Velocidad del tambor</es><it>Velocità tamburo</it>
+            <cz>Rychlost bubnu</cz><uk>Швидкість барабана</uk><ru>Скорость барабана</ru><hu>Dobsebesség</hu>
+        </text>
+
+        <text name="rhm_ui_roller_speed">
+            <en>Roller Speed</en><de>Rollengeschwindigkeit</de><fr>Vitesse du rouleau</fr>
+            <pl>Prędkość walca</pl><es>Velocidad del rodillo</es><it>Velocità rullo</it>
+            <cz>Rychlost válce</cz><uk>Швидкість ролика</uk><ru>Скорость вальца</ru><hu>Hengersebessége</hu>
+        </text>
+
+        <text name="rhm_ui_picker_speed">
+            <en>Picker Speed</en><de>Pflückergeschwindigkeit</de><fr>Vitesse du cueilleur</fr>
+            <pl>Prędkość zbieracza</pl><es>Velocidad del recolector</es><it>Velocità raccoglitore</it>
+            <cz>Rychlost sběrače</cz><uk>Швидкість збирача</uk><ru>Скорость съёмника</ru><hu>Felszedő sebessége</hu>
+        </text>
+
         <text name="rhm_units_short">
             <en>Units</en>
             <de>Einheiten</de>
