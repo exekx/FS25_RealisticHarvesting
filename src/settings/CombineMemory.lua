@@ -25,7 +25,6 @@ function CombineMemory.new(combine)
         upperSieve = 50,  -- Верхнє сито 0-100%
         lowerSieve = 50,  -- Нижнє сито 0-100%
         rotor = 50,       -- Ротор 0-100%
-        rotor = 50,       -- Ротор 0-100%
         feeder = 50,      -- Подавач 0-100%
     }
     
@@ -38,6 +37,9 @@ function CombineMemory.new(combine)
     -- Налаштування системи
     self.autoSwitchEnabled = true  -- Автоматичне перемикання при зміні культури
     self.showWarnings = true       -- Показувати попередження про неправильні налаштування
+    
+    -- Cached profile count (avoid iterating every call to getProfileCount)
+    self.profileCount = 0
     
     return self
 end
@@ -91,6 +93,8 @@ function CombineMemory:saveCurrentProfile(cropName, customName)
             },
             customized = customName ~= nil,  -- Чи це кастомний профіль
         }
+        -- Increment cached count for new profiles
+        self.profileCount = self.profileCount + 1
     end
     
     print(string.format("RHM: [OK] Profile saved: %s", profileName))
@@ -162,6 +166,10 @@ end
 ---@param forceOptimal boolean|nil Якщо true - встановити оптимальні значення (Auto mode), інакше - дефолтні (50%)
 ---@return boolean success Чи успішно налаштовано
 function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
+    if not cropName then
+        print("RHM: [!] autoConfigureForCrop called with nil cropName, skipping")
+        return false
+    end
     local optimalSettings = CombineSettingsDatabase:getSettingsForCrop(cropName)
     
     if not optimalSettings then
@@ -170,26 +178,27 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
     end
     
     if forceOptimal and optimalSettings then
-        -- [CHANGED] User requested to revert AUTO to suboptimal/safe settings
-        -- This means AUTO mode puts you in the Green Zone but not perfect
+        -- AUTO режим: випадковий відхил 1-10 одиниць від оптимуму
+        -- "Автомат не ідеальний" — невелика розбіжність, але гравець моче робити краще ручними налаштуваннями
         
-        local function getSuboptimalValue(optimal, tolerance)
-            -- Випадково вибираємо сторону (+ або -)
+        local function getAutoValue(optimal)
+            -- Випадковий відхил: від 1 до 10 одиниць (нерівномірний, малі частіше)
+            -- math.random(1, 10) = 1,2,3,4,5,6,7,8,9,10 — всі з рівною ймовірністю
+            local deviation = math.random(1, 10)
             local sign = math.random() > 0.5 and 1 or -1
-            -- Відходимо на 40-50% від толерантності (безпечно, штраф ~1.6%, без бонусу)
-            local deviation = tolerance * (0.4 + math.random() * 0.1)
             local value = optimal + (sign * deviation)
-            return math.floor(value + 0.5) -- Округляємо до цілого
+            -- Обмежуємо діапазоном 0-100
+            return math.max(0, math.min(100, value))
         end
 
-        self.currentSettings.fan = getSuboptimalValue(optimalSettings.fan.optimal, optimalSettings.fan.tolerance)
-        self.currentSettings.upperSieve = getSuboptimalValue(optimalSettings.upperSieve.optimal, optimalSettings.upperSieve.tolerance)
-        self.currentSettings.lowerSieve = getSuboptimalValue(optimalSettings.lowerSieve.optimal, optimalSettings.lowerSieve.tolerance)
-        self.currentSettings.rotor = getSuboptimalValue(optimalSettings.rotor.optimal, optimalSettings.rotor.tolerance)
-        self.currentSettings.feeder = getSuboptimalValue(optimalSettings.feeder.optimal, optimalSettings.feeder.tolerance)
+        self.currentSettings.fan = getAutoValue(optimalSettings.fan.optimal)
+        self.currentSettings.upperSieve = getAutoValue(optimalSettings.upperSieve.optimal)
+        self.currentSettings.lowerSieve = getAutoValue(optimalSettings.lowerSieve.optimal)
+        self.currentSettings.rotor = getAutoValue(optimalSettings.rotor.optimal)
+        self.currentSettings.feeder = getAutoValue(optimalSettings.feeder.optimal)
         
         self.mode = "AUTO"
-        print(string.format("RHM: [OK] Safe (suboptimal) settings applied for: %s (AUTO)", cropName))
+        print(string.format("RHM: [OK] Auto settings applied for: %s (random deviation 1-10 from optimal)", cropName))
     else
         -- Встановлюємо дефолтні значення (50%) (MANUAL MODE)
         -- Це змушує гравця налаштовувати вручну
@@ -244,6 +253,7 @@ function CombineMemory:checkSettingsForCrop(cropName)
     local warnings = {}
     local totalPenalty = 0
     local totalBonus = 0
+    local hasRedParameter = false  -- FIX: must be local, not global
     
     -- Перевіряємо кожен параметр
     for param, value in pairs(self.currentSettings) do
@@ -281,7 +291,7 @@ function CombineMemory:checkSettingsForCrop(cropName)
                 totalPenalty = totalPenalty + redPenalty
                 
                 -- ANTI-EXPLOIT: If any parameter is red, NO BONUS allowed!
-                hasRedParameter = true
+                hasRedParameter = true  -- FIX: assign to outer local (declared at top of function)
                 
                 table.insert(warnings, {
                     param = param,
@@ -337,11 +347,8 @@ end
 ---Отримати кількість збережених профілів
 ---@return number count Кількість профілів
 function CombineMemory:getProfileCount()
-    local count = 0
-    for _, _ in pairs(self.savedProfiles) do
-        count = count + 1
-    end
-    return count
+    -- FIX: Return cached count instead of iterating every call
+    return self.profileCount or 0
 end
 
 ---Отримати список назв профілів
@@ -363,28 +370,19 @@ function CombineMemory:updateStatistics(harvestedLiters, cropLoss, cropName)
     if self.currentProfile and self.savedProfiles[self.currentProfile] then
         local profile = self.savedProfiles[self.currentProfile]
         
-        -- Default density if lookup fails
-        local density = 0.75 
-        
-        -- Try to get real density from game
-        if cropName and g_fillTypeManager then
-            -- Note: cropName here is our RHM name (e.g. "WHEAT"), we need FillType index
-            -- Since we don't have easy mapping back, we rely on standard values or try to find it
-            -- Loop safe? No.
-            -- Better approach: use massPerLiter if passed, or approximate.
-            -- Actually, let's assume standard densities for our known crops
-            local densities = {
-                WHEAT=0.78, BARLEY=0.70, OAT=0.50, CANOLA=0.68, SUNFLOWER=0.35,
-                SOYBEAN=0.75, CORN=0.80, SORGHUM=0.75, RICE=0.60,
-                ONION=0.55, POTATO=0.65, SUGARBEET=0.65, CARROT=0.58, BEETROOT=0.60, PARSNIP=0.58,
-                SPINACH=0.35, PEA=0.81, GREENBEAN=0.50,
-                RYE=0.72, SPELT=0.75, TRITICALE=0.70, MILLET=0.75, POPLAR=0.40
-            }
-            if densities[cropName] then density = densities[cropName] end
+        -- FIX: Get density from g_fillTypeManager via CombineSettingsDatabase mapping
+        -- instead of a duplicated hardcoded table
+        local density = 0.75  -- fallback (kg/L)
+        if cropName and g_fillTypeManager and CombineSettingsDatabase then
+            local cropData = CombineSettingsDatabase:getCropData(cropName)
+            if cropData and cropData.fillType then
+                local fillTypeObj = g_fillTypeManager:getFillTypeByIndex(cropData.fillType)
+                if fillTypeObj and fillTypeObj.massPerLiter and fillTypeObj.massPerLiter > 0 then
+                    -- massPerLiter in FS25 is stored in t/L, convert to kg/L
+                    density = fillTypeObj.massPerLiter * 1000
+                end
+            end
         end
-        
-        -- OR check if we can pass mass directly?
-        -- For now, improving the estimate is better than 0.75 hardcoded.
         
         local tons = harvestedLiters * density / 1000
         

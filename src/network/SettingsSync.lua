@@ -42,7 +42,7 @@ function SettingsSync:sendToServer(settings)
     local event = SettingsSyncEvent.new(settings)
     connection:sendEvent(event)
     
-    print("RHM: [Sync] Event sent (Diff: " .. tostring(settings.difficulty) .. ")")
+    print(string.format("RHM: [Sync] Event sent (Motor: %d, Loss: %d)", tostring(settings.difficultyMotor or 2), tostring(settings.difficultyLoss or 2)))
 end
 
 ---Receive server settings from server (called by event)

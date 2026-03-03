@@ -92,9 +92,18 @@ function CombineCalibrationGUI:open(vehicle)
     self.isCursorActive = true
     
     -- Block camera rotation AND zoom
+    -- FIX: Always save 'true' as the intended original state.
+    -- Even if camera is already blocked (by HUD cursor), we store true so that
+    -- on close we restore to unblocked state (not to an already-blocked false).
     if vehicle and vehicle.spec_enterable then
-        RHMInputUtil.setCameraRotation(vehicle, false, self.savedCameraRotatableInfo)
-        RHMInputUtil.setCameraZoom(vehicle, false, self.savedCameraZoomInfo)
+        for _, camera in pairs(vehicle.spec_enterable.cameras) do
+            -- Save the camera's INTENDED state (always true = rotatable)
+            -- This allows correct restore even if HUD cursor was also active
+            self.savedCameraRotatableInfo[camera] = true
+            self.savedCameraZoomInfo[camera] = true
+            camera.isRotatable = false
+            camera.allowTranslation = false
+        end
     end
     
     -- Use passed vehicle or fallback
@@ -109,14 +118,31 @@ function CombineCalibrationGUI:close()
     
     local vehicle = self.activeVehicle
     
-    -- Restore cursor
-    local rhmCursor = g_realisticHarvestManager and g_realisticHarvestManager.isCursorVisible
-    g_inputBinding:setShowMouseCursor(rhmCursor or false)
+    -- Check if HUD cursor is also active (from RealisticHarvestManager:toggleCursor)
+    local hudCursorActive = g_realisticHarvestManager and g_realisticHarvestManager.isCursorVisible
     
-    -- Restore camera rotation and zoom (only if RHM cursor is also not active)
-    if vehicle and vehicle.spec_enterable and not rhmCursor then
-        RHMInputUtil.setCameraRotation(vehicle, true, self.savedCameraRotatableInfo)
-        RHMInputUtil.setCameraZoom(vehicle, true, self.savedCameraZoomInfo)
+    -- Restore cursor: keep it active only if HUD cursor mode is still on
+    g_inputBinding:setShowMouseCursor(hudCursorActive or false)
+    
+    -- FIX: Restore camera rotation and zoom ALWAYS
+    -- If HUD cursor is also active, it will re-block cameras on next frame via toggleCursor state.
+    -- But we must restore first, otherwise the saved state (false) will permanently block camera.
+    if vehicle and vehicle.spec_enterable then
+        for _, camera in pairs(vehicle.spec_enterable.cameras) do
+            -- Restore to saved state (which we saved as 'true' in open())
+            local savedRotatable = self.savedCameraRotatableInfo[camera]
+            local savedZoom = self.savedCameraZoomInfo[camera]
+            camera.isRotatable = savedRotatable ~= nil and savedRotatable or true
+            camera.allowTranslation = savedZoom ~= nil and savedZoom or true
+        end
+        -- Clear saved state
+        self.savedCameraRotatableInfo = {}
+        self.savedCameraZoomInfo = {}
+    end
+    
+    -- If HUD cursor is still active, re-block camera rotation (but not from CalibrationGUI's saved state)
+    if hudCursorActive and vehicle and vehicle.spec_enterable then
+        RHMInputUtil.setCameraRotation(vehicle, false, g_realisticHarvestManager.savedCameraRotatableInfo)
     end
 end
 

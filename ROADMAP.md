@@ -13,6 +13,11 @@
 *   **Settings Penalty:** Incorrect calibration now causes crop loss (displayed in HUD).
 *   **Profile System:** Save and load custom settings profiles for different crops/conditions.
 *   **GUI:** Interactive graphical menu (RShift+K) to manage settings and profiles.
+*   **AUTO Imperfection:** AUTO mode now applies a slight random deviation (1-10 units) — skilled manual tuning can outperform it!
+*   **Unified Loss Math:** Same penalty formula for AUTO and MANUAL modes — no more zero-loss bypass.
+*   **Savegame Fix:** Combine calibration now correctly saves and restores from `vehicles.xml`.
+*   **Dedicated Server Ready:** Auto-crop detection is server-side only; each vehicle keeps its own calibration profile.
+*   **Settings Consolidation:** All mod settings (server + client) now stored in `modSettings/` folder.
 
 ### v1.3.2.0
 **New Features:**
@@ -73,6 +78,7 @@ Based on community feedback and suggestions, here is the plan for future updates
 
 ### Phase 1: Core Mechanics & Refinement (Next)
 *   ~~**Real Crop Loss:**~~ ✅ **COMPLETED in v1.3.2.0** - Implemented actual yield reduction when harvesting at high speeds/overloading.
+*   ~~**Combine Calibration:**~~ ✅ **COMPLETED in v1.4.0.0** - Full manual control + AUTO mode with realistic imperfection.
 *   **Smoother Load Control:** Improve the "feel" of the governor to maintain ~90-95% load more consistently without "hunting" or hesitation.
 *   **Pickup Header Improved Support:** Better handling for windrow harvesting (grass/straw) with accurate load calculations.
 

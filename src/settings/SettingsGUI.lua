@@ -10,8 +10,11 @@ end
 
 ---Реєструє консольні команди для налаштувань
 function SettingsGUI:registerConsoleCommands()
-    -- Команда для зміни складності
-    addConsoleCommand("rhmSetDifficulty", "Set difficulty (1=Arcade, 2=Normal, 3=Realistic)", "consoleCommandSetDifficulty", self)
+    -- Команда для зміни складності (встановлює обидва разом)
+    addConsoleCommand("rhmSetDifficulty", "[Deprecated] Set both difficulties (1=Arcade, 2=Normal, 3=Realistic). Use rhmSetDifficultyMotor and rhmSetDifficultyLoss instead.", "consoleCommandSetDifficulty", self)
+    -- Окремі команди для кожного параметру
+    addConsoleCommand("rhmSetDifficultyMotor", "Set engine load difficulty (1=Arcade, 2=Normal, 3=Realistic)", "consoleCommandSetDifficultyMotor", self)
+    addConsoleCommand("rhmSetDifficultyLoss", "Set crop loss difficulty (1=Arcade, 2=Normal, 3=Realistic)", "consoleCommandSetDifficultyLoss", self)
     
     -- Команда для увімкнення/вимкнення обмеження швидкості
     addConsoleCommand("rhmToggleSpeedLimit", "Toggle speed limiting on/off", "consoleCommandToggleSpeedLimit", self)
@@ -58,20 +61,57 @@ function SettingsGUI:consoleCommandSetDifficulty(difficulty)
     
     local settings = g_realisticHarvestManager.settings
     
-    -- PERMISSION CHECK: Only admins can change server settings
     if not settings:canChangeServerSettings() then
         return "Error: Admin only - you cannot change server settings"
     end
     
     local diff = tonumber(difficulty)
     if not diff or diff < 1 or diff > 3 then
-        Logging.warning("RHM: Invalid difficulty. Use 1 (Arcade), 2 (Normal), or 3 (Realistic)")
-        return "Invalid difficulty. Use 1 (Arcade), 2 (Normal), or 3 (Realistic)"
+        return "Invalid difficulty. Use 1 (Arcade), 2 (Normal), or 3 (Realistic). For separate control use rhmSetDifficultyMotor and rhmSetDifficultyLoss"
     end
     
-    settings:setDifficulty(diff)
+    settings:setDifficulty(diff)  -- sets both Motor and Loss
     settings:save()
-    return string.format("Difficulty set to: %s", settings:getDifficultyName())
+    local names = {"Arcade", "Normal", "Realistic"}
+    return string.format("[Deprecated] Both difficulties set to: %s. Consider using rhmSetDifficultyMotor / rhmSetDifficultyLoss", names[diff] or "?")
+end
+
+---Встановити складність двигуна (Motor)
+function SettingsGUI:consoleCommandSetDifficultyMotor(difficulty)
+    if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
+        return "Error: RHM not initialized"
+    end
+    local settings = g_realisticHarvestManager.settings
+    if not settings:canChangeServerSettings() then
+        return "Error: Admin only"
+    end
+    local diff = tonumber(difficulty)
+    if not diff or diff < 1 or diff > 3 then
+        return "Invalid value. Use 1 (Arcade), 2 (Normal), or 3 (Realistic)"
+    end
+    settings.difficultyMotor = diff
+    settings:save()
+    local names = {"Arcade", "Normal", "Realistic"}
+    return string.format("Difficulty Motor set to: %s", names[diff] or "?")
+end
+
+---Встановити складність втрат врожаю (Loss)
+function SettingsGUI:consoleCommandSetDifficultyLoss(difficulty)
+    if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
+        return "Error: RHM not initialized"
+    end
+    local settings = g_realisticHarvestManager.settings
+    if not settings:canChangeServerSettings() then
+        return "Error: Admin only"
+    end
+    local diff = tonumber(difficulty)
+    if not diff or diff < 1 or diff > 3 then
+        return "Invalid value. Use 1 (Arcade), 2 (Normal), or 3 (Realistic)"
+    end
+    settings.difficultyLoss = diff
+    settings:save()
+    local names = {"Arcade", "Normal", "Realistic"}
+    return string.format("Difficulty Loss set to: %s", names[diff] or "?")
 end
 
 function SettingsGUI:consoleCommandToggleSpeedLimit()
@@ -131,7 +171,8 @@ function SettingsGUI:consoleCommandShowSettings()
         "=== RHM Settings ===\n" ..
         "Role: %s\n" ..
         "\n[Server Settings]\n" ..
-        "Difficulty: %s\n" ..
+        "Difficulty Motor: %s\n" ..
+        "Difficulty Loss: %s\n" ..
         "Speed Limiting: %s\n" ..
         "Crop Loss: %s\n" ..
         "\n[Personal Settings]\n" ..
@@ -140,12 +181,13 @@ function SettingsGUI:consoleCommandShowSettings()
         "HUD Offset Y: %d\n" ..
         "Unit System: %s",
         userRole,
-        settings:getDifficultyName(),
+        settings.getDifficultyMotorName and settings:getDifficultyMotorName() or tostring(settings.difficultyMotor),
+        settings.getDifficultyLossName and settings:getDifficultyLossName() or tostring(settings.difficultyLoss),
         settings.enableSpeedLimit and "ON" or "OFF",
         settings.enableCropLoss and "ON" or "OFF",
         settings.showHUD and "ON" or "OFF",
         settings.hudOffsetX or 0,
-        settings.hudOffsetY,
+        settings.hudOffsetY or 0,
         settings.unitSystem == 1 and "Metric" or (settings.unitSystem == 2 and "Imperial" or "Bushels")
     )
     print(info)
@@ -245,21 +287,44 @@ function SettingsGUI:getCurrentCombine()
     return nil
 end
 
----Показує статус налаштувань комбайна
+---Показує статус налаштувань комбайна (без відкриття GUI)
 function SettingsGUI:consoleCommandCombineStatus()
     local vehicle = self:getCurrentCombine()
     if not vehicle then
         return "[X] You must be in a combine to use this command"
     end
     
-    if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
-        return "[X] Combine Settings GUI not initialized"
+    local spec = vehicle.spec_rhm_Combine
+    if not spec or not spec.combineMemory then
+        return "[X] Combine Memory not found"
     end
     
-    local gui = g_realisticHarvestManager.combineSettingsGUI
-    gui:open(vehicle)  -- open() вже викликає printStatus()
+    local mem = spec.combineMemory
+    local settings = mem.currentSettings
     
-    return ""
+    -- FIX: Print status directly, do NOT open GUI
+    local info = string.format(
+        "=== RHM Combine Status ===\n" ..
+        "Crop:   %s\n" ..
+        "Mode:   %s\n" ..
+        "Fan:    %d%%\n" ..
+        "Rotor:  %d%%\n" ..
+        "Upper:  %d%%\n" ..
+        "Lower:  %d%%\n" ..
+        "Feeder: %d%%\n" ..
+        "Profiles: %d saved",
+        mem.currentCrop or "NONE",
+        mem.mode or "UNKNOWN",
+        settings.fan or 0,
+        settings.rotor or 0,
+        settings.upperSieve or 0,
+        settings.lowerSieve or 0,
+        settings.feeder or 0,
+        mem:getProfileCount()
+    )
+    
+    print(info)
+    return info
 end
 
 ---Встановити AUTO режим

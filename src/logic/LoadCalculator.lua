@@ -9,9 +9,9 @@ function LoadCalculator.new(modDirectory)
     self.debug = false -- TEMPORARY DEBUG ENABLED
     self.modDirectory = modDirectory or g_currentModDirectory  -- Зберігаємо modDirectory (with fallback)
     
-    -- Коефіцієнти складності культур (завантажуються з XML)
+    -- Коефіцієнти складності культур
     self.CROP_FACTORS = {}
-    self:loadCropFactorsFromXML()
+    self:loadDefaultCropFactors()
     
     -- Дані для розрахунку середнього навантаження
     self.totalDistance = 0
@@ -58,54 +58,7 @@ function LoadCalculator.new(modDirectory)
     return self
 end
 
----Завантажує коефіцієнти культур з XML файлу
-function LoadCalculator:loadCropFactorsFromXML()
-    if not self.modDirectory then
-        print("RHM: WARNING - modDirectory not provided to LoadCalculator")
-        self:loadDefaultCropFactors()
-        return
-    end
-    
-    -- Використовуємо Utils.getFilename для правильного шляху
-    local xmlPath = Utils.getFilename("data/fruitTypes.xml", self.modDirectory)
-    
-    local xmlFile = XMLFile.load("RHM_FruitTypes", xmlPath)
-    if not xmlFile then
-        print("RHM: WARNING - Could not load fruitTypes.xml from: " .. tostring(xmlPath))
-        print("RHM: Falling back to default crop factors")
-        self:loadDefaultCropFactors()
-        return
-    end
-    
-    local i = 0
-    while true do
-        local key = string.format("fruitTypes.fruitType(%d)", i)
-        if not xmlFile:hasProperty(key) then
-            break
-        end
-        
-        local fruitName = xmlFile:getString(key .. "#name")
-        local factor = xmlFile:getFloat(key .. "#mrMaterialQtyFx", 1.0)
-        
-        if fruitName then
-            -- Знайти FruitType ID за ім'ям
-            local fruitTypeIndex = g_fruitTypeManager:getFruitTypeIndexByName(fruitName)
-            if fruitTypeIndex then
-                self.CROP_FACTORS[fruitTypeIndex] = factor
-                if self.debug then
-                    print(string.format("RHM: Loaded crop factor for %s: %.2f", fruitName, factor))
-                end
-            end
-        end
-        
-        i = i + 1
-    end
-    
-    xmlFile:delete()
-    print(string.format("RHM: Loaded %d crop factors from fruitTypes.xml", i))
-end
-
----Завантажує стандартні коефіцієнти (Fallback)
+---Завантажує стандартні коефіцієнти культур
 function LoadCalculator:loadDefaultCropFactors()
     -- Fallback до базових значень
     -- 1.0 = Стандарт (Пшениця)
@@ -763,10 +716,11 @@ function LoadCalculator:calculateSettingsLoss()
         return 0
     end
     
-    -- Якщо режим AUTO - втрат немає (оптимальні налаштування)
-    if self.combineMemory.mode == "AUTO" then
-        return 0
-    end
+    -- Однакова математика для AUTO і MANUAL:
+    -- AUTO отримує невеликий відхил від оптимуму (1-10 одиниць) при налаштуванні,
+    -- тому матиме малі, але реальні втрати — "автомат не ідеальний"
+    -- MANUAL дає гравцю можливість зробити і краще (якщо точно потрапить в оптимум)
+    -- і гірше (якщо виставить неправильні значення)
     
     -- Отримуємо результат перевірки налаштувань (включаючи бонус)
     local netPenalty, _ = self.combineMemory:checkSettingsForCrop(self.currentCrop)

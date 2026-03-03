@@ -41,6 +41,35 @@ function rhm_Combine.registerOverwrittenFunctions(vehicleType)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "getCanBeTurnedOn", rhm_Combine.getCanBeTurnedOn)
 end
 
+---Реєстрація XML шляхів для savegame (КРИТИЧНО для збереження даних!)
+---Без цього FS25 не знає які вузли XML записувати/читати для цієї специалізації
+function rhm_Combine.registerXMLPaths(schema, basePath)
+    -- Поточні налаштування комбайну
+    local currentBase = basePath .. ".combineMemory.current"
+    schema:register(XMLValueType.STRING,  currentBase .. "#mode",        "Combine settings mode (AUTO/MANUAL)", "AUTO")
+    schema:register(XMLValueType.STRING,  currentBase .. "#currentCrop", "Current crop name", "")
+    schema:register(XMLValueType.INT,     currentBase .. "#fan",         "Fan setting", 50)
+    schema:register(XMLValueType.INT,     currentBase .. "#upperSieve",  "Upper sieve setting", 50)
+    schema:register(XMLValueType.INT,     currentBase .. "#lowerSieve",  "Lower sieve setting", 50)
+    schema:register(XMLValueType.INT,     currentBase .. "#rotor",       "Rotor setting", 50)
+    schema:register(XMLValueType.INT,     currentBase .. "#feeder",      "Feeder setting", 50)
+
+    -- Збережені профілі (масив)
+    local profileBase = basePath .. ".combineMemory.profiles.profile(?)"
+    schema:register(XMLValueType.STRING,  profileBase .. "#name",                   "Profile name")
+    schema:register(XMLValueType.STRING,  profileBase .. "#cropType",               "Profile crop type")
+    schema:register(XMLValueType.BOOL,    profileBase .. "#customized",             "Is customized", false)
+    schema:register(XMLValueType.INT,     profileBase .. ".settings#fan",           "Profile fan", 50)
+    schema:register(XMLValueType.INT,     profileBase .. ".settings#upperSieve",    "Profile upper sieve", 50)
+    schema:register(XMLValueType.INT,     profileBase .. ".settings#lowerSieve",    "Profile lower sieve", 50)
+    schema:register(XMLValueType.INT,     profileBase .. ".settings#rotor",         "Profile rotor", 50)
+    schema:register(XMLValueType.INT,     profileBase .. ".settings#feeder",        "Profile feeder", 50)
+    schema:register(XMLValueType.INT,     profileBase .. ".stats#timesUsed",        "Times used", 0)
+    schema:register(XMLValueType.STRING,  profileBase .. ".stats#lastUsed",         "Last used", "")
+    schema:register(XMLValueType.FLOAT,   profileBase .. ".stats#totalHarvested",   "Total harvested", 0)
+    schema:register(XMLValueType.FLOAT,   profileBase .. ".stats#averageLoss",      "Average loss", 0)
+end
+
 function rhm_Combine.registerEventListeners(vehicleType)
     print("RHM: Registering event listeners for rhm_Combine")
     SpecializationUtil.registerEventListener(vehicleType, "onLoad", rhm_Combine)
@@ -317,7 +346,7 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         end
         
         -- В Arcade режимі НЕ обмежуємо швидкість (як у ванільній грі)
-        if g_realisticHarvestManager.settings.difficulty == 1 then -- DIFFICULTY_ARCADE
+        if g_realisticHarvestManager.settings.difficultyMotor == 1 then -- DIFFICULTY_ARCADE
             spec.isSpeedLimitActive = false
             return limit, doCheckSpeedLimit
         end
@@ -571,13 +600,16 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     end
     
     -- Перевіряємо чи жатка працює
-    local cutterIsTurnedOn = false
+    local cutterIsTurnedOn = false  -- FIX: завжди скидаємо перед циклом
     for cutter, _ in pairs(spec_combine.attachedCutters) do
         if cutter.spec_cutter then
             local spec_cutter = cutter.spec_cutter
-            cutterIsTurnedOn = self.movingDirection == spec_cutter.movingDirection 
+            if self.movingDirection == spec_cutter.movingDirection 
                 and self:getLastSpeed() > 0.5 
-                and (spec_cutter.allowCuttingWhileRaised or cutter:getIsLowered(true))
+                and (spec_cutter.allowCuttingWhileRaised or cutter:getIsLowered(true)) then
+                cutterIsTurnedOn = true
+                break  -- FIX: знайшли працюючу — виходим
+            end
         end
     end
     
@@ -598,6 +630,21 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         self:raiseDirtyFlags(spec.dirtyFlag)
         
         return
+    end
+    
+    -- Автодетекція культури (тільки на сервері — щоб рандомні значення AUTO
+    -- генерувались один раз і синхронізувались до всіх клієнтів через stream)
+    if self.isServer and spec_combine and spec_combine.lastValidInputFruitType and spec_combine.lastValidInputFruitType > 0 then
+        local detectedCrop = CombineSettingsDatabase:getCropNameFromFillType(spec_combine.lastValidInputFruitType)
+        if detectedCrop and detectedCrop ~= spec.combineMemory.currentCrop then
+            if rhm_Combine.debug then
+                print(string.format("RHM: [AutoCrop] Detected new crop: %s (was: %s)", 
+                    detectedCrop, tostring(spec.combineMemory.currentCrop)))
+            end
+            spec.combineMemory:switchCrop(detectedCrop)
+            -- Одразу повідомляємо клієнтів про нові налаштування
+            self:raiseDirtyFlags(spec.dirtyFlag)
+        end
     end
     
     -- Оновлюємо LoadCalculator
@@ -635,65 +682,30 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- PHYSICAL CROP LOSS - Видаляємо втрачене зерно з бункера
     -- ========================================================================
     if liters > 0 and self.isServer then
-        -- === ТЕСТОВИЙ РЕЖИМ ===
-        -- Встановіть TEST_CROP_LOSS_MODE = true для перевірки з 100% втратами
-        local TEST_CROP_LOSS_MODE = false  -- ✅ ВИМКНЕНО - Нормальна гра
+        -- Розраховуємо crop loss (включаючи втрати від налаштувань)
+        local cropLoss = spec.loadCalculator:calculateTotalCropLoss()
+        spec.combineMemory:updateStatistics(liters, cropLoss, spec.combineMemory.currentCrop)
         
-        local cropLoss = 0
-        
-        if TEST_CROP_LOSS_MODE then
-            -- ТЕСТ: Примусові 100% втрати
-            cropLoss = 100
-            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-            print(" TEST MODE: FORCING 100% CROP LOSS")
-            print("   Harvested: " .. liters .. " L")
-            print("   ALL will be removed from bunker!")
-            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-        else
-            -- Нормальний режим: розраховуємо crop loss (включаючи втрати від налаштувань)
-            cropLoss = spec.loadCalculator:calculateTotalCropLoss()
-            
-            -- Оновлюємо статистику профілю (періодично або при зупинці, але тут кожен кадр?)
-            -- updateStatistics просто додає до накопичувача, тому не можна викликати щокадру з повною сумою?
-            -- Wait! updateStatistics ADDS tons. If we call it every frame with 'liters' (which is lastLiters for this frame), it works.
-            -- spec.lastLiters is reset at end of function.
-            spec.combineMemory:updateStatistics(liters, cropLoss, spec.combineMemory.currentCrop)
-        end
-        
-        if cropLoss > 0 then
-            -- Перевіряємо чи crop loss увімкнений (тільки в нормальному режимі)
-            local enableCropLoss = TEST_CROP_LOSS_MODE  -- В тесті завжди true
-            if not TEST_CROP_LOSS_MODE and g_realisticHarvestManager and g_realisticHarvestManager.settings then
-                enableCropLoss = g_realisticHarvestManager.settings.enableCropLoss
-            end
-            
-            if enableCropLoss then
-                -- Розраховуємо кількість втрачених літрів
-                local lossRatio = cropLoss / 100  -- Конвертуємо % в десяткове число
+        if cropLoss > 0 and g_realisticHarvestManager and g_realisticHarvestManager.settings then
+            if g_realisticHarvestManager.settings.enableCropLoss then
+                local lossRatio = cropLoss / 100
                 local lostLiters = liters * lossRatio
                 
-                -- Комбайни зазвичай мають основний бункер з індексом 1
-                -- Це найпростіший і найнадійніший спосіб для FS25
                 local fillUnitIndex = 1
-                
-                -- Перевіряємо що fill unit існує
                 local spec_fillUnit = self.spec_fillUnit
                 if spec_fillUnit and spec_fillUnit.fillUnits and spec_fillUnit.fillUnits[fillUnitIndex] then
-                    -- Видаляємо втрачене зерно з бункера (негативне значення)
                     self:addFillUnitFillLevel(
                         self:getOwnerFarmId(),
                         fillUnitIndex,
-                        -lostLiters,  -- Від'ємне значення = видалення
+                        -lostLiters,
                         spec.lastFillType,
                         ToolType.UNDEFINED,
                         nil
                     )
                     
-                    -- Debug logging (only for significant losses or debug mode)
-                    if rhm_Combine.debug or TEST_CROP_LOSS_MODE or cropLoss > 10 then
-                        local prefix = TEST_CROP_LOSS_MODE and "[TEST]" or "[LOSS]"
-                        print(string.format("RHM: %s Crop Loss Applied: %.1f L lost (%.1f%% of %.1f L harvest)", 
-                            prefix, lostLiters, cropLoss, liters))
+                    if rhm_Combine.debug or cropLoss > 10 then
+                        print(string.format("RHM: [LOSS] Crop Loss Applied: %.1f L lost (%.1f%% of %.1f L harvest)",
+                            lostLiters, cropLoss, liters))
                     end
                 else
                     print("RHM: Warning - Could not find fill unit for crop loss removal")
@@ -729,7 +741,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
 end
 
 -- Викликається кожен кадр коли гравець в комбайні
--- Викликається кожен кадр коли гравець в комбайні
 function rhm_Combine:onDraw(isActiveForInput, isActiveForInputIgnoreSelection, isSelected)
     -- ПРИМІТКА: HUD малюється централізовано в RealisticHarvestManager:draw()
     -- Ми використовуємо сканування ієрархії (getControlledVehicle -> root -> findCombine),
@@ -737,12 +748,6 @@ function rhm_Combine:onDraw(isActiveForInput, isActiveForInputIgnoreSelection, i
 end
 
 -- ============================================================================
--- SAVEGAME FUNCTIONS  
--- ============================================================================
-
----Збереження стану в savegame файл
----@param xmlFile XMLFile
----@param key string
 -- SAVEGAME FUNCTIONS  
 -- ============================================================================
 
@@ -846,6 +851,8 @@ function rhm_Combine:loadFromXMLFile(xmlFile, key, resetVehicles)
             }
             
             spec.combineMemory.savedProfiles[name] = profile
+            -- FIX: Update cached counter when loading profiles from savegame
+            spec.combineMemory.profileCount = (spec.combineMemory.profileCount or 0) + 1
         end
         
         i = i + 1
@@ -863,7 +870,7 @@ function rhm_Combine:loadFromXMLFile(xmlFile, key, resetVehicles)
     spec.combineMemory.currentSettings.feeder = xmlFile:getValue(currentKey .. "#feeder", 50)
     
     if rhm_Combine.debug then
-        print(string.format("RHM: Loaded %d profiles for %s", i, self:getName()))
+        print(string.format("RHM: Loaded %d profiles for %s", spec.combineMemory.profileCount, self:getName()))
     end
 end
 
@@ -880,17 +887,46 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0)
-        streamWriteFloat32(streamId, 0) -- litersPerHour
+        streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0) -- yield
+        -- CombineMemory: write defaults
+        streamWriteUInt8(streamId, 50)  -- fan
+        streamWriteUInt8(streamId, 50)  -- rotor
+        streamWriteUInt8(streamId, 50)  -- upperSieve
+        streamWriteUInt8(streamId, 50)  -- lowerSieve
+        streamWriteUInt8(streamId, 50)  -- feeder
+        streamWriteString(streamId, "AUTO")  -- mode
+        streamWriteString(streamId, "")      -- currentCrop (empty = nil)
         return
     end
     
+    -- HUD data
     streamWriteFloat32(streamId, spec.data.load or 0)
     streamWriteFloat32(streamId, spec.data.cropLoss or 0)
     streamWriteFloat32(streamId, spec.data.tonPerHour or 0)
-    streamWriteFloat32(streamId, spec.data.litersPerHour or 0) -- litersPerHour
+    streamWriteFloat32(streamId, spec.data.litersPerHour or 0)
     streamWriteFloat32(streamId, spec.data.recommendedSpeed or 0)
     streamWriteFloat32(streamId, spec.data.yield or 0)
+    
+    -- CombineMemory settings (FIX 4: sync on initial connect)
+    local mem = spec.combineMemory
+    if mem then
+        streamWriteUInt8(streamId, mem.currentSettings.fan or 50)
+        streamWriteUInt8(streamId, mem.currentSettings.rotor or 50)
+        streamWriteUInt8(streamId, mem.currentSettings.upperSieve or 50)
+        streamWriteUInt8(streamId, mem.currentSettings.lowerSieve or 50)
+        streamWriteUInt8(streamId, mem.currentSettings.feeder or 50)
+        streamWriteString(streamId, mem.mode or "AUTO")
+        streamWriteString(streamId, mem.currentCrop or "")
+    else
+        streamWriteUInt8(streamId, 50)
+        streamWriteUInt8(streamId, 50)
+        streamWriteUInt8(streamId, 50)
+        streamWriteUInt8(streamId, 50)
+        streamWriteUInt8(streamId, 50)
+        streamWriteString(streamId, "AUTO")
+        streamWriteString(streamId, "")
+    end
 end
 
 ---Початкова синхронізація: Клієнт читає дані при підключенні
@@ -904,6 +940,14 @@ function rhm_Combine:onReadStream(streamId, connection)
         streamReadFloat32(streamId)
         streamReadFloat32(streamId)
         streamReadFloat32(streamId) -- yield
+        -- CombineMemory defaults (skip)
+        streamReadUInt8(streamId)
+        streamReadUInt8(streamId)
+        streamReadUInt8(streamId)
+        streamReadUInt8(streamId)
+        streamReadUInt8(streamId)
+        streamReadString(streamId)
+        streamReadString(streamId)
         return
     end
     
@@ -911,12 +955,33 @@ function rhm_Combine:onReadStream(streamId, connection)
         spec.data = {}
     end
     
+    -- HUD data
     spec.data.load = streamReadFloat32(streamId)
     spec.data.cropLoss = streamReadFloat32(streamId)
     spec.data.tonPerHour = streamReadFloat32(streamId)
     spec.data.litersPerHour = streamReadFloat32(streamId)
     spec.data.recommendedSpeed = streamReadFloat32(streamId)
     spec.data.yield = streamReadFloat32(streamId)
+    
+    -- CombineMemory settings (FIX 4: receive on initial connect)
+    local fan = streamReadUInt8(streamId)
+    local rotor = streamReadUInt8(streamId)
+    local upperSieve = streamReadUInt8(streamId)
+    local lowerSieve = streamReadUInt8(streamId)
+    local feeder = streamReadUInt8(streamId)
+    local mode = streamReadString(streamId)
+    local currentCrop = streamReadString(streamId)
+    
+    -- Apply to combineMemory if available
+    if spec.combineMemory then
+        spec.combineMemory.currentSettings.fan = fan
+        spec.combineMemory.currentSettings.rotor = rotor
+        spec.combineMemory.currentSettings.upperSieve = upperSieve
+        spec.combineMemory.currentSettings.lowerSieve = lowerSieve
+        spec.combineMemory.currentSettings.feeder = feeder
+        spec.combineMemory.mode = mode or "AUTO"
+        spec.combineMemory.currentCrop = (currentCrop ~= "" and currentCrop) or nil
+    end
 end
 
 ---Постійна синхронізація: Клієнт читає оновлення від сервера
@@ -935,13 +1000,32 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
                 spec.data = {}
             end
             
+            -- HUD data
             spec.data.load = streamReadFloat32(streamId)
             spec.data.cropLoss = streamReadFloat32(streamId)
             spec.data.tonPerHour = streamReadFloat32(streamId)
             spec.data.litersPerHour = streamReadFloat32(streamId)
             spec.data.recommendedSpeed = streamReadFloat32(streamId)
             spec.data.yield = streamReadFloat32(streamId)
-
+            
+            -- CombineMemory settings (FIX 4)
+            local fan = streamReadUInt8(streamId)
+            local rotor = streamReadUInt8(streamId)
+            local upperSieve = streamReadUInt8(streamId)
+            local lowerSieve = streamReadUInt8(streamId)
+            local feeder = streamReadUInt8(streamId)
+            local mode = streamReadString(streamId)
+            local currentCrop = streamReadString(streamId)
+            
+            if spec.combineMemory then
+                spec.combineMemory.currentSettings.fan = fan
+                spec.combineMemory.currentSettings.rotor = rotor
+                spec.combineMemory.currentSettings.upperSieve = upperSieve
+                spec.combineMemory.currentSettings.lowerSieve = lowerSieve
+                spec.combineMemory.currentSettings.feeder = feeder
+                spec.combineMemory.mode = mode or "AUTO"
+                spec.combineMemory.currentCrop = (currentCrop ~= "" and currentCrop) or nil
+            end
         end
     end
 end
@@ -961,23 +1045,34 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
         streamWriteBool(streamId, hasChanges)
         
         if hasChanges then
-            if not spec.data then
-                streamWriteFloat32(streamId, 0)
-                streamWriteFloat32(streamId, 0)
-                streamWriteFloat32(streamId, 0)
-                streamWriteFloat32(streamId, 0)
-                streamWriteFloat32(streamId, 0)
-                streamWriteFloat32(streamId, 0) -- yield
-                return
-            end
-
+            -- HUD data
+            local data = spec.data or {}
+            streamWriteFloat32(streamId, data.load or 0)
+            streamWriteFloat32(streamId, data.cropLoss or 0)
+            streamWriteFloat32(streamId, data.tonPerHour or 0)
+            streamWriteFloat32(streamId, data.litersPerHour or 0)
+            streamWriteFloat32(streamId, data.recommendedSpeed or 0)
+            streamWriteFloat32(streamId, data.yield or 0)
             
-            streamWriteFloat32(streamId, spec.data.load or 0)
-            streamWriteFloat32(streamId, spec.data.cropLoss or 0)
-            streamWriteFloat32(streamId, spec.data.tonPerHour or 0)
-            streamWriteFloat32(streamId, spec.data.litersPerHour or 0)
-            streamWriteFloat32(streamId, spec.data.recommendedSpeed or 0)
-            streamWriteFloat32(streamId, spec.data.yield or 0)
+            -- CombineMemory settings (FIX 4)
+            local mem = spec.combineMemory
+            if mem then
+                streamWriteUInt8(streamId, mem.currentSettings.fan or 50)
+                streamWriteUInt8(streamId, mem.currentSettings.rotor or 50)
+                streamWriteUInt8(streamId, mem.currentSettings.upperSieve or 50)
+                streamWriteUInt8(streamId, mem.currentSettings.lowerSieve or 50)
+                streamWriteUInt8(streamId, mem.currentSettings.feeder or 50)
+                streamWriteString(streamId, mem.mode or "AUTO")
+                streamWriteString(streamId, mem.currentCrop or "")
+            else
+                streamWriteUInt8(streamId, 50)
+                streamWriteUInt8(streamId, 50)
+                streamWriteUInt8(streamId, 50)
+                streamWriteUInt8(streamId, 50)
+                streamWriteUInt8(streamId, 50)
+                streamWriteString(streamId, "AUTO")
+                streamWriteString(streamId, "")
+            end
         end
     end
 end

@@ -78,7 +78,7 @@ function DraggableHUD:load()
     self.backgroundOverlay:setColor(0, 0, 0, 0.5)
     
     -- Load icons
-    self:loadIcons(uiScale)
+    self:loadIcons(self.uiScale)  -- FIX: was loadIcons(uiScale) - uiScale was nil in this scope
     
     print("RHM: DraggableHUD loaded successfully")
 end
@@ -143,9 +143,13 @@ function DraggableHUD:getPosition()
     -- Default position: left of speed meter
     if g_currentMission and g_currentMission.hud and g_currentMission.hud.speedMeter then
         local speedMeter = g_currentMission.hud.speedMeter
-        local offsetX = speedMeter:scalePixelToScreenWidth(-145)
-        local offsetY = speedMeter:scalePixelToScreenHeight(15)
-        return speedMeter.speedBg.x + offsetX, speedMeter.speedBg.y + offsetY
+        -- FIX: Only use speedMeter position if it's actually initialized (x > 0)
+        -- On first load, speedBg.x can be 0 causing HUD to appear off-screen left
+        if speedMeter.speedBg and speedMeter.speedBg.x and speedMeter.speedBg.x > 0.01 then
+            local offsetX = speedMeter:scalePixelToScreenWidth(-145)
+            local offsetY = speedMeter:scalePixelToScreenHeight(15)
+            return speedMeter.speedBg.x + offsetX, speedMeter.speedBg.y + offsetY
+        end
     end
     
     -- Fallback

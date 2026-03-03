@@ -127,8 +127,6 @@ A modern, non-intrusive HUD appears when you enter a harvester.
     *   **Speed**: Current vs Recommended speed to prevent clogging.
     *   **Loss**: Visual indicator of crop loss (Low/Med/High).
 
-    *   **Loss**: Visual indicator of crop loss (Low/Med/High).
-
 ---
 
 ## 🔧 Combine Calibration Guide
@@ -142,8 +140,10 @@ Press **Right Shift + K** while in a combine to open the Calibration Menu.
 *   **Manual Mode (Default)**: You must adjust the Fan, Rotor, Upper Sieve, Lower Sieve, and Feeder House speed manually.
     *   New crops start at **50% efficiency** (neutral settings). This is safe but not optimal!
     *   You need to tweak values to match the crop type. Incorrect settings will increase **Crop Loss**.
-*   **Auto Mode**: Automatically applies the perfect settings for the current crop.
+*   **Auto Mode**: Automatically applies near-optimal settings for the current crop.
     *   Enable by clicking the "AUTO" button in the menu.
+    *   AUTO is a good starting point, but it's intentionally **not perfect** — there's always a slight random deviation from ideal values. A skilled operator can outperform AUTO with manual tuning!
+    *   The same loss math applies to both AUTO and MANUAL — no more free pass in AUTO mode.
 
 ### Crop Loss Penalties
 *   The HUD now displays **Engine Load** and **Loss**.
@@ -165,6 +165,97 @@ Press **Right Shift + K** while in a combine to open the Calibration Menu.
 > ![GUI Inaccurate Settings](docs/images/gui_inaccurate.png)
 >
 > *High loss due to poor calibration.*
+
+---
+
+## ⚖️ Optimal Combine Settings Reference
+
+These are the **exact values** that result in **0% crop loss from settings** for each crop type. Stay within the Tolerance range to eliminate all settings-based penalties.
+
+> 💡 **Tip:** Values at *exactly* the Optimal point eliminate all loss — but the best operators know that perfect precision can unlock a small efficiency bonus on top of that. Can you find it? 😉
+
+### Standard Grain — Wheat, Barley
+| Parameter | Optimal | Tolerance |
+|:---|:---:|:---:|
+| **Fan** | 65 | ±7 |
+| **Upper Sieve** | 60 | ±6 |
+| **Lower Sieve** | 70 | ±6 |
+| **Rotor** | 75 | ±6 |
+| **Feeder** | 50 | ±10 |
+
+### Light Grain — Oat
+| Parameter | Optimal | Tolerance |
+|:---|:---:|:---:|
+| **Fan** | 70 | ±7 |
+| **Upper Sieve** | 65 | ±6 |
+| **Lower Sieve** | 75 | ±6 |
+| **Rotor** | 80 | ±6 |
+| **Feeder** | 55 | ±10 |
+
+### Corn (Maize)
+| Parameter | Optimal | Tolerance |
+|:---|:---:|:---:|
+| **Fan** | 85 | ±6 |
+| **Upper Sieve** | 80 | ±6 |
+| **Lower Sieve** | 85 | ±6 |
+| **Rotor** | 90 | ±5 |
+| **Feeder** | 70 | ±10 |
+
+### Soybean / Legumes
+| Parameter | Optimal | Tolerance |
+|:---|:---:|:---:|
+| **Fan** | 50 | ±7 |
+| **Upper Sieve** | 50 | ±6 |
+| **Lower Sieve** | 60 | ±6 |
+| **Rotor** | 55 | ±6 |
+| **Feeder** | 35 | ±8 |
+
+### Canola (Rapeseed)
+| Parameter | Optimal | Tolerance |
+|:---|:---:|:---:|
+| **Fan** | 45 | ±6 |
+| **Upper Sieve** | 40 | ±4 |
+| **Lower Sieve** | 50 | ±4 |
+| **Rotor** | 60 | ±6 |
+| **Feeder** | 40 | ±8 |
+
+### Sunflower
+| Parameter | Optimal | Tolerance |
+|:---|:---:|:---:|
+| **Fan** | 55 | ±7 |
+| **Upper Sieve** | 70 | ±6 |
+| **Lower Sieve** | 80 | ±6 |
+| **Rotor** | 65 | ±6 |
+| **Feeder** | 60 | ±10 |
+
+### Rice
+| Parameter | Optimal | Tolerance |
+|:---|:---:|:---:|
+| **Fan** | 80 | ±7 |
+| **Upper Sieve** | 70 | ±6 |
+| **Lower Sieve** | 70 | ±6 |
+| **Rotor** | 85 | ±6 |
+| **Feeder** | 60 | ±12 |
+
+### Root Crops — Potato, Sugarbeet
+| Parameter | Optimal | Tolerance |
+|:---|:---:|:---:|
+| **Fan** | 40 | ±10 |
+| **Upper Sieve** | 80 | ±10 |
+| **Lower Sieve** | 80 | ±10 |
+| **Rotor** | 50 | ±10 |
+| **Feeder** | 50 | ±10 |
+
+### Vegetables — Carrot, Onion, Beetroot, etc.
+| Parameter | Optimal | Tolerance |
+|:---|:---:|:---:|
+| **Fan** | 50–75 | ±10 |
+| **Upper Sieve** | 60–70 | ±10 |
+| **Lower Sieve** | 60–70 | ±10 |
+| **Rotor** | 55–60 | ±10 |
+| **Feeder** | 55–60 | ±10 |
+
+> **Note:** Staying within Tolerance gives 0% penalty. Hitting the exact Optimal value is needed to unlock a potential efficiency bonus. Happy calibrating! 🌾
 
 ---
 

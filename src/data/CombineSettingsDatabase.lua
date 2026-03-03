@@ -104,57 +104,62 @@ local templates = {
     },
 }
 ---Прив'язка культур до шаблонів та fillType з гри
+-- FIX: Всі fillType огорнуті в умовний вираз для захисту від nil
+-- якщо FillType.WHEAT == nil (DLC/мод не встановлений) -> повертаємо nil безпечно
+local function safeFillType(ft)
+    return (ft ~= nil and ft ~= 0) and ft or nil
+end
+
 CombineSettingsDatabase.crops = {
     -- Зернові
-    ["WHEAT"] = { name = "Пшениця", nameEN = "Wheat", template = templates.grain_medium, group = "grain", fillType = FillType.WHEAT },
-    ["BARLEY"] = { name = "Ячмінь", nameEN = "Barley", template = templates.grain_medium, group = "grain", fillType = FillType.BARLEY },
-    ["OAT"] = { name = "Овес", nameEN = "Oat", template = templates.grain_light, group = "grain", fillType = FillType.OAT },
-    ["SORGHUM"] = { name = "Сорго", nameEN = "Sorghum", template = templates.grain_medium, group = "grain", fillType = FillType.SORGHUM },
+    ["WHEAT"]   = { name = "Пшениця",            nameEN = "Wheat",            template = templates.grain_medium,        group = "grain",       fillType = safeFillType(FillType.WHEAT) },
+    ["BARLEY"]  = { name = "Ячмінь",             nameEN = "Barley",           template = templates.grain_medium,        group = "grain",       fillType = safeFillType(FillType.BARLEY) },
+    ["OAT"]     = { name = "Овес",               nameEN = "Oat",              template = templates.grain_light,         group = "grain",       fillType = safeFillType(FillType.OAT) },
+    ["SORGHUM"] = { name = "Сорго",              nameEN = "Sorghum",          template = templates.grain_medium,        group = "grain",       fillType = safeFillType(FillType.SORGHUM) },
     
     -- Рис
-    ["RICE"] = { name = "Рис", nameEN = "Rice", template = templates.rice, group = "rice", fillType = FillType.RICE },
-    ["RICE_LONG_GRAIN"] = { name = "Рис (довгозерний)", nameEN = "Rice (Long Grain)", template = templates.rice, group = "rice", fillType = FillType.RICE_LONG_GRAIN },
+    ["RICE"]            = { name = "Рис",               nameEN = "Rice",             template = templates.rice,                group = "rice",        fillType = safeFillType(FillType.RICE) },
+    ["RICE_LONG_GRAIN"] = { name = "Рис (довгозерний)", nameEN = "Rice (Long Grain)", template = templates.rice,               group = "rice",        fillType = safeFillType(FillType.RICE_LONG_GRAIN) },
     
     -- Олійні
-    ["CANOLA"] = { name = "Ріпак", nameEN = "Canola", template = templates.oilseed_light, group = "oilseed", fillType = FillType.CANOLA },
-    ["SUNFLOWER"] = { name = "Соняшник", nameEN = "Sunflower", template = templates.oilseed_heavy, group = "oilseed", fillType = FillType.SUNFLOWER },
+    ["CANOLA"]    = { name = "Ріпак",             nameEN = "Canola",          template = templates.oilseed_light,       group = "oilseed",     fillType = safeFillType(FillType.CANOLA) },
+    ["SUNFLOWER"] = { name = "Соняшник",          nameEN = "Sunflower",       template = templates.oilseed_heavy,       group = "oilseed",     fillType = safeFillType(FillType.SUNFLOWER) },
     
     -- Кукурудза
-    ["CORN"] = { name = "Кукурудза", nameEN = "Corn", template = templates.corn, group = "corn", fillType = FillType.MAIZE },
+    ["CORN"] = { name = "Кукурудза", nameEN = "Corn", template = templates.corn, group = "corn", fillType = safeFillType(FillType.MAIZE) },
     
     -- Бобові
-    ["SOYBEAN"] = { name = "Соя", nameEN = "Soybean", template = templates.legume, group = "legume", fillType = FillType.SOYBEAN },
-    ["PEA"] = { name = "Горох", nameEN = "Peas", template = templates.legume, group = "legume", fillType = FillType.PEA },
-    ["LENTIL"] = { name = "Сочевиця", nameEN = "Lentil", template = templates.legume, group = "legume", fillType = nil }, -- Mod crop
-    ["CHICKPEA"] = { name = "Нут", nameEN = "Chickpea", template = templates.legume, group = "legume", fillType = nil }, -- Mod crop
+    ["SOYBEAN"]  = { name = "Соя",           nameEN = "Soybean",   template = templates.legume, group = "legume", fillType = safeFillType(FillType.SOYBEAN) },
+    ["PEA"]      = { name = "Горох",         nameEN = "Peas",      template = templates.legume, group = "legume", fillType = safeFillType(FillType.PEA) },
+    ["LENTIL"]   = { name = "Сочевиця",      nameEN = "Lentil",    template = templates.legume, group = "legume", fillType = nil },  -- Mod crop
+    ["CHICKPEA"] = { name = "Нут",           nameEN = "Chickpea",  template = templates.legume, group = "legume", fillType = nil },  -- Mod crop
 
-    -- Додаткові зернові (Mod crops)
-    ["RYE"] = { name = "Жито", nameEN = "Rye", template = templates.grain_medium, group = "grain_medium", fillType = nil },
-    ["SPELT"] = { name = "Спельта", nameEN = "Spelt", template = templates.grain_light, group = "grain_light", fillType = nil },
-    ["TRITICALE"] = { name = "Тритикале", nameEN = "Triticale", template = templates.grain_medium, group = "grain_medium", fillType = nil },
-    ["MILLET"] = { name = "Просо", nameEN = "Millet", template = templates.grain_light, group = "grain_light", fillType = nil },
-    ["BUCKWHEAT"] = { name = "Гречка", nameEN = "Buckwheat", template = templates.grain_medium, group = "grain_medium", fillType = nil },
+    -- Додаткові зернові (Mod crops) — fillType = nil (не стандартні в FS25)
+    ["RYE"]       = { name = "Жито",     nameEN = "Rye",       template = templates.grain_medium, group = "grain_medium", fillType = nil },
+    ["SPELT"]     = { name = "Спельта",  nameEN = "Spelt",     template = templates.grain_light,  group = "grain_light",  fillType = nil },
+    ["TRITICALE"] = { name = "Тритикале",nameEN = "Triticale", template = templates.grain_medium, group = "grain_medium", fillType = nil },
+    ["MILLET"]    = { name = "Просо",    nameEN = "Millet",    template = templates.grain_light,  group = "grain_light",  fillType = nil },
+    ["BUCKWHEAT"] = { name = "Гречка",   nameEN = "Buckwheat", template = templates.grain_medium, group = "grain_medium", fillType = nil },
     
     -- Додаткові олійні (Mod crops)
-    ["LINSEED"] = { name = "Льон", nameEN = "Linseed/Flax", template = templates.oilseed_light, group = "oilseed_light", fillType = nil }, -- Flax/Linseed
-    ["MUSTARD"] = { name = "Гірчиця", nameEN = "Mustard", template = templates.oilseed_light, group = "oilseed_light", fillType = nil },
-    ["POPPY"] = { name = "Мак", nameEN = "Poppy", template = templates.oilseed_light, group = "oilseed_light", fillType = nil },
+    ["LINSEED"] = { name = "Льон",     nameEN = "Linseed/Flax", template = templates.oilseed_light, group = "oilseed_light", fillType = nil },
+    ["MUSTARD"] = { name = "Гірчиця", nameEN = "Mustard",       template = templates.oilseed_light, group = "oilseed_light", fillType = nil },
+    ["POPPY"]   = { name = "Мак",     nameEN = "Poppy",         template = templates.oilseed_light, group = "oilseed_light", fillType = nil },
     
-    -- Волокнисті
-    ["HEMP"] = { name = "Коноплі (зерно)", nameEN = "Hemp", template = templates.oilseed_heavy, group = "oilseed_heavy", fillType = nil }, -- Mod crop
+    -- Волокнисті (Mod crops)
+    ["HEMP"] = { name = "Коноплі (зерно)", nameEN = "Hemp", template = templates.oilseed_heavy, group = "oilseed_heavy", fillType = nil },
     
     -- Root & Veg
-    ["POTATO"] = { name = "Картопля", nameEN = "Potato", template = templates.root_heavy, group = "root", fillType = FillType.POTATO },
-    ["SUGARBEET"] = { name = "Цукровий Буряк", nameEN = "Sugarbeet", template = templates.root_heavy, group = "root", fillType = FillType.SUGARBEET },
-    ["BEETROOT"] = { name = "Буряк", nameEN = "Beetroot", template = templates.root_heavy, group = "root", fillType = FillType.BEETROOT },
+    ["POTATO"]    = { name = "Картопля",       nameEN = "Potato",    template = templates.root_heavy,        group = "root",      fillType = safeFillType(FillType.POTATO) },
+    ["SUGARBEET"] = { name = "Цукровий Буряк", nameEN = "Sugarbeet", template = templates.root_heavy,        group = "root",      fillType = safeFillType(FillType.SUGARBEET) },
+    ["BEETROOT"]  = { name = "Буряк",          nameEN = "Beetroot",  template = templates.root_heavy,        group = "root",      fillType = safeFillType(FillType.BEETROOT) },
     
-    ["CARROT"] = { name = "Морква", nameEN = "Carrot", template = templates.root_light, group = "root", fillType = FillType.CARROT },
-    ["PARSNIP"] = { name = "Пастернак", nameEN = "Parsnip", template = templates.root_light, group = "root", fillType = FillType.PARSNIP },
+    ["CARROT"]  = { name = "Морква",   nameEN = "Carrot",  template = templates.root_light,       group = "root",      fillType = safeFillType(FillType.CARROT) },
+    ["PARSNIP"] = { name = "Пастернак",nameEN = "Parsnip", template = templates.root_light,       group = "root",      fillType = safeFillType(FillType.PARSNIP) },
     
-    ["ONION"] = { name = "Цибуля", nameEN = "Onion", template = templates.vegetable_sensitive, group = "vegetable", fillType = FillType.ONION },
-    
-    ["SPINACH"] = { name = "Шпинат", nameEN = "Spinach", template = templates.leafy, group = "vegetable", fillType = FillType.SPINACH },
-    ["GREENBEAN"] = { name = "Зелена Квасоля", nameEN = "Green Bean", template = templates.legume, group = "legume", fillType = FillType.GREENBEAN },
+    ["ONION"]    = { name = "Цибуля",        nameEN = "Onion",      template = templates.vegetable_sensitive, group = "vegetable", fillType = safeFillType(FillType.ONION) },
+    ["SPINACH"]  = { name = "Шпинат",        nameEN = "Spinach",    template = templates.leafy,               group = "vegetable", fillType = safeFillType(FillType.SPINACH) },
+    ["GREENBEAN"]= { name = "Зелена Квасоля",nameEN = "Green Bean", template = templates.legume,              group = "legume",    fillType = safeFillType(FillType.GREENBEAN) },
 }
 
 ---Отримати налаштування для культури за назвою
