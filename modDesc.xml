@@ -2,7 +2,7 @@
 <modDesc descVersion="105">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.4.0.0</version>
+    <version>1.4.1.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -31,6 +31,13 @@ Features:
 - Pickup Header support (Swathing)
 - Experimental NEXAT support
 - Combine Settings & Calibration System
+
+Changelog 1.4.1.0:
+- FIXED: Game crash ("attempt to call missing method 'getIsControlled'") when using equipment from DLC packs (e.g. Highland DLC NH 8040 with Holaras tools). Added safe nil check for the method.
+- FIXED: Courseplay second combine getting stuck at 10 km/h. Removed incorrect movingDirection check from getSpeedLimit() and added guard so Courseplay speed limit only applies when cutter is actually working.
+- FIXED: AUTO mode settings resetting to 50 on dedicated servers. AUTO mode now registers as pending if crop not yet detected and applies automatically on first harvest.
+- FIXED: Combine Settings menu (RShift+K) not opening and closing immediately when using NEXAT modular system.
+- FIXED: Potential game crash with missing 'getAIFieldWorkerIsTurning' method on custom vehicles.
 
 Changelog 1.4.0.0:
 - NEW: Added compatibility with "HUD Hider" mods (HUD aligns with game visibility).
@@ -102,6 +109,13 @@ Funktionen:
 - Unterstützung für Baumwollernter, Hackfruchternter und teilweise Feldhäcksler
 - Experimentelle NEXAT-Unterstützung
 
+Changelog 1.4.1.0:
+- BEHOBEN: Spielabsturz ("attempt to call missing method 'getIsControlled'") bei Nutzung von Ausrüstung aus DLC-Packs hinzugefügt.
+- BEHOBEN: Zweiter Mähdrescher in Courseplay steckte bei 10 km/h fest.
+- BEHOBEN: AUTO-Modus-Einstellungen wurden auf dedizierten Servern auf 50 zurückgesetzt.
+- BEHOBEN: Das Mähdrescher-Einstellungsmenü öffnete und schloss sich sofort bei Verwendung des NEXAT-Modularsystems.
+- BEHOBEN: Möglicher Spielabsturz aufgrund einer fehlenden 'getAIFieldWorkerIsTurning'-Methode.
+
 Changelog 1.4.0.0:
 - NEU: Kompatibilität mit "HUD Hider"-Mods hinzugefügt (HUD passt sich der Spielsichtbarkeit an).
 - BEHOBEN: Fehler bei der Produktivitätsberechnung (T/h), der plötzliche Sprünge verursachte.
@@ -171,6 +185,16 @@ Fonctionnalités:
 - Support multijoueur complet avec paramètres côté serveur
 - Support pour moissonneuses à coton, récolteuses de racines et support partiel pour ensileuses
 - Support expérimental NEXAT
+
+Changelog 1.4.1.0:
+- CORRIGÉ: Crash du jeu ("attempt to call missing method 'getIsControlled'") lors de l'utilisation d'équipements DLC (ex: Highland DLC NH 8040 avec les outils Holaras). Vérification nil sécurisée ajoutée.
+
+Changelog 1.4.1.0:
+- CORRIGÉ : Plantage du jeu ("attempt to call missing method 'getIsControlled'") lors de l'utilisation d'équipements de DLC.
+- CORRIGÉ : La deuxième moissonneuse avec Courseplay restait bloquée à 10 km/h.
+- CORRIGÉ : Le mode AUTO se réinitialisait à 50 sur les serveurs dédiés.
+- CORRIGÉ : Le menu des paramètres de la moissonneuse se fermait immédiatement avec le système modulaire NEXAT.
+- CORRIGÉ : Plantage du jeu lié à l'absence de la méthode 'getAIFieldWorkerIsTurning'.
 
 Changelog 1.4.0.0:
 - NOUVEAU: Compatibilité ajoutée avec les mods "HUD Hider" (le HUD s'aligne sur la visibilité du jeu).
@@ -242,6 +266,16 @@ Funkcje:
 - Wsparcie dla kombajnów bawełnianych, kombajnów korzeniowych i częściowe wsparcie dla sieczkarni
 - Eksperymentalne wsparcie dla NEXAT
 
+Changelog 1.4.1.0:
+- NAPRAWIONO: Crash gry ("attempt to call missing method 'getIsControlled'") podczas używania pojazdów z DLC (np. Highland DLC NH 8040 z narzędziami Holaras). Dodano bezpieczne sprawdzenie nil.
+
+Changelog 1.4.1.0:
+- NAPRAWIONO: Awaria gry ("attempt to call missing method 'getIsControlled'") podczas używania sprzętu z DLC.
+- NAPRAWIONO: Drugi kombajn w Courseplay blokował się na 10 km/h.
+- NAPRAWIONO: Resetowanie ustawień trybu AUTO do 50 na serwerach dedykowanych.
+- NAPRAWIONO: Menu ustawień otwierało się i zamykało natychmiast w systemie modułowym NEXAT.
+- NAPRAWIONO: Potencjalna awaria gry z brakująca funkcją 'getAIFieldWorkerIsTurning'.
+
 Changelog 1.4.0.0:
 - NOWOŚĆ: Dodano kompatybilność z modami "HUD Hider".
 - NAPRAWIONO: Błąd obliczania produktywności (T/h), powodujący nagłe skoki.
@@ -311,6 +345,16 @@ Características:
 - Soporte multijugador completo con configuración del servidor
 - Soporte para cosechadoras de algodón, cosechadoras de raíces y soporte parcial para picadoras
 - Soporte experimental para NEXAT
+
+Changelog 1.4.1.0:
+- CORREGIDO: Crash del juego ("attempt to call missing method 'getIsControlled'") al usar equipos de DLC (p.ej. Highland DLC NH 8040 con herramientas Holaras). Añadida verificación nil segura.
+
+Changelog 1.4.1.0:
+- CORREGIDO: Cierre del juego ("attempt to call missing method 'getIsControlled'") al utilizar equipos de DLC.
+- CORREGIDO: La segunda cosechadora en Courseplay se atascaba a 10 km/h.
+- CORREGIDO: Los ajustes del modo AUTO se restablecían al 50 en servidores dedicados.
+- CORREGIDO: El menú de ajustes de cosechadoras se abría y cerraba en el sistema modular NEXAT.
+- CORREGIDO: Posible fallo de juego al usar vehículos personalizados sin 'getAIFieldWorkerIsTurning'.
 
 Changelog 1.4.0.0:
 - NUEVO: Añadida compatibilidad con mods "HUD Hider".
@@ -382,6 +426,16 @@ Caratteristiche:
 - Supporto per raccoglitrici cotone, raccoglitrici radici e supporto parziale per trincia
 - Supporto sperimentale NEXAT
 
+Changelog 1.4.1.0:
+- RISOLTO: Crash del gioco ("attempt to call missing method 'getIsControlled'") quando si usano veicoli DLC (es. Highland DLC NH 8040 con attrezzi Holaras). Aggiunto controllo nil sicuro.
+
+Changelog 1.4.1.0:
+- RISOLTO: Crash del gioco ("attempt to call missing method 'getIsControlled'") durante l'utilizzo di strumenti DLC.
+- RISOLTO: La seconda mietitrebbia Courseplay si bloccava a 10 km/h.
+- RISOLTO: Le impostazioni del modo AUTO si azzeravano sui server dedicati.
+- RISOLTO: Problemi nel menu delle impostazioni della mietitrebbia sul sistema modulare NEXAT.
+- RISOLTO: Possibile crash del gioco a causa della mancanza del metodo 'getAIFieldWorkerIsTurning'.
+
 Changelog 1.4.0.0:
 - NUOVO: Aggiunta compatibilità con mod "HUD Hider".
 - RISOLTO: Bug nel calcolo della produttività (T/h) che causava salti improvvisi.
@@ -451,6 +505,16 @@ Funkce:
 - Plná podpora multiplayeru s nastavením na straně serveru
 - Podpora pro sklízecí stroje na bavlnu, sklízecí stroje na kořenovou zeleninu a částečná podpora pro sklízecí řezačky
 - Experimentální podpora NEXAT
+
+Changelog 1.4.1.0:
+- OPRAVENO: Pád hry ("attempt to call missing method 'getIsControlled'") při použití DLC vybavení (např. Highland DLC NH 8040 s nástroji Holaras). Přidána bezpečná kontrola nil.
+
+Changelog 1.4.1.0:
+- OPRAVENO: Pád hry při použití nástrojů z DLC ("attempt to call missing method 'getIsControlled'").
+- OPRAVENO: Druhý kombajn Courseplay se zasekával o rychlosti 10 km/h.
+- OPRAVENO: Nastavení režimu AUTO se na vyhrazených serverech resetovalo na 50.
+- OPRAVENO: Nabídka nastavení kombajnu se neočekávaně zavírala na modulárním systému NEXAT.
+- OPRAVENO: Možný pád hry na vlastních vozidlech s chybějící metodou 'getAIFieldWorkerIsTurning'.
 
 Changelog 1.4.0.0:
 - NOVINKA: Přidána kompatibilita s mody "HUD Hider".
@@ -522,6 +586,16 @@ Recursos:
 - Suporte para colheitadeiras de algodão, colheitadeiras de raízes e suporte parcial para forrageiras
 - Suporte experimental para NEXAT
 
+Changelog 1.4.1.0:
+- CORRIGIDO: Crash do jogo ("attempt to call missing method 'getIsControlled'") ao usar equipamentos DLC (ex: Highland DLC NH 8040 com ferramentas Holaras). Adicionada verificação nil segura.
+
+Changelog 1.4.1.0:
+- CORRIGIDO: Falha do jogo ao usar pacotes de DLC ("attempt to call missing method 'getIsControlled'").
+- CORRIGIDO: A segunda colheitadeira Courseplay ficava presa a 10 km/h.
+- CORRIGIDO: O modo AUTO reinicializava em 50 nos servidores dedicados.
+- CORRIGIDO: Falha no menu de configurações com o sistema modular NEXAT.
+- CORRIGIDO: Possível crash de jogo sem o método 'getAIFieldWorkerIsTurning'.
+
 Changelog 1.4.0.0:
 - NOVO: Adicionada compatibilidade com mods "HUD Hider".
 - CORRIGIDO: Bug no cálculo de produtividade (T/h) causando saltos repentinos.
@@ -591,6 +665,9 @@ Changelog 1.1.0.0:
 - Повна підтримка мультиплеєра з налаштуваннями на стороні сервера
 - Підтримка бавовняних комбайнів, коренезбиральних комбайнів та часткова підтримка кормозбиральних комбайнів
 - Експериментальна підтримка NEXAT
+
+Зміни 1.4.1.0:
+- ВИПРАВЛЕНО: Вилітання гри ("attempt to call missing method 'getIsControlled'") при використанні техніки з DLC (наприклад, Highland DLC NH 8040 з інструментами Holaras). Додано безпечну перевірку nil.
 
 Зміни 1.4.0.0:
 - НОВЕ: Додано сумісність з модами "HUD Hider" (HUD зникає разом з інтерфейсом гри).
@@ -662,6 +739,9 @@ Changelog 1.1.0.0:
 - Поддержка хлопкоуборочных комбайнов, корнеуборочных комбайнов и частичная поддержка кормоуборочных комбайнов
 - Экспериментальная поддержка NEXAT
 
+Изменения 1.4.1.0:
+- ИСПРАВЛЕНО: Вылет игры ("attempt to call missing method 'getIsControlled'") при использовании техники из DLC (например, Highland DLC NH 8040 с инструментами Holaras). Добавлена безопасная проверка nil.
+
 Изменения 1.4.0.0:
 - НОВОЕ: Добавлена совместимость с модами "HUD Hider".
 - ИСПРАВЛЕНО: Ошибка расчета производительности (T/h), вызывающая скачки.
@@ -731,6 +811,9 @@ Funkciók:
 - Teljes többjátékos támogatás, szerveroldali beállításokkal
 - Támogatás gyapotbetakarítókhoz, gyökérnövény-betakarítókhoz, valamint részleges támogatás silózó betakarítókhoz
 - Kísérleti NEXAT támogatás
+
+Változások 1.4.1.0:
+- JAVÍTVA: Játék összeomlás ("attempt to call missing method 'getIsControlled'") DLC járművek használatakor (pl. Highland DLC NH 8040 Holaras eszközökkel). Biztonságos nil ellenőrzés hozzáadva.
 
 Változások 1.4.0.0:
 - ÚJ: Kompatibilitás a "HUD Hider" modokkal.
