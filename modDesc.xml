@@ -2,7 +2,7 @@
 <modDesc descVersion="105">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.3.2.0</version>
+    <version>1.4.0.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -30,6 +30,30 @@ Features:
 - Support for all harvest types (Grain, Forage, Roots, Cotton)
 - Pickup Header support (Swathing)
 - Experimental NEXAT support
+- Combine Settings & Calibration System
+
+Changelog 1.4.0.0:
+- NEW: Added compatibility with "HUD Hider" mods (HUD aligns with game visibility).
+- FIXED: Productivity (T/h) calculation bug causing sudden jumps.
+- FIXED: GUI closing unexpectedly during gameplay.
+- NEW: Interactive Combine Settings & Calibration Menu (RShift + K).
+- NEW: Manual Control Mode - Adjust Fan, Rotor, Sieves, and Feeder.
+- NEW: Incorrect settings cause additional Crop Loss (displayed in GUI).
+- NEW: Profile System - Save/Load custom settings for each crop.
+- NEW: New crops start with neutral (50%) settings, requiring calibration.
+- NEW: Crop Loss display now shows +/- signs (- for losses, + for bonuses, 0 for optimal).
+- NEW: Manual adjustment buttons (+/-) always visible in Calibration GUI for easier tuning.
+- FIXED: Camera rotation properly blocked when cursor is active (HUD drag/GUI interaction).
+- FIXED: HUD resetting to off-screen positions. Added auto-fix and reset command.
+- IMPROVED: Input blocking now uses proper camera.isRotatable method.
+- IMPROVED: GUI hint text repositioned to prevent overlap with buttons.
+- NEW: AUTO mode now applies slight random imperfection (1-10 units) - skilled manual tuning can outperform AUTO!
+- NEW: Same loss math for AUTO and MANUAL modes - no more zero-loss bypass in AUTO.
+- FIXED: Combine settings now correctly saved and loaded from savegame (vehicles.xml).
+- FIXED: profileCount cache correctly restored after loading savegame.
+- FIXED: Auto crop detection now server-side only - prevents random value desync in multiplayer.
+- IMPROVED: All mod settings (server + client) now stored in modSettings/ folder.
+- IMPROVED: Dedicated server fully supported - each vehicle retains its own calibration profile.
 
 Changelog 1.3.2.0:
 - NEW: Physical Crop Loss System! Losses now reduce actual grain collected in bunker.
@@ -78,6 +102,29 @@ Funktionen:
 - Unterstützung für Baumwollernter, Hackfruchternter und teilweise Feldhäcksler
 - Experimentelle NEXAT-Unterstützung
 
+Changelog 1.4.0.0:
+- NEU: Kompatibilität mit "HUD Hider"-Mods hinzugefügt (HUD passt sich der Spielsichtbarkeit an).
+- BEHOBEN: Fehler bei der Produktivitätsberechnung (T/h), der plötzliche Sprünge verursachte.
+- BEHOBEN: GUI schloss sich unerwartet während des Spiels.
+- NEU: Interaktives Mähdrescher-Einstellungs- & Kalibrierungsmenü (RShift + K).
+- NEU: Manueller Steuerungsmodus - Anpassung von Gebläse, Rotor, Sieben und Einzug.
+- NEU: Falsche Einstellungen verursachen zusätzlichen Ernteverlust (im GUI angezeigt).
+- NEU: Profilsystem - Speichern/Laden eigener Einstellungen für jede Fruchtart.
+- NEU: Neue Früchte starten mit neutralen (50%) Einstellungen und erfordern Kalibrierung.
+- NEU: Ernteverlust-Anzeige zeigt jetzt +/- Zeichen (- für Verluste, + für Boni, 0 für optimal).
+- NEU: Manuelle Einstellbuttons (+/-) im Kalibrierungs-GUI immer sichtbar für einfachere Abstimmung.
+- BEHOBEN: Kameradrehung wird korrekt blockiert, wenn der Cursor aktiv ist.
+- BEHOBEN: HUD setzte sich auf Positionen außerhalb des Bildschirms zurück. Auto-Fix und Reset-Befehl hinzugefügt.
+- VERBESSERT: Eingabeblockierung nutzt nun die korrekte camera.isRotatable-Methode.
+- VERBESSERT: GUI-Hinweistext neu positioniert, um Überlappung mit Buttons zu verhindern.
+- NEU: AUTO-Modus hat jetzt leichte Ungenauigkeit (1-10 Einheiten Abweichung) – manuelles Tuning kann AUTO übertreffen!
+- NEU: Gleiche Verlustberechnung für AUTO und MANUAL – kein Null-Verlust-Bypass mehr im AUTO.
+- BEHOBEN: Mähdrescher-Einstellungen werden jetzt korrekt im Savegame (vehicles.xml) gespeichert und geladen.
+- BEHOBEN: profileCount-Cache wird nach dem Laden des Savegames korrekt wiederhergestellt.
+- BEHOBEN: Auto-Erkennung der Fruchtart jetzt nur serverseitig – verhindert Desynchronisation in Multiplayer.
+- VERBESSERT: Alle Mod-Einstellungen (Server + Client) werden jetzt im modSettings/-Ordner gespeichert.
+- VERBESSERT: Dedizierter Server vollständig unterstützt – jedes Fahrzeug behält sein eigenes Kalibrierungsprofil.
+
 Changelog 1.3.2.0:
 - NEU: Physisches Ernteverlustsystem! Verluste reduzieren jetzt das tatsächlich geerntete Getreide.
 - NEU: Ernteverluste beginnen bei 95% Motorlast (zuvor 100%).
@@ -106,13 +153,13 @@ Changelog 1.2.0.0:
 - Unterstützung für Baumwollernter hinzugefügt
 - Teilweise Unterstützung für Feldhäcksler hinzugefügt
 - Multiplayer-Synchronisierungsprobleme behoben
-- Einstellungsmenü-Konflikt mit anderen Mods behoben
+- Einstellungsmenü-Konflikt mit anderen Mods
 - Einheitensystem-Anzeige verbessert (Imperial/Metrisch)
 
 Changelog 1.1.0.0:
 - Neue Funktion: Schaltfläche "Einstellungen zurücksetzen" zur Fußzeile des Einstellungsmenüs hinzugefügt (Taste: X)
 - UI-Verbesserungen: Seitenbeschreibungen für alle Einstellungen im Menü hinzugefügt (Tooltips)
-- Lokalisierung: Vollständige Übersetzungsunterstützung für 10 Sprachen (EN, DE, FR, PL, ES, IT, CZ, PT-BR, UK, RU)
+- Lokalisation: Vollständige Übersetzungsunterstützung für 10 Sprachen (EN, DE, FR, PL, ES, IT, CZ, PT-BR, UK, RU)
 - Fehlerbehebungen: Verbesserte Stabilität des Einstellungsmenüs]]></de>
         <fr><![CDATA[Ajoute des mécaniques de récolte réalistes à vos moissonneuses-batteuses.
 
@@ -125,11 +172,34 @@ Fonctionnalités:
 - Support pour moissonneuses à coton, récolteuses de racines et support partiel pour ensileuses
 - Support expérimental NEXAT
 
+Changelog 1.4.0.0:
+- NOUVEAU: Compatibilité ajoutée avec les mods "HUD Hider" (le HUD s'aligne sur la visibilité du jeu).
+- CORRIGÉ: Bug de calcul de la productivité (T/h) causant des sauts soudains.
+- CORRIGÉ: Fermeture inattendue de l'interface graphique pendant le jeu.
+- NOUVEAU: Menu interactif de réglages et de calibrage de la moissonneuse (RShift + K).
+- NOUVEAU: Mode de contrôle manuel - Ajustez le ventilateur, le rotor, les tamis et le convoyeur.
+- NOUVEAU: Des réglages incorrects entraînent des pertes de récolte supplémentaires.
+- NOUVEAU: Système de profils - Sauvegardez/Chargez des réglages personnalisés pour chaque culture.
+- NOUVEAU: Les nouvelles cultures commencent avec des réglages neutres (50%), nécessitant un calibrage.
+- NOUVEAU: L'affichage des pertes montre maintenant des signes +/- (- pour pertes, + pour bonus, 0 pour optimal).
+- NOUVEAU: Boutons de réglage manuel (+/-) toujours visibles dans l'interface de calibrage.
+- CORRIGÉ: Rotation de la caméra correctement bloquée lorsque le curseur est actif.
+- CORRIGÉ: Réinitialisation du HUD hors écran. Ajout d'une correction automatique.
+- AMÉLIORÉ: Blocage des entrées utilise maintenant la méthode correcte camera.isRotatable.
+- AMÉLIORÉ: Texte d'aide repositionné pour éviter le chevauchement avec les boutons.
+- NOUVEAU: Le mode AUTO a maintenant une légère imperfection (1-10 unités) – le réglage manuel peut surpasser l'AUTO!
+- NOUVEAU: Même calcul de pertes pour AUTO et MANUEL – plus de bypass zéro-perte en AUTO.
+- CORRIGÉ: Les réglages de la moissonneuse sont maintenant correctement sauvegardés dans le savegame.
+- CORRIGÉ: Cache profileCount correctement restauré après le chargement de la sauvegarde.
+- CORRIGÉ: Détection automatique de culture maintenant côté serveur uniquement – évite la désynchronisation en multijoueur.
+- AMÉLIORÉ: Tous les paramètres du mod (serveur + client) stockés dans le dossier modSettings/.
+- AMÉLIORÉ: Serveur dédié entièrement supporté – chaque véhicule conserve son propre profil de calibrage.
+
 Changelog 1.3.2.0:
 - NOUVEAU: Système de perte de récolte physique! Les pertes réduisent maintenant le grain réellement collecté.
 - NOUVEAU: Les pertes de récolte commencent à 95% de charge moteur (au lieu de 100%).
 - NOUVEAU: Formule de perte progressive - surcharge plus élevée = perte exponentiellement plus grande.
-- AMÉLIORÉ: Les pénalités de perte affectent maintenant directement le rendement de récolte.
+- AMÉLIORÉ: Les pénalités par pertes affectent maintenant directement le rendement.
 
 Changelog 1.3.1.0:
 - NOUVEAU: Le menu des paramètres est réorganisé en sections "Simulation" et "Affichage".
@@ -147,7 +217,7 @@ Changelog 1.3.0.0:
 
 Changelog 1.2.1.0:
 - Correction du calcul de productivité affichant des valeurs incorrectes (était 1000x trop bas)
-- Amélioration de la précision de la conversion masse-volume avec la densité réelle des cultures
+- Amélioration de la précision de la conversion masse-volumen avec la densité réelle des cultures
 
 Changelog 1.2.0.0:
 - Ajout du support pour les moissonneuses à coton
@@ -172,6 +242,29 @@ Funkcje:
 - Wsparcie dla kombajnów bawełnianych, kombajnów korzeniowych i częściowe wsparcie dla sieczkarni
 - Eksperymentalne wsparcie dla NEXAT
 
+Changelog 1.4.0.0:
+- NOWOŚĆ: Dodano kompatybilność z modami "HUD Hider".
+- NAPRAWIONO: Błąd obliczania produktywności (T/h), powodujący nagłe skoki.
+- NAPRAWIONO: Nieoczekiwane zamykanie GUI podczas rozgrywki.
+- NOWOŚĆ: Interaktywne menu ustawień i kalibracji kombajnu (RShift + K).
+- NOWOŚĆ: Tryb sterowania ręcznego - Regulacja wentylatora, rotora, sit i podajnika.
+- NOWOŚĆ: Nieprawidłowe ustawienia powodują dodatkowe straty plonów.
+- NOWOŚĆ: System profili - Zapisuj/Wczytuj własne ustawienia dla każdej uprawy.
+- NOWOŚĆ: Nowe uprawy zaczynają z neutralnymi (50%) ustawieniami, wymagającymi kalibracji.
+- NOWOŚĆ: Wyświetlanie strat pokazuje teraz znaki +/- (- dla strat, + dla bonusów, 0 dla optimum).
+- NOWOŚĆ: Przyciski ręcznej regulacji (+/-) zawsze widoczne w GUI kalibracji.
+- NAPRAWIONO: Obrót kamery poprawnie zablokowany, gdy kursor jest aktywny.
+- NAPRAWIONO: Resetowanie HUD do pozycji poza ekranem. Dodano automatyczną naprawę.
+- ULEPSZONO: Blokowanie wejścia używa teraz poprawnej metody camera.isRotatable.
+- ULEPSZONO: Tekst podpowiedzi GUI przesunięty, aby zapobiec nakładaniu się na przyciski.
+- NOWOŚĆ: Tryb AUTO teraz ma lekką niedoskonałość (1-10 jednostek odchylenia) – ręczne strojenie może przewyższyć AUTO!
+- NOWOŚĆ: Taka sama matematyka strat dla AUTO i MANUAL – brak bypassu zerowych strat w AUTO.
+- NAPRAWIONO: Ustawienia kombajnu teraz poprawnie zapisywane i wczytywane z sejwu (vehicles.xml).
+- NAPRAWIONO: Cache profileCount poprawnie przywracany po wczytaniu sejwu.
+- NAPRAWIONO: Automatyczne wykrywanie uprawy teraz tylko po stronie serwera – zapobiega desynchro w multi.
+- ULEPSZONO: Wszystkie ustawienia moda (serwer + klient) przechowywane w folderze modSettings/.
+- ULEPSZONO: Dedykowany serwer w pełni obsługiwany – każdy pojazd zachowuje własny profil kalibracji.
+
 Changelog 1.3.2.0:
 - NOWOŚĆ: Fizyczny system strat plonów! Straty teraz zmniejszają rzeczywiście zebraną ilość ziarna.
 - NOWOŚĆ: Straty plonów zaczynają się przy 95% obciążenia silnika (poprzednio 100%).
@@ -186,7 +279,7 @@ Changelog 1.3.1.0:
 - ULEPSZONO: Konfigurowalna zawartość HUD (przełączanie poszczególnych elementów).
 
 Changelog 1.3.0.0:
-- NOWOŚĆ: Monitor plonów! Zobacz plon w czasie rzeczywistym w t/ha lub bu/ac (przełączane w ustawieniach) (#10)
+- NOWOŚĆ: Monitor plonów! Zobacz plon w czasie rzeczywistym w t/ha lub bu/ac (umschaltbar in den Einstellungen) (#10)
 - NOWOŚĆ: Całkowicie przepisana logika obliczania obciążenia oparta na przepustowości masy (t/h) zamiast powierzchni.
 - NOWOŚĆ: Dodano eksperymentalne wsparcie dla systemu NEXAT.
 - ULEPSZONO: Tekst HUD jest teraz pogrubiony dla lepszej widoczności.
@@ -218,6 +311,29 @@ Características:
 - Soporte multijugador completo con configuración del servidor
 - Soporte para cosechadoras de algodón, cosechadoras de raíces y soporte parcial para picadoras
 - Soporte experimental para NEXAT
+
+Changelog 1.4.0.0:
+- NUEVO: Añadida compatibilidad con mods "HUD Hider".
+- CORREGIDO: Error de cálculo de productividad (T/h) que causaba saltos repentinos.
+- CORREGIDO: Cierre inesperado de la interfaz durante el juego.
+- NUEVO: Menú interactivo de configuración y calibración de cosechadora (RShift + K).
+- NUEVO: Modo de control manual: ajuste el ventilador, el rotor, los tamices y el alimentador.
+- NUEVO: La configuración incorrecta causa pérdidas de cosecha adicionales.
+- NUEVO: Sistema de perfiles: guarde/cargue configuraciones personalizadas para cada cultivo.
+- NUEVO: Los nuevos cultivos comienzan con una configuración neutral (50%).
+- NUEVO: La pantalla de pérdida ahora muestra signos +/- (- para pérdidas, + para bonificaciones, 0 para óptimo).
+- NUEVO: Botones de ajuste manual (+/-) siempre visibles en la GUI de calibración.
+- CORREGIDO: La rotación de la cámara se bloquea correctamente cuando el cursor está activo.
+- CORREGIDO: El HUD se restablecía a posiciones fuera de la pantalla. Se agregó corrección automática.
+- MEJORADO: El bloqueo de entrada ahora utiliza el método camera.isRotatable correcto.
+- MEJORADO: Texto de sugerencia de GUI reposicionado para evitar superposiciones.
+- NUEVO: El modo AUTO ahora tiene leve imperfección (1-10 unidades) – ¡el ajuste manual puede superar al AUTO!
+- NUEVO: Misma matemática de pérdidas para AUTO y MANUAL – sin más bypass de cero pérdidas en AUTO.
+- CORREGIDO: La configuración de la cosechadora ahora se guarda/carga correctamente desde el savegame.
+- CORREGIDO: Cache profileCount correctamente restaurado tras cargar savegame.
+- CORREGIDO: Detección automática de cultivo ahora solo en servidor – evita desincronización en multijugador.
+- MEJORADO: Todas las configuraciones del mod (servidor + cliente) almacenadas en la carpeta modSettings/.
+- MEJORADO: Servidor dedicado totalmente soportado – cada vehículo conserva su propio perfil de calibración.
 
 Changelog 1.3.2.0:
 - NUEVO: ¡Sistema de pérdida de cosecha física! Las pérdidas ahora reducen el grano realmente recolectado.
@@ -266,6 +382,29 @@ Caratteristiche:
 - Supporto per raccoglitrici cotone, raccoglitrici radici e supporto parziale per trincia
 - Supporto sperimentale NEXAT
 
+Changelog 1.4.0.0:
+- NUOVO: Aggiunta compatibilità con mod "HUD Hider".
+- RISOLTO: Bug nel calcolo della produttività (T/h) che causava salti improvvisi.
+- RISOLTO: Chiusura inaspettata della GUI durante il gioco.
+- NUOVO: Menu interattivo impostazioni e calibrazione mietitrebbia (RShift + K).
+- NUOVO: Modalità controllo manuale - Regola ventola, rotore, setacci e alimentatore.
+- NUOVO: Impostazioni errate causano perdite di raccolto aggiuntive.
+- NUOVO: Sistema profili - Salva/Carica impostazioni personalizzate per ogni coltura.
+- NUOVO: Le nuove colture iniziano con impostazioni neutre (50%), richiedendo la calibrazione.
+- NUOVO: Il display delle perdite ora mostra segni +/- (- per perdite, + per bonus, 0 per ottimale).
+- NUOVO: Pulsanti di regolazione manuale (+/-) sempre visibili nella GUI di calibrazione.
+- RISOLTO: Rotazione telecamera bloccata correttamente quando il cursore è attivo.
+- RISOLTO: HUD resettato su posizioni fuori schermo. Aggiunto fix automatico.
+- MIGLIORATO: Il blocco input ora usa il metodo corretto camera.isRotatable.
+- MIGLIORATO: Testo suggerimento GUI riposizionato per evitare sovrapposizioni.
+- NUOVO: Il modo AUTO ora ha una lieve imperfezione (1-10 unità) – la calibrazione manuale può superare l'AUTO!
+- NUOVO: Stessa matematica delle perdite per AUTO e MANUALE – nessun bypass zero-perdita in AUTO.
+- RISOLTO: Le impostazioni della mietitrebbia vengono ora salvate/caricate correttamente dal savegame.
+- RISOLTO: Cache profileCount correttamente ripristinata dopo il caricamento del savegame.
+- RISOLTO: Rilevamento automatico coltura ora solo lato server – evita desincronizzazione in multiplayer.
+- MIGLIORATO: Tutte le impostazioni del mod (server + client) archiviate nella cartella modSettings/.
+- MIGLIORATO: Server dedicato completamente supportato – ogni veicolo mantiene il proprio profilo di calibrazione.
+
 Changelog 1.3.2.0:
 - NUOVO: Sistema di perdita di raccolto fisica! Le perdite riducono ora il grano effettivamente raccolto.
 - NUOVO: Le perdite di raccolto iniziano al 95% di carico motore (prima 100%).
@@ -288,7 +427,7 @@ Changelog 1.3.0.0:
 
 Changelog 1.2.1.0:
 - Corretto calcolo produttività che mostrava valori errati (era 1000x troppo basso)
-- Migliorata precisione conversione massa-volume usando densità reale colture
+- Migliorata accuratezza conversione massa-volume usando densità reale colture
 
 Changelog 1.2.0.0:
 - Aggiunto supporto per raccoglitrici cotone
@@ -299,7 +438,7 @@ Changelog 1.2.0.0:
 
 Changelog 1.1.0.0:
 - Nuova funzionalità: Pulsante "Ripristina impostazioni" nel piè di pagina menu (tasto: X)
-- Miglioramenti interfaccia: Descrizioni laterali per tutte le impostazioni (tooltip)
+- Miglioramenti interfaccia: Descrizioni laterali per tutti le impostazioni (tooltip)
 - Localizzazione: Supporto traduzione completo per 10 lingue (EN, DE, FR, PL, ES, IT, CZ, PT-BR, UK, RU)
 - Correzioni bug: Migliorata stabilità menu impostazioni]]></it>
         <cz><![CDATA[Přidává realistickou mechaniku sklizně k vašim kombajnům.
@@ -312,6 +451,29 @@ Funkce:
 - Plná podpora multiplayeru s nastavením na straně serveru
 - Podpora pro sklízecí stroje na bavlnu, sklízecí stroje na kořenovou zeleninu a částečná podpora pro sklízecí řezačky
 - Experimentální podpora NEXAT
+
+Changelog 1.4.0.0:
+- NOVINKA: Přidána kompatibilita s mody "HUD Hider".
+- OPRAVENO: Chyba výpočtu produktivity (T/h) způsobující náhlé skoky.
+- OPRAVENO: Neočekávané zavření GUI během hry.
+- NOVINKA: Interaktivní menu nastavení a kalibrace kombajnu (RShift + K).
+- NOVINKA: Manuální režim ovládání - Nastavení ventilátoru, rotoru, sít a podavače.
+- NOVINKA: Nesprávné nastavení způsobuje dodatečné ztráty úrody.
+- NOVINKA: Systém profilů - Uložení/Načtení vlastního nastavení pro každou plodinu.
+- NOVINKA: Nové plodiny začínají s neutrálním (50%) nastavením, vyžadují kalibraci.
+- NOVINKA: Zobrazení ztrát nyní ukazuje znaménka +/- (- pro ztráty, + pro bonusy, 0 pro optimální).
+- NOVINKA: Tlačítka manuálního nastavení (+/-) jsou v kalibraci vždy viditelná.
+- OPRAVENO: Otáčení kamery je správně blokováno, když je kurzor aktivní.
+- OPRAVENO: HUD se resetoval na pozice mimo obrazovku. Přidána automatická oprava.
+- VYLEPŠENO: Blokování vstupu nyní používá správnou metodu camera.isRotatable.
+- VYLEPŠENO: Text nápovědy GUI přemístěn, aby se nepřekrýval s tlačítky.
+- NOVINKA: Režim AUTO má nyní mírnou nedokonalost (1-10 jednotek) – ruční ladění může překonat AUTO!
+- NOVINKA: Stejná matematika ztrát pro AUTO i MANUÁLNÍ – žádný bypass nulové ztráty v AUTO.
+- OPRAVENO: Nastavení kombajnu jsou nyní správně ukládána/načítána ze savegame (vehicles.xml).
+- OPRAVENO: Cache profileCount správně obnovena po načtení savegame.
+- OPRAVENO: Automatická detekce plodiny nyní pouze na serveru – zabraňuje desynchronizaci v multiplayeru.
+- VYLEPŠENO: Všechna nastavení modu (server + klient) uložena ve složce modSettings/.
+- VYLEPŠENO: Dedikovaný server plně podporován – každé vozidlo si zachovává vlastní kalibrační profil.
 
 Changelog 1.3.2.0:
 - NOVINKA: Fyzický systém ztráty úrody! Ztráty nyní snižují skutečně sklizené zrní.
@@ -360,6 +522,29 @@ Recursos:
 - Suporte para colheitadeiras de algodão, colheitadeiras de raízes e suporte parcial para forrageiras
 - Suporte experimental para NEXAT
 
+Changelog 1.4.0.0:
+- NOVO: Adicionada compatibilidade com mods "HUD Hider".
+- CORRIGIDO: Bug no cálculo de produtividade (T/h) causando saltos repentinos.
+- CORRIGIDO: Fechamento inesperado da GUI durante o jogo.
+- NOVO: Menu Interativo de Configurações e Calibração da Colheitadeira (RShift + K).
+- NOVO: Modo de Controle Manual - Ajuste Ventilador, Rotor, Peneiras e Alimentador.
+- NOVO: Configurações incorretas causam perda adicional de colheita.
+- NOVO: Sistema de Perfil - Salvar/Carregar configurações personalizadas para cada cultura.
+- NOVO: Novas colheitas começam com configurações neutras (50%), exigindo calibração.
+- NOVO: Exibição de Perda de Colheita mostra sinais +/- (- para perdas, + para bônus, 0 para ideal).
+- NOVO: Botões de ajuste manual (+/-) sempre visíveis na GUI de Calibração.
+- CORRIGIDO: Rotação da câmera bloqueada corretamente quando o cursor está ativo.
+- CORRIGIDO: HUD redefinindo para posições fora da tela. Adicionado correção automática.
+- MELHORADO: Bloqueio de entrada agora usa o método correto camera.isRotatable.
+- MELHORADO: Texto de dica da GUI reposicionado para evitar sobreposição.
+- NOVO: O modo AUTO agora tem leve imperfeição (1-10 unidades) – a calibração manual pode superar o AUTO!
+- NOVO: Mesma matemática de perdas para AUTO e MANUAL – sem mais bypass de zero perdas em AUTO.
+- CORRIGIDO: Configurações da colheitadeira agora salvas/carregadas corretamente do savegame.
+- CORRIGIDO: Cache profileCount corretamente restaurado após carregar savegame.
+- CORRIGIDO: Detecção automática de cultura agora apenas no servidor – evita dessincronização no multiplayer.
+- MELHORADO: Todas as configurações do mod (servidor + cliente) armazenadas na pasta modSettings/.
+- MELHORADO: Servidor dedicado totalmente suportado – cada veículo mantém seu próprio perfil de calibração.
+
 Changelog 1.3.2.0:
 - NOVO: Sistema de perda de colheita física! As perdas agora reduzem o grão realmente coletado.
 - NOVO: As perdas de colheita começam em 95% de carga do motor (antes 100%).
@@ -407,6 +592,29 @@ Changelog 1.1.0.0:
 - Підтримка бавовняних комбайнів, коренезбиральних комбайнів та часткова підтримка кормозбиральних комбайнів
 - Експериментальна підтримка NEXAT
 
+Зміни 1.4.0.0:
+- НОВЕ: Додано сумісність з модами "HUD Hider" (HUD зникає разом з інтерфейсом гри).
+- ВИПРАВЛЕНО: Помилка розрахунку продуктивності (T/h), що викликала раптові стрибки.
+- ВИПРАВЛЕНО: Несподіване закриття інтерфейсу під час гри.
+- НОВЕ: Інтерактивне меню налаштувань та калібрування комбайна (RShift + K).
+- НОВЕ: Ручний режим керування - Налаштування вентилятора, ротора, решіт та подачі.
+- НОВЕ: Неправильні налаштування спричиняють додаткові втрати врожаю.
+- НОВЕ: Система профілів - Збереження/Завантаження власних налаштувань для кожної культури.
+- НОВЕ: Нові культури починаються з нейтральних (50%) налаштувань, потребують калібрування.
+- НОВЕ: Індикатор втрат тепер показує знаки +/- (- для втрат, + для бонусів, 0 для оптимуму).
+- НОВЕ: Кнопки ручного налаштування (+/-) завжди видимі в меню калібрування.
+- ВИПРАВЛЕНО: Обертання камери правильно блокується, коли курсор активний.
+- ВИПРАВЛЕНО: HUD скидався на позиції поза екраном. Додано автовиправлення та команду скидання.
+- ПОКРАЩЕНО: Блокування введення тепер використовує правильний метод camera.isRotatable.
+- ПОКРАЩЕНО: Текст підказок переміщено, щоб не перекривав кнопки.
+- НОВЕ: Режим AUTO тепер має незначну недосконалість (1-10 одиниць) – ручне налаштування може перевершити AUTO!
+- НОВЕ: Однакова математика втрат для AUTO і MANUAL – більше нема обходу нульових втрат в AUTO.
+- ВИПРАВЛЕНО: Налаштування комбайну тепер коректно зберігаються/завантажуються з savegame (vehicles.xml).
+- ВИПРАВЛЕНО: Кеш profileCount коректно відновлюється після завантаження збереження.
+- ВИПРАВЛЕНО: Авто-детекція культури тепер лише на сервері – запобігає десинхронізації в мультиплеєрі.
+- ПОКРАЩЕНО: Всі налаштування моду (сервер + клієнт) зберігаються в папці modSettings/.
+- ПОКРАЩЕНО: Виділені сервери повністю підтримуються – кожен транспортний засіб зберігає власний профіль калібрування.
+
 Зміни 1.3.2.0:
 - НОВЕ: Фізична система втрат врожаю! Втрати тепер зменшують реальну кількість зерна в бункері.
 - НОВЕ: Втрати врожаю починаються при 95% навантаженні двигуна (раніше 100%).
@@ -443,7 +651,7 @@ Changelog 1.1.0.0:
 - Покращення інтерфейсу: Бічні описи для всіх налаштувань (підказки)
 - Локалізація: Повна підтримка перекладу для 10 мов (EN, DE, FR, PL, ES, IT, CZ, PT-BR, UK, RU)
 - Виправлення помилок: Покращено стабільність меню налаштувань]]></uk>
-        <ru><![CDATA[Добавляет реалистичную механику уборки урожая к вашим комбайнам.
+    <ru><![CDATA[Добавляет реалистичную механику уборки урожая к вашим комбайнам.
 
 Функции:
 - Динамический расчет нагрузки двигателя на основе плотности культур и ширины жатки
@@ -453,6 +661,29 @@ Changelog 1.1.0.0:
 - Полная поддержка мультиплеера с настройками на стороне сервера
 - Поддержка хлопкоуборочных комбайнов, корнеуборочных комбайнов и частичная поддержка кормоуборочных комбайнов
 - Экспериментальная поддержка NEXAT
+
+Изменения 1.4.0.0:
+- НОВОЕ: Добавлена совместимость с модами "HUD Hider".
+- ИСПРАВЛЕНО: Ошибка расчета производительности (T/h), вызывающая скачки.
+- ИСПРАВЛЕНО: Неожиданное закрытие интерфейса во время игры.
+- НОВОЕ: Интерактивное меню настроек и калибровки комбайна (RShift + K).
+- НОВОЕ: Ручной режим управления - Настройка вентилятора, ротора, решет и подачи.
+- НОВОЕ: Неправильные настройки вызывают дополнительные потери урожая.
+- НОВОЕ: Система профилей - Сохранение/Загрузка пользовательских настроек для каждой культуры.
+- НОВОЕ: Новые культуры начинаются с нейтральных (50%) настроек, требуют калибровки.
+- НОВОЕ: Индикатор потерь теперь показывает знаки +/- (- для потерь, + для бонусов, 0 для оптимума).
+- НОВОЕ: Кнопки ручной настройки (+/-) всегда видимы в меню калибровки.
+- ИСПРАВЛЕНО: Вращение камеры правильно блокируется, когда курсор активен.
+- ИСПРАВЛЕНО: HUD сбрасывался на позиции за пределами экрана. Добавлено автоисправление.
+- УЛУЧШЕНО: Блокировка ввода теперь использует правильный метод camera.isRotatable.
+- УЛУЧШЕНО: Текст подсказок в меню перемещен, чтобы не перекрывал кнопки.
+- НОВОЕ: Режим AUTO теперь имеет незначительное несовершенство (1-10 единиц) – ручная настройка может превзойти AUTO!
+- НОВОЕ: Одинаковая математика потерь для AUTO и MANUAL – больше нет обхода нулевых потерь в AUTO.
+- ИСПРАВЛЕНО: Настройки комбайна теперь корректно сохраняются/загружаются из savegame (vehicles.xml).
+- ИСПРАВЛЕНО: Кеш profileCount корректно восстанавливается после загрузки сохранения.
+- ИСПРАВЛЕНО: Авто-определение культуры теперь только на сервере – предотвращает десинхронизацию в мультиплеере.
+- УЛУЧШЕНО: Все настройки мода (сервер + клиент) хранятся в папке modSettings/.
+- УЛУЧШЕНО: Выделенные серверы полностью поддерживаются – каждое ТС сохраняет собственный профиль калибровки.
 
 Изменения 1.3.2.0:
 - НОВОЕ: Физическая система потерь урожая! Потери теперь уменьшают реально собранное зерно.
@@ -486,11 +717,11 @@ Changelog 1.1.0.0:
 - Улучшено отображение системы единиц (Имперская/Метрическая)
 
 Изменения 1.1.0.0:
-- Новая функция: Кнопка "Сбросить настройки" в нижней части меню (клавиша: X)
+- Новая функция: Кнопка "Сбросить настройки" в нижней части меню (клавіша: X)
 - Улучшения интерфейса: Боковые описания для всех настроек (подсказки)
 - Локализация: Полная поддержка перевода для 10 языков (EN, DE, FR, PL, ES, IT, CZ, PT-BR, UK, RU)
-- Исправления ошибок: Улучшена стабильность меню настроек]]></ru>
-        <hu><![CDATA[Valósághű betakarítási mechanikákat ad hozzá a kombájnjaidhoz.
+- Исправления ошибок: Улучшена стабильность меню налаштувань]]></ru>
+    <hu><![CDATA[Valósághű betakarítási mechanikákat ad hozzá a kombájnjaidhoz.
 
 Funkciók:
 - Dinamikus motor­terhelés-számítás a termény sűrűsége és a vágóasztal szélessége alapján
@@ -500,6 +731,29 @@ Funkciók:
 - Teljes többjátékos támogatás, szerveroldali beállításokkal
 - Támogatás gyapotbetakarítókhoz, gyökérnövény-betakarítókhoz, valamint részleges támogatás silózó betakarítókhoz
 - Kísérleti NEXAT támogatás
+
+Változások 1.4.0.0:
+- ÚJ: Kompatibilitás a "HUD Hider" modokkal.
+- JAVÍTVA: A termelékenység (T/h) számítási hibája, amely hirtelen ugrásokat okozott.
+- JAVÍTVA: A GUI váratlan bezáródása játék közben.
+- ÚJ: Interaktív kombájn beállítási és kalibrációs menü (RShift + K).
+- ÚJ: Kézi vezérlési mód - Ventilátor, rotor, rosták és adagoló beállítása.
+- ÚJ: A helytelen beállítások további termésveszteséget okoznak.
+- ÚJ: Profilrendszer - Egyéni beállítások mentése/betöltése minden terményhez.
+- ÚJ: Az új növények semleges (50%) beállításokkal indulnak, kalibrálást igényelnek.
+- ÚJ: A veszteségkijelző mostantól +/- jeleket mutat (- a veszteségeknél, + a bónuszoknál, 0 az optimálisnál).
+- ÚJ: A kézi beállító gombok (+/-) mindig láthatók a kalibrációs GUI-ban.
+- JAVÍTVA: A kamera forgatása megfelelően blokkolva van, amikor a kurzor aktív.
+- JAVÍTVA: A HUD képernyőn kívüli pozíciókra állt vissza. Automatikus javítás hozzáadva.
+- JAVÍTVA: A bemenet blokkolása most már a megfelelő camera.isRotatable módszert használja.
+- JAVÍTVA: A GUI tippszöveg áthelyezve, hogy ne takarja ki a gombokat.
+- ÚJ: Az AUTO mód most enyhe tökéletlenséggel rendelkezik (1-10 egység eltérés) – a kézi beállítás felülmúlhatja az AUTO-t!
+- ÚJ: Azonos veszteségszámítás AUTO és MANUÁLIS módhoz – nincs több nulla-veszteség bypass AUTO-ban.
+- JAVÍTVA: A kombájn beállítások mostantól helyesen kerülnek mentésre/betöltésre a savegame-ből (vehicles.xml).
+- JAVÍTVA: A profileCount gyorsítótár helyesen áll vissza a savegame betöltése után.
+- JAVÍTVA: Az automatikus terményfelismerés mostantól csak szerver oldalon – megakadályozza a desynchronizációt multiplayerben.
+- JAVÍTVA: Minden mod beállítás (szerver + kliens) a modSettings/ mappában tárolva.
+- JAVÍTVA: Dedikált szerver teljesen támogatott – minden jármű megőrzi saját kalibrációs profilját.
 
 Változások 1.3.2.0:
 - ÚJ: Fizikai termésveszteség rendszer! A veszteségek most csökkentik a ténylegesen összegyűjtött gabonát.
@@ -544,11 +798,15 @@ Változások 1.1.0.0:
 
     <actions>
         <action name="RHM_TOGGLE_CURSOR" category="VEHICLE" />
+        <action name="RHM_OPEN_MENU" category="VEHICLE" />
     </actions>
     
     <inputBinding>
         <actionBinding action="RHM_TOGGLE_CURSOR">
             <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_RIGHT" />
+        </actionBinding>
+        <actionBinding action="RHM_OPEN_MENU">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_rshift KEY_k" />
         </actionBinding>
     </inputBinding>
 
@@ -598,6 +856,20 @@ Változások 1.1.0.0:
             <uk>Показати курсор HUD</uk>
             <ru>Показать курсор HUD</ru>
             <hu>HUD kurzor váltás</hu>
+        </text>
+
+        <text name="input_RHM_OPEN_MENU">
+            <en>Combine Settings Menu</en>
+            <de>Mähdrescher-Menü</de>
+            <fr>Menu Récolte</fr>
+            <pl>Menu Kombajnu</pl>
+            <es>Menú Cosechadora</es>
+            <it>Menu Mietitrebbia</it>
+            <cz>Menu Kombajnu</cz>
+            <br>Menu Colheitadeira</br>
+            <uk>Меню Налаштувань Жнив</uk>
+            <ru>Меню Настроек Жатвы</ru>
+            <hu>Kombájn Menü</hu>
         </text>
         
         <text name="rhm_difficulty"><en>Difficulty</en><uk>Складність</uk><de>Schwierigkeit</de><fr>Difficulté</fr><pl>Trudność</pl><es>Dificultad</es><it>Difficoltà</it><cz>Obtížnost</cz><br>Dificuldade</br><ru>Сложность</ru><hu>Nehézség</hu></text>
@@ -904,6 +1176,39 @@ Változások 1.1.0.0:
             <ru>Показывать потери</ru>
             <hu>Veszteség megjelenítése</hu>
         </text>
+        <text name="rhm_ui_title_main"><en>Combine Calibration</en><de>Mähdrescher-Kalibrierung</de><fr>Calibrage Moissonneuse</fr><pl>Kalibracja Kombajnu</pl><es>Calibración Cosechadora</es><it>Calibrazione Mietitrebbia</it><cz>Kalibrace Kombajnu</cz><br>Calibração Colheitadeira</br><uk>Калібрування Комбайна</uk><ru>Калибровка Комбайна</ru><hu>Kombájn Kalibrálás</hu></text>
+        
+        <text name="rhm_ui_page_settings"><en>Settings</en><de>Einstellungen</de><fr>Paramètres</fr><pl>Ustawienia</pl><es>Ajustes</es><it>Impostazioni</it><cz>Nastavení</cz><br>Configurações</br><uk>Налаштування</uk><ru>Настройки</ru><hu>Beállítások</hu></text>
+        <text name="rhm_ui_page_profiles"><en>Profiles</en><de>Profile</de><fr>Profils</fr><pl>Profile</pl><es>Perfiles</es><it>Profili</it><cz>Profily</cz><br>Perfis</br><uk>Профілі</uk><ru>Профили</ru><hu>Profilok</hu></text>
+        
+        <text name="rhm_ui_current_crop"><en>Current Crop</en><de>Aktuelle Frucht</de><fr>Culture Actuelle</fr><pl>Obecna Uprawa</pl><es>Cultivo Actual</es><it>Coltura Attuale</it><cz>Aktuální Plodina</cz><br>Cultura Atual</br><uk>Поточна Культура</uk><ru>Текущая Культура</ru><hu>Jelenlegi Termény</hu></text>
+        <text name="rhm_ui_load"><en>Engine Load</en><de>Motorlast</de><fr>Charge Moteur</fr><pl>Obciążenie Silnika</pl><es>Carga Motor</es><it>Carico Motore</it><cz>Zatížení Motoru</cz><br>Carga do Motor</br><uk>Навантаження</uk><ru>Нагрузка</ru><hu>Motor Terhelés</hu></text>
+        <text name="rhm_ui_loss"><en>Loss</en><de>Verlust</de><fr>Perte</fr><pl>Strata</pl><es>Pérdida</es><it>Perdita</it><cz>Ztráta</cz><br>Perda</br><uk>Втрати</uk><ru>Потери</ru><hu>Veszteség</hu></text>
+        
+        <text name="rhm_ui_fan_speed"><en>Fan Speed</en><de>Gebläsedrehzahl</de><fr>Vitesse Ventilateur</fr><pl>Obroty Wentylatora</pl><es>Velocidad Ventilador</es><it>Velocità Ventola</it><cz>Otáčky Ventilátoru</cz><br>Velocidade Ventoinha</br><uk>Оберти Вентилятора</uk><ru>Обороты Вентилятора</ru><hu>Ventilátor Fordulat</hu></text>
+        <text name="rhm_ui_rotor_speed"><en>Rotor Speed</en><de>Rotordrehzahl</de><fr>Vitesse Rotor</fr><pl>Obroty Rotora</pl><es>Velocidad Rotor</es><it>Velocità Rotore</it><cz>Otáčky Rotoru</cz><br>Velocidade Rotor</br><uk>Оберти Ротора</uk><ru>Обороты Ротора</ru><hu>Rotor Fordulat</hu></text>
+        <text name="rhm_ui_upper_sieve"><en>Upper Sieve</en><de>Obersieb</de><fr>Grille Supérieure</fr><pl>Sito Górne</pl><es>Criba Superior</es><it>Crivello Superiore</it><cz>Horní Síto</cz><br>Peneira Superior</br><uk>Верхнє Решето</uk><ru>Верхнее Решето</ru><hu>Felső Rosta</hu></text>
+        <text name="rhm_ui_lower_sieve"><en>Lower Sieve</en><de>Untersieb</de><fr>Grille Inférieure</fr><pl>Sito Dolne</pl><es>Criba Inferior</es><it>Crivello Inferiore</it><cz>Spodní Síto</cz><br>Peneira Inferior</br><uk>Нижнє Решето</uk><ru>Нижнее Решето</ru><hu>Alsó Rosta</hu></text>
+        <text name="rhm_ui_feeder_speed"><en>Feeder House</en><de>Schrägförderer</de><fr>Convoyeur</fr><pl>Przenośnik Pochyły</pl><es>Alimentador</es><it>Canale Elevatore</it><cz>Šikmý Dopravník</cz><br>Alimentador</br><uk>Похила Камера</uk><ru>Наклонная Камера</ru><hu>Ferde Felhordó</hu></text>
+        
+        <text name="rhm_ui_mode_auto"><en>AUTO</en><de>AUTO</de><fr>AUTO</fr><pl>AUTO</pl><es>AUTO</es><it>AUTO</it><cz>AUTO</cz><br>AUTO</br><uk>АВТО</uk><ru>АВТО</ru><hu>AUTO</hu></text>
+        <text name="rhm_ui_mode_manual"><en>MANUAL</en><de>MANUELL</de><fr>MANUEL</fr><pl>RĘCZNY</pl><es>MANUAL</es><it>MANUALE</it><cz>MANUÁLNÍ</cz><br>MANUAL</br><uk>РУЧНИЙ</uk><ru>РУЧНОЙ</ru><hu>KÉZI</hu></text>
+        <text name="rhm_ui_btn_reset"><en>RESET DEFAULT</en><de>STANDARD</de><fr>RÉINIT.</fr><pl>DOMYŚLNE</pl><es>REINICIAR</es><it>REIMPOSTA</it><cz>VÝCHOZÍ</cz><br>RESTAURAR</br><uk>ЗБИТИ</uk><ru>СБРОС</ru><hu>VISSZAÁLLÍTÁS</hu></text>
+        
+        <text name="rhm_ui_profile_create"><en>NEW PROFILE</en><de>NEUES PROFIL</de><fr>NOUVEAU PROFIL</fr><pl>NOWY PROFIL</pl><es>NUEVO PERFIL</es><it>NUOVO PROFILO</it><cz>NOVÝ PROFIL</cz><br>NOVO PERFIL</br><uk>НОВИЙ ПРОФІЛЬ</uk><ru>НОВЫЙ ПРОФИЛЬ</ru><hu>ÚJ PROFIL</hu></text>
+        <text name="rhm_ui_profile_save"><en>SAVE</en><de>SPEICHERN</de><fr>SAUVER</fr><pl>ZAPISZ</pl><es>GUARDAR</es><it>SALVA</it><cz>ULOŽIT</cz><br>SALVAR</br><uk>ЗБЕРЕГТИ</uk><ru>СОХРАНИТЬ</ru><hu>MENTÉS</hu></text>
+        <text name="rhm_ui_profile_load"><en>LOAD</en><de>LADEN</de><fr>CHARGER</fr><pl>WCZYTAJ</pl><es>CARGAR</es><it>CARICA</it><cz>NAČÍST</cz><br>CARREGAR</br><uk>ЗАВАНТАЖИТИ</uk><ru>ЗАГРУЗИТЬ</ru><hu>BETÖLTÉS</hu></text>
+        <text name="rhm_ui_profile_delete"><en>DELETE</en><de>LÖSCHEN</de><fr>SUPPRIMER</fr><pl>USUŃ</pl><es>BORRAR</es><it>ELIMINA</it><cz>SMAZAT</cz><br>EXCLUIR</br><uk>ВИДАЛИТИ</uk><ru>УДАЛИТЬ</ru><hu>TÖRLÉS</hu></text>
+        
+        <text name="rhm_ui_profile_name_placeholder"><en>Profile Name...</en><de>Profilname...</de><fr>Nom du profil...</fr><pl>Nazwa profilu...</pl><es>Nombre del perfil...</es><it>Nome profilo...</it><cz>Název profilu...</cz><br>Nome do perfil...</br><uk>Назва профілю...</uk><ru>Имя профиля...</ru><hu>Profil neve...</hu></text>
+
+        <text name="rhm_hud_yield_label"><en>YIELD</en><de>ERTRAG</de><fr>RNDMT</fr><pl>PLON</pl><es>REND</es><it>RESA</it><cz>VÝNOS</cz><br>REND</br><uk>ВРОЖАЙ</uk><ru>УРОЖАЙ</ru><hu>HOZAM</hu></text>
+        <text name="rhm_hud_load_label"><en>LOAD</en><de>LAST</de><fr>CHRG</fr><pl>OBC</pl><es>CARGA</es><it>CARICO</it><cz>ZAT</cz><br>CARGA</br><uk>НАВАНТ</uk><ru>НАГР</ru><hu>TERH</hu></text>
+        <text name="rhm_hud_loss_label"><en>LOSS</en><de>VERL</de><fr>PERTE</fr><pl>STRATA</pl><es>PERD</es><it>PERD</it><cz>ZTR</cz><br>PERDA</br><uk>ВТРАТИ</uk><ru>ПОТЕРИ</ru><hu>VESZT</hu></text>
+
+        <text name="rhm_loss_level_low"><en>LOW</en><de>NIEDR</de><fr>FAIBLE</fr><pl>NISKA</pl><es>BAJO</es><it>BASSO</it><cz>NÍZKÁ</cz><br>BAIXO</br><uk>МАЛІ</uk><ru>МАЛЫЕ</ru><hu>ALACS</hu></text>
+        <text name="rhm_loss_level_med"><en>MED</en><de>MITTEL</de><fr>MOYEN</fr><pl>ŚRED</pl><es>MEDIO</es><it>MEDIO</it><cz>STŘED</cz><br>MÉDIO</br><uk>СЕРЕД</uk><ru>СРЕД</ru><hu>KÖZEP</hu></text>
+        <text name="rhm_loss_level_high"><en>HIGH</en><de>HOCH</de><fr>ÉLEVÉ</fr><pl>WYS</pl><es>ALTO</es><it>ALTO</it><cz>VYS</cz><br>ALTO</br><uk>ВЕЛИКІ</uk><ru>БОЛЬШ</ru><hu>MAGAS</hu></text>
         
         <text name="rhm_show_croploss_long">
             <en>Display crop loss percentage in HUD</en>
@@ -1043,6 +1348,58 @@ Változások 1.1.0.0:
             <uk>ВИСОКІ</uk>
             <ru>ВЫСОКИЕ</ru>
             <hu>MAGAS</hu>
+        </text>
+        <text name="rhm_warning_turn_on_combine">
+            <en>Turn on Thresher first!</en>
+            <de>Erst Drescher einschalten!</de>
+            <fr>Activez d'abord la batteuse !</fr>
+            <pl>Włącz najpierw młocarnię!</pl>
+            <es>¡Enciende la trilladora primero!</es>
+            <it>Accendi prima la trebbiatrice!</it>
+            <cz>Nejdříve zapněte mlátičku!</cz>
+            <br>Ligue a debulhadora primeiro!</br>
+            <uk>Увімкніть спочатку комбайн!</uk>
+            <ru>Включите сначала комбайн!</ru>
+            <hu>Először a cséplőt kapcsold be!</hu>
+        </text>
+        <text name="rhm_warning_turn_on_cutter">
+            <en>Turn on Header!</en>
+            <de>Schneidwerk einschalten!</de>
+            <fr>Activez la barre de coupe !</fr>
+            <pl>Włącz heder!</pl>
+            <es>¡Enciende el cabezal!</es>
+            <it>Accendi la testata!</it>
+            <cz>Zapněte žací lištu!</cz>
+            <br>Ligue a plataforma!</br>
+            <uk>Увімкніть жатку!</uk>
+            <ru>Включите жатку!</ru>
+            <hu>Kapcsold be a vágóasztalt!</hu>
+        </text>
+        <text name="rhm_warn_overload_high">
+            <en>Combine overloaded! Reduce speed to minimize crop losses.</en>
+            <de>Mähdrescher überlastet! Geschwindigkeit reduzieren.</de>
+            <fr>Moissonneuse surchargée ! Réduisez la vitesse.</fr>
+            <pl>Kombajn przeciążony! Zmniejsz prędkość.</pl>
+            <es>Cosechadora sobrecargada! Reduce la velocidad.</es>
+            <it>Mietitrebbia sovraccarica! Ridurre la velocità.</it>
+            <cz>Kombajn přetížen! Snižte rychlost.</cz>
+            <br>Colheitadeira sobrecarregada! Reduza a velocidade.</br>
+            <uk>Комбайн перевантажений! Знизьте швидкість.</uk>
+            <ru>Комбайн перегружен! Снизьте скорость.</ru>
+            <hu>A kombájn túlterhelt! Csökkentse a sebességet.</hu>
+        </text>
+        <text name="rhm_warn_overload_critical">
+            <en>COMBINE CRITICALLY OVERLOADED! Severe crop losses occurring!</en>
+            <de>MÄHDRESCHER KRITISCH ÜBERLASTET! Starke Ernteverluste!</de>
+            <fr>MOISSONNEUSE SURCHARGÉE CRITIQUEMENT ! Grosses pertes !</fr>
+            <pl>KOMBAJN KRYTYCZNIE PRZECIĄŻONY! Poważne straty!</pl>
+            <es>COSECHADORA CRÍTICAMENTE SOBRECARGADA! Graves pérdidas!</es>
+            <it>MIETITREBBIA CRITICAMENTE SOVRACCARICA! Gravi perdite!</it>
+            <cz>KOMBAJN KRITICKY PŘETÍŽEN! Vážné ztráty sklizně!</cz>
+            <br>COLHEITADEIRA CRITICAMENTE SOBRECARREGADA! Perdas graves!</br>
+            <uk>КОМБАЙН КРИТИЧНО ПЕРЕВАНТАЖЕНИЙ! Серйозні втрати врожаю!</uk>
+            <ru>КОМБАЙН КРИТИЧЕСКИ ПЕРЕГРУЖЕН! Серьёзные потери урожая!</ru>
+            <hu>A KOMBÁJN KRITIKUSAN TÚLTERHELT! Súlyos termésveszteség!</hu>
         </text>
     </l10n>
 </modDesc>

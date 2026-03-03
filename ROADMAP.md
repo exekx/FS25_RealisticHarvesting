@@ -7,7 +7,19 @@
 
 ## 📜 Version History (Changelog)
 
-### v1.3.2.0 (Current)
+### v1.4.0.0 (Current)
+**New Features:**
+*   **Combine Calibration:** Full manual control over Fan Speed, Rotor Speed, Sieve Openings, and Feeder House.
+*   **Settings Penalty:** Incorrect calibration now causes crop loss (displayed in HUD).
+*   **Profile System:** Save and load custom settings profiles for different crops/conditions.
+*   **GUI:** Interactive graphical menu (RShift+K) to manage settings and profiles.
+*   **AUTO Imperfection:** AUTO mode now applies a slight random deviation (1-10 units) — skilled manual tuning can outperform it!
+*   **Unified Loss Math:** Same penalty formula for AUTO and MANUAL modes — no more zero-loss bypass.
+*   **Savegame Fix:** Combine calibration now correctly saves and restores from `vehicles.xml`.
+*   **Dedicated Server Ready:** Auto-crop detection is server-side only; each vehicle keeps its own calibration profile.
+*   **Settings Consolidation:** All mod settings (server + client) now stored in `modSettings/` folder.
+
+### v1.3.2.0
 **New Features:**
 *   **Physical Crop Loss System:** Crop losses now physically reduce the amount of grain collected in the bunker!
 *   **95% Load Threshold:** Losses start at 95% engine load (previously 100%) for earlier feedback.
@@ -65,20 +77,16 @@
 Based on community feedback and suggestions, here is the plan for future updates.
 
 ### Phase 1: Core Mechanics & Refinement (Next)
-*   ~~**Real Crop Loss:**~~ ✅ **COMPLETED in v1.3.2.0** - Implemented actual yield reduction when harvesting at high speeds/overloading.
 *   **Smoother Load Control:** Improve the "feel" of the governor to maintain ~90-95% load more consistently without "hunting" or hesitation.
 *   **Pickup Header Improved Support:** Better handling for windrow harvesting (grass/straw) with accurate load calculations.
 
 ### Phase 2: Advanced Realism Features
+*   **Realistic Weather Integration:**
     *   *Upcoming Support:* Direct integration with the **Realistic Weather** mod.
     *   *Features:* Moisture, air humidity, and rain will affect crop resistance, threshing difficulty, and clogging risks.
-*   **"Combine Jamming" (Verstopfung):**
-*   **Realistic Loss Monitor:**
-    *   *Idea:* Replace % numbers with a relative "Low / Med / High" scale for the Realistic difficulty setting, mimicking real loss monitors.
+*   **"Combine Jamming" (Verstopfung):** Simulated combine blockage when severely overloaded.
 
 ### Phase 3: The "Operator" Update (Long Term)
-*   **Manual Machine Settings:**
-    *   *Idea:* Ability to manually adjust Feeder House, Fan Speed, Sieve openings, and Rotor RPM for different crops. Incorrect settings = higher losses/dirty grain.
 *   **Store Customization - Automation:**
     *   *Idea:* Buyable "Auto-Combine" module in the shop. Casual players can buy automation to handle settings, while enthusiasts can save money by setting it manually.
 

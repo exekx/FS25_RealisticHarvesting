@@ -31,14 +31,31 @@ end
 -- Реєстрація перевизначених функцій (ОБОВ'ЯЗКОВО перед registerEventListeners!)
 function rhm_Combine.registerOverwrittenFunctions(vehicleType)
     print("RHM: Registering overwritten functions for rhm_Combine")
-    -- SpecializationUtil.registerOverwrittenFunction(vehicleType, "processCutters", rhm_Combine.processCutters) -- Removed: Not needed and was causing nil error
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "addCutterArea", rhm_Combine.addCutterArea)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "getSpeedLimit", rhm_Combine.getSpeedLimit)
-    -- SpecializationUtil.registerOverwrittenFunction(vehicleType, "setIsTurnedOn", rhm_Combine.setIsTurnedOn)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "startThreshing", rhm_Combine.startThreshing)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "stopThreshing", rhm_Combine.stopThreshing)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "verifyCombine", rhm_Combine.verifyCombine)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "getCanBeTurnedOn", rhm_Combine.getCanBeTurnedOn)
+end
+
+---Реєстрація XML шляхів для savegame (КРИТИЧНО для збереження даних!)
+---Без цього FS25 не знає які вузли XML записувати/читати для цієї спеціалізації
+function rhm_Combine.registerXMLPaths(schema, basePath)
+    -- Поточні налаштування комбайну
+    local cur = basePath .. ".combineMemory.current"
+    schema:register(XMLValueType.STRING, cur .. "#mode",         "Combine settings mode", "AUTO")
+    schema:register(XMLValueType.STRING, cur .. "#currentCrop",  "Current crop", "")
+    schema:register(XMLValueType.BOOL,   cur .. "#autoSwitch",   "Auto switch enabled", true)
+    schema:register(XMLValueType.INT,    cur .. "#fan",          "Fan", 50)
+    schema:register(XMLValueType.INT,    cur .. "#upperSieve",   "Upper sieve", 50)
+    schema:register(XMLValueType.INT,    cur .. "#lowerSieve",   "Lower sieve", 50)
+    schema:register(XMLValueType.INT,    cur .. "#rotor",        "Rotor", 50)
+    schema:register(XMLValueType.INT,    cur .. "#feeder",       "Feeder", 50)
+end
+
+function rhm_Combine.registerSavegameXMLPaths(schema, basePath)
+    rhm_Combine.registerXMLPaths(schema, basePath)
 end
 
 function rhm_Combine.registerEventListeners(vehicleType)
@@ -51,9 +68,9 @@ function rhm_Combine.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onReadStream", rhm_Combine)
     SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", rhm_Combine)
     
-    -- SAVEGAME XML: Disabled - functions are commented out
-    -- SpecializationUtil.registerEventListener(vehicleType, "saveToXMLFile", rhm_Combine)
-    -- SpecializationUtil.registerEventListener(vehicleType, "loadFromXMLFile", rhm_Combine)
+    -- SAVEGAME XML: Enabled
+    SpecializationUtil.registerEventListener(vehicleType, "saveToXMLFile", rhm_Combine)
+    SpecializationUtil.registerEventListener(vehicleType, "loadFromXMLFile", rhm_Combine)
     
     -- MULTIPLAYER: Синхронізація даних між сервером і клієнтом
     SpecializationUtil.registerEventListener(vehicleType, "onReadUpdateStream", rhm_Combine)
@@ -101,13 +118,23 @@ function rhm_Combine:onLoad(savegame)
     local basePerf = spec.loadCalculator:getBasePerformanceFromPower(self)
     spec.loadCalculator:setBasePerformance(basePerf)
     
+    -- === COMBINE SETTINGS SYSTEM ===
+    -- Створюємо систему пам'яті для налаштувань комбайна
+    spec.combineMemory = CombineMemory.new(self)
+    
+    -- Підключаємо memory до LoadCalculator для розрахунку settings loss
+    spec.loadCalculator.combineMemory = spec.combineMemory
+    
+    print("RHM: [OK] Combine Settings System initialized")
+    
     -- Ініціалізуємо дані для HUD
     spec.data = {
         speed = 0,
         load = 0,
         cropLoss = 0,
         tonPerHour = 0,
-        recommendedSpeed = 0  -- Буде оновлено в onUpdateTick на сервері та синхронізовано до клієнтів
+        recommendedSpeed = 0,  -- Буде оновлено в onUpdateTick на сервері та синхронізовано до клієнтів
+        overloadLevel = 0      -- 0=норма, 1=HIGH(120%+), 2=CRITICAL(150%+) — синхронізується для показу warning
     }
     
     -- Лічильник для збереження площі з addCutterArea
@@ -160,17 +187,104 @@ function rhm_Combine:addCutterArea(superFunc, area, realArea, inputFruitType, ou
         spec.lastLiters = (spec.lastLiters or 0) + retLiters
     end
     
-    -- Зберігаємо тип культури
+    -- Зберігаємо тип культури та обробляємо зміну
     if outputFillType and outputFillType ~= FillType.UNKNOWN then
         spec.lastFillType = outputFillType
+        
+        -- === YIELD CALCULATION REMOVED ===
+        -- Reason: Calculating yield per-slice (addCutterArea) is statistically wrong because
+        -- it treats small slices (partial overlap) equally to large slices in the moving average buffer.
+        -- We now rely on 'onUpdateTick' which aggregates Total Mass / Total Area for the frame,
+        -- providing a mathematically correct weighted average.
+        
+        -- if (retLiters or 0) > 0 and areaForYield > 0.001 then
+        --    ...
+        -- end
+
+        -- === CROP LOSS CALCULATION ===
+        -- Визначаємо назву культури з fillType напряму через name
+        local cropName = nil
+        
+        if g_fillTypeManager then
+            local fillTypeObj = g_fillTypeManager:getFillTypeByIndex(outputFillType)
+            if fillTypeObj and fillTypeObj.name then
+                local fillTypeName = fillTypeObj.name
+                
+                -- Маппінг: fillType.name -> cropName (використовується в AUTO режимі)
+                local fillTypeMapping = {
+                    ["WHEAT"] = "WHEAT",
+                    ["BARLEY"] = "BARLEY",
+                    ["OAT"] = "OAT",
+                    ["CANOLA"] = "CANOLA",
+                    ["SUNFLOWER"] = "SUNFLOWER",
+                    ["MAIZE"] = "CORN",  -- Кукурудза в грі називається MAIZE
+                    ["SOYBEAN"] = "SOYBEAN",
+                    ["SORGHUM"] = "SORGHUM",
+                    ["RICE"] = "RICE",
+                    ["RICE_LONG_GRAIN"] = "RICE_LONG_GRAIN",
+                }
+                
+                cropName = fillTypeMapping[fillTypeName]
+            end
+        end
+        
+        if cropName then
+            -- Оновлюємо поточну культуру в LoadCalculator
+            spec.loadCalculator.currentCrop = cropName
+            
+            -- Перевіряємо чи змінилася культура
+            if cropName ~= spec.combineMemory.currentCrop then
+                -- DEBOUNCE: чекаємо 2 секунди перед перемикання
+                -- Без цього жатка може детектувати різні культури кожен тік і створювати петлю
+                local now = g_currentMission.time
+                spec._lastCropSwitchTime = spec._lastCropSwitchTime or 0
+                
+                if (now - spec._lastCropSwitchTime) >= 2000 then
+                    spec._lastCropSwitchTime = now
+                    spec._pendingCrop = cropName  -- запам’ятовуємо нову культуру
+                elseif spec._pendingCrop == cropName then
+                    -- Підтверджено другий раз — перемикаємо
+                    spec._pendingCrop = nil
+                    print(string.format("RHM: [CROP] Detected crop: %s", cropName))
+                    rhm_Combine.onCropTypeChanged(self, cropName)
+                end
+            else
+                -- Культура не змінилась — скидаємо pending
+                spec._pendingCrop = nil
+            end
+        end
+    else
+        -- Немає культури (не збираємо) — скидаємо pending
+        spec._pendingCrop = nil
     end
     
     -- DEBUG: Uncomment to see values in console
-    -- if (retLiters or 0) > 0 then
-    --     print(string.format("RHM: cut=%.4f real=%.4f L=%.4f", area, realArea, retLiters))
+    -- if (retLiters or 0) > 0 and areaForYield > 0 then
+    --    local areaHa = areaForYield / 10000
+    --    local yieldL_Ha = retLiters / areaHa
+    --    print(string.format("RHM YIELD DEBUG: Liters=%.2f, Area=%.4f m2, Yield=%.0f L/ha", 
+    --        retLiters, areaForYield, yieldL_Ha))
     -- end
     
     return retLiters, retStrawLiters
+end
+
+---Викликається при зміні типу культури
+---@param newCropName string Нова назва культури
+function rhm_Combine:onCropTypeChanged(newCropName)
+    local spec = self.spec_rhm_Combine
+    if not spec or not spec.combineMemory then
+        return
+    end
+    
+    -- Делегуємо switchCrop — він сам встановить currentCrop, збереже старий профіль
+    -- і завантажить новий. НЕ встановлюємо currentCrop тут напряму!
+    spec.combineMemory:switchCrop(newCropName)
+    
+    -- Синхронізуємо зміну культури та налаштувань для клієнтів у мультиплеєрі
+    if self.isServer then
+        self:raiseDirtyFlags(spec.dirtyFlag)
+    end
 end
 
 -- Перевизначаємо getSpeedLimit для автоматичного обмеження швидкості
@@ -226,7 +340,7 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         end
         
         -- В Arcade режимі НЕ обмежуємо швидкість (як у ванільній грі)
-        if g_realisticHarvestManager.settings.difficulty == 1 then -- DIFFICULTY_ARCADE
+        if g_realisticHarvestManager.settings.difficultyMotor == 1 then -- DIFFICULTY_ARCADE
             spec.isSpeedLimitActive = false
             return limit, doCheckSpeedLimit
         end
@@ -415,10 +529,46 @@ function rhm_Combine:verifyCombine(superFunc, fruitType, outputFillType)
     return superFunc(self, fruitType, outputFillType)
 end
 
+---Check for safety warnings (Client Side)
+function rhm_Combine:updateWarnings(dt)
+    -- Only for active vehicle
+    if not self:getIsActiveForInput(true) then
+        return
+    end
+
+    local isCombineOn = self:getIsTurnedOn()
+    local spec_combine = self.spec_combine
+    
+    -- Iterate attached cutters
+    if spec_combine.attachedCutters then
+        for cutter, _ in pairs(spec_combine.attachedCutters) do
+            local isCutterOn = cutter:getIsTurnedOn()
+            local isLowered = cutter:getIsLowered()
+            
+            -- CASE 1: Cutter ON but Thresher OFF (Critical)
+            if isCutterOn and not isCombineOn then
+                g_currentMission:showBlinkingWarning(g_i18n:getText("rhm_warning_turn_on_combine"), 2000)
+                break -- Priority warning
+            end
+            
+            -- CASE 2: Thresher ON but Cutter OFF and Lowered (Likely forgot to turn on)
+            if isCombineOn and not isCutterOn and isLowered then
+                g_currentMission:showBlinkingWarning(g_i18n:getText("rhm_warning_turn_on_cutter"), 2000)
+                break
+            end
+        end
+    end
+end
+
 -- Викликається періодично для оновлення логіки
 function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSelection, isSelected)
     if rhm_Combine.debug then
         print("RHM: rhm_Combine:onUpdateTick called")
+    end
+    
+    -- Client Side Logic (Warnings)
+    if self.isClient then
+        rhm_Combine.updateWarnings(self, dt)
     end
     
     if not self.isServer then
@@ -444,13 +594,16 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     end
     
     -- Перевіряємо чи жатка працює
-    local cutterIsTurnedOn = false
+    local cutterIsTurnedOn = false  -- FIX: завжди скидаємо перед циклом
     for cutter, _ in pairs(spec_combine.attachedCutters) do
         if cutter.spec_cutter then
             local spec_cutter = cutter.spec_cutter
-            cutterIsTurnedOn = self.movingDirection == spec_cutter.movingDirection 
+            if self.movingDirection == spec_cutter.movingDirection 
                 and self:getLastSpeed() > 0.5 
-                and (spec_cutter.allowCuttingWhileRaised or cutter:getIsLowered(true))
+                and (spec_cutter.allowCuttingWhileRaised or cutter:getIsLowered(true)) then
+                cutterIsTurnedOn = true
+                break  -- FIX: знайшли працюючу — виходим
+            end
         end
     end
     
@@ -472,6 +625,10 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         
         return
     end
+    
+    -- Видалено: Застаріла автодетекція культур у onUpdateTick
+    -- Тепер детекція відбувається виключно через addCutterArea (з 2-сек debounce),
+    -- щоб уникнути конфліктів та хибного визначення після скидання бункера.
     
     -- Оновлюємо LoadCalculator
     -- Спершу розраховуємо масу, бо тепер вона головна!
@@ -508,59 +665,30 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- PHYSICAL CROP LOSS - Видаляємо втрачене зерно з бункера
     -- ========================================================================
     if liters > 0 and self.isServer then
-        -- === ТЕСТОВИЙ РЕЖИМ ===
-        -- Встановіть TEST_CROP_LOSS_MODE = true для перевірки з 100% втратами
-        local TEST_CROP_LOSS_MODE = false  -- ✅ ВИМКНЕНО - Нормальна гра
+        -- Розраховуємо crop loss (включаючи втрати від налаштувань)
+        local cropLoss = spec.loadCalculator:calculateTotalCropLoss()
+        spec.combineMemory:updateStatistics(liters, cropLoss, spec.combineMemory.currentCrop)
         
-        local cropLoss = 0
-        
-        if TEST_CROP_LOSS_MODE then
-            -- ТЕСТ: Примусові 100% втрати
-            cropLoss = 100
-            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-            print("🧪 TEST MODE: FORCING 100% CROP LOSS")
-            print("   Harvested: " .. liters .. " L")
-            print("   ALL will be removed from bunker!")
-            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-        else
-            -- Нормальний режим: розраховуємо crop loss
-            cropLoss = spec.loadCalculator:calculateCropLoss()
-        end
-        
-        if cropLoss > 0 then
-            -- Перевіряємо чи crop loss увімкнений (тільки в нормальному режимі)
-            local enableCropLoss = TEST_CROP_LOSS_MODE  -- В тесті завжди true
-            if not TEST_CROP_LOSS_MODE and g_realisticHarvestManager and g_realisticHarvestManager.settings then
-                enableCropLoss = g_realisticHarvestManager.settings.enableCropLoss
-            end
-            
-            if enableCropLoss then
-                -- Розраховуємо кількість втрачених літрів
-                local lossRatio = cropLoss / 100  -- Конвертуємо % в десяткове число
+        if cropLoss > 0 and g_realisticHarvestManager and g_realisticHarvestManager.settings then
+            if g_realisticHarvestManager.settings.enableCropLoss then
+                local lossRatio = cropLoss / 100
                 local lostLiters = liters * lossRatio
                 
-                -- Комбайни зазвичай мають основний бункер з індексом 1
-                -- Це найпростіший і найнадійніший спосіб для FS25
                 local fillUnitIndex = 1
-                
-                -- Перевіряємо що fill unit існує
                 local spec_fillUnit = self.spec_fillUnit
                 if spec_fillUnit and spec_fillUnit.fillUnits and spec_fillUnit.fillUnits[fillUnitIndex] then
-                    -- Видаляємо втрачене зерно з бункера (негативне значення)
                     self:addFillUnitFillLevel(
                         self:getOwnerFarmId(),
                         fillUnitIndex,
-                        -lostLiters,  -- Від'ємне значення = видалення
+                        -lostLiters,
                         spec.lastFillType,
                         ToolType.UNDEFINED,
                         nil
                     )
                     
-                    -- Debug logging
-                    if rhm_Combine.debug or TEST_CROP_LOSS_MODE or cropLoss > 1 then
-                        local emoji = TEST_CROP_LOSS_MODE and "🧪" or "🌾"
-                        print(string.format("RHM: %s Crop Loss Applied: %.1f L lost (%.1f%% of %.1f L harvest)", 
-                            emoji, lostLiters, cropLoss, liters))
+                    if rhm_Combine.debug or cropLoss > 10 then
+                        print(string.format("RHM: [LOSS] Crop Loss Applied: %.1f L lost (%.1f%% of %.1f L harvest)",
+                            lostLiters, cropLoss, liters))
                     end
                 else
                     print("RHM: Warning - Could not find fill unit for crop loss removal")
@@ -578,13 +706,54 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- Оновлюємо дані для HUD
     if spec.data then
         spec.data.load = spec.loadCalculator:getEngineLoad()
-        spec.data.cropLoss = spec.loadCalculator:calculateCropLoss()
+        spec.data.cropLoss = spec.loadCalculator:calculateTotalCropLoss()
         spec.data.tonPerHour = spec.loadCalculator:getTonPerHour()
         spec.data.litersPerHour = spec.loadCalculator:getLitersPerHour() -- NEW: Volume flow
         spec.data.recommendedSpeed = spec.loadCalculator:getSpeedLimit()
         -- NEW: Yield Monitor Data
         spec.data.yield = spec.loadCalculator.currentYield or 0
     end
+    
+    -- === OVERLOAD WARNING ===
+    -- Сервер визначає рівень: 0=норма, 1=HIGH(120%+), 2=CRITICAL(150%+)
+    if self.isServer and spec.data then
+        local load = spec.data.load
+        if load >= 150 then
+            spec.data.overloadLevel = 2
+        elseif load >= 120 then
+            spec.data.overloadLevel = 1
+        else
+            spec.data.overloadLevel = 0
+        end
+    end
+    
+    -- WARNING DISPLAY: показуємо завжди в того хто керує комбайном
+    -- в SP: isServer=true і getIsControlled()=true — працює
+    -- в DS client: isServer=false і overloadLevel приходить через stream — працює
+    if spec.data and self:getIsControlled() then
+        local level = spec.data.overloadLevel or 0
+        local now = g_currentMission.time
+        spec._lastOverloadWarn = spec._lastOverloadWarn or 0
+        
+        local warnInterval = nil
+        local warnText = nil
+        
+        if level == 2 then
+            warnInterval = 5000
+            warnText = g_i18n:getText("rhm_warn_overload_critical")
+        elseif level == 1 then
+            warnInterval = 8000
+            warnText = g_i18n:getText("rhm_warn_overload_high")
+        else
+            spec._lastOverloadWarn = 0
+        end
+        
+        if warnText and (now - spec._lastOverloadWarn) >= warnInterval then
+            spec._lastOverloadWarn = now
+            g_currentMission:showBlinkingWarning(warnText, 3000)
+        end
+    end
+    -- === END OVERLOAD WARNING ===
     
     -- MULTIPLAYER: Позначаємо що дані змінились для синхронізації
     self:raiseDirtyFlags(spec.dirtyFlag)
@@ -595,7 +764,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     end
 end
 
--- Викликається кожен кадр коли гравець в комбайні
 -- Викликається кожен кадр коли гравець в комбайні
 function rhm_Combine:onDraw(isActiveForInput, isActiveForInputIgnoreSelection, isSelected)
     -- ПРИМІТКА: HUD малюється централізовано в RealisticHarvestManager:draw()
@@ -610,74 +778,48 @@ end
 ---Збереження стану в savegame файл
 ---@param xmlFile XMLFile
 ---@param key string
--- saveToXMLFile disabled - causes XML schema validation errors
--- Values are calculated dynamically, no need to save/load
---[[function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
+function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local spec = self.spec_rhm_Combine
-    if not spec then
-        return
-    end
+    if not spec or not spec.combineMemory then return end
     
-    -- Зберігаємо базову продуктивність LoadCalculator
-    if spec.loadCalculator then
-        xmlFile:setValue(key .. "#basePerformance", spec.loadCalculator.basePerformance or 0)
-        xmlFile:setValue(key .. "#genuineSpeedLimit", spec.loadCalculator.genuineSpeedLimit or 15)
+    -- Поточні налаштування
+    local cur = key .. ".combineMemory.current"
+    xmlFile:setValue(cur .. "#mode",        spec.combineMemory.mode or "AUTO")
+    xmlFile:setValue(cur .. "#autoSwitch",  spec.combineMemory.autoSwitchEnabled ~= false)
+    if spec.combineMemory.currentCrop then
+        xmlFile:setValue(cur .. "#currentCrop", spec.combineMemory.currentCrop)
     end
+    xmlFile:setValue(cur .. "#fan",         spec.combineMemory.currentSettings.fan or 50)
+    xmlFile:setValue(cur .. "#upperSieve",  spec.combineMemory.currentSettings.upperSieve or 50)
+    xmlFile:setValue(cur .. "#lowerSieve",  spec.combineMemory.currentSettings.lowerSieve or 50)
+    xmlFile:setValue(cur .. "#rotor",       spec.combineMemory.currentSettings.rotor or 50)
+    xmlFile:setValue(cur .. "#feeder",      spec.combineMemory.currentSettings.feeder or 50)
     
-    if rhm_Combine.debug then
-        print("RHM: saveToXMLFile completed for " .. tostring(self:getFullName()))
-    end
-end--]]
+    print(string.format("RHM: [SAVE] Saved combine state for %s", self:getName() or "?"))
+end
 
--- loadFromXMLFile disabled - causes XML schema validation errors
--- Values are calculated dynamically, no need to save/load
---[[---Завантаження стану з savegame файлу
+---Завантаження стану з savegame файлу
 ---@param xmlFile XMLFile
 ---@param key string  
 ---@param resetVehicles table
 function rhm_Combine:loadFromXMLFile(xmlFile, key, resetVehicles)
-    if rhm_Combine.debug then
-        print(string.format("RHM: loadFromXMLFile called for %s with key: %s", 
-            tostring(self:getFullName()), tostring(key)))
-    end
-    
     local spec = self.spec_rhm_Combine
-    if not spec then
-        if rhm_Combine.debug then
-            print("RHM: loadFromXMLFile - spec not found, skipping")
-        end
-        return
-    end
+    if not spec or not spec.combineMemory then return end
     
-    if not spec.loadCalculator then
-        if rhm_Combine.debug then
-            print("RHM: loadFromXMLFile - loadCalculator not found, skipping")
-        end
-        return
-    end
+    -- Поточні налаштування
+    local cur = key .. ".combineMemory.current"
+    spec.combineMemory.mode              = xmlFile:getValue(cur .. "#mode", "AUTO")
+    spec.combineMemory.autoSwitchEnabled = xmlFile:getValue(cur .. "#autoSwitch", true)
+    local savedCrop = xmlFile:getValue(cur .. "#currentCrop")
+    spec.combineMemory.currentCrop = (savedCrop ~= "" and savedCrop) or nil
+    spec.combineMemory.currentSettings.fan        = xmlFile:getValue(cur .. "#fan", 50)
+    spec.combineMemory.currentSettings.upperSieve = xmlFile:getValue(cur .. "#upperSieve", 50)
+    spec.combineMemory.currentSettings.lowerSieve = xmlFile:getValue(cur .. "#lowerSieve", 50)
+    spec.combineMemory.currentSettings.rotor      = xmlFile:getValue(cur .. "#rotor", 50)
+    spec.combineMemory.currentSettings.feeder     = xmlFile:getValue(cur .. "#feeder", 50)
     
-    -- Безпечне завантаження базової продуктивності з default значенням
-    local basePerf = xmlFile:getValue(key .. "#basePerformance", spec.loadCalculator.basePerfMass)
-    if basePerf and tonumber(basePerf) and basePerf > 0 then
-        spec.loadCalculator:setBasePerformance(tonumber(basePerf))
-        if rhm_Combine.debug then
-            print(string.format("RHM: Loaded basePerformance: %.2f kg/s", basePerf))
-        end
-    end
-    
-    -- Безпечне завантаження genuineSpeedLimit з default значенням  
-    local speedLimit = xmlFile:getValue(key .. "#genuineSpeedLimit", spec.loadCalculator.genuineSpeedLimit)
-    if speedLimit and tonumber(speedLimit) and speedLimit > 0 then
-        spec.loadCalculator:setGenuineSpeedLimit(tonumber(speedLimit))
-        if rhm_Combine.debug then
-            print(string.format("RHM: Loaded genuineSpeedLimit: %.1f km/h", speedLimit))
-        end
-    end
-    
-    if rhm_Combine.debug then
-        print(string.format("RHM: loadFromXMLFile completed for %s", tostring(self:getFullName())))
-    end
-end--]]
+    print(string.format("RHM: [LOAD] Loaded combine state for %s", self:getName() or "?"))
+end
 
 -- ============================================================================
 -- MULTIPLAYER SYNCHRONIZATION
@@ -692,17 +834,48 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0)
-        streamWriteFloat32(streamId, 0) -- litersPerHour
+        streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0) -- yield
+        streamWriteUInt8(streamId, 0)   -- overloadLevel
+        -- CombineMemory: write defaults
+        streamWriteUInt8(streamId, 50)  -- fan
+        streamWriteUInt8(streamId, 50)  -- rotor
+        streamWriteUInt8(streamId, 50)  -- upperSieve
+        streamWriteUInt8(streamId, 50)  -- lowerSieve
+        streamWriteUInt8(streamId, 50)  -- feeder
+        streamWriteString(streamId, "AUTO")  -- mode
+        streamWriteString(streamId, "")      -- currentCrop (empty = nil)
         return
     end
     
+    -- HUD data
     streamWriteFloat32(streamId, spec.data.load or 0)
     streamWriteFloat32(streamId, spec.data.cropLoss or 0)
     streamWriteFloat32(streamId, spec.data.tonPerHour or 0)
-    streamWriteFloat32(streamId, spec.data.litersPerHour or 0) -- litersPerHour
+    streamWriteFloat32(streamId, spec.data.litersPerHour or 0)
     streamWriteFloat32(streamId, spec.data.recommendedSpeed or 0)
     streamWriteFloat32(streamId, spec.data.yield or 0)
+    streamWriteUInt8(streamId, spec.data.overloadLevel or 0)
+    
+    -- CombineMemory settings (FIX 4: sync on initial connect)
+    local mem = spec.combineMemory
+    if mem then
+        streamWriteUInt8(streamId, mem.currentSettings.fan or 50)
+        streamWriteUInt8(streamId, mem.currentSettings.rotor or 50)
+        streamWriteUInt8(streamId, mem.currentSettings.upperSieve or 50)
+        streamWriteUInt8(streamId, mem.currentSettings.lowerSieve or 50)
+        streamWriteUInt8(streamId, mem.currentSettings.feeder or 50)
+        streamWriteString(streamId, mem.mode or "AUTO")
+        streamWriteString(streamId, mem.currentCrop or "")
+    else
+        streamWriteUInt8(streamId, 50)
+        streamWriteUInt8(streamId, 50)
+        streamWriteUInt8(streamId, 50)
+        streamWriteUInt8(streamId, 50)
+        streamWriteUInt8(streamId, 50)
+        streamWriteString(streamId, "AUTO")
+        streamWriteString(streamId, "")
+    end
 end
 
 ---Початкова синхронізація: Клієнт читає дані при підключенні
@@ -716,6 +889,15 @@ function rhm_Combine:onReadStream(streamId, connection)
         streamReadFloat32(streamId)
         streamReadFloat32(streamId)
         streamReadFloat32(streamId) -- yield
+        streamReadUInt8(streamId)   -- overloadLevel
+        -- CombineMemory defaults (skip)
+        streamReadUInt8(streamId)
+        streamReadUInt8(streamId)
+        streamReadUInt8(streamId)
+        streamReadUInt8(streamId)
+        streamReadUInt8(streamId)
+        streamReadString(streamId)
+        streamReadString(streamId)
         return
     end
     
@@ -723,12 +905,34 @@ function rhm_Combine:onReadStream(streamId, connection)
         spec.data = {}
     end
     
+    -- HUD data
     spec.data.load = streamReadFloat32(streamId)
     spec.data.cropLoss = streamReadFloat32(streamId)
     spec.data.tonPerHour = streamReadFloat32(streamId)
     spec.data.litersPerHour = streamReadFloat32(streamId)
     spec.data.recommendedSpeed = streamReadFloat32(streamId)
     spec.data.yield = streamReadFloat32(streamId)
+    spec.data.overloadLevel = streamReadUInt8(streamId)
+    
+    -- CombineMemory settings (FIX 4: receive on initial connect)
+    local fan = streamReadUInt8(streamId)
+    local rotor = streamReadUInt8(streamId)
+    local upperSieve = streamReadUInt8(streamId)
+    local lowerSieve = streamReadUInt8(streamId)
+    local feeder = streamReadUInt8(streamId)
+    local mode = streamReadString(streamId)
+    local currentCrop = streamReadString(streamId)
+    
+    -- Apply to combineMemory if available
+    if spec.combineMemory then
+        spec.combineMemory.currentSettings.fan = fan
+        spec.combineMemory.currentSettings.rotor = rotor
+        spec.combineMemory.currentSettings.upperSieve = upperSieve
+        spec.combineMemory.currentSettings.lowerSieve = lowerSieve
+        spec.combineMemory.currentSettings.feeder = feeder
+        spec.combineMemory.mode = mode or "AUTO"
+        spec.combineMemory.currentCrop = (currentCrop ~= "" and currentCrop) or nil
+    end
 end
 
 ---Постійна синхронізація: Клієнт читає оновлення від сервера
@@ -747,13 +951,33 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
                 spec.data = {}
             end
             
+            -- HUD data
             spec.data.load = streamReadFloat32(streamId)
             spec.data.cropLoss = streamReadFloat32(streamId)
             spec.data.tonPerHour = streamReadFloat32(streamId)
             spec.data.litersPerHour = streamReadFloat32(streamId)
             spec.data.recommendedSpeed = streamReadFloat32(streamId)
             spec.data.yield = streamReadFloat32(streamId)
-
+            spec.data.overloadLevel = streamReadUInt8(streamId)
+            
+            -- CombineMemory settings (FIX 4)
+            local fan = streamReadUInt8(streamId)
+            local rotor = streamReadUInt8(streamId)
+            local upperSieve = streamReadUInt8(streamId)
+            local lowerSieve = streamReadUInt8(streamId)
+            local feeder = streamReadUInt8(streamId)
+            local mode = streamReadString(streamId)
+            local currentCrop = streamReadString(streamId)
+            
+            if spec.combineMemory then
+                spec.combineMemory.currentSettings.fan = fan
+                spec.combineMemory.currentSettings.rotor = rotor
+                spec.combineMemory.currentSettings.upperSieve = upperSieve
+                spec.combineMemory.currentSettings.lowerSieve = lowerSieve
+                spec.combineMemory.currentSettings.feeder = feeder
+                spec.combineMemory.mode = mode or "AUTO"
+                spec.combineMemory.currentCrop = (currentCrop ~= "" and currentCrop) or nil
+            end
         end
     end
 end
@@ -773,23 +997,35 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
         streamWriteBool(streamId, hasChanges)
         
         if hasChanges then
-            if not spec.data then
-                streamWriteFloat32(streamId, 0)
-                streamWriteFloat32(streamId, 0)
-                streamWriteFloat32(streamId, 0)
-                streamWriteFloat32(streamId, 0)
-                streamWriteFloat32(streamId, 0)
-                streamWriteFloat32(streamId, 0) -- yield
-                return
-            end
-
+            -- HUD data
+            local data = spec.data or {}
+            streamWriteFloat32(streamId, data.load or 0)
+            streamWriteFloat32(streamId, data.cropLoss or 0)
+            streamWriteFloat32(streamId, data.tonPerHour or 0)
+            streamWriteFloat32(streamId, data.litersPerHour or 0)
+            streamWriteFloat32(streamId, data.recommendedSpeed or 0)
+            streamWriteFloat32(streamId, data.yield or 0)
+            streamWriteUInt8(streamId, data.overloadLevel or 0)
             
-            streamWriteFloat32(streamId, spec.data.load or 0)
-            streamWriteFloat32(streamId, spec.data.cropLoss or 0)
-            streamWriteFloat32(streamId, spec.data.tonPerHour or 0)
-            streamWriteFloat32(streamId, spec.data.litersPerHour or 0)
-            streamWriteFloat32(streamId, spec.data.recommendedSpeed or 0)
-            streamWriteFloat32(streamId, spec.data.yield or 0)
+            -- CombineMemory settings (FIX 4)
+            local mem = spec.combineMemory
+            if mem then
+                streamWriteUInt8(streamId, mem.currentSettings.fan or 50)
+                streamWriteUInt8(streamId, mem.currentSettings.rotor or 50)
+                streamWriteUInt8(streamId, mem.currentSettings.upperSieve or 50)
+                streamWriteUInt8(streamId, mem.currentSettings.lowerSieve or 50)
+                streamWriteUInt8(streamId, mem.currentSettings.feeder or 50)
+                streamWriteString(streamId, mem.mode or "AUTO")
+                streamWriteString(streamId, mem.currentCrop or "")
+            else
+                streamWriteUInt8(streamId, 50)
+                streamWriteUInt8(streamId, 50)
+                streamWriteUInt8(streamId, 50)
+                streamWriteUInt8(streamId, 50)
+                streamWriteUInt8(streamId, 50)
+                streamWriteString(streamId, "AUTO")
+                streamWriteString(streamId, "")
+            end
         end
     end
 end
@@ -807,9 +1043,13 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
         if isActiveForInputIgnoreSelection then
             -- Реєструємо дію Перемикання Курсора (RMB за замовчуванням)
             local _, eventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_TOGGLE_CURSOR, self, rhm_Combine.actionToggleCursor, false, true, false, true, nil)
-            
-            -- Встановлюємо пріоритет тексту
             g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
+            
+            -- Реєструємо дію Відкриття Меню (RShift+K)
+            if InputAction.RHM_OPEN_MENU then
+                local _, menuEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_OPEN_MENU, self, rhm_Combine.actionOpenMenu, false, true, false, true, nil)
+                g_inputBinding:setActionEventTextPriority(menuEventId, GS_PRIO_HIGH)
+            end
         end
     end
 end
@@ -820,6 +1060,19 @@ function rhm_Combine:actionToggleCursor(actionName, inputValue, callbackState, i
         g_realisticHarvestManager:toggleCursor()
     end
 end
+
+function rhm_Combine:actionOpenMenu(actionName, inputValue, callbackState, isAnalog)
+    if g_realisticHarvestManager then
+        g_realisticHarvestManager:toggleMenu(self)
+    end
+end
+
+-- ============================================================================
+-- COMBINE SETTINGS SYSTEM
+-- ============================================================================
+
+---Обробка зміни типу культури (викликається при детекції нової культури)
+---@param newCropName string Назва нової культури
 
 
 

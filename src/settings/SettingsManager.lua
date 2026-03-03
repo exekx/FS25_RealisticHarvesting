@@ -17,6 +17,10 @@ SettingsManager.SERVER_SETTINGS = {
 SettingsManager.CLIENT_SETTINGS = {
     "showHUD",
     "showYield",
+    "showLoad",          -- NEW: Show Engine Load
+    "showProductivity",  -- NEW: Show Productivity (t/h)
+    "showCropLoss",      -- NEW: Show Crop Loss
+    "showSpeed",         -- NEW: Show Speed
     "hudOffsetX",
     "hudOffsetY",
     "hudPosX",      -- NEW: Saved HUD X position
@@ -66,13 +70,12 @@ function SettingsManager:getServerXmlFilePath()
     return rhmPath .. "/settings.xml"
 end
 
--- Get path for client settings (in user profile directory)
+-- Get path for client settings (also in modSettings directory, alongside server settings)
 function SettingsManager:getClientXmlFilePath()
-    local userDir = getUserProfileAppPath()
-    if userDir then
-        return ("%s%s_client.xml"):format(userDir, SettingsManager.MOD_NAME)
-    end
-    return nil
+    local serverPath = self:getServerXmlFilePath()
+    if not serverPath then return nil end
+    -- Replace 'settings.xml' with 'client.xml' in the same folder
+    return serverPath:gsub("settings.xml$", "client.xml")
 end
 
 -- Legacy method for backward compatibility

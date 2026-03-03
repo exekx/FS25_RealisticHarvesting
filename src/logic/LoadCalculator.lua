@@ -9,9 +9,9 @@ function LoadCalculator.new(modDirectory)
     self.debug = false -- TEMPORARY DEBUG ENABLED
     self.modDirectory = modDirectory or g_currentModDirectory  -- Зберігаємо modDirectory (with fallback)
     
-    -- Коефіцієнти складності культур (завантажуються з XML)
+    -- Коефіцієнти складності культур
     self.CROP_FACTORS = {}
-    self:loadCropFactorsFromXML()
+    self:loadDefaultCropFactors()
     
     -- Дані для розрахунку середнього навантаження
     self.totalDistance = 0
@@ -49,59 +49,16 @@ function LoadCalculator.new(modDirectory)
     -- Накопичувач для розрахунку навантаження
     self.loadAccumulatedMass = 0 -- кг
     
+    -- Combine Settings System
+    self.combineMemory = nil  -- Буде встановлено з rhm_Combine
+    self.currentCrop = nil    -- Поточна культура для розрахунку settings loss
+    
     print("RHM: LoadCalculator initialized")
     
     return self
 end
 
----Завантажує коефіцієнти культур з XML файлу
-function LoadCalculator:loadCropFactorsFromXML()
-    if not self.modDirectory then
-        print("RHM: WARNING - modDirectory not provided to LoadCalculator")
-        self:loadDefaultCropFactors()
-        return
-    end
-    
-    -- Використовуємо Utils.getFilename для правильного шляху
-    local xmlPath = Utils.getFilename("data/fruitTypes.xml", self.modDirectory)
-    
-    local xmlFile = XMLFile.load("RHM_FruitTypes", xmlPath)
-    if not xmlFile then
-        print("RHM: WARNING - Could not load fruitTypes.xml from: " .. tostring(xmlPath))
-        print("RHM: Falling back to default crop factors")
-        self:loadDefaultCropFactors()
-        return
-    end
-    
-    local i = 0
-    while true do
-        local key = string.format("fruitTypes.fruitType(%d)", i)
-        if not xmlFile:hasProperty(key) then
-            break
-        end
-        
-        local fruitName = xmlFile:getString(key .. "#name")
-        local factor = xmlFile:getFloat(key .. "#mrMaterialQtyFx", 1.0)
-        
-        if fruitName then
-            -- Знайти FruitType ID за ім'ям
-            local fruitTypeIndex = g_fruitTypeManager:getFruitTypeIndexByName(fruitName)
-            if fruitTypeIndex then
-                self.CROP_FACTORS[fruitTypeIndex] = factor
-                if self.debug then
-                    print(string.format("RHM: Loaded crop factor for %s: %.2f", fruitName, factor))
-                end
-            end
-        end
-        
-        i = i + 1
-    end
-    
-    xmlFile:delete()
-    print(string.format("RHM: Loaded %d crop factors from fruitTypes.xml", i))
-end
-
----Завантажує стандартні коефіцієнти (Fallback)
+---Завантажує стандартні коефіцієнти культур
 function LoadCalculator:loadDefaultCropFactors()
     -- Fallback до базових значень
     -- 1.0 = Стандарт (Пшениця)
@@ -143,19 +100,34 @@ function LoadCalculator:loadDefaultCropFactors()
     if FruitType.PEA then self.CROP_FACTORS[FruitType.PEA] = 1.0 end
     
     -- Root Crops (Massive Mass -> Low Factors)
-    if FruitType.SUGARBEET then self.CROP_FACTORS[FruitType.SUGARBEET] = 0.2 end
-    if FruitType.POTATO then self.CROP_FACTORS[FruitType.POTATO] = 0.25 end
-    if FruitType.CARROT then self.CROP_FACTORS[FruitType.CARROT] = 0.15 end
-    if FruitType.PARSNIP then self.CROP_FACTORS[FruitType.PARSNIP] = 0.15 end
-    if FruitType.BEETROOT then self.CROP_FACTORS[FruitType.BEETROOT] = 0.15 end
+    -- Root Crops (Massive Mass -> Low Factors)
+    if FruitType.SUGARBEET then self.CROP_FACTORS[FruitType.SUGARBEET] = 0.35 end
+    if FruitType.POTATO then self.CROP_FACTORS[FruitType.POTATO] = 0.40 end
+    
+    -- Vegetable Crops (High Volume -> Low Factors)
+    -- Tuned for High Yield Maps (approx 10x standard)
+    if FruitType.CARROT then self.CROP_FACTORS[FruitType.CARROT] = 0.30 end
+    if FruitType.PARSNIP then self.CROP_FACTORS[FruitType.PARSNIP] = 0.30 end
+    if FruitType.BEETROOT then self.CROP_FACTORS[FruitType.BEETROOT] = 0.30 end
+    if FruitType.ONION then self.CROP_FACTORS[FruitType.ONION] = 0.30 end 
+    
+    -- Leafy / Others
+    if FruitType.SPINACH then self.CROP_FACTORS[FruitType.SPINACH] = 0.3 end
+    
+    -- Pulses
+    if FruitType.PEA then self.CROP_FACTORS[FruitType.PEA] = 1.0 end
+    if FruitType.GREENBEAN then self.CROP_FACTORS[FruitType.GREENBEAN] = 0.8 end
     
     -- Special
     if FruitType.COTTON then self.CROP_FACTORS[FruitType.COTTON] = 3.0 end -- Light but slow
     if FruitType.SUGARCANE then self.CROP_FACTORS[FruitType.SUGARCANE] = 0.1 end -- Massive mass
     
     -- Other
-    if FruitType.POPLAR then self.CROP_FACTORS[FruitType.POPLAR] = 0.5 end 
+    if FruitType.POPLAR then self.CROP_FACTORS[FruitType.POPLAR] = 0.2 end -- massive yield (6.6 l/m2)
     if FruitType.OILSEEDRADISH then self.CROP_FACTORS[FruitType.OILSEEDRADISH] = 0.5 end
+    
+    if FruitType.GRAPE then self.CROP_FACTORS[FruitType.GRAPE] = 0.5 end
+    if FruitType.OLIVE then self.CROP_FACTORS[FruitType.OLIVE] = 0.5 end
 end
 
 ---Встановлює базову продуктивність комбайна mass-based
@@ -188,16 +160,61 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
     if category == "forageHarvesters" or category == "forageHarvesterCutters" then
         coef = 0.150  -- Кормозбиральні: ~150-200 t/h -> 0.15 kg/s per HP
     elseif category == "beetVehicles" or category == "beetHarvesting" then
-        coef = 0.080  -- Бурякозбиральні: very high throughput
+        coef = 0.060  -- Бурякозбиральні: very high throughput
     elseif category == "potatoVehicles" then
         coef = 0.060  -- Картоплезбиральні
     elseif category == "cottonVehicles" then
         coef = 0.015  -- Бавовна (легка, повільна обробка)
+    elseif category == "vegetableVehicles" then
+        coef = 0.060  -- Овочева техніка (Adjusted for realistic load)
     end
     
     -- Спробувати отримати потужність з motorized spec
     if vehicle.spec_motorized and vehicle.spec_motorized.motor then
         power = vehicle.spec_motorized.motor.hp or 0
+    end
+    
+    -- SMART DETECTION: If category didn't match specific types (still default 0.035), checks fillTypes AND Names
+    if math.abs(coef - 0.035) < 0.001 then
+        local isVegetable = false
+        
+        -- 1. Check FillTypes (if available)
+        if vehicle.getFillUnitFillTypes and vehicle.spec_fillUnit then
+            for _, fillUnit in ipairs(vehicle.spec_fillUnit.fillUnits) do
+                 if fillUnit.supportedFillTypes then
+                     for fillTypeIndex, _ in pairs(fillUnit.supportedFillTypes) do
+                        local fillType = g_fillTypeManager:getFillTypeByIndex(fillTypeIndex)
+                        if fillType and fillType.name then
+                            local name = string.upper(fillType.name)
+                            if name == "ONION" or name == "CARROT" or name == "BEETROOT" or name == "PARSNIP" then
+                                isVegetable = true
+                                break
+                            end
+                        end
+                     end
+                 end
+                 if isVegetable then break end
+            end
+        end
+        
+        -- 2. Check Vehicle Name / Filename (Fallback for windrowers/diggers like UR-205)
+        if not isVegetable then
+            local name = string.lower(vehicle:getFullName() or "")
+            local xml = string.lower(vehicle.configFileName or "")
+            
+            if name:find("onion") or name:find("carrot") or name:find("vegetable") or 
+               xml:find("onion") or xml:find("carrot") or xml:find("vegetable") or
+               name:find("ur%-%d+") or name:find("umr") or name:find("keiler") or -- UR-205, UMR, Ropa Keiler
+               xml:find("ur_") or xml:find("umr_") then
+                isVegetable = true
+                print(string.format("RHM: Smart Detection -> Found keyword in name/xml (%s), assuming Vegetable", name))
+            end
+        end
+        
+        if isVegetable then
+            coef = 0.060 -- Standardized vegetable coeff
+            print("RHM: Applied Vegetable Coef (0.060)")
+        end
     end
     
     -- Debug entry
@@ -291,6 +308,21 @@ function LoadCalculator:update(vehicle, dt, mass)
     
     -- Оновлюємо масу (замість площі)
     self.loadAccumulatedMass = (self.loadAccumulatedMass or 0) + mass
+    
+    -- INSTANT REACTION FIX:
+    -- Якщо почали збирати (mass > 0), а ліміт все ще максимальний - негайно обмежуємо
+    -- Не чекаємо 1.5 секунди вимірювання
+    if mass > 0 and self.speedLimit >= (self.genuineSpeedLimit - 0.1) then
+         if self.workingSpeedLimit > 0 and self.workingSpeedLimit < 12 then
+             self.speedLimit = self.workingSpeedLimit
+         else
+             self.speedLimit = 5.0 -- Консервативний старт
+             self.workingSpeedLimit = 5.0
+         end
+         if self.debug then
+            print("RHM: Instant start limit applied: " .. tostring(self.speedLimit))
+         end
+    end
     
     -- Оновлюємо час
     self.currentTime = self.currentTime + dt
@@ -676,6 +708,55 @@ function LoadCalculator:calculateCropLoss()
     return self.cropLoss
 end
 
+---Розраховує втрати від неправильних налаштувань комбайна
+---@return number settingsLoss Втрати від налаштувань (0-50%)
+function LoadCalculator:calculateSettingsLoss()
+    -- Якщо немає memory або культури - втрат немає
+    if not self.combineMemory or not self.currentCrop then
+        return 0
+    end
+    
+    -- Однакова математика для AUTO і MANUAL:
+    -- AUTO отримує невеликий відхил від оптимуму (1-10 одиниць) при налаштуванні,
+    -- тому матиме малі, але реальні втрати — "автомат не ідеальний"
+    -- MANUAL дає гравцю можливість зробити і краще (якщо точно потрапить в оптимум)
+    -- і гірше (якщо виставить неправильні значення)
+    
+    -- Отримуємо результат перевірки налаштувань (включаючи бонус)
+    local netPenalty, _ = self.combineMemory:checkSettingsForCrop(self.currentCrop)
+    
+    -- netPenalty може бути від'ємним (бонус) або додатнім (штраф)
+    -- Обмежуємо діапазон: Максимальний бонус -5%, Максимальний штраф 30%
+    local settingsFactor = math.max(-5, math.min(netPenalty, 30))
+    
+    return settingsFactor
+end
+
+---Розраховує загальні втрати врожаю (базові + налаштування)
+---@return number totalLoss Загальні втрати (0-50%)
+function LoadCalculator:calculateTotalCropLoss()
+    -- Базові втрати від перевантаження
+    local baseLoss = self:calculateCropLoss()
+    
+    -- Втрати від налаштувань
+    local settingsLoss = self:calculateSettingsLoss()
+    
+    -- TODO: В майбутньому додати:
+    -- local moistureLoss = self:calculateMoistureLoss()
+    -- local speedLoss = self:calculateSpeedLoss()
+    
+    -- Загальні втрати (сумуються)
+    local totalLoss = baseLoss + settingsLoss
+    
+    -- Обмежуємо максимум
+    totalLoss = math.min(totalLoss, 50)
+    
+    -- Зберігаємо для відображення в HUD
+    self.cropLoss = totalLoss
+    
+    return totalLoss
+end
+
 ---Отримує поточні втрати врожаю
 ---@return number Втрати в відсотках (0-50)
 function LoadCalculator:getCropLoss()
@@ -696,7 +777,7 @@ end
 
 ---Оновлює продуктивність на основі зібраної маси та об'єму
 ---@param mass number Маса зібраного врожаю в кг
----@param liters number Об'єм зібраного врожаю в л
+---@param liters number Обєм зібраного врожаю в л
 ---@param dt number Delta time в мс
 function LoadCalculator:updateProductivity(mass, liters, dt)
     self.totalOutputMass = self.totalOutputMass + mass
@@ -713,31 +794,20 @@ function LoadCalculator:updateProductivity(mass, liters, dt)
             -- T/h = (Mass_kg / 1000) / (Time_ms / 3600000)
             local hours = self.productivityTime / 3600000
             self.tonPerHour = (self.productivityMass / 1000) / hours
-            self.litersPerHour = self.productivityLiters / hours
+            self.litersPerHour = (self.productivityLiters or 0) / hours
         end
         
-        -- Reset counters
-        self.productivityMass = 0
-        self.productivityLiters = 0
-        self.productivityTime = 0
+        -- Reset counters with SMOOTHING (keep 20% to prevent drops)
+        self.productivityMass = self.productivityMass * 0.2
+        self.productivityLiters = (self.productivityLiters or 0) * 0.2
+        self.productivityTime = self.productivityTime * 0.2
+        
     elseif self.tonPerHour == 0 and self.productivityTime > 1000 and self.productivityMass > 0 then
-        -- Швидкий старт: якщо показує 0, а ми вже працюємо 1с - оновити негайно
+        -- Швидкий старт
         local hours = self.productivityTime / 3600000
         self.tonPerHour = (self.productivityMass / 1000) / hours
-        self.litersPerHour = self.productivityLiters / hours
+        self.litersPerHour = (self.productivityLiters or 0) / hours
     end
-    -- Ми розраховуємо миттєву врожайність базуючись на даних цього кадру
-    -- Area passed is usually in m2.
-    -- Yield (t/ha) = (Mass_kg / Area_m2) * 10
-    -- Yield (bu/ac) = (Liters / Area_m2) * 114.84 (Volumetric)
-    
-    -- Але нам треба площу. В addCutterArea площа приходить.
-    -- Ми додали параметр 'area' в updateProductivity? Ні, ще ні.
-    -- Але ми можемо вирахувати approximate area, якщо знаємо масу і crop factor?
-    -- Ні, краще передати реальну площу.
-    
-    -- Тимчасове рішення: якщо area не передана, yield = 0
-    -- (Ми змінимо rhm_Combine щоб передавав area)
 end
 
 ---Оновлює продуктивність і ВРОЖАЙНІСТЬ
@@ -759,7 +829,6 @@ function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
     
     -- 2. Apply smoothing (Simple moving average)
     -- BUFFER: 20 ticks seems good (~10 frames if called every update, or less if updateProductivity is called less often)
-    -- Але updateProductivity викликається кожен кадр коли є жнива
     
     self.yieldBuffer = self.yieldBuffer or {}
     table.insert(self.yieldBuffer, rawYield)
@@ -769,66 +838,56 @@ function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
     for _, v in ipairs(self.yieldBuffer) do sum = sum + v end
     local smoothedYield = sum / #self.yieldBuffer
     
-    -- 3. Add Noise (+/- 5%) for realism
-    -- Noise should change slowly, not every frame
-    if not self.noiseOffset or (self.noiseTimer and self.noiseTimer > 500) then
-        self.noiseOffset = 1.0 + (math.random() - 0.5) * 0.1 -- +/- 5%
-        self.noiseTimer = 0
-    end
-    self.noiseTimer = (self.noiseTimer or 0) + dt
+    -- 3. REMOVED Noise (+/- 5%) - User requested actual values
+    -- Noise factor removed for stability
     
-    -- Interpolate noise for smoothness
-    -- (Simplified: just apply current noise)
-    self.currentYield = smoothedYield * (self.noiseOffset or 1.0)
+    -- Apply User Calibration
+    local calibration = 1.0
+    if self.combineMemory and self.combineMemory.currentYieldCalibration then
+        calibration = self.combineMemory.currentYieldCalibration
+    end
+    
+    self.currentYield = smoothedYield * calibration
+end
+
+---Встановити реальну врожайність з rhm_Combine (User Request)
+---@param yieldTha number Врожайність в т/га
+function LoadCalculator:setRealTimeYield(yieldTha)
+    -- Apply smoothing (Simple moving average)
+    self.yieldBuffer = self.yieldBuffer or {}
+    table.insert(self.yieldBuffer, yieldTha)
+    if #self.yieldBuffer > 20 then table.remove(self.yieldBuffer, 1) end
+    
+    local sum = 0
+    for _, v in ipairs(self.yieldBuffer) do sum = sum + v end
+    local smoothedYield = sum / #self.yieldBuffer
+
+    -- No Calibration - Pure Real-time Yield (User Request)
+    self.currentYield = smoothedYield
 end
 
 ---Отримує форматований рядок врожайності
 ---@param unitSystem number (1=Metric, 2=Imperial, 3=Bushels)
 ---@return string, string (Value, Unit)
 function LoadCalculator:getYieldText(unitSystem)
+    -- BUGFIX: Removed duplicate T/h calculation that was causing jumps
+    -- This method is now a PURE GETTER for Yield only
+    
     local yield = self.currentYield or 0
     
     if yield < 0.1 then return "0.0", "t/ha" end
     
     if unitSystem == 2 then -- Imperial (UK/US tons per acre?) 
         -- 1 t/ha = 0.446 t/ac (approx short ton) or just use t/ac
-        -- Let's assume t/ac
         local t_ac = yield * 0.446
         return string.format("%.2f", t_ac), "t/ac"
         
     elseif unitSystem == 3 then -- Bushels (bu/ac)
-        -- Approximation: 1 t/ha wheat ~= 15 bu/ac? No.
-        -- 1 t/ha = 1000 kg/ha
-        -- Wheat ~27.2 kg/bu (60 lbs)
-        -- 1000 / 27.2 = 36.7 bu/ha
-        -- 1 ha = 2.47 ac
-        -- 36.7 / 2.47 = ~14.8 bu/ac per t/ha
-        -- So mulitplier is ~15.
-        
-        -- Better uses Liters?
-        -- We stored Mass based yield. 
-        -- Let's stick to Mass based for consistency with game "Yield" mechanics.
         -- Standard conversion factor (avg for grains): ~15
         local bu_ac = yield * 15 
         return string.format("%.0f", bu_ac), "bu/ac"
         
     else -- Metric (t/ha)
         return string.format("%.1f", yield), "t/ha"
-    end
-    
-    -- Оновлюємо T/h та L/h кожні 3 секунди для стабільного значення
-    if self.productivityTime >= self.productivityUpdateInterval then
-        if self.productivityTime > 0 then
-            -- Формула: (кг / мс) * (3600000 мс/год) / (1000 кг/тонна) = т/год
-            -- Спрощено: (кг / мс) * 3600 = т/год
-            self.tonPerHour = (self.productivityMass / self.productivityTime) * 3600
-            -- Формула: (л / мс) * (3600000 мс/год) = л/год
-            self.litersPerHour = (self.productivityLiters / self.productivityTime) * 3600000
-        end
-        
-        -- Скидаємо накопичення з невеликим перекриттям для плавності
-        self.productivityMass = self.productivityMass * 0.2
-        self.productivityLiters = self.productivityLiters * 0.2
-        self.productivityTime = self.productivityTime * 0.2
     end
 end

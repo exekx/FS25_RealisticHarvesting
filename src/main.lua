@@ -1,17 +1,23 @@
 local modDirectory = g_currentModDirectory
 local modName = g_currentModName
 
--- Завантаження модулів
 source(modDirectory .. "src/settings/SettingsManager.lua")
 source(modDirectory .. "src/settings/Settings.lua")
 source(modDirectory .. "src/settings/SettingsGUI.lua")  -- Console commands for settings
 source(modDirectory .. "src/network/SettingsSyncEvent.lua")  -- Network event for settings sync
 source(modDirectory .. "src/network/SettingsSync.lua")  -- Settings sync helper
+source(modDirectory .. "src/utils/RHMInputUtil.lua")  -- Input control utility (camera blocking)
 source(modDirectory .. "src/utils/UIHelper.lua")
 source(modDirectory .. "src/utils/UnitConverter.lua")  -- Unit conversion utility
 source(modDirectory .. "src/settings/SettingsUI.lua")
 source(modDirectory .. "src/hud/HUDRenderer.lua")
 source(modDirectory .. "src/hud/DraggableHUD.lua")
+source(modDirectory .. "src/gui/CombineSettingsGUI.lua")  -- Combine settings console UI
+source(modDirectory .. "src/gui/CombineCalibrationGUI.lua")  -- Visual calibration GUI
+source(modDirectory .. "src/data/CombineSettingsDatabase.lua")  -- Combine settings database
+source(modDirectory .. "src/settings/ProfileManager.lua")  -- Global user profiles
+source(modDirectory .. "src/settings/CombineMemory.lua")  -- Combine settings memory
+source(modDirectory .. "src/network/CombineSettingsEvent.lua")  -- Network event for combine settings
 source(modDirectory .. "src/logic/LoadCalculator.lua")  -- Розрахунок навантаження
 source(modDirectory .. "src/rhm_Combine.lua")  -- Specialization для комбайна
 source(modDirectory .. "src/rhm_Cutter.lua")  -- Налаштування для жаток (КРИТИЧНО для роздільного запуску!)
@@ -41,11 +47,14 @@ local function loadedMission(mission, node)
     rhm:onMissionLoaded()
 end
 
--- Викликається при завантаженні (створення об'єкта)
 local function load(mission)
     if rhm == nil then
         rhm = RealisticHarvestManager.new(mission, modDirectory, modName)
         getfenv(0)["g_realisticHarvestManager"] = rhm
+        
+        -- Initialize ProfileManager
+        rhm.profileManager = ProfileManager.new()
+        rhm.profileManager:loadProfiles()
     end
 end
 
