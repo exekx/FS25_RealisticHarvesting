@@ -21,6 +21,7 @@ SettingsManager.CLIENT_SETTINGS = {
     "showProductivity",  -- NEW: Show Productivity (t/h)
     "showCropLoss",      -- NEW: Show Crop Loss
     "showSpeed",         -- NEW: Show Speed
+    "showLoadWarnings",  -- NEW: Toggle load warnings
     "hudOffsetX",
     "hudOffsetY",
     "hudPosX",      -- NEW: Saved HUD X position

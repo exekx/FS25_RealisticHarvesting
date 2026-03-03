@@ -208,6 +208,19 @@ function SettingsUI:inject()
     )
     self.cropLossVisOption = lossVisOpt
     
+    -- Load Warnings (Binary)
+    local loadWarnOpt = UIHelper.createBinaryOption(
+        layout,
+        "rhm_show_load_warn",
+        "rhm_show_load_warn", -- Use l10n key
+        self.settings.showLoadWarnings,
+        function(val)
+            self.settings.showLoadWarnings = val
+            self.settings:save()
+        end
+    )
+    self.loadWarnOption = loadWarnOpt
+    
     -- Unit System (Multi)
     local unitOptions = {
         g_i18n:getText("rhm_unit_metric"),
@@ -281,6 +294,9 @@ function SettingsUI:refreshUI()
     end
     if self.cropLossVisOption and self.cropLossVisOption.setIsChecked then
         self.cropLossVisOption:setIsChecked(self.settings.showCropLoss)
+    end
+    if self.loadWarnOption and self.loadWarnOption.setIsChecked then
+        self.loadWarnOption:setIsChecked(self.settings.showLoadWarnings)
     end
     
     -- Оновлюємо Speed Limit (Global Setting)

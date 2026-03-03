@@ -39,6 +39,7 @@ function Settings.new(manager)
     self.showProductivity = true
     self.showCropLoss = true
     self.showSpeed = true -- Used in HUD instead of showSpeedometer sometimes (unified below)
+    self.showLoadWarnings = true  -- New: toggle load warnings
     
 
     -- HUD settings
@@ -189,6 +190,7 @@ function Settings:resetToDefaults()
     self.showCropLoss = true      -- Reset default
     self.showSpeed = true         -- Reset default
     self.showSpeedometer = true
+    self.showLoadWarnings = true   -- Reset default
     self.enableIndependentLaunch = true -- Default: enabled
     self.hudOffsetX = 0
     self.hudOffsetY = 350

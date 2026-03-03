@@ -845,7 +845,9 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         
         if warnText and (now - spec._lastOverloadWarn) >= warnInterval then
             spec._lastOverloadWarn = now
-            g_currentMission:showBlinkingWarning(warnText, 3000)
+            if g_realisticHarvestManager.settings.showLoadWarnings then
+                g_currentMission:showBlinkingWarning(warnText, 3000)
+            end
         end
     end
     -- === END OVERLOAD WARNING ===

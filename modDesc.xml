@@ -2,7 +2,7 @@
 <modDesc descVersion="105">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.4.1.0</version>
+    <version>1.4.2.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -31,6 +31,11 @@ Features:
 - Pickup Header support (Swathing)
 - Experimental NEXAT support
 - Combine Settings & Calibration System
+
+Changelog 1.4.2.0:
+- ADDED: Spanish localization for all mod features and menus.
+- NEW: Added setting to disable "High Load" HUD warnings.
+- IMPROVED: Internal logic cleanup for warning system.
 
 Changelog 1.4.1.0:
 - FIXED: Game crash ("attempt to call missing method 'getIsControlled'") when using equipment from DLC packs (e.g. Highland DLC NH 8040 with Holaras tools). Added safe nil check for the method.
@@ -1305,6 +1310,32 @@ Változások 1.1.0.0:
             <uk>Відображати відсоток втрат врожаю в HUD</uk>
             <ru>Отображать процент потерь урожая в HUD</ru>
             <hu>Termésveszteség százalékos megjelenítése a HUD-on</hu>
+        </text>
+
+        <text name="rhm_show_load_warn_short">
+            <en>Show Load Warnings</en>
+            <de>Lastwarnungen anzeigen</de>
+            <fr>Afficher avertissements de charge</fr>
+            <pl>Pokaż ostrzeżenia o obciążeniu</pl>
+            <es>Mostrar avisos de carga</es>
+            <it>Mostra avvisi di carico</it>
+            <cz>Zobrazit varování o zatížení</cz>
+            <uk>Показувати попередження про навантаження</uk>
+            <ru>Показывать предупреждения о нагрузке</ru>
+            <hu>Terhelés figyelmeztetések megjelenítése</hu>
+        </text>
+
+        <text name="rhm_show_load_warn_long">
+            <en>Display blinking warnings when combine is overloaded (High/Critical)</en>
+            <de>Blinkende Warnungen bei Überlastung anzeigen (Hoch/Kritisch)</de>
+            <fr>Afficher des avertissements clignotants en cas de surcharge (Élevée/Critique)</fr>
+            <pl>Wyświetlaj migające ostrzeżenia o przeciążeniu (Wysokim/Krytycznym)</pl>
+            <es>Mostrar avisos intermitentes en caso de sobrecarga (Alta/Crítica)</es>
+            <it>Mostra avvisi lampeggianti in caso de sovraccarico (Alto/Critico)</it>
+            <cz>Zobrazit blikající varování při přetížení (Vysoké/Kritické)</cz>
+            <uk>Відображати блимаючі попередження при перевантаженні (Високе/Критичне)</uk>
+            <ru>Отображать мигающие предупреждения при перегрузке (Высокая/Критическая)</ru>
+            <hu>Villogó figyelmeztetések megjelenítése túlterhelés esetén (Magas/Kritikus)</hu>
         </text>
         
         <text name="rhm_units_short">
