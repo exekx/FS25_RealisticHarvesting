@@ -1176,22 +1176,6 @@ Változások 1.1.0.0:
             <ru>Показывать потери</ru>
             <hu>Veszteség megjelenítése</hu>
         </text>
-        
-        <text name="rhm_show_croploss_long">
-            <en>Display crop loss level (Low/Med/High) in HUD</en>
-            <de>Ernteverlust-Niveau (Niedrig/Mittel/Hoch) im HUD anzeigen</de>
-            <fr>Afficher le niveau de perte de récolte (Faible/Moyen/Élevé) dans le HUD</fr>
-            <pl>Wyświetl poziom strat plonów (Niski/Średni/Wysoki) w HUD</pl>
-            <es>Mostrar nivel de pérdida de cosecha (Bajo/Medio/Alto) en HUD</es>
-            <it>Mostra livello perdita raccolto (Basso/Medio/Alto) in HUD</it>
-            <cz>Zobrazit úroveň ztráty úrody (Nízká/Střední/Vysoká) v HUD</cz>
-            <br>Exibir nível de perda de colheita (Baixo/Médio/Alto) no HUD</br>
-            <uk>Відображати рівень втрат (Низький/Середній/Високий) в HUD</uk>
-            <ru>Отображать уровень потерь (Низкий/Средний/Высокий) в HUD</ru>
-            <hu>Termésveszteség szintjének megjelenítése (Alacsony/Közepes/Magas) a HUD-on</hu>
-        </text>
-
-        <!-- Combine Calibration GUI Translations -->
         <text name="rhm_ui_title_main"><en>Combine Calibration</en><de>Mähdrescher-Kalibrierung</de><fr>Calibrage Moissonneuse</fr><pl>Kalibracja Kombajnu</pl><es>Calibración Cosechadora</es><it>Calibrazione Mietitrebbia</it><cz>Kalibrace Kombajnu</cz><br>Calibração Colheitadeira</br><uk>Калібрування Комбайна</uk><ru>Калибровка Комбайна</ru><hu>Kombájn Kalibrálás</hu></text>
         
         <text name="rhm_ui_page_settings"><en>Settings</en><de>Einstellungen</de><fr>Paramètres</fr><pl>Ustawienia</pl><es>Ajustes</es><it>Impostazioni</it><cz>Nastavení</cz><br>Configurações</br><uk>Налаштування</uk><ru>Настройки</ru><hu>Beállítások</hu></text>
@@ -1390,6 +1374,32 @@ Változások 1.1.0.0:
             <uk>Увімкніть жатку!</uk>
             <ru>Включите жатку!</ru>
             <hu>Kapcsold be a vágóasztalt!</hu>
+        </text>
+        <text name="rhm_warn_overload_high">
+            <en>Combine overloaded! Reduce speed to minimize crop losses.</en>
+            <de>Mähdrescher überlastet! Geschwindigkeit reduzieren.</de>
+            <fr>Moissonneuse surchargée ! Réduisez la vitesse.</fr>
+            <pl>Kombajn przeciążony! Zmniejsz prędkość.</pl>
+            <es>Cosechadora sobrecargada! Reduce la velocidad.</es>
+            <it>Mietitrebbia sovraccarica! Ridurre la velocità.</it>
+            <cz>Kombajn přetížen! Snižte rychlost.</cz>
+            <br>Colheitadeira sobrecarregada! Reduza a velocidade.</br>
+            <uk>Комбайн перевантажений! Знизьте швидкість.</uk>
+            <ru>Комбайн перегружен! Снизьте скорость.</ru>
+            <hu>A kombájn túlterhelt! Csökkentse a sebességet.</hu>
+        </text>
+        <text name="rhm_warn_overload_critical">
+            <en>COMBINE CRITICALLY OVERLOADED! Severe crop losses occurring!</en>
+            <de>MÄHDRESCHER KRITISCH ÜBERLASTET! Starke Ernteverluste!</de>
+            <fr>MOISSONNEUSE SURCHARGÉE CRITIQUEMENT ! Grosses pertes !</fr>
+            <pl>KOMBAJN KRYTYCZNIE PRZECIĄŻONY! Poważne straty!</pl>
+            <es>COSECHADORA CRÍTICAMENTE SOBRECARGADA! Graves pérdidas!</es>
+            <it>MIETITREBBIA CRITICAMENTE SOVRACCARICA! Gravi perdite!</it>
+            <cz>KOMBAJN KRITICKY PŘETÍŽEN! Vážné ztráty sklizně!</cz>
+            <br>COLHEITADEIRA CRITICAMENTE SOBRECARREGADA! Perdas graves!</br>
+            <uk>КОМБАЙН КРИТИЧНО ПЕРЕВАНТАЖЕНИЙ! Серйозні втрати врожаю!</uk>
+            <ru>КОМБАЙН КРИТИЧЕСКИ ПЕРЕГРУЖЕН! Серьёзные потери урожая!</ru>
+            <hu>A KOMBÁJN KRITIKUSAN TÚLTERHELT! Súlyos termésveszteség!</hu>
         </text>
     </l10n>
 </modDesc>

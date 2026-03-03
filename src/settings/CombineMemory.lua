@@ -11,10 +11,6 @@ function CombineMemory.new(combine)
     
     self.combine = combine
     
-    -- Збережені профілі для кожної культури
-    -- Структура: [profileName] = {cropType, settings, stats, customized}
-    self.savedProfiles = {}
-    
     -- Поточний активний профіль
     self.currentProfile = nil
     self.currentCrop = nil
@@ -38,128 +34,26 @@ function CombineMemory.new(combine)
     self.autoSwitchEnabled = true  -- Автоматичне перемикання при зміні культури
     self.showWarnings = true       -- Показувати попередження про неправильні налаштування
     
-    -- Cached profile count (avoid iterating every call to getProfileCount)
-    self.profileCount = 0
+    -- Cached profile count removed
     
     return self
 end
 
----Зберегти поточні налаштування як профіль
+---Зберегти поточні налаштування як глобальний профіль
 ---@param cropName string Назва культури
----@param customName string|nil Кастомна назва профілю (опціонально)
 ---@return boolean success Чи успішно збережено
-function CombineMemory:saveCurrentProfile(cropName, customName)
-    local profileName = customName or cropName
-    
-    -- Копіюємо поточні налаштування
-    local settingsCopy = {
-        fan = self.currentSettings.fan,
-        upperSieve = self.currentSettings.upperSieve,
-        lowerSieve = self.currentSettings.lowerSieve,
-        rotor = self.currentSettings.rotor,
-        feeder = self.currentSettings.feeder,
-        yieldCalibration = self.currentYieldCalibration or 1.0,
-        mode = self.mode -- Save current mode
-    }
-    
-    -- Зберігаємо або оновлюємо профіль
-    if self.savedProfiles[profileName] then
-        -- Оновлюємо існуючий профіль
-        self.savedProfiles[profileName].settings = settingsCopy
-        self.savedProfiles[profileName].stats.timesUsed = self.savedProfiles[profileName].stats.timesUsed + 1
-        
-        local timeStr = "Day 0 00:00"
-        if g_currentMission and g_currentMission.environment then
-            local env = g_currentMission.environment
-            timeStr = string.format("Day %d %02d:%02d", env.currentDay or 0, env.currentHour or 0, env.currentMinute or 0)
-        end
-        self.savedProfiles[profileName].stats.lastUsed = timeStr
-    else
-        -- Створюємо новий профіль
-        local timeStr = "Day 0 00:00"
-        if g_currentMission and g_currentMission.environment then
-            local env = g_currentMission.environment
-            timeStr = string.format("Day %d %02d:%02d", env.currentDay or 0, env.currentHour or 0, env.currentMinute or 0)
-        end
-        
-        self.savedProfiles[profileName] = {
-            cropType = cropName,
-            settings = settingsCopy,
-            stats = {
-                timesUsed = 1,
-                lastUsed = timeStr,
-                totalHarvested = 0,  -- В тоннах
-                averageLoss = 0,     -- Середній crop loss %
-            },
-            customized = customName ~= nil,  -- Чи це кастомний профіль
-        }
-        -- Increment cached count for new profiles
-        self.profileCount = self.profileCount + 1
-    end
-    
-    print(string.format("RHM: [OK] Profile saved: %s", profileName))
-    return true
-end
-
----Завантажити профіль
----@param profileName string Назва профілю
----@return boolean success Чи успішно завантажено
-function CombineMemory:loadProfile(profileName)
-    local profile = self.savedProfiles[profileName]
-    
-    if not profile then
-        print(string.format("RHM: [!] Profile not found: %s", profileName))
-        return false
-    end
-    
-    -- Застосовуємо налаштування
-    self.currentSettings.fan = profile.settings.fan
-    self.currentSettings.upperSieve = profile.settings.upperSieve
-    self.currentSettings.lowerSieve = profile.settings.lowerSieve
-    self.currentSettings.rotor = profile.settings.rotor
-    self.currentSettings.feeder = profile.settings.feeder
-    
-    -- Завантажуємо калібрування (або 1.0 якщо немає)
-    self.currentYieldCalibration = profile.settings.yieldCalibration or 1.0
-    
-    -- Restore mode
-    if profile.settings.mode then
-        self.mode = profile.settings.mode
-    else
-        if profile.customized then
-            self.mode = "MANUAL"
-        else
-            self.mode = "AUTO"
-        end
-    end
-    
-    self.currentProfile = profileName
-    self.currentCrop = profile.cropType
-    
-    -- Оновлюємо статистику
-    profile.stats.timesUsed = profile.stats.timesUsed + 1
-    local timeStr = "Day 0 00:00"
-    if g_currentMission and g_currentMission.environment then
-        local env = g_currentMission.environment
-        timeStr = string.format("Day %d %02d:%02d", env.currentDay or 0, env.currentHour or 0, env.currentMinute or 0)
-    end
-    profile.stats.lastUsed = timeStr
-    
-    print(string.format("RHM: [OK] Profile loaded: %s (used %d times)", profileName, profile.stats.timesUsed))
-    return true
-end
-
----Видалити профіль
----@param profileName string Назва профілю
----@return boolean success Чи успішно видалено
-function CombineMemory:deleteProfile(profileName)
-    if self.savedProfiles[profileName] then
-        self.savedProfiles[profileName] = nil
-        print(string.format("RHM: [DEL] Profile deleted: %s", profileName))
+function CombineMemory:saveCurrentProfile(cropName)
+    local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
+    if pm then
+        pm:saveProfile(cropName, self.currentSettings)
+        print(string.format("RHM: [OK] Profile saved globally: %s", cropName))
         return true
     end
+    print("RHM: [!] Failed to save global profile: ProfileManager not found")
     return false
 end
+
+-- (Removed local loadProfile and deleteProfile)
 
 ---Автоналаштування для культури
 ---@param cropName string Назва культури
@@ -214,27 +108,48 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
     
     -- Скидаємо калібрування при автоналаштуванні? Ні, краще залишити поточне або 1.0
     -- Але якщо це нова культура, то 1.0
-    if not self.savedProfiles[cropName] then
+    local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
+    if not pm or not pm:getProfile(cropName) then
         self.currentYieldCalibration = 1.0
     end
     
     self.currentCrop = cropName
     
-    -- [CHANGED] DO NOT Save as profile automatically in Auto Mode 
-    -- This keeps the "User Preset" separate from Auto generated settings
-    -- self:saveCurrentProfile(cropName) 
+    -- Do not save global profile automatically
     
     return true
 end
 
----Load the user's saved preset for the current crop
+---Завантажити глобальний пресет користувача для поточної культури
 function CombineMemory:loadUserPreset()
     if not self.currentCrop then return false end
     
-    if self.savedProfiles[self.currentCrop] then
-        return self:loadProfile(self.currentCrop)
+    local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
+    if not pm then return false end
+    
+    local profile = pm:getProfile(self.currentCrop)
+    if profile then
+        if g_client and self.combine then
+            local event = CombineSettingsEvent.new(self.combine, "", 0, true, profile)
+            if not g_server then
+                g_client:getServerConnection():sendEvent(event)
+            else
+                local conn = g_currentMission and g_currentMission.player and g_currentMission.player.serverConnection or nil
+                event:run(conn)
+            end
+        else
+            self.currentSettings.fan = profile.fan
+            self.currentSettings.rotor = profile.rotor
+            self.currentSettings.upperSieve = profile.upperSieve
+            self.currentSettings.lowerSieve = profile.lowerSieve
+            self.currentSettings.feeder = profile.feeder
+            self.mode = "MANUAL"
+            self.autoSwitchEnabled = false
+        end
+        print(string.format("RHM: [OK] Global profile applied for %s", self.currentCrop))
+        return true
     else
-        print(string.format("RHM: No user preset found for %s", self.currentCrop))
+        print(string.format("RHM: No global user preset found for %s", self.currentCrop))
         return false
     end
 end
@@ -251,71 +166,44 @@ function CombineMemory:checkSettingsForCrop(cropName)
     end
     
     local warnings = {}
-    local totalPenalty = 0
-    local totalBonus = 0
-    local hasRedParameter = false  -- FIX: must be local, not global
+    local totalScore = 0  -- negative = bonus, positive = penalty
     
     -- Перевіряємо кожен параметр
     for param, value in pairs(self.currentSettings) do
         if optimalSettings[param] then
-            local optimal = optimalSettings[param].optimal
+            local optimal   = optimalSettings[param].optimal
             local tolerance = optimalSettings[param].tolerance
             local deviation = math.abs(value - optimal)
             
             if deviation <= tolerance then
-                -- GREEN ZONE: Progressive Penalty Curve
-                -- 0 deviation = 0 penalty (Perfect)
-                -- Max tolerance deviation = 2% penalty (Good but not perfect)
-                
-                -- Formula: (deviation / tolerance)^2 * maxGreenZonePenalty
-                local greenPenalty = (deviation / tolerance)^2 * 2.0
-                totalPenalty = totalPenalty + greenPenalty
-                
-                -- SWEET SPOT BONUS
-                -- If deviation is very small (< 1%), give a small bonus
-                if deviation < 1.0 then
-                    -- Accumulate potential bonus, but don't apply yet
-                    totalBonus = totalBonus + 0.5 
-                end
-                
+                -- GREEN ZONE: лінійна крива
+                -- deviation=0          → -0.5 (max bonus per param)
+                -- deviation=tolerance/2 →  0.0 (zero-loss point)
+                -- deviation=tolerance   → +0.5 (min edge, 2.5% total loss)
+                -- Formula: (deviation/tolerance - 0.5) * 1.0
+                local score = (deviation / tolerance - 0.5) * 1.0
+                totalScore = totalScore + score
             else
-                -- RED ZONE: Smooth Exponential Penalty
-                -- Avoids "cliffs" but ramps up quickly
-                -- Formula: 2.0 (green max) + (excess / 5)^1.5 * multiplier
+                -- RED ZONE: лінійне зростання починаючи від +0.5
+                -- excess=0   → 0.5% (continuation from green zone boundary)
+                -- excess=~16 → max 6% per param cap
                 local excess = deviation - tolerance
-                
-                -- Old harsh formula: 10 + (excess/10)^2 * 5
-                -- New smooth formula: Starts at 2.0 and curves up
-                local redPenalty = 2.0 + (excess / 3.0)^1.6 * 4.0
-                
-                totalPenalty = totalPenalty + redPenalty
-                
-                -- ANTI-EXPLOIT: If any parameter is red, NO BONUS allowed!
-                hasRedParameter = true  -- FIX: assign to outer local (declared at top of function)
+                local redScore = math.min(6.0, 0.5 + excess * 0.33)
+                totalScore = totalScore + redScore
                 
                 table.insert(warnings, {
-                    param = param,
-                    current = value,
-                    optimal = optimal,
+                    param    = param,
+                    current  = value,
+                    optimal  = optimal,
                     deviation = deviation,
-                    penalty = redPenalty,
+                    penalty  = redScore,
                 })
             end
         end
     end
     
-    -- ANTI-EXPLOIT: Apply bonus ONLY if no parameters are in Red Zone
-    if hasRedParameter then
-        totalBonus = 0
-    end
-    
-    -- Apply bonus to reduce penalty
-    local finalResult = totalPenalty - totalBonus
-    
-    -- Return: 
-    -- 1. Net Penalty (can be negative = bonus)
-    -- 2. Warnings list
-    return math.max(-5, math.min(finalResult, 100)), warnings
+    -- Cap: max bonus -2.5%, max penalty 30%
+    return math.max(-2.5, math.min(totalScore, 30)), warnings
 end
 
 ---Встановити значення параметру
@@ -413,10 +301,11 @@ function CombineMemory:switchCrop(newCropName)
     
     self.currentCrop = newCropName
     
-    -- Try to load existing profile
-    if self.savedProfiles[newCropName] then
-        print(string.format("RHM: Switching to crop %s - Loading profile", newCropName))
-        self:loadProfile(newCropName)
+    -- Try to load existing global profile
+    local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
+    if pm and pm:getProfile(newCropName) then
+        print(string.format("RHM: Switching to crop %s - Loading global profile", newCropName))
+        self:loadUserPreset()
     else
         -- Or configure default/safe settings
         print(string.format("RHM: Switching to crop %s - No profile, applying defaults", newCropName))
@@ -440,6 +329,16 @@ function CombineMemory:updateSetting(param, value)
     if success then
         self.autoSwitchEnabled = false
         self.mode = "MANUAL"
+        
+        if g_client and self.combine then
+            local event = CombineSettingsEvent.new(self.combine, param, self.currentSettings[param], false, nil)
+            if not g_server then
+                g_client:getServerConnection():sendEvent(event)
+            else
+                local conn = g_currentMission and g_currentMission.player and g_currentMission.player.serverConnection or nil
+                event:run(conn)
+            end
+        end
     end
     return success
 end

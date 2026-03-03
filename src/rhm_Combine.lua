@@ -40,32 +40,22 @@ function rhm_Combine.registerOverwrittenFunctions(vehicleType)
 end
 
 ---Реєстрація XML шляхів для savegame (КРИТИЧНО для збереження даних!)
----Без цього FS25 не знає які вузли XML записувати/читати для цієї специалізації
+---Без цього FS25 не знає які вузли XML записувати/читати для цієї спеціалізації
 function rhm_Combine.registerXMLPaths(schema, basePath)
     -- Поточні налаштування комбайну
-    local currentBase = basePath .. ".combineMemory.current"
-    schema:register(XMLValueType.STRING,  currentBase .. "#mode",        "Combine settings mode (AUTO/MANUAL)", "AUTO")
-    schema:register(XMLValueType.STRING,  currentBase .. "#currentCrop", "Current crop name", "")
-    schema:register(XMLValueType.INT,     currentBase .. "#fan",         "Fan setting", 50)
-    schema:register(XMLValueType.INT,     currentBase .. "#upperSieve",  "Upper sieve setting", 50)
-    schema:register(XMLValueType.INT,     currentBase .. "#lowerSieve",  "Lower sieve setting", 50)
-    schema:register(XMLValueType.INT,     currentBase .. "#rotor",       "Rotor setting", 50)
-    schema:register(XMLValueType.INT,     currentBase .. "#feeder",      "Feeder setting", 50)
+    local cur = basePath .. ".combineMemory.current"
+    schema:register(XMLValueType.STRING, cur .. "#mode",         "Combine settings mode", "AUTO")
+    schema:register(XMLValueType.STRING, cur .. "#currentCrop",  "Current crop", "")
+    schema:register(XMLValueType.BOOL,   cur .. "#autoSwitch",   "Auto switch enabled", true)
+    schema:register(XMLValueType.INT,    cur .. "#fan",          "Fan", 50)
+    schema:register(XMLValueType.INT,    cur .. "#upperSieve",   "Upper sieve", 50)
+    schema:register(XMLValueType.INT,    cur .. "#lowerSieve",   "Lower sieve", 50)
+    schema:register(XMLValueType.INT,    cur .. "#rotor",        "Rotor", 50)
+    schema:register(XMLValueType.INT,    cur .. "#feeder",       "Feeder", 50)
+end
 
-    -- Збережені профілі (масив)
-    local profileBase = basePath .. ".combineMemory.profiles.profile(?)"
-    schema:register(XMLValueType.STRING,  profileBase .. "#name",                   "Profile name")
-    schema:register(XMLValueType.STRING,  profileBase .. "#cropType",               "Profile crop type")
-    schema:register(XMLValueType.BOOL,    profileBase .. "#customized",             "Is customized", false)
-    schema:register(XMLValueType.INT,     profileBase .. ".settings#fan",           "Profile fan", 50)
-    schema:register(XMLValueType.INT,     profileBase .. ".settings#upperSieve",    "Profile upper sieve", 50)
-    schema:register(XMLValueType.INT,     profileBase .. ".settings#lowerSieve",    "Profile lower sieve", 50)
-    schema:register(XMLValueType.INT,     profileBase .. ".settings#rotor",         "Profile rotor", 50)
-    schema:register(XMLValueType.INT,     profileBase .. ".settings#feeder",        "Profile feeder", 50)
-    schema:register(XMLValueType.INT,     profileBase .. ".stats#timesUsed",        "Times used", 0)
-    schema:register(XMLValueType.STRING,  profileBase .. ".stats#lastUsed",         "Last used", "")
-    schema:register(XMLValueType.FLOAT,   profileBase .. ".stats#totalHarvested",   "Total harvested", 0)
-    schema:register(XMLValueType.FLOAT,   profileBase .. ".stats#averageLoss",      "Average loss", 0)
+function rhm_Combine.registerSavegameXMLPaths(schema, basePath)
+    rhm_Combine.registerXMLPaths(schema, basePath)
 end
 
 function rhm_Combine.registerEventListeners(vehicleType)
@@ -143,7 +133,8 @@ function rhm_Combine:onLoad(savegame)
         load = 0,
         cropLoss = 0,
         tonPerHour = 0,
-        recommendedSpeed = 0  -- Буде оновлено в onUpdateTick на сервері та синхронізовано до клієнтів
+        recommendedSpeed = 0,  -- Буде оновлено в onUpdateTick на сервері та синхронізовано до клієнтів
+        overloadLevel = 0      -- 0=норма, 1=HIGH(120%+), 2=CRITICAL(150%+) — синхронізується для показу warning
     }
     
     -- Лічильник для збереження площі з addCutterArea
@@ -243,14 +234,28 @@ function rhm_Combine:addCutterArea(superFunc, area, realArea, inputFruitType, ou
             
             -- Перевіряємо чи змінилася культура
             if cropName ~= spec.combineMemory.currentCrop then
-                -- Культура змінилася!
-                print(string.format("RHM: [CROP] Detected crop: %s", cropName))
-                -- Викликаємо статично, щоб уникнути помилки missing method
-                rhm_Combine.onCropTypeChanged(self, cropName)
+                -- DEBOUNCE: чекаємо 2 секунди перед перемикання
+                -- Без цього жатка може детектувати різні культури кожен тік і створювати петлю
+                local now = g_currentMission.time
+                spec._lastCropSwitchTime = spec._lastCropSwitchTime or 0
+                
+                if (now - spec._lastCropSwitchTime) >= 2000 then
+                    spec._lastCropSwitchTime = now
+                    spec._pendingCrop = cropName  -- запам’ятовуємо нову культуру
+                elseif spec._pendingCrop == cropName then
+                    -- Підтверджено другий раз — перемикаємо
+                    spec._pendingCrop = nil
+                    print(string.format("RHM: [CROP] Detected crop: %s", cropName))
+                    rhm_Combine.onCropTypeChanged(self, cropName)
+                end
+            else
+                -- Культура не змінилась — скидаємо pending
+                spec._pendingCrop = nil
             end
         end
     else
-        print("RHM DEBUG: outputFillType is nil or UNKNOWN, skipping crop detection")
+        -- Немає культури (не збираємо) — скидаємо pending
+        spec._pendingCrop = nil
     end
     
     -- DEBUG: Uncomment to see values in console
@@ -272,22 +277,13 @@ function rhm_Combine:onCropTypeChanged(newCropName)
         return
     end
     
-    if rhm_Combine.debug then
-        print(string.format("RHM: Crop changed to %s", newCropName))
-    end
+    -- Делегуємо switchCrop — він сам встановить currentCrop, збереже старий профіль
+    -- і завантажить новий. НЕ встановлюємо currentCrop тут напряму!
+    spec.combineMemory:switchCrop(newCropName)
     
-    -- Оновлюємо currentCrop в пам'яті
-    spec.combineMemory.currentCrop = newCropName
-    
-    -- Перевіряємо чи увімкнено авто-перемикання
-    if spec.combineMemory.autoSwitchEnabled then
-        -- Шукаємо збережений профіль
-        if spec.combineMemory.savedProfiles[newCropName] then
-            spec.combineMemory:loadProfile(newCropName)
-        else
-            -- Немає профілю - авто-конфігурація
-            spec.combineMemory:autoConfigureForCrop(newCropName, true) -- Force Optimal (Auto Mode) by default
-        end
+    -- Синхронізуємо зміну культури та налаштувань для клієнтів у мультиплеєрі
+    if self.isServer then
+        self:raiseDirtyFlags(spec.dirtyFlag)
     end
 end
 
@@ -630,20 +626,9 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         return
     end
     
-    -- Автодетекція культури (тільки на сервері — щоб рандомні значення AUTO
-    -- генерувались один раз і синхронізувались до всіх клієнтів через stream)
-    if self.isServer and spec_combine and spec_combine.lastValidInputFruitType and spec_combine.lastValidInputFruitType > 0 then
-        local detectedCrop = CombineSettingsDatabase:getCropNameFromFillType(spec_combine.lastValidInputFruitType)
-        if detectedCrop and detectedCrop ~= spec.combineMemory.currentCrop then
-            if rhm_Combine.debug then
-                print(string.format("RHM: [AutoCrop] Detected new crop: %s (was: %s)", 
-                    detectedCrop, tostring(spec.combineMemory.currentCrop)))
-            end
-            spec.combineMemory:switchCrop(detectedCrop)
-            -- Одразу повідомляємо клієнтів про нові налаштування
-            self:raiseDirtyFlags(spec.dirtyFlag)
-        end
-    end
+    -- Видалено: Застаріла автодетекція культур у onUpdateTick
+    -- Тепер детекція відбувається виключно через addCutterArea (з 2-сек debounce),
+    -- щоб уникнути конфліктів та хибного визначення після скидання бункера.
     
     -- Оновлюємо LoadCalculator
     -- Спершу розраховуємо масу, бо тепер вона головна!
@@ -729,6 +714,47 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec.data.yield = spec.loadCalculator.currentYield or 0
     end
     
+    -- === OVERLOAD WARNING ===
+    -- Сервер визначає рівень: 0=норма, 1=HIGH(120%+), 2=CRITICAL(150%+)
+    if self.isServer and spec.data then
+        local load = spec.data.load
+        if load >= 150 then
+            spec.data.overloadLevel = 2
+        elseif load >= 120 then
+            spec.data.overloadLevel = 1
+        else
+            spec.data.overloadLevel = 0
+        end
+    end
+    
+    -- WARNING DISPLAY: показуємо завжди в того хто керує комбайном
+    -- в SP: isServer=true і getIsControlled()=true — працює
+    -- в DS client: isServer=false і overloadLevel приходить через stream — працює
+    if spec.data and self:getIsControlled() then
+        local level = spec.data.overloadLevel or 0
+        local now = g_currentMission.time
+        spec._lastOverloadWarn = spec._lastOverloadWarn or 0
+        
+        local warnInterval = nil
+        local warnText = nil
+        
+        if level == 2 then
+            warnInterval = 5000
+            warnText = g_i18n:getText("rhm_warn_overload_critical")
+        elseif level == 1 then
+            warnInterval = 8000
+            warnText = g_i18n:getText("rhm_warn_overload_high")
+        else
+            spec._lastOverloadWarn = 0
+        end
+        
+        if warnText and (now - spec._lastOverloadWarn) >= warnInterval then
+            spec._lastOverloadWarn = now
+            g_currentMission:showBlinkingWarning(warnText, 3000)
+        end
+    end
+    -- === END OVERLOAD WARNING ===
+    
     -- MULTIPLAYER: Позначаємо що дані змінились для синхронізації
     self:raiseDirtyFlags(spec.dirtyFlag)
     
@@ -754,56 +780,22 @@ end
 ---@param key string
 function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local spec = self.spec_rhm_Combine
-    if not spec or not spec.combineMemory then
-        return
-    end
+    if not spec or not spec.combineMemory then return end
     
-    -- Зберігаємо профілі
-    local profilesKey = key .. ".combineMemory.profiles"
-    local i = 0
-    
-    for name, profile in pairs(spec.combineMemory.savedProfiles) do
-        local profileKey = string.format("%s.profile(%d)", profilesKey, i)
-        
-        xmlFile:setValue(profileKey .. "#name", name)
-        xmlFile:setValue(profileKey .. "#cropType", profile.cropType)
-        xmlFile:setValue(profileKey .. "#customized", profile.customized)
-        
-        -- Settings
-        local settingsKey = profileKey .. ".settings"
-        xmlFile:setValue(settingsKey .. "#fan", profile.settings.fan)
-        xmlFile:setValue(settingsKey .. "#upperSieve", profile.settings.upperSieve)
-        xmlFile:setValue(settingsKey .. "#lowerSieve", profile.settings.lowerSieve)
-        xmlFile:setValue(settingsKey .. "#rotor", profile.settings.rotor)
-        xmlFile:setValue(settingsKey .. "#feeder", profile.settings.feeder)
-        
-        -- Stats
-        local statsKey = profileKey .. ".stats"
-        xmlFile:setValue(statsKey .. "#timesUsed", profile.stats.timesUsed)
-        xmlFile:setValue(statsKey .. "#lastUsed", profile.stats.lastUsed)
-        xmlFile:setValue(statsKey .. "#totalHarvested", profile.stats.totalHarvested)
-        xmlFile:setValue(statsKey .. "#averageLoss", profile.stats.averageLoss)
-        
-        i = i + 1
-    end
-    
-    -- Зберігаємо поточні налаштування та режим
-    local currentKey = key .. ".combineMemory.current"
-    xmlFile:setValue(currentKey .. "#mode", spec.combineMemory.mode)
+    -- Поточні налаштування
+    local cur = key .. ".combineMemory.current"
+    xmlFile:setValue(cur .. "#mode",        spec.combineMemory.mode or "AUTO")
+    xmlFile:setValue(cur .. "#autoSwitch",  spec.combineMemory.autoSwitchEnabled ~= false)
     if spec.combineMemory.currentCrop then
-        xmlFile:setValue(currentKey .. "#currentCrop", spec.combineMemory.currentCrop)
+        xmlFile:setValue(cur .. "#currentCrop", spec.combineMemory.currentCrop)
     end
+    xmlFile:setValue(cur .. "#fan",         spec.combineMemory.currentSettings.fan or 50)
+    xmlFile:setValue(cur .. "#upperSieve",  spec.combineMemory.currentSettings.upperSieve or 50)
+    xmlFile:setValue(cur .. "#lowerSieve",  spec.combineMemory.currentSettings.lowerSieve or 50)
+    xmlFile:setValue(cur .. "#rotor",       spec.combineMemory.currentSettings.rotor or 50)
+    xmlFile:setValue(cur .. "#feeder",      spec.combineMemory.currentSettings.feeder or 50)
     
-    -- Current settings values
-    xmlFile:setValue(currentKey .. "#fan", spec.combineMemory.currentSettings.fan)
-    xmlFile:setValue(currentKey .. "#upperSieve", spec.combineMemory.currentSettings.upperSieve)
-    xmlFile:setValue(currentKey .. "#lowerSieve", spec.combineMemory.currentSettings.lowerSieve)
-    xmlFile:setValue(currentKey .. "#rotor", spec.combineMemory.currentSettings.rotor)
-    xmlFile:setValue(currentKey .. "#feeder", spec.combineMemory.currentSettings.feeder)
-    
-    if rhm_Combine.debug then
-        print(string.format("RHM: Saved %d profiles for %s", i, self:getName()))
-    end
+    print(string.format("RHM: [SAVE] Saved combine state for %s", self:getName() or "?"))
 end
 
 ---Завантаження стану з savegame файлу
@@ -812,64 +804,21 @@ end
 ---@param resetVehicles table
 function rhm_Combine:loadFromXMLFile(xmlFile, key, resetVehicles)
     local spec = self.spec_rhm_Combine
-    if not spec or not spec.combineMemory then
-        return
-    end
+    if not spec or not spec.combineMemory then return end
     
-    -- Завантажуємо профілі
-    local profilesKey = key .. ".combineMemory.profiles"
-    local i = 0
+    -- Поточні налаштування
+    local cur = key .. ".combineMemory.current"
+    spec.combineMemory.mode              = xmlFile:getValue(cur .. "#mode", "AUTO")
+    spec.combineMemory.autoSwitchEnabled = xmlFile:getValue(cur .. "#autoSwitch", true)
+    local savedCrop = xmlFile:getValue(cur .. "#currentCrop")
+    spec.combineMemory.currentCrop = (savedCrop ~= "" and savedCrop) or nil
+    spec.combineMemory.currentSettings.fan        = xmlFile:getValue(cur .. "#fan", 50)
+    spec.combineMemory.currentSettings.upperSieve = xmlFile:getValue(cur .. "#upperSieve", 50)
+    spec.combineMemory.currentSettings.lowerSieve = xmlFile:getValue(cur .. "#lowerSieve", 50)
+    spec.combineMemory.currentSettings.rotor      = xmlFile:getValue(cur .. "#rotor", 50)
+    spec.combineMemory.currentSettings.feeder     = xmlFile:getValue(cur .. "#feeder", 50)
     
-    while true do
-        local profileKey = string.format("%s.profile(%d)", profilesKey, i)
-        if not xmlFile:hasProperty(profileKey) then
-            break
-        end
-        
-        local name = xmlFile:getValue(profileKey .. "#name")
-        local cropType = xmlFile:getValue(profileKey .. "#cropType")
-        
-        if name and cropType then
-            local profile = {
-                cropType = cropType,
-                customized = xmlFile:getValue(profileKey .. "#customized", false),
-                settings = {
-                    fan = xmlFile:getValue(profileKey .. ".settings#fan", 50),
-                    upperSieve = xmlFile:getValue(profileKey .. ".settings#upperSieve", 50),
-                    lowerSieve = xmlFile:getValue(profileKey .. ".settings#lowerSieve", 50),
-                    rotor = xmlFile:getValue(profileKey .. ".settings#rotor", 50),
-                    feeder = xmlFile:getValue(profileKey .. ".settings#feeder", 50),
-                },
-                stats = {
-                    timesUsed = xmlFile:getValue(profileKey .. ".stats#timesUsed", 0),
-                    lastUsed = xmlFile:getValue(profileKey .. ".stats#lastUsed", "2024-01-01 00:00:00"),
-                    totalHarvested = xmlFile:getValue(profileKey .. ".stats#totalHarvested", 0),
-                    averageLoss = xmlFile:getValue(profileKey .. ".stats#averageLoss", 0),
-                }
-            }
-            
-            spec.combineMemory.savedProfiles[name] = profile
-            -- FIX: Update cached counter when loading profiles from savegame
-            spec.combineMemory.profileCount = (spec.combineMemory.profileCount or 0) + 1
-        end
-        
-        i = i + 1
-    end
-    
-    -- Завантажуємо поточні налаштування
-    local currentKey = key .. ".combineMemory.current"
-    spec.combineMemory.mode = xmlFile:getValue(currentKey .. "#mode", "AUTO")
-    spec.combineMemory.currentCrop = xmlFile:getValue(currentKey .. "#currentCrop")
-    
-    spec.combineMemory.currentSettings.fan = xmlFile:getValue(currentKey .. "#fan", 50)
-    spec.combineMemory.currentSettings.upperSieve = xmlFile:getValue(currentKey .. "#upperSieve", 50)
-    spec.combineMemory.currentSettings.lowerSieve = xmlFile:getValue(currentKey .. "#lowerSieve", 50)
-    spec.combineMemory.currentSettings.rotor = xmlFile:getValue(currentKey .. "#rotor", 50)
-    spec.combineMemory.currentSettings.feeder = xmlFile:getValue(currentKey .. "#feeder", 50)
-    
-    if rhm_Combine.debug then
-        print(string.format("RHM: Loaded %d profiles for %s", spec.combineMemory.profileCount, self:getName()))
-    end
+    print(string.format("RHM: [LOAD] Loaded combine state for %s", self:getName() or "?"))
 end
 
 -- ============================================================================
@@ -887,6 +836,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0) -- yield
+        streamWriteUInt8(streamId, 0)   -- overloadLevel
         -- CombineMemory: write defaults
         streamWriteUInt8(streamId, 50)  -- fan
         streamWriteUInt8(streamId, 50)  -- rotor
@@ -905,6 +855,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
     streamWriteFloat32(streamId, spec.data.litersPerHour or 0)
     streamWriteFloat32(streamId, spec.data.recommendedSpeed or 0)
     streamWriteFloat32(streamId, spec.data.yield or 0)
+    streamWriteUInt8(streamId, spec.data.overloadLevel or 0)
     
     -- CombineMemory settings (FIX 4: sync on initial connect)
     local mem = spec.combineMemory
@@ -938,6 +889,7 @@ function rhm_Combine:onReadStream(streamId, connection)
         streamReadFloat32(streamId)
         streamReadFloat32(streamId)
         streamReadFloat32(streamId) -- yield
+        streamReadUInt8(streamId)   -- overloadLevel
         -- CombineMemory defaults (skip)
         streamReadUInt8(streamId)
         streamReadUInt8(streamId)
@@ -960,6 +912,7 @@ function rhm_Combine:onReadStream(streamId, connection)
     spec.data.litersPerHour = streamReadFloat32(streamId)
     spec.data.recommendedSpeed = streamReadFloat32(streamId)
     spec.data.yield = streamReadFloat32(streamId)
+    spec.data.overloadLevel = streamReadUInt8(streamId)
     
     -- CombineMemory settings (FIX 4: receive on initial connect)
     local fan = streamReadUInt8(streamId)
@@ -1005,6 +958,7 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
             spec.data.litersPerHour = streamReadFloat32(streamId)
             spec.data.recommendedSpeed = streamReadFloat32(streamId)
             spec.data.yield = streamReadFloat32(streamId)
+            spec.data.overloadLevel = streamReadUInt8(streamId)
             
             -- CombineMemory settings (FIX 4)
             local fan = streamReadUInt8(streamId)
@@ -1051,6 +1005,7 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
             streamWriteFloat32(streamId, data.litersPerHour or 0)
             streamWriteFloat32(streamId, data.recommendedSpeed or 0)
             streamWriteFloat32(streamId, data.yield or 0)
+            streamWriteUInt8(streamId, data.overloadLevel or 0)
             
             -- CombineMemory settings (FIX 4)
             local mem = spec.combineMemory

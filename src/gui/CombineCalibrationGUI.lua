@@ -317,8 +317,8 @@ function CombineCalibrationGUI:draw()
     
     -- 6. Profile Management
     self:drawButton(x + ui.margin, cy, 0.12, 0.035, "SAVE PROFILE", function()
-        -- Save logic (needs specific implementation, maybe input dialog? For now simple save)
-        memory:saveProfile(memory.currentCrop)
+        -- Save logic to Global ProfileManager
+        memory:saveCurrentProfile(memory.currentCrop)
     end)
     
     self:drawButton(x + w - ui.margin - 0.12, cy, 0.12, 0.035, "RESET DEFAULT", function()

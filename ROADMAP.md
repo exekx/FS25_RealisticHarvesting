@@ -77,21 +77,16 @@
 Based on community feedback and suggestions, here is the plan for future updates.
 
 ### Phase 1: Core Mechanics & Refinement (Next)
-*   ~~**Real Crop Loss:**~~ ✅ **COMPLETED in v1.3.2.0** - Implemented actual yield reduction when harvesting at high speeds/overloading.
-*   ~~**Combine Calibration:**~~ ✅ **COMPLETED in v1.4.0.0** - Full manual control + AUTO mode with realistic imperfection.
 *   **Smoother Load Control:** Improve the "feel" of the governor to maintain ~90-95% load more consistently without "hunting" or hesitation.
 *   **Pickup Header Improved Support:** Better handling for windrow harvesting (grass/straw) with accurate load calculations.
 
 ### Phase 2: Advanced Realism Features
+*   **Realistic Weather Integration:**
     *   *Upcoming Support:* Direct integration with the **Realistic Weather** mod.
     *   *Features:* Moisture, air humidity, and rain will affect crop resistance, threshing difficulty, and clogging risks.
-*   **"Combine Jamming" (Verstopfung):**
-*   **Realistic Loss Monitor:**
-    *   *Idea:* Replace % numbers with a relative "Low / Med / High" scale for the Realistic difficulty setting, mimicking real loss monitors.
+*   **"Combine Jamming" (Verstopfung):** Simulated combine blockage when severely overloaded.
 
 ### Phase 3: The "Operator" Update (Long Term)
-*   ~~**Manual Machine Settings:**~~ ✅ **COMPLETED in v1.4.0.0** - Implemented full manual control over combine components.
-    *   *Implemented:* Fan Speed, Rotor Speed, Sieve Openings, and Feeder House adjustment.
 *   **Store Customization - Automation:**
     *   *Idea:* Buyable "Auto-Combine" module in the shop. Casual players can buy automation to handle settings, while enthusiasts can save money by setting it manually.
 
