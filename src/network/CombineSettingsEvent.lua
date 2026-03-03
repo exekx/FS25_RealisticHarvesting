@@ -69,12 +69,26 @@ function CombineSettingsEvent:run(connection)
             mem.mode = "MANUAL"
             print("RHM: [Sync] Received full user profile settings via network")
         else
-            -- Apply single parameter
-            if mem.currentSettings[self.parameter] ~= nil then
-                mem.currentSettings[self.parameter] = math.max(0, math.min(100, self.value))
-                mem.autoSwitchEnabled = false
-                mem.mode = "MANUAL"
-                print(string.format("RHM: [Sync] Received setting update: %s = %d", self.parameter, self.value))
+            if self.parameter == "AUTO_MODE" then
+                -- Apply AUTO mode
+                mem.autoSwitchEnabled = (self.value == 1)
+                if mem.autoSwitchEnabled then
+                    mem.mode = "AUTO"
+                    if mem.currentCrop then
+                        mem:autoConfigureForCrop(mem.currentCrop, true)
+                    end
+                else
+                    mem.mode = "MANUAL"
+                end
+                print(string.format("RHM: [Sync] Received AUTO_MODE switch from client: %s", mem.autoSwitchEnabled and "ON" or "OFF"))
+            else
+                -- Apply single parameter
+                if mem.currentSettings[self.parameter] ~= nil then
+                    mem.currentSettings[self.parameter] = math.max(0, math.min(100, self.value))
+                    mem.autoSwitchEnabled = false
+                    mem.mode = "MANUAL"
+                    print(string.format("RHM: [Sync] Received setting update: %s = %d", self.parameter, self.value))
+                end
             end
         end
         

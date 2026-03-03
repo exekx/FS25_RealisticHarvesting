@@ -249,12 +249,16 @@ function SettingsUI:refreshUI()
         return
     end
     
+    local isAdmin = self.settings:canChangeServerSettings()
+    
     -- Оновлюємо difficulty (Motor & Loss)
     if self.difficultyMotorOption and self.difficultyMotorOption.setState then
         self.difficultyMotorOption:setState(self.settings.difficultyMotor)
+        if self.difficultyMotorOption.setDisabled then self.difficultyMotorOption:setDisabled(not isAdmin) end
     end
     if self.difficultyLossOption and self.difficultyLossOption.setState then
         self.difficultyLossOption:setState(self.settings.difficultyLoss)
+        if self.difficultyLossOption.setDisabled then self.difficultyLossOption:setDisabled(not isAdmin) end
     end
     
     -- Оновлюємо HUD
@@ -282,11 +286,13 @@ function SettingsUI:refreshUI()
     -- Оновлюємо Speed Limit (Global Setting)
     if self.speedLimitOption and self.speedLimitOption.setIsChecked then
         self.speedLimitOption:setIsChecked(self.settings.enableSpeedLimit)
+        if self.speedLimitOption.setDisabled then self.speedLimitOption:setDisabled(not isAdmin) end
     end
     
     -- Оновлюємо Crop Loss Enable (Global Setting)
     if self.cropLossOption and self.cropLossOption.setIsChecked then
         self.cropLossOption:setIsChecked(self.settings.enableCropLoss)
+        if self.cropLossOption.setDisabled then self.cropLossOption:setDisabled(not isAdmin) end
     end
     
     -- Оновлюємо Unit System
