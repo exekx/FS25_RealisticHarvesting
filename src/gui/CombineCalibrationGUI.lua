@@ -85,6 +85,43 @@ end
 function CombineCalibrationGUI:open(vehicle)
     if self.isOpen then return end
     
+    -- NEXAT FIX: Шукаємо vehicle з spec_rhm_Combine у всій ієрархії
+    -- (на modular systems як NEXAT гравець може бути в секції без spec_rhm_Combine)
+    local combineVehicle = vehicle
+    if vehicle and not vehicle.spec_rhm_Combine then
+        -- Шукаємо у rootVehicle та прикріплених
+        local function findCombine(v, visited)
+            if not v or visited[v] then return nil end
+            visited[v] = true
+            if v.spec_rhm_Combine then return v end
+            if v.rootVehicle then
+                local r = findCombine(v.rootVehicle, visited)
+                if r then return r end
+            end
+            if v.attacherVehicle then
+                local r = findCombine(v.attacherVehicle, visited)
+                if r then return r end
+            end
+            if v.getAttachedImplements then
+                for _, impl in ipairs(v:getAttachedImplements() or {}) do
+                    if impl.object then
+                        local r = findCombine(impl.object, visited)
+                        if r then return r end
+                    end
+                end
+            end
+            return nil
+        end
+        local found = findCombine(vehicle.rootVehicle or vehicle, {})
+        if found then
+            combineVehicle = found
+            print(string.format("RHM: [GUI] NEXAT: found combine vehicle in hierarchy: %s", tostring(combineVehicle)))
+        else
+            print("RHM: [GUI] No combine with spec_rhm_Combine found in vehicle hierarchy — GUI will not open")
+            return
+        end
+    end
+    
     self.isOpen = true
     
     -- Manage cursor
@@ -92,11 +129,16 @@ function CombineCalibrationGUI:open(vehicle)
     self.isCursorActive = true
     
     -- Block camera rotation AND zoom
-    -- FIX: Always save 'true' as the intended original state.
-    -- Even if camera is already blocked (by HUD cursor), we store true so that
-    -- on close we restore to unblocked state (not to an already-blocked false).
-    if vehicle and vehicle.spec_enterable then
-        for _, camera in pairs(vehicle.spec_enterable.cameras) do
+    -- We must block it on the vehicle the player is ACTUALLY sitting in
+    local cv = nil
+    if g_realisticHarvestManager then
+        cv = g_realisticHarvestManager:getControlledVehicle()
+    else
+        cv = g_currentMission.controlledVehicle
+    end
+    
+    if cv and cv.spec_enterable then
+        for _, camera in pairs(cv.spec_enterable.cameras) do
             -- Save the camera's INTENDED state (always true = rotatable)
             -- This allows correct restore even if HUD cursor was also active
             self.savedCameraRotatableInfo[camera] = true
@@ -106,8 +148,10 @@ function CombineCalibrationGUI:open(vehicle)
         end
     end
     
-    -- Use passed vehicle or fallback
-    self.activeVehicle = vehicle or (g_currentMission and g_currentMission.controlledVehicle)
+    -- Use found combine vehicle (works for NEXAT and standard combines)
+    self.activeVehicle = combineVehicle
+    -- NEXAT FIX: remember the vehicle the player is actually sitting in
+    self.controllerVehicle = cv or vehicle or combineVehicle
 end
 
 function CombineCalibrationGUI:close()
@@ -116,7 +160,8 @@ function CombineCalibrationGUI:close()
     self.isOpen = false
     self.isCursorActive = false
     
-    local vehicle = self.activeVehicle
+    -- NEXAT FIX: Must restore cameras on the vehicle the player actually sits in
+    local vehicle = self.controllerVehicle
     
     -- Check if HUD cursor is also active (from RealisticHarvestManager:toggleCursor)
     local hudCursorActive = g_realisticHarvestManager and g_realisticHarvestManager.isCursorVisible
@@ -125,8 +170,6 @@ function CombineCalibrationGUI:close()
     g_inputBinding:setShowMouseCursor(hudCursorActive or false)
     
     -- FIX: Restore camera rotation and zoom ALWAYS
-    -- If HUD cursor is also active, it will re-block cameras on next frame via toggleCursor state.
-    -- But we must restore first, otherwise the saved state (false) will permanently block camera.
     if vehicle and vehicle.spec_enterable then
         for _, camera in pairs(vehicle.spec_enterable.cameras) do
             -- Restore to saved state (which we saved as 'true' in open())
@@ -187,15 +230,44 @@ function CombineCalibrationGUI:update(dt)
         -- Inactive but open
     end
     
-    -- Check if player is still entered in THIS vehicle
+    -- Check if player is still entered in the vehicle they were controlling (NEXAT safe)
+    -- For NEXAT: controllerVehicle = cab ; activeVehicle = combine module
+    local vehicleToCheck = self.controllerVehicle or self.activeVehicle
     local isEntered = false
-    if self.activeVehicle.getIsEntered then
-        isEntered = self.activeVehicle:getIsEntered()
-    elseif g_currentMission.controlledVehicle == self.activeVehicle then
-        isEntered = true
+    
+    if vehicleToCheck then
+        local cv = nil
+        if g_realisticHarvestManager then
+            cv = g_realisticHarvestManager:getControlledVehicle()
+        else
+            cv = g_currentMission.controlledVehicle
+        end
+        
+        if cv then
+            -- 1. Direct match
+            if cv == vehicleToCheck then
+                isEntered = true
+            -- 2. Player is in a vehicle that belongs to the same modular system (NEXAT)
+            else
+                local rootA = cv.rootVehicle or cv
+                local rootB = vehicleToCheck.rootVehicle or vehicleToCheck
+                if rootA == rootB then
+                    isEntered = true
+                end
+            end
+        end
+        
+        -- Fallback check for AI or direct enter
+        if not isEntered and vehicleToCheck.getIsEntered then
+            isEntered = vehicleToCheck:getIsEntered()
+        end
     end
 
     if not isEntered then
+        print("RHM: [GUI] Closing due to isEntered=false."
+            .. " RHM_cv=" .. tostring(g_realisticHarvestManager and g_realisticHarvestManager:getControlledVehicle())
+            .. " vToCheck=" .. tostring(vehicleToCheck) 
+            .. " (root=" .. tostring(vehicleToCheck and (vehicleToCheck.rootVehicle or vehicleToCheck)) .. ")")
         self:close()
     end
 end
@@ -203,7 +275,10 @@ end
 ---Draw the GUI
 function CombineCalibrationGUI:draw()
     if not self.isOpen then return end
-    if not (g_currentMission and g_currentMission.hud) then return end
+    if not (g_currentMission and g_currentMission.hud) then 
+        if self.debug then print("RHM: [GUI] draw() abort: no g_currentMission.hud") end
+        return 
+    end
     
     -- Reset button registry for this frame
     self.buttons = {}
@@ -227,6 +302,7 @@ function CombineCalibrationGUI:draw()
     local cy = y + h - ui.headerHeight - ui.margin - ui.lineHeight
     
     if not self.activeVehicle then
+        if self.debug then print("RHM: [GUI] draw() rendering 'No Combine Selected'") end
         setTextAlignment(RenderText.ALIGN_CENTER)
         renderText(x + w/2, cy, ui.fontSize, "No Combine Selected")
         return
@@ -235,6 +311,7 @@ function CombineCalibrationGUI:draw()
     local spec = self.activeVehicle.spec_rhm_Combine
     
     if not spec or not spec.combineMemory then
+        if self.debug then print("RHM: [GUI] draw() rendering 'Combine not initialized' | spec="..tostring(spec~=nil).." memory="..tostring(spec and spec.combineMemory~=nil)) end
         setTextAlignment(RenderText.ALIGN_CENTER)
         renderText(x + w/2, cy, ui.fontSize, "Combine not initialized")
         return

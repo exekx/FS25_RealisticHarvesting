@@ -80,6 +80,80 @@ function rhm_Combine.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", rhm_Combine)
 end
 
+-- ============================================================================
+-- NEXAT SUPPORT: Global hook for RShift+K on any controlled vehicle
+-- ============================================================================
+-- For modular systems like NEXAT, the player drives a non-combine vehicle.
+-- The standard rhm_Combine:onRegisterActionEvents only fires for combine-vehicles.
+-- We solve this by hooking Vehicle.onRegisterActionEvents globally.
+-- If a vehicle does NOT have spec_rhm_Combine but is controlled (isActiveForInput),
+-- we still register RHM_OPEN_MENU — and the callback searches the hierarchy.
+
+local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isActiveForInputIgnoreSelection)
+    -- Skip if this is already a combine with our spec (handled by rhm_Combine:onRegisterActionEvents)
+    if vehicle.spec_rhm_Combine then
+        return
+    end
+    
+    -- Only register if the player is actively in this vehicle
+    if not isActiveForInputIgnoreSelection then
+        return
+    end
+    
+    -- Only on client
+    if not vehicle.isClient then
+        return
+    end
+    
+    -- Check if there's a combine with our spec in the hierarchy
+    local function hasCombineInHierarchy(v, visited)
+        if not v or visited[v] then return false end
+        visited[v] = true
+        if v.spec_rhm_Combine then return true end
+        if v.rootVehicle and hasCombineInHierarchy(v.rootVehicle, visited) then return true end
+        if v.attacherVehicle and hasCombineInHierarchy(v.attacherVehicle, visited) then return true end
+        if v.getAttachedImplements then
+            for _, impl in ipairs(v:getAttachedImplements() or {}) do
+                if impl.object and hasCombineInHierarchy(impl.object, visited) then return true end
+            end
+        end
+        return false
+    end
+    
+    local searchRoot = vehicle.rootVehicle or vehicle
+    if not hasCombineInHierarchy(searchRoot, {}) then
+        return
+    end
+    
+    -- Register RHM_OPEN_MENU for this NEXAT-style vehicle
+    if not vehicle._rhmActionEvents then
+        vehicle._rhmActionEvents = {}
+    end
+    vehicle:clearActionEventsTable(vehicle._rhmActionEvents)
+    
+    if InputAction.RHM_OPEN_MENU then
+        local _, eventId = vehicle:addActionEvent(vehicle._rhmActionEvents, InputAction.RHM_OPEN_MENU, vehicle,
+            function(self, ...)
+                if g_realisticHarvestManager then
+                    g_realisticHarvestManager:toggleMenu(self)
+                end
+            end, false, true, false, true, nil)
+        g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
+        -- print("RHM: [NEXAT] Registered RHM_OPEN_MENU for non-combine vehicle: " .. tostring(vehicle:getFullName()))
+    end
+end
+
+-- Apply global hook ONCE (guard against double-loading)
+if not rhm_Combine._nexatHookApplied then
+    rhm_Combine._nexatHookApplied = true
+    Vehicle.onRegisterActionEvents = Utils.appendedFunction(
+        Vehicle.onRegisterActionEvents,
+        RHM_globalOnRegisterActionEvents
+    )
+    print("RHM: [NEXAT] Global Vehicle.onRegisterActionEvents hook applied.")
+end
+-- ============================================================================
+
 -- Викликається при завантаженні комбайна
 function rhm_Combine:onLoad(savegame)
     -- Створюємо spec для нашого моду
@@ -314,9 +388,10 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         for cutter, _ in pairs(spec_combine.attachedCutters) do
             if cutter.spec_cutter then
                 local spec_cutter = cutter.spec_cutter
-                -- Жатка працює якщо: рух вперед, швидкість > 0.5, опущена (або дозволено косити піднятою)
-                cutterIsWorking = self.movingDirection == spec_cutter.movingDirection 
-                    and self:getLastSpeed() > 0.5 
+                -- FIX: Use same check as onUpdateTick - do NOT check movingDirection,
+                -- as Courseplay can set it differently. Only check isTurnedOn + speed + isLowered.
+                cutterIsWorking = cutter:getIsTurnedOn()
+                    and self:getLastSpeed() > 0.5
                     and (spec_cutter.allowCuttingWhileRaised or cutter:getIsLowered(true))
                 
                 if cutterIsWorking then
@@ -464,7 +539,8 @@ function rhm_Combine:startThreshing(superFunc)
     
     if spec_combine.numAttachedCutters > 0 and shouldStartCutters then
         -- Запускаємо жатки (для AI завжди, для гравця - тільки якщо функція вимкнена)
-        local allowLowering = not self:getIsAIActive() or not self.rootVehicle:getAIFieldWorkerIsTurning()
+        local isTurning = type(self.rootVehicle.getAIFieldWorkerIsTurning) == "function" and self.rootVehicle:getAIFieldWorkerIsTurning()
+        local allowLowering = not self:getIsAIActive() or not isTurning
         
         for _, cutter in pairs(spec_combine.attachedCutters) do
             if allowLowering and cutter ~= self then
@@ -715,12 +791,11 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec.data.yield = spec.loadCalculator.currentYield or 0
     end
     
-    -- ========================================================================
-    -- AI / COURSEPLAY WORKAROUND (Server Side)
-    -- ========================================================================
+    -- === AI / COURSEPLAY WORKAROUND (Server Side) ===
     -- Courseplay uses its own speed controller that bypasses getSpeedLimit().
     -- We must enforce the requested speed limit directly on the motor.
-    if self.isServer and self:getIsAIActive() then
+    -- FIX: Only apply if the cutter is actually working (cutterIsTurnedOn from above)
+    if self.isServer and self:getIsAIActive() and cutterIsTurnedOn then
         if self.spec_motorized and self.spec_motorized.motor then
             local motor = self.spec_motorized.motor
             local currentLimit = spec.loadCalculator:getSpeedLimit()
@@ -731,7 +806,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             end
         end
     end
-    -- ========================================================================
     
     -- === OVERLOAD WARNING ===
     -- Сервер визначає рівень: 0=норма, 1=HIGH(120%+), 2=CRITICAL(150%+)
@@ -749,7 +823,9 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- WARNING DISPLAY: показуємо завжди в того хто керує комбайном
     -- в SP: isServer=true і getIsControlled()=true — працює
     -- в DS client: isServer=false і overloadLevel приходить через stream — працює
-    if spec.data and self:getIsControlled() then
+    -- FIX: деякі DLC/мод-транспорти (напр. NH 8040) можуть не мати getIsControlled
+    local isControlled = type(self.getIsControlled) == "function" and self:getIsControlled()
+    if spec.data and isControlled then
         local level = spec.data.overloadLevel or 0
         local now = g_currentMission.time
         spec._lastOverloadWarn = spec._lastOverloadWarn or 0

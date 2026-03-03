@@ -7,7 +7,14 @@
 
 ## 📜 Version History (Changelog)
 
-### v1.4.0.0 (Current)
+### v1.4.1.0 (Current)
+**Fixed:**
+*   **DLC Compatibility:** Fixed game crash `attempt to call missing method 'getIsControlled'` when using Highland DLC equipment (NH 8040 + Holaras tools). Added a safe nil guard before calling the method.
+*   **Courseplay — Second Combine Stuck at 10 km/h:** Removed incorrect `movingDirection` check from `getSpeedLimit()`. Courseplay speed workaround now only activates when the cutter is actually harvesting.
+*   **AUTO Mode on Dedicated Servers:** AUTO mode now stores a pending state when crop is not yet detected. Settings are applied automatically on the first harvest instead of resetting to 50.
+*   **NEXAT — Calibration Menu Not Opening:** `CombineCalibrationGUI:open()` now searches for the combine vehicle (with `spec_rhm_Combine`) in the full vehicle hierarchy before opening, correctly handling modular NEXAT setups.
+
+### v1.4.0.0
 **New Features:**
 *   **Combine Calibration:** Full manual control over Fan Speed, Rotor Speed, Sieve Openings, and Feeder House.
 *   **Settings Penalty:** Incorrect calibration now causes crop loss (displayed in HUD).

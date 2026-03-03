@@ -224,9 +224,17 @@ end
 ---Перемкнути режим AUTO/MANUAL
 ---@param mode string "AUTO" або "MANUAL"
 function CombineMemory:setMode(mode)
-    if mode == "AUTO" and self.currentCrop then
-        -- Переключаємо в авто і налаштовуємо для поточної культури (OPTIMAL)
-        self:autoConfigureForCrop(self.currentCrop, true)
+    if mode == "AUTO" then
+        if self.currentCrop then
+            -- Є поточна культура — налаштовуємо відразу
+            self:autoConfigureForCrop(self.currentCrop, true)
+        else
+            -- FIX DS: культура ще не визначена (на DS між першим завантаженням та першим збиранням)
+            -- Зберігаємо режим і autoSwitchEnabled, щоб switchCrop застосував AUTO коли знайде культуру
+            self.mode = "AUTO"
+            self.autoSwitchEnabled = true
+            print("RHM: [AUTO] currentCrop is nil on DS, pending AUTO mode set. Will apply when crop detected.")
+        end
     elseif mode == "MANUAL" then
         self.mode = "MANUAL"
     end
