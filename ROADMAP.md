@@ -112,6 +112,7 @@ Based on community feedback and suggestions, here is the plan for future updates
 ### Phase 1: Core Mechanics & Refinement (Next)
 *   **Smoother Load Control:** Improve the "feel" of the governor to maintain ~90-95% load more consistently without "hunting" or hesitation.
 *   **Pickup Header Improved Support:** Better handling for windrow harvesting (grass/straw) with accurate load calculations.
+*   **No-Bunker Machine Loss Exemption:** Automatically disable calibration crop loss penalty for machines that don't have a bunker — specifically forage harvesters (blow directly into trailer) and root crop diggers (transfer via elevator to trailer). For these machines, "losing grain" is not a meaningful concept — only speed (engine load) matters.
 
 ### Phase 2: Advanced Realism Features
 *   **Realistic Weather Integration:**

@@ -417,13 +417,19 @@ end
 ---Розраховує обмеження швидкості
 ---@param vehicle table Комбайн
 function LoadCalculator:calculateSpeedLimit(vehicle)
-    -- Якщо не збираємо врожай (mass = 0), не обмежуємо швидкість
+    -- Якщо не збираємо врожай (mass = 0), плавно відпускаємо ліміт
     if self.currentAvgMass == 0 then
-        -- Зберігаємо поточний робочий ліміт перед скиданням
-        if self.speedLimit < self.genuineSpeedLimit then
+        -- Зберігаємо workingSpeedLimit ТІЛЬКИ якщо він дійсно відображає
+        -- навантажувальне обмеження (< 75% genuineSpeedLimit).
+        -- Не зберігаємо якщо ми розігнались по краю — це не "робоча" швидкість.
+        local saveThreshold = self.genuineSpeedLimit * 0.75
+        if self.speedLimit < saveThreshold and self.speedLimit > 2 then
             self.workingSpeedLimit = self.speedLimit
         end
-        self.speedLimit = self.genuineSpeedLimit
+        -- Плавно відпускаємо ліміт (без стрибка до 15)
+        if self.speedLimit < self.genuineSpeedLimit then
+            self.speedLimit = math.min(self.genuineSpeedLimit, self.speedLimit + 0.6)
+        end
         return
     end
     
@@ -437,28 +443,32 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
     local currentTime = g_currentMission.time or 0
     local timeSinceLastHarvest = currentTime - self.lastHarvestTime
     
-    -- Скидаємо workingSpeedLimit якщо:
-    -- 1. Змінилась культура
-    -- 2. Пройшло >30 секунд без збирання (переїхали на інше поле)
-    if (currentCropType and self.lastCropType and currentCropType ~= self.lastCropType) or
-       (timeSinceLastHarvest > 30000) then
-        self.workingSpeedLimit = 0  -- Скидаємо, почнемо з 7 км/год
+    -- Скидаємо при зміні культури або тривалій паузі (>30 сек)
+    local longPause = timeSinceLastHarvest > 30000
+    local cropChanged = (currentCropType and self.lastCropType and currentCropType ~= self.lastCropType)
+    if cropChanged or longPause then
+        self.workingSpeedLimit = 0
+        self._firstHarvestDone = false  -- Reset conservative start для нового поля
     end
     
     self.lastCropType = currentCropType
     self.lastHarvestTime = currentTime
     
-    -- CONSERVATIVE START: При першому заході в культуру встановлюємо безпечний ліміт
-    -- Якщо є збережений робочий ліміт - використовуємо його, інакше - консервативний старт
-    if self.speedLimit == self.genuineSpeedLimit then
-        if self.workingSpeedLimit > 0 and self.workingSpeedLimit < 12 then
-            -- Відновлюємо попередній робочий ліміт
-            self.speedLimit = self.workingSpeedLimit
-        else
-            -- Перший раз за сесію - консервативний старт
-            self.speedLimit = 7.0
-            self.workingSpeedLimit = 7.0
+    -- CONSERVATIVE START: тільки при справжньому першому заїзді в культуру
+    -- Використовуємо _firstHarvestDone (скидається тільки після 30с паузи, НЕ на кожному кінці рядка)
+    if not self._firstHarvestDone then
+        self._firstHarvestDone = true
+        -- Якщо speedLimit ніколи не знижувався (genuineSpeedLimit) — застосовуємо старт
+        if self.speedLimit >= self.genuineSpeedLimit then
+            if self.workingSpeedLimit > 0 and self.workingSpeedLimit < 12 then
+                self.speedLimit = self.workingSpeedLimit
+            else
+                self.speedLimit = 7.0
+                self.workingSpeedLimit = 7.0
+            end
         end
+        -- Якщо speedLimit вже нижче genuineSpeedLimit — не чіпаємо
+        -- (наприклад, плавний розгін на частковій секції ще не досяг 15)
     end
     
     -- Отримуємо поточну швидкість
@@ -574,26 +584,35 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
         
         -- If no prediction triggered, check for acceleration
         if not predictLimitSet then
-            -- === SOFT CEILING AT 85% ===
-            -- Якщо load наближається до 85%, обмежуємо розгін
-            -- Але якщо вже на 85% (через зміну густини) - не гальмуємо
+            -- === SOFT CEILING: не перевищуємо "вивчений" робочий ліміт + буфер ===
+            -- При частковій ширині жатки (мала маса) формула (maxMass/mass)^2.5 може дати
+            -- величезне прискорення і розігнати до genuineSpeedLimit.
+            -- Потім при повній жатці THRESHOLD_BRAKE різко скидає швидкість → неприємно.
+            -- Рішення: дозволяємо розгін тільки до workingSpeedLimit + 2 км/год
+            local softCeiling = self.genuineSpeedLimit  -- за замовч. — повна свобода
+            if self.workingSpeedLimit > 0 then
+                softCeiling = math.min(self.genuineSpeedLimit, self.workingSpeedLimit + 2.0)
+            end
+            
             if loadRatio > 0.70 and loadRatio < 0.80 then
                 -- 70-80%: Обережний розгін (не хочемо перевищити 85%)
-                -- Розганяємось тільки якщо є великий запас
                 local capacityRatio = (maxAvgMass - self.currentAvgMass) / maxAvgMass
-                if capacityRatio > 0.25 then  -- Тільки якщо запас >25%
-                    local accelFactor = 0.05  -- Повільний розгін
-                    newSpeedLimit = math.min(self.genuineSpeedLimit, 
-                        self.speedLimit + accelFactor * (maxAvgMass / self.currentAvgMass)^2)
+                if capacityRatio > 0.25 then
+                    local accelFactor = 0.05
+                    -- Обмежуємо множник: при дуже малому navantazhenni формула вибухає
+                    local massRatio = math.min(3.0, maxAvgMass / self.currentAvgMass)
+                    newSpeedLimit = math.min(softCeiling,
+                        self.speedLimit + accelFactor * massRatio^2)
                 end
-                -- else: запас малий - тримаємо поточну швидкість
                 
             elseif loadRatio <= 0.70 then
                 -- <70%: Нормальний розгін (далеко від стелі)
                 local capacityRatio = (maxAvgMass - self.currentAvgMass) / maxAvgMass
                 local accelFactor = 0.08 + 0.05 * capacityRatio  -- 0.08-0.13 range
-                newSpeedLimit = math.min(self.genuineSpeedLimit, 
-                    self.speedLimit + accelFactor * (maxAvgMass / self.currentAvgMass)^2.5)
+                -- Обмежуємо множник щоб уникнути вибухового зростання при дуже низькому load
+                local massRatio = math.min(3.0, maxAvgMass / self.currentAvgMass)
+                newSpeedLimit = math.min(softCeiling,
+                    self.speedLimit + accelFactor * massRatio^2.5)
             end
             -- else: 80%+ в SAFE зоні - тримаємо (не розганяємо, не гальмуємо)
         end
