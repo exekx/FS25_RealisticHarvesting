@@ -60,78 +60,66 @@ end
 
 ---Завантажує стандартні коефіцієнти культур
 function LoadCalculator:loadDefaultCropFactors()
-    -- Fallback до базових значень
-    -- 1.0 = Стандарт (Пшениця)
-    self.CROP_FACTORS[FruitType.WHEAT] = 1.0
-    self.CROP_FACTORS[FruitType.BARLEY] = 1.0 -- Barley same/slightly easier than wheat
-    
-    -- Кукурудза: Збільшено до 1.2 (було 0.85) для реалістичної швидкості 5-6 км/год
-    -- Кукурудза містить багато маси і важка для обробки
-    self.CROP_FACTORS[FruitType.MAIZE] = 1.2
-    
-    -- Соя: В таблиці 0.7 vs 0.8 Wheat -> легше. АЛЕ в FS25 вона дуже легка за вагою. 
-    -- Щоб отримати реалістичну швидкість (6-7 км/год), треба підняти до 1.8
-    self.CROP_FACTORS[FruitType.SOYBEAN] = 1.8
-    
-    -- Соняшник: Дуже легкий за масою (0.18 kg/m2). Треба фактор 2.0 для швидкості 9-10 км/год.
-    self.CROP_FACTORS[FruitType.SUNFLOWER] = 2.0
-    
-    -- Ріпак: Легший за пшеницю, але густий. Фактор 1.3 -> ~7 км/год.
-    self.CROP_FACTORS[FruitType.CANOLA] = 1.3
-    
-     -- Овес: Дуже легкий (0.57 l/m2), тому треба великий фактор (2.2), щоб не літати під 14 км/год
-    self.CROP_FACTORS[FruitType.OAT] = 2.2
-    
-    -- Other cereals (standard extensions)
-    if FruitType.RYE then self.CROP_FACTORS[FruitType.RYE] = 1.0 end
-    if FruitType.SPELT then self.CROP_FACTORS[FruitType.SPELT] = 1.0 end
-    if FruitType.TRITICALE then self.CROP_FACTORS[FruitType.TRITICALE] = 1.0 end
-    if FruitType.MILLET then self.CROP_FACTORS[FruitType.MILLET] = 0.9 end
-    
-    -- Sorghum (mass similar to wheat but grain header use). 0.9 -> ~6-7 km/h
-    if FruitType.SORGHUM then self.CROP_FACTORS[FruitType.SORGHUM] = 0.9 end
-    
-    -- Rice (Tough) - Factor 2.3 for ~4 km/h
-    if FruitType.RICE then self.CROP_FACTORS[FruitType.RICE] = 2.3 end
-    -- Rice Long - Factor 1.5 for ~5 km/h
-    if FruitType.RICELONGGRAIN then self.CROP_FACTORS[FruitType.RICELONGGRAIN] = 1.5 end
-    
-    -- Pulses (Legumes harvested by grain combine or special header)
-    -- PEA: lightweight grain, similar to soybean in handling → factor 1.2
-    
-    -- Root Crops (Massive Mass -> Low Factors)
-    -- Root Crops (Massive Mass -> Low Factors)
-    if FruitType.SUGARBEET then self.CROP_FACTORS[FruitType.SUGARBEET] = 0.35 end
-    if FruitType.POTATO then self.CROP_FACTORS[FruitType.POTATO] = 0.40 end
-    
-    -- Vegetable Crops (High Volume -> Low Factors)
-    -- Tuned for High Yield Maps (approx 10x standard)
-    if FruitType.CARROT then self.CROP_FACTORS[FruitType.CARROT] = 0.30 end
-    if FruitType.PARSNIP then self.CROP_FACTORS[FruitType.PARSNIP] = 0.30 end
-    if FruitType.BEETROOT then self.CROP_FACTORS[FruitType.BEETROOT] = 0.30 end
-    if FruitType.ONION then self.CROP_FACTORS[FruitType.ONION] = 0.30 end 
-    
-    -- Leafy / Tender Vegetables (light mass → need HIGH factor for realistic engine load)
-    -- Spinach is very light (~0.02 kg/m2 fresh) but vegetable harvesters run slow speeds.
-    -- Factor 3.0 ensures realistic engine load on low-basePerfMass vegetable harvesters.
-    if FruitType.SPINACH then self.CROP_FACTORS[FruitType.SPINACH] = 3.0 end
+    -- Цільові фактори навантаження для культур (відносно Пшениці = 1.0)
+    -- Менший фактор = легша культура = комбайн може їхати швидше
+    local factorMap = {
+        ["WHEAT"] = 1.0,
+        ["BARLEY"] = 1.0,
+        ["OAT"] = 1.5,           -- Було 2.2, скидаємо щоб не обмежувати до 14 км/год
+        ["MAIZE"] = 1.2,
+        ["CORN"] = 1.2,
+        ["SOYBEAN"] = 1.4,       -- Було 1.8
+        ["SUNFLOWER"] = 1.5,     -- Було 2.0
+        ["CANOLA"] = 1.3,
+        ["SORGHUM"] = 1.0,       -- Було 0.9
+        
+        -- Рис дуже важка культура, але Long Grain має високу базову масу в FS25
+        ["RICE"] = 1.8,          -- Для ~4-5 км/год
+        ["RICE_LONG_GRAIN"] = 0.5, -- Фактор 1.0 давав 2 км/год. Зменшуємо до 0.5 щоб отримати ~4 км/год
+        
+        -- Бобові
+        ["PEA"] = 1.0,
+        ["LENTIL"] = 1.0,
+        ["CHICKPEA"] = 1.0,
+        
+        -- Коренеплоди
+        ["POTATO"] = 0.40,
+        ["SUGARBEET"] = 0.30,    -- Бажано швидше 5-8 км/год
+        ["BEETROOT"] = 0.30,
+        ["CARROT"] = 0.25,       -- Більш оптимальна швидкість
+        ["PARSNIP"] = 0.25,
+        ["ONION"] = 0.35,
+        
+        -- Овочі (зелені) - дуже легкі, тому фактор має бути високим щоб завантажити двигун
+        ["SPINACH"] = 3.5,       -- Для супер повільного збору ~2-3 км/год
+        ["GREENBEAN"] = 3.5,     -- Для супер повільного збору ~2-3 км/год
+        
+        -- Інші мод культури
+        ["COTTON"] = 1.5,
+        ["SUGARCANE"] = 0.1,
+        ["POPLAR"] = 0.2,
+        ["OILSEED_RADISH"] = 0.5,
+        ["GRAPE"] = 0.5,
+        ["OLIVE"] = 0.5,
+        ["RYE"] = 1.0,
+        ["SPELT"] = 1.0,
+        ["TRITICALE"] = 1.0,
+        ["MILLET"] = 0.9,
+    }
 
-    -- Pulses (harvested by standard or vegetable combine)
-    if FruitType.PEA then self.CROP_FACTORS[FruitType.PEA] = 1.2 end        -- Similar to wheat
-    if FruitType.GREENBEAN then self.CROP_FACTORS[FruitType.GREENBEAN] = 2.5 end -- Light, gentle harvest
-    
-    -- Special
-    if FruitType.COTTON then self.CROP_FACTORS[FruitType.COTTON] = 3.0 end -- Light but slow
-    if FruitType.SUGARCANE then self.CROP_FACTORS[FruitType.SUGARCANE] = 0.1 end -- Massive mass
-    
-    -- Other
-    if FruitType.POPLAR then self.CROP_FACTORS[FruitType.POPLAR] = 0.2 end -- massive yield (6.6 l/m2)
-    if FruitType.OILSEEDRADISH then self.CROP_FACTORS[FruitType.OILSEEDRADISH] = 0.5 end
-    
-    if FruitType.GRAPE then self.CROP_FACTORS[FruitType.GRAPE] = 0.5 end
-    if FruitType.OLIVE then self.CROP_FACTORS[FruitType.OLIVE] = 0.5 end
+    -- Динамічно мапимо FruitType Enum по точних рядках
+    -- Це захищає від nil крашів та відсутності мод/DLC культур
+    for key, value in pairs(FruitType) do
+        -- Перевіряємо чи є цей ключ у нашому словнику
+        local mappedFactor = factorMap[key]
+        if mappedFactor then
+            self.CROP_FACTORS[value] = mappedFactor
+        elseif type(value) == "number" and not key:find("NUM_") then
+            -- Якщо культури немає в списку, вона отримує 1.0 за замовчуванням
+            -- Ми не заповнюємо весь масив одиницями щоб зекономити пам'ять, fallback to 1.0 буде при отриманні
+        end
+    end
 end
-
 ---Встановлює базову продуктивність комбайна mass-based
 ---@param basePerfMass number Базова продуктивність в кг/с
 function LoadCalculator:setBasePerformance(basePerfMass)

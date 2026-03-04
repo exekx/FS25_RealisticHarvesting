@@ -139,12 +139,11 @@ function CombineCalibrationGUI:open(vehicle)
     
     if cv and cv.spec_enterable then
         for _, camera in pairs(cv.spec_enterable.cameras) do
-            -- Save the camera's INTENDED state (always true = rotatable)
-            -- This allows correct restore even if HUD cursor was also active
-            self.savedCameraRotatableInfo[camera] = true
-            self.savedCameraZoomInfo[camera] = true
+            self.savedCameraRotatableInfo[camera] = camera.isRotatable
+            self.savedCameraZoomInfo[camera] = camera.allowZoom
             camera.isRotatable = false
             camera.allowTranslation = false
+            camera.allowZoom = false  -- Блокуємо zoom (колесо миші)
         end
     end
     
@@ -172,13 +171,12 @@ function CombineCalibrationGUI:close()
     -- FIX: Restore camera rotation and zoom ALWAYS
     if vehicle and vehicle.spec_enterable then
         for _, camera in pairs(vehicle.spec_enterable.cameras) do
-            -- Restore to saved state (which we saved as 'true' in open())
             local savedRotatable = self.savedCameraRotatableInfo[camera]
             local savedZoom = self.savedCameraZoomInfo[camera]
             camera.isRotatable = savedRotatable ~= nil and savedRotatable or true
             camera.allowTranslation = savedZoom ~= nil and savedZoom or true
+            camera.allowZoom = savedZoom ~= nil and savedZoom or true  -- Відновлюємо zoom
         end
-        -- Clear saved state
         self.savedCameraRotatableInfo = {}
         self.savedCameraZoomInfo = {}
     end
@@ -217,6 +215,19 @@ function CombineCalibrationGUI:cycleCrop(direction)
 end
 
 ---Main update loop
+---Перехоплює події миші — блокує scroll (zoom камери) поки GUI відкритий
+---@return boolean true якщо подія з'їдена (не передається далі)
+function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button, eventUsed)
+    if not self.isOpen then return false end
+    
+    -- З'їдаємо scroll wheel (button 4 = up, button 5 = down у GIANTS Engine)
+    if button == Input.MOUSE_BUTTON_WHEEL_UP or button == Input.MOUSE_BUTTON_WHEEL_DOWN then
+        return true  -- Подія оброблена — не передаємо далі
+    end
+    
+    return false
+end
+
 function CombineCalibrationGUI:update(dt)
     if not self.isOpen then return end
     

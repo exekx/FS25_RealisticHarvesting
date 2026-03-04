@@ -326,20 +326,24 @@ end
 ---@param fillType number FillType з гри
 ---@return string|nil cropName Назва культури або nil
 function CombineSettingsDatabase:getCropNameFromFillType(fillType)
-    -- Отримуємо назву fillType з гри
-    if not g_fillTypeManager then
+    if not fillType or fillType == FillType.UNKNOWN then
         return nil
     end
     
-    local fillTypeObj = g_fillTypeManager:getFillTypeByIndex(fillType)
-    if not fillTypeObj or not fillTypeObj.name then
+    -- Отримуємо точний рядок-ключ з таблиці FillType (наприклад "RICE_LONG_GRAIN")
+    local fillTypeKey = nil
+    for k, v in pairs(FillType) do
+        if v == fillType then
+            fillTypeKey = k
+            break
+        end
+    end
+    
+    if not fillTypeKey then
         return nil
     end
     
-    local fillTypeName = fillTypeObj.name
-    
-    -- Шукаємо crop за назвою fillType
-    -- Маппінг: fillType.name -> cropName
+    -- Шукаємо crop за ключем FillType
     local fillTypeMapping = {
         ["WHEAT"] = "WHEAT",
         ["BARLEY"] = "BARLEY",
@@ -351,6 +355,8 @@ function CombineSettingsDatabase:getCropNameFromFillType(fillType)
         ["SORGHUM"] = "SORGHUM",
         ["RICE"] = "RICE",
         ["RICE_LONG_GRAIN"] = "RICE_LONG_GRAIN",
+        ["RICELONGGRAIN"] = "RICE_LONG_GRAIN", -- Можливий варіант написання
+        ["RICE_LONGGRAIN"] = "RICE_LONG_GRAIN", -- Ще один варіант
         
         -- FS25 New & Mod Crops
         ["PEA"] = "PEA",
@@ -364,7 +370,7 @@ function CombineSettingsDatabase:getCropNameFromFillType(fillType)
         ["BUCKWHEAT"] = "BUCKWHEAT",
         
         ["LINSEED"] = "LINSEED",
-        ["FLAX"] = "LINSEED", -- Alias
+        ["FLAX"] = "LINSEED",
         ["MUSTARD"] = "MUSTARD",
         ["POPPY"] = "POPPY",
         ["HEMP"] = "HEMP",
@@ -379,18 +385,25 @@ function CombineSettingsDatabase:getCropNameFromFillType(fillType)
         ["SPINACH"] = "SPINACH",
         ["GREENBEAN"] = "GREENBEAN",
 
-        -- Forage outputs (кормозбиральний виводить CHAFF або GRASS, не MAIZE)
-        ["CHAFF"] = "MAIZE_FORAGE",    -- кукурудза на силос → forage corn template
+        -- Forage outputs
+        ["CHAFF"] = "MAIZE_FORAGE",
         ["GRASS"] = "GRASS",
         ["DRYGRASS"] = "DRYGRASS",
-        ["TALLGRASS"] = "GRASS",       -- висока трава = ті самі налаштування як трава
-        ["SILAGE"] = "MAIZE_FORAGE",   -- прямий вивід силосу (деякі машини)
+        ["TALLGRASS"] = "GRASS",
+        ["GRASS_WINDROW"] = "GRASS",
+        ["DRYGRASS_WINDROW"] = "DRYGRASS",
+        ["SILAGE"] = "MAIZE_FORAGE",
 
         -- Cotton
         ["COTTON"] = "COTTON",
     }
     
-    return fillTypeMapping[fillTypeName]
+    local matchedName = fillTypeMapping[fillTypeKey]
+    if not matchedName then
+        print(string.format("RHM: [CROP DB] Unknown FillType KEY: '%s' (ID: %d)", tostring(fillTypeKey), fillType))
+    end
+    
+    return matchedName
 end
 
 ---Отримати дані про культуру за назвою
