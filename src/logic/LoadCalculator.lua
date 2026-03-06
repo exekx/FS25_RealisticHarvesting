@@ -1,5 +1,5 @@
----@class LoadCalculator
--- Розраховує навантаження на двигун комбайна
+﻿---@class LoadCalculator
+-- Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ” Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ Ð½Ð° Ð´Ð²Ð¸Ð³ÑƒÐ½ ÐºÐ¾Ð¼Ð±Ð°Ð¹Ð½Ð°
 LoadCalculator = {}
 local LoadCalculator_mt = Class(LoadCalculator)
 
@@ -7,94 +7,94 @@ function LoadCalculator.new(modDirectory)
     local self = setmetatable({}, LoadCalculator_mt)
     
     self.debug = false -- TEMPORARY DEBUG ENABLED
-    self.modDirectory = modDirectory or g_currentModDirectory  -- Зберігаємо modDirectory (with fallback)
+    self.modDirectory = modDirectory or g_currentModDirectory  -- Ð—Ð±ÐµÑ€Ñ–Ð³Ð°Ñ”Ð¼Ð¾ modDirectory (with fallback)
     
-    -- Коефіцієнти складності культур
+    -- ÐšÐ¾ÐµÑ„Ñ–Ñ†Ñ–Ñ”Ð½Ñ‚Ð¸ ÑÐºÐ»Ð°Ð´Ð½Ð¾ÑÑ‚Ñ– ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€
     self.CROP_FACTORS = {}
     self:loadDefaultCropFactors()
     
-    -- Дані для розрахунку середнього навантаження
+    -- Ð”Ð°Ð½Ñ– Ð´Ð»Ñ Ñ€Ð¾Ð·Ñ€Ð°Ñ…ÑƒÐ½ÐºÑƒ ÑÐµÑ€ÐµÐ´Ð½ÑŒÐ¾Ð³Ð¾ Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ
     self.totalDistance = 0
     self.totalArea = 0
     self.currentTime = 0
-    self.avgTime = 1500  -- 1.5 секунди між вимірами
-    self.distanceForMeasuring = 3  -- 3 метри
+    self.avgTime = 1500  -- 1.5 ÑÐµÐºÑƒÐ½Ð´Ð¸ Ð¼Ñ–Ð¶ Ð²Ð¸Ð¼Ñ–Ñ€Ð°Ð¼Ð¸
+    self.distanceForMeasuring = 3  -- 3 Ð¼ÐµÑ‚Ñ€Ð¸
     
-    -- Базова продуктивність (буде встановлена в onLoad)
-    self.basePerfMass = 0  -- кг на секунду
+    -- Ð‘Ð°Ð·Ð¾Ð²Ð° Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ (Ð±ÑƒÐ´Ðµ Ð²ÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð° Ð² onLoad)
+    self.basePerfMass = 0  -- ÐºÐ³ Ð½Ð° ÑÐµÐºÑƒÐ½Ð´Ñƒ
     self.currentAvgMass = 0
-    self.lastAvgMass = 0  -- Попереднє середнє (для розрахунку прискорення)
-    self.rawAvgMass = 0  -- Сире (незгладжене) значення для аварійного гальмування
+    self.lastAvgMass = 0  -- ÐŸÐ¾Ð¿ÐµÑ€ÐµÐ´Ð½Ñ” ÑÐµÑ€ÐµÐ´Ð½Ñ” (Ð´Ð»Ñ Ñ€Ð¾Ð·Ñ€Ð°Ñ…ÑƒÐ½ÐºÑƒ Ð¿Ñ€Ð¸ÑÐºÐ¾Ñ€ÐµÐ½Ð½Ñ)
+    self.rawAvgMass = 0  -- Ð¡Ð¸Ñ€Ðµ (Ð½ÐµÐ·Ð³Ð»Ð°Ð´Ð¶ÐµÐ½Ðµ) Ð·Ð½Ð°Ñ‡ÐµÐ½Ð½Ñ Ð´Ð»Ñ Ð°Ð²Ð°Ñ€Ñ–Ð¹Ð½Ð¾Ð³Ð¾ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
     
-    -- Поточне навантаження
+    -- ÐŸÐ¾Ñ‚Ð¾Ñ‡Ð½Ðµ Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ
     self.engineLoad = 0
-    self.speedLimit = 15  -- Поточний ліміт швидкості (км/год)
-    self.genuineSpeedLimit = 15  -- Оригінальний ліміт з гри
-    self.workingSpeedLimit = 0  -- Робочий ліміт (зберігається між сесіями збирання)
-    self.lastCropType = nil  -- Остання культура (для детекції зміни)
-    self.lastHarvestTime = 0  -- Час останнього збирання (для детекції тривалої паузи)
+    self.speedLimit = 15  -- ÐŸÐ¾Ñ‚Ð¾Ñ‡Ð½Ð¸Ð¹ Ð»Ñ–Ð¼Ñ–Ñ‚ ÑˆÐ²Ð¸Ð´ÐºÐ¾ÑÑ‚Ñ– (ÐºÐ¼/Ð³Ð¾Ð´)
+    self.genuineSpeedLimit = 15  -- ÐžÑ€Ð¸Ð³Ñ–Ð½Ð°Ð»ÑŒÐ½Ð¸Ð¹ Ð»Ñ–Ð¼Ñ–Ñ‚ Ð· Ð³Ñ€Ð¸
+    self.workingSpeedLimit = 0  -- Ð Ð¾Ð±Ð¾Ñ‡Ð¸Ð¹ Ð»Ñ–Ð¼Ñ–Ñ‚ (Ð·Ð±ÐµÑ€Ñ–Ð³Ð°Ñ”Ñ‚ÑŒÑÑ Ð¼Ñ–Ð¶ ÑÐµÑÑ–ÑÐ¼Ð¸ Ð·Ð±Ð¸Ñ€Ð°Ð½Ð½Ñ)
+    self.lastCropType = nil  -- ÐžÑÑ‚Ð°Ð½Ð½Ñ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð° (Ð´Ð»Ñ Ð´ÐµÑ‚ÐµÐºÑ†Ñ–Ñ— Ð·Ð¼Ñ–Ð½Ð¸)
+    self.lastHarvestTime = 0  -- Ð§Ð°Ñ Ð¾ÑÑ‚Ð°Ð½Ð½ÑŒÐ¾Ð³Ð¾ Ð·Ð±Ð¸Ñ€Ð°Ð½Ð½Ñ (Ð´Ð»Ñ Ð´ÐµÑ‚ÐµÐºÑ†Ñ–Ñ— Ñ‚Ñ€Ð¸Ð²Ð°Ð»Ð¾Ñ— Ð¿Ð°ÑƒÐ·Ð¸)
     
     -- Crop loss and productivity
-    self.cropLoss = 0  -- Поточні втрати врожаю (%)
-    self.tonPerHour = 0  -- Продуктивність в T/h
-    self.litersPerHour = 0  -- Продуктивність в L/h
-    self.totalOutputMass = 0  -- Загальна маса зібраного врожаю
+    self.cropLoss = 0  -- ÐŸÐ¾Ñ‚Ð¾Ñ‡Ð½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ (%)
+    self.tonPerHour = 0  -- ÐŸÑ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ð² T/h
+    self.litersPerHour = 0  -- ÐŸÑ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ð² L/h
+    self.totalOutputMass = 0  -- Ð—Ð°Ð³Ð°Ð»ÑŒÐ½Ð° Ð¼Ð°ÑÐ° Ð·Ñ–Ð±Ñ€Ð°Ð½Ð¾Ð³Ð¾ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ
     
-    -- Накопичення для розрахунку T/h та L/h
-    self.productivityMass = 0  -- Накопичена маса за поточний період (кг)
-    self.productivityLiters = 0  -- Накопичений об'єм за поточний період (л)
-    self.productivityTime = 0  -- Час накопичення (мс)
-    self.productivityUpdateInterval = 3000  -- Оновлювати кожні 3 секунди
+    -- ÐÐ°ÐºÐ¾Ð¿Ð¸Ñ‡ÐµÐ½Ð½Ñ Ð´Ð»Ñ Ñ€Ð¾Ð·Ñ€Ð°Ñ…ÑƒÐ½ÐºÑƒ T/h Ñ‚Ð° L/h
+    self.productivityMass = 0  -- ÐÐ°ÐºÐ¾Ð¿Ð¸Ñ‡ÐµÐ½Ð° Ð¼Ð°ÑÐ° Ð·Ð° Ð¿Ð¾Ñ‚Ð¾Ñ‡Ð½Ð¸Ð¹ Ð¿ÐµÑ€Ñ–Ð¾Ð´ (ÐºÐ³)
+    self.productivityLiters = 0  -- ÐÐ°ÐºÐ¾Ð¿Ð¸Ñ‡ÐµÐ½Ð¸Ð¹ Ð¾Ð±'Ñ”Ð¼ Ð·Ð° Ð¿Ð¾Ñ‚Ð¾Ñ‡Ð½Ð¸Ð¹ Ð¿ÐµÑ€Ñ–Ð¾Ð´ (Ð»)
+    self.productivityTime = 0  -- Ð§Ð°Ñ Ð½Ð°ÐºÐ¾Ð¿Ð¸Ñ‡ÐµÐ½Ð½Ñ (Ð¼Ñ)
+    self.productivityUpdateInterval = 3000  -- ÐžÐ½Ð¾Ð²Ð»ÑŽÐ²Ð°Ñ‚Ð¸ ÐºÐ¾Ð¶Ð½Ñ– 3 ÑÐµÐºÑƒÐ½Ð´Ð¸
     
-    -- Накопичувач для розрахунку навантаження
-    self.loadAccumulatedMass = 0 -- кг
+    -- ÐÐ°ÐºÐ¾Ð¿Ð¸Ñ‡ÑƒÐ²Ð°Ñ‡ Ð´Ð»Ñ Ñ€Ð¾Ð·Ñ€Ð°Ñ…ÑƒÐ½ÐºÑƒ Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ
+    self.loadAccumulatedMass = 0 -- ÐºÐ³
     
     -- Combine Settings System
-    self.combineMemory = nil  -- Буде встановлено з rhm_Combine
-    self.currentCrop = nil    -- Поточна культура для розрахунку settings loss
+    self.combineMemory = nil  -- Ð‘ÑƒÐ´Ðµ Ð²ÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾ Ð· rhm_Combine
+    self.currentCrop = nil    -- ÐŸÐ¾Ñ‚Ð¾Ñ‡Ð½Ð° ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð° Ð´Ð»Ñ Ñ€Ð¾Ð·Ñ€Ð°Ñ…ÑƒÐ½ÐºÑƒ settings loss
     
     print("RHM: LoadCalculator initialized")
     
     return self
 end
 
----Завантажує стандартні коефіцієнти культур
+---Ð—Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÑƒÑ” ÑÑ‚Ð°Ð½Ð´Ð°Ñ€Ñ‚Ð½Ñ– ÐºÐ¾ÐµÑ„Ñ–Ñ†Ñ–Ñ”Ð½Ñ‚Ð¸ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€
 function LoadCalculator:loadDefaultCropFactors()
-    -- Цільові фактори навантаження для культур (відносно Пшениці = 1.0)
-    -- Менший фактор = легша культура = комбайн може їхати швидше
+    -- Ð¦Ñ–Ð»ÑŒÐ¾Ð²Ñ– Ñ„Ð°ÐºÑ‚Ð¾Ñ€Ð¸ Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ Ð´Ð»Ñ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€ (Ð²Ñ–Ð´Ð½Ð¾ÑÐ½Ð¾ ÐŸÑˆÐµÐ½Ð¸Ñ†Ñ– = 1.0)
+    -- ÐœÐµÐ½ÑˆÐ¸Ð¹ Ñ„Ð°ÐºÑ‚Ð¾Ñ€ = Ð»ÐµÐ³ÑˆÐ° ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð° = ÐºÐ¾Ð¼Ð±Ð°Ð¹Ð½ Ð¼Ð¾Ð¶Ðµ Ñ—Ñ…Ð°Ñ‚Ð¸ ÑˆÐ²Ð¸Ð´ÑˆÐµ
     local factorMap = {
         ["WHEAT"] = 1.0,
         ["BARLEY"] = 1.0,
-        ["OAT"] = 1.5,           -- Було 2.2, скидаємо щоб не обмежувати до 14 км/год
+        ["OAT"] = 1.5,           -- Ð‘ÑƒÐ»Ð¾ 2.2, ÑÐºÐ¸Ð´Ð°Ñ”Ð¼Ð¾ Ñ‰Ð¾Ð± Ð½Ðµ Ð¾Ð±Ð¼ÐµÐ¶ÑƒÐ²Ð°Ñ‚Ð¸ Ð´Ð¾ 14 ÐºÐ¼/Ð³Ð¾Ð´
         ["MAIZE"] = 1.2,
         ["CORN"] = 1.2,
-        ["SOYBEAN"] = 1.4,       -- Було 1.8
-        ["SUNFLOWER"] = 1.5,     -- Було 2.0
+        ["SOYBEAN"] = 1.4,       -- Ð‘ÑƒÐ»Ð¾ 1.8
+        ["SUNFLOWER"] = 1.5,     -- Ð‘ÑƒÐ»Ð¾ 2.0
         ["CANOLA"] = 1.3,
-        ["SORGHUM"] = 1.0,       -- Було 0.9
+        ["SORGHUM"] = 1.0,       -- Ð‘ÑƒÐ»Ð¾ 0.9
         
-        -- Рис дуже важка культура, але Long Grain має високу базову масу в FS25
-        ["RICE"] = 1.8,          -- Для ~4-5 км/год
-        ["RICE_LONG_GRAIN"] = 0.5, -- Фактор 1.0 давав 2 км/год. Зменшуємо до 0.5 щоб отримати ~4 км/год
+        -- Ð Ð¸Ñ Ð´ÑƒÐ¶Ðµ Ð²Ð°Ð¶ÐºÐ° ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð°, Ð°Ð»Ðµ Long Grain Ð¼Ð°Ñ” Ð²Ð¸ÑÐ¾ÐºÑƒ Ð±Ð°Ð·Ð¾Ð²Ñƒ Ð¼Ð°ÑÑƒ Ð² FS25
+        ["RICE"] = 1.8,          -- Ð”Ð»Ñ ~4-5 ÐºÐ¼/Ð³Ð¾Ð´
+        ["RICE_LONG_GRAIN"] = 0.5, -- Ð¤Ð°ÐºÑ‚Ð¾Ñ€ 1.0 Ð´Ð°Ð²Ð°Ð² 2 ÐºÐ¼/Ð³Ð¾Ð´. Ð—Ð¼ÐµÐ½ÑˆÑƒÑ”Ð¼Ð¾ Ð´Ð¾ 0.5 Ñ‰Ð¾Ð± Ð¾Ñ‚Ñ€Ð¸Ð¼Ð°Ñ‚Ð¸ ~4 ÐºÐ¼/Ð³Ð¾Ð´
         
-        -- Бобові
+        -- Ð‘Ð¾Ð±Ð¾Ð²Ñ–
         ["PEA"] = 1.0,
         ["LENTIL"] = 1.0,
         ["CHICKPEA"] = 1.0,
         
-        -- Коренеплоди
+        -- ÐšÐ¾Ñ€ÐµÐ½ÐµÐ¿Ð»Ð¾Ð´Ð¸
         ["POTATO"] = 0.40,
-        ["SUGARBEET"] = 0.30,    -- Бажано швидше 5-8 км/год
+        ["SUGARBEET"] = 0.30,    -- Ð‘Ð°Ð¶Ð°Ð½Ð¾ ÑˆÐ²Ð¸Ð´ÑˆÐµ 5-8 ÐºÐ¼/Ð³Ð¾Ð´
         ["BEETROOT"] = 0.30,
-        ["CARROT"] = 0.25,       -- Більш оптимальна швидкість
+        ["CARROT"] = 0.25,       -- Ð‘Ñ–Ð»ÑŒÑˆ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð° ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ
         ["PARSNIP"] = 0.25,
         ["ONION"] = 0.35,
         
-        -- Овочі (зелені) - дуже легкі, тому фактор має бути високим щоб завантажити двигун
-        ["SPINACH"] = 3.5,       -- Для супер повільного збору ~2-3 км/год
-        ["GREENBEAN"] = 3.5,     -- Для супер повільного збору ~2-3 км/год
+        -- ÐžÐ²Ð¾Ñ‡Ñ– (Ð·ÐµÐ»ÐµÐ½Ñ–) - Ð´ÑƒÐ¶Ðµ Ð»ÐµÐ³ÐºÑ–, Ñ‚Ð¾Ð¼Ñƒ Ñ„Ð°ÐºÑ‚Ð¾Ñ€ Ð¼Ð°Ñ” Ð±ÑƒÑ‚Ð¸ Ð²Ð¸ÑÐ¾ÐºÐ¸Ð¼ Ñ‰Ð¾Ð± Ð·Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶Ð¸Ñ‚Ð¸ Ð´Ð²Ð¸Ð³ÑƒÐ½
+        ["SPINACH"] = 3.5,       -- Ð”Ð»Ñ ÑÑƒÐ¿ÐµÑ€ Ð¿Ð¾Ð²Ñ–Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ð·Ð±Ð¾Ñ€Ñƒ ~2-3 ÐºÐ¼/Ð³Ð¾Ð´
+        ["GREENBEAN"] = 3.5,     -- Ð”Ð»Ñ ÑÑƒÐ¿ÐµÑ€ Ð¿Ð¾Ð²Ñ–Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ð·Ð±Ð¾Ñ€Ñƒ ~2-3 ÐºÐ¼/Ð³Ð¾Ð´
         
-        -- Інші мод культури
+        -- Ð†Ð½ÑˆÑ– Ð¼Ð¾Ð´ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð¸
         ["COTTON"] = 1.5,
         ["SUGARCANE"] = 0.1,
         ["POPLAR"] = 0.2,
@@ -107,21 +107,21 @@ function LoadCalculator:loadDefaultCropFactors()
         ["MILLET"] = 0.9,
     }
 
-    -- Динамічно мапимо FruitType Enum по точних рядках
-    -- Це захищає від nil крашів та відсутності мод/DLC культур
+    -- Ð”Ð¸Ð½Ð°Ð¼Ñ–Ñ‡Ð½Ð¾ Ð¼Ð°Ð¿Ð¸Ð¼Ð¾ FruitType Enum Ð¿Ð¾ Ñ‚Ð¾Ñ‡Ð½Ð¸Ñ… Ñ€ÑÐ´ÐºÐ°Ñ…
+    -- Ð¦Ðµ Ð·Ð°Ñ…Ð¸Ñ‰Ð°Ñ” Ð²Ñ–Ð´ nil ÐºÑ€Ð°ÑˆÑ–Ð² Ñ‚Ð° Ð²Ñ–Ð´ÑÑƒÑ‚Ð½Ð¾ÑÑ‚Ñ– Ð¼Ð¾Ð´/DLC ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€
     for key, value in pairs(FruitType) do
-        -- Перевіряємо чи є цей ключ у нашому словнику
+        -- ÐŸÐµÑ€ÐµÐ²Ñ–Ñ€ÑÑ”Ð¼Ð¾ Ñ‡Ð¸ Ñ” Ñ†ÐµÐ¹ ÐºÐ»ÑŽÑ‡ Ñƒ Ð½Ð°ÑˆÐ¾Ð¼Ñƒ ÑÐ»Ð¾Ð²Ð½Ð¸ÐºÑƒ
         local mappedFactor = factorMap[key]
         if mappedFactor then
             self.CROP_FACTORS[value] = mappedFactor
         elseif type(value) == "number" and not key:find("NUM_") then
-            -- Якщо культури немає в списку, вона отримує 1.0 за замовчуванням
-            -- Ми не заповнюємо весь масив одиницями щоб зекономити пам'ять, fallback to 1.0 буде при отриманні
+            -- Ð¯ÐºÑ‰Ð¾ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð¸ Ð½ÐµÐ¼Ð°Ñ” Ð² ÑÐ¿Ð¸ÑÐºÑƒ, Ð²Ð¾Ð½Ð° Ð¾Ñ‚Ñ€Ð¸Ð¼ÑƒÑ” 1.0 Ð·Ð° Ð·Ð°Ð¼Ð¾Ð²Ñ‡ÑƒÐ²Ð°Ð½Ð½ÑÐ¼
+            -- ÐœÐ¸ Ð½Ðµ Ð·Ð°Ð¿Ð¾Ð²Ð½ÑŽÑ”Ð¼Ð¾ Ð²ÐµÑÑŒ Ð¼Ð°ÑÐ¸Ð² Ð¾Ð´Ð¸Ð½Ð¸Ñ†ÑÐ¼Ð¸ Ñ‰Ð¾Ð± Ð·ÐµÐºÐ¾Ð½Ð¾Ð¼Ð¸Ñ‚Ð¸ Ð¿Ð°Ð¼'ÑÑ‚ÑŒ, fallback to 1.0 Ð±ÑƒÐ´Ðµ Ð¿Ñ€Ð¸ Ð¾Ñ‚Ñ€Ð¸Ð¼Ð°Ð½Ð½Ñ–
         end
     end
 end
----Встановлює базову продуктивність комбайна mass-based
----@param basePerfMass number Базова продуктивність в кг/с
+---Ð’ÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÑŽÑ” Ð±Ð°Ð·Ð¾Ð²Ñƒ Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ ÐºÐ¾Ð¼Ð±Ð°Ð¹Ð½Ð° mass-based
+---@param basePerfMass number Ð‘Ð°Ð·Ð¾Ð²Ð° Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ð² ÐºÐ³/Ñ
 function LoadCalculator:setBasePerformance(basePerfMass)
     self.basePerfMass = basePerfMass
     
@@ -131,35 +131,35 @@ function LoadCalculator:setBasePerformance(basePerfMass)
     end
 end
 
----Отримує базову продуктивність з потужності двигуна
----@param vehicle table Комбайн
----@return number Базова продуктивність в кг/сек
+---ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ” Ð±Ð°Ð·Ð¾Ð²Ñƒ Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ð· Ð¿Ð¾Ñ‚ÑƒÐ¶Ð½Ð¾ÑÑ‚Ñ– Ð´Ð²Ð¸Ð³ÑƒÐ½Ð°
+---@param vehicle table ÐšÐ¾Ð¼Ð±Ð°Ð¹Ð½
+---@return number Ð‘Ð°Ð·Ð¾Ð²Ð° Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ð² ÐºÐ³/ÑÐµÐº
 function LoadCalculator:getBasePerformanceFromPower(vehicle)
     -- NEW LOGIC: Calculate throughput based on Horsepower
     -- Approximation: 1 HP ~= 0.035 kg/s throughput for Grain
     -- Example: 790 HP (X9 1100) -> 27.65 kg/s -> ~100 t/h
     -- Example: 500 HP (S780) -> 17.5 kg/s -> ~63 t/h
     
-    local coef = 0.035  -- Стандартний коефіцієнт для зернозбиральних комбайнів (kg/s per HP)
+    local coef = 0.035  -- Ð¡Ñ‚Ð°Ð½Ð´Ð°Ñ€Ñ‚Ð½Ð¸Ð¹ ÐºÐ¾ÐµÑ„Ñ–Ñ†Ñ–Ñ”Ð½Ñ‚ Ð´Ð»Ñ Ð·ÐµÑ€Ð½Ð¾Ð·Ð±Ð¸Ñ€Ð°Ð»ÑŒÐ½Ð¸Ñ… ÐºÐ¾Ð¼Ð±Ð°Ð¹Ð½Ñ–Ð² (kg/s per HP)
     local power = 0
     
-    -- Визначаємо тип техніки за категорією
+    -- Ð’Ð¸Ð·Ð½Ð°Ñ‡Ð°Ñ”Ð¼Ð¾ Ñ‚Ð¸Ð¿ Ñ‚ÐµÑ…Ð½Ñ–ÐºÐ¸ Ð·Ð° ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ñ–Ñ”ÑŽ
     local keyCategory = "vehicle.storeData.category"
     local category = vehicle.xmlFile:getValue(keyCategory)
     
     if category == "forageHarvesters" or category == "forageHarvesterCutters" then
-        coef = 0.150  -- Кормозбиральні: ~150-200 t/h -> 0.15 kg/s per HP
+        coef = 0.150  -- ÐšÐ¾Ñ€Ð¼Ð¾Ð·Ð±Ð¸Ñ€Ð°Ð»ÑŒÐ½Ñ–: ~150-200 t/h -> 0.15 kg/s per HP
     elseif category == "beetVehicles" or category == "beetHarvesting" then
-        coef = 0.060  -- Бурякозбиральні: very high throughput
+        coef = 0.060  -- Ð‘ÑƒÑ€ÑÐºÐ¾Ð·Ð±Ð¸Ñ€Ð°Ð»ÑŒÐ½Ñ–: very high throughput
     elseif category == "potatoVehicles" then
-        coef = 0.060  -- Картоплезбиральні
+        coef = 0.060  -- ÐšÐ°Ñ€Ñ‚Ð¾Ð¿Ð»ÐµÐ·Ð±Ð¸Ñ€Ð°Ð»ÑŒÐ½Ñ–
     elseif category == "cottonVehicles" then
-        coef = 0.015  -- Бавовна (легка, повільна обробка)
+        coef = 0.015  -- Ð‘Ð°Ð²Ð¾Ð²Ð½Ð° (Ð»ÐµÐ³ÐºÐ°, Ð¿Ð¾Ð²Ñ–Ð»ÑŒÐ½Ð° Ð¾Ð±Ñ€Ð¾Ð±ÐºÐ°)
     elseif category == "vegetableVehicles" then
-        coef = 0.060  -- Овочева техніка (Adjusted for realistic load)
+        coef = 0.060  -- ÐžÐ²Ð¾Ñ‡ÐµÐ²Ð° Ñ‚ÐµÑ…Ð½Ñ–ÐºÐ° (Adjusted for realistic load)
     end
     
-    -- Спробувати отримати потужність з motorized spec
+    -- Ð¡Ð¿Ñ€Ð¾Ð±ÑƒÐ²Ð°Ñ‚Ð¸ Ð¾Ñ‚Ñ€Ð¸Ð¼Ð°Ñ‚Ð¸ Ð¿Ð¾Ñ‚ÑƒÐ¶Ð½Ñ–ÑÑ‚ÑŒ Ð· motorized spec
     if vehicle.spec_motorized and vehicle.spec_motorized.motor then
         power = vehicle.spec_motorized.motor.hp or 0
     end
@@ -210,7 +210,7 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
     -- Debug entry
     -- print(string.format("RHM DEBUG: Checking power for %s. Initial power: %s", vehicle:getFullName(), tostring(power)))
     
-    -- NEXAT FIX: Якщо це модуль (немає мотора), шукаємо двигун рекурсивно вгору по ієрархії
+    -- NEXAT FIX: Ð¯ÐºÑ‰Ð¾ Ñ†Ðµ Ð¼Ð¾Ð´ÑƒÐ»ÑŒ (Ð½ÐµÐ¼Ð°Ñ” Ð¼Ð¾Ñ‚Ð¾Ñ€Ð°), ÑˆÑƒÐºÐ°Ñ”Ð¼Ð¾ Ð´Ð²Ð¸Ð³ÑƒÐ½ Ñ€ÐµÐºÑƒÑ€ÑÐ¸Ð²Ð½Ð¾ Ð²Ð³Ð¾Ñ€Ñƒ Ð¿Ð¾ Ñ–Ñ”Ñ€Ð°Ñ€Ñ…Ñ–Ñ—
     if (not power or power == 0) then
         local function findVehicleWithEngine(v)
             if not v then return nil end
@@ -246,7 +246,7 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
         end
     end
     
-    -- Якщо не знайшли, спробувати з XML
+    -- Ð¯ÐºÑ‰Ð¾ Ð½Ðµ Ð·Ð½Ð°Ð¹ÑˆÐ»Ð¸, ÑÐ¿Ñ€Ð¾Ð±ÑƒÐ²Ð°Ñ‚Ð¸ Ð· XML
     if power == 0 then
         local key, motorId = ConfigurationUtil.getXMLConfigurationKey(
             vehicle.xmlFile, 
@@ -266,9 +266,9 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
     end
     
     if power and tonumber(power) > 0 then
-        -- Стандартний розрахунок: 1 HP ~= 0.035 kg/s throughput
-        -- Для 1100 HP (NEXAT) це буде ~38.5 kg/s (~138 t/h)
-        -- Для 500 HP це буде ~17.5 kg/s (~63 t/h)
+        -- Ð¡Ñ‚Ð°Ð½Ð´Ð°Ñ€Ñ‚Ð½Ð¸Ð¹ Ñ€Ð¾Ð·Ñ€Ð°Ñ…ÑƒÐ½Ð¾Ðº: 1 HP ~= 0.035 kg/s throughput
+        -- Ð”Ð»Ñ 1100 HP (NEXAT) Ñ†Ðµ Ð±ÑƒÐ´Ðµ ~38.5 kg/s (~138 t/h)
+        -- Ð”Ð»Ñ 500 HP Ñ†Ðµ Ð±ÑƒÐ´Ðµ ~17.5 kg/s (~63 t/h)
         local basePerf = tonumber(power) * coef
         
         print(string.format("RHM DEBUG: BasePerf Mass computed for %s (cat: %s, coef: %.3f): %d hp -> %.2f kg/s (%.1f t/h)", 
@@ -276,8 +276,8 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
         return basePerf
     end
     
-    -- NEXAT POWER FIX: Якщо це NEXAT і power не знайдено, використовуємо 1100hp
-    -- Debug показав що система не бачить двигун NEXAT (modular structure issue)
+    -- NEXAT POWER FIX: Ð¯ÐºÑ‰Ð¾ Ñ†Ðµ NEXAT Ñ– power Ð½Ðµ Ð·Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾, Ð²Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð¾Ð²ÑƒÑ”Ð¼Ð¾ 1100hp
+    -- Debug Ð¿Ð¾ÐºÐ°Ð·Ð°Ð² Ñ‰Ð¾ ÑÐ¸ÑÑ‚ÐµÐ¼Ð° Ð½Ðµ Ð±Ð°Ñ‡Ð¸Ñ‚ÑŒ Ð´Ð²Ð¸Ð³ÑƒÐ½ NEXAT (modular structure issue)
     if vehicle.configFileName and vehicle.configFileName:lower():find("nexat") then
         local basePerf = 1100 * coef  -- 1100hp * 0.035 = 38.5 kg/s
         print(string.format("RHM: NEXAT detected with power=0 - using hardcoded 1100 HP -> %.2f kg/s", basePerf))
@@ -288,25 +288,25 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
     return 10.0  -- Default ~36 t/h
 end
 
----Оновлює дані для розрахунку навантаження
----@param vehicle table Комбайн
----@param dt number Delta time в мс
----@param mass number Маса зібраного врожаю (кг) - НОВИЙ ПАРАМЕТР
+---ÐžÐ½Ð¾Ð²Ð»ÑŽÑ” Ð´Ð°Ð½Ñ– Ð´Ð»Ñ Ñ€Ð¾Ð·Ñ€Ð°Ñ…ÑƒÐ½ÐºÑƒ Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ
+---@param vehicle table ÐšÐ¾Ð¼Ð±Ð°Ð¹Ð½
+---@param dt number Delta time Ð² Ð¼Ñ
+---@param mass number ÐœÐ°ÑÐ° Ð·Ñ–Ð±Ñ€Ð°Ð½Ð¾Ð³Ð¾ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ (ÐºÐ³) - ÐÐžÐ’Ð˜Ð™ ÐŸÐÐ ÐÐœÐ•Ð¢Ð 
 function LoadCalculator:update(vehicle, dt, mass)
-    -- Оновлюємо відстань
+    -- ÐžÐ½Ð¾Ð²Ð»ÑŽÑ”Ð¼Ð¾ Ð²Ñ–Ð´ÑÑ‚Ð°Ð½ÑŒ
     self.totalDistance = self.totalDistance + vehicle.lastMovedDistance
     
-    -- Оновлюємо масу (замість площі)
+    -- ÐžÐ½Ð¾Ð²Ð»ÑŽÑ”Ð¼Ð¾ Ð¼Ð°ÑÑƒ (Ð·Ð°Ð¼Ñ–ÑÑ‚ÑŒ Ð¿Ð»Ð¾Ñ‰Ñ–)
     self.loadAccumulatedMass = (self.loadAccumulatedMass or 0) + mass
     
     -- INSTANT REACTION FIX:
-    -- Якщо почали збирати (mass > 0), а ліміт все ще максимальний - негайно обмежуємо
-    -- Не чекаємо 1.5 секунди вимірювання
+    -- Ð¯ÐºÑ‰Ð¾ Ð¿Ð¾Ñ‡Ð°Ð»Ð¸ Ð·Ð±Ð¸Ñ€Ð°Ñ‚Ð¸ (mass > 0), Ð° Ð»Ñ–Ð¼Ñ–Ñ‚ Ð²ÑÐµ Ñ‰Ðµ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¸Ð¹ - Ð½ÐµÐ³Ð°Ð¹Ð½Ð¾ Ð¾Ð±Ð¼ÐµÐ¶ÑƒÑ”Ð¼Ð¾
+    -- ÐÐµ Ñ‡ÐµÐºÐ°Ñ”Ð¼Ð¾ 1.5 ÑÐµÐºÑƒÐ½Ð´Ð¸ Ð²Ð¸Ð¼Ñ–Ñ€ÑŽÐ²Ð°Ð½Ð½Ñ
     if mass > 0 and self.speedLimit >= (self.genuineSpeedLimit - 0.1) then
          if self.workingSpeedLimit > 0 and self.workingSpeedLimit < 12 then
              self.speedLimit = self.workingSpeedLimit
          else
-             self.speedLimit = 5.0 -- Консервативний старт
+             self.speedLimit = 5.0 -- ÐšÐ¾Ð½ÑÐµÑ€Ð²Ð°Ñ‚Ð¸Ð²Ð½Ð¸Ð¹ ÑÑ‚Ð°Ñ€Ñ‚
              self.workingSpeedLimit = 5.0
          end
          if self.debug then
@@ -314,29 +314,29 @@ function LoadCalculator:update(vehicle, dt, mass)
          end
     end
     
-    -- Оновлюємо час
+    -- ÐžÐ½Ð¾Ð²Ð»ÑŽÑ”Ð¼Ð¾ Ñ‡Ð°Ñ
     self.currentTime = self.currentTime + dt
     
-    -- Перевіряємо чи час для нового виміру
+    -- ÐŸÐµÑ€ÐµÐ²Ñ–Ñ€ÑÑ”Ð¼Ð¾ Ñ‡Ð¸ Ñ‡Ð°Ñ Ð´Ð»Ñ Ð½Ð¾Ð²Ð¾Ð³Ð¾ Ð²Ð¸Ð¼Ñ–Ñ€Ñƒ
     if self.currentTime > self.avgTime or self.totalDistance > self.distanceForMeasuring then
         self:calculateEngineLoad(vehicle)
         self:calculateSpeedLimit(vehicle)
         
-        -- Скидаємо лічильники
+        -- Ð¡ÐºÐ¸Ð´Ð°Ñ”Ð¼Ð¾ Ð»Ñ–Ñ‡Ð¸Ð»ÑŒÐ½Ð¸ÐºÐ¸
         self.currentTime = 0
         self.loadAccumulatedMass = 0
         self.totalDistance = 0
     end
 end
 
----Розраховує навантаження на двигун (Mass-based)
----@param vehicle table Комбайн
+---Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ” Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ Ð½Ð° Ð´Ð²Ð¸Ð³ÑƒÐ½ (Mass-based)
+---@param vehicle table ÐšÐ¾Ð¼Ð±Ð°Ð¹Ð½
 function LoadCalculator:calculateEngineLoad(vehicle)
     if self.currentTime <= 0 then
         return
     end
     
-    -- Отримуємо коефіцієнт культури
+    -- ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ”Ð¼Ð¾ ÐºÐ¾ÐµÑ„Ñ–Ñ†Ñ–Ñ”Ð½Ñ‚ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð¸
     local cropFactor = 1.0
     local spec_combine = vehicle.spec_combine
     if spec_combine and spec_combine.lastValidInputFruitType then
@@ -359,37 +359,37 @@ function LoadCalculator:calculateEngineLoad(vehicle)
         end
     end
     
-    -- Розраховуємо RAW середню масу за секунду (кг/с)
-    -- currentTime в мс, тому 1000/currentTime для секунд
-    -- Використовуємо accumulatedMass
+    -- Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ”Ð¼Ð¾ RAW ÑÐµÑ€ÐµÐ´Ð½ÑŽ Ð¼Ð°ÑÑƒ Ð·Ð° ÑÐµÐºÑƒÐ½Ð´Ñƒ (ÐºÐ³/Ñ)
+    -- currentTime Ð² Ð¼Ñ, Ñ‚Ð¾Ð¼Ñƒ 1000/currentTime Ð´Ð»Ñ ÑÐµÐºÑƒÐ½Ð´
+    -- Ð’Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð¾Ð²ÑƒÑ”Ð¼Ð¾ accumulatedMass
     local rawAvgMass = (self.loadAccumulatedMass or 0) * (1000 / self.currentTime) * cropFactor
     
-    -- ADAPTIVE SMOOTHING: більше згладжування при високому навантаженні
+    -- ADAPTIVE SMOOTHING: Ð±Ñ–Ð»ÑŒÑˆÐµ Ð·Ð³Ð»Ð°Ð´Ð¶ÑƒÐ²Ð°Ð½Ð½Ñ Ð¿Ñ€Ð¸ Ð²Ð¸ÑÐ¾ÐºÐ¾Ð¼Ñƒ Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ–
     local loadRatio = self.currentAvgMass / math.max(0.01, self.basePerfMass)
     local smoothFactor = 0.3 + 0.4 * math.min(1.0, loadRatio)
     smoothFactor = math.min(0.7, smoothFactor)  -- Max 70% smoothing
     
-    -- Застосовуємо згладжування тільки якщо є попереднє значення
+    -- Ð—Ð°ÑÑ‚Ð¾ÑÐ¾Ð²ÑƒÑ”Ð¼Ð¾ Ð·Ð³Ð»Ð°Ð´Ð¶ÑƒÐ²Ð°Ð½Ð½Ñ Ñ‚Ñ–Ð»ÑŒÐºÐ¸ ÑÐºÑ‰Ð¾ Ñ” Ð¿Ð¾Ð¿ÐµÑ€ÐµÐ´Ð½Ñ” Ð·Ð½Ð°Ñ‡ÐµÐ½Ð½Ñ
     local avgMass = rawAvgMass
     if self.currentAvgMass > (0.5 * self.basePerfMass) then
         avgMass = (1 - smoothFactor) * rawAvgMass + smoothFactor * self.currentAvgMass
     end
     
-    -- Зберігаємо обидва значення для різних цілей
+    -- Ð—Ð±ÐµÑ€Ñ–Ð³Ð°Ñ”Ð¼Ð¾ Ð¾Ð±Ð¸Ð´Ð²Ð° Ð·Ð½Ð°Ñ‡ÐµÐ½Ð½Ñ Ð´Ð»Ñ Ñ€Ñ–Ð·Ð½Ð¸Ñ… Ñ†Ñ–Ð»ÐµÐ¹
     self.lastAvgMass = self.currentAvgMass
     self.currentAvgMass = avgMass
-    self.rawAvgMass = rawAvgMass  -- Для аварійного гальмування
+    self.rawAvgMass = rawAvgMass  -- Ð”Ð»Ñ Ð°Ð²Ð°Ñ€Ñ–Ð¹Ð½Ð¾Ð³Ð¾ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
     
-    -- Отримуємо power boost для розрахунку навантаження
+    -- ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ”Ð¼Ð¾ power boost Ð´Ð»Ñ Ñ€Ð¾Ð·Ñ€Ð°Ñ…ÑƒÐ½ÐºÑƒ Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ
     local powerBoost = 0
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         powerBoost = g_realisticHarvestManager.settings:getPowerBoost()
     end
     
-    -- Максимальна допустима маса з урахуванням power boost
+    -- ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð° Ð´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ð° Ð¼Ð°ÑÐ° Ð· ÑƒÑ€Ð°Ñ…ÑƒÐ²Ð°Ð½Ð½ÑÐ¼ power boost
     local maxAvgMass = (1 + 0.01 * powerBoost) * self.basePerfMass
     
-    -- Розраховуємо навантаження відносно maxAvgMass
+    -- Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ”Ð¼Ð¾ Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ Ð²Ñ–Ð´Ð½Ð¾ÑÐ½Ð¾ maxAvgMass
     if maxAvgMass > 0 then
         self.engineLoad = self.currentAvgMass / maxAvgMass
     else
@@ -402,26 +402,26 @@ function LoadCalculator:calculateEngineLoad(vehicle)
     end
 end
 
----Розраховує обмеження швидкості
----@param vehicle table Комбайн
+---Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ” Ð¾Ð±Ð¼ÐµÐ¶ÐµÐ½Ð½Ñ ÑˆÐ²Ð¸Ð´ÐºÐ¾ÑÑ‚Ñ–
+---@param vehicle table ÐšÐ¾Ð¼Ð±Ð°Ð¹Ð½
 function LoadCalculator:calculateSpeedLimit(vehicle)
-    -- Якщо не збираємо врожай (mass = 0), плавно відпускаємо ліміт
+    -- Ð¯ÐºÑ‰Ð¾ Ð½Ðµ Ð·Ð±Ð¸Ñ€Ð°Ñ”Ð¼Ð¾ Ð²Ñ€Ð¾Ð¶Ð°Ð¹ (mass = 0), Ð¿Ð»Ð°Ð²Ð½Ð¾ Ð²Ñ–Ð´Ð¿ÑƒÑÐºÐ°Ñ”Ð¼Ð¾ Ð»Ñ–Ð¼Ñ–Ñ‚
     if self.currentAvgMass == 0 then
-        -- Зберігаємо workingSpeedLimit ТІЛЬКИ якщо він дійсно відображає
-        -- навантажувальне обмеження (< 75% genuineSpeedLimit).
-        -- Не зберігаємо якщо ми розігнались по краю — це не "робоча" швидкість.
+        -- Ð—Ð±ÐµÑ€Ñ–Ð³Ð°Ñ”Ð¼Ð¾ workingSpeedLimit Ð¢Ð†Ð›Ð¬ÐšÐ˜ ÑÐºÑ‰Ð¾ Ð²Ñ–Ð½ Ð´Ñ–Ð¹ÑÐ½Ð¾ Ð²Ñ–Ð´Ð¾Ð±Ñ€Ð°Ð¶Ð°Ñ”
+        -- Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÑƒÐ²Ð°Ð»ÑŒÐ½Ðµ Ð¾Ð±Ð¼ÐµÐ¶ÐµÐ½Ð½Ñ (< 75% genuineSpeedLimit).
+        -- ÐÐµ Ð·Ð±ÐµÑ€Ñ–Ð³Ð°Ñ”Ð¼Ð¾ ÑÐºÑ‰Ð¾ Ð¼Ð¸ Ñ€Ð¾Ð·Ñ–Ð³Ð½Ð°Ð»Ð¸ÑÑŒ Ð¿Ð¾ ÐºÑ€Ð°ÑŽ â€” Ñ†Ðµ Ð½Ðµ "Ñ€Ð¾Ð±Ð¾Ñ‡Ð°" ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ.
         local saveThreshold = self.genuineSpeedLimit * 0.75
         if self.speedLimit < saveThreshold and self.speedLimit > 2 then
             self.workingSpeedLimit = self.speedLimit
         end
-        -- Плавно відпускаємо ліміт (без стрибка до 15)
+        -- ÐŸÐ»Ð°Ð²Ð½Ð¾ Ð²Ñ–Ð´Ð¿ÑƒÑÐºÐ°Ñ”Ð¼Ð¾ Ð»Ñ–Ð¼Ñ–Ñ‚ (Ð±ÐµÐ· ÑÑ‚Ñ€Ð¸Ð±ÐºÐ° Ð´Ð¾ 15)
         if self.speedLimit < self.genuineSpeedLimit then
             self.speedLimit = math.min(self.genuineSpeedLimit, self.speedLimit + 0.6)
         end
         return
     end
     
-    -- Детекція зміни культури або тривалої паузи
+    -- Ð”ÐµÑ‚ÐµÐºÑ†Ñ–Ñ Ð·Ð¼Ñ–Ð½Ð¸ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð¸ Ð°Ð±Ð¾ Ñ‚Ñ€Ð¸Ð²Ð°Ð»Ð¾Ñ— Ð¿Ð°ÑƒÐ·Ð¸
     local currentCropType = nil
     local spec_combine = vehicle.spec_combine
     if spec_combine and spec_combine.lastValidInputFruitType then
@@ -431,22 +431,22 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
     local currentTime = g_currentMission.time or 0
     local timeSinceLastHarvest = currentTime - self.lastHarvestTime
     
-    -- Скидаємо при зміні культури або тривалій паузі (>30 сек)
+    -- Ð¡ÐºÐ¸Ð´Ð°Ñ”Ð¼Ð¾ Ð¿Ñ€Ð¸ Ð·Ð¼Ñ–Ð½Ñ– ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð¸ Ð°Ð±Ð¾ Ñ‚Ñ€Ð¸Ð²Ð°Ð»Ñ–Ð¹ Ð¿Ð°ÑƒÐ·Ñ– (>30 ÑÐµÐº)
     local longPause = timeSinceLastHarvest > 30000
     local cropChanged = (currentCropType and self.lastCropType and currentCropType ~= self.lastCropType)
     if cropChanged or longPause then
         self.workingSpeedLimit = 0
-        self._firstHarvestDone = false  -- Reset conservative start для нового поля
+        self._firstHarvestDone = false  -- Reset conservative start Ð´Ð»Ñ Ð½Ð¾Ð²Ð¾Ð³Ð¾ Ð¿Ð¾Ð»Ñ
     end
     
     self.lastCropType = currentCropType
     self.lastHarvestTime = currentTime
     
-    -- CONSERVATIVE START: тільки при справжньому першому заїзді в культуру
-    -- Використовуємо _firstHarvestDone (скидається тільки після 30с паузи, НЕ на кожному кінці рядка)
+    -- CONSERVATIVE START: Ñ‚Ñ–Ð»ÑŒÐºÐ¸ Ð¿Ñ€Ð¸ ÑÐ¿Ñ€Ð°Ð²Ð¶Ð½ÑŒÐ¾Ð¼Ñƒ Ð¿ÐµÑ€ÑˆÐ¾Ð¼Ñƒ Ð·Ð°Ñ—Ð·Ð´Ñ– Ð² ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ñƒ
+    -- Ð’Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð¾Ð²ÑƒÑ”Ð¼Ð¾ _firstHarvestDone (ÑÐºÐ¸Ð´Ð°Ñ”Ñ‚ÑŒÑÑ Ñ‚Ñ–Ð»ÑŒÐºÐ¸ Ð¿Ñ–ÑÐ»Ñ 30Ñ Ð¿Ð°ÑƒÐ·Ð¸, ÐÐ• Ð½Ð° ÐºÐ¾Ð¶Ð½Ð¾Ð¼Ñƒ ÐºÑ–Ð½Ñ†Ñ– Ñ€ÑÐ´ÐºÐ°)
     if not self._firstHarvestDone then
         self._firstHarvestDone = true
-        -- Якщо speedLimit ніколи не знижувався (genuineSpeedLimit) — застосовуємо старт
+        -- Ð¯ÐºÑ‰Ð¾ speedLimit Ð½Ñ–ÐºÐ¾Ð»Ð¸ Ð½Ðµ Ð·Ð½Ð¸Ð¶ÑƒÐ²Ð°Ð²ÑÑ (genuineSpeedLimit) â€” Ð·Ð°ÑÑ‚Ð¾ÑÐ¾Ð²ÑƒÑ”Ð¼Ð¾ ÑÑ‚Ð°Ñ€Ñ‚
         if self.speedLimit >= self.genuineSpeedLimit then
             if self.workingSpeedLimit > 0 and self.workingSpeedLimit < 12 then
                 self.speedLimit = self.workingSpeedLimit
@@ -455,14 +455,14 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
                 self.workingSpeedLimit = 7.0
             end
         end
-        -- Якщо speedLimit вже нижче genuineSpeedLimit — не чіпаємо
-        -- (наприклад, плавний розгін на частковій секції ще не досяг 15)
+        -- Ð¯ÐºÑ‰Ð¾ speedLimit Ð²Ð¶Ðµ Ð½Ð¸Ð¶Ñ‡Ðµ genuineSpeedLimit â€” Ð½Ðµ Ñ‡Ñ–Ð¿Ð°Ñ”Ð¼Ð¾
+        -- (Ð½Ð°Ð¿Ñ€Ð¸ÐºÐ»Ð°Ð´, Ð¿Ð»Ð°Ð²Ð½Ð¸Ð¹ Ñ€Ð¾Ð·Ð³Ñ–Ð½ Ð½Ð° Ñ‡Ð°ÑÑ‚ÐºÐ¾Ð²Ñ–Ð¹ ÑÐµÐºÑ†Ñ–Ñ— Ñ‰Ðµ Ð½Ðµ Ð´Ð¾ÑÑÐ³ 15)
     end
     
-    -- Отримуємо поточну швидкість
-    local avgSpeed = 1000 * self.totalDistance / self.currentTime  -- м/с
+    -- ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ”Ð¼Ð¾ Ð¿Ð¾Ñ‚Ð¾Ñ‡Ð½Ñƒ ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ
+    local avgSpeed = 1000 * self.totalDistance / self.currentTime  -- Ð¼/Ñ
     
-    -- Отримуємо power boost
+    -- ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ”Ð¼Ð¾ power boost
     local powerBoost = 0
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         powerBoost = g_realisticHarvestManager.settings:getPowerBoost()
@@ -470,7 +470,7 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
     
     local maxAvgMass = (1 + 0.01 * powerBoost) * self.basePerfMass
     
-    -- Розраховуємо прискорення (derivative of smoothed value)
+    -- Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ”Ð¼Ð¾ Ð¿Ñ€Ð¸ÑÐºÐ¾Ñ€ÐµÐ½Ð½Ñ (derivative of smoothed value)
     local massAcc = 0
     if self.currentTime > 0 and self.lastAvgMass > 0 then
         massAcc = (self.currentAvgMass - self.lastAvgMass) / self.currentTime
@@ -483,44 +483,44 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
     local controlZone = "HOLD"
     
     -- === GRADUATED EMERGENCY BRAKE SYSTEM ===
-    -- Чим вище навантаження, тим агресивніше гальмування
+    -- Ð§Ð¸Ð¼ Ð²Ð¸Ñ‰Ðµ Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ, Ñ‚Ð¸Ð¼ Ð°Ð³Ñ€ÐµÑÐ¸Ð²Ð½Ñ–ÑˆÐµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
     local emergencyBrake = false
     local brakeRate = 0
     
-    -- SPECIAL: Перший раз перевищили 100% - різко скидаємо швидкість
-    -- Це запобігає "overshoot" (розгін → перевантаження → гальмування → цикл)
+    -- SPECIAL: ÐŸÐµÑ€ÑˆÐ¸Ð¹ Ñ€Ð°Ð· Ð¿ÐµÑ€ÐµÐ²Ð¸Ñ‰Ð¸Ð»Ð¸ 100% - Ñ€Ñ–Ð·ÐºÐ¾ ÑÐºÐ¸Ð´Ð°Ñ”Ð¼Ð¾ ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ
+    -- Ð¦Ðµ Ð·Ð°Ð¿Ð¾Ð±Ñ–Ð³Ð°Ñ” "overshoot" (Ñ€Ð¾Ð·Ð³Ñ–Ð½ â†’ Ð¿ÐµÑ€ÐµÐ²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ â†’ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ â†’ Ñ†Ð¸ÐºÐ»)
     if rawLoadRatio > 1.0 and rawLoadRatio <= 1.05 then
-        -- Тільки що перевищили 100% - агресивний скид
+        -- Ð¢Ñ–Ð»ÑŒÐºÐ¸ Ñ‰Ð¾ Ð¿ÐµÑ€ÐµÐ²Ð¸Ñ‰Ð¸Ð»Ð¸ 100% - Ð°Ð³Ñ€ÐµÑÐ¸Ð²Ð½Ð¸Ð¹ ÑÐºÐ¸Ð´
         controlZone = "THRESHOLD_BRAKE"
-        brakeRate = 2.5  -- -2.5 км/год (агресивно, щоб load впав)
+        brakeRate = 2.5  -- -2.5 ÐºÐ¼/Ð³Ð¾Ð´ (Ð°Ð³Ñ€ÐµÑÐ¸Ð²Ð½Ð¾, Ñ‰Ð¾Ð± load Ð²Ð¿Ð°Ð²)
         emergencyBrake = true
         newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
         
     elseif rawLoadRatio > 1.5 then
-        -- EXTREME: >150% load - максимальне гальмування
+        -- EXTREME: >150% load - Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ðµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
         controlZone = "EMERGENCY_EXTREME"
-        brakeRate = 5.0  -- -5 км/год за раз
+        brakeRate = 5.0  -- -5 ÐºÐ¼/Ð³Ð¾Ð´ Ð·Ð° Ñ€Ð°Ð·
         emergencyBrake = true
         newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
         
     elseif rawLoadRatio > 1.2 then
-        -- CRITICAL: 120-150% load - сильне гальмування
+        -- CRITICAL: 120-150% load - ÑÐ¸Ð»ÑŒÐ½Ðµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
         controlZone = "EMERGENCY_CRITICAL"
-        brakeRate = 3.0  -- -3 км/год за раз
+        brakeRate = 3.0  -- -3 ÐºÐ¼/Ð³Ð¾Ð´ Ð·Ð° Ñ€Ð°Ð·
         emergencyBrake = true
         newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
         
     elseif rawLoadRatio > 1.1 then
-        -- HIGH: 110-120% load - помірне гальмування
+        -- HIGH: 110-120% load - Ð¿Ð¾Ð¼Ñ–Ñ€Ð½Ðµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
         controlZone = "EMERGENCY_HIGH"
-        brakeRate = 1.5  -- -1.5 км/год за раз
+        brakeRate = 1.5  -- -1.5 ÐºÐ¼/Ð³Ð¾Ð´ Ð·Ð° Ñ€Ð°Ð·
         emergencyBrake = true
         newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
         
     elseif rawLoadRatio > 1.05 or loadRatio > 1.08 then
-        -- MODERATE: 105-110% load - легке гальмування
+        -- MODERATE: 105-110% load - Ð»ÐµÐ³ÐºÐµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
         controlZone = "EMERGENCY_MODERATE"
-        brakeRate = 1.0  -- -1 км/год за раз
+        brakeRate = 1.0  -- -1 ÐºÐ¼/Ð³Ð¾Ð´ Ð·Ð° Ñ€Ð°Ð·
         emergencyBrake = true
         newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
     
@@ -538,15 +538,15 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
     -- ZONE 2: CAUTION (85-108%) - Hold steady or gentle adjustment
     elseif loadRatio >= 0.85 and loadRatio <= 1.08 then
         controlZone = "CAUTION"
-        -- В зоні обережності активно утримуємо швидкість
+        -- Ð’ Ð·Ð¾Ð½Ñ– Ð¾Ð±ÐµÑ€ÐµÐ¶Ð½Ð¾ÑÑ‚Ñ– Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾ ÑƒÑ‚Ñ€Ð¸Ð¼ÑƒÑ”Ð¼Ð¾ ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ
         if loadRatio > 1.00 then
-            -- >100%: Легке гальмування (щоб не доводити до emergency)
+            -- >100%: Ð›ÐµÐ³ÐºÐµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ (Ñ‰Ð¾Ð± Ð½Ðµ Ð´Ð¾Ð²Ð¾Ð´Ð¸Ñ‚Ð¸ Ð´Ð¾ emergency)
             newSpeedLimit = math.max(2, self.speedLimit - 0.4)
         elseif loadRatio > 0.90 and self.speedLimit > avgSpeed * 3.6 then
-            -- 90-100%: Якщо швидкість зростає (ззовні), обмежуємо
+            -- 90-100%: Ð¯ÐºÑ‰Ð¾ ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ Ð·Ñ€Ð¾ÑÑ‚Ð°Ñ” (Ð·Ð·Ð¾Ð²Ð½Ñ–), Ð¾Ð±Ð¼ÐµÐ¶ÑƒÑ”Ð¼Ð¾
             newSpeedLimit = math.max(2, avgSpeed * 3.6 - 0.2)
         end
-        -- else: <90% в CAUTION - тримаємо стабільно
+        -- else: <90% Ð² CAUTION - Ñ‚Ñ€Ð¸Ð¼Ð°Ñ”Ð¼Ð¾ ÑÑ‚Ð°Ð±Ñ–Ð»ÑŒÐ½Ð¾
     
     -- ZONE 3: SAFE (<85%) - Accelerate with prediction
     else
@@ -572,49 +572,49 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
         
         -- If no prediction triggered, check for acceleration
         if not predictLimitSet then
-            -- === SOFT CEILING: не перевищуємо "вивчений" робочий ліміт + буфер ===
-            -- При частковій ширині жатки (мала маса) формула (maxMass/mass)^2.5 може дати
-            -- величезне прискорення і розігнати до genuineSpeedLimit.
-            -- Потім при повній жатці THRESHOLD_BRAKE різко скидає швидкість → неприємно.
-            -- Рішення: дозволяємо розгін тільки до workingSpeedLimit + 2 км/год
-            local softCeiling = self.genuineSpeedLimit  -- за замовч. — повна свобода
+            -- === SOFT CEILING: Ð½Ðµ Ð¿ÐµÑ€ÐµÐ²Ð¸Ñ‰ÑƒÑ”Ð¼Ð¾ "Ð²Ð¸Ð²Ñ‡ÐµÐ½Ð¸Ð¹" Ñ€Ð¾Ð±Ð¾Ñ‡Ð¸Ð¹ Ð»Ñ–Ð¼Ñ–Ñ‚ + Ð±ÑƒÑ„ÐµÑ€ ===
+            -- ÐŸÑ€Ð¸ Ñ‡Ð°ÑÑ‚ÐºÐ¾Ð²Ñ–Ð¹ ÑˆÐ¸Ñ€Ð¸Ð½Ñ– Ð¶Ð°Ñ‚ÐºÐ¸ (Ð¼Ð°Ð»Ð° Ð¼Ð°ÑÐ°) Ñ„Ð¾Ñ€Ð¼ÑƒÐ»Ð° (maxMass/mass)^2.5 Ð¼Ð¾Ð¶Ðµ Ð´Ð°Ñ‚Ð¸
+            -- Ð²ÐµÐ»Ð¸Ñ‡ÐµÐ·Ð½Ðµ Ð¿Ñ€Ð¸ÑÐºÐ¾Ñ€ÐµÐ½Ð½Ñ Ñ– Ñ€Ð¾Ð·Ñ–Ð³Ð½Ð°Ñ‚Ð¸ Ð´Ð¾ genuineSpeedLimit.
+            -- ÐŸÐ¾Ñ‚Ñ–Ð¼ Ð¿Ñ€Ð¸ Ð¿Ð¾Ð²Ð½Ñ–Ð¹ Ð¶Ð°Ñ‚Ñ†Ñ– THRESHOLD_BRAKE Ñ€Ñ–Ð·ÐºÐ¾ ÑÐºÐ¸Ð´Ð°Ñ” ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ â†’ Ð½ÐµÐ¿Ñ€Ð¸Ñ”Ð¼Ð½Ð¾.
+            -- Ð Ñ–ÑˆÐµÐ½Ð½Ñ: Ð´Ð¾Ð·Ð²Ð¾Ð»ÑÑ”Ð¼Ð¾ Ñ€Ð¾Ð·Ð³Ñ–Ð½ Ñ‚Ñ–Ð»ÑŒÐºÐ¸ Ð´Ð¾ workingSpeedLimit + 2 ÐºÐ¼/Ð³Ð¾Ð´
+            local softCeiling = self.genuineSpeedLimit  -- Ð·Ð° Ð·Ð°Ð¼Ð¾Ð²Ñ‡. â€” Ð¿Ð¾Ð²Ð½Ð° ÑÐ²Ð¾Ð±Ð¾Ð´Ð°
             if self.workingSpeedLimit > 0 then
                 softCeiling = math.min(self.genuineSpeedLimit, self.workingSpeedLimit + 2.0)
             end
             
             if loadRatio > 0.70 and loadRatio < 0.80 then
-                -- 70-80%: Обережний розгін (не хочемо перевищити 85%)
+                -- 70-80%: ÐžÐ±ÐµÑ€ÐµÐ¶Ð½Ð¸Ð¹ Ñ€Ð¾Ð·Ð³Ñ–Ð½ (Ð½Ðµ Ñ…Ð¾Ñ‡ÐµÐ¼Ð¾ Ð¿ÐµÑ€ÐµÐ²Ð¸Ñ‰Ð¸Ñ‚Ð¸ 85%)
                 local capacityRatio = (maxAvgMass - self.currentAvgMass) / maxAvgMass
                 if capacityRatio > 0.25 then
                     local accelFactor = 0.05
-                    -- Обмежуємо множник: при дуже малому navantazhenni формула вибухає
+                    -- ÐžÐ±Ð¼ÐµÐ¶ÑƒÑ”Ð¼Ð¾ Ð¼Ð½Ð¾Ð¶Ð½Ð¸Ðº: Ð¿Ñ€Ð¸ Ð´ÑƒÐ¶Ðµ Ð¼Ð°Ð»Ð¾Ð¼Ñƒ navantazhenni Ñ„Ð¾Ñ€Ð¼ÑƒÐ»Ð° Ð²Ð¸Ð±ÑƒÑ…Ð°Ñ”
                     local massRatio = math.min(3.0, maxAvgMass / self.currentAvgMass)
                     newSpeedLimit = math.min(softCeiling,
                         self.speedLimit + accelFactor * massRatio^2)
                 end
                 
             elseif loadRatio <= 0.70 then
-                -- <70%: Нормальний розгін (далеко від стелі)
+                -- <70%: ÐÐ¾Ñ€Ð¼Ð°Ð»ÑŒÐ½Ð¸Ð¹ Ñ€Ð¾Ð·Ð³Ñ–Ð½ (Ð´Ð°Ð»ÐµÐºÐ¾ Ð²Ñ–Ð´ ÑÑ‚ÐµÐ»Ñ–)
                 local capacityRatio = (maxAvgMass - self.currentAvgMass) / maxAvgMass
                 local accelFactor = 0.08 + 0.05 * capacityRatio  -- 0.08-0.13 range
-                -- Обмежуємо множник щоб уникнути вибухового зростання при дуже низькому load
+                -- ÐžÐ±Ð¼ÐµÐ¶ÑƒÑ”Ð¼Ð¾ Ð¼Ð½Ð¾Ð¶Ð½Ð¸Ðº Ñ‰Ð¾Ð± ÑƒÐ½Ð¸ÐºÐ½ÑƒÑ‚Ð¸ Ð²Ð¸Ð±ÑƒÑ…Ð¾Ð²Ð¾Ð³Ð¾ Ð·Ñ€Ð¾ÑÑ‚Ð°Ð½Ð½Ñ Ð¿Ñ€Ð¸ Ð´ÑƒÐ¶Ðµ Ð½Ð¸Ð·ÑŒÐºÐ¾Ð¼Ñƒ load
                 local massRatio = math.min(3.0, maxAvgMass / self.currentAvgMass)
                 newSpeedLimit = math.min(softCeiling,
                     self.speedLimit + accelFactor * massRatio^2.5)
             end
-            -- else: 80%+ в SAFE зоні - тримаємо (не розганяємо, не гальмуємо)
+            -- else: 80%+ Ð² SAFE Ð·Ð¾Ð½Ñ– - Ñ‚Ñ€Ð¸Ð¼Ð°Ñ”Ð¼Ð¾ (Ð½Ðµ Ñ€Ð¾Ð·Ð³Ð°Ð½ÑÑ”Ð¼Ð¾, Ð½Ðµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÑ”Ð¼Ð¾)
         end
     end
     
     -- === RATE LIMITING === (prevent jerky changes)
-    -- Використовуємо різні ліміти залежно від зони
+    -- Ð’Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð¾Ð²ÑƒÑ”Ð¼Ð¾ Ñ€Ñ–Ð·Ð½Ñ– Ð»Ñ–Ð¼Ñ–Ñ‚Ð¸ Ð·Ð°Ð»ÐµÐ¶Ð½Ð¾ Ð²Ñ–Ð´ Ð·Ð¾Ð½Ð¸
     local maxChange = 0.8  -- Default: 0.8 km/h change per update
     
     if emergencyBrake then
-        -- В аварійних ситуаціях дозволяємо швидкі зміни
-        maxChange = brakeRate  -- Використовуємо розрахований brakeRate
+        -- Ð’ Ð°Ð²Ð°Ñ€Ñ–Ð¹Ð½Ð¸Ñ… ÑÐ¸Ñ‚ÑƒÐ°Ñ†Ñ–ÑÑ… Ð´Ð¾Ð·Ð²Ð¾Ð»ÑÑ”Ð¼Ð¾ ÑˆÐ²Ð¸Ð´ÐºÑ– Ð·Ð¼Ñ–Ð½Ð¸
+        maxChange = brakeRate  -- Ð’Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð¾Ð²ÑƒÑ”Ð¼Ð¾ Ñ€Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²Ð°Ð½Ð¸Ð¹ brakeRate
     elseif controlZone == "DANGER" then
-        maxChange = 1.5  -- Швидші зміни в небезпечній зоні
+        maxChange = 1.5  -- Ð¨Ð²Ð¸Ð´ÑˆÑ– Ð·Ð¼Ñ–Ð½Ð¸ Ð² Ð½ÐµÐ±ÐµÐ·Ð¿ÐµÑ‡Ð½Ñ–Ð¹ Ð·Ð¾Ð½Ñ–
     end
     
     newSpeedLimit = math.clamp(newSpeedLimit, 
@@ -624,34 +624,34 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
     self.speedLimit = newSpeedLimit
     
     if self.debug then
-        print(string.format("RHM: [%s] Load: %.1f%% (Raw: %.1f%%) | Speed: %.1f→%.1f | Acc: %.4f", 
+        print(string.format("RHM: [%s] Load: %.1f%% (Raw: %.1f%%) | Speed: %.1fâ†’%.1f | Acc: %.4f", 
             controlZone, loadRatio * 100, rawLoadRatio * 100, 
             avgSpeed * 3.6, self.speedLimit, massAcc))
     end
 end
 
----Отримує поточне навантаження на двигун
----@return number Навантаження в відсотках (0-100+)
+---ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ” Ð¿Ð¾Ñ‚Ð¾Ñ‡Ð½Ðµ Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ Ð½Ð° Ð´Ð²Ð¸Ð³ÑƒÐ½
+---@return number ÐÐ°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ Ð² Ð²Ñ–Ð´ÑÐ¾Ñ‚ÐºÐ°Ñ… (0-100+)
 function LoadCalculator:getEngineLoad()
     return self.engineLoad * 100
 end
 
----Отримує поточний ліміт швидкості
----@return number Ліміт швидкості в км/год
+---ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ” Ð¿Ð¾Ñ‚Ð¾Ñ‡Ð½Ð¸Ð¹ Ð»Ñ–Ð¼Ñ–Ñ‚ ÑˆÐ²Ð¸Ð´ÐºÐ¾ÑÑ‚Ñ–
+---@return number Ð›Ñ–Ð¼Ñ–Ñ‚ ÑˆÐ²Ð¸Ð´ÐºÐ¾ÑÑ‚Ñ– Ð² ÐºÐ¼/Ð³Ð¾Ð´
 function LoadCalculator:getSpeedLimit()
     return self.speedLimit or 0
 end
 
 
 
----Встановлює оригінальне обмеження швидкості комбайна
----@param limit number Оригінальний ліміт в км/год
+---Ð’ÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÑŽÑ” Ð¾Ñ€Ð¸Ð³Ñ–Ð½Ð°Ð»ÑŒÐ½Ðµ Ð¾Ð±Ð¼ÐµÐ¶ÐµÐ½Ð½Ñ ÑˆÐ²Ð¸Ð´ÐºÐ¾ÑÑ‚Ñ– ÐºÐ¾Ð¼Ð±Ð°Ð¹Ð½Ð°
+---@param limit number ÐžÑ€Ð¸Ð³Ñ–Ð½Ð°Ð»ÑŒÐ½Ð¸Ð¹ Ð»Ñ–Ð¼Ñ–Ñ‚ Ð² ÐºÐ¼/Ð³Ð¾Ð´
 function LoadCalculator:setGenuineSpeedLimit(limit)
     self.genuineSpeedLimit = limit
     self.speedLimit = limit
 end
 
----Скидає всі дані
+---Ð¡ÐºÐ¸Ð´Ð°Ñ” Ð²ÑÑ– Ð´Ð°Ð½Ñ–
 function LoadCalculator:reset()
     self.totalDistance = 0
     self.totalArea = 0
@@ -659,17 +659,17 @@ function LoadCalculator:reset()
     self.currentAvgMass = 0
     self.engineLoad = 0
     self.cropLoss = 0
-    -- Скидаємо speedLimit до genuineSpeedLimit (коли не косимо)
+    -- Ð¡ÐºÐ¸Ð´Ð°Ñ”Ð¼Ð¾ speedLimit Ð´Ð¾ genuineSpeedLimit (ÐºÐ¾Ð»Ð¸ Ð½Ðµ ÐºÐ¾ÑÐ¸Ð¼Ð¾)
     self.speedLimit = self.genuineSpeedLimit
     
-    -- Скидаємо накопичення продуктивності
+    -- Ð¡ÐºÐ¸Ð´Ð°Ñ”Ð¼Ð¾ Ð½Ð°ÐºÐ¾Ð¿Ð¸Ñ‡ÐµÐ½Ð½Ñ Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚Ñ–
     self.productivityMass = 0
     self.productivityLiters = 0
     self.productivityTime = 0
     self.tonPerHour = 0
     self.litersPerHour = 0
     
-    -- Скидаємо буфери врожайності та шуму
+    -- Ð¡ÐºÐ¸Ð´Ð°Ñ”Ð¼Ð¾ Ð±ÑƒÑ„ÐµÑ€Ð¸ Ð²Ñ€Ð¾Ð¶Ð°Ð¹Ð½Ð¾ÑÑ‚Ñ– Ñ‚Ð° ÑˆÑƒÐ¼Ñƒ
     self.yieldBuffer = {}
     self.currentYield = 0
     self.instantYield = 0
@@ -679,10 +679,10 @@ function LoadCalculator:reset()
     end
 end
 
----Розраховує втрати врожаю при перевантаженні
----@return number Втрати в відсотках (0-50)
+---Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ” Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ Ð¿Ñ€Ð¸ Ð¿ÐµÑ€ÐµÐ²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ–
+---@return number Ð’Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð² Ð²Ñ–Ð´ÑÐ¾Ñ‚ÐºÐ°Ñ… (0-50)
 function LoadCalculator:calculateCropLoss()
-    -- Перевіряємо чи увімкнені втрати
+    -- ÐŸÐµÑ€ÐµÐ²Ñ–Ñ€ÑÑ”Ð¼Ð¾ Ñ‡Ð¸ ÑƒÐ²Ñ–Ð¼ÐºÐ½ÐµÐ½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸
     if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
         return 0
     end
@@ -691,25 +691,25 @@ function LoadCalculator:calculateCropLoss()
         return 0
     end
     
-    -- НОВИЙ ПОРІГ: Втрати починаються з 95% навантаження
+    -- ÐÐžÐ’Ð˜Ð™ ÐŸÐžÐ Ð†Ð“: Ð’Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð¿Ð¾Ñ‡Ð¸Ð½Ð°ÑŽÑ‚ÑŒÑÑ Ð· 95% Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ
     if self.engineLoad > 0.95 then
-        -- Розраховуємо overload відносно 95%
-        local overload = self.engineLoad - 0.95  -- 0.0 при 95%, 0.05 при 100%, 0.25 при 120% і т.д.
+        -- Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ”Ð¼Ð¾ overload Ð²Ñ–Ð´Ð½Ð¾ÑÐ½Ð¾ 95%
+        local overload = self.engineLoad - 0.95  -- 0.0 Ð¿Ñ€Ð¸ 95%, 0.05 Ð¿Ñ€Ð¸ 100%, 0.25 Ð¿Ñ€Ð¸ 120% Ñ– Ñ‚.Ð´.
         
-        -- Отримуємо множник втрат залежно від складності
+        -- ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ”Ð¼Ð¾ Ð¼Ð½Ð¾Ð¶Ð½Ð¸Ðº Ð²Ñ‚Ñ€Ð°Ñ‚ Ð·Ð°Ð»ÐµÐ¶Ð½Ð¾ Ð²Ñ–Ð´ ÑÐºÐ»Ð°Ð´Ð½Ð¾ÑÑ‚Ñ–
         local lossMultiplier = g_realisticHarvestManager.settings:getLossMultiplier()
         
-        -- Прогресивна формула втрат:
-        -- 95-100% load: Мінімальні втрати (0-2%)
-        -- 100-120% load: Помірні втрати (2-15%)
-        -- 120%+ load: Серйозні втрати (15-50%)
+        -- ÐŸÑ€Ð¾Ð³Ñ€ÐµÑÐ¸Ð²Ð½Ð° Ñ„Ð¾Ñ€Ð¼ÑƒÐ»Ð° Ð²Ñ‚Ñ€Ð°Ñ‚:
+        -- 95-100% load: ÐœÑ–Ð½Ñ–Ð¼Ð°Ð»ÑŒÐ½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ (0-2%)
+        -- 100-120% load: ÐŸÐ¾Ð¼Ñ–Ñ€Ð½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ (2-15%)
+        -- 120%+ load: Ð¡ÐµÑ€Ð¹Ð¾Ð·Ð½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ (15-50%)
         -- 
-        -- Формула: ((overload / 0.05)^1.5) * lossMultiplier * базовий_відсоток
-        -- де 0.05 = діапазон від 95% до 100%
-        local normalizedOverload = overload / 0.05  -- 0.0 при 95%, 1.0 при 100%, 5.0 при 120%
-        local loss = (normalizedOverload^1.5) * lossMultiplier * 2.5  -- 2.5 = базовий % при 100% load
+        -- Ð¤Ð¾Ñ€Ð¼ÑƒÐ»Ð°: ((overload / 0.05)^1.5) * lossMultiplier * Ð±Ð°Ð·Ð¾Ð²Ð¸Ð¹_Ð²Ñ–Ð´ÑÐ¾Ñ‚Ð¾Ðº
+        -- Ð´Ðµ 0.05 = Ð´Ñ–Ð°Ð¿Ð°Ð·Ð¾Ð½ Ð²Ñ–Ð´ 95% Ð´Ð¾ 100%
+        local normalizedOverload = overload / 0.05  -- 0.0 Ð¿Ñ€Ð¸ 95%, 1.0 Ð¿Ñ€Ð¸ 100%, 5.0 Ð¿Ñ€Ð¸ 120%
+        local loss = (normalizedOverload^1.5) * lossMultiplier * 2.5  -- 2.5 = Ð±Ð°Ð·Ð¾Ð²Ð¸Ð¹ % Ð¿Ñ€Ð¸ 100% load
         
-        self.cropLoss = math.min(loss, 50) -- Максимум 50% втрат
+        self.cropLoss = math.min(loss, 50) -- ÐœÐ°ÐºÑÐ¸Ð¼ÑƒÐ¼ 50% Ð²Ñ‚Ñ€Ð°Ñ‚
     else
         self.cropLoss = 0
     end
@@ -717,87 +717,87 @@ function LoadCalculator:calculateCropLoss()
     return self.cropLoss
 end
 
----Розраховує втрати від неправильних налаштувань комбайна
----@return number settingsLoss Втрати від налаштувань (0-50%)
+---Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ” Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð²Ñ–Ð´ Ð½ÐµÐ¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ð¸Ñ… Ð½Ð°Ð»Ð°ÑˆÑ‚ÑƒÐ²Ð°Ð½ÑŒ ÐºÐ¾Ð¼Ð±Ð°Ð¹Ð½Ð°
+---@return number settingsLoss Ð’Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð²Ñ–Ð´ Ð½Ð°Ð»Ð°ÑˆÑ‚ÑƒÐ²Ð°Ð½ÑŒ (0-50%)
 function LoadCalculator:calculateSettingsLoss()
-    -- Якщо немає memory або культури - втрат немає
+    -- Ð¯ÐºÑ‰Ð¾ Ð½ÐµÐ¼Ð°Ñ” memory Ð°Ð±Ð¾ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð¸ - Ð²Ñ‚Ñ€Ð°Ñ‚ Ð½ÐµÐ¼Ð°Ñ”
     if not self.combineMemory or not self.currentCrop then
         return 0
     end
     
-    -- Однакова математика для AUTO і MANUAL:
-    -- AUTO отримує невеликий відхил від оптимуму (1-10 одиниць) при налаштуванні,
-    -- тому матиме малі, але реальні втрати — "автомат не ідеальний"
-    -- MANUAL дає гравцю можливість зробити і краще (якщо точно потрапить в оптимум)
-    -- і гірше (якщо виставить неправильні значення)
+    -- ÐžÐ´Ð½Ð°ÐºÐ¾Ð²Ð° Ð¼Ð°Ñ‚ÐµÐ¼Ð°Ñ‚Ð¸ÐºÐ° Ð´Ð»Ñ AUTO Ñ– MANUAL:
+    -- AUTO Ð¾Ñ‚Ñ€Ð¸Ð¼ÑƒÑ” Ð½ÐµÐ²ÐµÐ»Ð¸ÐºÐ¸Ð¹ Ð²Ñ–Ð´Ñ…Ð¸Ð» Ð²Ñ–Ð´ Ð¾Ð¿Ñ‚Ð¸Ð¼ÑƒÐ¼Ñƒ (1-10 Ð¾Ð´Ð¸Ð½Ð¸Ñ†ÑŒ) Ð¿Ñ€Ð¸ Ð½Ð°Ð»Ð°ÑˆÑ‚ÑƒÐ²Ð°Ð½Ð½Ñ–,
+    -- Ñ‚Ð¾Ð¼Ñƒ Ð¼Ð°Ñ‚Ð¸Ð¼Ðµ Ð¼Ð°Ð»Ñ–, Ð°Ð»Ðµ Ñ€ÐµÐ°Ð»ÑŒÐ½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ â€” "Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚ Ð½Ðµ Ñ–Ð´ÐµÐ°Ð»ÑŒÐ½Ð¸Ð¹"
+    -- MANUAL Ð´Ð°Ñ” Ð³Ñ€Ð°Ð²Ñ†ÑŽ Ð¼Ð¾Ð¶Ð»Ð¸Ð²Ñ–ÑÑ‚ÑŒ Ð·Ñ€Ð¾Ð±Ð¸Ñ‚Ð¸ Ñ– ÐºÑ€Ð°Ñ‰Ðµ (ÑÐºÑ‰Ð¾ Ñ‚Ð¾Ñ‡Ð½Ð¾ Ð¿Ð¾Ñ‚Ñ€Ð°Ð¿Ð¸Ñ‚ÑŒ Ð² Ð¾Ð¿Ñ‚Ð¸Ð¼ÑƒÐ¼)
+    -- Ñ– Ð³Ñ–Ñ€ÑˆÐµ (ÑÐºÑ‰Ð¾ Ð²Ð¸ÑÑ‚Ð°Ð²Ð¸Ñ‚ÑŒ Ð½ÐµÐ¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ñ– Ð·Ð½Ð°Ñ‡ÐµÐ½Ð½Ñ)
     
-    -- Отримуємо результат перевірки налаштувань (включаючи бонус)
+    -- ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ”Ð¼Ð¾ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚ Ð¿ÐµÑ€ÐµÐ²Ñ–Ñ€ÐºÐ¸ Ð½Ð°Ð»Ð°ÑˆÑ‚ÑƒÐ²Ð°Ð½ÑŒ (Ð²ÐºÐ»ÑŽÑ‡Ð°ÑŽÑ‡Ð¸ Ð±Ð¾Ð½ÑƒÑ)
     local netPenalty, _ = self.combineMemory:checkSettingsForCrop(self.currentCrop)
     
-    -- netPenalty може бути від'ємним (бонус) або додатнім (штраф)
-    -- Обмежуємо діапазон: Максимальний бонус -5%, Максимальний штраф 30%
+    -- netPenalty Ð¼Ð¾Ð¶Ðµ Ð±ÑƒÑ‚Ð¸ Ð²Ñ–Ð´'Ñ”Ð¼Ð½Ð¸Ð¼ (Ð±Ð¾Ð½ÑƒÑ) Ð°Ð±Ð¾ Ð´Ð¾Ð´Ð°Ñ‚Ð½Ñ–Ð¼ (ÑˆÑ‚Ñ€Ð°Ñ„)
+    -- ÐžÐ±Ð¼ÐµÐ¶ÑƒÑ”Ð¼Ð¾ Ð´Ñ–Ð°Ð¿Ð°Ð·Ð¾Ð½: ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¸Ð¹ Ð±Ð¾Ð½ÑƒÑ -5%, ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¸Ð¹ ÑˆÑ‚Ñ€Ð°Ñ„ 30%
     local settingsFactor = math.max(-5, math.min(netPenalty, 30))
     
     return settingsFactor
 end
 
----Розраховує загальні втрати врожаю (базові + налаштування)
----@return number totalLoss Загальні втрати (0-50%)
+---Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ” Ð·Ð°Ð³Ð°Ð»ÑŒÐ½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ (Ð±Ð°Ð·Ð¾Ð²Ñ– + Ð½Ð°Ð»Ð°ÑˆÑ‚ÑƒÐ²Ð°Ð½Ð½Ñ)
+---@return number totalLoss Ð—Ð°Ð³Ð°Ð»ÑŒÐ½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ (0-50%)
 function LoadCalculator:calculateTotalCropLoss()
-    -- Базові втрати від перевантаження
+    -- Ð‘Ð°Ð·Ð¾Ð²Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð²Ñ–Ð´ Ð¿ÐµÑ€ÐµÐ²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ
     local baseLoss = self:calculateCropLoss()
     
-    -- Втрати від налаштувань
+    -- Ð’Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð²Ñ–Ð´ Ð½Ð°Ð»Ð°ÑˆÑ‚ÑƒÐ²Ð°Ð½ÑŒ
     local settingsLoss = self:calculateSettingsLoss()
     
-    -- TODO: В майбутньому додати:
+    -- TODO: Ð’ Ð¼Ð°Ð¹Ð±ÑƒÑ‚Ð½ÑŒÐ¾Ð¼Ñƒ Ð´Ð¾Ð´Ð°Ñ‚Ð¸:
     -- local moistureLoss = self:calculateMoistureLoss()
     -- local speedLoss = self:calculateSpeedLoss()
     
-    -- Загальні втрати (сумуються)
+    -- Ð—Ð°Ð³Ð°Ð»ÑŒÐ½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ (ÑÑƒÐ¼ÑƒÑŽÑ‚ÑŒÑÑ)
     local totalLoss = baseLoss + settingsLoss
     
-    -- Обмежуємо максимум
+    -- ÐžÐ±Ð¼ÐµÐ¶ÑƒÑ”Ð¼Ð¾ Ð¼Ð°ÐºÑÐ¸Ð¼ÑƒÐ¼
     totalLoss = math.min(totalLoss, 50)
     
-    -- Зберігаємо для відображення в HUD
+    -- Ð—Ð±ÐµÑ€Ñ–Ð³Ð°Ñ”Ð¼Ð¾ Ð´Ð»Ñ Ð²Ñ–Ð´Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð½Ñ Ð² HUD
     self.cropLoss = totalLoss
     
     return totalLoss
 end
 
----Отримує поточні втрати врожаю
----@return number Втрати в відсотках (0-50)
+---ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ” Ð¿Ð¾Ñ‚Ð¾Ñ‡Ð½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ
+---@return number Ð’Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð² Ð²Ñ–Ð´ÑÐ¾Ñ‚ÐºÐ°Ñ… (0-50)
 function LoadCalculator:getCropLoss()
     return self.cropLoss
 end
 
----Отримує продуктивність в тоннах на годину
----@return number Продуктивність в T/h
+---ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ” Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ð² Ñ‚Ð¾Ð½Ð½Ð°Ñ… Ð½Ð° Ð³Ð¾Ð´Ð¸Ð½Ñƒ
+---@return number ÐŸÑ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ð² T/h
 function LoadCalculator:getTonPerHour()
     return self.tonPerHour
 end
 
----Отримує продуктивність в літрах на годину (де факто volume flow)
----@return number Продуктивність в L/h
+---ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ” Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ð² Ð»Ñ–Ñ‚Ñ€Ð°Ñ… Ð½Ð° Ð³Ð¾Ð´Ð¸Ð½Ñƒ (Ð´Ðµ Ñ„Ð°ÐºÑ‚Ð¾ volume flow)
+---@return number ÐŸÑ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ð² L/h
 function LoadCalculator:getLitersPerHour()
     return self.litersPerHour or 0
 end
 
----Оновлює продуктивність на основі зібраної маси та об'єму
----@param mass number Маса зібраного врожаю в кг
----@param liters number Обєм зібраного врожаю в л
----@param dt number Delta time в мс
+---ÐžÐ½Ð¾Ð²Ð»ÑŽÑ” Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ð½Ð° Ð¾ÑÐ½Ð¾Ð²Ñ– Ð·Ñ–Ð±Ñ€Ð°Ð½Ð¾Ñ— Ð¼Ð°ÑÐ¸ Ñ‚Ð° Ð¾Ð±'Ñ”Ð¼Ñƒ
+---@param mass number ÐœÐ°ÑÐ° Ð·Ñ–Ð±Ñ€Ð°Ð½Ð¾Ð³Ð¾ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ Ð² ÐºÐ³
+---@param liters number ÐžÐ±Ñ”Ð¼ Ð·Ñ–Ð±Ñ€Ð°Ð½Ð¾Ð³Ð¾ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ Ð² Ð»
+---@param dt number Delta time Ð² Ð¼Ñ
 function LoadCalculator:updateProductivity(mass, liters, dt)
     self.totalOutputMass = self.totalOutputMass + mass
     
-    -- Накопичуємо масу, об'єм та час
+    -- ÐÐ°ÐºÐ¾Ð¿Ð¸Ñ‡ÑƒÑ”Ð¼Ð¾ Ð¼Ð°ÑÑƒ, Ð¾Ð±'Ñ”Ð¼ Ñ‚Ð° Ñ‡Ð°Ñ
     self.productivityMass = self.productivityMass + mass
     self.productivityLiters = (self.productivityLiters or 0) + liters
     self.productivityTime = self.productivityTime + dt
     
-    -- Оновлюємо T/h та L/h кожні 3 секунди для стабільного значення
-    -- АБО якщо це перший запуск (productivityTime малий але є маса)
+    -- ÐžÐ½Ð¾Ð²Ð»ÑŽÑ”Ð¼Ð¾ T/h Ñ‚Ð° L/h ÐºÐ¾Ð¶Ð½Ñ– 3 ÑÐµÐºÑƒÐ½Ð´Ð¸ Ð´Ð»Ñ ÑÑ‚Ð°Ð±Ñ–Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð½Ñ
+    -- ÐÐ‘Ðž ÑÐºÑ‰Ð¾ Ñ†Ðµ Ð¿ÐµÑ€ÑˆÐ¸Ð¹ Ð·Ð°Ð¿ÑƒÑÐº (productivityTime Ð¼Ð°Ð»Ð¸Ð¹ Ð°Ð»Ðµ Ñ” Ð¼Ð°ÑÐ°)
     if self.productivityTime >= self.productivityUpdateInterval then
         if self.productivityTime > 0 then
             -- T/h = (Mass_kg / 1000) / (Time_ms / 3600000)
@@ -812,55 +812,58 @@ function LoadCalculator:updateProductivity(mass, liters, dt)
         self.productivityTime = self.productivityTime * 0.2
         
     elseif self.tonPerHour == 0 and self.productivityTime > 1000 and self.productivityMass > 0 then
-        -- Швидкий старт
+        -- Ð¨Ð²Ð¸Ð´ÐºÐ¸Ð¹ ÑÑ‚Ð°Ñ€Ñ‚
         local hours = self.productivityTime / 3600000
         self.tonPerHour = (self.productivityMass / 1000) / hours
         self.litersPerHour = (self.productivityLiters or 0) / hours
     end
 end
 
----Оновлює продуктивність і ВРОЖАЙНІСТЬ
----@param mass number Маса (кг)
----@param liters number Об'єм (л)
----@param area number Площа (м2)
----@param dt number Час (мс)
+---ÐžÐ½Ð¾Ð²Ð»ÑŽÑ” Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ñ– Ð’Ð ÐžÐ–ÐÐ™ÐÐ†Ð¡Ð¢Ð¬
+---@param mass number ÐœÐ°ÑÐ° (ÐºÐ³)
+---@param liters number ÐžÐ±'Ñ”Ð¼ (Ð»)
+---@param area number ÐŸÐ»Ð¾Ñ‰Ð° (Ð¼2)
+---@param dt number Ð§Ð°Ñ (Ð¼Ñ)
 function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
     self:updateProductivity(mass, liters, dt) -- Call original logic
     
-    if area <= 0.001 then
+    if area <= 0.0001 and mass <= 0.001 then
         self.instantYield = 0
         return
     end
     
-    -- 1. Calculate raw yield (Metric: t/ha)
-    -- (kg / m2) * 10 = t/ha
-    local rawYield = (mass / area) * 10
-    
-    -- 2. Apply smoothing (Simple moving average)
-    -- BUFFER: 20 ticks seems good (~10 frames if called every update, or less if updateProductivity is called less often)
+    -- 1. Combine Asynchronous Data (Metric: t/ha)
+    -- In FS25, addCutterArea and addFillUnitFillLevel are asynchronous.
+    -- To prevent unweighted average errors (calculating mass/area per frame and averaging),
+    -- we must store RAW mass and area, and calculate Sum(Mass) / Sum(Area).
     
     self.yieldBuffer = self.yieldBuffer or {}
-    table.insert(self.yieldBuffer, rawYield)
-    if #self.yieldBuffer > 30 then table.remove(self.yieldBuffer, 1) end
+    table.insert(self.yieldBuffer, {m = mass, a = area})
+    if #self.yieldBuffer > 120 then table.remove(self.yieldBuffer, 1) end
     
-    local sum = 0
-    for _, v in ipairs(self.yieldBuffer) do sum = sum + v end
-    local smoothedYield = sum / #self.yieldBuffer
+    local sumMass = 0
+    local sumArea = 0
+    for _, v in ipairs(self.yieldBuffer) do 
+        sumMass = sumMass + v.m
+        sumArea = sumArea + v.a 
+    end
+    
+    local smoothedYield = 0
+    if sumArea > 0.1 then
+        -- (kg / m2) * 10 = t/ha
+        smoothedYield = (sumMass / sumArea) * 10
+    
+    end
     
     -- 3. REMOVED Noise (+/- 5%) - User requested actual values
     -- Noise factor removed for stability
     
-    -- Apply User Calibration
-    local calibration = 1.0
-    if self.combineMemory and self.combineMemory.currentYieldCalibration then
-        calibration = self.combineMemory.currentYieldCalibration
-    end
-    
-    self.currentYield = smoothedYield * calibration
+    -- No Calibration - Pure Real-time Yield
+    self.currentYield = smoothedYield
 end
 
----Встановити реальну врожайність з rhm_Combine (User Request)
----@param yieldTha number Врожайність в т/га
+---Ð’ÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚Ð¸ Ñ€ÐµÐ°Ð»ÑŒÐ½Ñƒ Ð²Ñ€Ð¾Ð¶Ð°Ð¹Ð½Ñ–ÑÑ‚ÑŒ Ð· rhm_Combine (User Request)
+---@param yieldTha number Ð’Ñ€Ð¾Ð¶Ð°Ð¹Ð½Ñ–ÑÑ‚ÑŒ Ð² Ñ‚/Ð³Ð°
 function LoadCalculator:setRealTimeYield(yieldTha)
     -- Apply smoothing (Simple moving average)
     self.yieldBuffer = self.yieldBuffer or {}
@@ -875,7 +878,7 @@ function LoadCalculator:setRealTimeYield(yieldTha)
     self.currentYield = smoothedYield
 end
 
----Отримує форматований рядок врожайності
+---ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ” Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ð¾Ð²Ð°Ð½Ð¸Ð¹ Ñ€ÑÐ´Ð¾Ðº Ð²Ñ€Ð¾Ð¶Ð°Ð¹Ð½Ð¾ÑÑ‚Ñ–
 ---@param unitSystem number (1=Metric, 2=Imperial, 3=Bushels)
 ---@return string, string (Value, Unit)
 function LoadCalculator:getYieldText(unitSystem)

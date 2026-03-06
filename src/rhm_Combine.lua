@@ -1,4 +1,4 @@
----@class rhm_Combine
+﻿---@class rhm_Combine
 rhm_Combine = {}
 rhm_Combine.debug = false
 
@@ -32,6 +32,7 @@ end
 function rhm_Combine.registerOverwrittenFunctions(vehicleType)
     print("RHM: Registering overwritten functions for rhm_Combine")
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "addCutterArea", rhm_Combine.addCutterArea)
+    SpecializationUtil.registerOverwrittenFunction(vehicleType, "addFillUnitFillLevel", rhm_Combine.addFillUnitFillLevel)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "getSpeedLimit", rhm_Combine.getSpeedLimit)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "startThreshing", rhm_Combine.startThreshing)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "stopThreshing", rhm_Combine.stopThreshing)
@@ -279,6 +280,8 @@ function rhm_Combine:onLoad(savegame)
         load = 0,
         cropLoss = 0,
         tonPerHour = 0,
+        litersPerHour = 0,
+        yield = 0,
         recommendedSpeed = 0,  -- Буде оновлено в onUpdateTick на сервері та синхронізовано до клієнтів
         overloadLevel = 0      -- 0=норма, 1=HIGH(120%+), 2=CRITICAL(150%+) — синхронізується для показу warning
     }
@@ -303,34 +306,67 @@ function rhm_Combine:onLoad(savegame)
     spec.testMessageShown = false
 end
 
+-- Перехоплюємо додавання врожаю до бункера (для ТОЧНОГО підрахунку Precision Farming)
+function rhm_Combine:addFillUnitFillLevel(superFunc, ...)
+    local r1, r2, r3, r4, r5, r6 = superFunc(self, ...)
+    local actualAdded = r1 -- Base game returns actual delta as first arg
+    
+    local spec = self.spec_rhm_Combine
+    if spec and actualAdded and type(actualAdded) == "number" and actualAdded > 0 then
+        -- Рахуємо тільки якщо ми активно косимо (lastRawArea > 0)
+        if spec.lastRawArea and spec.lastRawArea > 0 then
+            spec.lastLiters = (spec.lastLiters or 0) + actualAdded
+            
+            local farmId, fillUnitIndex, fillLevelDelta, fillTypeIndex, toolType, fillPositionData = ...
+            if fillTypeIndex and fillTypeIndex ~= FillType.UNKNOWN then
+                 spec.lastFillType = fillTypeIndex
+            end
+        end
+    end
+    
+    return r1, r2, r3, r4, r5, r6
+end
+
 -- Перехоплюємо addCutterArea для отримання площі
 -- Hook для addCutterArea щоб перехопити кількість зібраного
--- Argument 2 is actually 'realArea' (actual cut area), not liters!
-function rhm_Combine:addCutterArea(superFunc, area, realArea, inputFruitType, outputFillType, strawRatio, strawGroundType, farmId, cutterLoad)
+-- Argument 2 in varargs is actually 'realArea' (actual cut area), not liters!
+function rhm_Combine:addCutterArea(superFunc, ...)
+    local area, realArea, inputFruitType, outputFillType, strawRatio, strawGroundType, farmId, cutterLoad = ...
+    
     -- Викликаємо оригінальну функцію СПЕРШУ, щоб отримати реальні дані
-    local retLiters, retStrawLiters = superFunc(self, area, realArea, inputFruitType, outputFillType, strawRatio, strawGroundType, farmId, cutterLoad)
+    local r1, r2, r3, r4, r5, r6, r7, r8, r9, r10 = superFunc(self, ...)
+    local retLiters = r1
     
     local spec = self.spec_rhm_Combine
     if not spec or not spec.loadCalculator then
-        return retLiters, retStrawLiters
+        return r1, r2, r3, r4, r5, r6, r7, r8, r9, r10
     end
     
     -- Отримуємо lastMultiplier (для сумісності зі старою логікою)
     local multiplier = 1.0
     
-    -- Зберігаємо РЕАЛЬНУ площу (realArea) якщо вона доступна, інакше area
-    local areaForYield = realArea or area
+    -- Зберігаємо РЕАЛЬНУ геометричну площу
+    -- Надійна формула для FS25: 'area' це завжди кількість пікселів карти.
+    -- Щоб отримати справжні квадратні метри (незалежно від масштабу карти чи бонусів PF),
+    -- ми множимо пікселі на глобальний коефіцієнт розміру пікселя.
+    local sqmMultiplier = 1.0
+    if g_currentMission and type(g_currentMission.getFruitPixelsToSqm) == "function" then
+        sqmMultiplier = g_currentMission:getFruitPixelsToSqm()
+    end
+    
+    local areaForYield = area * sqmMultiplier
     
     -- Зберігаємо площу для LoadCalculator (стара логіка)
-    spec.lastArea = (spec.lastArea or 0) + (area * multiplier)
+    spec.lastArea = (spec.lastArea or 0) + (areaForYield * multiplier)
     
     -- Зберігаємо площу для Yield Monitor
     spec.lastRawArea = (spec.lastRawArea or 0) + areaForYield
     spec.lastMultiplier = multiplier
     
-    -- Зберігаємо ЛІТРИ (результат жнив)
-    if retLiters and retLiters > 0 then
-        spec.lastLiters = (spec.lastLiters or 0) + retLiters
+    -- Зберігаємо "fallback" літри на випадок, якщо це кормозбиральний комбайн без бункера.
+    -- Якщо бункер є, rhm_Combine:addFillUnitFillLevel перехопить точні літри
+    if (retLiters or 0) > 0 then
+        spec._fallbackLiters = (spec._fallbackLiters or 0) + retLiters
     end
     
     -- Зберігаємо тип культури та обробляємо зміну
@@ -397,7 +433,7 @@ function rhm_Combine:addCutterArea(superFunc, area, realArea, inputFruitType, ou
     --        retLiters, areaForYield, yieldL_Ha))
     -- end
     
-    return retLiters, retStrawLiters
+    return r1, r2, r3, r4, r5, r6, r7, r8, r9, r10
 end
 
 ---Викликається при зміні типу культури
@@ -786,6 +822,30 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- Використовуємо lastRawArea (реальна площа) для врожайності
     local areaForYield = spec.lastRawArea or spec.lastArea or 0 
     
+    -- Оновлюємо LoadCalculator
+    -- Спершу розраховуємо масу, бо тепер вона головна!
+    local massKg = 0
+    local liters = spec.lastLiters or 0
+    
+    -- Fallback для кормозбиральних комбайнів, у яких addFillUnitFillLevel не викликався
+    if liters <= 0 and (spec._fallbackLiters or 0) > 0 then
+        liters = spec._fallbackLiters
+    end
+    
+    if liters > 0 then
+        if spec.lastFillType and g_fillTypeManager then
+            local fillType = g_fillTypeManager:getFillTypeByIndex(spec.lastFillType)
+            if fillType and fillType.massPerLiter then
+                -- ВАЖЛИВО: massPerLiter в грі зберігається в ТОННАХ на літр, тому множимо на 1000
+                massKg = liters * fillType.massPerLiter * 1000
+            else
+                massKg = liters * 0.75 -- Fallback
+            end
+        else
+            massKg = liters * 0.75 -- Fallback
+        end
+    end
+    
     -- Передаємо МАСУ в LoadCalculator!
     spec.loadCalculator:update(self, dt, massKg)
     
@@ -836,6 +896,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     spec.lastArea = 0
     spec.lastRawArea = 0 -- Reset new counter
     spec.lastLiters = 0
+    spec._fallbackLiters = 0
     
     -- Оновлюємо дані для HUD
     if spec.data then

@@ -36,6 +36,9 @@ Changelog 1.4.2.0:
 - ADDED: Spanish localization for all mod features and menus.
 - NEW: Added setting to disable "High Load" HUD warnings.
 - IMPROVED: Internal logic cleanup for warning system.
+- FIXED: Complete overhaul of Yield Calculation math to perfectly synchronize with Precision Farming HUD and custom map scales.
+- FIXED: Forage harvesters (Silage) showing 10x lower yield due to engine volume bugs.
+- FIXED: Mathematical desyncs when grain enters the bunker asynchronously from the header cut.
 
 Changelog 1.4.1.0:
 - FIXED: Game crash ("attempt to call missing method 'getIsControlled'") when using equipment from DLC packs (e.g. Highland DLC NH 8040 with Holaras tools). Added safe nil check for the method.
@@ -114,6 +117,13 @@ Funktionen:
 - Unterstützung für Baumwollernter, Hackfruchternter und teilweise Feldhäcksler
 - Experimentelle NEXAT-Unterstützung
 
+Changelog 1.4.2.0:
+- HINZUGEFÜGT: Spanische Lokalisierung für alle Mod-Funktionen und Menüs.
+- NEU: Einstellung zum Deaktivieren der "High Load" HUD-Warnungen hinzugefügt.
+- BEHOBEN: Komplette Überarbeitung der Ertragsberechnungsmathematik zur perfekten Synchronisation mit dem Precision Farming HUD und individuellen Kartenmaßstäben.
+- BEHOBEN: Feldhäcksler (Silage) zeigten aufgrund von Engine-Volumen-Bugs einen 10x niedrigeren Ertrag an.
+- BEHOBEN: Mathematische Desynchronisationen beim asynchronen Befüllen des Bunkers.
+
 Changelog 1.4.1.0:
 - BEHOBEN: Spielabsturz ("attempt to call missing method 'getIsControlled'") bei Nutzung von Ausrüstung aus DLC-Packs hinzugefügt.
 - BEHOBEN: Zweiter Mähdrescher in Courseplay steckte bei 10 km/h fest.
@@ -190,6 +200,13 @@ Fonctionnalités:
 - Support multijoueur complet avec paramètres côté serveur
 - Support pour moissonneuses à coton, récolteuses de racines et support partiel pour ensileuses
 - Support expérimental NEXAT
+
+Changelog 1.4.2.0:
+- ADDED: Spanish localization for all mod features and menus.
+- NEW: Added setting to disable "High Load" HUD warnings.
+- FIXED: Complete overhaul of Yield Calculation math to perfectly synchronize with Precision Farming HUD and custom map scales.
+- FIXED: Forage harvesters (Silage) showing 10x lower yield due to engine volume bugs.
+- FIXED: Mathematical desyncs when grain enters the bunker asynchronously from the header cut.
 
 Changelog 1.4.1.0:
 - CORRIGÉ: Crash du jeu ("attempt to call missing method 'getIsControlled'") lors de l'utilisation d'équipements DLC (ex: Highland DLC NH 8040 avec les outils Holaras). Vérification nil sécurisée ajoutée.
@@ -271,6 +288,13 @@ Funkcje:
 - Wsparcie dla kombajnów bawełnianych, kombajnów korzeniowych i częściowe wsparcie dla sieczkarni
 - Eksperymentalne wsparcie dla NEXAT
 
+Changelog 1.4.2.0:
+- ADDED: Spanish localization for all mod features and menus.
+- NEW: Added setting to disable "High Load" HUD warnings.
+- FIXED: Complete overhaul of Yield Calculation math to perfectly synchronize with Precision Farming HUD and custom map scales.
+- FIXED: Forage harvesters (Silage) showing 10x lower yield due to engine volume bugs.
+- FIXED: Mathematical desyncs when grain enters the bunker asynchronously from the header cut.
+
 Changelog 1.4.1.0:
 - NAPRAWIONO: Crash gry ("attempt to call missing method 'getIsControlled'") podczas używania pojazdów z DLC (np. Highland DLC NH 8040 z narzędziami Holaras). Dodano bezpieczne sprawdzenie nil.
 
@@ -350,6 +374,13 @@ Características:
 - Soporte multijugador completo con configuración del servidor
 - Soporte para cosechadoras de algodón, cosechadoras de raíces y soporte parcial para picadoras
 - Soporte experimental para NEXAT
+
+Changelog 1.4.2.0:
+- ADDED: Spanish localization for all mod features and menus.
+- NEW: Added setting to disable "High Load" HUD warnings.
+- FIXED: Complete overhaul of Yield Calculation math to perfectly synchronize with Precision Farming HUD and custom map scales.
+- FIXED: Forage harvesters (Silage) showing 10x lower yield due to engine volume bugs.
+- FIXED: Mathematical desyncs when grain enters the bunker asynchronously from the header cut.
 
 Changelog 1.4.1.0:
 - CORREGIDO: Crash del juego ("attempt to call missing method 'getIsControlled'") al usar equipos de DLC (p.ej. Highland DLC NH 8040 con herramientas Holaras). Añadida verificación nil segura.
@@ -431,6 +462,13 @@ Caratteristiche:
 - Supporto per raccoglitrici cotone, raccoglitrici radici e supporto parziale per trincia
 - Supporto sperimentale NEXAT
 
+Changelog 1.4.2.0:
+- ADDED: Spanish localization for all mod features and menus.
+- NEW: Added setting to disable "High Load" HUD warnings.
+- FIXED: Complete overhaul of Yield Calculation math to perfectly synchronize with Precision Farming HUD and custom map scales.
+- FIXED: Forage harvesters (Silage) showing 10x lower yield due to engine volume bugs.
+- FIXED: Mathematical desyncs when grain enters the bunker asynchronously from the header cut.
+
 Changelog 1.4.1.0:
 - RISOLTO: Crash del gioco ("attempt to call missing method 'getIsControlled'") quando si usano veicoli DLC (es. Highland DLC NH 8040 con attrezzi Holaras). Aggiunto controllo nil sicuro.
 
@@ -511,6 +549,13 @@ Funkce:
 - Podpora pro sklízecí stroje na bavlnu, sklízecí stroje na kořenovou zeleninu a částečná podpora pro sklízecí řezačky
 - Experimentální podpora NEXAT
 
+Changelog 1.4.2.0:
+- ADDED: Spanish localization for all mod features and menus.
+- NEW: Added setting to disable "High Load" HUD warnings.
+- FIXED: Complete overhaul of Yield Calculation math to perfectly synchronize with Precision Farming HUD and custom map scales.
+- FIXED: Forage harvesters (Silage) showing 10x lower yield due to engine volume bugs.
+- FIXED: Mathematical desyncs when grain enters the bunker asynchronously from the header cut.
+
 Changelog 1.4.1.0:
 - OPRAVENO: Pád hry ("attempt to call missing method 'getIsControlled'") při použití DLC vybavení (např. Highland DLC NH 8040 s nástroji Holaras). Přidána bezpečná kontrola nil.
 
@@ -590,6 +635,15 @@ Recursos:
 - Suporte completo para multijogador com configurações do servidor
 - Suporte para colheitadeiras de algodão, colheitadeiras de raízes e suporte parcial para forrageiras
 - Suporte experimental para NEXAT
+
+Changelog 1.4.3.0:
+- FIXED: Complete overhaul of Yield Calculation math to perfectly synchronize with Precision Farming HUD and custom map scales.
+- FIXED: Forage harvesters (Silage) showing 10x lower yield due to engine volume bugs.
+- FIXED: Mathematical desyncs when grain enters the bunker asynchronously from the header cut.
+
+Changelog 1.4.2.0:
+- ADDED: Spanish localization for all mod features and menus.
+- NEW: Added setting to disable "High Load" HUD warnings.
 
 Changelog 1.4.1.0:
 - CORRIGIDO: Crash do jogo ("attempt to call missing method 'getIsControlled'") ao usar equipamentos DLC (ex: Highland DLC NH 8040 com ferramentas Holaras). Adicionada verificação nil segura.
