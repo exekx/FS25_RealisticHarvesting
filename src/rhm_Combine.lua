@@ -805,28 +805,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     local massKg = 0
     local liters = spec.lastLiters or 0
     
-    if liters > 0 then
-        if spec.lastFillType and g_fillTypeManager then
-            local fillType = g_fillTypeManager:getFillTypeByIndex(spec.lastFillType)
-            if fillType and fillType.massPerLiter then
-                -- ВАЖЛИВО: massPerLiter в грі зберігається в ТОННАХ на літр, тому множимо на 1000
-                massKg = liters * fillType.massPerLiter * 1000
-            else
-                massKg = liters * 0.75 -- Fallback
-            end
-        else
-            massKg = liters * 0.75 -- Fallback
-        end
-    end
-    
-    -- Використовуємо lastRawArea (реальна площа) для врожайності
-    local areaForYield = spec.lastRawArea or spec.lastArea or 0 
-    
-    -- Оновлюємо LoadCalculator
-    -- Спершу розраховуємо масу, бо тепер вона головна!
-    local massKg = 0
-    local liters = spec.lastLiters or 0
-    
     -- Fallback для кормозбиральних комбайнів, у яких addFillUnitFillLevel не викликався
     if liters <= 0 and (spec._fallbackLiters or 0) > 0 then
         liters = spec._fallbackLiters
@@ -846,14 +824,16 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
     end
     
+    -- Використовуємо lastRawArea (реальна площа) для врожайності
+    local areaForYield = spec.lastRawArea or spec.lastArea or 0 
+    
     -- Передаємо МАСУ в LoadCalculator!
     spec.loadCalculator:update(self, dt, massKg)
     
     -- Оновлюємо продуктивність і врожайність
-    if liters > 0 then
-        -- Використовуємо нову функцію з area
-        spec.loadCalculator:updateProductivityAndYield(massKg, liters, areaForYield, dt) 
-    end
+    -- МИ ТЕПЕР ВИКЛИКАЄМО ЦЕ ЗАВЖДИ, щоб буфер ковзав вперед і показник t/h 
+    -- плавно падав до 0, коли ми перестаємо косити.
+    spec.loadCalculator:updateProductivityAndYield(massKg, liters, areaForYield, dt) 
     
     -- ========================================================================
     -- PHYSICAL CROP LOSS - Видаляємо втрачене зерно з бункера

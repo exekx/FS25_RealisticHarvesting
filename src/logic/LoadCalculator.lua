@@ -788,34 +788,36 @@ end
 ---@param mass number ÐœÐ°ÑÐ° Ð·Ñ–Ð±Ñ€Ð°Ð½Ð¾Ð³Ð¾ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ Ð² ÐºÐ³
 ---@param liters number ÐžÐ±Ñ”Ð¼ Ð·Ñ–Ð±Ñ€Ð°Ð½Ð¾Ð³Ð¾ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ Ð² Ð»
 ---@param dt number Delta time Ð² Ð¼Ñ
+---@param dt number Delta time in ms
 function LoadCalculator:updateProductivity(mass, liters, dt)
     self.totalOutputMass = self.totalOutputMass + mass
     
-    -- ÐÐ°ÐºÐ¾Ð¿Ð¸Ñ‡ÑƒÑ”Ð¼Ð¾ Ð¼Ð°ÑÑƒ, Ð¾Ð±'Ñ”Ð¼ Ñ‚Ð° Ñ‡Ð°Ñ
-    self.productivityMass = self.productivityMass + mass
-    self.productivityLiters = (self.productivityLiters or 0) + liters
-    self.productivityTime = self.productivityTime + dt
+    -- High Precision Sliding Window (5 seconds)
+    self.prodBuffer = self.prodBuffer or {}
+    table.insert(self.prodBuffer, {m = mass, l = liters or 0, t = dt})
     
-    -- ÐžÐ½Ð¾Ð²Ð»ÑŽÑ”Ð¼Ð¾ T/h Ñ‚Ð° L/h ÐºÐ¾Ð¶Ð½Ñ– 3 ÑÐµÐºÑƒÐ½Ð´Ð¸ Ð´Ð»Ñ ÑÑ‚Ð°Ð±Ñ–Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð½Ñ
-    -- ÐÐ‘Ðž ÑÐºÑ‰Ð¾ Ñ†Ðµ Ð¿ÐµÑ€ÑˆÐ¸Ð¹ Ð·Ð°Ð¿ÑƒÑÐº (productivityTime Ð¼Ð°Ð»Ð¸Ð¹ Ð°Ð»Ðµ Ñ” Ð¼Ð°ÑÐ°)
-    if self.productivityTime >= self.productivityUpdateInterval then
-        if self.productivityTime > 0 then
-            -- T/h = (Mass_kg / 1000) / (Time_ms / 3600000)
-            local hours = self.productivityTime / 3600000
-            self.tonPerHour = (self.productivityMass / 1000) / hours
-            self.litersPerHour = (self.productivityLiters or 0) / hours
-        end
-        
-        -- Reset counters with SMOOTHING (keep 20% to prevent drops)
-        self.productivityMass = self.productivityMass * 0.2
-        self.productivityLiters = (self.productivityLiters or 0) * 0.2
-        self.productivityTime = self.productivityTime * 0.2
-        
-    elseif self.tonPerHour == 0 and self.productivityTime > 1000 and self.productivityMass > 0 then
-        -- Ð¨Ð²Ð¸Ð´ÐºÐ¸Ð¹ ÑÑ‚Ð°Ñ€Ñ‚
-        local hours = self.productivityTime / 3600000
-        self.tonPerHour = (self.productivityMass / 1000) / hours
-        self.litersPerHour = (self.productivityLiters or 0) / hours
+    self.currentBufferTime = (self.currentBufferTime or 0) + dt
+    while #self.prodBuffer > 1 and self.currentBufferTime > 5000 do
+        local old = table.remove(self.prodBuffer, 1)
+        self.currentBufferTime = self.currentBufferTime - old.t
+    end
+    
+    local sumMass = 0
+    local sumLiters = 0
+    local sumTime = 0
+    for _, v in ipairs(self.prodBuffer) do
+        sumMass = sumMass + v.m
+        sumLiters = sumLiters + v.l
+        sumTime = sumTime + v.t
+    end
+    
+    if sumTime > 100 then
+        local hours = sumTime / 3600000
+        self.tonPerHour = (sumMass / 1000) / hours
+        self.litersPerHour = sumLiters / hours
+    else
+        self.tonPerHour = 0
+        self.litersPerHour = 0
     end
 end
 
