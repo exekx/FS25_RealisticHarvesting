@@ -789,15 +789,16 @@ end
 ---@param liters number ÐžÐ±Ñ”Ð¼ Ð·Ñ–Ð±Ñ€Ð°Ð½Ð¾Ð³Ð¾ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ Ð² Ð»
 ---@param dt number Delta time Ð² Ð¼Ñ
 ---@param dt number Delta time in ms
+---@param dt number Delta time in ms
 function LoadCalculator:updateProductivity(mass, liters, dt)
     self.totalOutputMass = self.totalOutputMass + mass
     
-    -- High Precision Sliding Window (5 seconds)
+    -- High Precision Sliding Window (Extended to 12s for stability)
     self.prodBuffer = self.prodBuffer or {}
     table.insert(self.prodBuffer, {m = mass, l = liters or 0, t = dt})
     
     self.currentBufferTime = (self.currentBufferTime or 0) + dt
-    while #self.prodBuffer > 1 and self.currentBufferTime > 5000 do
+    while #self.prodBuffer > 1 and self.currentBufferTime > 12000 do
         local old = table.remove(self.prodBuffer, 1)
         self.currentBufferTime = self.currentBufferTime - old.t
     end
@@ -813,35 +814,36 @@ function LoadCalculator:updateProductivity(mass, liters, dt)
     
     if sumTime > 100 then
         local hours = sumTime / 3600000
-        self.tonPerHour = (sumMass / 1000) / hours
+        local rawTonPerHour = (sumMass / 1000) / hours
         self.litersPerHour = sumLiters / hours
+        
+        -- Damping (Smooth LERP)
+        local alpha = 0.05
+        if self.tonPerHour == 0 then self.tonPerHour = rawTonPerHour end
+        self.tonPerHour = self.tonPerHour * (1 - alpha) + rawTonPerHour * alpha
     else
         self.tonPerHour = 0
         self.litersPerHour = 0
     end
 end
 
----ÐžÐ½Ð¾Ð²Ð»ÑŽÑ” Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ñ–ÑÑ‚ÑŒ Ñ– Ð’Ð ÐžÐ–ÐÐ™ÐÐ†Ð¡Ð¢Ð¬
----@param mass number ÐœÐ°ÑÐ° (ÐºÐ³)
----@param liters number ÐžÐ±'Ñ”Ð¼ (Ð»)
----@param area number ÐŸÐ»Ð¾Ñ‰Ð° (Ð¼2)
----@param dt number Ð§Ð°Ñ (Ð¼Ñ)
+---Оновлює продуктивність і ВРОЖАЙНІСТЬ
+---@param mass number Маса (кг)
+---@param liters number Об'єм (л)
+---@param area number Площа (м2)
+---@param dt number Час (мс)
 function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
-    self:updateProductivity(mass, liters, dt) -- Call original logic
+    self:updateProductivity(mass, liters, dt)
     
     if area <= 0.0001 and mass <= 0.001 then
-        self.instantYield = 0
+        self.currentYield = self.currentYield or 0
         return
     end
     
-    -- 1. Combine Asynchronous Data (Metric: t/ha)
-    -- In FS25, addCutterArea and addFillUnitFillLevel are asynchronous.
-    -- To prevent unweighted average errors (calculating mass/area per frame and averaging),
-    -- we must store RAW mass and area, and calculate Sum(Mass) / Sum(Area).
-    
+    -- Long-term Yield Average (~90 seconds / 600 samples)
     self.yieldBuffer = self.yieldBuffer or {}
     table.insert(self.yieldBuffer, {m = mass, a = area})
-    if #self.yieldBuffer > 120 then table.remove(self.yieldBuffer, 1) end
+    if #self.yieldBuffer > 600 then table.remove(self.yieldBuffer, 1) end
     
     local sumMass = 0
     local sumArea = 0
@@ -850,22 +852,15 @@ function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
         sumArea = sumArea + v.a 
     end
     
-    local smoothedYield = 0
     if sumArea > 0.1 then
-        -- (kg / m2) * 10 = t/ha
-        smoothedYield = (sumMass / sumArea) * 10
-    
+        local rawYield = (sumMass / sumArea) * 10
+        
+        -- Damping (Smooth LERP)
+        local alpha = 0.03
+        if not self.currentYield or self.currentYield == 0 then self.currentYield = rawYield end
+        self.currentYield = self.currentYield * (1 - alpha) + rawYield * alpha
     end
-    
-    -- 3. REMOVED Noise (+/- 5%) - User requested actual values
-    -- Noise factor removed for stability
-    
-    -- No Calibration - Pure Real-time Yield
-    self.currentYield = smoothedYield
 end
-
----Ð’ÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚Ð¸ Ñ€ÐµÐ°Ð»ÑŒÐ½Ñƒ Ð²Ñ€Ð¾Ð¶Ð°Ð¹Ð½Ñ–ÑÑ‚ÑŒ Ð· rhm_Combine (User Request)
----@param yieldTha number Ð’Ñ€Ð¾Ð¶Ð°Ð¹Ð½Ñ–ÑÑ‚ÑŒ Ð² Ñ‚/Ð³Ð°
 function LoadCalculator:setRealTimeYield(yieldTha)
     -- Apply smoothing (Simple moving average)
     self.yieldBuffer = self.yieldBuffer or {}
