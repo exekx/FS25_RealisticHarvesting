@@ -30,7 +30,6 @@ function LoadCalculator.new(modDirectory)
     self.engineLoad = 0
     self.speedLimit = 15  -- ÐŸÐ¾Ñ‚Ð¾Ñ‡Ð½Ð¸Ð¹ Ð»Ñ–Ð¼Ñ–Ñ‚ ÑˆÐ²Ð¸Ð´ÐºÐ¾ÑÑ‚Ñ– (ÐºÐ¼/Ð³Ð¾Ð´)
     self.genuineSpeedLimit = 15  -- ÐžÑ€Ð¸Ð³Ñ–Ð½Ð°Ð»ÑŒÐ½Ð¸Ð¹ Ð»Ñ–Ð¼Ñ–Ñ‚ Ð· Ð³Ñ€Ð¸
-    self.workingSpeedLimit = 0  -- Ð Ð¾Ð±Ð¾Ñ‡Ð¸Ð¹ Ð»Ñ–Ð¼Ñ–Ñ‚ (Ð·Ð±ÐµÑ€Ñ–Ð³Ð°Ñ”Ñ‚ÑŒÑÑ Ð¼Ñ–Ð¶ ÑÐµÑÑ–ÑÐ¼Ð¸ Ð·Ð±Ð¸Ñ€Ð°Ð½Ð½Ñ)
     self.lastCropType = nil  -- ÐžÑÑ‚Ð°Ð½Ð½Ñ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð° (Ð´Ð»Ñ Ð´ÐµÑ‚ÐµÐºÑ†Ñ–Ñ— Ð·Ð¼Ñ–Ð½Ð¸)
     self.lastHarvestTime = 0  -- Ð§Ð°Ñ Ð¾ÑÑ‚Ð°Ð½Ð½ÑŒÐ¾Ð³Ð¾ Ð·Ð±Ð¸Ñ€Ð°Ð½Ð½Ñ (Ð´Ð»Ñ Ð´ÐµÑ‚ÐµÐºÑ†Ñ–Ñ— Ñ‚Ñ€Ð¸Ð²Ð°Ð»Ð¾Ñ— Ð¿Ð°ÑƒÐ·Ð¸)
     
@@ -208,7 +207,7 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
     end
     
     -- Debug entry
-    -- print(string.format("RHM DEBUG: Checking power for %s. Initial power: %s", vehicle:getFullName(), tostring(power)))
+    -- print(string.format("RHM DEBUG: Checking power for %s (cat: %s). Initial power: %s", vehicle:getFullName(), category or "unknown", tostring(power)))
     
     -- NEXAT FIX: Ð¯ÐºÑ‰Ð¾ Ñ†Ðµ Ð¼Ð¾Ð´ÑƒÐ»ÑŒ (Ð½ÐµÐ¼Ð°Ñ” Ð¼Ð¾Ñ‚Ð¾Ñ€Ð°), ÑˆÑƒÐºÐ°Ñ”Ð¼Ð¾ Ð´Ð²Ð¸Ð³ÑƒÐ½ Ñ€ÐµÐºÑƒÑ€ÑÐ¸Ð²Ð½Ð¾ Ð²Ð³Ð¾Ñ€Ñƒ Ð¿Ð¾ Ñ–Ñ”Ñ€Ð°Ñ€Ñ…Ñ–Ñ—
     if (not power or power == 0) then
@@ -303,12 +302,7 @@ function LoadCalculator:update(vehicle, dt, mass)
     -- Ð¯ÐºÑ‰Ð¾ Ð¿Ð¾Ñ‡Ð°Ð»Ð¸ Ð·Ð±Ð¸Ñ€Ð°Ñ‚Ð¸ (mass > 0), Ð° Ð»Ñ–Ð¼Ñ–Ñ‚ Ð²ÑÐµ Ñ‰Ðµ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¸Ð¹ - Ð½ÐµÐ³Ð°Ð¹Ð½Ð¾ Ð¾Ð±Ð¼ÐµÐ¶ÑƒÑ”Ð¼Ð¾
     -- ÐÐµ Ñ‡ÐµÐºÐ°Ñ”Ð¼Ð¾ 1.5 ÑÐµÐºÑƒÐ½Ð´Ð¸ Ð²Ð¸Ð¼Ñ–Ñ€ÑŽÐ²Ð°Ð½Ð½Ñ
     if mass > 0 and self.speedLimit >= (self.genuineSpeedLimit - 0.1) then
-         if self.workingSpeedLimit > 0 and self.workingSpeedLimit < 12 then
-             self.speedLimit = self.workingSpeedLimit
-         else
-             self.speedLimit = 5.0 -- ÐšÐ¾Ð½ÑÐµÑ€Ð²Ð°Ñ‚Ð¸Ð²Ð½Ð¸Ð¹ ÑÑ‚Ð°Ñ€Ñ‚
-             self.workingSpeedLimit = 5.0
-         end
+         self.speedLimit = 5.0 -- ÐšÐ¾Ð½ÑÐµÑ€Ð²Ð°Ñ‚Ð¸Ð²Ð½Ð¸Ð¹ ÑÑ‚Ð°Ñ€Ñ‚
          if self.debug then
             print("RHM: Instant start limit applied: " .. tostring(self.speedLimit))
          end
@@ -404,65 +398,39 @@ end
 
 ---Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ” Ð¾Ð±Ð¼ÐµÐ¶ÐµÐ½Ð½Ñ ÑˆÐ²Ð¸Ð´ÐºÐ¾ÑÑ‚Ñ–
 ---@param vehicle table ÐšÐ¾Ð¼Ð±Ð°Ð¹Ð½
+---Розраховує обмеження швидкості (Adaptive Target Loading)
+---@param vehicle table Комбайн
 function LoadCalculator:calculateSpeedLimit(vehicle)
-    -- Ð¯ÐºÑ‰Ð¾ Ð½Ðµ Ð·Ð±Ð¸Ñ€Ð°Ñ”Ð¼Ð¾ Ð²Ñ€Ð¾Ð¶Ð°Ð¹ (mass = 0), Ð¿Ð»Ð°Ð²Ð½Ð¾ Ð²Ñ–Ð´Ð¿ÑƒÑÐºÐ°Ñ”Ð¼Ð¾ Ð»Ñ–Ð¼Ñ–Ñ‚
+    -- Якщо не збираємо врожай (mass = 0), плавно відпускаємо ліміт до максимуму
     if self.currentAvgMass == 0 then
-        -- Ð—Ð±ÐµÑ€Ñ–Ð³Ð°Ñ”Ð¼Ð¾ workingSpeedLimit Ð¢Ð†Ð›Ð¬ÐšÐ˜ ÑÐºÑ‰Ð¾ Ð²Ñ–Ð½ Ð´Ñ–Ð¹ÑÐ½Ð¾ Ð²Ñ–Ð´Ð¾Ð±Ñ€Ð°Ð¶Ð°Ñ”
-        -- Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÑƒÐ²Ð°Ð»ÑŒÐ½Ðµ Ð¾Ð±Ð¼ÐµÐ¶ÐµÐ½Ð½Ñ (< 75% genuineSpeedLimit).
-        -- ÐÐµ Ð·Ð±ÐµÑ€Ñ–Ð³Ð°Ñ”Ð¼Ð¾ ÑÐºÑ‰Ð¾ Ð¼Ð¸ Ñ€Ð¾Ð·Ñ–Ð³Ð½Ð°Ð»Ð¸ÑÑŒ Ð¿Ð¾ ÐºÑ€Ð°ÑŽ â€” Ñ†Ðµ Ð½Ðµ "Ñ€Ð¾Ð±Ð¾Ñ‡Ð°" ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ.
-        local saveThreshold = self.genuineSpeedLimit * 0.75
-        if self.speedLimit < saveThreshold and self.speedLimit > 2 then
-            self.workingSpeedLimit = self.speedLimit
-        end
-        -- ÐŸÐ»Ð°Ð²Ð½Ð¾ Ð²Ñ–Ð´Ð¿ÑƒÑÐºÐ°Ñ”Ð¼Ð¾ Ð»Ñ–Ð¼Ñ–Ñ‚ (Ð±ÐµÐ· ÑÑ‚Ñ€Ð¸Ð±ÐºÐ° Ð´Ð¾ 15)
         if self.speedLimit < self.genuineSpeedLimit then
-            self.speedLimit = math.min(self.genuineSpeedLimit, self.speedLimit + 0.6)
+            -- Дозволяємо розганятись швидше без маси (+1.0/с)
+            self.speedLimit = math.min(self.genuineSpeedLimit, self.speedLimit + 1.0)
         end
         return
     end
     
-    -- Ð”ÐµÑ‚ÐµÐºÑ†Ñ–Ñ Ð·Ð¼Ñ–Ð½Ð¸ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð¸ Ð°Ð±Ð¾ Ñ‚Ñ€Ð¸Ð²Ð°Ð»Ð¾Ñ— Ð¿Ð°ÑƒÐ·Ð¸
-    local currentCropType = nil
-    local spec_combine = vehicle.spec_combine
-    if spec_combine and spec_combine.lastValidInputFruitType then
-        currentCropType = spec_combine.lastValidInputFruitType
+    -- INSTANT REACTION FIX: Перший удар (захід в рядок)
+    -- Якщо ми мали нульову масу (наприклад, на розвороті) і раптом спіймали густий врожай,
+    -- а швидкість все ще майже максимальна – не чекаємо LERP. Миттєво "б'ємо по гальмах"
+    -- до ~5 км/год, незалежно від математики. Математика підхопить вже на цій безпечній швидкості.
+    if self.lastAvgMass == 0 and self.currentAvgMass > 5 and self.speedLimit > 8.0 then
+         self.speedLimit = 5.0
+         if self.debug then print("RHM: [INSTANT START PROTECT] Snapped to 5.0 km/h on row entry!") end
     end
     
-    local currentTime = g_currentMission.time or 0
-    local timeSinceLastHarvest = currentTime - self.lastHarvestTime
+    -- ВАЖЛИВИЙ ФІКС: Використовуємо МИТТЄВУ ШВИДКІСТЬ (lastSpeedReal), а не історичну середню. 
+    -- Якщо використовувати середню за останні 1.5 сек, і комбайн загальмував до 2 км/год,
+    -- математика візьме 2 км/год і назавжди занизить цільову швидкість, потрапивши у пастку.
+    local currentSpeed = vehicle.lastSpeedReal * 3600 -- convert m/s to km/h
     
-    -- Ð¡ÐºÐ¸Ð´Ð°Ñ”Ð¼Ð¾ Ð¿Ñ€Ð¸ Ð·Ð¼Ñ–Ð½Ñ– ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð¸ Ð°Ð±Ð¾ Ñ‚Ñ€Ð¸Ð²Ð°Ð»Ñ–Ð¹ Ð¿Ð°ÑƒÐ·Ñ– (>30 ÑÐµÐº)
-    local longPause = timeSinceLastHarvest > 30000
-    local cropChanged = (currentCropType and self.lastCropType and currentCropType ~= self.lastCropType)
-    if cropChanged or longPause then
-        self.workingSpeedLimit = 0
-        self._firstHarvestDone = false  -- Reset conservative start Ð´Ð»Ñ Ð½Ð¾Ð²Ð¾Ð³Ð¾ Ð¿Ð¾Ð»Ñ
+    -- Якщо комбайн майже зупинився (< 1 км/год), але навантаження є (застряг), 
+    -- ми не можемо множити на швидкість 0. Використовуємо поточний ліміт як базову ідеальну.
+    local speedKmh = math.max(1.0, currentSpeed)
+    if currentSpeed < 1.0 and loadRatio > 0.1 then
+        speedKmh = math.max(2.0, self.speedLimit)
     end
     
-    self.lastCropType = currentCropType
-    self.lastHarvestTime = currentTime
-    
-    -- CONSERVATIVE START: Ñ‚Ñ–Ð»ÑŒÐºÐ¸ Ð¿Ñ€Ð¸ ÑÐ¿Ñ€Ð°Ð²Ð¶Ð½ÑŒÐ¾Ð¼Ñƒ Ð¿ÐµÑ€ÑˆÐ¾Ð¼Ñƒ Ð·Ð°Ñ—Ð·Ð´Ñ– Ð² ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ñƒ
-    -- Ð’Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð¾Ð²ÑƒÑ”Ð¼Ð¾ _firstHarvestDone (ÑÐºÐ¸Ð´Ð°Ñ”Ñ‚ÑŒÑÑ Ñ‚Ñ–Ð»ÑŒÐºÐ¸ Ð¿Ñ–ÑÐ»Ñ 30Ñ Ð¿Ð°ÑƒÐ·Ð¸, ÐÐ• Ð½Ð° ÐºÐ¾Ð¶Ð½Ð¾Ð¼Ñƒ ÐºÑ–Ð½Ñ†Ñ– Ñ€ÑÐ´ÐºÐ°)
-    if not self._firstHarvestDone then
-        self._firstHarvestDone = true
-        -- Ð¯ÐºÑ‰Ð¾ speedLimit Ð½Ñ–ÐºÐ¾Ð»Ð¸ Ð½Ðµ Ð·Ð½Ð¸Ð¶ÑƒÐ²Ð°Ð²ÑÑ (genuineSpeedLimit) â€” Ð·Ð°ÑÑ‚Ð¾ÑÐ¾Ð²ÑƒÑ”Ð¼Ð¾ ÑÑ‚Ð°Ñ€Ñ‚
-        if self.speedLimit >= self.genuineSpeedLimit then
-            if self.workingSpeedLimit > 0 and self.workingSpeedLimit < 12 then
-                self.speedLimit = self.workingSpeedLimit
-            else
-                self.speedLimit = 7.0
-                self.workingSpeedLimit = 7.0
-            end
-        end
-        -- Ð¯ÐºÑ‰Ð¾ speedLimit Ð²Ð¶Ðµ Ð½Ð¸Ð¶Ñ‡Ðµ genuineSpeedLimit â€” Ð½Ðµ Ñ‡Ñ–Ð¿Ð°Ñ”Ð¼Ð¾
-        -- (Ð½Ð°Ð¿Ñ€Ð¸ÐºÐ»Ð°Ð´, Ð¿Ð»Ð°Ð²Ð½Ð¸Ð¹ Ñ€Ð¾Ð·Ð³Ñ–Ð½ Ð½Ð° Ñ‡Ð°ÑÑ‚ÐºÐ¾Ð²Ñ–Ð¹ ÑÐµÐºÑ†Ñ–Ñ— Ñ‰Ðµ Ð½Ðµ Ð´Ð¾ÑÑÐ³ 15)
-    end
-    
-    -- ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ”Ð¼Ð¾ Ð¿Ð¾Ñ‚Ð¾Ñ‡Ð½Ñƒ ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ
-    local avgSpeed = 1000 * self.totalDistance / self.currentTime  -- Ð¼/Ñ
-    
-    -- ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ”Ð¼Ð¾ power boost
     local powerBoost = 0
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         powerBoost = g_realisticHarvestManager.settings:getPowerBoost()
@@ -470,163 +438,72 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
     
     local maxAvgMass = (1 + 0.01 * powerBoost) * self.basePerfMass
     
-    -- Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ”Ð¼Ð¾ Ð¿Ñ€Ð¸ÑÐºÐ¾Ñ€ÐµÐ½Ð½Ñ (derivative of smoothed value)
-    local massAcc = 0
-    if self.currentTime > 0 and self.lastAvgMass > 0 then
-        massAcc = (self.currentAvgMass - self.lastAvgMass) / self.currentTime
-    end
+    -- Запобіжник ділення на нуль
+    if maxAvgMass <= 0.01 then return end
     
-    -- === THREE-ZONE CONTROL SYSTEM ===
     local loadRatio = self.currentAvgMass / maxAvgMass
     local rawLoadRatio = (self.rawAvgMass or self.currentAvgMass) / maxAvgMass
-    local newSpeedLimit = self.speedLimit
-    local controlZone = "HOLD"
     
-    -- === GRADUATED EMERGENCY BRAKE SYSTEM ===
-    -- Ð§Ð¸Ð¼ Ð²Ð¸Ñ‰Ðµ Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ, Ñ‚Ð¸Ð¼ Ð°Ð³Ñ€ÐµÑÐ¸Ð²Ð½Ñ–ÑˆÐµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
-    local emergencyBrake = false
-    local brakeRate = 0
+    -- PREDICTIVE TARGETING: Target 85% load (0.85)
+    local targetLoad = 0.85
+    local idealSpeed = self.genuineSpeedLimit
     
-    -- SPECIAL: ÐŸÐµÑ€ÑˆÐ¸Ð¹ Ñ€Ð°Ð· Ð¿ÐµÑ€ÐµÐ²Ð¸Ñ‰Ð¸Ð»Ð¸ 100% - Ñ€Ñ–Ð·ÐºÐ¾ ÑÐºÐ¸Ð´Ð°Ñ”Ð¼Ð¾ ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ
-    -- Ð¦Ðµ Ð·Ð°Ð¿Ð¾Ð±Ñ–Ð³Ð°Ñ” "overshoot" (Ñ€Ð¾Ð·Ð³Ñ–Ð½ â†’ Ð¿ÐµÑ€ÐµÐ²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ â†’ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ â†’ Ñ†Ð¸ÐºÐ»)
-    if rawLoadRatio > 1.0 and rawLoadRatio <= 1.05 then
-        -- Ð¢Ñ–Ð»ÑŒÐºÐ¸ Ñ‰Ð¾ Ð¿ÐµÑ€ÐµÐ²Ð¸Ñ‰Ð¸Ð»Ð¸ 100% - Ð°Ð³Ñ€ÐµÑÐ¸Ð²Ð½Ð¸Ð¹ ÑÐºÐ¸Ð´
-        controlZone = "THRESHOLD_BRAKE"
-        brakeRate = 2.5  -- -2.5 ÐºÐ¼/Ð³Ð¾Ð´ (Ð°Ð³Ñ€ÐµÑÐ¸Ð²Ð½Ð¾, Ñ‰Ð¾Ð± load Ð²Ð¿Ð°Ð²)
-        emergencyBrake = true
-        newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
-        
-    elseif rawLoadRatio > 1.5 then
-        -- EXTREME: >150% load - Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ðµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
-        controlZone = "EMERGENCY_EXTREME"
-        brakeRate = 5.0  -- -5 ÐºÐ¼/Ð³Ð¾Ð´ Ð·Ð° Ñ€Ð°Ð·
-        emergencyBrake = true
-        newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
-        
-    elseif rawLoadRatio > 1.2 then
-        -- CRITICAL: 120-150% load - ÑÐ¸Ð»ÑŒÐ½Ðµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
-        controlZone = "EMERGENCY_CRITICAL"
-        brakeRate = 3.0  -- -3 ÐºÐ¼/Ð³Ð¾Ð´ Ð·Ð° Ñ€Ð°Ð·
-        emergencyBrake = true
-        newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
-        
-    elseif rawLoadRatio > 1.1 then
-        -- HIGH: 110-120% load - Ð¿Ð¾Ð¼Ñ–Ñ€Ð½Ðµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
-        controlZone = "EMERGENCY_HIGH"
-        brakeRate = 1.5  -- -1.5 ÐºÐ¼/Ð³Ð¾Ð´ Ð·Ð° Ñ€Ð°Ð·
-        emergencyBrake = true
-        newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
-        
-    elseif rawLoadRatio > 1.05 or loadRatio > 1.08 then
-        -- MODERATE: 105-110% load - Ð»ÐµÐ³ÐºÐµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ
-        controlZone = "EMERGENCY_MODERATE"
-        brakeRate = 1.0  -- -1 ÐºÐ¼/Ð³Ð¾Ð´ Ð·Ð° Ñ€Ð°Ð·
-        emergencyBrake = true
-        newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
+    if loadRatio > 0.05 then 
+        -- Оскільки throughput (mass) прямо пропорційний швидкості:
+        -- New_Speed = Current_Speed * (Target_Load / Current_Load)
+        idealSpeed = speedKmh * (targetLoad / loadRatio)
+    end
     
-    -- ZONE 1: DANGER (>108% smoothed OR >115% raw) - Standard brake
-    elseif loadRatio > 1.08 or rawLoadRatio > 1.15 then
-        controlZone = "DANGER"
-        if rawLoadRatio > 1.15 then
-            -- HARD brake (using raw value for immediate response)
-            newSpeedLimit = math.max(2, math.min(self.speedLimit, avgSpeed * 3.6) - 15 * (rawLoadRatio - 1.0)^2)
+    idealSpeed = math.min(self.genuineSpeedLimit, math.max(2.0, idealSpeed))
+    
+    -- LERP DAMPING LAYER
+    local alpha = 0.1 -- Normal smoothing factor
+    local controlZone = "NORMAL"
+    
+    -- Аварійне гальмування має вищий пріоритет LERP та ігнорує згладжену масу (loadRatio)
+    if rawLoadRatio > 1.25 then
+        alpha = 1.0 -- Panic brake: INSTANT SNAP
+        controlZone = "PANIC"
+        -- Перераховуємо idealSpeed відносно миттєвого стрибка, щоб гарантувати різке гальмування
+        -- Використовуємо self.speedLimit, щоб комбайн скинув швидкість відносно поточного ліміту,
+        -- а не інерції (speedKmh), яка падає повільно
+        local emergencyIdeal = math.min(speedKmh, self.speedLimit) * (targetLoad / rawLoadRatio)
+        idealSpeed = math.min(idealSpeed, math.max(2.0, emergencyIdeal))
+    elseif rawLoadRatio > 1.10 then
+        alpha = 0.6 -- Hard brake: VERY FAST
+        controlZone = "HARD_BRAKE"
+        local hardbrakeIdeal = math.min(speedKmh, self.speedLimit) * (targetLoad / rawLoadRatio)
+        idealSpeed = math.min(idealSpeed, math.max(2.0, hardbrakeIdeal))
+    elseif loadRatio >= 0.85 and loadRatio <= 0.95 then
+        -- DEADBAND: Якщо ми дуже близько до таргету (85-95%),
+        -- фіксуємо швидкість (надзвичайно малий alpha), щоб уникнути мікро-гойдалок
+        alpha = 0.01
+        controlZone = "LOCKED"
+    elseif loadRatio < 0.85 then
+        -- Обережний розгін
+        if loadRatio < 0.50 then
+            alpha = 0.15 -- Швидший розгін на пустих ділянках
+            controlZone = "ACCELERATING_FAST"
         else
-            -- Soft brake (using smoothed value)
-            newSpeedLimit = math.max(2, math.min(self.speedLimit, avgSpeed * 3.6) - 8 * (loadRatio - 1.0)^2)
-        end
-    
-    -- ZONE 2: CAUTION (85-108%) - Hold steady or gentle adjustment
-    elseif loadRatio >= 0.85 and loadRatio <= 1.08 then
-        controlZone = "CAUTION"
-        -- Ð’ Ð·Ð¾Ð½Ñ– Ð¾Ð±ÐµÑ€ÐµÐ¶Ð½Ð¾ÑÑ‚Ñ– Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾ ÑƒÑ‚Ñ€Ð¸Ð¼ÑƒÑ”Ð¼Ð¾ ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ
-        if loadRatio > 1.00 then
-            -- >100%: Ð›ÐµÐ³ÐºÐµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÐ²Ð°Ð½Ð½Ñ (Ñ‰Ð¾Ð± Ð½Ðµ Ð´Ð¾Ð²Ð¾Ð´Ð¸Ñ‚Ð¸ Ð´Ð¾ emergency)
-            newSpeedLimit = math.max(2, self.speedLimit - 0.4)
-        elseif loadRatio > 0.90 and self.speedLimit > avgSpeed * 3.6 then
-            -- 90-100%: Ð¯ÐºÑ‰Ð¾ ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ Ð·Ñ€Ð¾ÑÑ‚Ð°Ñ” (Ð·Ð·Ð¾Ð²Ð½Ñ–), Ð¾Ð±Ð¼ÐµÐ¶ÑƒÑ”Ð¼Ð¾
-            newSpeedLimit = math.max(2, avgSpeed * 3.6 - 0.2)
-        end
-        -- else: <90% Ð² CAUTION - Ñ‚Ñ€Ð¸Ð¼Ð°Ñ”Ð¼Ð¾ ÑÑ‚Ð°Ð±Ñ–Ð»ÑŒÐ½Ð¾
-    
-    -- ZONE 3: SAFE (<85%) - Accelerate with prediction
-    else
-        controlZone = "SAFE"
-        
-        -- Check prediction before accelerating
-        local predictLimitSet = false
-        if massAcc > 0 then
-            -- Adaptive prediction horizon (shorter at high load)
-            local predictHorizon = 2500 + 500 * (1 - loadRatio)
-            local predictAvgMass = self.currentAvgMass + massAcc * predictHorizon
-            
-            -- RAW PREDICTION CHECK
-            local predictThreshold = 1.5
-            
-            if predictAvgMass > predictThreshold * maxAvgMass then
-                -- Predictive brake
-                newSpeedLimit = math.max(2, math.min(0.96 * self.speedLimit, avgSpeed * 3.6))
-                predictLimitSet = true
-                controlZone = "SAFE_PREDICT"
-            end
-        end
-        
-        -- If no prediction triggered, check for acceleration
-        if not predictLimitSet then
-            -- === SOFT CEILING: Ð½Ðµ Ð¿ÐµÑ€ÐµÐ²Ð¸Ñ‰ÑƒÑ”Ð¼Ð¾ "Ð²Ð¸Ð²Ñ‡ÐµÐ½Ð¸Ð¹" Ñ€Ð¾Ð±Ð¾Ñ‡Ð¸Ð¹ Ð»Ñ–Ð¼Ñ–Ñ‚ + Ð±ÑƒÑ„ÐµÑ€ ===
-            -- ÐŸÑ€Ð¸ Ñ‡Ð°ÑÑ‚ÐºÐ¾Ð²Ñ–Ð¹ ÑˆÐ¸Ñ€Ð¸Ð½Ñ– Ð¶Ð°Ñ‚ÐºÐ¸ (Ð¼Ð°Ð»Ð° Ð¼Ð°ÑÐ°) Ñ„Ð¾Ñ€Ð¼ÑƒÐ»Ð° (maxMass/mass)^2.5 Ð¼Ð¾Ð¶Ðµ Ð´Ð°Ñ‚Ð¸
-            -- Ð²ÐµÐ»Ð¸Ñ‡ÐµÐ·Ð½Ðµ Ð¿Ñ€Ð¸ÑÐºÐ¾Ñ€ÐµÐ½Ð½Ñ Ñ– Ñ€Ð¾Ð·Ñ–Ð³Ð½Ð°Ñ‚Ð¸ Ð´Ð¾ genuineSpeedLimit.
-            -- ÐŸÐ¾Ñ‚Ñ–Ð¼ Ð¿Ñ€Ð¸ Ð¿Ð¾Ð²Ð½Ñ–Ð¹ Ð¶Ð°Ñ‚Ñ†Ñ– THRESHOLD_BRAKE Ñ€Ñ–Ð·ÐºÐ¾ ÑÐºÐ¸Ð´Ð°Ñ” ÑˆÐ²Ð¸Ð´ÐºÑ–ÑÑ‚ÑŒ â†’ Ð½ÐµÐ¿Ñ€Ð¸Ñ”Ð¼Ð½Ð¾.
-            -- Ð Ñ–ÑˆÐµÐ½Ð½Ñ: Ð´Ð¾Ð·Ð²Ð¾Ð»ÑÑ”Ð¼Ð¾ Ñ€Ð¾Ð·Ð³Ñ–Ð½ Ñ‚Ñ–Ð»ÑŒÐºÐ¸ Ð´Ð¾ workingSpeedLimit + 2 ÐºÐ¼/Ð³Ð¾Ð´
-            local softCeiling = self.genuineSpeedLimit  -- Ð·Ð° Ð·Ð°Ð¼Ð¾Ð²Ñ‡. â€” Ð¿Ð¾Ð²Ð½Ð° ÑÐ²Ð¾Ð±Ð¾Ð´Ð°
-            if self.workingSpeedLimit > 0 then
-                softCeiling = math.min(self.genuineSpeedLimit, self.workingSpeedLimit + 2.0)
-            end
-            
-            if loadRatio > 0.70 and loadRatio < 0.80 then
-                -- 70-80%: ÐžÐ±ÐµÑ€ÐµÐ¶Ð½Ð¸Ð¹ Ñ€Ð¾Ð·Ð³Ñ–Ð½ (Ð½Ðµ Ñ…Ð¾Ñ‡ÐµÐ¼Ð¾ Ð¿ÐµÑ€ÐµÐ²Ð¸Ñ‰Ð¸Ñ‚Ð¸ 85%)
-                local capacityRatio = (maxAvgMass - self.currentAvgMass) / maxAvgMass
-                if capacityRatio > 0.25 then
-                    local accelFactor = 0.05
-                    -- ÐžÐ±Ð¼ÐµÐ¶ÑƒÑ”Ð¼Ð¾ Ð¼Ð½Ð¾Ð¶Ð½Ð¸Ðº: Ð¿Ñ€Ð¸ Ð´ÑƒÐ¶Ðµ Ð¼Ð°Ð»Ð¾Ð¼Ñƒ navantazhenni Ñ„Ð¾Ñ€Ð¼ÑƒÐ»Ð° Ð²Ð¸Ð±ÑƒÑ…Ð°Ñ”
-                    local massRatio = math.min(3.0, maxAvgMass / self.currentAvgMass)
-                    newSpeedLimit = math.min(softCeiling,
-                        self.speedLimit + accelFactor * massRatio^2)
-                end
-                
-            elseif loadRatio <= 0.70 then
-                -- <70%: ÐÐ¾Ñ€Ð¼Ð°Ð»ÑŒÐ½Ð¸Ð¹ Ñ€Ð¾Ð·Ð³Ñ–Ð½ (Ð´Ð°Ð»ÐµÐºÐ¾ Ð²Ñ–Ð´ ÑÑ‚ÐµÐ»Ñ–)
-                local capacityRatio = (maxAvgMass - self.currentAvgMass) / maxAvgMass
-                local accelFactor = 0.08 + 0.05 * capacityRatio  -- 0.08-0.13 range
-                -- ÐžÐ±Ð¼ÐµÐ¶ÑƒÑ”Ð¼Ð¾ Ð¼Ð½Ð¾Ð¶Ð½Ð¸Ðº Ñ‰Ð¾Ð± ÑƒÐ½Ð¸ÐºÐ½ÑƒÑ‚Ð¸ Ð²Ð¸Ð±ÑƒÑ…Ð¾Ð²Ð¾Ð³Ð¾ Ð·Ñ€Ð¾ÑÑ‚Ð°Ð½Ð½Ñ Ð¿Ñ€Ð¸ Ð´ÑƒÐ¶Ðµ Ð½Ð¸Ð·ÑŒÐºÐ¾Ð¼Ñƒ load
-                local massRatio = math.min(3.0, maxAvgMass / self.currentAvgMass)
-                newSpeedLimit = math.min(softCeiling,
-                    self.speedLimit + accelFactor * massRatio^2.5)
-            end
-            -- else: 80%+ Ð² SAFE Ð·Ð¾Ð½Ñ– - Ñ‚Ñ€Ð¸Ð¼Ð°Ñ”Ð¼Ð¾ (Ð½Ðµ Ñ€Ð¾Ð·Ð³Ð°Ð½ÑÑ”Ð¼Ð¾, Ð½Ðµ Ð³Ð°Ð»ÑŒÐ¼ÑƒÑ”Ð¼Ð¾)
+            alpha = 0.05
+            controlZone = "ACCELERATING_SLOW"
         end
     end
     
-    -- === RATE LIMITING === (prevent jerky changes)
-    -- Ð’Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð¾Ð²ÑƒÑ”Ð¼Ð¾ Ñ€Ñ–Ð·Ð½Ñ– Ð»Ñ–Ð¼Ñ–Ñ‚Ð¸ Ð·Ð°Ð»ÐµÐ¶Ð½Ð¾ Ð²Ñ–Ð´ Ð·Ð¾Ð½Ð¸
-    local maxChange = 0.8  -- Default: 0.8 km/h change per update
+    local diff = idealSpeed - self.speedLimit
+    local maxStep = 1.0
+    -- Значно збільшуємо кроки для екстреного гальмування
+    if controlZone == "PANIC" then maxStep = 10.0 end
+    if controlZone == "HARD_BRAKE" then maxStep = 5.0 end
     
-    if emergencyBrake then
-        -- Ð’ Ð°Ð²Ð°Ñ€Ñ–Ð¹Ð½Ð¸Ñ… ÑÐ¸Ñ‚ÑƒÐ°Ñ†Ñ–ÑÑ… Ð´Ð¾Ð·Ð²Ð¾Ð»ÑÑ”Ð¼Ð¾ ÑˆÐ²Ð¸Ð´ÐºÑ– Ð·Ð¼Ñ–Ð½Ð¸
-        maxChange = brakeRate  -- Ð’Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð¾Ð²ÑƒÑ”Ð¼Ð¾ Ñ€Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²Ð°Ð½Ð¸Ð¹ brakeRate
-    elseif controlZone == "DANGER" then
-        maxChange = 1.5  -- Ð¨Ð²Ð¸Ð´ÑˆÑ– Ð·Ð¼Ñ–Ð½Ð¸ Ð² Ð½ÐµÐ±ÐµÐ·Ð¿ÐµÑ‡Ð½Ñ–Ð¹ Ð·Ð¾Ð½Ñ–
-    end
+    local step = diff * alpha
+    step = math.clamp(step, -maxStep, maxStep)
     
-    newSpeedLimit = math.clamp(newSpeedLimit, 
-        self.speedLimit - maxChange, 
-        self.speedLimit + maxChange)
-    
-    self.speedLimit = newSpeedLimit
+    self.speedLimit = self.speedLimit + step
     
     if self.debug then
-        print(string.format("RHM: [%s] Load: %.1f%% (Raw: %.1f%%) | Speed: %.1fâ†’%.1f | Acc: %.4f", 
-            controlZone, loadRatio * 100, rawLoadRatio * 100, 
-            avgSpeed * 3.6, self.speedLimit, massAcc))
+        print(string.format("RHM: [%s] Load: %.1f%% | Speed: %.1f->%.1f (Ideal: %.1f) | Alpha: %.2f",
+            controlZone, loadRatio * 100, speedKmh, self.speedLimit, idealSpeed, alpha))
     end
 end
 
@@ -679,10 +556,9 @@ function LoadCalculator:reset()
     end
 end
 
----Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ” Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð²Ñ€Ð¾Ð¶Ð°ÑŽ Ð¿Ñ€Ð¸ Ð¿ÐµÑ€ÐµÐ²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ–
----@return number Ð’Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð² Ð²Ñ–Ð´ÑÐ¾Ñ‚ÐºÐ°Ñ… (0-50)
+---Розраховує втрати врожаю при перевантаженні
+---@return number Втрати в відсотках (0-50)
 function LoadCalculator:calculateCropLoss()
-    -- ÐŸÐµÑ€ÐµÐ²Ñ–Ñ€ÑÑ”Ð¼Ð¾ Ñ‡Ð¸ ÑƒÐ²Ñ–Ð¼ÐºÐ½ÐµÐ½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸
     if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
         return 0
     end
@@ -691,25 +567,34 @@ function LoadCalculator:calculateCropLoss()
         return 0
     end
     
-    -- ÐÐžÐ’Ð˜Ð™ ÐŸÐžÐ Ð†Ð“: Ð’Ñ‚Ñ€Ð°Ñ‚Ð¸ Ð¿Ð¾Ñ‡Ð¸Ð½Ð°ÑŽÑ‚ÑŒÑÑ Ð· 95% Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ
+    -- НОВИЙ ПОРІГ: Втрати починаються з 95% навантаження
     if self.engineLoad > 0.95 then
-        -- Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ”Ð¼Ð¾ overload Ð²Ñ–Ð´Ð½Ð¾ÑÐ½Ð¾ 95%
-        local overload = self.engineLoad - 0.95  -- 0.0 Ð¿Ñ€Ð¸ 95%, 0.05 Ð¿Ñ€Ð¸ 100%, 0.25 Ð¿Ñ€Ð¸ 120% Ñ– Ñ‚.Ð´.
+        -- overload = відсоток ПЕРЕВИЩЕННЯ 95% 
+        -- (напр. при 100% overload = 0.05, при 110% overload = 0.15)
+        local overload = self.engineLoad - 0.95
         
-        -- ÐžÑ‚Ñ€Ð¸Ð¼ÑƒÑ”Ð¼Ð¾ Ð¼Ð½Ð¾Ð¶Ð½Ð¸Ðº Ð²Ñ‚Ñ€Ð°Ñ‚ Ð·Ð°Ð»ÐµÐ¶Ð½Ð¾ Ð²Ñ–Ð´ ÑÐºÐ»Ð°Ð´Ð½Ð¾ÑÑ‚Ñ–
         local lossMultiplier = g_realisticHarvestManager.settings:getLossMultiplier()
         
-        -- ÐŸÑ€Ð¾Ð³Ñ€ÐµÑÐ¸Ð²Ð½Ð° Ñ„Ð¾Ñ€Ð¼ÑƒÐ»Ð° Ð²Ñ‚Ñ€Ð°Ñ‚:
-        -- 95-100% load: ÐœÑ–Ð½Ñ–Ð¼Ð°Ð»ÑŒÐ½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ (0-2%)
-        -- 100-120% load: ÐŸÐ¾Ð¼Ñ–Ñ€Ð½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ (2-15%)
-        -- 120%+ load: Ð¡ÐµÑ€Ð¹Ð¾Ð·Ð½Ñ– Ð²Ñ‚Ñ€Ð°Ñ‚Ð¸ (15-50%)
-        -- 
-        -- Ð¤Ð¾Ñ€Ð¼ÑƒÐ»Ð°: ((overload / 0.05)^1.5) * lossMultiplier * Ð±Ð°Ð·Ð¾Ð²Ð¸Ð¹_Ð²Ñ–Ð´ÑÐ¾Ñ‚Ð¾Ðº
-        -- Ð´Ðµ 0.05 = Ð´Ñ–Ð°Ð¿Ð°Ð·Ð¾Ð½ Ð²Ñ–Ð´ 95% Ð´Ð¾ 100%
-        local normalizedOverload = overload / 0.05  -- 0.0 Ð¿Ñ€Ð¸ 95%, 1.0 Ð¿Ñ€Ð¸ 100%, 5.0 Ð¿Ñ€Ð¸ 120%
-        local loss = (normalizedOverload^1.5) * lossMultiplier * 2.5  -- 2.5 = Ð±Ð°Ð·Ð¾Ð²Ð¸Ð¹ % Ð¿Ñ€Ð¸ 100% load
+        -- ЛІНІЙНА ПРОГРЕСІЯ:
+        -- 95%  load -> 0%   втрат (0.00 * 40 = 0)
+        -- 100% load -> 2%   втрат (0.05 * 40 = 2.0)
+        -- 105% load -> 4%   втрат (0.10 * 40 = 4.0)
+        -- 110% load -> 10%  втрат (0.15 * 66.6 = 10.0 - прогресія розганяється)
+        -- 120% load -> 25%+ втрат
         
-        self.cropLoss = math.min(loss, 50) -- ÐœÐ°ÐºÑÐ¸Ð¼ÑƒÐ¼ 50% Ð²Ñ‚Ñ€Ð°Ñ‚
+        local loss = 0
+        if overload <= 0.10 then
+            -- З 95% до 105% плавно зростає до 4% втрат
+            loss = overload * 40 * lossMultiplier
+        elseif overload <= 0.20 then
+            -- З 105% до 115% прискорюється (від 4% до 12%)
+            loss = (4.0 + (overload - 0.10) * 80) * lossMultiplier
+        else
+            -- Після 115% втрати стають гігантськими (до 50%)
+            loss = (12.0 + (overload - 0.20) * 150) * lossMultiplier
+        end
+        
+        self.cropLoss = math.min(loss, 50) -- Максимум 50% втрат
     else
         self.cropLoss = 0
     end
