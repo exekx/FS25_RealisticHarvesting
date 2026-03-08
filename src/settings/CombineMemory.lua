@@ -1,4 +1,4 @@
----@class CombineMemory
+﻿---@class CombineMemory
 ---Система пам'яті комбайна для збереження профілів налаштувань
 CombineMemory = {}
 local CombineMemory_mt = Class(CombineMemory)
@@ -160,16 +160,21 @@ end
 ---Перевірити чи поточні налаштування підходять для культури
 ---@param cropName string Назва культури
 ---@return number totalPenalty Загальний штраф (0-50%)
+---Перевірити чи поточні налаштування підходять для культури і розділити їх на фізичні ефекти
+---@param cropName string Назва культури
+---@return number efficiencyPenalty Штраф до пропускної здатності (швидкості)
+---@return number lossPenalty Прямі втрати врожаю (зерно в солому)
 ---@return table warnings Список попереджень
 function CombineMemory:checkSettingsForCrop(cropName)
     local optimalSettings = CombineSettingsDatabase:getSettingsForCrop(cropName)
     
     if not optimalSettings then
-        return 0, {}
+        return 0, 0, {}
     end
     
     local warnings = {}
-    local totalScore = 0  -- negative = bonus, positive = penalty
+    local efficiencyScore = 0  -- Впливає на maxAvgMass (швидкість/навантаження)
+    local lossScore = 0        -- Прямі втрати врожаю
     
     -- Перевіряємо кожен параметр
     for param, value in pairs(self.currentSettings) do
@@ -178,40 +183,49 @@ function CombineMemory:checkSettingsForCrop(cropName)
             local tolerance = optimalSettings[param].tolerance
             local deviation = math.abs(value - optimal)
             
+            local score = 0
             if deviation <= tolerance then
-                -- GREEN ZONE: лінійна крива
-                -- deviation=0          → -0.5 (max bonus per param)
-                -- deviation=tolerance/2 →  0.0 (zero-loss point)
-                -- deviation=tolerance   → +0.5 (min edge, 2.5% total loss)
-                -- Formula: (deviation/tolerance - 0.5) * 1.0
-                local score = (deviation / tolerance - 0.5) * 1.0
-                totalScore = totalScore + score
+                -- GREEN ZONE: лінійна крива від -0.5 (ідеально) до +0.5 (на межі допуску)
+                score = (deviation / tolerance - 0.5) * 1.0
             else
-                -- RED ZONE: лінійне зростання починаючи від +0.5
-                -- excess=0   → 0.5% (continuation from green zone boundary)
-                -- excess=~16 → max 6% per param cap
+                -- RED ZONE: лінійне зростання від +0.5 (штраф)
                 local excess = deviation - tolerance
-                local redScore = math.min(6.0, 0.5 + excess * 0.33)
-                totalScore = totalScore + redScore
+                score = math.min(6.0, 0.5 + excess * 0.33)
                 
                 table.insert(warnings, {
                     param    = param,
                     current  = value,
                     optimal  = optimal,
                     deviation = deviation,
-                    penalty  = redScore,
+                    penalty  = score,
                 })
+            end
+            
+            -- РОЗПОДІЛ ЗА ФІЗИЧНИМ ВПЛИВОМ
+            if param == "feeder" or param == "rotor" then
+                -- Ці параметри відповідають за те, як легко маса проходить через комбайн.
+                -- Якщо вони налаштовані погано, комбайну важко, він задихається (падає швидкість).
+                efficiencyScore = efficiencyScore + score
+            elseif param == "fan" or param == "upperSieve" or param == "lowerSieve" then
+                -- Ці параметри відповідають за очистку. 
+                -- Якщо вітер занадто сильний або решета закриті, зерно видуває в солому.
+                lossScore = lossScore + score
+            else
+                -- Дефолтний fallback
+                efficiencyScore = efficiencyScore + (score * 0.5)
+                lossScore = lossScore + (score * 0.5)
             end
         end
     end
     
-    -- Cap: max bonus -2.5%, max penalty 30%
-    return math.max(-2.5, math.min(totalScore, 30)), warnings
+    -- МАСШТАБУВАННЯ ТА ОБМЕЖЕННЯ
+    -- Раніше всі 5 параметрів могли дати -2.5% сумарно (5 * -0.5).
+    -- Тепер Ефективність має макс -1.0% (2 параметри), а Втрати -1.5% (3 параметри).
+    local efficiencyPenalty = math.max(-1.0, math.min(efficiencyScore, 20.0))
+    local lossPenalty = math.max(-1.5, math.min(lossScore, 20.0))
+    
+    return efficiencyPenalty, lossPenalty, warnings
 end
-
----Встановити значення параметру
----@param paramName string Назва параметру
----@param value number Нове значення (0-100)
 ---@return boolean success Чи успішно встановлено
 function CombineMemory:setParameter(paramName, value)
     if self.currentSettings[paramName] ~= nil then

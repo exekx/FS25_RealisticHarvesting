@@ -28,6 +28,8 @@ Your combine now has a real engine load that responds to:
 - Header width
 - Terrain slope
 - Calibration settings
+- **Pickup Header / Swathing** (detected automatically, 0.75x load multiplier)
+- **Extreme Precision Calibration** (15+ crops tuned to real-world bu/hr targets)
 
 Drive too fast → engine overloads → you lose grain. Simple.
 
@@ -143,19 +145,17 @@ Press **Right Shift + K** while in a combine to open the Calibration Menu.
 
 > AUTO is convenient. MANUAL rewards the skilled operator with up to **+2.5% efficiency bonus**.
 
-### How Calibration Affects Loss
+### How Calibration Affects Your Combine
 
-The calibration system uses a **continuous curve** for each parameter:
+The physics are strictly divided into two distinct mechanics based on which part of the combine you are tuning:
 
-| Position | Effect |
-|:---|:---:|
-| Exactly at Sweet Spot | +2.5% efficiency bonus |
-| Zero Loss zone | 0% |
-| Edge of tolerance | −2.5% penalty |
-| Beyond tolerance | Increasing penalty |
+**1. Efficiency (Speed) — Rotor & Feeder House**
+These components pull crop into the machine and thresh the bulk of it. If these are poorly configured, the engine will struggle, throughput will drop, and your cruise control will force you to drive slower. Perfect settings grant up to a **+5.0% Speed Bonus**.
 
-> All 5 parameters are interconnected — you can't ignore 4 and fix 1.
+**2. Crop Loss (Wasted Grain) — Fan & Sieves**
+These components separate the grain from the chaff. If the fan is too strong or sieves are badly adjusted, clean grain gets blown out the back onto the field. Perfect settings ensure **0% Added Crop Loss**.
 
+> **Overload Shield:** Achieving perfection in your Speed settings also grants an "Overload Shield", preventing minor crop density spikes from accidentally triggering crop losses when you are driving fast! All 5 parameters are interconnected.
 ---
 
 ---

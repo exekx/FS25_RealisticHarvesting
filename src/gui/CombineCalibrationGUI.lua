@@ -385,28 +385,51 @@ function CombineCalibrationGUI:draw()
     
     cy = cy - ui.lineHeight * 0.5
     
-    cy = cy - ui.lineHeight * 0.5
-    
     -- 5. Loss Status — settings-based preview (always shown, accurate)
-    -- cropLoss in LoadCalculator is not populated → always use calcSettingsLossPreview
     local load = (spec.loadCalculator and spec.loadCalculator.engineLoad or 0) * 100
     
-    local previewLoss = 0
+    local effPenalty = 0
+    local lossPenalty = 0
     if memory.currentCrop then
-        previewLoss = CombineSettingsDatabase:calcSettingsLossPreview(memory.currentCrop, memory.currentSettings)
+        effPenalty, lossPenalty, _ = memory:checkSettingsForCrop(memory.currentCrop)
     end
     
-    local lossColor = ui.colors.text
-    if previewLoss > 0.5 then lossColor = ui.colors.warning end
-    if previewLoss > 3.0 then lossColor = ui.colors.error end
+    local speedStr = ""
+    local lossStr = ""
+    
+    -- 1. Формуємо текст для Швидкості
+    if effPenalty < 0 then
+        local speedBonus = math.abs(effPenalty) * 5.0
+        speedStr = string.format("Speed: +%.1f%%", speedBonus)
+    else
+        speedStr = string.format("Speed: -%.1f%%", effPenalty)
+    end
+    
+    -- 2. Формуємо текст для Втрат (значення <0 це математичний "бонус" в ядрі, але для гравця це 0.0% втрат)
+    if lossPenalty <= 0 then
+        lossStr = "Loss: 0.0%"
+    else
+        lossStr = string.format("Loss: +%.1f%%", lossPenalty)
+    end
+    
+    -- Об'єднуємо два значення завжди
+    local textStr = speedStr .. "  |  " .. lossStr
+    
+    -- 3. Визначаємо колір: якщо є хоч один штраф -> червоний, якщо все ідеально -> зелений, інакше -> білий
+    local textColor = ui.colors.text
+    if lossPenalty > 0.5 or effPenalty > 0.5 then
+        textColor = ui.colors.error or {0.9, 0.2, 0.2, 1.0}
+    elseif effPenalty < -0.1 and lossPenalty <= 0.5 then
+        textColor = ui.colors.success or {0.2, 0.8, 0.2, 1.0}
+    end
     
     setTextAlignment(RenderText.ALIGN_LEFT)
     setTextColor(unpack(ui.colors.textDim))
     renderText(x + ui.margin, cy + 0.005, ui.fontSize, string.format(g_i18n:getText("rhm_gui_engine_load"), load))
     
     setTextAlignment(RenderText.ALIGN_RIGHT)
-    setTextColor(unpack(lossColor))
-    renderText(x + w - ui.margin, cy + 0.005, ui.fontSize, string.format(g_i18n:getText("rhm_gui_preview_loss"), previewLoss))
+    setTextColor(unpack(textColor))
+    renderText(x + w - ui.margin, cy + 0.005, ui.fontSize, textStr)
 
     
     cy = cy - ui.lineHeight * 1.5

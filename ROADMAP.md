@@ -9,19 +9,14 @@
 
 ### v1.4.2.0 (Current)
 **New Features:**
-*   **Machine-Specific Settings:** Each machine type now has its own set of parameters in the Calibration GUI:
-    *   🌾 **Grain Combines** — Fan Speed, Rotor Speed, Upper Sieve, Lower Sieve, Feeder House
-    *   🌿 **Forage Harvesters** — Fan Speed, Drum Speed, Feeder House
-    *   🥔 **Root/Vegetable Harvesters** — Fan Speed, Roller Speed, Feeder House
-    *   🪡 **Cotton Pickers** — Fan Speed, Picker Speed, Feeder House
-*   **Manual Crop Selection:** Players can now switch crops in the Calibration GUI without actively harvesting, instantly applying optimal settings.
-*   **Preview Loss:** The GUI now shows a real-time **Preview Loss %** calculated from how far current settings deviate from the crop's optimal template — visible even when the machine is idle.
-*   **Per-Crop Optimal Settings:** Each root/vegetable crop now has unique optimal values instead of a shared generic template:
-    *   🥔 Potato: Fan 35%, Roller 40%, Feeder 70%
-    *   🧅 Onion: Fan **75%** (strong air for leaf separation), Roller 45%
-    *   🥕 Carrot/Parsnip: Fan **30%**, Roller **35%**, Feeder 75%
-    *   🥬 Spinach: Fan **20%**, Roller **25%** (minimal to avoid damage)
-    *   🫘 Green Bean: Fan 45%, Roller 38%, Feeder 62%
+*   **Pickup Header / Swath Support:** Automatic detection of pickup/swath headers (`lastValidInputFruitType == 0`). Applies a **0.75x engine load multiplier**, simulating lower resistance compared to windrowing.
+*   **High-Precision Calibration:** Complete overhaul of all crop factors (15+ types) based on real-world US high-efficiency throughput targets (e.g., S780 targeting 5000 bu/hr in corn).
+*   **Forage Harvester Realism:** Adjusted forage harvester capacity (coefficient 0.051) to match real-world tonnage (e.g., JD 9900 @ ~400 t/hr silage).
+*   **Savegame Reliability:** Fixed critical "Path not registered" errors in Dedicated Server logs by implementing redundant XML schema registration and graceful error handling during save.
+*   **Machine-Specific Settings:** Each machine type now has its own set of parameters in the Calibration GUI.
+*   **Manual Crop Selection:** Switch crops in the Calibration GUI without actively harvesting.
+*   **Preview Loss:** Real-time **Preview Loss %** calculated from deviation from optimal template.
+*   **Per-Crop Optimal Settings:** Unique optimal values for root/vegetable crops.
 
 **Fixed:**
 *   **Auto Crop Detection Broken for Forage/Root/Veg:** The local `fillTypeMapping` in `addCutterArea` only contained 10 grain crops. Replaced with a single call to `CombineSettingsDatabase:getCropNameFromFillType()` — now detects all machine types including CHAFF, ONION, POTATO, SPINACH, GREENBEAN.
@@ -110,7 +105,6 @@
 Based on community feedback and suggestions, here is the plan for future updates.
 
 ### Phase 1: Core Mechanics & Refinement (Next)
-*   **Smoother Load Control:** Improve the "feel" of the governor to maintain ~90-95% load more consistently without "hunting" or hesitation.
 *   **Pickup Header Improved Support:** Better handling for windrow harvesting (grass/straw) with accurate load calculations.
 *   **No-Bunker Machine Loss Exemption:** Automatically disable calibration crop loss penalty for machines that don't have a bunker — specifically forage harvesters (blow directly into trailer) and root crop diggers (transfer via elevator to trailer). For these machines, "losing grain" is not a meaningful concept — only speed (engine load) matters.
 

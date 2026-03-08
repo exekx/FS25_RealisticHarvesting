@@ -40,21 +40,21 @@ function rhm_Combine.registerOverwrittenFunctions(vehicleType)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "getCanBeTurnedOn", rhm_Combine.getCanBeTurnedOn)
 end
 
----Реєстрація XML шляхів для savegame (КРИТИЧНО для збереження даних!)
----Без цього FS25 не знає які вузли XML записувати/читати для цієї спеціалізації
+---Реєстрація XML шляхів для vehicle config (shop/XML конфіг)
 function rhm_Combine.registerXMLPaths(schema, basePath)
-    -- Поточні налаштування комбайну
     local cur = basePath .. ".combineMemory.current"
-    schema:register(XMLValueType.STRING, cur .. "#mode",         "Combine settings mode", "AUTO")
-    schema:register(XMLValueType.STRING, cur .. "#currentCrop",  "Current crop", "")
-    schema:register(XMLValueType.BOOL,   cur .. "#autoSwitch",   "Auto switch enabled", true)
-    schema:register(XMLValueType.INT,    cur .. "#fan",          "Fan", 50)
-    schema:register(XMLValueType.INT,    cur .. "#upperSieve",   "Upper sieve", 50)
-    schema:register(XMLValueType.INT,    cur .. "#lowerSieve",   "Lower sieve", 50)
-    schema:register(XMLValueType.INT,    cur .. "#rotor",        "Rotor", 50)
-    schema:register(XMLValueType.INT,    cur .. "#feeder",       "Feeder", 50)
+    schema:register(XMLValueType.STRING, cur .. "#mode",        "Combine settings mode", "AUTO")
+    schema:register(XMLValueType.STRING, cur .. "#currentCrop", "Current crop", "")
+    schema:register(XMLValueType.BOOL,   cur .. "#autoSwitch",  "Auto switch enabled", true)
+    schema:register(XMLValueType.INT,    cur .. "#fan",         "Fan", 50)
+    schema:register(XMLValueType.INT,    cur .. "#upperSieve",  "Upper sieve", 50)
+    schema:register(XMLValueType.INT,    cur .. "#lowerSieve",  "Lower sieve", 50)
+    schema:register(XMLValueType.INT,    cur .. "#rotor",       "Rotor", 50)
+    schema:register(XMLValueType.INT,    cur .. "#feeder",      "Feeder", 50)
 end
 
+---Реєстрація XML шляхів для savegame (vehicles.xml) — критично для vehicles.xml
+---FS25 викликає цю функцію автоматично для кожної спеціалізації при реєстрації savegame_vehicles схеми
 function rhm_Combine.registerSavegameXMLPaths(schema, basePath)
     rhm_Combine.registerXMLPaths(schema, basePath)
 end
@@ -79,6 +79,15 @@ function rhm_Combine.registerEventListeners(vehicleType)
     
     -- INPUT: Реєструємо події введення
     SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", rhm_Combine)
+    
+    -- CRITICAL FIX: явна реєстрація схеми savegame_vehicles для програмно доданих спеціалізацій
+    -- FS25 викликає registerSavegameXMLPaths через vehicleType, але для програмно доданих спеціалізацій
+    -- цей механізм може не срацювати на дедикованому сервері. Додаємо запасний варіант:
+    if Vehicle and Vehicle.xmlSchemaSavegame then
+        local basePath = "FS25_RealisticHarvesting.rhm_Combine"
+        rhm_Combine.registerXMLPaths(Vehicle.xmlSchemaSavegame, basePath)
+        print("RHM: Registered savegame XML schema paths via Vehicle.xmlSchemaSavegame")
+    end
 end
 
 -- ============================================================================
@@ -574,20 +583,18 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         self._speedLimitLogTime = g_currentMission.time
     end
     
-    -- ЗАВЖДИ застосовуємо розрахований ліміт (не порівнюємо з оригінальним)
-    -- Це дозволяє обмежувати швидкість навіть якщо вона менша за оригінальний ліміт гри
-    if calculatedLimit < spec.loadCalculator.genuineSpeedLimit then
-        spec.isSpeedLimitActive = true
-        limit = calculatedLimit
-        
-        -- Логуємо тільки коли РЕАЛЬНО обмежуємо
-        if not self._lastLimitLog or math.abs(self._lastLimitLog - limit) > 0.5 then
-            -- Logging.info("RHM: [getSpeedLimit] *** LIMITING SPEED to %.1f km/h (load: %.1f%%) ***", 
-            --     limit, engineLoad)
-            self._lastLimitLog = limit
-        end
-    else
-        spec.isSpeedLimitActive = false
+    -- ЗАВЖДИ застосовуємо розрахований ліміт під час роботи жатки!
+    -- Раніше тут була перевірка `if calculatedLimit < genuineLimit`, яка ВІДМИКАЛА мод
+    -- при ідеальних налаштуваннях (коли ліміт досягав стелі), через що комбайн провалювався
+    -- до ванільних 10 км/год. Тепер ми гарантовано дозволяємо моду підіймати швидкість вище ванільної.
+    spec.isSpeedLimitActive = true
+    limit = calculatedLimit
+    
+    -- Логуємо тільки коли РЕАЛЬНО обмежуємо
+    if not self._lastLimitLog or math.abs(self._lastLimitLog - limit) > 0.5 then
+        -- Logging.info("RHM: [getSpeedLimit] *** LIMITING SPEED to %.1f km/h (load: %.1f%%) ***", 
+        --     limit, engineLoad)
+        self._lastLimitLog = limit
     end
     
     return limit, doCheckSpeedLimit
@@ -977,18 +984,26 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local spec = self.spec_rhm_Combine
     if not spec or not spec.combineMemory then return end
     
-    -- Поточні налаштування
     local cur = key .. ".combineMemory.current"
-    xmlFile:setValue(cur .. "#mode",        spec.combineMemory.mode or "AUTO")
-    xmlFile:setValue(cur .. "#autoSwitch",  spec.combineMemory.autoSwitchEnabled ~= false)
-    if spec.combineMemory.currentCrop then
-        xmlFile:setValue(cur .. "#currentCrop", spec.combineMemory.currentCrop)
+    local mem = spec.combineMemory
+    local settings = mem.currentSettings
+    
+    -- Використовуємо pcall для кожного setValue щоб помилка валідації схеми не зрупала збереження
+    local function safeSet(path, value)
+        local ok, err = pcall(function() xmlFile:setValue(path, value) end)
+        if not ok then
+            print("RHM: [SAVE] Warning - could not set " .. tostring(path) .. ": " .. tostring(err))
+        end
     end
-    xmlFile:setValue(cur .. "#fan",         spec.combineMemory.currentSettings.fan or 50)
-    xmlFile:setValue(cur .. "#upperSieve",  spec.combineMemory.currentSettings.upperSieve or 50)
-    xmlFile:setValue(cur .. "#lowerSieve",  spec.combineMemory.currentSettings.lowerSieve or 50)
-    xmlFile:setValue(cur .. "#rotor",       spec.combineMemory.currentSettings.rotor or 50)
-    xmlFile:setValue(cur .. "#feeder",      spec.combineMemory.currentSettings.feeder or 50)
+    
+    safeSet(cur .. "#mode",       mem.mode or "AUTO")
+    safeSet(cur .. "#autoSwitch", mem.autoSwitchEnabled ~= false)
+    safeSet(cur .. "#currentCrop", mem.currentCrop or "")
+    safeSet(cur .. "#fan",        settings.fan or 50)
+    safeSet(cur .. "#upperSieve", settings.upperSieve or 50)
+    safeSet(cur .. "#lowerSieve", settings.lowerSieve or 50)
+    safeSet(cur .. "#rotor",      settings.rotor or 50)
+    safeSet(cur .. "#feeder",     settings.feeder or 50)
     
     print(string.format("RHM: [SAVE] Saved combine state for %s", self:getName() or "?"))
 end
