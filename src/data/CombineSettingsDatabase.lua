@@ -221,6 +221,15 @@ local templates = {
         feeder = {optimal = 70, min = 55, max = 85, tolerance = 8},
     },
 
+    -- Lentil (Lentejas) - Technical data: Rotor 300-500 (40%), Fan 700-850 (80%)
+    lentil = {
+        fan = {optimal = 80, min = 70, max = 90, tolerance = 7},
+        upperSieve = {optimal = 65, min = 50, max = 80, tolerance = 6},
+        lowerSieve = {optimal = 55, min = 40, max = 70, tolerance = 6},
+        rotor = {optimal = 40, min = 30, max = 55, tolerance = 5},
+        feeder = {optimal = 70, min = 55, max = 85, tolerance = 8},
+    },
+
     -- Flax / Linseed - Medium rotor (700 rpm), High fan (800 rpm)
     flax = {
         fan = {optimal = 80, min = 65, max = 95, tolerance = 7},

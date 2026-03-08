@@ -59,7 +59,7 @@ function CombineSettingsEvent:run(connection)
         local mem = self.vehicle.spec_rhm_Combine.combineMemory
         
         if self.isFullProfile then
-            -- Apply full profile
+            -- Apply full profile (e.g., from loading a user preset)
             mem.currentSettings.fan = self.fullSettings.fan
             mem.currentSettings.rotor = self.fullSettings.rotor
             mem.currentSettings.upperSieve = self.fullSettings.upperSieve
@@ -69,25 +69,34 @@ function CombineSettingsEvent:run(connection)
             mem.mode = "MANUAL"
             print("RHM: [Sync] Received full user profile settings via network")
         else
-            if self.parameter == "AUTO_MODE" then
-                -- Apply AUTO mode
-                mem.autoSwitchEnabled = (self.value == 1)
-                if mem.autoSwitchEnabled then
-                    mem.mode = "AUTO"
-                    if mem.currentCrop then
-                        mem:autoConfigureForCrop(mem.currentCrop, true)
-                    end
-                else
-                    mem.mode = "MANUAL"
+            if self.parameter == "AUTO_SET" then
+                -- Client requested to set AUTO mode
+                mem.autoSwitchEnabled = true
+                mem.mode = "AUTO"
+                if mem.currentCrop then
+                    -- SERVER AUTHORITATIVE ACTION: Recalculate and sync back
+                    mem:autoConfigureForCrop(mem.currentCrop, true)
+                    print(string.format("RHM: [Sync] Server applied AUTO mode for %s", mem.currentCrop))
                 end
-                print(string.format("RHM: [Sync] Received AUTO_MODE switch from client: %s", mem.autoSwitchEnabled and "ON" or "OFF"))
+            elseif self.parameter == "RESET_SET" then
+                -- Client requested to RESET settings to neutral (50%)
+                mem.autoSwitchEnabled = false
+                mem.mode = "MANUAL"
+                if mem.currentCrop then
+                    mem:autoConfigureForCrop(mem.currentCrop, false)
+                    print(string.format("RHM: [Sync] Server applied RESET to 50%% for %s", mem.currentCrop))
+                end
+            elseif self.parameter == "AUTO_MODE" then
+                -- Manual toggle of the behavior flag
+                mem.autoSwitchEnabled = (self.value == 1)
+                mem.mode = mem.autoSwitchEnabled and "AUTO" or "MANUAL"
             else
-                -- Apply single parameter
+                -- Apply single parameter update
                 if mem.currentSettings[self.parameter] ~= nil then
                     mem.currentSettings[self.parameter] = math.max(0, math.min(100, self.value))
                     mem.autoSwitchEnabled = false
                     mem.mode = "MANUAL"
-                    print(string.format("RHM: [Sync] Received setting update: %s = %d", self.parameter, self.value))
+                    print(string.format("RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
                 end
             end
         end

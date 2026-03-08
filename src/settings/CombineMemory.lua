@@ -74,15 +74,19 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
     
     if forceOptimal and optimalSettings then
         -- AUTO режим: випадковий відхил 1-10 одиниць від оптимуму
-        -- "Автомат не ідеальний" — невелика розбіжність, але гравець моче робити краще ручними налаштуваннями
+        -- ВАЖЛИВО: На дедикованому сервері випадковість має бути тільки на сервері!
         
         local function getAutoValue(optimal)
-            -- Випадковий відхил: від 1 до 10 одиниць (нерівномірний, малі частіше)
-            -- math.random(1, 10) = 1,2,3,4,5,6,7,8,9,10 — всі з рівною ймовірністю
-            local deviation = math.random(1, 10)
-            local sign = math.random() > 0.5 and 1 or -1
-            local value = optimal + (sign * deviation)
-            -- Обмежуємо діапазоном 0-100
+            -- Якщо ми на сервері - генеруємо випадковість
+            -- Якщо на клієнті - просто беремо оптимальне (воно скоро перекриється даними з сервера)
+            local deviation = 0
+            if (g_server ~= nil) then
+                deviation = math.random(1, 10)
+                local sign = math.random() > 0.5 and 1 or -1
+                deviation = sign * deviation
+            end
+            
+            local value = optimal + deviation
             return math.max(0, math.min(100, value))
         end
 
@@ -92,35 +96,62 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
             if optimalSettings[pName] then
                 self.currentSettings[pName] = getAutoValue(optimalSettings[pName].optimal)
             else
-                self.currentSettings[pName] = 50  -- fallback if template missing this param
+                self.currentSettings[pName] = 50 
             end
         end
         
         self.mode = "AUTO"
-        print(string.format("RHM: [OK] Auto settings applied for: %s (machineType=%s, random deviation 1-10)", cropName, self.machineType))
+        print(string.format("RHM: [OK] Auto settings applied for: %s (forceOptimal=%s)", cropName, tostring(forceOptimal)))
     else
-        -- Reset all active params to 50% (MANUAL MODE)
+        -- Reset all active params to 50% (MANUAL MODE / RESET)
         local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
         for _, pName in ipairs(activeParams) do
             self.currentSettings[pName] = 50
         end
         
         self.mode = "MANUAL"
-        print(string.format("RHM: [OK] Default settings (50%%) applied for: %s (MANUAL)", cropName))
+        print(string.format("RHM: [OK] Default settings (50%%) applied for: %s", cropName))
     end
     
-    -- Скидаємо калібрування при автоналаштуванні? Ні, краще залишити поточне або 1.0
-    -- Але якщо це нова культура, то 1.0
     local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
     if not pm or not pm:getProfile(cropName) then
         self.currentYieldCalibration = 1.0
     end
     
     self.currentCrop = cropName
-    
-    -- Do not save global profile automatically
-    
     return true
+end
+
+---Мережевий запит на встановлення AUTO режиму
+function CombineMemory:requestAutoSettings()
+    if not self.currentCrop then return end
+    
+    if g_client and self.combine then
+        -- Надсилаємо команду серверу
+        local event = CombineSettingsEvent.new(self.combine, "AUTO_SET", 1)
+        if not g_server then
+            g_client:getServerConnection():sendEvent(event)
+        else
+            -- В синглі просто викликаємо локально через event
+            event:run(nil)
+        end
+        print("RHM: [Sync] Requested AUTO settings from server")
+    end
+end
+
+---Мережевий запит на RESET (50%)
+function CombineMemory:requestResetSettings()
+    if not self.currentCrop then return end
+    
+    if g_client and self.combine then
+        local event = CombineSettingsEvent.new(self.combine, "RESET_SET", 1)
+        if not g_server then
+            g_client:getServerConnection():sendEvent(event)
+        else
+            event:run(nil)
+        end
+        print("RHM: [Sync] Requested RESET settings from server")
+    end
 end
 
 ---Завантажити глобальний пресет користувача для поточної культури

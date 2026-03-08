@@ -362,7 +362,8 @@ function CombineCalibrationGUI:draw()
     
     -- [ AUTO ] Button (Default optimal)
     self:drawButton(x + ui.margin, cy, btnWidth, 0.035, g_i18n:getText("rhm_gui_btn_auto"), function()
-        memory:autoConfigureForCrop(memory.currentCrop, true)
+        -- FIXED: Use networked request instead of local-only change
+        memory:requestAutoSettings()
     end, {0.9, 0.7, 0.1, 1})
     
     -- [ LOAD ] Button (User Preset)
@@ -440,7 +441,8 @@ function CombineCalibrationGUI:draw()
     end)
     
     self:drawButton(x + w - ui.margin - 0.12, cy, 0.12, 0.035, g_i18n:getText("rhm_gui_btn_reset"), function()
-        memory:autoConfigureForCrop(memory.currentCrop)
+        -- FIXED: Use networked request
+        memory:requestResetSettings()
     end, ui.colors.warning)
     
     cy = cy - ui.lineHeight
@@ -487,7 +489,9 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
         local settings = CombineSettingsDatabase:getSettingsForCrop(memory.currentCrop)
         if settings and settings[param] then
             optimal = settings[param].optimal
-            if math.abs(val - optimal) <= (settings[param].tolerance or 5) then
+            local tolerance = settings[param].tolerance or 5
+            -- ПІДСВІТКА: Оптимальним вважається значення в межах допуску (tolerance)
+            if math.abs(val - optimal) <= tolerance then
                 isOptimal = true
             end
         end
