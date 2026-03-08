@@ -5,47 +5,79 @@ CombineSettingsDatabase = {}
 ---Кожен параметр має: optimal (оптимум), min/max (діапазон), tolerance (допустиме відхилення)
 local templates = {
     -- Середні зернові (пшениця, ячмінь)
-    grain_medium = {
-        fan = {optimal = 65, min = 50, max = 80, tolerance = 7},  -- Was 10
-        upperSieve = {optimal = 60, min = 50, max = 70, tolerance = 6}, -- Was 8
-        lowerSieve = {optimal = 70, min = 60, max = 80, tolerance = 6}, -- Was 8
-        rotor = {optimal = 75, min = 65, max = 85, tolerance = 6}, -- Was 8
-        feeder = {optimal = 50, min = 30, max = 70, tolerance = 10},-- Was 15
+    -- Wheat / Triticale / Rye / Spelt - High rotor (850 rpm), High fan (800 rpm)
+    wheat = {
+        fan = {optimal = 78, min = 65, max = 90, tolerance = 7},
+        upperSieve = {optimal = 55, min = 40, max = 70, tolerance = 6},
+        lowerSieve = {optimal = 45, min = 30, max = 60, tolerance = 6},
+        rotor = {optimal = 80, min = 65, max = 95, tolerance = 6},
+        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+    },
+
+    -- Barley - High rotor (900 rpm), High fan (800 rpm)
+    barley = {
+        fan = {optimal = 78, min = 65, max = 90, tolerance = 7},
+        upperSieve = {optimal = 60, min = 45, max = 75, tolerance = 6},
+        lowerSieve = {optimal = 50, min = 35, max = 65, tolerance = 6},
+        rotor = {optimal = 85, min = 70, max = 100, tolerance = 6},
+        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+    },
+
+    -- Oat - High rotor (800 rpm), High fan (800 rpm)
+    oat = {
+        fan = {optimal = 78, min = 65, max = 90, tolerance = 7},
+        upperSieve = {optimal = 65, min = 50, max = 80, tolerance = 6},
+        lowerSieve = {optimal = 55, min = 40, max = 70, tolerance = 6},
+        rotor = {optimal = 75, min = 60, max = 90, tolerance = 6},
+        feeder = {optimal = 55, min = 40, max = 70, tolerance = 10},
     },
     
     -- Легкі зернові (овес)
-    grain_light = {
-        fan = {optimal = 70, min = 55, max = 85, tolerance = 7},
-        upperSieve = {optimal = 65, min = 55, max = 75, tolerance = 6},
-        lowerSieve = {optimal = 75, min = 65, max = 85, tolerance = 6},
-        rotor = {optimal = 80, min = 70, max = 90, tolerance = 6},
-        feeder = {optimal = 55, min = 35, max = 75, tolerance = 10},
+    -- Canola (Rape Seed) - Medium-Low rotor (500 rpm), High fan (700 rpm)
+    canola = {
+        fan = {optimal = 70, min = 55, max = 85, tolerance = 6},
+        upperSieve = {optimal = 50, min = 35, max = 65, tolerance = 4},
+        lowerSieve = {optimal = 40, min = 25, max = 55, tolerance = 4},
+        rotor = {optimal = 50, min = 40, max = 60, tolerance = 6},
+        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
     },
     
     -- Легкі олійні (ріпак)
-    oilseed_light = {
-        fan = {optimal = 45, min = 30, max = 60, tolerance = 6}, -- Was 8
-        upperSieve = {optimal = 40, min = 30, max = 50, tolerance = 4}, -- Was 6
-        lowerSieve = {optimal = 50, min = 40, max = 60, tolerance = 4}, -- Was 6
-        rotor = {optimal = 60, min = 50, max = 70, tolerance = 6}, -- Was 8
-        feeder = {optimal = 40, min = 25, max = 55, tolerance = 8}, -- Was 12
+    -- Soya Bean - Medium rotor (550 rpm), High fan (750 rpm)
+    soybean = {
+        fan = {optimal = 75, min = 60, max = 90, tolerance = 7},
+        upperSieve = {optimal = 55, min = 40, max = 70, tolerance = 6},
+        lowerSieve = {optimal = 45, min = 30, max = 60, tolerance = 6},
+        rotor = {optimal = 55, min = 45, max = 65, tolerance = 6},
+        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
     },
     
     -- Важкі олійні (соняшник)
-    oilseed_heavy = {
-        fan = {optimal = 55, min = 40, max = 70, tolerance = 7}, -- Was 10
-        upperSieve = {optimal = 70, min = 60, max = 80, tolerance = 6},
-        lowerSieve = {optimal = 80, min = 70, max = 90, tolerance = 6},
-        rotor = {optimal = 65, min = 55, max = 75, tolerance = 6},
+    -- Sunflower - LOW rotor (320 rpm), Medium-High fan (700 rpm)
+    sunflower = {
+        fan = {optimal = 70, min = 55, max = 85, tolerance = 7},
+        upperSieve = {optimal = 70, min = 55, max = 85, tolerance = 6},
+        lowerSieve = {optimal = 60, min = 45, max = 75, tolerance = 6},
+        rotor = {optimal = 32, min = 22, max = 42, tolerance = 5},
         feeder = {optimal = 60, min = 45, max = 75, tolerance = 10},
+    },
+
+    -- Sorghum - Medium-High rotor (640 rpm), High fan (750-800 rpm)
+    sorghum = {
+        fan = {optimal = 78, min = 65, max = 90, tolerance = 7},
+        upperSieve = {optimal = 55, min = 40, max = 70, tolerance = 6},
+        lowerSieve = {optimal = 50, min = 35, max = 65, tolerance = 6},
+        rotor = {optimal = 64, min = 54, max = 74, tolerance = 6},
+        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
     },
     
     -- Кукурудза
+    -- Maize (Corn) - LOW rotor (350 rpm), VERY High fan (920 rpm), Wide sieves
     corn = {
-        fan = {optimal = 85, min = 70, max = 95, tolerance = 6}, -- Was 8
-        upperSieve = {optimal = 80, min = 70, max = 90, tolerance = 6},
-        lowerSieve = {optimal = 85, min = 75, max = 95, tolerance = 6},
-        rotor = {optimal = 90, min = 80, max = 100, tolerance = 5}, -- Was 6
+        fan = {optimal = 92, min = 80, max = 100, tolerance = 6},
+        upperSieve = {optimal = 75, min = 60, max = 90, tolerance = 6},
+        lowerSieve = {optimal = 65, min = 50, max = 80, tolerance = 6},
+        rotor = {optimal = 35, min = 25, max = 45, tolerance = 5},
         feeder = {optimal = 70, min = 55, max = 85, tolerance = 10},
     },
     
@@ -180,14 +212,49 @@ local templates = {
         feeder = {optimal = 55, min = 35, max = 75, tolerance = 10},
     },
 
-    -- ============================
-    -- COTTON PICKER TEMPLATES
-    -- (rotor = Picker Spindle RPM, fan = Basket Duct Fan, feeder = Conveyor)
-    -- ============================
-    cotton_picker = {
-        fan    = {optimal = 50, min = 30, max = 70, tolerance = 10},
-        rotor  = {optimal = 55, min = 35, max = 75, tolerance = 10},
-        feeder = {optimal = 45, min = 25, max = 65, tolerance = 10},
+    -- Chickpea (Garbanzos) - Technical data: Rotor 300-500 (40%), Fan 800-1100 (95%)
+    chickpea = {
+        fan = {optimal = 95, min = 80, max = 110, tolerance = 8},
+        upperSieve = {optimal = 75, min = 60, max = 90, tolerance = 5},
+        lowerSieve = {optimal = 60, min = 45, max = 75, tolerance = 4},
+        rotor = {optimal = 40, min = 30, max = 55, tolerance = 5},
+        feeder = {optimal = 70, min = 55, max = 85, tolerance = 8},
+    },
+
+    -- Flax / Linseed - Medium rotor (700 rpm), High fan (800 rpm)
+    flax = {
+        fan = {optimal = 80, min = 65, max = 95, tolerance = 7},
+        upperSieve = {optimal = 55, min = 40, max = 70, tolerance = 5},
+        lowerSieve = {optimal = 45, min = 30, max = 60, tolerance = 5},
+        rotor = {optimal = 70, min = 55, max = 85, tolerance = 6},
+        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+    },
+
+    -- Mustard / Buckwheat - Medium rotor (500 rpm), Medium-Low fan (550 rpm)
+    mustard = {
+        fan = {optimal = 55, min = 40, max = 70, tolerance = 6},
+        upperSieve = {optimal = 45, min = 35, max = 60, tolerance = 5},
+        lowerSieve = {optimal = 35, min = 25, max = 50, tolerance = 5},
+        rotor = {optimal = 50, min = 40, max = 65, tolerance = 6},
+        feeder = {optimal = 40, min = 25, max = 55, tolerance = 8},
+    },
+
+    -- Clover - MAX rotor, MIN fan, very tight concave
+    clover = {
+        fan = {optimal = 20, min = 5, max = 40, tolerance = 5},
+        upperSieve = {optimal = 35, min = 20, max = 50, tolerance = 5},
+        lowerSieve = {optimal = 25, min = 15, max = 40, tolerance = 5},
+        rotor = {optimal = 100, min = 90, max = 100, tolerance = 5},
+        feeder = {optimal = 35, min = 20, max = 50, tolerance = 8},
+    },
+
+    -- Grass Seed - MAX rotor (920 rpm), High fan (800 rpm)
+    grass_seed = {
+        fan = {optimal = 80, min = 65, max = 95, tolerance = 7},
+        upperSieve = {optimal = 40, min = 25, max = 55, tolerance = 5},
+        lowerSieve = {optimal = 30, min = 20, max = 45, tolerance = 5},
+        rotor = {optimal = 92, min = 80, max = 100, tolerance = 6},
+        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
     },
 }
 ---@field machineParams table Active parameters per machine type
@@ -255,39 +322,46 @@ end
 
 CombineSettingsDatabase.crops = {
     -- Зернові
-    ["WHEAT"]   = { name = "Пшениця",            nameEN = "Wheat",            template = templates.grain_medium,  machineType = "grain", group = "grain",       fillType = safeFillType(FillType.WHEAT) },
-    ["BARLEY"]  = { name = "Ячмінь",             nameEN = "Barley",           template = templates.grain_medium,  machineType = "grain", group = "grain",       fillType = safeFillType(FillType.BARLEY) },
-    ["OAT"]     = { name = "Овес",               nameEN = "Oat",              template = templates.grain_light,   machineType = "grain", group = "grain",       fillType = safeFillType(FillType.OAT) },
-    ["SORGHUM"] = { name = "Сорго",              nameEN = "Sorghum",          template = templates.grain_medium,  machineType = "grain", group = "grain",       fillType = safeFillType(FillType.SORGHUM) },
+    ["WHEAT"]   = { name = "Пшениця",            nameEN = "Wheat",            template = templates.wheat,         machineType = "grain", group = "grain",       fillType = safeFillType(FillType.WHEAT) },
+    ["BARLEY"]  = { name = "Ячмінь",             nameEN = "Barley",           template = templates.barley,        machineType = "grain", group = "grain",       fillType = safeFillType(FillType.BARLEY) },
+    ["OAT"]     = { name = "Овес",               nameEN = "Oat",              template = templates.oat,           machineType = "grain", group = "grain",       fillType = safeFillType(FillType.OAT) },
+    ["SORGHUM"] = { name = "Сорго",              nameEN = "Sorghum",          template = templates.sorghum,       machineType = "grain", group = "grain",       fillType = safeFillType(FillType.SORGHUM) },
     
     -- Рис
     ["RICE"]            = { name = "Рис",               nameEN = "Rice",             template = templates.rice,          machineType = "grain", group = "rice",        fillType = safeFillType(FillType.RICE) },
     ["RICE_LONG_GRAIN"] = { name = "Рис (довгозерний)", nameEN = "Rice (Long Grain)", template = templates.rice,          machineType = "grain", group = "rice",        fillType = safeFillType(FillType.RICE_LONG_GRAIN) },
     
     -- Олійні
-    ["CANOLA"]    = { name = "Ріпак",             nameEN = "Canola",          template = templates.oilseed_light, machineType = "grain", group = "oilseed",     fillType = safeFillType(FillType.CANOLA) },
-    ["SUNFLOWER"] = { name = "Соняшник",          nameEN = "Sunflower",       template = templates.oilseed_heavy, machineType = "grain", group = "oilseed",     fillType = safeFillType(FillType.SUNFLOWER) },
+    ["CANOLA"]    = { name = "Ріпак",             nameEN = "Canola",          template = templates.canola,        machineType = "grain", group = "oilseed",     fillType = safeFillType(FillType.CANOLA) },
+    ["SUNFLOWER"] = { name = "Соняшник",          nameEN = "Sunflower",       template = templates.sunflower,     machineType = "grain", group = "oilseed",     fillType = safeFillType(FillType.SUNFLOWER) },
     
     -- Кукурудза
     ["CORN"] = { name = "Кукурудза", nameEN = "Corn", template = templates.corn,          machineType = "grain", group = "corn",        fillType = safeFillType(FillType.MAIZE) },
     
     -- Бобові
-    ["SOYBEAN"]  = { name = "Соя",           nameEN = "Soybean",   template = templates.legume,        machineType = "grain", group = "legume",      fillType = safeFillType(FillType.SOYBEAN) },
+    ["SOYBEAN"]  = { name = "Соя",           nameEN = "Soybean",   template = templates.soybean,       machineType = "grain", group = "legume",      fillType = safeFillType(FillType.SOYBEAN) },
     ["PEA"]      = { name = "Горох",         nameEN = "Peas",      template = templates.legume,        machineType = "grain", group = "legume",      fillType = safeFillType(FillType.PEA) },
-    ["LENTIL"]   = { name = "Сочевиця",      nameEN = "Lentil",    template = templates.legume,        machineType = "grain", group = "legume",      fillType = nil },
-    ["CHICKPEA"] = { name = "Нут",           nameEN = "Chickpea",  template = templates.legume,        machineType = "grain", group = "legume",      fillType = nil },
+    ["LENTIL"]   = { name = "Сочевиця",      nameEN = "Lentil",    template = templates.lentil,        machineType = "grain", group = "legume",      fillType = safeFillType(FillType.LENTIL) },
+    ["CHICKPEA"] = { name = "Нут",           nameEN = "Chickpea",  template = templates.chickpea,      machineType = "grain", group = "legume",      fillType = safeFillType(FillType.CHICKPEA) },
 
     -- Додаткові зернові (Mod crops)
-    ["RYE"]       = { name = "Жито",     nameEN = "Rye",       template = templates.grain_medium,  machineType = "grain", group = "grain", fillType = nil },
-    ["SPELT"]     = { name = "Спельта",  nameEN = "Spelt",     template = templates.grain_light,   machineType = "grain", group = "grain", fillType = nil },
-    ["TRITICALE"] = { name = "Тритикале",nameEN = "Triticale", template = templates.grain_medium,  machineType = "grain", group = "grain", fillType = nil },
-    ["MILLET"]    = { name = "Просо",    nameEN = "Millet",    template = templates.grain_light,   machineType = "grain", group = "grain", fillType = nil },
-    ["BUCKWHEAT"] = { name = "Гречка",   nameEN = "Buckwheat", template = templates.grain_medium,  machineType = "grain", group = "grain", fillType = nil },
+    ["RYE"]       = { name = "Жито",     nameEN = "Rye",       template = templates.wheat,         machineType = "grain", group = "grain", fillType = nil },
+    ["SPELT"]     = { name = "Спельта",  nameEN = "Spelt",     template = templates.wheat,         machineType = "grain", group = "grain", fillType = nil },
+    ["TRITICALE"] = { name = "Тритикале",nameEN = "Triticale", template = templates.wheat,         machineType = "grain", group = "grain", fillType = nil },
+    ["OATS"]      = { name = "Овес",     nameEN = "Oats",      template = templates.oat,           machineType = "grain", group = "grain", fillType = nil },
+    ["MILLET"]    = { name = "Просо",    nameEN = "Millet",    template = templates.wheat,         machineType = "grain", group = "grain", fillType = nil },
+    ["BUCKWHEAT"] = { name = "Гречка",   nameEN = "Buckwheat", template = templates.mustard,       machineType = "grain", group = "grain", fillType = nil },
     
     -- Додаткові олійні (Mod crops)
-    ["LINSEED"] = { name = "Льон",     nameEN = "Linseed/Flax", template = templates.oilseed_light, machineType = "grain", group = "oilseed", fillType = nil },
-    ["MUSTARD"] = { name = "Гірчиця", nameEN = "Mustard",       template = templates.oilseed_light, machineType = "grain", group = "oilseed", fillType = nil },
-    ["POPPY"]   = { name = "Мак",     nameEN = "Poppy",         template = templates.oilseed_light, machineType = "grain", group = "oilseed", fillType = nil },
+    ["LINSEED"] = { name = "Льон",     nameEN = "Linseed/Flax", template = templates.flax,          machineType = "grain", group = "oilseed", fillType = nil },
+    ["FLAX"]    = { name = "Льон",     nameEN = "Flax",         template = templates.flax,          machineType = "grain", group = "oilseed", fillType = nil },
+    ["MUSTARD"] = { name = "Гірчиця", nameEN = "Mustard",       template = templates.mustard,       machineType = "grain", group = "oilseed", fillType = nil },
+    ["SAFFLOWER"] = { name = "Сафлор", nameEN = "Safflower",     template = templates.sunflower,     machineType = "grain", group = "oilseed", fillType = nil },
+    ["POPPY"]   = { name = "Мак",     nameEN = "Poppy",         template = templates.mustard,       machineType = "grain", group = "oilseed", fillType = nil },
+    
+    -- Трави
+    ["GRASS_SEED"] = { name = "Насіння трави", nameEN = "Grass Seed", template = templates.grass_seed, machineType = "grain", group = "grain", fillType = nil },
+    ["CLOVER"]     = { name = "Клевер",        nameEN = "Clover",     template = templates.clover,     machineType = "grain", group = "grain", fillType = nil },
     
     -- Волокнисті (Mod crops)
     ["HEMP"] = { name = "Коноплі (зерно)", nameEN = "Hemp", template = templates.oilseed_heavy, machineType = "grain", group = "oilseed", fillType = nil },

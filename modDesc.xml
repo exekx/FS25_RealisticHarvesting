@@ -48,6 +48,7 @@ Changelog 1.4.2.0:
 - IMPROVED: Forage Harvester throughput calibrated to real-world data (coefficient adjusted from 0.150 to 0.051).
 - NEW: Added universal Pickup/Swath header detection with lower engine load multiplier (0.75x).
 - IMPROVED: Precision calibration of crop factors and densities based on real-world yield targets (bu/hr).
+- NEW: Every crop now uses individual technical presets derived from real-world manuals (20+ crops fine-tuned).
 
 Changelog 1.4.1.0:
 - FIXED: Game crash ("attempt to call missing method 'getIsControlled'") when using equipment from DLC packs (e.g. Highland DLC NH 8040 with Holaras tools). Added safe nil check for the method.
@@ -142,6 +143,7 @@ Changelog 1.4.2.0:
 - VERBESSERT: Durchsatz von Feldhäckslern an reale Daten angepasst (Koeffizient von 0,150 auf 0,051 korrigiert).
 - NEU: Universelle Erkennung von Pickup-/Schwad-Vorsätzen mit reduziertem Motorlast-Multiplikator (0,75x) hinzugefügt.
 - VERBESSERT: Präzise Kalibrierung von Fruchtfaktoren und Dichten basierend auf realen Ertragszielen (bu/hr).
+- NEU: Jede Frucht verwendet nun individuelle technische Voreinstellungen aus realen Handbüchern (20+ Früchte optimiert).
 
 Changelog 1.4.1.0:
 - BEHOBEN: Spielabsturz ("attempt to call missing method 'getIsControlled'") bei Nutzung von Ausrüstung aus DLC-Packs hinzugefügt.
@@ -236,6 +238,7 @@ Changelog 1.4.2.0:
 - AMÉLIORÉ: Débit de l'ensileuse calibré sur des données réelles (coefficient ajusté de 0,150 à 0,051).
 - NOUVEAU: Ajout de la détection universelle des ramasseurs/swath avec un multiplicateur de charge moteur réduit (0,75x).
 - AMÉLIORÉ: Étalonnage précis des facteurs de culture et des densités basé sur des objectifs de rendement réels (bu/hr).
+- NOUVEAU : Chaque culture utilise désormais des préréglages techniques individuels issus de manuels réels (20+ cultures affinées).
 
 Changelog 1.4.1.0:
 - CORRIGÉ: Crash du jeu ("attempt to call missing method 'getIsControlled'") lors de l'utilisation d'équipements DLC (ex: Highland DLC NH 8040 avec les outils Holaras). Vérification nil sécurisée ajoutée.
@@ -333,6 +336,7 @@ Changelog 1.4.2.0:
 - ULEPSZONO: Wydajność sieczkarni samojezdnych skalibrowana zgodnie z rzeczywistymi danymi (współczynnik skorygowany z 0,150 do 0,051).
 - NOWOŚĆ: Dodano uniwersalne wykrywanie podbieraczy/pokosów z niższym mnożnikiem obciążenia silnika (0,75x).
 - ULEPSZONO: Precyzyjna kalibracja współczynników i gęstości upraw oparta na rzeczywistych celach plonowania (bu/hr).
+- NOWOŚĆ: Każda uprawa używa teraz indywidualnych ustawień technicznych z prawdziwych instrukcji (ponad 20 upraw).
 
 Changelog 1.4.1.0:
 - NAPRAWIONO: Crash gry ("attempt to call missing method 'getIsControlled'") podczas używania pojazdów z DLC (np. Highland DLC NH 8040 z narzędziami Holaras). Dodano bezpieczne sprawdzenie nil.
@@ -430,6 +434,7 @@ Changelog 1.4.2.0:
 - MEJORADO: Rendimiento de la picadora de forraje calibrado con datos reales (coeficiente ajustado de 0,150 a 0,051).
 - NUEVO: Añadida detección universal de cabezales recogedores/hileradores con un multiplicador de carga de motor más bajo (0,75x).
 - MEJORADO: Calibración de precisión de los factores de cultivo y densidades basada en objetivos de rendimiento reales (bu/hr).
+- NUEVO: Cada cultivo ahora utiliza preajustes técnicos individuales de manuales reales (más de 20 cultivos ajustados).
 
 Changelog 1.4.1.0:
 - CORREGIDO: Crash del juego ("attempt to call missing method 'getIsControlled'") al usar equipos de DLC (p.ej. Highland DLC NH 8040 con herramientas Holaras). Añadida verificación nil segura.
@@ -527,6 +532,7 @@ Changelog 1.4.2.0:
 - MIGLIORATO: Produttività della trincia semovente calibrata sui dati reali (coefficiente regolato da 0,150 a 0,051).
 - NOVITÀ: Aggiunto il rilevamento universale delle testate raccoglitrici/andanatrici con un moltiplicatore di carico del motore ridotto (0,75x).
 - MIGLIORATO: Calibrazione di precisione dei fattori di coltura e delle densità basata su obiettivi di resa reali (bu/hr).
+- NUOVO: Ogni coltura ora utilizza impostazioni tecniche individuali tratte da manuali reali (oltre 20 colture ottimizzate).
 
 Changelog 1.4.1.0:
 - RISOLTO: Crash del gioco ("attempt to call missing method 'getIsControlled'") quando si usano veicoli DLC (es. Highland DLC NH 8040 con attrezzi Holaras). Aggiunto controllo nil sicuro.
@@ -624,6 +630,7 @@ Changelog 1.4.2.0:
 - VYLEPŠENO: Průchodnost řezačky zkalibrována podle skutečných dat (koeficient upraven z 0,150 na 0,051).
 - NOVINKA: Přidána univerzální detekce sběracích adaptérů/řádkovačů se sníženým multiplikátorem zatížení motoru (0,75x).
 - VYLEPŠENO: Přesná kalibrace faktorů plodin a hustot na základě reálných výnosových cílů (bu/hr).
+- NOVINKA: Každá plodina nyní používá individuální technické předvolby z reálných manuálů (více než 20 plodin).
 
 Changelog 1.4.1.0:
 - OPRAVENO: Pád hry ("attempt to call missing method 'getIsControlled'") při použití DLC vybavení (např. Highland DLC NH 8040 s nástroji Holaras). Přidána bezpečná kontrola nil.
@@ -721,6 +728,7 @@ Changelog 1.4.2.0:
 - MELHORADO: Rendimento da colhedora de forragem calibrado para dados reais (coeficiente ajustado de 0,150 para 0,051).
 - NOVO: Adicionada detecção universal de plataformas de recolhimento/leira com multiplicador de carga do motor reduzido (0,75x).
 - MELHORADO: Calibração de precisão de fatores de cultura e densidades baseada em metas de produtividade reais (bu/hr).
+- NOVO: Cada cultura agora usa predefinições técnicas individuais de manuais reais (mais de 20 culturas ajustadas).
 
 Changelog 1.4.1.0:
 - CORRIGIDO: Crash do jogo ("attempt to call missing method 'getIsControlled'") ao usar equipamentos DLC (ex: Highland DLC NH 8040 com ferramentas Holaras). Adicionada verificação nil segura.
@@ -818,6 +826,7 @@ Changelog 1.1.0.0:
 - ПОКРАЩЕНО: Пропускна здатність кормозбиральних комбайнів відкалібрована до реальних даних (коефіцієнт змінено з 0.150 на 0.051).
 - НОВЕ: Додано універсальне визначення Pickup/Swath жаток зі зниженим множником навантаження на двигун (0.75x).
 - ПОКРАЩЕНО: Точне калібрування факторів та щільності культур на основі реальних цільових показників врожайності (бушелі/рік).
+- НОВЕ: Кожна культура тепер використовує індивідуальні технічні пресети з реальних посібників (20+ культур налаштовано).
 
 Зміни 1.4.1.0:
 - ВИПРАВЛЕНО: Вилітання гри ("attempt to call missing method 'getIsControlled'") при використанні техніки з DLC (наприклад, Highland DLC NH 8040 з інструментами Holaras). Додано безпечну перевірку nil.
@@ -908,6 +917,7 @@ Changelog 1.1.0.0:
 - УЛУЧШЕНО: Пропускная способность кормоуборочных комбайнов откалибрована согласно реальным данным (коэффициент изменен с 0.150 на 0.051).
 - НОВОЕ: Добавлено универсальное определение Pickup/Swath жаток с пониженным множителем нагрузки на двигатель (0.75x).
 - УЛУЧШЕНО: Точная калибровка факторов и плотности культур на основе реальных целевых показателей урожайности (бушели/час).
+- НОВОЕ: Каждая культура теперь использует индивидуальные технические пресеты из реальных руководств (20+ культур настроены).
 
 Изменения 1.4.1.0:
 - ИСПРАВЛЕНО: Вылет игры ("attempt to call missing method 'getIsControlled'") при использовании техники из DLC (например, Highland DLC NH 8040 с инструментами Holaras). Добавлена безопасная проверка nil.
@@ -997,6 +1007,7 @@ Változások 1.4.2.0:
 - JAVÍTVA: Az önjáró szecskázó áteresztőképessége a valós adatokhoz igazítva (együttható 0,150-ről 0,051-re módosítva).
 - ÚJ: Univerzális rendfelszedő/rendrakó adapter érzékelés hozzáadva alacsonyabb motorterhelési szorzóval (0,75x).
 - JAVÍTVA: A terménytényezők és sűrűségek precíziós kalibrálása a valós hozamcélok alapján (bu/hr).
+- ÚJ: Minden növény mostantól egyedi technikai előbeállításokat használ valós kézikönyvekből (20+ növény finomhangolva).
 
 Változások 1.4.1.0:
 - JAVÍTVA: Játék összeomlás ("attempt to call missing method 'getIsControlled'") DLC járművek használatakor (pl. Highland DLC NH 8040 Holaras eszközökkel). Biztonságos nil ellenőrzés hozzáadva.
