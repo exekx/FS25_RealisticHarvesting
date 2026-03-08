@@ -173,14 +173,16 @@ Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops 
 
 | Crop | Fan | Rotor | Upper Sieve | Lower Sieve | Feeder |
 |:---|:---:|:---:|:---:|:---:|:---:|
-| **Wheat / Barley** | 58–72 | 69–81 | 54–66 | 64–76 | 40–60 |
-| **Oat** | 63–77 | 74–86 | 59–71 | 69–81 | 45–65 |
-| **Corn (Maize)** | 79–91 | 85–95 | 74–86 | 79–91 | 60–80 |
-| **Soybean / Pea / Legumes** | 43–57 | 48–62 | 44–56 | 54–66 | 27–43 |
-| **Canola (Rapeseed)** | 39–51 | 54–66 | 36–44 | 46–54 | 32–48 |
-| **Sunflower** | 48–62 | 59–71 | 64–76 | 74–86 | 50–70 |
+| **Wheat / Barley** | 71–85 | 74–86 | 49–61 | 39–51 | 40–60 |
+| **Oat** | 71–85 | 69–81 | 59–71 | 49–61 | 45–65 |
+| **Corn (Maize)** | 86–98 | 30–40 | 69–81 | 59–71 | 60–80 |
+| **Soybean / Pea / Legumes** | 68–82 | 49–61 | 49–61 | 39–51 | 37–53 |
+| **Canola (Rapeseed)** | 64–76 | 44–56 | 46–54 | 36–44 | 37–53 |
+| **Sunflower** | 63–77 | 27–37 | 64–76 | 54–66 | 50–70 |
 | **Rice** | 73–87 | 79–91 | 64–76 | 64–76 | 48–72 |
-| **Sorghum** | 58–72 | 69–81 | 54–66 | 64–76 | 40–60 |
+| **Sorghum** | 71–85 | 58–70 | 49–61 | 44–56 | 40–60 |
+| **Lentil** | 73–87 | 35–45 | 59–71 | 49–61 | 62–78 |
+| **Chickpea** | 87–103 | 35–45 | 70–80 | 56–64 | 62–78 |
 
 ---
 
@@ -201,13 +203,13 @@ Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops 
 
 | Crop | Fan (optimal) | Roller (optimal) | Feeder (optimal) | Notes |
 |:---|:---:|:---:|:---:|:---|
-| **Potato** | **35%** | **40%** | **70%** | Low air (soil doesn't blow), gentle roller (potato bruises easily) |
-| **Sugarbeet** | **40%** | **55%** | **65%** | Harder than potato, faster roller ok |
+| **Potato** | **35%** | **40%** | **70%** | Low air: soil doesn't blow, gentle roller: prevent bruises |
+| **Sugarbeet** | **40%** | **55%** | **65%** | Harder than potato, faster cleaning |
 | **Beetroot** | **38%** | **48%** | **68%** | Between potato and sugarbeet |
 | **Onion** | **75%** ⬆️ | **45%** | **55%** | Strong airflow needed to separate skins and leaves |
-| **Carrot / Parsnip** | **30%** | **35%** | **75%** ⬆️ | Very gentle — fragile root, fast feeder to lift |
-| **Spinach** | **20%** ⬇️ | **25%** ⬇️ | **60%** | Minimal settings — leaves fly and tear easily |
-| **Green Bean** | **45%** | **38%** | **62%** | Moderate, careful — pods crack |
+| **Carrot / Parsnip** | **30%** | **35%** | **75%** ⬆️ | Very gentle root, fast feeder to lift weight |
+| **Spinach** | **20%** ⬇️ | **25%** ⬇️ | **60%** | Minimal air: leaves fly and tear easily |
+| **Green Bean** | **45%** | **38%** | **62%** | Moderate, careful: pods crack easily |
 
 **Tolerance zone:** ±5–8% from the optimal value shown above.
 

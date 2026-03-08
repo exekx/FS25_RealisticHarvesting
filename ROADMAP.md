@@ -10,18 +10,17 @@
 ### v1.4.2.0 (Current)
 **New Features:**
 *   **Pickup Header / Swath Support:** Automatic detection of pickup/swath headers (`lastValidInputFruitType == 0`). Applies a **0.75x engine load multiplier**, simulating lower resistance compared to windrowing.
-*   **High-Precision Calibration:** Complete overhaul of all crop factors (15+ types) based on real-world US high-efficiency throughput targets (e.g., S780 targeting 5000 bu/hr in corn).
-*   **Forage Harvester Realism:** Adjusted forage harvester capacity (coefficient 0.051) to match real-world tonnage (e.g., JD 9900 @ ~400 t/hr silage).
-*   **Savegame Reliability:** Fixed critical "Path not registered" errors in Dedicated Server logs by implementing redundant XML schema registration and graceful error handling during save.
-*   **Machine-Specific Settings:** Each machine type now has its own set of parameters in the Calibration GUI.
-*   **Manual Crop Selection:** Switch crops in the Calibration GUI without actively harvesting.
-*   **Preview Loss:** Real-time **Preview Loss %** calculated from deviation from optimal template.
-*   **Per-Crop Optimal Settings:** Unique optimal values for root/vegetable crops.
+*   **High-Precision Calibration:** Complete overhaul of all crop factors (20+ types) based on real-world high-efficiency throughput targets and technical manuals (e.g., John Deere/Case IH field guides).
+*   **Multiplayer Sync Fix:** Resolved "AUTO" button desync on dedicated servers. GUI actions are now server-authoritative.
+*   **Per-Crop Highlighting:** GUI now highlights "Optimal" values (Green) based on precise technical tolerances for each crop.
+*   **Lentil & Chickpea:** Individual presets added for pulses based on actual harvester manual settings (High fan, low rotor).
+*   **Forage Harvester Realism:** Adjusted forage harvester capacity (coefficient 0.051) to match real-world tonnage (~400 t/hr silage).
+*   **Savegame Reliability:** Fixed "Path not registered" errors in Dedicated Server logs with redundant schema registration.
 
 **Fixed:**
-*   **Auto Crop Detection Broken for Forage/Root/Veg:** The local `fillTypeMapping` in `addCutterArea` only contained 10 grain crops. Replaced with a single call to `CombineSettingsDatabase:getCropNameFromFillType()` — now detects all machine types including CHAFF, ONION, POTATO, SPINACH, GREENBEAN.
-*   **`autoConfigureForCrop` Hardcoded Grain Params:** Settings auto-config was applying `fan/upperSieve/lowerSieve/rotor/feeder` even on forage/root harvesters (which only have 3 params). Now dynamically iterates active params based on machine type.
-*   **All Root/Veg Crops Showing Same Settings:** All 8 root/veg crops shared a single `root_harvest` template. Each now has its own template with distinct realistic values.
+*   **Multiplayer Desync:** Fixed "flicker" effect where client settings were reverted by the server shortly after change.
+*   **Duplicate l10n Entries:** Removed duplicate strings in `modDesc.xml` that caused engine warnings.
+*   **Lentil Template Missing:** Added the missing technical template for Lentils to the database.
 
 **Improved:**
 *   **Crop Factors Rebalanced** — `SPINACH`: 0.3→**3.0**, `GREENBEAN`: 0.8→**2.5** for realistic engine load on vegetable harvesters.
