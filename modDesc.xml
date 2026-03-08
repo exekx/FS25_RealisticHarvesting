@@ -1550,36 +1550,6 @@ Változások 1.1.0.0:
         <!-- ============================= -->
         <!-- MACHINE-TYPE PARAMETER LABELS -->
         <!-- ============================= -->
-        <text name="rhm_ui_fan_speed">
-            <en>Fan Speed</en><de>Lüftergeschwindigkeit</de><fr>Vitesse du ventilateur</fr>
-            <pl>Prędkość wentylatora</pl><es>Velocidad del ventilador</es><it>Velocità ventola</it>
-            <cz>Rychlost ventilátoru</cz><uk>Швидкість вентилятора</uk><ru>Скорость вентилятора</ru><hu>Ventilátorsebesség</hu>
-        </text>
-
-        <text name="rhm_ui_rotor_speed">
-            <en>Rotor Speed</en><de>Rotorgeschwindigkeit</de><fr>Vitesse du rotor</fr>
-            <pl>Prędkość rotora</pl><es>Velocidad del rotor</es><it>Velocità rotore</it>
-            <cz>Rychlost rotoru</cz><uk>Швидкість ротора</uk><ru>Скорость ротора</ru><hu>Rotorsebesség</hu>
-        </text>
-
-        <text name="rhm_ui_upper_sieve">
-            <en>Upper Sieve</en><de>Obersieb</de><fr>Grille supérieure</fr>
-            <pl>Górne sito</pl><es>Criba superior</es><it>Setaccio superiore</it>
-            <cz>Horní síto</cz><uk>Верхнє сито</uk><ru>Верхнее решето</ru><hu>Felső rosta</hu>
-        </text>
-
-        <text name="rhm_ui_lower_sieve">
-            <en>Lower Sieve</en><de>Untersieb</de><fr>Grille inférieure</fr>
-            <pl>Dolne sito</pl><es>Criba inferior</es><it>Setaccio inferiore</it>
-            <cz>Dolní síto</cz><uk>Нижнє сито</uk><ru>Нижнее решето</ru><hu>Alsó rosta</hu>
-        </text>
-
-        <text name="rhm_ui_feeder_speed">
-            <en>Feeder House</en><de>Schrägförderer</de><fr>Convoyeur d'alimentation</fr>
-            <pl>Dom podajnika</pl><es>Casa del alimentador</es><it>Convogliatore di alimentazione</it>
-            <cz>Podavač</cz><uk>Подавальний транспортер</uk><ru>Наклонная камера</ru><hu>Adagolóház</hu>
-        </text>
-
         <text name="rhm_ui_drum_speed">
             <en>Drum Speed</en><de>Trommelgeschwindigkeit</de><fr>Vitesse du tambour</fr>
             <pl>Prędkość bębna</pl><es>Velocidad del tambor</es><it>Velocità tamburo</it>
