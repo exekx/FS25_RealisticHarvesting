@@ -144,6 +144,11 @@ local templates = {
         rotor  = {optimal = 65, min = 45, max = 85, tolerance = 10},
         feeder = {optimal = 55, min = 35, max = 75, tolerance = 10},
     },
+    forage_grass_windrow = {
+        fan    = {optimal = 55, min = 35, max = 75, tolerance = 10},
+        rotor  = {optimal = 60, min = 40, max = 80, tolerance = 10},
+        feeder = {optimal = 65, min = 45, max = 85, tolerance = 10},
+    },
     forage_corn = {
         fan    = {optimal = 70, min = 50, max = 90, tolerance = 10},
         rotor  = {optimal = 80, min = 60, max = 100, tolerance = 10},
@@ -388,6 +393,8 @@ CombineSettingsDatabase.crops = {
     -- Форажні (для кормозбирального комбайна) (machineType = "forage")
     ["GRASS"]   = { name = "Трава",       nameEN = "Grass",        template = templates.forage_grass,  machineType = "forage", group = "forage", fillType = safeFillType(FillType.GRASS) },
     ["DRYGRASS"]= { name = "Суха Трава",  nameEN = "Dry Grass",    template = templates.forage_grass,  machineType = "forage", group = "forage", fillType = safeFillType(FillType.DRYGRASS) },
+    ["GRASS_WINDROW"]   = { name = "Валок Трави",       nameEN = "Grass Windrow",        template = templates.forage_grass_windrow,  machineType = "forage", group = "forage", fillType = safeFillType(FillType.GRASS_WINDROW) },
+    ["DRYGRASS_WINDROW"]= { name = "Валок Сухої Трави", nameEN = "Dry Grass Windrow",    template = templates.forage_grass_windrow,  machineType = "forage", group = "forage", fillType = safeFillType(FillType.DRYGRASS_WINDROW) },
     ["MAIZE_FORAGE"] = { name = "Кукурудза на силос", nameEN = "Corn Silage", template = templates.forage_corn, machineType = "forage", group = "forage", fillType = safeFillType(FillType.MAIZE) },
 
     -- Бавовник (machineType = "cotton")
@@ -473,8 +480,8 @@ function CombineSettingsDatabase:getCropNameFromFillType(fillType)
         ["GRASS"] = "GRASS",
         ["DRYGRASS"] = "DRYGRASS",
         ["TALLGRASS"] = "GRASS",
-        ["GRASS_WINDROW"] = "GRASS",
-        ["DRYGRASS_WINDROW"] = "DRYGRASS",
+        ["GRASS_WINDROW"] = "GRASS_WINDROW",
+        ["DRYGRASS_WINDROW"] = "DRYGRASS_WINDROW",
         ["SILAGE"] = "MAIZE_FORAGE",
 
         -- Cotton
@@ -482,6 +489,16 @@ function CombineSettingsDatabase:getCropNameFromFillType(fillType)
     }
     
     local matchedName = fillTypeMapping[fillTypeKey]
+    
+    if not matchedName and fillTypeKey then
+        if fillTypeKey:find("_WINDROW") then
+            local baseType = fillTypeKey:gsub("_WINDROW", "")
+            matchedName = fillTypeMapping[baseType]
+        elseif fillTypeKey:find("CUT_") then
+            local baseType = fillTypeKey:gsub("CUT_", "")
+            matchedName = fillTypeMapping[baseType]
+        end
+    end
     if not matchedName then
         print(string.format("RHM: [CROP DB] Unknown FillType KEY: '%s' (ID: %d)", tostring(fillTypeKey), fillType))
     end

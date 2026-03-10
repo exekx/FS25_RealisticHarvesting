@@ -343,9 +343,33 @@ function CombineCalibrationGUI:draw()
         self:cycleCrop(-1)
     end)
     
+    -- Localize Crop Name Helper
+    local function getLocalizedCropName(rawName)
+        if not rawName then return g_i18n:getText("rhm_gui_none") end
+        
+        -- Default to the raw name
+        local displayName = rawName
+        
+        -- Attempt to find FillType and use its localized title
+        local fillTypeIndex = g_fillTypeManager:getFillTypeIndexByName(rawName)
+        if fillTypeIndex and fillTypeIndex > 0 then
+            local fillType = g_fillTypeManager:getFillTypeByIndex(fillTypeIndex)
+            if fillType and fillType.title then
+                displayName = fillType.title
+            end
+        else
+            -- Check for standard l10n formats if FillType doesn't exist
+            local l10nKey = "fillType_" .. string.lower(rawName)
+            if g_i18n:hasText(l10nKey) then
+                displayName = g_i18n:getText(l10nKey)
+            end
+        end
+        return displayName
+    end
+    
     -- Crop Name
     setTextAlignment(RenderText.ALIGN_CENTER)
-    renderText(cropX + 0.025 + 0.07, cy + 0.005, ui.fontSize, memory.currentCrop or g_i18n:getText("rhm_gui_none"))
+    renderText(cropX + 0.025 + 0.07, cy + 0.005, ui.fontSize, getLocalizedCropName(memory.currentCrop))
     
     -- Next Button [>]
     self:drawButton(cropX + 0.025 + 0.14, cy, 0.025, 0.035, ">", function()

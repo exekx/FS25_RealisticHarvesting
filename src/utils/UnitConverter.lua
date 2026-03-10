@@ -44,7 +44,9 @@ function UnitConverter.initBushelCoefficients()
     addCoef("GRASS", 40.0)
     addCoef("DRYGRASS", 40.0)
     
-    print("RHM: UnitConverter initialized")
+    if rhm_Combine and rhm_Combine.debug then
+        print("RHM: UnitConverter initialized")
+    end
 end
 
 -- Default bushel coefficient (if crop not found)

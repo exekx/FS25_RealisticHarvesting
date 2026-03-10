@@ -1,6 +1,6 @@
-﻿---@class rhm_Combine
+---@class rhm_Combine
 rhm_Combine = {}
-rhm_Combine.debug = false
+rhm_Combine.debug = true
 
 ---Перевіряє чи машина підходить для цієї спеціалізації
 ---@param specializations table<string, table>
@@ -81,12 +81,16 @@ function rhm_Combine.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", rhm_Combine)
     
     -- CRITICAL FIX: явна реєстрація схеми savegame_vehicles для програмно доданих спеціалізацій
-    -- FS25 викликає registerSavegameXMLPaths через vehicleType, але для програмно доданих спеціалізацій
-    -- цей механізм може не срацювати на дедикованому сервері. Додаємо запасний варіант:
     if Vehicle and Vehicle.xmlSchemaSavegame then
-        local basePath = "FS25_RealisticHarvesting.rhm_Combine"
+        local modName = g_currentModName 
+            or (g_realisticHarvestManager and g_realisticHarvestManager.modName)
+            or "FS25_RealisticHarvesting"
+        local basePath = string.format("%s.rhm_Combine", modName)
         rhm_Combine.registerXMLPaths(Vehicle.xmlSchemaSavegame, basePath)
-        print("RHM: Registered savegame XML schema paths via Vehicle.xmlSchemaSavegame")
+        
+        if rhm_Combine.debug then
+            print(string.format("RHM: Registered savegame XML schema paths via Vehicle.xmlSchemaSavegame (basePath: %s)", basePath))
+        end
     end
 end
 
@@ -167,8 +171,12 @@ end
 -- Викликається при завантаженні комбайна
 function rhm_Combine:onLoad(savegame)
     -- Створюємо spec для нашого моду
-    -- Використовуємо пряму назву так як g_currentModName не доступний тут
-    local specName = "spec_FS25_RealisticHarvesting.rhm_Combine"
+    -- НЕ хардкодимо назву моду: при перейменуванні папки/моду specName зміниться
+    local modName = g_currentModName 
+        or (g_realisticHarvestManager and g_realisticHarvestManager.modName)
+        or "FS25_RealisticHarvesting"
+    local specName = string.format("spec_%s.rhm_Combine", modName)
+    
     self.spec_rhm_Combine = self[specName]
     local spec = self.spec_rhm_Combine
     
@@ -177,6 +185,9 @@ function rhm_Combine:onLoad(savegame)
             tostring(self:getFullName()), tostring(specName))
         return
     end
+    
+    -- Синхронізація дебаг-прапорця з основним менеджером
+    rhm_Combine.debug = RHM_Debug.isEnabled("Combine")
     
     if rhm_Combine.debug then
         print(string.format("RHM: onLoad called for %s (has savegame: %s)", 
@@ -305,8 +316,17 @@ function rhm_Combine:onLoad(savegame)
     -- Прапорець чи активне обмеження швидкості
     spec.isSpeedLimitActive = false
     
-    -- MULTIPLAYER: Dirty flag для синхронізації
-    spec.dirtyFlag = self:getNextDirtyFlag()
+    -- MULTIPLAYER: Dirty flags для роздільної синхронізації
+    -- spec.dataDirtyFlag: часто оновлювана телеметрія (throttle)
+    -- spec.settingsDirtyFlag: зміни налаштувань CombineMemory (тільки при зміні)
+    spec.dataDirtyFlag = self:getNextDirtyFlag()
+    spec.settingsDirtyFlag = self:getNextDirtyFlag()
+    spec.dirtyFlag = spec.dataDirtyFlag -- Fallback if needed
+    
+    -- Тротлінг мережевих оновлень (MP/DS)
+    spec.lastDataUpdateTime = 0
+    spec.dataUpdateInterval = 200 -- 5 разів на секунду
+    spec.lastSyncedData = {}
     
     -- INPUT: Таблиця для подій введення
     spec.actionEvents = {}
@@ -421,7 +441,9 @@ function rhm_Combine:addCutterArea(superFunc, ...)
                 elseif spec._pendingCrop == cropName then
                     -- Підтверджено другий раз — перемикаємо
                     spec._pendingCrop = nil
-                    print(string.format("RHM: [CROP] Detected crop: %s", cropName))
+                    if rhm_Combine and rhm_Combine.debug then
+                        print(string.format("RHM: [CROP] Detected crop: %s", cropName))
+                    end
                     rhm_Combine.onCropTypeChanged(self, cropName)
                 end
             else
@@ -738,10 +760,6 @@ end
 
 -- Викликається періодично для оновлення логіки
 function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSelection, isSelected)
-    if rhm_Combine.debug then
-        print("RHM: rhm_Combine:onUpdateTick called")
-    end
-    
     -- Client Side Logic (Warnings)
     if self.isClient then
         rhm_Combine.updateWarnings(self, dt)
@@ -798,7 +816,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec.isSpeedLimitActive = false
         
         -- СИНХРОНІЗАЦІЯ: Важливо оновити клієнтів, щоб у них теж зникли цифри
-        self:raiseDirtyFlags(spec.dirtyFlag)
+        self:raiseDirtyFlags(spec.dataDirtyFlag)
         
         return
     end
@@ -957,12 +975,42 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     end
     -- === END OVERLOAD WARNING ===
     
-    -- MULTIPLAYER: Позначаємо що дані змінились для синхронізації
-    self:raiseDirtyFlags(spec.dirtyFlag)
-    
-    if rhm_Combine.debug then
-        print(string.format("RHM: Engine load updated: %.1f%%, Speed limit: %.1f km/h", 
-            spec.data.load, spec.loadCalculator:getSpeedLimit()))
+    -- MULTIPLAYER: Позначаємо що дані змінились для синхронізації (з тротлінгом)
+    if self.isServer then
+        local now = g_currentMission.time
+        local interval = spec.dataUpdateInterval or 200
+        
+        -- Перевіряємо чи пройшло достатньо часу
+        if (now - spec.lastDataUpdateTime) >= interval then
+            local data = spec.data
+            local last = spec.lastSyncedData
+            
+            -- Перевіряємо чи є "суттєві" зміни
+            local hasSignificantChange = false
+            if last.load == nil then
+                hasSignificantChange = true
+            else
+                -- Пороги чутливості для зменшення трафіку
+                if math.abs((data.load or 0) - (last.load or 0)) > 2.0 then hasSignificantChange = true
+                elseif math.abs((data.cropLoss or 0) - (last.cropLoss or 0)) > 0.5 then hasSignificantChange = true
+                elseif math.abs((data.recommendedSpeed or 0) - (last.recommendedSpeed or 0)) > 0.2 then hasSignificantChange = true
+                elseif math.abs((data.yield or 0) - (last.yield or 0)) > 0.1 then hasSignificantChange = true
+                elseif data.overloadLevel ~= last.overloadLevel then hasSignificantChange = true
+                end
+            end
+            
+            -- Також форсуємо оновлення раз на секунду
+            if hasSignificantChange or (now - spec.lastDataUpdateTime) >= 1000 then
+                spec.lastDataUpdateTime = now
+                spec.lastSyncedData.load = data.load
+                spec.lastSyncedData.cropLoss = data.cropLoss
+                spec.lastSyncedData.recommendedSpeed = data.recommendedSpeed
+                spec.lastSyncedData.yield = data.yield
+                spec.lastSyncedData.overloadLevel = data.overloadLevel
+                
+                self:raiseDirtyFlags(spec.dataDirtyFlag)
+            end
+        end
     end
 end
 
@@ -1124,7 +1172,7 @@ function rhm_Combine:onReadStream(streamId, connection)
     spec.data.yield = streamReadFloat32(streamId)
     spec.data.overloadLevel = streamReadUInt8(streamId)
     
-    -- CombineMemory settings (FIX 4: receive on initial connect)
+    -- CombineMemory settings
     local fan = streamReadUInt8(streamId)
     local rotor = streamReadUInt8(streamId)
     local upperSieve = streamReadUInt8(streamId)
@@ -1153,10 +1201,11 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
             return 
         end
         
-        -- Перевіряємо чи є оновлення (dirtyFlag)
-        local hasUpdate = streamReadBool(streamId)
+        -- Читаємо прапорці оновлення
+        local hasDataUpdate = streamReadBool(streamId)
+        local hasSettingsUpdate = streamReadBool(streamId)
         
-        if hasUpdate then
+        if hasDataUpdate then
             if not spec.data then
                 spec.data = {}
             end
@@ -1169,8 +1218,10 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
             spec.data.recommendedSpeed = streamReadFloat32(streamId)
             spec.data.yield = streamReadFloat32(streamId)
             spec.data.overloadLevel = streamReadUInt8(streamId)
-            
-            -- CombineMemory settings (FIX 4)
+        end
+
+        if hasSettingsUpdate then
+            -- CombineMemory settings
             local fan = streamReadUInt8(streamId)
             local rotor = streamReadUInt8(streamId)
             local upperSieve = streamReadUInt8(streamId)
@@ -1202,11 +1253,13 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
         end
         
         -- Перевіряємо чи є зміни
-        local hasChanges = bitAND(dirtyMask, spec.dirtyFlag) ~= 0
+        local hasDataUpdate = bitAND(dirtyMask, spec.dataDirtyFlag) ~= 0
+        local hasSettingsUpdate = bitAND(dirtyMask, spec.settingsDirtyFlag) ~= 0
         
-        streamWriteBool(streamId, hasChanges)
+        streamWriteBool(streamId, hasDataUpdate)
+        streamWriteBool(streamId, hasSettingsUpdate)
         
-        if hasChanges then
+        if hasDataUpdate then
             -- HUD data
             local data = spec.data or {}
             streamWriteFloat32(streamId, data.load or 0)
@@ -1216,8 +1269,10 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
             streamWriteFloat32(streamId, data.recommendedSpeed or 0)
             streamWriteFloat32(streamId, data.yield or 0)
             streamWriteUInt8(streamId, data.overloadLevel or 0)
-            
-            -- CombineMemory settings (FIX 4)
+        end
+
+        if hasSettingsUpdate then
+            -- CombineMemory settings
             local mem = spec.combineMemory
             if mem then
                 streamWriteUInt8(streamId, mem.currentSettings.fan or 50)

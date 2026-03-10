@@ -33,6 +33,9 @@ Features:
 - Combine Settings & Calibration System
 
 Changelog 1.4.2.0:
+- FIXED: Menu 'window_grass' localization issue for Grass harvesting.
+- IMPROVED: Removed spammy debug logs from engine load calculations.
+- IMPROVED: Centralized debug log configuration (RHM_Debug.lua).
 - ADDED: Spanish localization for all mod features and menus.
 - NEW: Added setting to disable "High Load" HUD warnings.
 - IMPROVED: Internal logic cleanup for warning system.
@@ -128,6 +131,9 @@ Funktionen:
 - Experimentelle NEXAT-Unterstützung
 
 Changelog 1.4.2.0:
+- BEHOBEN: Lokalisierungsproblem ('window_grass') für Gras im HUD-Menü behoben.
+- VERBESSERT: Übermäßige Debug-Logs bei der Motorlastberechnung entfernt.
+- VERBESSERT: Zentralisierte Debug-Log-Konfiguration (RHM_Debug.lua).
 - HINZUGEFÜGT: Spanische Lokalisierung für alle Mod-Funktionen und Menüs.
 - NEU: Einstellung zum Deaktivieren der "High Load" HUD-Warnungen hinzugefügt.
 - VERBESSERT: Interne Bereinigung der Warnlogik.
@@ -223,6 +229,9 @@ Fonctionnalités:
 - Support expérimental NEXAT
 
 Changelog 1.4.2.0:
+- CORRIGÉ: Problème de localisation ('window_grass') pour l'herbe dans le menu HUD.
+- AMÉLIORÉ: Suppression des logs de débogage excessifs.
+- AMÉLIORÉ: Configuration centralisée des logs de débogage (RHM_Debug.lua).
 - AJOUTÉ: Localisation espagnole pour toutes les fonctionnalités et menus du mod.
 - NOUVEAU: Paramètre ajouté pour désactiver les avertissements HUD "High Load".
 - AMÉLIORÉ: Nettoyage interne de la logique d'avertissement.
@@ -321,6 +330,9 @@ Funkcje:
 - Eksperymentalne wsparcie dla NEXAT
 
 Changelog 1.4.2.0:
+- NAPRAWIONO: Problem z lokalizacją ('window_grass') dla trawy w menu HUD.
+- ULEPSZONO: Usunięto nadmierne logi debugowania.
+- ULEPSZONO: Scentralizowana konfiguracja logów debugowania (RHM_Debug.lua).
 - DODANO: Hiszpańska lokalizacja dla wszystkich funkcji i menu moda.
 - NOWOŚĆ: Dodano opcję wyłączania ostrzeżeń HUD "High Load".
 - ULEPSZONO: Wewnętrzne oczyszczenie logiki ostrzeżeń.
@@ -419,6 +431,9 @@ Características:
 - Soporte experimental para NEXAT
 
 Changelog 1.4.2.0:
+- CORREGIDO: Problema de localización ('window_grass') para hierba en el menú HUD.
+- MEJORADO: Eliminación de registros de depuración excesivos.
+- MEJORADO: Configuración centralizada de registros de depuración (RHM_Debug.lua).
 - AÑADIDO: Localización española para todas las características y menús del mod.
 - NUEVO: Ajuste añadido para desactivar los avisos HUD "High Load".
 - MEJORADO: Limpieza interna de la lógica de avisos.
@@ -517,6 +532,9 @@ Caratteristiche:
 - Supporto sperimentale NEXAT
 
 Changelog 1.4.2.0:
+- RISOLTO: Problema di localizzazione ('window_grass') per l'erba nel menu HUD.
+- MIGLIORATO: Rimozione dei log di debug eccessivi.
+- MIGLIORATO: Configurazione centralizzata dei log di debug (RHM_Debug.lua).
 - AGGIUNTO: Localizzazione spagnola per tutte le funzioni e i menu del mod.
 - NUOVO: Impostazione aggiunta per disabilitare gli avvisi HUD "High Load".
 - MIGLIORATO: Pulizia interna della logica degli avvisi.
@@ -615,6 +633,9 @@ Funkce:
 - Experimentální podpora NEXAT
 
 Changelog 1.4.2.0:
+- OPRAVENO: Problém s lokalizací ('window_grass') pro trávu v menu HUD.
+- VYLEPŠENO: Odstraněny nadměrné ladicí protokoly.
+- VYLEPŠENO: Centralizovaná konfigurace ladicích protokolů (RHM_Debug.lua).
 - PŘIDÁNO: Španělská lokalizace pro všechny funkce a menu modu.
 - NOVINKA: Přidána možnost zakázat varování HUD "High Load".
 - VYLEPŠENO: Interní vyčištění logiky varování.
@@ -713,6 +734,9 @@ Recursos:
 - Suporte experimental para NEXAT
 
 Changelog 1.4.2.0:
+- CORRIGIDO: Problema de localização ('window_grass') para grama no menu HUD.
+- MELHORADO: Removidos logs de depuração excessivos.
+- MELHORADO: Configuração centralizada de logs de depuração (RHM_Debug.lua).
 - ADICIONADO: Localização espanhola para todas as funcionalidades e menus do mod.
 - NOVO: Configuração adicionada para desativar avisos HUD "High Load".
 - MELHORADO: Limpeza interna da lógica de avisos.
@@ -811,6 +835,9 @@ Changelog 1.1.0.0:
 - Експериментальна підтримка NEXAT
 
 Зміни 1.4.2.0:
+- ВИПРАВЛЕНО: Проблема локалізації ('window_grass') для трави в меню HUD.
+- ПОКРАЩЕНО: Видалено зайві логи дебагу з розрахунків навантаження двигуна.
+- ПОКРАЩЕНО: Централізовано налаштування логів дебагу (RHM_Debug.lua).
 - ДОДАНО: Іспанська локалізація для всіх функцій та меню моду.
 - НОВЕ: Додано параметр для вимкнення попереджень HUD "High Load".
 - ПОКРАЩЕНО: Внутрішнє прибирання логіки попереджень.
@@ -902,6 +929,9 @@ Changelog 1.1.0.0:
 - Экспериментальная поддержка NEXAT
 
 Изменения 1.4.2.0:
+- ИСПРАВЛЕНО: Проблема локализации ('window_grass') для травы в меню HUD.
+- УЛУЧШЕНО: Удалены чрезмерные логи отладки из расчетов нагрузки двигателя.
+- УЛУЧШЕНО: Централизована настройка логов отладки (RHM_Debug.lua).
 - ДОБАВЛЕНО: Испанская локализация для всех функций и меню мода.
 - НОВОЕ: Добавлена настройка для отключения предупреждений HUD "High Load".
 - УЛУЧШЕНО: Внутренняя очистка логики предупреждений.
@@ -993,6 +1023,9 @@ Funkciók:
 - Kísérleti NEXAT támogatás
 
 Változások 1.4.2.0:
+- JAVÍTVA: A fű ('window_grass') lokalizációs hibája a HUD menüben.
+- JAVÍTVA: Eltávolítottuk a felesleges hibakeresési (debug) naplófájlokat a motorterhelési számításokból.
+- JAVÍTVA: Központosított hibakeresési napló (RHM_Debug.lua).
 - HOZZÁADVA: Spanyol lokalizáció az összes mod-funkcióhoz és menühöz.
 - ÚJ: Lehetőség a "High Load" HUD-figyelmeztetések letiltására.
 - JAVÍTVA: A hozamszámítás teljes felülvizsgálata a Precision Farming HUD szinkronizálásához.

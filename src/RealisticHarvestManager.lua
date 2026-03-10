@@ -9,6 +9,9 @@ function RealisticHarvestManager.new(mission, modDirectory, modName)
     self.modDirectory = modDirectory
     self.modName = modName
     
+    -- Global debug flag (keeps log.txt clean by default)
+    self.debug = RHM_Debug.isEnabled("Manager")
+    
     -- Ініціалізація налаштувань
     self.settingsManager = SettingsManager.new()
     self.settings = Settings.new(self.settingsManager)

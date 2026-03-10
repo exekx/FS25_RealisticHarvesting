@@ -1,4 +1,4 @@
-﻿---@class LoadCalculator
+---@class LoadCalculator
 -- Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ” Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ Ð½Ð° Ð´Ð²Ð¸Ð³ÑƒÐ½ ÐºÐ¾Ð¼Ð±Ð°Ð¹Ð½Ð°
 LoadCalculator = {}
 local LoadCalculator_mt = Class(LoadCalculator)
@@ -6,8 +6,7 @@ local LoadCalculator_mt = Class(LoadCalculator)
 function LoadCalculator.new(modDirectory)
     local self = setmetatable({}, LoadCalculator_mt)
     
-    self.debug = false -- TEMPORARY DEBUG ENABLED
-    self.modDirectory = modDirectory or g_currentModDirectory  -- Ð—Ð±ÐµÑ€Ñ–Ð³Ð°Ñ”Ð¼Ð¾ modDirectory (with fallback)
+    self.modDirectory = modDirectory or g_currentModDirectory
     
     -- ÐšÐ¾ÐµÑ„Ñ–Ñ†Ñ–Ñ”Ð½Ñ‚Ð¸ ÑÐºÐ»Ð°Ð´Ð½Ð¾ÑÑ‚Ñ– ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€
     self.CROP_FACTORS = {}
@@ -52,7 +51,10 @@ function LoadCalculator.new(modDirectory)
     self.combineMemory = nil  -- Ð‘ÑƒÐ´Ðµ Ð²ÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾ Ð· rhm_Combine
     self.currentCrop = nil    -- ÐŸÐ¾Ñ‚Ð¾Ñ‡Ð½Ð° ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð° Ð´Ð»Ñ Ñ€Ð¾Ð·Ñ€Ð°Ñ…ÑƒÐ½ÐºÑƒ settings loss
     
-    print("RHM: LoadCalculator initialized")
+    self.debug = RHM_Debug and RHM_Debug.isEnabled("LoadCalculator") or false
+    if self.debug then
+        print("RHM: LoadCalculator initialized")
+    end
     
     return self
 end
@@ -113,6 +115,18 @@ function LoadCalculator:loadDefaultCropFactors()
     for key, value in pairs(FruitType) do
         -- ÐŸÐµÑ€ÐµÐ²Ñ–Ñ€ÑÑ”Ð¼Ð¾ Ñ‡Ð¸ Ñ” Ñ†ÐµÐ¹ ÐºÐ»ÑŽÑ‡ Ñƒ Ð½Ð°ÑˆÐ¾Ð¼Ñƒ ÑÐ»Ð¾Ð²Ð½Ð¸ÐºÑƒ
         local mappedFactor = factorMap[key]
+        
+        -- Automatically map _WINDROW types to their base crop if not explicitly defined
+        if not mappedFactor and key:find("_WINDROW") then
+            local baseCrop = key:gsub("_WINDROW", "")
+            mappedFactor = factorMap[baseCrop]
+        end
+        -- Also handle CUT_ crops like CUT_CANOLA
+        if not mappedFactor and key:find("CUT_") then
+            local baseCrop = key:gsub("CUT_", "")
+            mappedFactor = factorMap[baseCrop]
+        end
+
         if mappedFactor then
             self.CROP_FACTORS[value] = mappedFactor
         elseif type(value) == "number" and not key:find("NUM_") then
@@ -126,7 +140,7 @@ end
 function LoadCalculator:setBasePerformance(basePerfMass)
     self.basePerfMass = basePerfMass
     
-    if self.debug then
+    if rhm_Combine and rhm_Combine.debug then
         print(string.format("RHM: Base performance set to %.2f kg/s (%.1f t/h)", 
             self.basePerfMass, self.basePerfMass * 3.6))
     end
@@ -198,13 +212,17 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
                name:find("ur%-%d+") or name:find("umr") or name:find("keiler") or -- UR-205, UMR, Ropa Keiler
                xml:find("ur_") or xml:find("umr_") then
                 isVegetable = true
-                print(string.format("RHM: Smart Detection -> Found keyword in name/xml (%s), assuming Vegetable", name))
+                if rhm_Combine and rhm_Combine.debug then
+                    print(string.format("RHM: Smart Detection -> Found keyword in name/xml (%s), assuming Vegetable", name))
+                end
             end
         end
         
         if isVegetable then
             coef = 0.060 -- Standardized vegetable coeff
-            print("RHM: Applied Vegetable Coef (0.060)")
+            if rhm_Combine and rhm_Combine.debug then
+                print("RHM: Applied Vegetable Coef (0.060)")
+            end
         end
     end
     
@@ -272,8 +290,10 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
         -- Ð”Ð»Ñ 500 HP Ñ†Ðµ Ð±ÑƒÐ´Ðµ ~17.5 kg/s (~63 t/h)
         local basePerf = tonumber(power) * coef
         
-        print(string.format("RHM DEBUG: BasePerf Mass computed for %s (cat: %s, coef: %.3f): %d hp -> %.2f kg/s (%.1f t/h)", 
-            vehicle:getFullName(), category or "unknown", coef, power, basePerf, basePerf * 3.6))
+        if rhm_Combine and rhm_Combine.debug then
+            print(string.format("RHM DEBUG: BasePerf Mass computed for %s (cat: %s, coef: %.3f): %d hp -> %.2f kg/s (%.1f t/h)", 
+                vehicle:getFullName(), category or "unknown", coef, power, basePerf, basePerf * 3.6))
+        end
         return basePerf
     end
     
@@ -281,11 +301,15 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
     -- Debug Ð¿Ð¾ÐºÐ°Ð·Ð°Ð² Ñ‰Ð¾ ÑÐ¸ÑÑ‚ÐµÐ¼Ð° Ð½Ðµ Ð±Ð°Ñ‡Ð¸Ñ‚ÑŒ Ð´Ð²Ð¸Ð³ÑƒÐ½ NEXAT (modular structure issue)
     if vehicle.configFileName and vehicle.configFileName:lower():find("nexat") then
         local basePerf = 1100 * coef  -- 1100hp * 0.035 = 38.5 kg/s
-        print(string.format("RHM: NEXAT detected with power=0 - using hardcoded 1100 HP -> %.2f kg/s", basePerf))
+        if rhm_Combine and rhm_Combine.debug then
+            print(string.format("RHM: NEXAT detected with power=0 - using hardcoded 1100 HP -> %.2f kg/s", basePerf))
+        end
         return basePerf
     end
     
-    print("RHM: Warning - Could not determine combine power, using default basePerf")
+    if rhm_Combine and rhm_Combine.debug then
+        print("RHM: Warning - Could not determine combine power, using default basePerf")
+    end
     return 10.0  -- Default ~36 t/h
 end
 
@@ -305,7 +329,7 @@ function LoadCalculator:update(vehicle, dt, mass)
     -- ÐÐµ Ñ‡ÐµÐºÐ°Ñ”Ð¼Ð¾ 1.5 ÑÐµÐºÑƒÐ½Ð´Ð¸ Ð²Ð¸Ð¼Ñ–Ñ€ÑŽÐ²Ð°Ð½Ð½Ñ
     if mass > 0 and self.speedLimit >= (self.genuineSpeedLimit - 0.1) then
          self.speedLimit = 5.0 -- ÐšÐ¾Ð½ÑÐµÑ€Ð²Ð°Ñ‚Ð¸Ð²Ð½Ð¸Ð¹ ÑÑ‚Ð°Ñ€Ñ‚
-         if self.debug then
+         if rhm_Combine and rhm_Combine.debug then
             print("RHM: Instant start limit applied: " .. tostring(self.speedLimit))
          end
     end
@@ -347,8 +371,29 @@ function LoadCalculator:calculateEngineLoad(vehicle)
     -- Suggested by community (RHM_CropFactorTuner.xlsx): multiply cropFactor by 0.75.
     -- Validated targets: Canola swath S780 ˜ 1,500 bu/hr, Wheat swath ˜ 2,000 bu/hr, Alfalfa JD9900 ˜ 275 t/hr.
     -- This also handles forage harvesters picking up corn silage / alfalfa / triticale windrows.
+    local isPickup = false
     if spec_combine and spec_combine.lastValidInputFruitType == 0 then
         cropFactor = cropFactor * 0.75  -- Pickup/swath is easier than direct cut
+        isPickup = true
+    end
+    
+    -- --- [RHM DEBUG: CROP FACTOR INFO LOG] ---
+    if rhm_Combine and rhm_Combine.debug and self.lastCropType ~= spec_combine.lastValidInputFruitType then
+        self.lastCropType = spec_combine.lastValidInputFruitType
+        
+        local currentFruitTypeName = "UNKNOWN"
+        for k, v in pairs(FruitType) do
+            if v == spec_combine.lastValidInputFruitType then
+                currentFruitTypeName = k
+                break
+            end
+        end
+
+        if isPickup then
+            print(string.format("RHM DEBUG: [INPUT DETECTION] Picking up WINDROW / SWATH. Applied 0.75x multiplier. Base Factor before pickup: %.3f | Final Factor: %.3f", (cropFactor / 0.75), cropFactor))
+        else
+            print(string.format("RHM DEBUG: [INPUT DETECTION] DIRECT CUT (%s). Normal standing crop. Final Factor: %.3f", currentFruitTypeName, cropFactor))
+        end
     end
     
     -- Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ”Ð¼Ð¾ RAW ÑÐµÑ€ÐµÐ´Ð½ÑŽ Ð¼Ð°ÑÑƒ Ð·Ð° ÑÐµÐºÑƒÐ½Ð´Ñƒ (ÐºÐ³/Ñ)
@@ -388,7 +433,7 @@ function LoadCalculator:calculateEngineLoad(vehicle)
         self.engineLoad = 0
     end
     
-    if self.debug then
+    if rhm_Combine and rhm_Combine.debug then
         print(string.format("RHM DEBUG: Load: %.1f%% (Raw: %.2f kg/s, Smooth: %.2f kg/s) | Base: %.2f kg/s | Max: %.2f kg/s", 
             self.engineLoad * 100, rawAvgMass, self.currentAvgMass, self.basePerfMass, maxAvgMass))
     end
@@ -414,7 +459,7 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
     -- ?? ~5 ??/???, ????????? ??? ??????????. ?????????? ????????? ??? ?? ??? ????????? ?????????.
     if self.lastAvgMass == 0 and self.currentAvgMass > 5 and self.speedLimit > 8.0 then
          self.speedLimit = 5.0
-         if self.debug then print("RHM: [INSTANT START PROTECT] Snapped to 5.0 km/h on row entry!") end
+         if rhm_Combine and rhm_Combine.debug then print("RHM: [INSTANT START PROTECT] Snapped to 5.0 km/h on row entry!") end
     end
     
     -- ???????? ????: ?????????????? ??????? ????????? (lastSpeedReal), ? ?? ????????? ???????. 
@@ -504,7 +549,7 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
     
     self.speedLimit = self.speedLimit + step
     
-    if self.debug then
+    if rhm_Combine and rhm_Combine.debug then
         print(string.format("RHM: [%s] Load: %.1f%% | Speed: %.1f->%.1f (Ideal: %.1f) | Alpha: %.2f",
             controlZone, loadRatio * 100, speedKmh, self.speedLimit, idealSpeed, alpha))
     end
@@ -553,10 +598,6 @@ function LoadCalculator:reset()
     self.yieldBuffer = {}
     self.currentYield = 0
     self.instantYield = 0
-    
-    if self.debug then
-        print("RHM: LoadCalculator reset")
-    end
 end
 
 ---?????????? ?????? ?????? ??? ??????????????

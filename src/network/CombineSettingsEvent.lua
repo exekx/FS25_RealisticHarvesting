@@ -67,7 +67,9 @@ function CombineSettingsEvent:run(connection)
             mem.currentSettings.feeder = self.fullSettings.feeder
             mem.autoSwitchEnabled = false
             mem.mode = "MANUAL"
-            print("RHM: [Sync] Received full user profile settings via network")
+            if RHM_Debug and RHM_Debug.isEnabled("Network") then
+                print("RHM: [Sync] Received full user profile settings via network")
+            end
         else
             if self.parameter == "AUTO_SET" then
                 -- Client requested to set AUTO mode
@@ -76,7 +78,9 @@ function CombineSettingsEvent:run(connection)
                 if mem.currentCrop then
                     -- SERVER AUTHORITATIVE ACTION: Recalculate and sync back
                     mem:autoConfigureForCrop(mem.currentCrop, true)
-                    print(string.format("RHM: [Sync] Server applied AUTO mode for %s", mem.currentCrop))
+                    if RHM_Debug and RHM_Debug.isEnabled("Network") then
+                        print(string.format("RHM: [Sync] Server applied AUTO mode for %s", mem.currentCrop))
+                    end
                 end
             elseif self.parameter == "RESET_SET" then
                 -- Client requested to RESET settings to neutral (50%)
@@ -84,7 +88,9 @@ function CombineSettingsEvent:run(connection)
                 mem.mode = "MANUAL"
                 if mem.currentCrop then
                     mem:autoConfigureForCrop(mem.currentCrop, false)
-                    print(string.format("RHM: [Sync] Server applied RESET to 50%% for %s", mem.currentCrop))
+                    if RHM_Debug and RHM_Debug.isEnabled("Network") then
+                        print(string.format("RHM: [Sync] Server applied RESET to 50%% for %s", mem.currentCrop))
+                    end
                 end
             elseif self.parameter == "AUTO_MODE" then
                 -- Manual toggle of the behavior flag
@@ -96,7 +102,9 @@ function CombineSettingsEvent:run(connection)
                     mem.currentSettings[self.parameter] = math.max(0, math.min(100, self.value))
                     mem.autoSwitchEnabled = false
                     mem.mode = "MANUAL"
-                    print(string.format("RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
+                    if RHM_Debug and RHM_Debug.isEnabled("Network") then
+                        print(string.format("RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
+                    end
                 end
             end
         end
@@ -104,8 +112,13 @@ function CombineSettingsEvent:run(connection)
         -- If we are the server, broadcast the change to all other clients
         if g_server ~= nil then
             g_server:broadcastEvent(CombineSettingsEvent.new(self.vehicle, self.parameter, self.value, self.isFullProfile, self.fullSettings), nil, connection, self.vehicle)
-            -- Raise dirty flag so clients see the new values in their sync stream
-            self.vehicle:raiseDirtyFlags(self.vehicle.spec_rhm_Combine.dirtyFlag)
+            -- Raise settings dirty flag so clients see the new values in their settings sync stream
+            local spec = self.vehicle.spec_rhm_Combine
+            if spec and spec.settingsDirtyFlag then
+                self.vehicle:raiseDirtyFlags(spec.settingsDirtyFlag)
+            else
+                self.vehicle:raiseDirtyFlags(spec.dirtyFlag)
+            end
         end
     end
 end

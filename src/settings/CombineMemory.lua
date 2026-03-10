@@ -1,4 +1,4 @@
-﻿---@class CombineMemory
+---@class CombineMemory
 ---Система пам'яті комбайна для збереження профілів налаштувань
 CombineMemory = {}
 local CombineMemory_mt = Class(CombineMemory)
@@ -16,6 +16,8 @@ function CombineMemory.new(combine, machineType)
     -- Поточний активний профіль
     self.currentProfile = nil
     self.currentCrop = nil
+    
+    self.debug = RHM_Debug and RHM_Debug.isEnabled("CombineMemory") or false
     
     -- Поточні налаштування (активний стан комбайна)
     -- Динамічно ініціалізуємо тільки параметри для цього типу машини
@@ -47,10 +49,14 @@ function CombineMemory:saveCurrentProfile(cropName)
     local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
     if pm then
         pm:saveProfile(cropName, self.currentSettings)
-        print(string.format("RHM: [OK] Profile saved globally: %s", cropName))
+        if self.debug then
+            print(string.format("RHM: [OK] Profile saved globally: %s", cropName))
+        end
         return true
     end
-    print("RHM: [!] Failed to save global profile: ProfileManager not found")
+    if self.debug then
+        print("RHM: [!] Failed to save global profile: ProfileManager not found")
+    end
     return false
 end
 
@@ -62,13 +68,17 @@ end
 ---@return boolean success Чи успішно налаштовано
 function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
     if not cropName then
-        print("RHM: [!] autoConfigureForCrop called with nil cropName, skipping")
+        if self.debug then
+            print("RHM: [!] autoConfigureForCrop called with nil cropName, skipping")
+        end
         return false
     end
     local optimalSettings = CombineSettingsDatabase:getSettingsForCrop(cropName)
     
     if not optimalSettings then
-        print(string.format("RHM: [!] No settings found for crop: %s", cropName))
+        if self.debug then
+            print(string.format("RHM: [!] No settings found for crop: %s", cropName))
+        end
         -- Fallback to default 50% even if unknown
     end
     
@@ -101,7 +111,9 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
         end
         
         self.mode = "AUTO"
-        print(string.format("RHM: [OK] Auto settings applied for: %s (forceOptimal=%s)", cropName, tostring(forceOptimal)))
+        if self.debug then
+            print(string.format("RHM: [OK] Auto settings applied for: %s (forceOptimal=%s)", cropName, tostring(forceOptimal)))
+        end
     else
         -- Reset all active params to 50% (MANUAL MODE / RESET)
         local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
@@ -110,7 +122,9 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
         end
         
         self.mode = "MANUAL"
-        print(string.format("RHM: [OK] Default settings (50%%) applied for: %s", cropName))
+        if self.debug then
+            print(string.format("RHM: [OK] Default settings (50%%) applied for: %s", cropName))
+        end
     end
     
     local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
@@ -135,7 +149,9 @@ function CombineMemory:requestAutoSettings()
             -- В синглі просто викликаємо локально через event
             event:run(nil)
         end
-        print("RHM: [Sync] Requested AUTO settings from server")
+        if self.debug then
+            print("RHM: [Sync] Requested AUTO settings from server")
+        end
     end
 end
 
@@ -150,7 +166,9 @@ function CombineMemory:requestResetSettings()
         else
             event:run(nil)
         end
-        print("RHM: [Sync] Requested RESET settings from server")
+        if self.debug then
+            print("RHM: [Sync] Requested RESET settings from server")
+        end
     end
 end
 
@@ -180,10 +198,14 @@ function CombineMemory:loadUserPreset()
             self.mode = "MANUAL"
             self.autoSwitchEnabled = false
         end
-        print(string.format("RHM: [OK] Global profile applied for %s", self.currentCrop))
+        if self.debug then
+            print(string.format("RHM: [OK] Global profile applied for %s", self.currentCrop))
+        end
         return true
     else
-        print(string.format("RHM: No global user preset found for %s", self.currentCrop))
+        if self.debug then
+            print(string.format("RHM: No global user preset found for %s", self.currentCrop))
+        end
         return false
     end
 end
@@ -281,7 +303,9 @@ function CombineMemory:setMode(mode)
             -- Зберігаємо режим і autoSwitchEnabled, щоб switchCrop застосував AUTO коли знайде культуру
             self.mode = "AUTO"
             self.autoSwitchEnabled = true
-            print("RHM: [AUTO] currentCrop is nil on DS, pending AUTO mode set. Will apply when crop detected.")
+            if self.debug then
+                print("RHM: [AUTO] currentCrop is nil on DS, pending AUTO mode set. Will apply when crop detected.")
+            end
         end
     elseif mode == "MANUAL" then
         self.mode = "MANUAL"
@@ -360,11 +384,15 @@ function CombineMemory:switchCrop(newCropName)
     -- Try to load existing global profile
     local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
     if pm and pm:getProfile(newCropName) then
-        print(string.format("RHM: Switching to crop %s - Loading global profile", newCropName))
+        if self.debug then
+            print(string.format("RHM: Switching to crop %s - Loading global profile", newCropName))
+        end
         self:loadUserPreset()
     else
         -- Or configure default/safe settings
-        print(string.format("RHM: Switching to crop %s - No profile, applying defaults", newCropName))
+        if self.debug then
+            print(string.format("RHM: Switching to crop %s - No profile, applying defaults", newCropName))
+        end
         -- If auto switch enabled, use optimal safe settings, else neutral 50%
         if self.autoSwitchEnabled then
              self:autoConfigureForCrop(newCropName, true)
@@ -406,7 +434,9 @@ function CombineMemory:toggleAutoMode()
         local targetMode = not self.autoSwitchEnabled
         local event = CombineSettingsEvent.new(self.combine, "AUTO_MODE", targetMode and 1 or 0)
         g_client:getServerConnection():sendEvent(event)
-        print(string.format("RHM: [Sync] Sent AUTO mode request to server: %s", targetMode and "ON" or "OFF"))
+        if self.debug then
+            print(string.format("RHM: [Sync] Sent AUTO mode request to server: %s", targetMode and "ON" or "OFF"))
+        end
     else
         -- Одиночна гра або ми сервер: застосовуємо відразу
         self.autoSwitchEnabled = not self.autoSwitchEnabled
@@ -419,7 +449,9 @@ function CombineMemory:toggleAutoMode()
         else
             self.mode = "MANUAL"
         end
-        print(string.format("RHM: Auto Switch %s", self.autoSwitchEnabled and "ENABLED" or "DISABLED"))
+        if self.debug then
+            print(string.format("RHM: Auto Switch %s", self.autoSwitchEnabled and "ENABLED" or "DISABLED"))
+        end
     end
 end
 

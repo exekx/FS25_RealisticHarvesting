@@ -80,7 +80,9 @@ function DraggableHUD:load()
     -- Load icons
     self:loadIcons(self.uiScale)  -- FIX: was loadIcons(uiScale) - uiScale was nil in this scope
     
-    print("RHM: DraggableHUD loaded successfully")
+    if RHM_Debug and RHM_Debug.isEnabled("UI") then
+        print("RHM: DraggableHUD loaded successfully")
+    end
 end
 
 ---Load icon overlays
@@ -135,7 +137,9 @@ function DraggableHUD:getPosition()
             
             return x, y
         else
-            print(string.format("RHM: Saved HUD position (%.2f, %.2f) is off-screen. Resetting to default.", x, y))
+            if RHM_Debug and RHM_Debug.isEnabled("UI") then
+                print(string.format("RHM: Saved HUD position (%.2f, %.2f) is off-screen. Resetting to default.", x, y))
+            end
             -- Proceed to default...
         end
     end
@@ -551,13 +555,17 @@ function DraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
             self.dragOffsetY = posY - self.y
             self.dragging = true
             self.lastDragTimeStamp = g_time
-            print("RHM: Drag started")
+            if RHM_Debug and RHM_Debug.isEnabled("UI") then
+                print("RHM: Drag started")
+            end
             return true
         end
     elseif isUp then
         if self.dragging then
             self.dragging = false
-            print(string.format("RHM: Drag stopped at (%.3f, %.3f)", self.x, self.y))
+            if RHM_Debug and RHM_Debug.isEnabled("UI") then
+                print(string.format("RHM: Drag stopped at (%.3f, %.3f)", self.x, self.y))
+            end
             
             -- Save settings on drag end (once)
             if self.settings and self.settings.save then
@@ -606,7 +614,9 @@ function DraggableHUD:delete()
         end
     end
     
-    print("RHM: DraggableHUD unloaded")
+    if RHM_Debug and RHM_Debug.isEnabled("UI") then
+        print("RHM: DraggableHUD unloaded")
+    end
 end
 
 return DraggableHUD
