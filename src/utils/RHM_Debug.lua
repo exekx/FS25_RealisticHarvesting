@@ -3,7 +3,7 @@
 RHM_Debug = {}
 
 -- Головний вимикач. Якщо false - всі модулі мовчать, незалежно від їхніх індивідуальних налаштувань.
-RHM_Debug.MASTER_ENABLE = true
+RHM_Debug.MASTER_ENABLE = false
 
 -- Налаштування по окремих модулях:
 RHM_Debug.Modules = {

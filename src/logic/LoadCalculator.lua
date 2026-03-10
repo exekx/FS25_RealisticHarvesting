@@ -1,4 +1,4 @@
----@class LoadCalculator
+﻿---@class LoadCalculator
 -- Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ” Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ Ð½Ð° Ð´Ð²Ð¸Ð³ÑƒÐ½ ÐºÐ¾Ð¼Ð±Ð°Ð¹Ð½Ð°
 LoadCalculator = {}
 local LoadCalculator_mt = Class(LoadCalculator)

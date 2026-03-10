@@ -50,6 +50,7 @@ Changelog 1.4.2.0:
 - FIXED: Resolved duplicate registration of savegame XML paths causing server log errors and settings reset.
 - IMPROVED: Forage Harvester throughput calibrated to real-world data (coefficient adjusted from 0.150 to 0.051).
 - NEW: Added universal Pickup/Swath header detection with lower engine load multiplier (0.75x).
+- NEW: Added automatic fallback mapping for '_WINDROW' and 'CUT_' fillTypes to their base crops.
 - IMPROVED: Precision calibration of crop factors and densities based on real-world yield targets (bu/hr).
 - NEW: Every crop now uses individual technical presets derived from real-world manuals (20+ crops fine-tuned).
 
@@ -148,6 +149,7 @@ Changelog 1.4.2.0:
 - BEHOBEN: Problem mit doppelter Registrierung von Savegame-XML-Pfaden behoben, das Serverlog-Fehler und das Zurücksetzen von Einstellungen verursachte.
 - VERBESSERT: Durchsatz von Feldhäckslern an reale Daten angepasst (Koeffizient von 0,150 auf 0,051 korrigiert).
 - NEU: Universelle Erkennung von Pickup-/Schwad-Vorsätzen mit reduziertem Motorlast-Multiplikator (0,75x) hinzugefügt.
+- NEU: Automatische Fallback-Zuordnung für '_WINDROW'- und 'CUT_'-FillTypes zu ihren Basiskulturen hinzugefügt.
 - VERBESSERT: Präzise Kalibrierung von Fruchtfaktoren und Dichten basierend auf realen Ertragszielen (bu/hr).
 - NEU: Jede Frucht verwendet nun individuelle technische Voreinstellungen aus realen Handbüchern (20+ Früchte optimiert).
 
@@ -246,6 +248,7 @@ Changelog 1.4.2.0:
 - CORRIGÉ: Résolution de la double inscription des chemins XML de sauvegarde causant des erreurs dans les logs du serveur et la réinitialisation des paramètres.
 - AMÉLIORÉ: Débit de l'ensileuse calibré sur des données réelles (coefficient ajusté de 0,150 à 0,051).
 - NOUVEAU: Ajout de la détection universelle des ramasseurs/swath avec un multiplicateur de charge moteur réduit (0,75x).
+- NOUVEAU: Ajout du mappage de secours automatique pour les types de remplissage '_WINDROW' et 'CUT_' vers leurs cultures de base.
 - AMÉLIORÉ: Étalonnage précis des facteurs de culture et des densités basé sur des objectifs de rendement réels (bu/hr).
 - NOUVEAU : Chaque culture utilise désormais des préréglages techniques individuels issus de manuels réels (20+ cultures affinées).
 
@@ -347,6 +350,7 @@ Changelog 1.4.2.0:
 - NAPRAWIONO: Rozwiązano problem podwójnej rejestracji ścieżek XML zapisu gry, powodujący błędy w logach serwera i resetowanie ustawień.
 - ULEPSZONO: Wydajność sieczkarni samojezdnych skalibrowana zgodnie z rzeczywistymi danymi (współczynnik skorygowany z 0,150 do 0,051).
 - NOWOŚĆ: Dodano uniwersalne wykrywanie podbieraczy/pokosów z niższym mnożnikiem obciążenia silnika (0,75x).
+- NOWOŚĆ: Dodano automatyczne mapowanie rezerwowe dla typów wypełnienia '_WINDROW' i 'CUT_' do ich upraw podstawowych.
 - ULEPSZONO: Precyzyjna kalibracja współczynników i gęstości upraw oparta na rzeczywistych celach plonowania (bu/hr).
 - NOWOŚĆ: Każda uprawa używa teraz indywidualnych ustawień technicznych z prawdziwych instrukcji (ponad 20 upraw).
 
@@ -448,6 +452,7 @@ Changelog 1.4.2.0:
 - CORREGIDO: Se resolvió el registro duplicado de las rutas XML de guardado que causaba errores en el registro del servidor y el reinicio de los ajustes.
 - MEJORADO: Rendimiento de la picadora de forraje calibrado con datos reales (coeficiente ajustado de 0,150 a 0,051).
 - NUEVO: Añadida detección universal de cabezales recogedores/hileradores con un multiplicador de carga de motor más bajo (0,75x).
+- NUEVO: Mapeo de respaldo automático añadido para los fillTypes '_WINDROW' y 'CUT_' a sus cultivos base.
 - MEJORADO: Calibración de precisión de los factores de cultivo y densidades basada en objetivos de rendimiento reales (bu/hr).
 - NUEVO: Cada cultivo ahora utiliza preajustes técnicos individuales de manuales reales (más de 20 cultivos ajustados).
 
@@ -549,6 +554,7 @@ Changelog 1.4.2.0:
 - RISOLTO: Risolta la doppia registrazione dei percorsi XML di salvataggio che causava errori nei log del server e il ripristino delle impostazioni.
 - MIGLIORATO: Produttività della trincia semovente calibrata sui dati reali (coefficiente regolato da 0,150 a 0,051).
 - NOVITÀ: Aggiunto il rilevamento universale delle testate raccoglitrici/andanatrici con un moltiplicatore di carico del motore ridotto (0,75x).
+- NUOVO: Aggiunta mappatura di fallback automatica per i fillTypes '_WINDROW' e 'CUT_' alle loro colture di base.
 - MIGLIORATO: Calibrazione di precisione dei fattori di coltura e delle densità basata su obiettivi di resa reali (bu/hr).
 - NUOVO: Ogni coltura ora utilizza impostazioni tecniche individuali tratte da manuali reali (oltre 20 colture ottimizzate).
 
@@ -650,6 +656,7 @@ Changelog 1.4.2.0:
 - OPRAVENO: Vyřešena duplicitní registrace cest XML pro ukládání hry, která způsobovala chyby v logu serveru a resetování nastavení.
 - VYLEPŠENO: Průchodnost řezačky zkalibrována podle skutečných dat (koeficient upraven z 0,150 na 0,051).
 - NOVINKA: Přidána univerzální detekce sběracích adaptérů/řádkovačů se sníženým multiplikátorem zatížení motoru (0,75x).
+- NOVINKA: Přidáno automatické mapování záložních řetězců fillTypes '_WINDROW' a 'CUT_' na jejich základní plodiny.
 - VYLEPŠENO: Přesná kalibrace faktorů plodin a hustot na základě reálných výnosových cílů (bu/hr).
 - NOVINKA: Každá plodina nyní používá individuální technické předvolby z reálných manuálů (více než 20 plodin).
 
@@ -751,6 +758,7 @@ Changelog 1.4.2.0:
 - CORRIGIDO: Resolvido o registro duplicado de caminhos XML de savegame que causaba erros no log do servidor e reset das configurações.
 - MELHORADO: Rendimento da colhedora de forragem calibrado para dados reais (coeficiente ajustado de 0,150 para 0,051).
 - NOVO: Adicionada detecção universal de plataformas de recolhimento/leira com multiplicador de carga do motor reduzido (0,75x).
+- NOVO: Adicionado mapeamento de fallback automático para fillTypes '_WINDROW' e 'CUT_' para suas culturas base.
 - MELHORADO: Calibração de precisão de fatores de cultura e densidades baseada em metas de produtividade reais (bu/hr).
 - NOVO: Cada cultura agora usa predefinições técnicas individuais de manuais reais (mais de 20 culturas ajustadas).
 
@@ -852,6 +860,7 @@ Changelog 1.1.0.0:
 - ВИПРАВЛЕНО: Вирішено проблему дублювання реєстрації XML-шляхів збереження, що викликала помилки в логах сервера та скидання налаштувань.
 - ПОКРАЩЕНО: Пропускна здатність кормозбиральних комбайнів відкалібрована до реальних даних (коефіцієнт змінено з 0.150 на 0.051).
 - НОВЕ: Додано універсальне визначення Pickup/Swath жаток зі зниженим множником навантаження на двигун (0.75x).
+- НОВЕ: Додано автоматичне зіставлення (резервне визначення) валків ('_WINDROW') та зрізаних трав ('CUT_') з їхніми базовими культурами.
 - ПОКРАЩЕНО: Точне калібрування факторів та щільності культур на основі реальних цільових показників врожайності (бушелі/рік).
 - НОВЕ: Кожна культура тепер використовує індивідуальні технічні пресети з реальних посібників (20+ культур налаштовано).
 
@@ -946,6 +955,7 @@ Changelog 1.1.0.0:
 - ИСПРАВЛЕНО: Решена проблема дублирования регистрации XML-путей сохранения, вызывавшая ошибки в логах сервера и сброс настроек.
 - УЛУЧШЕНО: Пропускная способность кормоуборочных комбайнов откалибрована согласно реальным данным (коэффициент изменен с 0.150 на 0.051).
 - НОВОЕ: Добавлено универсальное определение Pickup/Swath жаток с пониженным множителем нагрузки на двигатель (0.75x).
+- НОВОЕ: Добавлено автоматическое сопоставление (резервное определение) валков ('_WINDROW') и срезанных трав ('CUT_') с их базовыми культурами.
 - УЛУЧШЕНО: Точная калибровка факторов и плотности культур на основе реальных целевых показателей урожайности (бушели/час).
 - НОВОЕ: Каждая культура теперь использует индивидуальные технические пресеты из реальных руководств (20+ культур настроены).
 
@@ -1039,6 +1049,7 @@ Változások 1.4.2.0:
 - JAVÍTVA: Megoldódott a mentési XML-útvonalak kettős regisztrációja, amely szervernaplózási hibákat és a beállítások visszaállítását okozta.
 - JAVÍTVA: Az önjáró szecskázó áteresztőképessége a valós adatokhoz igazítva (együttható 0,150-ről 0,051-re módosítva).
 - ÚJ: Univerzális rendfelszedő/rendrakó adapter érzékelés hozzáadva alacsonyabb motorterhelési szorzóval (0,75x).
+- ÚJ: Automatikus visszaesési (fallback) leképezés hozzáadva a '_WINDROW' és 'CUT_' fillType-ok alapnövényeikhez történő hozzárendeléséhez.
 - JAVÍTVA: A terménytényezők és sűrűségek precíziós kalibrálása a valós hozamcélok alapján (bu/hr).
 - ÚJ: Minden növény mostantól egyedi technikai előbeállításokat használ valós kézikönyvekből (20+ növény finomhangolva).
 

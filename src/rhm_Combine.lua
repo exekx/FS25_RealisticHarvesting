@@ -1,4 +1,4 @@
----@class rhm_Combine
+﻿---@class rhm_Combine
 rhm_Combine = {}
 rhm_Combine.debug = true
 

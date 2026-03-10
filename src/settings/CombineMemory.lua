@@ -1,4 +1,4 @@
----@class CombineMemory
+﻿---@class CombineMemory
 ---Система пам'яті комбайна для збереження профілів налаштувань
 CombineMemory = {}
 local CombineMemory_mt = Class(CombineMemory)
