@@ -1,4 +1,4 @@
----@class rhm_Combine
+﻿---@class rhm_Combine
 -- EN: Core FS25 vehicle specialization for the Realistic Harvesting mod.
 --     Overrides key combine functions (addCutterArea, addFillUnitFillLevel, getSpeedLimit, etc.)
 --     to integrate physics-based load calculation, crop-loss simulation, and combine settings.
