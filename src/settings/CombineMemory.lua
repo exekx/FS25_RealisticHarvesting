@@ -1,4 +1,4 @@
-﻿---@class CombineMemory
+---@class CombineMemory
 ---Система пам'яті комбайна для збереження профілів налаштувань
 CombineMemory = {}
 local CombineMemory_mt = Class(CombineMemory)
@@ -83,15 +83,17 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
     end
     
     if forceOptimal and optimalSettings then
-        -- AUTO режим: випадковий відхил 1-10 одиниць від оптимуму
+        -- AUTO режим: невелика випадкова похибка навколо оптимуму
         -- ВАЖЛИВО: На дедикованому сервері випадковість має бути тільки на сервері!
         
-        local function getAutoValue(optimal)
+        local function getAutoValue(optimal, tolerance)
             -- Якщо ми на сервері - генеруємо випадковість
             -- Якщо на клієнті - просто беремо оптимальне (воно скоро перекриється даними з сервера)
             local deviation = 0
             if (g_server ~= nil) then
-                deviation = math.random(1, 10)
+                -- Похибка трохи більша за допуск, щоб AUTO був хорошим, але не завжди ідеальним
+                local maxDev = tolerance + 2
+                deviation = math.random(0, maxDev)
                 local sign = math.random() > 0.5 and 1 or -1
                 deviation = sign * deviation
             end
@@ -104,7 +106,8 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
         local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
         for _, pName in ipairs(activeParams) do
             if optimalSettings[pName] then
-                self.currentSettings[pName] = getAutoValue(optimalSettings[pName].optimal)
+                local tol = optimalSettings[pName].tolerance or 5
+                self.currentSettings[pName] = getAutoValue(optimalSettings[pName].optimal, tol)
             else
                 self.currentSettings[pName] = 50 
             end

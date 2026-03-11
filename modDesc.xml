@@ -1603,13 +1603,41 @@ Változások 1.1.0.0:
         <text name="rhm_ui_roller_speed">
             <en>Roller Speed</en><de>Rollengeschwindigkeit</de><fr>Vitesse du rouleau</fr>
             <pl>Prędkość walca</pl><es>Velocidad del rodillo</es><it>Velocità rullo</it>
-            <cz>Rychlost válce</cz><uk>Швидкість ролика</uk><ru>Скорость вальца</ru><hu>Hengersebessége</hu>
+            <cz>Rychlost válce</cz><uk>Очисні вальці</uk><ru>Очистительные вальцы</ru><hu>Hengersebessége</hu>
         </text>
 
         <text name="rhm_ui_picker_speed">
             <en>Picker Speed</en><de>Pflückergeschwindigkeit</de><fr>Vitesse du cueilleur</fr>
             <pl>Prędkość zbieracza</pl><es>Velocidad del recolector</es><it>Velocità raccoglitore</it>
-            <cz>Rychlost sběrače</cz><uk>Швидкість збирача</uk><ru>Скорость съёмника</ru><hu>Felszedő sebessége</hu>
+            <cz>Rychlost sběrače</cz><uk>Оберти шпинделів</uk><ru>Обороты шпинделей</ru><hu>Felszedő sebessége</hu>
+        </text>
+
+        <!-- Machine-Specific Terminology Overrides -->
+        <text name="rhm_ui_forage_fan">
+            <en>Blower Speed</en><de>Beschleuniger</de><fr>Accélérateur</fr>
+            <pl>Przyspieszacz</pl><es>Acelerador</es><it>Acceleratore</it>
+            <cz>Urychlovač</cz><uk>Оберти прискорювача</uk><ru>Обороты ускорителя</ru><hu>Gyorsító</hu>
+        </text>
+        <text name="rhm_ui_forage_drum">
+            <en>Chopping Drum</en><de>Häckseltrommel</de><fr>Tambour hacheur</fr>
+            <pl>Bęben tnący</pl><es>Tambor picador</es><it>Tamburo trinciante</it>
+            <cz>Řezací buben</cz><uk>Подрібнюючий барабан</uk><ru>Измельчающий барабан</ru><hu>Szecskázó dob</hu>
+        </text>
+        <text name="rhm_ui_forage_feeder">
+            <en>Feed Rolls</en><de>Einzugswalzen</de><fr>Rouleaux d'alimentation</fr>
+            <pl>Walce wciągające</pl><es>Rodillos de alimentación</es><it>Rulli di alimentazione</it>
+            <cz>Vkládací válce</cz><uk>Живильні вальці</uk><ru>Питающие вальцы</ru><hu>Behúzóhengerek</hu>
+        </text>
+        
+        <text name="rhm_ui_root_roller">
+            <en>Cleaning Rollers</en><de>Reinigungswalzen</de><fr>Rouleaux de nettoyage</fr>
+            <pl>Rolki czyszczące</pl><es>Rodillos de limpieza</es><it>Rulli di pulizia</it>
+            <cz>Čisticí válce</cz><uk>Очисні вальці (Сепаратор)</uk><ru>Очистительные вальцы</ru><hu>Tisztítóhengerek</hu>
+        </text>
+        <text name="rhm_ui_root_feeder">
+            <en>Elevator Web</en><de>Siebband</de><fr>Tapis cribleur</fr>
+            <pl>Taśma odsiewająca</pl><es>Cinta de criba</es><it>Nastro elevatore</it>
+            <cz>Prosévací pás</cz><uk>Транспортер</uk><ru>Транспортер</ru><hu>Felhordószalag</hu>
         </text>
 
         <text name="rhm_units_short">

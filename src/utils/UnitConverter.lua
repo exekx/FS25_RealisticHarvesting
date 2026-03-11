@@ -191,3 +191,98 @@ function UnitConverter.formatYield(tPerHa, system, fruitType)
     local value, suffix = UnitConverter.convertYield(tPerHa, system, fruitType)
     return string.format("%.1f %s", value, suffix)
 end
+
+-- ==========================================
+-- PHYSICAL SETTINGS CONVERSION (UI LEVEL)
+-- ==========================================
+
+---@class PhysicalRange
+---@field min number Minimum physical value (corresponds to 0%)
+---@field max number Maximum physical value (corresponds to 100%)
+---@field unit string The string suffix to display (e.g. "RPM", "mm")
+---@field decimals number How many decimal places to show
+
+---Universal physical ranges for combine settings mappings per machine type
+UnitConverter.PHYSICAL_RANGES = {
+    grain = {
+        fan = { min = 300, max = 1200, unit = "RPM", decimals = 0 },
+        rotor = { min = 200, max = 1100, unit = "RPM", decimals = 0 },
+        upperSieve = { min = 0, max = 30, unit = "mm", decimals = 1 },
+        lowerSieve = { min = 0, max = 25, unit = "mm", decimals = 1 },
+        feeder = { min = 300, max = 800, unit = "RPM", decimals = 0 },
+    },
+    forage = {
+        fan = { min = 800, max = 1500, unit = "RPM", decimals = 0 },    -- Intake Blower / Accelerator
+        rotor = { min = 1000, max = 1200, unit = "RPM", decimals = 0 }, -- Chopping Drum
+        feeder = { min = 200, max = 600, unit = "RPM", decimals = 0 },  -- Feed Rolls
+    },
+    root = {
+        fan = { min = 400, max = 1000, unit = "RPM", decimals = 0 },    -- Blower / Separation
+        rotor = { min = 100, max = 350, unit = "RPM", decimals = 0 },   -- Cleaning Rollers / Stars
+        feeder = { min = 100, max = 400, unit = "RPM", decimals = 0 },  -- Sieve Belts / Elevator
+    },
+    cotton = {
+        fan = { min = 2500, max = 4000, unit = "RPM", decimals = 0 },   -- Blower/Air system
+        rotor = { min = 150, max = 250, unit = "RPM", decimals = 0 },   -- Spindle Drums
+        feeder = { min = 100, max = 300, unit = "RPM", decimals = 0 },  -- Feeder
+    }
+}
+
+---Helper to get range based on machineType
+function UnitConverter.getPhysicalRange(paramName, machineType)
+    machineType = machineType or "grain"
+    local typeRanges = UnitConverter.PHYSICAL_RANGES[machineType]
+    if typeRanges and typeRanges[paramName] then
+        return typeRanges[paramName]
+    end
+    return nil
+end
+
+---Convert a backend percentage (0-100) to a physical unit value based on the parameter type
+---@param paramName string The name of the parameter
+---@param percentage number The backend value 0-100
+---@param machineType string|nil The machine type ("grain", "forage", "root", "cotton")
+---@return number physicalValue The mapped physical value
+function UnitConverter.percentToPhysical(paramName, percentage, machineType)
+    local range = UnitConverter.getPhysicalRange(paramName, machineType)
+    if not range then
+        return percentage -- Fallback to raw percentage if parameter is unknown
+    end
+    -- Clamp percentage to safely calculate
+    local safePct = math.max(0, math.min(100, percentage))
+    local span = range.max - range.min
+    return range.min + (span * (safePct / 100))
+end
+
+---Convert a physical unit value back to a backend percentage (0-100)
+---@param paramName string The name of the parameter
+---@param physicalValue number The physical value (e.g., 750 RPM)
+---@param machineType string|nil The machine type ("grain", "forage", "root", "cotton")
+---@return number percentage The mapped 0-100 value
+function UnitConverter.physicalToPercent(paramName, physicalValue, machineType)
+    local range = UnitConverter.getPhysicalRange(paramName, machineType)
+    if not range then
+        return physicalValue -- Fallback
+    end
+    -- Clamp physical value
+    local safeVal = math.max(range.min, math.min(range.max, physicalValue))
+    local span = range.max - range.min
+    if span <= 0 then return 0 end
+    return ((safeVal - range.min) / span) * 100
+end
+
+---Formats a setting percentage into a string with its physical unit (e.g. "800 RPM")
+---@param paramName string The name of the parameter
+---@param percentage number The backend value 0-100
+---@param machineType string|nil The machine type ("grain", "forage", "root", "cotton")
+---@return string formattedString e.g. "800 RPM" or "14.5 mm" (or "50%" for fallback)
+function UnitConverter.formatSetting(paramName, percentage, machineType)
+    local range = UnitConverter.getPhysicalRange(paramName, machineType)
+    if not range then
+        return string.format("%.0f%%", percentage)
+    end
+    
+    local physVal = UnitConverter.percentToPhysical(paramName, percentage, machineType)
+    local fmt = "%." .. tostring(range.decimals) .. "f %s"
+    return string.format(fmt, physVal, range.unit)
+end

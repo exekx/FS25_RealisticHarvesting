@@ -404,7 +404,7 @@ function CombineCalibrationGUI:draw()
     for _, param in ipairs(activeParams) do
         local labelKey = CombineSettingsDatabase:getParamLabel(machineType, param)
         local label = g_i18n:hasText(labelKey) and g_i18n:getText(labelKey) or param
-        self:drawParameterRow(x + ui.margin, cy, w - ui.margin*2, param, label, memory, ui)
+        self:drawParameterRow(x + ui.margin, cy, w - ui.margin*2, param, label, memory, ui, machineType)
         cy = cy - ui.lineHeight
     end
     
@@ -500,7 +500,7 @@ function CombineCalibrationGUI:draw()
 end
 
 ---Helper to draw parameter row with [-] [+] buttons
-function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, ui)
+function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, ui, machineType)
     local val = memory.currentSettings[param] or 0
     local optimal = 0
     local isOptimal = false
@@ -519,6 +519,14 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
                 isOptimal = true
             end
         end
+    end
+    
+    -- Format value using the UnitConverter passing the specific machine type
+    local displayStr = ""
+    if UnitConverter and UnitConverter.formatSetting then
+        displayStr = UnitConverter.formatSetting(param, val, machineType)
+    else
+        displayStr = string.format("%d%%", val)
     end
     
     -- Label
@@ -549,17 +557,83 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
     
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(valColor))
-    renderText(x + w * 0.5, y + 0.005, ui.fontSize, string.format("%d%%", val))
+    renderText(x + w * 0.5, y + 0.005, ui.fontSize, displayStr)
     
+    -- Smart increment/decrement logic for Physical Units
+    -- Instead of +/- 1%, we want clean physical steps (e.g. +/- 10 RPM or +/- 1 mm)
+    local function performSmartStep(direction)
+        if UnitConverter and UnitConverter.percentToPhysical then
+            local physVal = UnitConverter.percentToPhysical(param, val, machineType)
+            local range = UnitConverter.getPhysicalRange(param, machineType)
+            
+            if range then
+                -- Determine step size based on unit
+                local stepValue = 1
+                if range.unit == "RPM" then
+                    stepValue = 10
+                elseif range.unit == "mm" then
+                    stepValue = 0.5 -- Changed to 0.5mm for finer sieve control
+                end
+                
+                -- Force clean rounding. Calculate the EXACT target physical value
+                local targetPhysVal = physVal
+                
+                -- Snap to nearest grid first to remove weird offsets (e.g. 443 -> 440 or 450)
+                if stepValue >= 1 then
+                    -- If we are not perfectly on a grid point, the first click just snaps us to it
+                    local snapped = math.floor((physVal / stepValue) + 0.5) * stepValue
+                    if math.abs(physVal - snapped) > 0.01 then
+                        if direction > 0 then
+                            targetPhysVal = math.ceil(physVal / stepValue) * stepValue
+                        else
+                            targetPhysVal = math.floor(physVal / stepValue) * stepValue
+                        end
+                    else
+                        targetPhysVal = snapped + (stepValue * direction)
+                    end
+                else
+                    -- Fractional steps (0.5)
+                    local snapped = math.floor((physVal / stepValue) + 0.5) * stepValue
+                    if math.abs(physVal - snapped) > 0.01 then
+                         if direction > 0 then
+                            targetPhysVal = math.ceil(physVal / stepValue) * stepValue
+                         else
+                            targetPhysVal = math.floor(physVal / stepValue) * stepValue
+                         end
+                    else
+                         targetPhysVal = snapped + (stepValue * direction)
+                    end
+                end
+                
+                -- Convert back to percentage WITH high precision, but DO NOT round yet
+                local targetPercent = UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
+                
+                -- Check if the 1% integer resolution of the backend is too low to notice this step
+                if math.abs(targetPercent - val) < 0.5 then
+                    -- If the physical change is too small to change even 1%, force a 1% change anyway, 
+                    -- which might overshoot slightly, but prevents getting stuck
+                    targetPercent = val + (direction * 1)
+                end
+                
+                -- Update to closest whole percentage
+                memory:updateSetting(param, math.floor(targetPercent + 0.5))
+            else
+                memory:updateSetting(param, val + direction)
+            end
+        else
+            memory:updateSetting(param, val + direction)
+        end
+    end
+
     -- Buttons [-] [+] (Always visible, auto-switch to MANUAL on click)
     -- Minus
     self:drawButton(x + w - ui.buttonW*2 - 0.005, y, ui.buttonW, ui.buttonH, "-", function()
-        memory:updateSetting(param, val - 1) -- This auto-switches to MANUAL
+        performSmartStep(-1)
     end)
     
     -- Plus
     self:drawButton(x + w - ui.buttonW, y, ui.buttonW, ui.buttonH, "+", function()
-        memory:updateSetting(param, val + 1) -- This auto-switches to MANUAL
+        performSmartStep(1)
     end)
 end
 
@@ -634,7 +708,48 @@ function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
                 local spec = self.activeVehicle.spec_rhm_Combine
                 if spec and spec.combineMemory then
                     local currentVal = spec.combineMemory.currentSettings[param]
-                    spec.combineMemory:updateSetting(param, currentVal + delta)
+                    
+                    -- Extract exact machineType from the vehicle itself
+                    local machineType = spec.machineType or "grain"
+                    
+                    -- Physical Units Smart Step Logic for Mouse Wheel
+                    if UnitConverter and UnitConverter.percentToPhysical then
+                        local physVal = UnitConverter.percentToPhysical(param, currentVal, machineType)
+                        local range = UnitConverter.getPhysicalRange(param, machineType)
+                        
+                        if range then
+                            local stepValue = range.unit == "RPM" and 10 or 0.5
+                            local targetPhysVal = physVal
+                            
+                            -- Grid snapping logic for scroll wheel
+                            local snapped = math.floor((physVal / stepValue) + 0.5) * stepValue
+                            if math.abs(physVal - snapped) > 0.01 then
+                                if delta > 0 then targetPhysVal = math.ceil(physVal / stepValue) * stepValue
+                                else targetPhysVal = math.floor(physVal / stepValue) * stepValue end
+                                -- Apply remaining delta steps if delta > 1 or < -1
+                                if math.abs(delta) > 1 then
+                                    local remaining = delta > 0 and (delta - 1) or (delta + 1)
+                                    targetPhysVal = targetPhysVal + (stepValue * remaining)
+                                end
+                            else
+                                targetPhysVal = snapped + (stepValue * delta)
+                            end
+
+                            local targetPercent = UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
+                            
+                            -- Force movement if stuck due to precision limits
+                            if math.abs(targetPercent - currentVal) < 0.5 then
+                                targetPercent = currentVal + (delta > 0 and 1 or -1)
+                                if math.abs(delta) > 1 then targetPercent = targetPercent + delta end
+                            end
+                            
+                            spec.combineMemory:updateSetting(param, math.floor(targetPercent + 0.5))
+                        else
+                            spec.combineMemory:updateSetting(param, currentVal + delta)
+                        end
+                    else
+                        spec.combineMemory:updateSetting(param, currentVal + delta)
+                    end
                 end
             end
         end
