@@ -1,4 +1,3 @@
----@class SettingsGUI
 -- EN: Provides in-game console commands for controlling the Realistic Harvesting mod settings.
 --     Includes commands for difficulty, feature toggles, HUD positioning, and combine settings.
 --     Server-side (admin-only) settings are protected with permission checks.
@@ -265,7 +264,6 @@ end
 
 -- EN: Returns the current combine vehicle the player is seated in, or nil.
 -- UA: Повертає поточний комбайн, в якому сидить гравець, або nil.
----@return table|nil
 function SettingsGUI:getCurrentCombine()
     local vehicle = nil
 

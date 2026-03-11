@@ -1,4 +1,3 @@
----@class RealisticHarvestManager
 -- EN: Central manager for the Realistic Harvesting mod. Created once per mission and stored
 --     as the global g_realisticHarvestManager. Coordinates all mod subsystems:
 --     settings, HUD, calibration GUI, console commands, and input events.
@@ -39,6 +38,7 @@ function RealisticHarvestManager.new(mission, modDirectory, modName)
         if settingsPage then
             settingsPage.onFrameOpen = Utils.appendedFunction(settingsPage.onFrameOpen, function()
                 self.settingsUI:inject()
+                self.settingsUI:refreshUI()
             end)
 
             settingsPage.updateButtons = Utils.appendedFunction(settingsPage.updateButtons, function(frame)
@@ -86,7 +86,6 @@ end
 
 -- EN: Toggles the calibration GUI open/closed for the given combine vehicle.
 -- UA: Перемикає GUI калібрування відкритий/закритий для заданого комбайна.
----@param vehicle table
 function RealisticHarvestManager:toggleMenu(vehicle)
     if self.calibrationGUI then
         self.calibrationGUI:toggle(vehicle)
@@ -105,9 +104,6 @@ end
 --     Used to find the combine when the player is controlling a tractor in a Nexat modular system.
 -- UA: Рекурсивно шукає в ієрархії транспорту перший транспортний засіб з spec_rhm_Combine.
 --     Використовується для пошуку комбайна коли гравець керує трактором у модульній системі Nexat.
----@param vehicle table
----@param checkedVehicles table|nil EN: Visited nodes (prevents infinite recursion) / UA: Відвідані вузли (запобігає нескінченній рекурсії)
----@return table|nil
 local function findCombineInHierarchy(vehicle, checkedVehicles)
     if not vehicle then return nil end
 
@@ -148,7 +144,6 @@ end
 --     Falls back through multiple methods to handle various FS25 versions/states.
 -- UA: Повертає транспортний засіб, яким зараз керує локальний гравець.
 --     Перебирає кілька методів для підтримки різних версій/станів FS25.
----@return table|nil
 function RealisticHarvestManager:getControlledVehicle()
     local vehicle = g_currentMission.controlledVehicle
     if vehicle then return vehicle end
@@ -174,7 +169,6 @@ end
 -- UA: Викликається щоразу за кадр гри. Оновлює GUI калібрування і дані HUD.
 --     Шукає в ієрархії транспорту гравця специфікацію комбайна для відстеження живих даних.
 --     Оновлює HUD тільки коли знайдено і запущено комбайн.
----@param dt number EN: Delta time in milliseconds / UA: Дельта часу в мілісекундах
 function RealisticHarvestManager:update(dt)
     if self.calibrationGUI then
         self.calibrationGUI:update(dt)
@@ -259,12 +253,6 @@ end
 --     The GUI gets priority so it can capture events before the HUD.
 -- UA: Направляє події миші спочатку до GUI калібрування, а потім до HUD (для перетягування).
 --     GUI отримує пріоритет, щоб перехоплювати події до HUD.
----@param posX number
----@param posY number
----@param isDown boolean
----@param isUp boolean
----@param button number
----@return boolean handled
 function RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.mission:getIsClient() then
         return

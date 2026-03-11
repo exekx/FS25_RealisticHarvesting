@@ -1,4 +1,3 @@
-﻿---@class rhm_Combine
 -- EN: Core FS25 vehicle specialization for the Realistic Harvesting mod.
 --     Overrides key combine functions (addCutterArea, addFillUnitFillLevel, getSpeedLimit, etc.)
 --     to integrate physics-based load calculation, crop-loss simulation, and combine settings.
@@ -10,14 +9,12 @@
 --     Обробляє серіалізацію збереження, мережеві потоки мультиплеєра та реєстрацію дій вводу.
 --     Підтримує модульні системи збирання як NEXAT через хуки вводу з урахуванням ієрархії.
 rhm_Combine = {}
-rhm_Combine.debug = true
+rhm_Combine.debug = false
 
 -- EN: Checks if the vehicle has the base Combine specialization.
 --     Returns true for all machines including modular systems like NEXAT.
 -- UA: Перевіряє чи транспортний засіб має базову спеціалізацію Combine.
 --     Повертає true для всіх машин, включаючи модульні системи на кшталт NEXAT.
----@param specializations table
----@return boolean
 function rhm_Combine.prerequisitesPresent(specializations)
     -- EN: Print all specialization class names for diagnostic logging.
     -- UA: Виводимо всі назви класів спеціалізацій для діагностичного логування.
@@ -488,11 +485,12 @@ function rhm_Combine:addCutterArea(superFunc, ...)
                 local now = g_currentMission.time
                 spec._lastCropSwitchTime = spec._lastCropSwitchTime or 0
                 
-                if (now - spec._lastCropSwitchTime) >= 2000 then
+                if spec._pendingCrop ~= cropName then
+                    -- EN: New crop candidate detected / UA: Виявлено нового кандидата
+                    spec._pendingCrop = cropName
                     spec._lastCropSwitchTime = now
-                    spec._pendingCrop = cropName  -- запам’ятовуємо нову культуру
-                elseif spec._pendingCrop == cropName then
-                    -- Підтверджено другий раз — перемикаємо
+                elseif (now - spec._lastCropSwitchTime) >= 2000 then
+                    -- EN: Confirmed after 2 seconds / UA: Підтверджено після 2 секунд
                     spec._pendingCrop = nil
                     if rhm_Combine and rhm_Combine.debug then
                         print(string.format("RHM: [CROP] Detected crop: %s", cropName))
@@ -528,7 +526,6 @@ end
 -- UA: Викликається при зміні визначеного типу культури. Делегує до CombineMemory:switchCrop який
 --     зберігає старий профіль, завантажує новий та запускає мережеву синхронізацію.
 --     НЕ встановлює currentCrop напряму — switchCrop обробляє всі переходи стану.
----@param newCropName string
 function rhm_Combine:onCropTypeChanged(newCropName)
     local spec = self.spec_rhm_Combine
     if not spec or not spec.combineMemory then
@@ -636,7 +633,7 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         -- Якщо жатка змінилася, скидаємо genuineSpeedLimit
         if currentCutter ~= spec.currentCutter and currentCutter ~= nil then
             spec.currentCutter = currentCutter
-            spec.loadCalculator.genuineSpeedLimit = 15 -- EN: Reset to initial value / UA: Скидаємо до початкового значення
+            spec.loadCalculator.genuineSpeedLimit = -1 -- EN: Reset to initial value / UA: Скидаємо до початкового значення
         end
     end
     
@@ -644,11 +641,9 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
     --     This cap is the ceiling — our dynamic limit oscillates below it.
     -- UA: Встановлюємо genuineSpeedLimit ОДИН РАЗ з максимального ліміту гри (1.5x ліміту, мін. 18 км/год).
     --     Цей стеля — наш динамічний ліміт коливається нижче нього.
-    if spec.loadCalculator.genuineSpeedLimit == 15 and limit ~= math.huge then
-        -- EN: Use 1.5x game limit (min 18 km/h) to allow faster travel on easy fields.
-        -- UA: Використовуємо 1.5x ліміту гри (мін. 18 км/год) для швидшого руху на легких полях.
-        local genuineLimit = math.max(1.5 * limit, 18.0)
-        spec.loadCalculator:setGenuineSpeedLimit(genuineLimit)
+    if spec.loadCalculator.genuineSpeedLimit == -1 and limit ~= math.huge then
+        -- EN: Use vanilla game limit as absolute cap (no speed bonus) / UA: Ванільний ліміт як абсолютна межа (без бонусів)
+        spec.loadCalculator:setGenuineSpeedLimit(limit, limit)
     end
     
     -- EN: MULTIPLAYER FIX: LoadCalculator only runs on the server.
@@ -684,16 +679,14 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         self._speedLimitLogTime = g_currentMission.time
     end
     
-    -- EN: ALWAYS apply the calculated limit while cutter is working.
-    --     Previous version had `if calculatedLimit < genuineLimit` which effectively disabled the mod
-    --     when settings were perfect (limit reached ceiling) causing a drop to vanilla 10 km/h.
-    --     Now we always let the mod manage speed even above the vanilla cap.
-    -- UA: ЗАВЖДИ застосовуємо розрахований ліміт поки жатка працює.
-    --     Попередня версія мала `if calculatedLimit < genuineLimit` яка вимикала мод
-    --     при ідеальних налаштуваннях (ліміт досягав стелі), через що комбайн падав до 10 км/год ваніль.
-    --     Тепер мод завжди керує швидкістю навіть вище ванільного обмеження.
+    -- EN: ALWAYS apply the calculated limit, BUT NEVER exceed vanilla game limits (ModHub requirement).
+    --     This ensures root harvesters (like Dewulf) don't run at 11km/h when their base workspeed is 8km/h.
+    -- UA: ЗАВЖДИ застосовуємо розрахований ліміт, АЛЕ НІКОЛИ не перевищуємо ванільні ліміти гри (вимога ModHub).
+    --     Це гарантує, що коренезбиральні комбайни (як Dewulf) не їдуть 11 км/год, коли їх базова робоча швидкість 8 км/год.
     spec.isSpeedLimitActive = true
-    limit = calculatedLimit
+    
+    -- MODHUB FIX: Cap speed to the game's actual base limit
+    limit = math.min(limit, calculatedLimit)
     
     -- Логуємо тільки коли РЕАЛЬНО обмежуємо
     if not self._lastLimitLog or math.abs(self._lastLimitLog - limit) > 0.5 then
@@ -721,9 +714,13 @@ function rhm_Combine:getCanBeTurnedOn(superFunc)
     -- EN: Check each attached cutter — if any is not ready (e.g. folded), block thresher start.
     -- UA: Перевіряємо кожну прикріплену жатку — якщо хоча б одна не готова (напр. складена), блокуємо запуск.
     for cutter, _ in pairs(spec_combine.attachedCutters) do
-        if cutter ~= self and cutter.getCanBeTurnedOn ~= nil and not cutter:getCanBeTurnedOn() then
-            -- Якщо хоч одна жатка не готова (наприклад складена), комбайн не запуститься
-            return false
+        if cutter ~= self and cutter.getCanBeTurnedOn ~= nil then
+            -- EN: Use pcall to prevent infinite loops if cutter's getCanBeTurnedOn invokes the combine
+            -- UA: Використовуємо pcall щоб уникнути нескінченних циклів
+            local success, canTurnOn = pcall(cutter.getCanBeTurnedOn, cutter)
+            if success and not canTurnOn then
+                return false
+            end
         end
     end
 
@@ -739,6 +736,14 @@ end
 --     Якщо Незалежний Запуск вимкнений: жатки завжди запускаються автоматично (класична ванільна поведінка).
 --     Завжди відтворює анімації та звуки молотарки незалежно від логіки запуску жатки.
 function rhm_Combine:startThreshing(superFunc)
+    -- EN: INTENTIONAL OMISSION OF superFunc(self)
+    --     We DO NOT call superFunc(self) here. The game's vanilla startThreshing method automatically
+    --     forces all attached cutters to turn on (and lowers them) for the player.
+    --     By omitting it and replicating the animations/sounds manually, we enable the "Independent Launch"
+    --     feature which allows players to control the thresher and cutter separately.
+    -- UA: СВІДОМИЙ ПРОПУСК superFunc(self)
+    --     Ми НЕ викликаємо superFunc(self). Ванільний метод автоматично запускає і опускає всі жатки гравця.
+    --     Пропускаючи його і відтворюючи анімації вручну, ми робимо можливим "Незалежний запуск".
     local spec_combine = self.spec_combine
     
     -- EN: Read Independent Launch setting from manager.
@@ -793,6 +798,12 @@ end
 -- UA: Перевизначення stopThreshing. Зупиняє звуки/анімації молотарки та вимикає режим наповнення.
 --     НЕ вимикає жатки автоматично (гравець керує ними незалежно через Незалежний Запуск).
 function rhm_Combine:stopThreshing(superFunc)
+    -- EN: INTENTIONAL OMISSION OF superFunc(self)
+    --     Like startThreshing, we DO NOT call superFunc(self) here to prevent the base game from 
+    --     automatically turning off the attached cutters when the thresher stops.
+    -- UA: СВІДОМИЙ ПРОПУСК superFunc(self)
+    --     Як і в startThreshing, ми НЕ викликаємо superFunc(self) щоб завадити базовій грі
+    --     автоматично вимикати жатки при зупинці молотарки.
     local spec_combine = self.spec_combine
     
     if self.isClient then
@@ -1168,8 +1179,6 @@ end
 --     Uses pcall for each setValue so schema validation errors don't crash the save.
 -- UA: Зберігає налаштування комбайна (режим, поточна культура, значення вентилятора/ротора/решета/подачі) у XML файл збереження.
 --     Використовує pcall для кожного setValue щоб помилки валідації схеми не падали при збереженні.
----@param xmlFile XMLFile
----@param key string
 function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local spec = self.spec_rhm_Combine
     if not spec or not spec.combineMemory then return end
@@ -1200,9 +1209,6 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
 end
 
 ---Завантаження стану з savegame файлу
----@param xmlFile XMLFile
----@param key string  
----@param resetVehicles table
 function rhm_Combine:loadFromXMLFile(xmlFile, key, resetVehicles)
     local spec = self.spec_rhm_Combine
     if not spec or not spec.combineMemory then return end
@@ -1474,13 +1480,6 @@ function rhm_Combine:actionOpenMenu(actionName, inputValue, callbackState, isAna
         g_realisticHarvestManager:toggleMenu(self)
     end
 end
-
--- ============================================================================
--- COMBINE SETTINGS SYSTEM
--- ============================================================================
-
----Обробка зміни типу культури (викликається при детекції нової культури)
----@param newCropName string Назва нової культури
 
 
 

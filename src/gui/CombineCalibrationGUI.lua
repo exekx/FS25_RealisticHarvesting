@@ -1,4 +1,3 @@
----@class CombineCalibrationGUI
 -- EN: Interactive visual calibration GUI for combine harvester settings.
 --     Renders as an always-on overlay panel with sliders ([-]/[+] buttons and mouse wheel)
 --     for each active parameter (fan, rotor, sieves, feeder) based on machine type.
@@ -18,8 +17,6 @@ local CombineCalibrationGUI_mt = Class(CombineCalibrationGUI)
 --     button registry, scroll debouncing, and the persistent overlay object.
 -- UA: Створює новий екземпляр GUI. Ініціалізує константи розмітки UI, кольорову палітру,
 --     реєстр кнопок, захист від дребезгу прокрутки та постійний об'єкт оверлею.
----@param modDirectory string
----@return CombineCalibrationGUI
 function CombineCalibrationGUI.new(modDirectory)
     local self = setmetatable({}, CombineCalibrationGUI_mt)
     self.modDirectory = modDirectory
@@ -99,7 +96,6 @@ end
 
 -- EN: Toggles the GUI open if closed (for the given vehicle) or closes if open.
 -- UA: Перемикає GUI відкрити/закрити — відкриває для заданого транспортного засобу або закриває.
----@param vehicle table
 function CombineCalibrationGUI:toggle(vehicle)
     if self.isOpen then
         self:close()
@@ -237,7 +233,6 @@ end
 --     Calls CombineMemory:switchCrop which handles settings handover and network sync.
 -- UA: Перемикає на попередню (-1) або наступну (+1) культуру у відфільтрованому за типом машини списку.
 --     Викликає CombineMemory:switchCrop який обробляє передачу налаштувань та мережеву синхронізацію.
----@param direction number EN: -1 for previous, +1 for next / UA: -1 для попередньої, +1 для наступної
 function CombineCalibrationGUI:cycleCrop(direction)
     local spec = self.activeVehicle.spec_rhm_Combine
     local machineType = spec.machineType or "grain"
@@ -270,13 +265,6 @@ end
 --     Left-click is handled separately in the full mouseEvent method below.
 -- UA: Обробляє події миші. Перехоплює події колеса прокрутки щоб запобігти масштабуванню камери поки GUI відкритий.
 --     Лівий клік обробляється окремо у повному методі mouseEvent нижче.
----@param posX number
----@param posY number
----@param isDown boolean
----@param isUp boolean
----@param button number
----@param eventUsed boolean
----@return boolean handled
 function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button, eventUsed)
     if not self.isOpen then return false end
     
@@ -293,7 +281,6 @@ end
 --     Handles both standard vehicles and NEXAT modular systems (root vehicle matching).
 -- UA: Викликається кожен кадр поки відкритий. Автоматично закриває якщо гравець виходить з транспорту.
 --     Обробляє як стандартні транспортні засоби, так і модульні системи NEXAT (перевірка кореневого транспорту).
----@param dt number
 function CombineCalibrationGUI:update(dt)
     if not self.isOpen then return end
     
@@ -718,13 +705,6 @@ end
 --     Registers the button in self.buttons for click hit-testing in mouseEvent.
 -- UA: Малює кольоровий прямокутник кнопки та її мітку. Текст стає блакитним при наведенні.
 --     Реєструє кнопку в self.buttons для перевірки кліків у mouseEvent.
----@param x number
----@param y number
----@param w number
----@param h number
----@param text string
----@param callback function
----@param colorOverride table|nil
 function CombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOverride)
     local isHovered = self:checkHover(x, y, w, h)
     
@@ -773,12 +753,6 @@ end
 --     направляє прокрутку до розумного регулювання параметрів (Shift=5x множник),
 --     та направляє ліві кліки до зареєстрованих колбеків кнопок.
 --     Повертає true щоб поглинути подію і запобігти її потраплянню до камери/інших систем FS25.
----@param posX number
----@param posY number
----@param isDown boolean
----@param isUp boolean
----@param button number
----@return boolean handled
 function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.isOpen then return end
     
@@ -883,9 +857,6 @@ end
 --     Applies adjustment to hoveredParameter if one is set. Shift=5x multiplier.
 -- UA: Обробник прокрутки колесом використовуваний дебаунсним опитуванням у draw().
 --     Застосовує регулювання до hoveredParameter якщо він встановлений. Shift=5x множник.
----@param direction number EN: 1 for up, -1 for down / UA: 1 для вгору, -1 для вниз
----@param posX number
----@param posY number
 function CombineCalibrationGUI:handleWheelScroll(direction, posX, posY)
     local delta = direction
     -- EN: Shift modifier for 5x faster adjustment.
@@ -907,9 +878,6 @@ end
 --     hoveredParameter is set each frame during drawParameterRow() calls.
 -- UA: Повертає назву параметра над яким зараз знаходиться миша.
 --     hoveredParameter встановлюється кожен кадр під час викликів drawParameterRow().
----@param x number
----@param y number
----@return string|nil
 function CombineCalibrationGUI:getParameterAtMouse(x, y)
     if self.hoveredParameter then
         return self.hoveredParameter

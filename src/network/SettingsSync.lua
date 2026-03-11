@@ -1,4 +1,3 @@
----@class SettingsSync
 -- EN: Helper class for dispatching settings synchronization events over the network.
 --     Provides methods to broadcast settings from server to all clients,
 --     or to send an update from a client admin to the server.
@@ -9,7 +8,6 @@ SettingsSync = {}
 
 -- EN: Broadcasts server settings to all clients. If called from a client admin, sends to server first.
 -- UA: Транслює серверні налаштування всім клієнтам. Якщо викликано від клієнта-адміна, спочатку надсилає на сервер.
----@param settings Settings EN: Server settings object to sync / UA: Об'єкт серверних налаштувань для синхронізації
 function SettingsSync:sendToClients(settings)
     if not g_currentMission:getIsServer() then
         -- EN: We are a client (admin) — send the update to the server first.
@@ -28,7 +26,6 @@ end
 --     Only works if the caller is a client (not the server itself).
 -- UA: Надсилає оновлення налаштувань від клієнта-адміністратора на сервер.
 --     Працює тільки якщо викликано на клієнті (не на самому сервері).
----@param settings Settings EN: Server settings object to send / UA: Об'єкт серверних налаштувань для надсилання
 function SettingsSync:sendToServer(settings)
     if g_currentMission:getIsServer() then
         return
@@ -45,18 +42,22 @@ function SettingsSync:sendToServer(settings)
         return
     end
 
-    print(string.format("RHM: [Sync] Sending event to server via connection %s", tostring(connection)))
+    if RHM_Debug and RHM_Debug.isEnabled("Network") then
+        print(string.format("RHM: [Sync] Sending event to server via connection %s", tostring(connection)))
+    end
+    
     local event = SettingsSyncEvent.new(settings)
     connection:sendEvent(event)
 
-    print(string.format("RHM: [Sync] Event sent (Motor: %d, Loss: %d)", tostring(settings.difficultyMotor or 2), tostring(settings.difficultyLoss or 2)))
+    if RHM_Debug and RHM_Debug.isEnabled("Network") then
+        print(string.format("RHM: [Sync] Event sent (Motor: %d, Loss: %d)", tostring(settings.difficultyMotor or 2), tostring(settings.difficultyLoss or 2)))
+    end
 end
 
 -- EN: Placeholder method called when the client receives settings from the server.
 --     Actual application of values happens in SettingsSyncEvent:run().
 -- UA: Метод-заглушка, що викликається коли клієнт отримує налаштування від сервера.
 --     Фактичне застосування значень відбувається в SettingsSyncEvent:run().
----@param eventData table EN: Event data (unused here) / UA: Дані події (тут не використовуються)
 function SettingsSync:receiveFromServer(eventData)
     if g_currentMission:getIsServer() then
         return

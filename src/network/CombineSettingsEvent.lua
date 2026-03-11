@@ -1,4 +1,3 @@
----@class CombineSettingsEvent
 -- EN: Network event for syncing combine settings changes (fan, rotor, sieve, feeder) from
 --     the client GUI to the server, and from the server back to all other clients.
 --     Supports two modes: single-parameter update or full profile apply.
@@ -19,11 +18,6 @@ end
 
 -- EN: Creates a new event targeting a specific vehicle and carrying setting change data.
 -- UA: Створює нову подію, що цілить на конкретний транспорт і несе дані зміни налаштувань.
----@param vehicle table EN: Target combine vehicle / UA: Цільовий комбайн
----@param parameter string EN: Parameter name ("fan", "rotor", "AUTO_SET", "RESET_SET", "AUTO_MODE") / UA: Назва параметру
----@param value number EN: New parameter value (0-100) or mode flag (0/1) / UA: Нове значення (0-100) або прапорець режиму
----@param isFullProfile boolean EN: If true, sends a full settings profile / UA: Якщо true — надсилається повний профіль налаштувань
----@param fullSettings table|nil EN: Full settings table when isFullProfile = true / UA: Повна таблиця налаштувань при isFullProfile = true
 function CombineSettingsEvent.new(vehicle, parameter, value, isFullProfile, fullSettings)
     local self = CombineSettingsEvent.emptyNew()
     self.vehicle = vehicle
@@ -88,70 +82,96 @@ function CombineSettingsEvent:run(connection)
     if self.vehicle and self.vehicle:getIsSynchronized() and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.combineMemory then
         local mem = self.vehicle.spec_rhm_Combine.combineMemory
 
-        if self.isFullProfile then
-            -- EN: Apply a complete user preset profile to the combine memory.
-            -- UA: Застосовуємо повний профіль користувача до пам'яті комбайна.
-            mem.currentSettings.fan = self.fullSettings.fan
-            mem.currentSettings.rotor = self.fullSettings.rotor
-            mem.currentSettings.upperSieve = self.fullSettings.upperSieve
-            mem.currentSettings.lowerSieve = self.fullSettings.lowerSieve
-            mem.currentSettings.feeder = self.fullSettings.feeder
-            mem.autoSwitchEnabled = false
-            mem.mode = "MANUAL"
-            if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                print("RHM: [Sync] Received full user profile settings via network")
-            end
-        else
-            if self.parameter == "AUTO_SET" then
-                -- EN: Client requested AUTO mode — configure optimal settings for current crop.
-                -- UA: Клієнт запросив AUTO режим — налаштовуємо оптимальні значення для поточної культури.
-                mem.autoSwitchEnabled = true
-                mem.mode = "AUTO"
-                if mem.currentCrop then
-                    mem:autoConfigureForCrop(mem.currentCrop, true)
-                    if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                        print(string.format("RHM: [Sync] Server applied AUTO mode for %s", mem.currentCrop))
-                    end
-                end
-            elseif self.parameter == "RESET_SET" then
-                -- EN: Client requested RESET — revert all settings to neutral 50%.
-                -- UA: Клієнт запросив RESET — скидаємо всі налаштування до нейтральних 50%.
+        if g_server ~= nil then
+            if self.isFullProfile then
+                -- EN: Apply a complete user preset profile to the combine memory.
+                -- UA: Застосовуємо повний профіль користувача до пам'яті комбайна.
+                mem.currentSettings.fan = self.fullSettings.fan
+                mem.currentSettings.rotor = self.fullSettings.rotor
+                mem.currentSettings.upperSieve = self.fullSettings.upperSieve
+                mem.currentSettings.lowerSieve = self.fullSettings.lowerSieve
+                mem.currentSettings.feeder = self.fullSettings.feeder
                 mem.autoSwitchEnabled = false
                 mem.mode = "MANUAL"
-                if mem.currentCrop then
-                    mem:autoConfigureForCrop(mem.currentCrop, false)
-                    if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                        print(string.format("RHM: [Sync] Server applied RESET to 50%% for %s", mem.currentCrop))
-                    end
+                if RHM_Debug and RHM_Debug.isEnabled("Network") then
+                    print("RHM: [Sync] Received full user profile settings via network")
                 end
-            elseif self.parameter == "AUTO_MODE" then
-                -- EN: Toggle the auto-switch behavior flag (1 = enabled, 0 = disabled).
-                -- UA: Перемикаємо прапорець автоматичного перемикання (1 = увімкнено, 0 = вимкнено).
-                mem.autoSwitchEnabled = (self.value == 1)
-                mem.mode = mem.autoSwitchEnabled and "AUTO" or "MANUAL"
             else
-                -- EN: Apply a single parameter change (e.g. "fan" = 65).
-                -- UA: Застосовуємо зміну одного параметру (наприклад "fan" = 65).
-                if mem.currentSettings[self.parameter] ~= nil then
-                    mem.currentSettings[self.parameter] = math.max(0, math.min(100, self.value))
+                if self.parameter == "AUTO_SET" then
+                    -- EN: Client requested AUTO mode — configure optimal settings for current crop.
+                    -- UA: Клієнт запросив AUTO режим — налаштовуємо оптимальні значення для поточної культури.
+                    mem.autoSwitchEnabled = true
+                    mem.mode = "AUTO"
+                    if mem.currentCrop then
+                        mem:autoConfigureForCrop(mem.currentCrop, true)
+                        if RHM_Debug and RHM_Debug.isEnabled("Network") then
+                            print(string.format("RHM: [Sync] Server applied AUTO mode for %s", mem.currentCrop))
+                        end
+                    end
+                elseif self.parameter == "RESET_SET" then
+                    -- EN: Client requested RESET — revert all settings to neutral 50%.
+                    -- UA: Клієнт запросив RESET — скидаємо всі налаштування до нейтральних 50%.
                     mem.autoSwitchEnabled = false
                     mem.mode = "MANUAL"
-                    if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                        print(string.format("RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
+                    if mem.currentCrop then
+                        mem:autoConfigureForCrop(mem.currentCrop, false)
+                        if RHM_Debug and RHM_Debug.isEnabled("Network") then
+                            print(string.format("RHM: [Sync] Server applied RESET to 50%% for %s", mem.currentCrop))
+                        end
+                    end
+                elseif self.parameter == "AUTO_MODE" then
+                    -- EN: Toggle the auto-switch behavior flag (1 = enabled, 0 = disabled).
+                    -- UA: Перемикаємо прапорець автоматичного перемикання (1 = увімкнено, 0 = вимкнено).
+                    mem.autoSwitchEnabled = (self.value == 1)
+                    mem.mode = mem.autoSwitchEnabled and "AUTO" or "MANUAL"
+                else
+                    -- EN: Apply a single parameter change (e.g. "fan" = 65).
+                    -- UA: Застосовуємо зміну одного параметру (наприклад "fan" = 65).
+                    if mem.currentSettings[self.parameter] ~= nil then
+                        mem.currentSettings[self.parameter] = math.max(0, math.min(100, self.value))
+                        mem.autoSwitchEnabled = false
+                        mem.mode = "MANUAL"
+                        if RHM_Debug and RHM_Debug.isEnabled("Network") then
+                            print(string.format("RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
+                        end
                     end
                 end
             end
-        end
 
-        -- EN: If we are the server, broadcast the change to all other clients and raise dirty flags.
-        -- UA: Якщо ми сервер — транслюємо зміну всім іншим клієнтам і піднімаємо dirty flags.
-        if g_server ~= nil then
-            g_server:broadcastEvent(CombineSettingsEvent.new(self.vehicle, self.parameter, self.value, self.isFullProfile, self.fullSettings), nil, connection, self.vehicle)
+            -- EN: Server always broadcasts the full state so clients sync perfectly without duplicate calculations.
+            local fullSettings = {
+                fan = mem.currentSettings.fan,
+                rotor = mem.currentSettings.rotor,
+                upperSieve = mem.currentSettings.upperSieve,
+                lowerSieve = mem.currentSettings.lowerSieve,
+                feeder = mem.currentSettings.feeder
+            }
+            g_server:broadcastEvent(CombineSettingsEvent.new(self.vehicle, "", 0, true, fullSettings), nil, connection, self.vehicle)
             local spec = self.vehicle.spec_rhm_Combine
             if spec and spec.settingsDirtyFlag then
                 self.vehicle:raiseDirtyFlags(spec.settingsDirtyFlag)
             else
                 self.vehicle:raiseDirtyFlags(spec.dirtyFlag)
+            end
+
+        else
+            -- EN: Client execution branch - just apply the values without executing complex logic
+            -- UA: Гілка клієнта - просто застосовує значення без обчислень
+            if self.isFullProfile then
+                mem.currentSettings.fan = self.fullSettings.fan
+                mem.currentSettings.rotor = self.fullSettings.rotor
+                mem.currentSettings.upperSieve = self.fullSettings.upperSieve
+                mem.currentSettings.lowerSieve = self.fullSettings.lowerSieve
+                mem.currentSettings.feeder = self.fullSettings.feeder
+            elseif self.parameter == "AUTO_MODE" then
+                mem.autoSwitchEnabled = (self.value == 1)
+                mem.mode = mem.autoSwitchEnabled and "AUTO" or "MANUAL"
+            elseif self.parameter ~= "AUTO_SET" and self.parameter ~= "RESET_SET" then
+                if mem.currentSettings[self.parameter] ~= nil then
+                    mem.currentSettings[self.parameter] = math.max(0, math.min(100, self.value))
+                    mem.autoSwitchEnabled = false
+                    mem.mode = "MANUAL"
+                end
             end
         end
     end

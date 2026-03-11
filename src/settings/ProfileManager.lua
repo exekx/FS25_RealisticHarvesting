@@ -1,4 +1,3 @@
----@class ProfileManager
 -- EN: Manages global user crop profiles, persisted in the FS25 modSettings folder.
 --     Profiles store per-crop combine settings (fan, rotor, sieves, feeder) that the player
 --     has manually saved, and are reloaded across game sessions.
@@ -117,7 +116,6 @@ end
 
 -- EN: Returns the profile for a specific crop name, or nil if none is saved.
 -- UA: Повертає профіль для конкретної назви культури, або nil якщо профілю немає.
----@param cropName string EN: Crop name key (e.g. "WHEAT") / UA: Ключ назви культури (наприклад "WHEAT")
 function ProfileManager:getProfile(cropName)
     if not cropName then return nil end
     return self.profiles[cropName]
@@ -127,8 +125,6 @@ end
 --     Immediately persists the change to the XML file.
 -- UA: Зберігає або перезаписує профіль для конкретної культури з заданими налаштуваннями.
 --     Негайно зберігає зміну у XML-файл.
----@param cropName string EN: Crop name to save profile for / UA: Назва культури для збереження профілю
----@param settings table EN: Settings table {fan, rotor, upperSieve, lowerSieve, feeder} / UA: Таблиця налаштувань
 function ProfileManager:saveProfile(cropName, settings)
     if not cropName or not settings then return false end
 

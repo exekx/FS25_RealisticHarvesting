@@ -1,4 +1,3 @@
----@class RHM_Debug
 -- EN: Centralized debug logging system for the Realistic Harvesting mod.
 --     Controls which modules are allowed to print debug output to the game log.
 -- UA: Централізована система керування дебаг-логами для мода Realistic Harvesting.
@@ -40,8 +39,6 @@ RHM_Debug.Modules = {
 
 -- EN: Checks whether debug output is allowed for a specific module.
 -- UA: Перевіряє чи дозволено виведення логів для конкретного модуля.
----@param moduleName string EN: Module name (e.g. "Combine") / UA: Назва модуля (наприклад, "Combine")
----@return boolean
 function RHM_Debug.isEnabled(moduleName)
     if not RHM_Debug.MASTER_ENABLE then
         return false
@@ -59,8 +56,6 @@ end
 
 -- EN: Convenience function to print a debug message for a specific module.
 -- UA: Зручна функція для виведення дебаг-повідомлення для конкретного модуля.
----@param moduleName string
----@param message string
 function RHM_Debug.log(moduleName, message)
     if RHM_Debug.isEnabled(moduleName) then
         print(string.format("RHM [%s]: %s", moduleName, message))

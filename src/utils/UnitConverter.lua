@@ -1,4 +1,3 @@
----@class UnitConverter
 -- EN: Utility module for converting and formatting values between metric, imperial, and bushel unit systems.
 --     Handles speed (km/h ↔ mph), productivity (t/h ↔ ton/h ↔ bu/h), area (ha ↔ ac),
 --     yield (t/ha ↔ t/ac ↔ bu/ac), and physical unit display for combine settings (RPM, mm).
@@ -69,10 +68,6 @@ UnitConverter.BUSHEL_DEFAULT = 36.76
 
 -- EN: Converts a speed value from km/h to the active unit system.
 -- UA: Конвертує значення швидкості з км/год у поточну систему одиниць.
----@param kmh number EN: Speed in km/h / UA: Швидкість у км/год
----@param system number EN: Unit system constant / UA: Константа системи одиниць
----@return number convertedValue
----@return string suffix EN: Unit label ("km/h" or "mph") / UA: Позначення одиниць
 function UnitConverter.convertSpeed(kmh, system)
     if system == UnitConverter.SYSTEM_IMPERIAL or system == UnitConverter.SYSTEM_BUSHELS then
         return kmh * UnitConverter.KMH_TO_MPH, "mph"
@@ -86,12 +81,6 @@ end
 -- UA: Конвертує продуктивність з тонн/год у поточну систему одиниць.
 --     EN: Preferred method uses liters/h directly for bushel conversion (avoids density approximation).
 --     UA: Переважний метод використовує літри/год напряму для бушельної конвертації (уникає наближення густини).
----@param tonnesPerHour number
----@param system number
----@param fruitType number|nil EN: FruitType ID for bushel coefficient lookup / UA: ID типу врожаю для пошуку коефіцієнту
----@param litersPerHour number|nil EN: Optional direct liters/hour for precise bushel calc / UA: Необов'язкові літри/год для точного розрахунку бушелів
----@return number convertedValue
----@return string suffix
 function UnitConverter.convertProductivity(tonnesPerHour, system, fruitType, litersPerHour)
     if system == UnitConverter.SYSTEM_BUSHELS then
         -- EN: Direct conversion from liters to bushels (1 US Bushel = 35.2391 L).
@@ -117,10 +106,6 @@ end
 
 -- EN: Converts an area value from hectares to the active unit system.
 -- UA: Конвертує значення площі з гектарів у поточну систему одиниць.
----@param hectares number
----@param system number
----@return number convertedValue
----@return string suffix
 function UnitConverter.convertArea(hectares, system)
     if system == UnitConverter.SYSTEM_IMPERIAL or system == UnitConverter.SYSTEM_BUSHELS then
         return hectares * UnitConverter.HECTARE_TO_ACRE, "ac"
@@ -131,9 +116,6 @@ end
 
 -- EN: Formats a speed value with its unit suffix.
 -- UA: Форматує значення швидкості з позначенням одиниці.
----@param kmh number
----@param system number
----@return string EN: e.g. "10.5 km/h" or "6.5 mph" / UA: наприклад "10.5 км/год" або "6.5 миль/год"
 function UnitConverter.formatSpeed(kmh, system)
     local value, suffix = UnitConverter.convertSpeed(kmh, system)
     return string.format("%.1f %s", value, suffix)
@@ -141,11 +123,6 @@ end
 
 -- EN: Formats a productivity value with its unit suffix.
 -- UA: Форматує значення продуктивності з позначенням одиниці.
----@param tonnesPerHour number
----@param system number
----@param fruitType number|nil
----@param litersPerHour number|nil
----@return string
 function UnitConverter.formatProductivity(tonnesPerHour, system, fruitType, litersPerHour)
     local value, suffix = UnitConverter.convertProductivity(tonnesPerHour, system, fruitType, litersPerHour)
     return string.format("%.1f %s", value, suffix)
@@ -153,9 +130,6 @@ end
 
 -- EN: Formats an area value with its unit suffix.
 -- UA: Форматує значення площі з позначенням одиниці.
----@param hectares number
----@param system number
----@return string
 function UnitConverter.formatArea(hectares, system)
     local value, suffix = UnitConverter.convertArea(hectares, system)
     return string.format("%.2f %s", value, suffix)
@@ -163,8 +137,6 @@ end
 
 -- EN: Returns a human-readable name for the unit system.
 -- UA: Повертає зрозумілу назву системи одиниць.
----@param system number
----@return string
 function UnitConverter.getSystemName(system)
     if system == UnitConverter.SYSTEM_METRIC then
         return "Metric"
@@ -185,11 +157,6 @@ end
 --     UA: Для бушелів: т/га -> буш/акр з використанням ваги бушеля для культури.
 --     EN: For US: t/ha -> t/acre.
 --     UA: Для американської: т/га -> т/акр.
----@param tPerHa number EN: Yield in t/ha / UA: Врожайність у т/га
----@param system number
----@param fruitType number|nil
----@return number convertedValue
----@return string suffix
 function UnitConverter.convertYield(tPerHa, system, fruitType)
     if system == UnitConverter.SYSTEM_BUSHELS then
         local buPerTonne = UnitConverter.BUSHEL_DEFAULT
@@ -211,10 +178,6 @@ end
 
 -- EN: Formats a yield value with its unit suffix.
 -- UA: Форматує значення врожайності з позначенням одиниці.
----@param tPerHa number
----@param system number
----@param fruitType number|nil
----@return string
 function UnitConverter.formatYield(tPerHa, system, fruitType)
     local value, suffix = UnitConverter.convertYield(tPerHa, system, fruitType)
     return string.format("%.1f %s", value, suffix)
@@ -227,13 +190,6 @@ end
 --     EN: Used in GUI to display realistic values instead of percentages.
 --     UA: Використовується в GUI для відображення реалістичних значень замість відсотків.
 -- ===================================================================
-
----@class PhysicalRange
----@field min number EN: Physical minimum (= 0%) / UA: Фізичний мінімум (= 0%)
----@field max number EN: Physical maximum (= 100%) / UA: Фізичний максимум (= 100%)
----@field unit string EN: Display unit suffix / UA: Позначення одиниці для відображення
----@field decimals number EN: Number of decimal places / UA: Кількість знаків після коми
----@field step number EN: Rounding step (e.g. 10 for RPM) / UA: Крок округлення (напр. 10 для RPM)
 
 -- EN: Physical value ranges for each combine parameter, grouped by machine type.
 --     These define the real-world operating range that the 0-100% backend maps to.
@@ -267,8 +223,6 @@ UnitConverter.PHYSICAL_RANGES = {
 
 -- EN: Returns the physical range definition for a parameter and machine type combination.
 -- UA: Повертає визначення фізичного діапазону для комбінації параметру та типу машини.
----@param paramName string
----@param machineType string|nil
 function UnitConverter.getPhysicalRange(paramName, machineType)
     machineType = machineType or "grain"
     local typeRanges = UnitConverter.PHYSICAL_RANGES[machineType]
@@ -283,10 +237,6 @@ end
 -- UA: Конвертує бекенд-відсоток (0-100) у реальне фізичне значення для заданого параметру.
 --     EN: Returns raw percentage as fallback if the parameter has no range definition.
 --     UA: Повертає сирий відсоток як резервне значення, якщо параметр не має визначення діапазону.
----@param paramName string
----@param percentage number EN: Backend value 0-100 / UA: Бекенд значення 0-100
----@param machineType string|nil
----@return number EN: Mapped physical value (e.g. 750 RPM) / UA: Відображене фізичне значення (наприклад 750 RPM)
 function UnitConverter.percentToPhysical(paramName, percentage, machineType)
     local range = UnitConverter.getPhysicalRange(paramName, machineType)
     if not range then
@@ -299,10 +249,6 @@ end
 
 -- EN: Converts a real physical value back to backend percentage (0-100).
 -- UA: Конвертує реальне фізичне значення назад у бекенд-відсоток (0-100).
----@param paramName string
----@param physicalValue number
----@param machineType string|nil
----@return number EN: Mapped percentage 0-100 / UA: Відображений відсоток 0-100
 function UnitConverter.physicalToPercent(paramName, physicalValue, machineType)
     local range = UnitConverter.getPhysicalRange(paramName, machineType)
     if not range then
@@ -319,10 +265,6 @@ end
 -- UA: Форматує бекенд-відсоток у зрозумілий рядок з фізичними одиницями.
 --     EN: Example: 50% fan -> "750 RPM". Fallback is "50%" if range missing.
 --     UA: Приклад: 50% вентилятор -> "750 RPM". Резервне значення "50%" якщо діапазон не визначено.
----@param paramName string
----@param percentage number
----@param machineType string|nil
----@return string
 function UnitConverter.formatSetting(paramName, percentage, machineType)
     local range = UnitConverter.getPhysicalRange(paramName, machineType)
     if not range then

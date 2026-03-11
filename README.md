@@ -171,7 +171,7 @@ Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops 
 ### 🌾 Grain Combines — 5 Parameters
 *(Fan Speed · Rotor Speed · Upper Sieve · Lower Sieve · Feeder House)*
 
-| Crop | Fan (RPM) | Rotor (RPM) | Upper Sieve (mm) | Lower Sieve (mm) | Feeder (RPM) |
+| Crop | Fan Speed (RPM) | Rotor Speed (RPM) | Upper Sieve (mm) | Lower Sieve (mm) | Feeder House (RPM) |
 |:---|:---:|:---:|:---:|:---:|:---:|
 | **Wheat / Barley** | 940–1070 | 870–970 | 15–18 | 10–13 | 500–600 |
 | **Oat** | 940–1070 | 820–930 | 18–21 | 12–15 | 530–630 |
@@ -187,9 +187,9 @@ Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops 
 ---
 
 ### 🌿 Forage Harvesters — 3 Parameters
-*(Fan Speed · Drum Speed · Feeder House)*
+*(Fan Speed · Drum Speed · Feeder Speed)*
 
-| Crop | Fan (RPM) | Drum (RPM) | Feeder (RPM) |
+| Crop | Fan Speed (RPM) | Drum Speed (RPM) | Feeder Speed (RPM) |
 |:---|:---:|:---:|:---:|
 | **Grass / Dry Grass** | 1150–1290 | 1110–1150 | 380–460 |
 | **Corn Silage (CHAFF)** | 1220–1360 | 1140–1180 | 440–520 |
@@ -197,11 +197,11 @@ Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops 
 ---
 
 ### 🥔 Root & Vegetable Harvesters — 3 Parameters
-*(Fan Speed · Roller Speed · Feeder House)*
+*(Fan Speed · Roller Speed · Feeder Web)*
 
 > Each crop has **unique optimal values** — check the Calibration Menu when switching crops!
 
-| Crop | Fan (optimal) | Roller (optimal) | Feeder (optimal) | Notes |
+| Crop | Fan Speed (optimal) | Roller Speed (optimal) | Feeder Web (optimal) | Notes |
 |:---|:---:|:---:|:---:|:---|
 | **Potato** | **610 RPM** | **200 RPM** | **310 RPM** | Low air: soil doesn't blow, gentle roller: prevent bruises |
 | **Sugarbeet** | **640 RPM** | **240 RPM** | **300 RPM** | Harder than potato, faster cleaning |

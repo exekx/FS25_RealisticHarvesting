@@ -1,4 +1,3 @@
----@class SettingsUI
 -- EN: Integrates mod settings into the standard FS25 in-game settings menu (InGameMenu).
 --     Injects server-side (admin-controlled) simulation settings and client-side HUD/display
 --     settings into the generalSettingsLayout of the settings page. Also provides a
@@ -274,7 +273,6 @@ end
 -- UA: Додає кнопку "Скинути налаштування" до футеру меню налаштувань.
 --     EN: Added only once; duplication is prevented. Uses MENU_EXTRA_1 (X) action.
 --     UA: Додається тільки один раз; дублювання попереджається. Використовує дію MENU_EXTRA_1 (X).
----@param settingsFrame table EN: The settings menu frame object / UA: Об'єкт фрейму меню налаштувань
 function SettingsUI:ensureResetButton(settingsFrame)
     if not settingsFrame or not settingsFrame.menuButtonInfo then
         print("RHM: ensureResetButton - settingsFrame invalid")

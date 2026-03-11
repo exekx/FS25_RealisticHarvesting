@@ -1,4 +1,3 @@
----@class HUDRenderer
 -- EN: Low-level HUD rendering utility. Provides helper functions for drawing
 --     text with specific colors, alignment, and font settings, and for measuring
 --     text width. Used internally by DraggableHUD and other HUD components.
@@ -30,12 +29,6 @@ HUDRenderer.SIZES = {
 --     Resets text state (color, alignment, bold) to defaults after rendering.
 -- UA: Відображає текст у заданій позиції екрану з вказаним кольором, розміром і вирівнюванням.
 --     Скидає стан тексту (колір, вирівнювання, жирний) до значень за замовчуванням після відображення.
----@param text string EN: Text to render / UA: Текст для відображення
----@param x number EN: Screen X position (0-1) / UA: Позиція X на екрані (0-1)
----@param y number EN: Screen Y position (0-1) / UA: Позиція Y на екрані (0-1)
----@param size number EN: Font size / UA: Розмір шрифту
----@param color table EN: Color table {r, g, b, a} / UA: Таблиця кольору {r, g, b, a}
----@param align string EN: Alignment: "left", "center", or "right" / UA: Вирівнювання: "left", "center" або "right"
 function HUDRenderer.drawText(text, x, y, size, color, align)
     align = align or "left"
 
@@ -62,9 +55,6 @@ end
 --     Temporarily sets bold mode to match the rendering style used in drawText.
 -- UA: Розраховує та повертає ширину відображуваного рядка тексту при заданому розмірі шрифту.
 --     Тимчасово вмикає жирний шрифт, щоб відповідати стилю відображення в drawText.
----@param text string
----@param size number
----@return number EN: Text width in normalized screen space / UA: Ширина тексту в нормалізованому просторі екрану
 function HUDRenderer.getTextWidth(text, size)
     setTextBold(true)
     local width = getTextWidth(size, text)

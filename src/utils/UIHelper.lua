@@ -1,4 +1,3 @@
----@class UIHelper
 -- EN: Factory functions for injecting custom settings elements into FS25's in-game settings menu.
 --     Uses cloning of existing vanilla elements to ensure visual consistency.
 --     Supports section headers, binary (checkbox) options, and multi-text (dropdown-style) options.
@@ -28,9 +27,6 @@ end
 -- UA: Створює елемент заголовку секції в розмітці налаштувань.
 --     EN: Clones the first "sectionHeader" element in the layout and sets its localized text.
 --     UA: Клонує перший елемент "sectionHeader" в розмітці і встановлює його локалізований текст.
----@param layout table EN: Settings layout container / UA: Контейнер розмітки налаштувань
----@param textId string EN: Localization key for the section title / UA: Ключ локалізації для заголовку секції
----@return table|nil
 function UIHelper.createSection(layout, textId)
     local section = nil
     for _, el in ipairs(layout.elements) do
@@ -50,9 +46,6 @@ end
 -- UA: Створює текстовий елемент-опис (підзаголовок) в розмітці налаштувань.
 --     EN: Clones the second child element of an existing row, reduces font size and grays the color.
 --     UA: Клонує другий дочірній елемент існуючого рядка, зменшує розмір шрифту і сірить колір.
----@param layout table
----@param textId string
----@return table|nil
 function UIHelper.createDescription(layout, textId)
     local template = nil
 
@@ -105,12 +98,6 @@ end
 --     UA: і правильно ініціалізує стан та тексти підказок.
 --     EN: IMPORTANT: onClickCallback receives arguments in reverse order: (newState, element).
 --     UA: ВАЖЛИВО: onClickCallback отримує аргументи у зворотному порядку: (newState, element).
----@param layout table
----@param id string EN: Unique element ID (used for tracking only) / UA: Унікальний ID елемента
----@param textId string EN: Base localization key (_short and _long suffixes used) / UA: Базовий ключ локалізації
----@param state boolean EN: Initial state (true = checked) / UA: Початковий стан (true = відмічено)
----@param callback function EN: Called with (isChecked boolean) when user changes state / UA: Викликається з (isChecked boolean) при зміні
----@return table|nil
 function UIHelper.createBinaryOption(layout, id, textId, state, callback)
     local template = nil
 
@@ -241,13 +228,6 @@ end
 --     UA: Клонує ванільний елемент з префіксом "multi*", встановлює тексти, стан, callback і підказку.
 --     EN: Callback receives the selected option index (integer starting from 1).
 --     UA: Callback отримує індекс вибраного варіанту (ціле число починаючи з 1).
----@param layout table
----@param id string
----@param textId string
----@param options table EN: Array of localized option label strings / UA: Масив рядків підписів варіантів
----@param state number EN: Initially selected option index (1-based) / UA: Початково вибраний індекс (починаючи з 1)
----@param callback function EN: Called with (selectedIndex) when user changes option / UA: Викликається з (selectedIndex) при зміні
----@return table|nil
 function UIHelper.createMultiOption(layout, id, textId, options, state, callback)
     local template = nil
 

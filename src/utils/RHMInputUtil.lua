@@ -1,4 +1,3 @@
----@class RHMInputUtil
 -- EN: Input utility for managing camera rotation and zoom states during HUD drag or GUI interactions.
 -- UA: Утиліта вводу для керування обертанням та масштабуванням камери під час перетягування HUD або взаємодії з GUI.
 RHMInputUtil = {}
@@ -11,9 +10,6 @@ RHMInputUtil = {}
 --     UA: Використовується для блокування камери під час показу курсору миші (наприклад, при перетягуванні HUD).
 --     EN: Saves original camera states into a table so they can be restored later.
 --     UA: Зберігає оригінальні стани камер у таблицю, щоб їх можна було відновити пізніше.
----@param vehicle table EN: The vehicle whose cameras to control / UA: Транспортний засіб з камерами
----@param enableRotation boolean EN: True to enable rotation, false to disable / UA: True — увімкнути, false — вимкнути
----@param savedRotatableInfo table|nil EN: Table to store original camera states / UA: Таблиця для збереження оригінальних станів камер
 function RHMInputUtil.setCameraRotation(vehicle, enableRotation, savedRotatableInfo)
     if not vehicle or not vehicle.spec_enterable then
         return
@@ -54,9 +50,6 @@ end
 --     UA: Використовується для блокування зуму, коли GUI потребує перехоплення прокрутки.
 --     EN: Saves original states to a table for later restoration.
 --     UA: Зберігає оригінальні стани у таблицю для подальшого відновлення.
----@param vehicle table EN: The vehicle whose cameras to control / UA: Транспортний засіб з камерами
----@param enableZoom boolean EN: True to enable zoom, false to disable / UA: True — увімкнути, false — вимкнути
----@param savedZoomInfo table|nil EN: Table to store original camera zoom states / UA: Таблиця для збереження оригінальних станів зуму
 function RHMInputUtil.setCameraZoom(vehicle, enableZoom, savedZoomInfo)
     if not vehicle or not vehicle.spec_enterable then
         return

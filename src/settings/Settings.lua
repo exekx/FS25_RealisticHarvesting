@@ -1,4 +1,3 @@
----@class Settings
 -- EN: Global settings container for the Realistic Harvest Manager mod.
 --     Stores difficulty levels, feature toggles, HUD visibility and position,
 --     and the unit system preference. Settings are split into server-side (admin only)
@@ -32,7 +31,6 @@ Settings.UNIT_BUSHELS = 3    -- EN: mph, bu/h, acres / UA: миль/год, бу
 
 -- EN: Creates and initializes a new Settings instance with default values.
 -- UA: Створює та ініціалізує новий екземпляр Settings зі значеннями за замовчуванням.
----@param manager SettingsManager EN: Manager responsible for load/save operations / UA: Менеджер для операцій завантаження/збереження
 function Settings.new(manager)
     local self = setmetatable({}, Settings_mt)
     self.manager = manager
@@ -79,7 +77,6 @@ end
 --     Used by LoadCalculator to scale the maximum engine throughput.
 -- UA: Повертає відсоток збільшення потужності залежно від поточного рівня складності двигуна.
 --     Використовується LoadCalculator для масштабування максимальної пропускної здатності двигуна.
----@return number EN: Power boost percentage (0, 20, or 100) / UA: Відсоток збільшення потужності (0, 20 або 100)
 function Settings:getPowerBoost()
     if self.difficultyMotor == Settings.DIFFICULTY_ARCADE then
         return Settings.POWER_BOOST_ARCADE
@@ -94,7 +91,6 @@ end
 --     Applied to the calculated crop loss percentage in LoadCalculator.
 -- UA: Повертає множник втрат врожаю залежно від поточного рівня складності втрат.
 --     Застосовується до розрахованого відсотка втрат в LoadCalculator.
----@return number EN: Loss multiplier (0.5, 1.0, or 2.0) / UA: Множник втрат (0.5, 1.0 або 2.0)
 function Settings:getLossMultiplier()
     if self.difficultyLoss == Settings.DIFFICULTY_ARCADE then
         return 0.5 -- EN: Reduced losses for casual play / UA: Зменшені втрати для казуальної гри
@@ -107,7 +103,6 @@ end
 
 -- EN: Returns the currently active unit system setting.
 -- UA: Повертає поточно активну систему одиниць вимірювання.
----@return number EN: Unit system constant (1=metric, 2=imperial, 3=bushels) / UA: Константа системи одиниць
 function Settings:getUnitSystem()
     return self.unitSystem or Settings.UNIT_METRIC
 end
@@ -132,7 +127,6 @@ end
 
 -- EN: Legacy method kept for backward compatibility. Sets both loss and motor difficulty.
 -- UA: Застарілий метод для зворотної сумісності. Встановлює одночасно складність втрат і двигуна.
----@param difficulty number EN: Difficulty level (1-3) / UA: Рівень складності (1-3)
 function Settings:setDifficulty(difficulty)
     self:setDifficultyLoss(difficulty)
     self:setDifficultyMotor(difficulty)
@@ -140,7 +134,6 @@ end
 
 -- EN: Returns a human-readable string showing the current difficulty settings (for console output).
 -- UA: Повертає зрозумілий рядок з поточними налаштуваннями складності (для виводу в консоль).
----@return string
 function Settings:getDifficultyName()
     local loss = "Normal"
     local motor = "Normal"
@@ -155,7 +148,6 @@ end
 --     In single player, always returns true.
 -- UA: Повертає true, якщо поточний гравець є адміністратором (сервер або майстер-користувач).
 --     В однокористувацькій грі завжди повертає true.
----@return boolean
 function Settings:isAdmin()
     if not g_currentMission.missionDynamicInfo.isMultiplayer then
         return true
@@ -174,7 +166,6 @@ end
 
 -- EN: Returns true if the current player has permission to change server-side settings.
 -- UA: Повертає true, якщо поточний гравець має дозвіл на зміну серверних налаштувань.
----@return boolean
 function Settings:canChangeServerSettings()
     return self:isAdmin()
 end
@@ -196,7 +187,10 @@ end
 --     В мультиплеєрі, якщо викликач є адміном, транслює серверні налаштування всім клієнтам.
 function Settings:save()
     self.manager:saveSettings(self)
+end
 
+function Settings:saveAndSync()
+    self:save()
     if g_currentMission.missionDynamicInfo.isMultiplayer and
        self:isAdmin() and
        SettingsSync then
@@ -225,7 +219,7 @@ function Settings:resetToDefaults()
     self.hudPosX = nil -- EN: Reset to automatic HUD positioning / UA: Скидаємо на автоматичну позицію HUD
     self.hudPosY = nil
 
-    self:save()
+    self:saveAndSync()
 
     print("RHM: Settings reset to defaults")
 end

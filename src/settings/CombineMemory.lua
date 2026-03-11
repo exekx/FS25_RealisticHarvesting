@@ -1,4 +1,3 @@
----@class CombineMemory
 -- EN: Manages per-combine settings memory including current crop detection, operating mode (AUTO/MANUAL),
 --     and per-parameter settings (fan, rotor, sieves, feeder). Interfaces with ProfileManager for
 --     global persistent profiles, and sends network events when settings change in multiplayer.
@@ -13,9 +12,6 @@ local CombineMemory_mt = Class(CombineMemory)
 --     Initializes all parameters to 50% and sets AUTO mode as default.
 -- UA: Створює новий екземпляр CombineMemory, прив'язаний до конкретного комбайна.
 --     Ініціалізує всі параметри до 50% та встановлює AUTO як режим за замовчуванням.
----@param combine table EN: The combine vehicle / UA: Транспортний засіб — комбайн
----@param machineType string|nil EN: Machine type: "grain"|"forage"|"root"|"cotton" / UA: Тип машини
----@return table self
 function CombineMemory.new(combine, machineType)
     local self = setmetatable({}, CombineMemory_mt)
 
@@ -48,8 +44,6 @@ end
 --     Profiles persist across sessions in the user's modSettings folder.
 -- UA: Зберігає поточні налаштування як глобальний профіль для заданої культури в ProfileManager.
 --     Профілі зберігаються між сесіями в папці modSettings користувача.
----@param cropName string
----@return boolean success
 function CombineMemory:saveCurrentProfile(cropName)
     local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
     if pm then
@@ -71,9 +65,6 @@ end
 -- UA: Застосовує автоматичні або стандартні налаштування для заданої культури.
 --     AUTO режим додає невелике випадкове відхилення від оптимальних значень (тільки на сервері).
 --     Режим RESET (forceOptimal=false) встановлює всі параметри на нейтральні 50%.
----@param cropName string
----@param forceOptimal boolean|nil EN: If true, apply optimal values (AUTO mode); false applies 50% (RESET) / UA: true = оптимальні (AUTO), false = 50% (RESET)
----@return boolean success
 function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
     if not cropName then
         if self.debug then print("RHM: [!] autoConfigureForCrop called with nil cropName, skipping") end
@@ -223,10 +214,6 @@ end
 -- UA: Оцінює всі поточні налаштування відносно оптимальних значень бази даних для культури.
 --     Повертає окремо штрафи за ефективність (швидкість) і втрати врожаю, плюс таблицю попереджень.
 --     Подача/Ротор впливають на ефективність (пропускну здатність), Вентилятор/Решета — на втрати (якість очищення).
----@param cropName string
----@return number efficiencyPenalty EN: Throughput/speed penalty (negative = bonus) / UA: Штраф пропускної здатності/швидкості (від'ємне = бонус)
----@return number lossPenalty EN: Direct crop loss penalty / UA: Прямий штраф втрат врожаю
----@return table warnings EN: Array of warning objects per parameter / UA: Масив об'єктів попереджень по параметрах
 function CombineMemory:checkSettingsForCrop(cropName)
     local optimalSettings = CombineSettingsDatabase:getSettingsForCrop(cropName)
 
@@ -293,9 +280,6 @@ end
 
 -- EN: Sets a single parameter value (0-100) and switches to MANUAL mode.
 -- UA: Встановлює значення одного параметру (0-100) і перемикає в MANUAL режим.
----@param paramName string
----@param value number
----@return boolean success
 function CombineMemory:setParameter(paramName, value)
     if self.currentSettings[paramName] ~= nil then
         self.currentSettings[paramName] = math.max(0, math.min(100, value))
@@ -313,7 +297,6 @@ end
 --     AUTO: застосовує оптимальні налаштування для культури якщо вона вже визначена.
 --           на виділеному сервері без культури — позначає очікуючий AUTO і чекає.
 --     MANUAL: вимикає автоконфігурацію.
----@param mode string EN: "AUTO" or "MANUAL" / UA: "AUTO" або "MANUAL"
 function CombineMemory:setMode(mode)
     if mode == "AUTO" then
         if self.currentCrop then
@@ -336,14 +319,12 @@ end
 --     Returns cached count (not iterated per-call for performance).
 -- UA: Повертає кількість поточно доступних профілів.
 --     Повертає кешоване значення (не перебирає кожен виклик для продуктивності).
----@return number
 function CombineMemory:getProfileCount()
     return self.profileCount or 0
 end
 
 -- EN: Returns an alphabetically sorted list of all saved profile names.
 -- UA: Повертає алфавітно відсортований список всіх збережених назв профілів.
----@return table names
 function CombineMemory:getProfileNames()
     local names = {}
     for profileName, _ in pairs(self.savedProfiles) do
@@ -357,9 +338,6 @@ end
 --     Uses the crop's actual fill type density from g_fillTypeManager for accurate mass calculation.
 -- UA: Оновлює статистику збирання для поточного профілю: загальний збір і ковзаюче середнє втрат.
 --     Використовує реальну густину типу врожаю з g_fillTypeManager для точного розрахунку маси.
----@param harvestedLiters number
----@param cropLoss number
----@param cropName string|nil
 function CombineMemory:updateStatistics(harvestedLiters, cropLoss, cropName)
     if self.currentProfile and self.savedProfiles[self.currentProfile] then
         local profile = self.savedProfiles[self.currentProfile]
@@ -394,7 +372,6 @@ end
 --     then loads its profile or applies auto/default settings depending on mode.
 -- UA: Переключається на нову культуру: зберігає профіль поточної культури, встановлює нову,
 --     а потім завантажує її профіль або застосовує авто/стандартні налаштування залежно від режиму.
----@param newCropName string
 function CombineMemory:switchCrop(newCropName)
     if not newCropName or newCropName == self.currentCrop then
         return
@@ -429,9 +406,6 @@ end
 --     Automatically switches to MANUAL mode and disables auto-switch.
 -- UA: Оновлює одне налаштування і надсилає мережеву подію серверу в мультиплеєрі.
 --     Автоматично переключається в MANUAL режим і вимикає автоперемикання.
----@param param string
----@param value number
----@return boolean
 function CombineMemory:updateSetting(param, value)
     local success = self:setParameter(param, value)
     if success then
@@ -486,7 +460,6 @@ end
 
 -- EN: Alias for saveCurrentProfile for backward compatibility with GUI code.
 -- UA: Псевдонім для saveCurrentProfile для зворотної сумісності з кодом GUI.
----@param cropName string
 function CombineMemory:saveProfile(cropName)
     return self:saveCurrentProfile(cropName)
 end

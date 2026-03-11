@@ -1,4 +1,3 @@
----@class SettingsManager
 -- EN: Handles persistence of mod settings using two separate XML files:
 --     - Server settings (settings.xml): difficulty, speed limit, crop loss — shared for all players (admin-only change)
 --     - Client settings (client.xml): HUD visibility, position, unit system — per-player preferences
@@ -21,7 +20,8 @@ SettingsManager.SERVER_SETTINGS = {
     "difficultyMotor",
     "difficultyLoss",
     "enableSpeedLimit",
-    "enableCropLoss"
+    "enableCropLoss",
+    "enableIndependentLaunch"
 }
 
 -- EN: List of client-side setting keys (personal, per-player, HUD-related).
@@ -38,18 +38,21 @@ SettingsManager.CLIENT_SETTINGS = {
     "hudOffsetY",
     "hudPosX",
     "hudPosY",
-    "unitSystem"
+    "unitSystem",
+    "showSpeedometer"
 }
 
 -- EN: Default configuration values used as fallback when no saved file exists.
 -- UA: Значення конфігурації за замовчуванням, що використовуються якщо збережений файл відсутній.
 SettingsManager.defaultConfig = {
-    difficultyMotor = 3,
-    difficultyLoss = 3,
+    difficultyMotor = 2,
+    difficultyLoss = 2,
     showHUD = true,
     showYield = true,
+    showSpeedometer = true,
     enableSpeedLimit = true,
     enableCropLoss = false,
+    enableIndependentLaunch = true,
     hudOffsetX = 0,
     hudOffsetY = 350,
     unitSystem = 1

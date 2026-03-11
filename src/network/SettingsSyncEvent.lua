@@ -1,4 +1,3 @@
----@class SettingsSyncEvent
 -- EN: Network event used to synchronize server-side settings (difficulty, toggles) between server and all clients.
 --     Sent by an admin client to the server, then the server rebroadcasts to all other clients.
 -- UA: Мережева подія для синхронізації серверних налаштувань (складність, перемикачі) між сервером і клієнтами.
@@ -17,7 +16,6 @@ end
 
 -- EN: Creates a new event with current server settings to be sent over the network.
 -- UA: Створює нову подію з поточними серверними налаштуваннями для передачі по мережі.
----@param settings Settings EN: The settings object to serialize / UA: Об'єкт налаштувань для серіалізації
 function SettingsSyncEvent.new(settings)
     local self = SettingsSyncEvent.emptyNew()
 
@@ -27,6 +25,7 @@ function SettingsSyncEvent.new(settings)
     self.difficultyLoss = settings.difficultyLoss or 2
     self.enableSpeedLimit = settings.enableSpeedLimit
     self.enableCropLoss = settings.enableCropLoss
+    self.enableIndependentLaunch = settings.enableIndependentLaunch
 
     return self
 end
@@ -38,6 +37,7 @@ function SettingsSyncEvent:writeStream(streamId, connection)
     streamWriteUInt8(streamId, self.difficultyLoss)
     streamWriteBool(streamId, self.enableSpeedLimit)
     streamWriteBool(streamId, self.enableCropLoss)
+    streamWriteBool(streamId, self.enableIndependentLaunch)
 end
 
 -- EN: Deserializes event data from the network stream and immediately executes the event logic.
@@ -47,6 +47,7 @@ function SettingsSyncEvent:readStream(streamId, connection)
     self.difficultyLoss = streamReadUInt8(streamId)
     self.enableSpeedLimit = streamReadBool(streamId)
     self.enableCropLoss = streamReadBool(streamId)
+    self.enableIndependentLaunch = streamReadBool(streamId)
 
     self:run(connection)
 end
@@ -67,8 +68,10 @@ function SettingsSyncEvent:run(connection)
 
         local settings = g_realisticHarvestManager.settings
         if settings then
-            print(string.format("RHM: [Sync] Server APPLYING settings - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s",
-                self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss)))
+            if RHM_Debug and RHM_Debug.isEnabled("Network") then
+                print(string.format("RHM: [Sync] Server APPLYING settings - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
+                    self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableIndependentLaunch)))
+            end
 
             -- EN: Apply the received split difficulty fields and feature flags.
             -- UA: Застосовуємо отримані розділені поля складності та прапорці функцій.
@@ -76,10 +79,13 @@ function SettingsSyncEvent:run(connection)
             settings.difficultyLoss = self.difficultyLoss
             settings.enableSpeedLimit = self.enableSpeedLimit
             settings.enableCropLoss = self.enableCropLoss
+            settings.enableIndependentLaunch = self.enableIndependentLaunch
 
-            -- EN: Persist updated settings to disk on the server.
-            -- UA: Зберігаємо оновлені налаштування на диск на стороні сервера.
-            settings:save()
+            -- EN: Persist updated settings to disk on the server WITHOUT broadcasting (direct manager call).
+            -- UA: Зберігаємо оновлені налаштування на диск (прямий виклик менеджера без трансляції).
+            if g_realisticHarvestManager.settingsManager then
+                g_realisticHarvestManager.settingsManager:saveServerSettings(settings)
+            end
 
             -- EN: Rebroadcast changes to all other connected clients.
             -- UA: Ретранслюємо зміни всім іншим підключеним клієнтам.
@@ -101,9 +107,12 @@ function SettingsSyncEvent:run(connection)
             settings.difficultyLoss = self.difficultyLoss
             settings.enableSpeedLimit = self.enableSpeedLimit
             settings.enableCropLoss = self.enableCropLoss
-
-            print(string.format("RHM: [Sync] Client received update - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s",
-                self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss)))
+            settings.enableIndependentLaunch = self.enableIndependentLaunch
+            
+            if RHM_Debug and RHM_Debug.isEnabled("Network") then
+                print(string.format("RHM: [Sync] Client received update - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
+                    self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableIndependentLaunch)))
+           end
         end
     end
 end

@@ -1,4 +1,3 @@
----@class DraggableHUD
 -- EN: Draggable on-screen HUD overlay for the Realistic Harvesting mod.
 --     Displays live combine metrics: engine load, yield, productivity, crop loss, and speed.
 --     Supports drag-and-drop repositioning (via mouse on the header), dynamic row sizing
@@ -20,9 +19,6 @@ DraggableHUD.DRAG_LIMIT = 2
 
 -- EN: Creates a new HUD instance. Resources are loaded separately via :load().
 -- UA: Створює новий екземпляр HUD. Ресурси завантажуються окремо через :load().
----@param modDirectory string EN: Mod root directory path / UA: Шлях до кореневого каталогу мода
----@param settings table EN: Settings object for reading HUD state / UA: Об'єкт налаштувань для читання стану HUD
----@return DraggableHUD
 function DraggableHUD.new(modDirectory, settings)
     local self = setmetatable({}, DraggableHUD)
 
@@ -105,7 +101,6 @@ end
 --     Icons are sized proportionally to the UI scale and aspect ratio.
 -- UA: Завантажує оверлеї іконок для кожного рядка HUD (навантаження, врожайність, швидкість, втрати, продуктивність).
 --     Іконки масштабуються пропорційно до масштабу UI та співвідношення сторін.
----@param uiScale number
 function DraggableHUD:loadIcons(uiScale)
     local iconHeight = 0.024 * self.uiScale
     local iconWidth = iconHeight / g_screenAspectRatio
@@ -140,8 +135,6 @@ end
 --     left of the speed meter, with a fallback to (0.7, 0.05).
 -- UA: Повертає позицію HUD — із збережених налаштувань якщо є і в межах екрану, або авто-позиціонується
 --     зліва від спідометра, з запасним варіантом (0.7, 0.05).
----@return number posX
----@return number posY
 function DraggableHUD:getPosition()
     local x = self.settings.hudPosX
     local y = self.settings.hudPosY
@@ -176,8 +169,6 @@ end
 
 -- EN: Sets the HUD top-left position (normalized screen coords).
 -- UA: Встановлює верхню ліву позицію HUD (нормалізовані координати екрану).
----@param x number
----@param y number
 function DraggableHUD:setPosition(x, y)
     self.x = x
     self.y = y
@@ -185,7 +176,6 @@ end
 
 -- EN: Sets the active combine vehicle. Clears live data when nil is passed.
 -- UA: Встановлює активний комбайн. Очищає живі дані коли передано nil.
----@param vehicle table|nil
 function DraggableHUD:setVehicle(vehicle)
     self.vehicle = vehicle
     if vehicle then
@@ -207,7 +197,6 @@ end
 --     Called every frame. Drag movement is processed here for smooth real-time updating.
 -- UA: Оновлює живі дані зі специфікації rhm_Combine транспортного засобу та обробляє перетягування.
 --     Викликається щоразу за кадр. Рух перетягування обробляється тут для плавного оновлення.
----@param dt number optional
 function DraggableHUD:update(dt)
     local vehicle = self.vehicle
     if not vehicle then return end
@@ -470,8 +459,6 @@ end
 
 -- EN: Maps engine load value to a display color: white (low), yellow (moderate), red (high).
 -- UA: Відображає значення навантаження двигуна на колір: білий (низьке), жовтий (помірне), червоний (високе).
----@param load number EN: Load percentage 0-100 / UA: Відсоток навантаження 0-100
----@return table {r, g, b}
 function DraggableHUD:getLoadColor(load)
     if load < 50 then
         return {1, 1, 1}    -- EN: White / UA: Білий
@@ -484,9 +471,6 @@ end
 
 -- EN: Returns true if the given position is within the draggable header area.
 -- UA: Повертає true якщо задана позиція знаходиться в межах перетягуваної області заголовку.
----@param posX number
----@param posY number
----@return boolean
 function DraggableHUD:isMouseOverHeader(posX, posY)
     return posX >= self.x and posX <= (self.x + self.width) and
            posY >= (self.y + self.height) and posY <= (self.y + self.height + self.headerHeight)
@@ -498,12 +482,6 @@ end
 -- UA: Обробляє події кнопок миші. Маршрутизує кліки кнопки Settings та керує початком/кінцем перетягування.
 --     Клік кнопки Settings відкриває GUI калібрування через менеджер.
 --     Перетягування зберігає позицію при відпусканні миші для збереження.
----@param posX number
----@param posY number
----@param isDown boolean
----@param isUp boolean
----@param button number
----@return boolean handled
 function DraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.settings.showHUD then return false end
     if button ~= Input.MOUSE_BUTTON_LEFT then return false end
@@ -555,8 +533,6 @@ end
 --     Saves the position to settings in memory only (save to disk happens on drag stop).
 -- UA: Переміщує HUD до заданої позиції, обмежуючи щоб він залишався повністю видимим на екрані.
 --     Зберігає позицію в налаштуваннях тільки в пам'яті (збереження на диск відбувається при зупинці перетягування).
----@param x number
----@param y number
 function DraggableHUD:moveTo(x, y)
     x = math.max(0, math.min(1 - self.width, x))
     y = math.max(0, math.min(1 - (self.height + self.headerHeight), y))

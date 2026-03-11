@@ -1,4 +1,3 @@
----@class CombineSettingsDatabase
 -- EN: Static database of optimal combine settings and crop profiles.
 --     Stores parameter templates (fan, rotor, sieves, feeder) for every supported crop type,
 --     maps FS25 FillType enums to internal crop names, and defines which parameters are
@@ -324,8 +323,6 @@ CombineSettingsDatabase.machineParamLabels = {
 --     Used to determine which sliders to display and which CombineMemory keys to initialize.
 -- UA: Повертає впорядкований список назв параметрів активних для заданого типу машини.
 --     Використовується для визначення яких повзунки відображати та які ключі CombineMemory ініціалізувати.
----@param machineType string EN: "grain"|"forage"|"root"|"cotton" / UA: тип машини
----@return table params
 function CombineSettingsDatabase:getParamsForMachineType(machineType)
     return self.machineParams[machineType] or self.machineParams.grain
 end
@@ -334,9 +331,6 @@ end
 --     Falls back to generic "rhm_ui_<param>" if no specific override is defined.
 -- UA: Повертає ключ локалізації для підпису параметру залежно від типу машини.
 --     Повертається до загального "rhm_ui_<param>" якщо немає специфічного перевизначення.
----@param machineType string
----@param paramName string
----@return string l10nKey
 function CombineSettingsDatabase:getParamLabel(machineType, paramName)
     local labels = self.machineParamLabels[machineType]
     if labels and labels[paramName] then
@@ -422,8 +416,6 @@ CombineSettingsDatabase.crops = {
 --     Returns nil if the crop is not in the database (unknown mod crop).
 -- UA: Повертає шаблон оптимальних налаштувань для культури за внутрішньою назвою (напр. "WHEAT").
 --     Повертає nil якщо культура відсутня в базі даних (невідома культура мода).
----@param cropName string
----@return table|nil
 function CombineSettingsDatabase:getSettingsForCrop(cropName)
     local crop = self.crops[cropName]
     if crop then
@@ -436,8 +428,6 @@ end
 --     Handles windrow variants (_WINDROW suffix) and cut variants (CUT_ prefix) via fallback logic.
 -- UA: Перетворює ціле число FillType гри на внутрішню назву культури у базі даних.
 --     Обробляє варіанти валків (_WINDROW суфікс) та зрізані варіанти (CUT_ префікс) через резервну логіку.
----@param fillType number
----@return string|nil cropName
 function CombineSettingsDatabase:getCropNameFromFillType(fillType)
     if not fillType or fillType == FillType.UNKNOWN then
         return nil
@@ -495,6 +485,7 @@ function CombineSettingsDatabase:getCropNameFromFillType(fillType)
         ["CARROT"] = "CARROT",
         ["PARSNIP"] = "PARSNIP",
         ["ONION"] = "ONION",
+        ["ONION_DIRTY"] = "ONION",
         ["SPINACH"] = "SPINACH",
         ["GREENBEAN"] = "GREENBEAN",
 
@@ -531,15 +522,12 @@ end
 
 -- EN: Returns the full crop data record (template, machineType, group, fillType, names).
 -- UA: Повертає повний запис даних культури (шаблон, тип машини, група, fillType, назви).
----@param cropName string
----@return table|nil
 function CombineSettingsDatabase:getCropData(cropName)
     return self.crops[cropName]
 end
 
 -- EN: Returns a sorted list of all registered crop names in the database.
 -- UA: Повертає відсортований список всіх зареєстрованих назв культур у базі даних.
----@return table
 function CombineSettingsDatabase:getAllCropNames()
     local names = {}
     for cropName, _ in pairs(self.crops) do
@@ -551,8 +539,6 @@ end
 
 -- EN: Returns a sorted list of crop names that match the specified machine type.
 -- UA: Повертає відсортований список назв культур що відповідають заданому типу машини.
----@param machineType string
----@return table
 function CombineSettingsDatabase:getCropNamesForMachineType(machineType)
     local names = {}
     for cropName, cropData in pairs(self.crops) do
@@ -570,9 +556,6 @@ end
 -- UA: Розраховує попередній перегляд загальних втрат врожаю для довільних налаштувань без їх застосування.
 --     Використовується в GUI калібрування для кольорового зворотного зв'язку до підтвердження гравцем.
 --     Втрати = 0.15% за одиницю відхилення понад допуск, обмежено до 25%.
----@param cropName string
----@param settings table
----@return number totalPenalty, table warnings
 function CombineSettingsDatabase:calcSettingsLossPreview(cropName, settings)
     local template = self:getSettingsForCrop(cropName)
     if not template then return 0, {} end
@@ -606,10 +589,6 @@ end
 --     Values outside this range are physically unrealistic and blocked by the GUI.
 -- UA: Перевіряє чи значення параметру знаходиться в допустимому діапазоні (min-max) для культури.
 --     Значення поза цим діапазоном є фізично нереалістичними і блокуються GUI.
----@param cropName string
----@param paramName string
----@param value number
----@return boolean
 function CombineSettingsDatabase:isValueValid(cropName, paramName, value)
     local settings = self:getSettingsForCrop(cropName)
     if not settings or not settings[paramName] then

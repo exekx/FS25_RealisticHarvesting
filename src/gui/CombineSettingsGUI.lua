@@ -1,4 +1,3 @@
----@class CombineSettingsGUI
 -- EN: Legacy console-based settings interface for the combine. Allows the player to view
 --     combine settings status and control them through in-game console commands.
 --     This is a secondary interface alongside the visual CombineCalibrationGUI.
@@ -24,7 +23,6 @@ end
 --     Validates that the vehicle has the rhm_Combine spec and a CombineMemory instance.
 -- UA: Відкриває інтерфейс налаштувань для конкретного комбайна.
 --     Перевіряє, що транспорт має специфікацію rhm_Combine та екземпляр CombineMemory.
----@param vehicle table
 function CombineSettingsGUI:open(vehicle)
     if not vehicle then
         print("RHM: Cannot open settings - not a valid combine")
@@ -192,8 +190,6 @@ end
 
 -- EN: Sets a single combine parameter to the specified value (0-100).
 -- UA: Встановлює один параметр комбайна на задане значення (0-100).
----@param paramName string EN: Parameter name (fan, rotor, upperSieve, lowerSieve, feeder) / UA: Назва параметру
----@param value number EN: Target value (0-100) / UA: Цільове значення (0-100)
 function CombineSettingsGUI:setParameter(paramName, value)
     if not self.combineMemory then
         return
@@ -216,7 +212,6 @@ end
 
 -- EN: Loads a named profile from the combine memory (legacy method, profiles now in ProfileManager).
 -- UA: Завантажує іменований профіль з пам'яті комбайна (застарілий метод, профілі тепер у ProfileManager).
----@param profileName string
 function CombineSettingsGUI:loadProfile(profileName)
     if not self.combineMemory then
         return
@@ -233,7 +228,6 @@ end
 
 -- EN: Saves the current settings as a named profile for the active crop.
 -- UA: Зберігає поточні налаштування як іменований профіль для активної культури.
----@param profileName string
 function CombineSettingsGUI:saveProfile(profileName)
     if not self.combineMemory then
         return
