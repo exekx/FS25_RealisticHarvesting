@@ -1,12 +1,26 @@
-﻿---@class rhm_Combine
+---@class rhm_Combine
+-- EN: Core FS25 vehicle specialization for the Realistic Harvesting mod.
+--     Overrides key combine functions (addCutterArea, addFillUnitFillLevel, getSpeedLimit, etc.)
+--     to integrate physics-based load calculation, crop-loss simulation, and combine settings.
+--     Handles savegame serialization, multiplayer network streams, and input action registration.
+--     Supports modular harvesting systems like NEXAT via hierarchy-aware input hooks.
+-- UA: Основна спеціалізація транспортного засобу FS25 для мода Realistic Harvesting.
+--     Перевизначає ключові функції комбайна (addCutterArea, addFillUnitFillLevel, getSpeedLimit тощо)
+--     для інтеграції фізичного розрахунку навантаження, симуляції втрат врожаю та налаштувань комбайна.
+--     Обробляє серіалізацію збереження, мережеві потоки мультиплеєра та реєстрацію дій вводу.
+--     Підтримує модульні системи збирання як NEXAT через хуки вводу з урахуванням ієрархії.
 rhm_Combine = {}
 rhm_Combine.debug = true
 
----Перевіряє чи машина підходить для цієї спеціалізації
----@param specializations table<string, table>
+-- EN: Checks if the vehicle has the base Combine specialization.
+--     Returns true for all machines including modular systems like NEXAT.
+-- UA: Перевіряє чи транспортний засіб має базову спеціалізацію Combine.
+--     Повертає true для всіх машин, включаючи модульні системи на кшталт NEXAT.
+---@param specializations table
 ---@return boolean
 function rhm_Combine.prerequisitesPresent(specializations)
-    -- DEBUG: Виводимо всі specializations щоб побачити що має Nexat
+    -- EN: Print all specialization class names for diagnostic logging.
+    -- UA: Виводимо всі назви класів спеціалізацій для діагностичного логування.
     print("========================================")
     print("RHM: Checking prerequisites for vehicle")
     print("Available specializations:")
@@ -28,7 +42,10 @@ function rhm_Combine.prerequisitesPresent(specializations)
     return hasCombine
 end
 
--- Реєстрація перевизначених функцій (ОБОВ'ЯЗКОВО перед registerEventListeners!)
+-- EN: Registers rhm_Combine's overwritten (proxied) functions before event listeners.
+--     These intercept combine core behaviors to inject our load and speed logic.
+-- UA: Реєструє перевизначені (proxy) функції rhm_Combine до подій-прислухачів.
+--     Ці функції перехоплюють основні поведінки комбайна для вбудованої логіки навантаження і швидкості.
 function rhm_Combine.registerOverwrittenFunctions(vehicleType)
     print("RHM: Registering overwritten functions for rhm_Combine")
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "addCutterArea", rhm_Combine.addCutterArea)
@@ -40,7 +57,8 @@ function rhm_Combine.registerOverwrittenFunctions(vehicleType)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "getCanBeTurnedOn", rhm_Combine.getCanBeTurnedOn)
 end
 
----Реєстрація XML шляхів для vehicle config (shop/XML конфіг)
+-- EN: Registers XML paths for vehicle config (shop/modDesc XML). Persists combine settings per-vehicle.
+-- UA: Реєструє шляхи XML для конфігурації засобу (XML магазину/modDesc). Зберігає налаштування комбайна для кожного засобу.
 function rhm_Combine.registerXMLPaths(schema, basePath)
     local cur = basePath .. ".combineMemory.current"
     schema:register(XMLValueType.STRING, cur .. "#mode",        "Combine settings mode", "AUTO")
@@ -53,12 +71,22 @@ function rhm_Combine.registerXMLPaths(schema, basePath)
     schema:register(XMLValueType.INT,    cur .. "#feeder",      "Feeder", 50)
 end
 
----Реєстрація XML шляхів для savegame (vehicles.xml) — критично для vehicles.xml
----FS25 викликає цю функцію автоматично для кожної спеціалізації при реєстрації savegame_vehicles схеми
+-- EN: Mirrors registerXMLPaths for the savegame vehicles.xml schema.
+--     Called automatically by FS25 for every specialization when the savegame schema is registered.
+-- UA: Дзеркально дублює registerXMLPaths для схеми vehicles.xml збереження.
+--     Викликається автоматично FS25 для кожної спеціалізації при реєстрації схеми збереження.
 function rhm_Combine.registerSavegameXMLPaths(schema, basePath)
     rhm_Combine.registerXMLPaths(schema, basePath)
 end
 
+-- EN: Registers event listeners for the spec's lifecycle hooks:
+--     onLoad, onUpdateTick, onDraw, stream read/write, XML save/load, input actions.
+--     Also registers savegame XML schema paths via Vehicle.xmlSchemaSavegame as a critical fix
+--     for programmatically-added specializations that are otherwise missed.
+-- UA: Реєструє подій-прислухачі для хуків життєвого циклу спец:
+--     onLoad, onUpdateTick, onDraw, читання/запис потоків, XML збереження/завантаження, дії вводу.
+--     Також реєструє шляхи XML схеми збереження через Vehicle.xmlSchemaSavegame як критичне виправлення
+--     для спеціалізацій доданих програмно, які інакше пропускаються.
 function rhm_Combine.registerEventListeners(vehicleType)
     print("RHM: Registering event listeners for rhm_Combine")
     SpecializationUtil.registerEventListener(vehicleType, "onLoad", rhm_Combine)
@@ -94,14 +122,15 @@ function rhm_Combine.registerEventListeners(vehicleType)
     end
 end
 
--- ============================================================================
--- NEXAT SUPPORT: Global hook for RShift+K on any controlled vehicle
--- ============================================================================
--- For modular systems like NEXAT, the player drives a non-combine vehicle.
--- The standard rhm_Combine:onRegisterActionEvents only fires for combine-vehicles.
--- We solve this by hooking Vehicle.onRegisterActionEvents globally.
--- If a vehicle does NOT have spec_rhm_Combine but is controlled (isActiveForInput),
--- we still register RHM_OPEN_MENU — and the callback searches the hierarchy.
+-- EN: Global hook for non-combine vehicles in a modular system (e.g. NEXAT main tractor).
+--     The standard rhm_Combine:onRegisterActionEvents only fires for vehicles that have spec_rhm_Combine.
+--     For NEXAT, the player drives the main tractor which doesn't. We solve this by hooking
+--     Vehicle.onRegisterActionEvents globally: if the vehicle doesn't have our spec but IS in
+--     a hierarchy that contains one, we still register RHM_OPEN_MENU on it.
+-- UA: Глобальний хук для транспортних засобів шо не є комбайнами в модульній системі (напр. головний трактор NEXAT).
+--     Стандартний rhm_Combine:onRegisterActionEvents викликається лише для засобів з spec_rhm_Combine.
+--     Для NEXAT гравець керує трактором який цього не має. Ми вирішуємо це хуком
+--     глобального Vehicle.onRegisterActionEvents: якщо засіб не має нашої спец, але IE в ієрархії з нею, ми все одно реєструємо RHM_OPEN_MENU.
 
 local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isActiveForInputIgnoreSelection)
     -- Skip if this is already a combine with our spec (handled by rhm_Combine:onRegisterActionEvents)
@@ -168,7 +197,12 @@ if not rhm_Combine._nexatHookApplied then
 end
 -- ============================================================================
 
--- Викликається при завантаженні комбайна
+-- EN: Called when the combine vehicle is loaded. Creates and wires up all subsystems:
+--     LoadCalculator, machineType detection, CombineMemory, HUD data table, dirty flags,
+--     and network throttling. Loads settings from XML if savegame exists.
+-- UA: Викликається при завантаженні комбайна. Створює і підключає всі підсистеми:
+--     LoadCalculator, визначення типу машини, CombineMemory, таблиця даних HUD, прапорці "dirty",
+--     і тротлінг мережі. Завантажує налаштування з XML якщо існує збереження.
 function rhm_Combine:onLoad(savegame)
     -- Створюємо spec для нашого моду
     -- НЕ хардкодимо назву моду: при перейменуванні папки/моду specName зміниться
@@ -209,20 +243,21 @@ function rhm_Combine:onLoad(savegame)
         return
     end
     
-    -- Отримуємо базову продуктивність з потужності двигуна
+    -- EN: Calculate base throughput from engine horsepower (set before machine type detection).
+    -- UA: Розраховуємо базову пропускну здатність з потужності двигуна (встановлюється до визначення типу машини).
     local basePerf = spec.loadCalculator:getBasePerformanceFromPower(self)
     spec.loadCalculator:setBasePerformance(basePerf)
     
-    -- === MACHINE TYPE DETECTION ===
-    -- Based on actual FS25 log analysis of spec_combine and vehicle spec fields.
-    --
-    -- Signal summary (verified from log):
-    --   Grain combine  → spec_combine.allowThreshingDuringRain = false
-    --                    + spec_combine.strawEffects.n > 0  (has straw processing)
-    --   Root harvester → self.spec_fruitPreparer present (cleaning/preparing drum)
-    --                    OR spec_cutter present + no spec_pipe (direct-cut veg harvester)
-    --   Forage harv.   → allowThreshingDuringRain = true + spec_pipe + no spec_cutter
-    --   Cotton         → allowThreshingDuringRain = true + FillType.COTTON in output
+    -- EN: Detect machine type from FS25 specialization signals (verified from log analysis).
+    --     Grain:  allowThreshingDuringRain=false and strawEffects.n>0
+    --     Root:   spec_fruitPreparer present OR (cutter present, no pipe)
+    --     Forage: allowThreshingDuringRain=true AND pipe AND no cutter
+    --     Cotton: grain spec but fill unit stores FillType.COTTON
+    -- UA: Визначаємо тип машини за сигналами спеціалізацій FS25 (підтверджено аналізом логів).
+    --     Зернова: allowThreshingDuringRain=false і strawEffects.n>0
+    --     Коренеплід: є spec_fruitPreparer АБО (є cutter, немає pipe)
+    --     Форажна: allowThreshingDuringRain=true І pipe І немає cutter
+    --     Бавовна: spec зернової але fill unit зберігає FillType.COTTON
 
     local machineType = "grain"  -- safe default
     local sc = self.spec_combine
@@ -284,17 +319,17 @@ function rhm_Combine:onLoad(savegame)
         tostring(self.spec_fruitPreparer ~= nil)))
 
 
-    -- === COMBINE SETTINGS SYSTEM ===
-    -- Створюємо систему пам'яті для налаштувань комбайна
+    -- EN: Create the combine memory system for current settings. Link it to LoadCalculator
+    --     so that setting adjustments affect the live load and loss calculations.
+    -- UA: Створюємо систему пам'яті для поточних налаштувань. Підключаємо до LoadCalculator
+    --     щоб регулювання налаштувань впливало на поточні розрахунки навантаження і втрат.
     spec.combineMemory = CombineMemory.new(self, machineType)
-    
-    -- Підключаємо memory до LoadCalculator для розрахунку settings loss
     spec.loadCalculator.combineMemory = spec.combineMemory
-    
     print("RHM: [OK] Combine Settings System initialized")
 
     
-    -- Ініціалізуємо дані для HUD
+    -- EN: HUD live data table — all fields are updated every tick on the server and synced to clients.
+    -- UA: Таблиця живих даних HUD — всі поля оновлюються кожний тік на сервері і синхронізуються на клієнти.
     spec.data = {
         speed = 0,
         load = 0,
@@ -302,8 +337,8 @@ function rhm_Combine:onLoad(savegame)
         tonPerHour = 0,
         litersPerHour = 0,
         yield = 0,
-        recommendedSpeed = 0,  -- Буде оновлено в onUpdateTick на сервері та синхронізовано до клієнтів
-        overloadLevel = 0      -- 0=норма, 1=HIGH(120%+), 2=CRITICAL(150%+) — синхронізується для показу warning
+        recommendedSpeed = 0,  -- EN: Updated by server tick, synced to clients / UA: Оновлюється сервером, синхронізується на клієнти
+        overloadLevel = 0      -- EN: 0=normal, 1=HIGH (120%+), 2=CRITICAL (150%+) — synced for warning display / UA: 0=норма, 1=ВИСОКЕ (120%+), 2=КРИТИЧНЕ (150%+)
     }
     
     -- Лічильник для збереження площі з addCutterArea
@@ -335,7 +370,12 @@ function rhm_Combine:onLoad(savegame)
     spec.testMessageShown = false
 end
 
--- Перехоплюємо додавання врожаю до бункера (для ТОЧНОГО підрахунку Precision Farming)
+-- EN: Override for addFillUnitFillLevel — tracks actual liters added to the bunker (hopper).
+--     Only counts when actively cutting (lastRawArea > 0) to avoid counting offloading.
+--     The fill type is captured for yield density lookup.
+-- UA: Перевизначення addFillUnitFillLevel — відстежує фактичні літри додані до бункера (бункеру).
+--     Рахує лише при активному косінні (lastRawArea > 0) щоб не рахувати вивантаження.
+--     Тип врожаю захоплюється для пошуку густини врожаю.
 function rhm_Combine:addFillUnitFillLevel(superFunc, ...)
     local r1, r2, r3, r4, r5, r6 = superFunc(self, ...)
     local actualAdded = r1 -- Base game returns actual delta as first arg
@@ -356,13 +396,17 @@ function rhm_Combine:addFillUnitFillLevel(superFunc, ...)
     return r1, r2, r3, r4, r5, r6
 end
 
--- Перехоплюємо addCutterArea для отримання площі
--- Hook для addCutterArea щоб перехопити кількість зібраного
--- Argument 2 in varargs is actually 'realArea' (actual cut area), not liters!
+-- EN: Override for addCutterArea — intercepts the raw (pixel-count) cutting area per tick.
+--     Converts pixels to square meters using g_currentMission:getFruitPixelsToSqm().
+--     Also captures fallback liters from the return value for forage harvesters without hoppers.
+-- UA: Перевизначення addCutterArea — перехоплює сиру (піксельну) площу зрізу за тік.
+--     Перетворює пікселі в квадратні метри з допомогою g_currentMission:getFruitPixelsToSqm().
+--     Також зберігає запасні літри з поверненого значення для форажних комбайнів без бункера.
 function rhm_Combine:addCutterArea(superFunc, ...)
     local area, realArea, inputFruitType, outputFillType, strawRatio, strawGroundType, farmId, cutterLoad = ...
     
-    -- Викликаємо оригінальну функцію СПЕРШУ, щоб отримати реальні дані
+    -- EN: Call super first to get the real data (liters, crop type) before we intercept.
+    -- UA: Викликаємо super спочатку щоб отримати реальні дані (літри, тип культури) перед перехопленням.
     local r1, r2, r3, r4, r5, r6, r7, r8, r9, r10 = superFunc(self, ...)
     local retLiters = r1
     
@@ -371,13 +415,14 @@ function rhm_Combine:addCutterArea(superFunc, ...)
         return r1, r2, r3, r4, r5, r6, r7, r8, r9, r10
     end
     
-    -- Отримуємо lastMultiplier (для сумісності зі старою логікою)
+    -- EN: lastMultiplier kept for compatibility with older logic paths.
+    -- UA: lastMultiplier збережено для сумісності зі старими логічними шляхами.
     local multiplier = 1.0
     
-    -- Зберігаємо РЕАЛЬНУ геометричну площу
-    -- Надійна формула для FS25: 'area' це завжди кількість пікселів карти.
-    -- Щоб отримати справжні квадратні метри (незалежно від масштабу карти чи бонусів PF),
-    -- ми множимо пікселі на глобальний коефіцієнт розміру пікселя.
+    -- EN: Convert 'area' (pixel-count) to real square metres using the mission's pixel-to-sqm ratio.
+    --     This reliable formula works independently of map scale and Precision Farming bonuses.
+    -- UA: Конвертуємо 'area' (кількість пікселів) у реальні квадратні метри використовуючи коефіцієнт місії.
+    --     Ця надійна формула працює незалежно від масштабу карти і бонусів Precision Farming.
     local sqmMultiplier = 1.0
     if g_currentMission and type(g_currentMission.getFruitPixelsToSqm) == "function" then
         sqmMultiplier = g_currentMission:getFruitPixelsToSqm()
@@ -385,20 +430,22 @@ function rhm_Combine:addCutterArea(superFunc, ...)
     
     local areaForYield = area * sqmMultiplier
     
-    -- Зберігаємо площу для LoadCalculator (стара логіка)
+    -- EN: Accumulate area for LoadCalculator and yield monitor separately.
+    -- UA: Накопичуємо площу окремо для LoadCalculator і монітора врожайності.
     spec.lastArea = (spec.lastArea or 0) + (areaForYield * multiplier)
-    
-    -- Зберігаємо площу для Yield Monitor
     spec.lastRawArea = (spec.lastRawArea or 0) + areaForYield
     spec.lastMultiplier = multiplier
     
-    -- Зберігаємо "fallback" літри на випадок, якщо це кормозбиральний комбайн без бункера.
-    -- Якщо бункер є, rhm_Combine:addFillUnitFillLevel перехопить точні літри
+    -- EN: Save fallback liters from the return value for forage harvesters without hoppers.
+    --     If there's a hopper, addFillUnitFillLevel will capture precise liters instead.
+    -- UA: Зберігаємо запасні літри з поверненого значення для форажних комбайнів без бункера.
+    --     Якщо бункер є, addFillUnitFillLevel перехопить точні літри натомість.
     if (retLiters or 0) > 0 then
         spec._fallbackLiters = (spec._fallbackLiters or 0) + retLiters
     end
     
-    -- Зберігаємо тип культури та обробляємо зміну
+    -- EN: Store crop type and handle change
+    -- UA: Зберігаємо тип культури та обробляємо зміну
     if outputFillType and outputFillType ~= FillType.UNKNOWN then
         spec.lastFillType = outputFillType
         
@@ -412,23 +459,29 @@ function rhm_Combine:addCutterArea(superFunc, ...)
         --    ...
         -- end
 
-        -- Визначаємо назву культури через CombineSettingsDatabase — повна таблиця
-        -- Включає: зернові, коренеплоди (POTATO/ONION/CARROT/...), овочі (SPINACH/GREENBEAN)
-        -- та кормові виводи (CHAFF→MAIZE_FORAGE, GRASS→GRASS)
+        -- EN: Determine crop name from CombineSettingsDatabase — full table including
+        --     grain, roots (POTATO/ONION/CARROT), vegetables (SPINACH/GREENBEAN), and forage outputs.
+        -- UA: Визначаємо назву культури через CombineSettingsDatabase — повна таблиця включаючи
+        --     зернові, коренеплоди (POTATO/ONION/CARROT), овочі (SPINACH/GREENBEAN) та форажні виводи.
         local cropName = CombineSettingsDatabase:getCropNameFromFillType(outputFillType)
         
-        -- Fallback для кормозбиральних: вони виводять CHAFF, але inputFruitType = MAIZE
-        -- getCropNameFromFillType(CHAFF) вже повертає "MAIZE_FORAGE" тому це зазвичай спрацьовує,
-        -- але якщо ні — пробуємо inputFruitType
+        -- EN: Fallback for forage harvesters: they output CHAFF but inputFruitType=MAIZE.
+        --     getCropNameFromFillType(CHAFF) returns "MAIZE_FORAGE" usually, but try inputFruitType if not.
+        -- UA: Резервний варіант для форажних комбайнів: вони виводять CHAFF але inputFruitType=MAIZE.
+        --     getCropNameFromFillType(CHAFF) зазвичай повертає "MAIZE_FORAGE", але спробуємо inputFruitType якщо ні.
         if not cropName and inputFruitType and inputFruitType ~= FillType.UNKNOWN then
             cropName = CombineSettingsDatabase:getCropNameFromFillType(inputFruitType)
         end
         
         if cropName then
-            -- Оновлюємо поточну культуру в LoadCalculator
+            -- EN: Update current crop in LoadCalculator.
+            -- UA: Оновлюємо поточну культуру в LoadCalculator.
             spec.loadCalculator.currentCrop = cropName
             
-            -- Перевіряємо чи змінилася культура
+            -- EN: Detect crop change with 2-second debounce to avoid thrash when header
+            --     partially overlaps two crop types and flips between them each tick.
+            -- UA: Визначаємо зміну культури з 2-секундним захистом від дребезгу щоб уникнути
+            --     переключення коли жатка частково перекриває два типи культур і перемикає між ними кожен тік.
             if cropName ~= spec.combineMemory.currentCrop then
                 -- DEBOUNCE: чекаємо 2 секунди перед перемикання
                 -- Без цього жатка може детектувати різні культури кожен тік і створювати петлю
@@ -447,12 +500,14 @@ function rhm_Combine:addCutterArea(superFunc, ...)
                     rhm_Combine.onCropTypeChanged(self, cropName)
                 end
             else
-                -- Культура не змінилась — скидаємо pending
+                -- EN: Same crop, cancel any staged switch.
+                -- UA: Та сама культура, скасовуємо заплановане перемикання.
                 spec._pendingCrop = nil
             end
         end
     else
-        -- Немає культури (не збираємо) — скидаємо pending
+        -- EN: No crop coming through (not harvesting) — clear staged crop.
+        -- UA: Не надходить культура (не збираємо) — очищаємо плановану культуру.
         spec._pendingCrop = nil
     end
     
@@ -467,44 +522,66 @@ function rhm_Combine:addCutterArea(superFunc, ...)
     return r1, r2, r3, r4, r5, r6, r7, r8, r9, r10
 end
 
----Викликається при зміні типу культури
----@param newCropName string Нова назва культури
+-- EN: Called when the detected crop type changes. Delegates to CombineMemory:switchCrop which
+--     saves the old profile, loads the new one, and triggers network sync.
+--     Does NOT set currentCrop directly — switchCrop handles all state transitions.
+-- UA: Викликається при зміні визначеного типу культури. Делегує до CombineMemory:switchCrop який
+--     зберігає старий профіль, завантажує новий та запускає мережеву синхронізацію.
+--     НЕ встановлює currentCrop напряму — switchCrop обробляє всі переходи стану.
+---@param newCropName string
 function rhm_Combine:onCropTypeChanged(newCropName)
     local spec = self.spec_rhm_Combine
     if not spec or not spec.combineMemory then
         return
     end
     
-    -- Делегуємо switchCrop — він сам встановить currentCrop, збереже старий профіль
-    -- і завантажить новий. НЕ встановлюємо currentCrop тут напряму!
+    -- EN: Delegate to switchCrop — it sets currentCrop, saves old profile, loads new one.
+    --     Do NOT set currentCrop here directly!
+    -- UA: Делегуємо до switchCrop — він встановлює currentCrop, зберігає старий, завантажує новий.
+    --     НЕ встановлювати currentCrop тут напряму!
     spec.combineMemory:switchCrop(newCropName)
     
-    -- Синхронізуємо зміну культури та налаштувань для клієнтів у мультиплеєрі
+    -- EN: Sync crop change and settings to clients in multiplayer.
+    -- UA: Синхронізуємо зміну культури та налаштувань для клієнтів у мультиплеєрі.
     if self.isServer then
         self:raiseDirtyFlags(spec.dirtyFlag)
     end
 end
 
--- Перевизначаємо getSpeedLimit для автоматичного обмеження швидкості
+-- EN: Override for getSpeedLimit. Returns a dynamically calculated speed cap from LoadCalculator
+--     that maintains ~90% engine load target. Disabled on clients (uses synced recommendedSpeed).
+--     Respects the Arcade difficulty mode (no speed limiting), the enableSpeedLimit setting,
+--     and only activates when the cutter is actually lowered and working.
+-- UA: Перевизначення getSpeedLimit. Повертає динамічний ліміт швидкості від LoadCalculator
+--     який підтримує ~90% навантаження двигуна. Вимкнено на клієнтах (використовує synced recommendedSpeed).
+--     Поважає режим складності Arcade (без обмеження швидкості), налаштування enableSpeedLimit,
+--     та активується лише коли жатка реально опущена і працює.
 function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
     local spec = self.spec_rhm_Combine
     
-    -- Викликаємо оригінальну функцію
+    -- EN: Call original to get the game's base speed limit and check flag.
+    -- UA: Викликаємо оригінал щоб отримати базовий ліміт швидкості гри і прапорець перевірки.
     local limit, doCheckSpeedLimit = superFunc(self, onlyIfWorking)
     
-    -- Якщо spec не ініціалізований, повертаємо оригінальний ліміт
+    -- EN: If spec not initialized (vehicle loading), return original limit unchanged.
+    -- UA: Якщо spec не ініціалізований (завантаження транспорту), повертаємо оригінальний ліміт без змін.
     if not spec or not spec.loadCalculator then
         return limit, doCheckSpeedLimit
     end
     
-    -- Перевіряємо чи комбайн працює
+    -- EN: Skip speed limiting if the thresher is off.
+    -- UA: Пропускаємо обмеження швидкості якщо молотарка вимкнена.
     if not self:getIsTurnedOn() then
         spec.isSpeedLimitActive = false
         return limit, doCheckSpeedLimit
     end
     
-    -- CRITICAL FIX: Перевіряємо чи жатка ПРАЦЮЄ (не просто прикріплена)
-    -- Якщо жатка піднята або не косить - НЕ обмежуємо швидкість
+    -- EN: CRITICAL FIX: Check if the cutter is actually WORKING (not just attached).
+    --     If the cutter is raised or not cutting — do NOT limit speed.
+    --     Same check as onUpdateTick: isTurnedOn + speed > 0.5 + lowered (or allowCuttingWhileRaised).
+    -- UA: КРИТИЧНЕ ВИПРАВЛЕННЯ: Перевіряємо чи жатка дійсно ПРАЦЮЄ (не просто прикріплена).
+    --     Якщо жатка піднята або не косить — НЕ обмежуємо швидкість.
+    --     Та ж перевірка що й у onUpdateTick: isTurnedOn + speed > 0.5 + опущена (або allowCuttingWhileRaised).
     local spec_combine = self.spec_combine
     local cutterIsWorking = false
     
@@ -531,21 +608,24 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         return limit, doCheckSpeedLimit
     end
     
-    -- Перевіряємо чи увімкнено обмеження швидкості
+    -- EN: Check if speed limiting is enabled in settings.
+    -- UA: Перевіряємо чи увімкнено обмеження швидкості в налаштуваннях.
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         if not g_realisticHarvestManager.settings.enableSpeedLimit then
             spec.isSpeedLimitActive = false
             return limit, doCheckSpeedLimit
         end
         
-        -- В Arcade режимі НЕ обмежуємо швидкість (як у ванільній грі)
+        -- EN: In Arcade difficulty mode, don't limit speed (like vanilla game).
+        -- UA: В режимі складності Arcade не обмежуємо швидкість (як у ванільній грі).
         if g_realisticHarvestManager.settings.difficultyMotor == 1 then -- DIFFICULTY_ARCADE
             spec.isSpeedLimitActive = false
             return limit, doCheckSpeedLimit
         end
     end
     
-    -- Перевіряємо чи змінилася жатка
+    -- EN: If the cutter changed, reset genuineSpeedLimit to recalibrate for the new header's speed range.
+    -- UA: Якщо жатка змінилась, скидаємо genuineSpeedLimit для рекалібрування під новий діапазон швидкостей.
     if spec_combine and spec_combine.attachedCutters then
         local currentCutter = nil
         for cutter, _ in pairs(spec_combine.attachedCutters) do
@@ -556,26 +636,25 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         -- Якщо жатка змінилася, скидаємо genuineSpeedLimit
         if currentCutter ~= spec.currentCutter and currentCutter ~= nil then
             spec.currentCutter = currentCutter
-            spec.loadCalculator.genuineSpeedLimit = 15 -- Скидаємо до початкового значення
-            -- Logging.info("RHM: [getSpeedLimit] Cutter changed, resetting genuineSpeedLimit")
+            spec.loadCalculator.genuineSpeedLimit = 15 -- EN: Reset to initial value / UA: Скидаємо до початкового значення
         end
     end
     
-    -- Встановлюємо оригінальний ліміт в LoadCalculator ТІЛЬКИ ОДИН РАЗ
-    -- Перевіряємо чи genuineSpeedLimit ще не ініціалізований (дорівнює початковому значенню 15)
-    -- І перевіряємо що limit - це реальне число (не inf)
+    -- EN: Set genuineSpeedLimit ONCE from the game's max speed cap (1.5x game limit, min 18 km/h).
+    --     This cap is the ceiling — our dynamic limit oscillates below it.
+    -- UA: Встановлюємо genuineSpeedLimit ОДИН РАЗ з максимального ліміту гри (1.5x ліміту, мін. 18 км/год).
+    --     Цей стеля — наш динамічний ліміт коливається нижче нього.
     if spec.loadCalculator.genuineSpeedLimit == 15 and limit ~= math.huge then
-        -- Використовуємо 1.5x від ліміту гри, мінімум 18 км/год
-        -- Це дозволяє комбайну їхати швидше на легких полях!
+        -- EN: Use 1.5x game limit (min 18 km/h) to allow faster travel on easy fields.
+        -- UA: Використовуємо 1.5x ліміту гри (мін. 18 км/год) для швидшого руху на легких полях.
         local genuineLimit = math.max(1.5 * limit, 18.0)
         spec.loadCalculator:setGenuineSpeedLimit(genuineLimit)
-        -- Logging.info("RHM: [getSpeedLimit] Initial genuine limit set to %.1f km/h (from game limit %.1f)", 
-        --     genuineLimit, limit)
     end
     
-    -- === MULTIPLAYER FIX ===
-    -- На клієнті LoadCalculator НЕ оновлюється (тільки на сервері)
-    -- Тому клієнт повинен використовувати синхронізоване значення spec.data.recommendedSpeed
+    -- EN: MULTIPLAYER FIX: LoadCalculator only runs on the server.
+    --     Clients must use the synced spec.data.recommendedSpeed value.
+    -- UA: ВИПРАВЛЕННЯ МУЛЬТИПЛЕЕРА: LoadCalculator оновлюється лише на сервері.
+    --     Клієнти повинні використовувати синхронізоване значення spec.data.recommendedSpeed.
     if not self.isServer then
         -- CLIENT: Use synced value from server
         if spec.data and spec.data.recommendedSpeed then
@@ -605,10 +684,14 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         self._speedLimitLogTime = g_currentMission.time
     end
     
-    -- ЗАВЖДИ застосовуємо розрахований ліміт під час роботи жатки!
-    -- Раніше тут була перевірка `if calculatedLimit < genuineLimit`, яка ВІДМИКАЛА мод
-    -- при ідеальних налаштуваннях (коли ліміт досягав стелі), через що комбайн провалювався
-    -- до ванільних 10 км/год. Тепер ми гарантовано дозволяємо моду підіймати швидкість вище ванільної.
+    -- EN: ALWAYS apply the calculated limit while cutter is working.
+    --     Previous version had `if calculatedLimit < genuineLimit` which effectively disabled the mod
+    --     when settings were perfect (limit reached ceiling) causing a drop to vanilla 10 km/h.
+    --     Now we always let the mod manage speed even above the vanilla cap.
+    -- UA: ЗАВЖДИ застосовуємо розрахований ліміт поки жатка працює.
+    --     Попередня версія мала `if calculatedLimit < genuineLimit` яка вимикала мод
+    --     при ідеальних налаштуваннях (ліміт досягав стелі), через що комбайн падав до 10 км/год ваніль.
+    --     Тепер мод завжди керує швидкістю навіть вище ванільного обмеження.
     spec.isSpeedLimitActive = true
     limit = calculatedLimit
     
@@ -622,16 +705,21 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
     return limit, doCheckSpeedLimit
 end
 
--- Перевіряємо чи можна увімкнути комбайн
+-- EN: Override for getCanBeTurnedOn. Blocks thresher start if any attached cutter is not ready
+--     (e.g. a folded header that hasn't been unfolded). Falls back to vanilla logic if no cutters.
+-- UA: Перевизначення getCanBeTurnedOn. Блокує запуск молотарки якщо будь-яка прикріплена жатка
+--     не готова (напр. складена жатка що не розкладена). Повертається до ванільної логіки без жаток.
 function rhm_Combine:getCanBeTurnedOn(superFunc)
     local spec_combine = self.spec_combine
     
-    -- Якщо немає жаток, використовуємо стандартну логіку
+    -- EN: No cutters attached — use vanilla logic.
+    -- UA: Немає прикріплених жаток — використовуємо ванільну логіку.
     if spec_combine.numAttachedCutters <= 0 then
         return superFunc(self)
     end
     
-    -- Перевіряємо кожну жатку
+    -- EN: Check each attached cutter — if any is not ready (e.g. folded), block thresher start.
+    -- UA: Перевіряємо кожну прикріплену жатку — якщо хоча б одна не готова (напр. складена), блокуємо запуск.
     for cutter, _ in pairs(spec_combine.attachedCutters) do
         if cutter ~= self and cutter.getCanBeTurnedOn ~= nil and not cutter:getCanBeTurnedOn() then
             -- Якщо хоч одна жатка не готова (наприклад складена), комбайн не запуститься
@@ -642,25 +730,36 @@ function rhm_Combine:getCanBeTurnedOn(superFunc)
     return superFunc(self)
 end
 
--- Запобігаємо автозапуску жатки при старті молотарки
--- ВАЖЛИВО: НЕ викликаємо superFunc, бо він запускає жатки автоматично!
+-- EN: Override for startThreshing. Conditionally starts attached cutters based on settings.
+--     If Independent Launch is enabled: cutters only auto-start for AI (not the player).
+--     If Independent Launch is disabled: cutters always auto-start (classic vanilla behavior).
+--     Always plays threshing animations and sounds regardless of cutter start logic.
+-- UA: Перевизначення startThreshing. Умовно запускає прикріплені жатки залежно від налаштувань.
+--     Якщо Незалежний Запуск увімкнений: жатки автоматично запускаються лише для AI (не для гравця).
+--     Якщо Незалежний Запуск вимкнений: жатки завжди запускаються автоматично (класична ванільна поведінка).
+--     Завжди відтворює анімації та звуки молотарки незалежно від логіки запуску жатки.
 function rhm_Combine:startThreshing(superFunc)
     local spec_combine = self.spec_combine
     
-    -- Перевіряємо чи увімкнена функція роздільного запуску
+    -- EN: Read Independent Launch setting from manager.
+    -- UA: Читаємо налаштування Незалежного Запуску з менеджера.
     local isIndependentLaunchEnabled = false
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         isIndependentLaunchEnabled = g_realisticHarvestManager.settings.enableIndependentLaunch
     end
     
-    -- Логіка запуску жаток:
-    -- - Якщо роздільний запуск ВИМКНЕНИЙ → запускаємо жатки завжди (класична поведінка)
-    -- - Якщо роздільний запуск УВІМКНЕНИЙ → запускаємо ТІЛЬКИ для AI
+    -- EN: Cutter start logic:
+    --     - Independent launch OFF → always start cutters (vanilla behavior)
+    --     - Independent launch ON  → only start for AI workers
+    -- UA: Логіка запуску жатки:
+    --     - Незалежний запуск ВИМКНЕНИЙ → завжди запускаємо жатки (ванільна поведінка)
+    --     - Незалежний запуск УВІМКНЕНИЙ → запускаємо лише для AI
     local isAIActive = self:getIsAIActive()
     local shouldStartCutters = (not isIndependentLaunchEnabled) or (isIndependentLaunchEnabled and isAIActive)
     
     if spec_combine.numAttachedCutters > 0 and shouldStartCutters then
-        -- Запускаємо жатки (для AI завжди, для гравця - тільки якщо функція вимкнена)
+        -- EN: Start cutters — always for AI, for player only when Independent Launch is disabled.
+        -- UA: Запускаємо жатки — завжди для AI, для гравця лише коли Незалежний Запуск вимкнений.
         local isTurning = type(self.rootVehicle.getAIFieldWorkerIsTurning) == "function" and self.rootVehicle:getAIFieldWorkerIsTurning()
         local allowLowering = not self:getIsAIActive() or not isTurning
         
@@ -689,7 +788,10 @@ function rhm_Combine:startThreshing(superFunc)
     SpecializationUtil.raiseEvent(self, "onStartThreshing")
 end
 
--- Запобігаємо авто-вимкненню жатки при зупинці молотарки
+-- EN: Override for stopThreshing. Stops threshing sounds/animations and disables fill mode.
+--     Does NOT stop cutters automatically (player controls them independently via Independent Launch).
+-- UA: Перевизначення stopThreshing. Зупиняє звуки/анімації молотарки та вимикає режим наповнення.
+--     НЕ вимикає жатки автоматично (гравець керує ними незалежно через Незалежний Запуск).
 function rhm_Combine:stopThreshing(superFunc)
     local spec_combine = self.spec_combine
     
@@ -705,7 +807,8 @@ function rhm_Combine:stopThreshing(superFunc)
         self.rootVehicle:setCruiseControlState(Drivable.CRUISECONTROL_STATE_OFF)
     end
     
-    -- НЕ вимикаємо жатки автоматично (гравець керує ними вручну)
+    -- EN: Do NOT stop cutters automatically — player controls them independently.
+    -- UA: НЕ вимикаємо жатки автоматично — гравець керує ними незалежно.
     
     if spec_combine.threshingStartAnimation ~= nil and spec_combine.playAnimation ~= nil then
         self:playAnimation(spec_combine.threshingStartAnimation, -spec_combine.threshingStartAnimationSpeedScale, self:getAnimationTime(spec_combine.threshingStartAnimation), true)
@@ -714,12 +817,17 @@ function rhm_Combine:stopThreshing(superFunc)
     SpecializationUtil.raiseEvent(self, "onStopThreshing")
 end
 
--- Забороняємо харвестинг якщо комбайн вимкнений
--- Це запобігає збору врожаю коли увімкнена тільки жатка без комбайна
+-- EN: Override for verifyCombine. Blocks harvesting when the thresher is off
+--     (prevents collecting crop when only the cutter is running without the thresher).
+--     AI is exempt from this check.
+-- UA: Перевизначення verifyCombine. Блокує збирання врожаю коли молотарка вимкнена
+--     (запобігає збору культури коли увімкнена лише жатка без молотарки).
+--     AI звільнений від цієї перевірки.
 function rhm_Combine:verifyCombine(superFunc, fruitType, outputFillType)
     local isAIActive = self:getIsAIActive()
     
-    -- Перевіряємо чи комбайн увімкнений (молотарка працює)
+    -- EN: Block harvesting if thresher is off (unless AI is active).
+    -- UA: Блокуємо збирання якщо молотарка вимкнена (якщо тільки AI не активний).
     if not self:getIsTurnedOn() and not isAIActive then
         return nil  -- Блокуємо харвестинг
     end
@@ -758,9 +866,15 @@ function rhm_Combine:updateWarnings(dt)
     end
 end
 
--- Викликається періодично для оновлення логіки
+-- EN: Called on every game tick. Runs warning checks on client, load/yield/speed calculations on server.
+--     Server side: detects if thresher or cutter is off and resets HUD data accordingly.
+--     Passes harvested mass and area to LoadCalculator for physics-based engine load calculation.
+-- UA: Викликається кожен тік гри. Запускає перевірки попереджень на клієнті, розрахунки навантаження/врожайності/швидкості на сервері.
+--     Серверна сторона: визначає якщо молотарка або жатка вимкнена і скидає дані HUD відповідно.
+--     Передає зібрану масу та площу до LoadCalculator для фізичного розрахунку навантаження двигуна.
 function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSelection, isSelected)
-    -- Client Side Logic (Warnings)
+    -- EN: Client-side: update safety warnings only.
+    -- UA: Клієнтська сторона: лише оновлення попереджень безпеки.
     if self.isClient then
         rhm_Combine.updateWarnings(self, dt)
     end
@@ -776,9 +890,11 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         return
     end
     
-    -- Перевіряємо чи комбайн працює
+    -- EN: Check if combine thresher is on and driving forward; reset load if not.
+    -- UA: Перевіряємо чи молотарка увімкнена і рухається вперед; скидаємо навантаження якщо ні.
     if not self:getIsTurnedOn() or self.movingDirection == -1 then
-        -- Комбайн не працює - скидаємо навантаження
+        -- EN: Thresher off or reversing — reset load calculation.
+        -- UA: Молотарка вимкнена або рухається назад — скидаємо розрахунок навантаження.
         spec.loadCalculator:reset()
         if spec.data then
             spec.data.load = 0
@@ -787,23 +903,28 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         return
     end
     
-    -- Перевіряємо чи жатка працює (Fix for Courseplay, which has weird movingDirection)
-    local cutterIsTurnedOn = false  -- FIX: завжди скидаємо перед циклом
+    -- EN: Check if the cutter is working. Uses same logic as getSpeedLimit:
+    --     isTurnedOn AND speed > 0.5 AND lowered (or allowCuttingWhileRaised).
+    --     Avoids movingDirection check that Courseplay can break.
+    -- UA: Перевіряємо чи жатка працює. Використовує ту ж логіку що й getSpeedLimit:
+    --     isTurnedOn І speed > 0.5 І опущена (або allowCuttingWhileRaised).
+    --     Уникає перевірки movingDirection яку Courseplay може порушити.
+    local cutterIsTurnedOn = false
     for cutter, _ in pairs(spec_combine.attachedCutters) do
         if cutter.spec_cutter then
             local spec_cutter = cutter.spec_cutter
-            -- Removed self.movingDirection == spec_cutter.movingDirection check since Courseplay can break it
             if cutter:getIsTurnedOn() 
                 and self:getLastSpeed() > 0.5 
                 and (spec_cutter.allowCuttingWhileRaised or cutter:getIsLowered(true)) then
                 cutterIsTurnedOn = true
-                break  -- FIX: знайшли працюючу — виходим
+                break  -- EN: Found a working cutter — exit / UA: Знайшли працюючу — виходимо
             end
         end
     end
     
     if not cutterIsTurnedOn then
-        -- Жатка не працює - скидаємо індикатори, щоб вони не висіли
+        -- EN: Cutter not working — reset indicators so they don't stay visible.
+        -- UA: Жатка не працює — скидаємо індикатори щоб вони не висіли.
         spec.loadCalculator:reset() 
         if spec.data then
             spec.data.load = 0 
@@ -811,26 +932,29 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             spec.data.tonPerHour = 0
             spec.data.litersPerHour = 0
             spec.data.yield = 0
-            spec.data.recommendedSpeed = 0 -- Скидаємо рекомендовану швидкість, щоб не показувало "/ 3.8"
+        spec.data.recommendedSpeed = 0 -- EN: Hide "/ X.X" from speed display / UA: Приховуємо "/ X.X" з відображення швидкості
         end
         spec.isSpeedLimitActive = false
         
-        -- СИНХРОНІЗАЦІЯ: Важливо оновити клієнтів, щоб у них теж зникли цифри
+        -- EN: Sync reset to clients so their HUD clears too.
+        -- UA: Синхронізуємо скидання на клієнти щоб їх HUD теж очистився.
         self:raiseDirtyFlags(spec.dataDirtyFlag)
         
         return
     end
     
-    -- Видалено: Застаріла автодетекція культур у onUpdateTick
-    -- Тепер детекція відбувається виключно через addCutterArea (з 2-сек debounce),
-    -- щоб уникнути конфліктів та хибного визначення після скидання бункера.
+    -- EN: Crop detection was moved to addCutterArea with 2s debounce.
+    --     Removed from onUpdateTick to prevent detection conflicts after bunker dump (false positives).
+    -- UA: Детекція культури перенесена в addCutterArea з 2-сек захистом від дребезгу.
+    --     Видалено з onUpdateTick щоб уникнути конфліктів після скидання бункера (хибні позитиви).
     
-    -- Оновлюємо LoadCalculator
-    -- Спершу розраховуємо масу, бо тепер вона головна!
+    -- EN: Calculate harvested mass from liters + fillType density. Forage harvesters use fallback liters.
+    -- UA: Розраховуємо зібрану масу з літрів + густини fillType. Форажні комбайни використовують запасні літри.
     local massKg = 0
     local liters = spec.lastLiters or 0
     
-    -- Fallback для кормозбиральних комбайнів, у яких addFillUnitFillLevel не викликався
+    -- EN: Fall back to liters captured by addCutterArea for forage harvesters (no hopper).
+    -- UA: Використовуємо запасні літри з addCutterArea для форажних комбайнів (без бункера).
     if liters <= 0 and (spec._fallbackLiters or 0) > 0 then
         liters = spec._fallbackLiters
     end
@@ -839,32 +963,38 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         if spec.lastFillType and g_fillTypeManager then
             local fillType = g_fillTypeManager:getFillTypeByIndex(spec.lastFillType)
             if fillType and fillType.massPerLiter then
-                -- ВАЖЛИВО: massPerLiter в грі зберігається в ТОННАХ на літр, тому множимо на 1000
+                -- EN: IMPORTANT: massPerLiter in FS25 is stored in TONS per liter, so multiply by 1000 to get kg.
+                -- UA: ВАЖЛИВО: massPerLiter в FS25 зберігається в ТОННАХ на літр, тому множимо на 1000 щоб отримати кг.
                 massKg = liters * fillType.massPerLiter * 1000
             else
-                massKg = liters * 0.75 -- Fallback
+                massKg = liters * 0.75 -- EN: Fallback density / UA: Запасна густота
             end
         else
-            massKg = liters * 0.75 -- Fallback
+            massKg = liters * 0.75 -- EN: Fallback density / UA: Запасна густота
         end
     end
     
-    -- Використовуємо lastRawArea (реальна площа) для врожайності
+    -- EN: Use lastRawArea (actual geometric area) for yield calculation.
+    -- UA: Використовуємо lastRawArea (реальну геометричну площу) для розрахунку врожайності.
     local areaForYield = spec.lastRawArea or spec.lastArea or 0 
     
-    -- Передаємо МАСУ в LoadCalculator!
+    -- EN: Pass accumulated MASS to LoadCalculator (not area) — mass is the main driver now.
+    -- UA: Передаємо накопичену МАСУ в LoadCalculator (не площу) — маса тепер основний показник.
     spec.loadCalculator:update(self, dt, massKg)
     
-    -- Оновлюємо продуктивність і врожайність
-    -- МИ ТЕПЕР ВИКЛИКАЄМО ЦЕ ЗАВЖДИ, щоб буфер ковзав вперед і показник t/h 
-    -- плавно падав до 0, коли ми перестаємо косити.
+    -- EN: Update productivity and yield rolling average. Called even when not cutting
+    --     so the t/h display smoothly fades to 0 between passes.
+    -- UA: Оновлюємо ковзне середнє продуктивності та врожайності. Викликається навіть без косіння
+    --     щоб показник т/год плавно падав до 0 між проходами.
     spec.loadCalculator:updateProductivityAndYield(massKg, liters, areaForYield, dt) 
     
-    -- ========================================================================
-    -- PHYSICAL CROP LOSS - Видаляємо втрачене зерно з бункера
-    -- ========================================================================
+    -- EN: Apply physical crop loss: remove lost grain from the fill unit on the server.
+    --     This makes crop loss visible as a real reduction in tank fill level.
+    -- UA: Застосовуємо фізичні втрати врожаю: видаляємо втрачене зерно з fill unit на сервері.
+    --     Це робить втрати врожаю видимими як реальне зменшення рівня наповнення бункера.
     if liters > 0 and self.isServer then
-        -- Розраховуємо crop loss (включаючи втрати від налаштувань)
+        -- EN: Calculate total crop loss including settings deviation penalty.
+        -- UA: Розраховуємо загальні втрати врожаю включаючи штраф за відхилення налаштувань.
         local cropLoss = spec.loadCalculator:calculateTotalCropLoss()
         spec.combineMemory:updateStatistics(liters, cropLoss, spec.combineMemory.currentCrop)
         
@@ -897,13 +1027,15 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     end
     -- ========================================================================
     
-    -- Скидаємо лічильники
+    -- EN: Reset all per-tick accumulators after processing.
+    -- UA: Скидаємо всі накопичувачі за тік після обробки.
     spec.lastArea = 0
-    spec.lastRawArea = 0 -- Reset new counter
+    spec.lastRawArea = 0
     spec.lastLiters = 0
     spec._fallbackLiters = 0
     
-    -- Оновлюємо дані для HUD
+    -- EN: Update HUD live data table from LoadCalculator outputs.
+    -- UA: Оновлюємо таблицю живих даних HUD з виводів LoadCalculator.
     if spec.data then
         spec.data.load = spec.loadCalculator:getEngineLoad()
         spec.data.cropLoss = spec.loadCalculator:calculateTotalCropLoss()
@@ -930,8 +1062,10 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
     end
     
-    -- === OVERLOAD WARNING ===
-    -- Сервер визначає рівень: 0=норма, 1=HIGH(120%+), 2=CRITICAL(150%+)
+    -- EN: OVERLOAD WARNING: Server determines level (0=normal, 1=HIGH 120%+, 2=CRITICAL 150%+).
+    --     Displayed to whoever controls the combine — in SP that's the server; in DS it flows via streams.
+    -- UA: ПОПЕРЕДЖЕННЯ ПЕРЕВАНТАЖЕННЯ: Сервер визначає рівень (0=норма, 1=ВИСОК. 120%+, 2=КРИТИЧ. 150%+).
+    --     Відображається тому хто керує комбайном — у SP це сервер; у DS приходить через потоки.
     if self.isServer and spec.data then
         local load = spec.data.load
         if load >= 150 then
@@ -975,7 +1109,10 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     end
     -- === END OVERLOAD WARNING ===
     
-    -- MULTIPLAYER: Позначаємо що дані змінились для синхронізації (з тротлінгом)
+    -- EN: MULTIPLAYER: Throttled dirty flag raising — only sync when data has changed significantly
+    --     or at least once per second. Sensitivity thresholds reduce network traffic.
+    -- UA: МУЛЬТИПЛЕЕР: Тротлінговий підйом dirty flag — синхронізуємо лише коли дані суттєво змінились
+    --     або принаймні раз на секунду. Пороги чутливості зменшують мережевий трафік.
     if self.isServer then
         local now = g_currentMission.time
         local interval = spec.dataUpdateInterval or 200
@@ -1014,18 +1151,23 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     end
 end
 
--- Викликається кожен кадр коли гравець в комбайні
+-- EN: Called every frame when the player is in the combine.
+--     HUD is drawn centrally in RealisticHarvestManager:draw() via hierarchy scanning,
+--     so we don't draw here to avoid duplication.
+-- UA: Викликається кожен кадр коли гравець в комбайні.
+--     HUD малюється централізовано в RealisticHarvestManager:draw() через сканування ієрархії,
+--     тому тут не малюємо — щоб уникнути дублювання.
 function rhm_Combine:onDraw(isActiveForInput, isActiveForInputIgnoreSelection, isSelected)
-    -- ПРИМІТКА: HUD малюється централізовано в RealisticHarvestManager:draw()
-    -- Ми використовуємо сканування ієрархії (getControlledVehicle -> root -> findCombine),
-    -- тому немає потреби малювати тут, це викликає дублювання.
 end
 
 -- ============================================================================
 -- SAVEGAME FUNCTIONS  
 -- ============================================================================
 
----Збереження стану в savegame файл
+-- EN: Saves combine settings (mode, currentCrop, fan/rotor/sieve/feeder values) to the savegame XML file.
+--     Uses pcall for each setValue so schema validation errors don't crash the save.
+-- UA: Зберігає налаштування комбайна (режим, поточна культура, значення вентилятора/ротора/решета/подачі) у XML файл збереження.
+--     Використовує pcall для кожного setValue щоб помилки валідації схеми не падали при збереженні.
 ---@param xmlFile XMLFile
 ---@param key string
 function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
@@ -1036,7 +1178,8 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local mem = spec.combineMemory
     local settings = mem.currentSettings
     
-    -- Використовуємо pcall для кожного setValue щоб помилка валідації схеми не зрупала збереження
+    -- EN: Use pcall for each setValue to prevent schema validation crashes.
+    -- UA: pcall для кожного setValue щоб помилки схеми не падали.
     local function safeSet(path, value)
         local ok, err = pcall(function() xmlFile:setValue(path, value) end)
         if not ok then

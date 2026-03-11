@@ -1,4 +1,4 @@
-﻿# Realistic Harvesting — Farming Simulator 25
+# Realistic Harvesting — Farming Simulator 25
 
 [![Version](https://img.shields.io/badge/version-1.4.2.0-green?style=for-the-badge&logo=github)](https://github.com/exekx/FS25_RealisticHarvesting)
 [![FS25](https://img.shields.io/badge/FS25-Compatible-blue?style=for-the-badge&logo=farming-simulator)](https://www.farming-simulator.com/)
@@ -171,28 +171,28 @@ Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops 
 ### 🌾 Grain Combines — 5 Parameters
 *(Fan Speed · Rotor Speed · Upper Sieve · Lower Sieve · Feeder House)*
 
-| Crop | Fan | Rotor | Upper Sieve | Lower Sieve | Feeder |
+| Crop | Fan (RPM) | Rotor (RPM) | Upper Sieve (mm) | Lower Sieve (mm) | Feeder (RPM) |
 |:---|:---:|:---:|:---:|:---:|:---:|
-| **Wheat / Barley** | 71–85 | 74–86 | 49–61 | 39–51 | 40–60 |
-| **Oat** | 71–85 | 69–81 | 59–71 | 49–61 | 45–65 |
-| **Corn (Maize)** | 86–98 | 30–40 | 69–81 | 59–71 | 60–80 |
-| **Soybean / Pea / Legumes** | 68–82 | 49–61 | 49–61 | 39–51 | 37–53 |
-| **Canola (Rapeseed)** | 64–76 | 44–56 | 46–54 | 36–44 | 37–53 |
-| **Sunflower** | 63–77 | 27–37 | 64–76 | 54–66 | 50–70 |
-| **Rice** | 73–87 | 79–91 | 64–76 | 64–76 | 48–72 |
-| **Sorghum** | 71–85 | 58–70 | 49–61 | 44–56 | 40–60 |
-| **Lentil** | 73–87 | 35–45 | 59–71 | 49–61 | 62–78 |
-| **Chickpea** | 87–103 | 35–45 | 70–80 | 56–64 | 62–78 |
+| **Wheat / Barley** | 940–1070 | 870–970 | 15–18 | 10–13 | 500–600 |
+| **Oat** | 940–1070 | 820–930 | 18–21 | 12–15 | 530–630 |
+| **Corn (Maize)** | 1070–1180 | 470–560 | 21–24 | 15–18 | 600–700 |
+| **Soybean / Pea / Legumes** | 910–1040 | 640–750 | 15–18 | 10–13 | 490–570 |
+| **Canola (Rapeseed)** | 880–980 | 600–700 | 14–16 | 9–11 | 490–570 |
+| **Sunflower** | 870–990 | 440–530 | 19–23 | 14–17 | 550–650 |
+| **Rice** | 960–1080 | 910–1020 | 19–23 | 16–19 | 540–660 |
+| **Sorghum** | 940–1070 | 720–830 | 15–18 | 11–14 | 500–600 |
+| **Lentil** | 960–1080 | 520–610 | 18–21 | 12–15 | 610–690 |
+| **Chickpea** | 1080–1230 | 520–610 | 21–24 | 14–16 | 610–690 |
 
 ---
 
 ### 🌿 Forage Harvesters — 3 Parameters
 *(Fan Speed · Drum Speed · Feeder House)*
 
-| Crop | Fan | Drum | Feeder |
+| Crop | Fan (RPM) | Drum (RPM) | Feeder (RPM) |
 |:---|:---:|:---:|:---:|
-| **Grass / Dry Grass** | 50–70 | 55–75 | 45–65 |
-| **Corn Silage (CHAFF)** | 60–80 | 70–90 | 60–80 |
+| **Grass / Dry Grass** | 1150–1290 | 1110–1150 | 380–460 |
+| **Corn Silage (CHAFF)** | 1220–1360 | 1140–1180 | 440–520 |
 
 ---
 
@@ -203,13 +203,13 @@ Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops 
 
 | Crop | Fan (optimal) | Roller (optimal) | Feeder (optimal) | Notes |
 |:---|:---:|:---:|:---:|:---|
-| **Potato** | **35%** | **40%** | **70%** | Low air: soil doesn't blow, gentle roller: prevent bruises |
-| **Sugarbeet** | **40%** | **55%** | **65%** | Harder than potato, faster cleaning |
-| **Beetroot** | **38%** | **48%** | **68%** | Between potato and sugarbeet |
-| **Onion** | **75%** ⬆️ | **45%** | **55%** | Strong airflow needed to separate skins and leaves |
-| **Carrot / Parsnip** | **30%** | **35%** | **75%** ⬆️ | Very gentle root, fast feeder to lift weight |
-| **Spinach** | **20%** ⬇️ | **25%** ⬇️ | **60%** | Minimal air: leaves fly and tear easily |
-| **Green Bean** | **45%** | **38%** | **62%** | Moderate, careful: pods crack easily |
+| **Potato** | **610 RPM** | **200 RPM** | **310 RPM** | Low air: soil doesn't blow, gentle roller: prevent bruises |
+| **Sugarbeet** | **640 RPM** | **240 RPM** | **300 RPM** | Harder than potato, faster cleaning |
+| **Beetroot** | **630 RPM** | **220 RPM** | **300 RPM** | Between potato and sugarbeet |
+| **Onion** | **850 RPM** ⬆️ | **210 RPM** | **270 RPM** | Strong airflow needed to separate skins and leaves |
+| **Carrot / Parsnip** | **580 RPM** | **190 RPM** | **330 RPM** ⬆️ | Very gentle root, fast feeder to lift weight |
+| **Spinach** | **520 RPM** ⬇️ | **160 RPM** ⬇️ | **280 RPM** | Minimal air: leaves fly and tear easily |
+| **Green Bean** | **670 RPM** | **200 RPM** | **290 RPM** | Moderate, careful: pods crack easily |
 
 **Tolerance zone:** ±5–8% from the optimal value shown above.
 
@@ -220,9 +220,9 @@ Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops 
 
 | Parameter | Optimal | Zero Loss Zone |
 |:---|:---:|:---:|
-| **Fan Speed** | 50% | 40–60 |
-| **Picker Speed** | 55% | 45–65 |
-| **Feeder House** | 45% | 35–55 |
+| **Fan Speed (RPM)** | 3250 | 3100–3400 |
+| **Picker Speed (RPM)** | 210 | 200–220 |
+| **Feeder House (RPM)** | 190 | 170–210 |
 
 ---
 

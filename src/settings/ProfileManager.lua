@@ -1,43 +1,60 @@
 ---@class ProfileManager
--- Manages global user profiles for combine settings, saved in modSettings
+-- EN: Manages global user crop profiles, persisted in the FS25 modSettings folder.
+--     Profiles store per-crop combine settings (fan, rotor, sieves, feeder) that the player
+--     has manually saved, and are reloaded across game sessions.
+-- UA: Керує глобальними профілями налаштувань культур, збережених у папці modSettings FS25.
+--     Профілі зберігають налаштування комбайна для кожної культури (вентилятор, ротор, решета, подача),
+--     які гравець зберіг вручну, і перезавантажуються між ігровими сесіями.
 ProfileManager = {}
 local ProfileManager_mt = Class(ProfileManager)
 
+-- EN: XML root tag path used within the profiles XML file.
+-- UA: Шлях кореневого тегу XML, що використовується у файлі профілів.
 ProfileManager.XMLTAG = "realisticHarvestingProfiles.profiles"
 
+-- EN: Creates a new ProfileManager instance with an empty profiles table.
+-- UA: Створює новий екземпляр ProfileManager з порожньою таблицею профілів.
 function ProfileManager.new()
     local self = setmetatable({}, ProfileManager_mt)
     self.profiles = {}
     return self
 end
 
+-- EN: Returns the absolute path to the profiles XML file in the modSettings directory.
+--     Creates the modSettings and mod-specific subdirectory if they do not exist yet.
+-- UA: Повертає абсолютний шлях до XML-файлу профілів у директорії modSettings.
+--     Створює директорії modSettings і підпапку мода, якщо вони ще не існують.
 function ProfileManager:getXmlFilePath()
     local userPath = getUserProfileAppPath()
     if not userPath then
         print("RHM: ERROR - Cannot get user profile path for profiles")
         return nil
     end
-    
+
     local modSettingsPath = userPath .. "modSettings"
     local rhmPath = modSettingsPath .. "/FS25_RealisticHarvesting"
-    
+
     if not fileExists(modSettingsPath) then
         createFolder(modSettingsPath)
     end
-    
+
     if not fileExists(rhmPath) then
         createFolder(rhmPath)
     end
-    
+
     return rhmPath .. "/profiles.xml"
 end
 
+-- EN: Loads all crop profiles from the XML file into memory.
+--     Returns false if the file does not exist yet (first launch).
+-- UA: Завантажує всі профілі культур з XML-файлу в пам'ять.
+--     Повертає false, якщо файл ще не існує (перший запуск).
 function ProfileManager:loadProfiles()
     local xmlPath = self:getXmlFilePath()
     if not xmlPath or not fileExists(xmlPath) then
         return false
     end
-    
+
     local xml = XMLFile.load("RHM_Profiles", xmlPath)
     if xml then
         self.profiles = {}
@@ -47,7 +64,9 @@ function ProfileManager:loadProfiles()
             if not xml:hasProperty(key) then
                 break
             end
-            
+
+            -- EN: Read each profile entry by crop name.
+            -- UA: Зчитуємо кожен запис профілю за назвою культури.
             local cropName = xml:getString(key .. "#cropName")
             if cropName then
                 self.profiles[cropName] = {
@@ -67,10 +86,14 @@ function ProfileManager:loadProfiles()
     return false
 end
 
+-- EN: Saves all currently loaded profiles back to the XML file on disk.
+--     Called automatically after any profile change via saveProfile().
+-- UA: Зберігає всі поточно завантажені профілі назад у XML-файл на диску.
+--     Викликається автоматично після будь-якої зміни профілю через saveProfile().
 function ProfileManager:saveProfiles()
     local xmlPath = self:getXmlFilePath()
     if not xmlPath then return false end
-    
+
     local xml = XMLFile.create("RHM_Profiles", xmlPath, "realisticHarvestingProfiles")
     if xml then
         local i = 0
@@ -92,14 +115,23 @@ function ProfileManager:saveProfiles()
     return false
 end
 
+-- EN: Returns the profile for a specific crop name, or nil if none is saved.
+-- UA: Повертає профіль для конкретної назви культури, або nil якщо профілю немає.
+---@param cropName string EN: Crop name key (e.g. "WHEAT") / UA: Ключ назви культури (наприклад "WHEAT")
 function ProfileManager:getProfile(cropName)
     if not cropName then return nil end
     return self.profiles[cropName]
 end
 
+-- EN: Saves or overwrites a profile for a specific crop with the given settings.
+--     Immediately persists the change to the XML file.
+-- UA: Зберігає або перезаписує профіль для конкретної культури з заданими налаштуваннями.
+--     Негайно зберігає зміну у XML-файл.
+---@param cropName string EN: Crop name to save profile for / UA: Назва культури для збереження профілю
+---@param settings table EN: Settings table {fan, rotor, upperSieve, lowerSieve, feeder} / UA: Таблиця налаштувань
 function ProfileManager:saveProfile(cropName, settings)
     if not cropName or not settings then return false end
-    
+
     self.profiles[cropName] = {
         fan = settings.fan or 50,
         rotor = settings.rotor or 50,
@@ -107,7 +139,7 @@ function ProfileManager:saveProfile(cropName, settings)
         lowerSieve = settings.lowerSieve or 50,
         feeder = settings.feeder or 50
     }
-    
+
     self:saveProfiles()
     return true
 end

@@ -1,5 +1,12 @@
-﻿---@class LoadCalculator
--- Ð Ð¾Ð·Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑ” Ð½Ð°Ð²Ð°Ð½Ñ‚Ð°Ð¶ÐµÐ½Ð½Ñ Ð½Ð° Ð´Ð²Ð¸Ð³ÑƒÐ½ ÐºÐ¾Ð¼Ð±Ð°Ð¹Ð½Ð°
+---@class LoadCalculator
+-- EN: Physics-based engine load and speed limit calculator for combine harvesters.
+--     Tracks cut area and harvested mass each tick to compute: engine load (%),
+--     dynamic speed limit, productivity (t/h, L/h), yield (t/ha), and crop loss (%)
+--     from combine settings deviation. Supports grain, forage, root, and cotton types.
+-- UA: Фізичний калькулятор навантаження двигуна та ліміту швидкості для комбайнів.
+--     Відстежує площу зрізу та масу врожаю кожен тік для розрахунку: навантаження (%),
+--     динамічного ліміту швидкості, продуктивності (т/год, л/год), врожайності (т/га)
+--     та втрат врожаю (%) від відхилення налаштувань. Підтримує зернові, форажні, коренеплоди, бавовну.
 LoadCalculator = {}
 local LoadCalculator_mt = Class(LoadCalculator)
 
@@ -219,7 +226,7 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
         end
         
         if isVegetable then
-            coef = 0.060 -- Standardized vegetable coeff
+            coef = 0.060 -- EN: Standardized vegetable coefficient / UA: Стандартизований коефіцієнт для овочів
             if rhm_Combine and rhm_Combine.debug then
                 print("RHM: Applied Vegetable Coef (0.060)")
             end
@@ -340,7 +347,7 @@ function LoadCalculator:update(vehicle, dt, mass)
     -- ÐŸÐµÑ€ÐµÐ²Ñ–Ñ€ÑÑ”Ð¼Ð¾ Ñ‡Ð¸ Ñ‡Ð°Ñ Ð´Ð»Ñ Ð½Ð¾Ð²Ð¾Ð³Ð¾ Ð²Ð¸Ð¼Ñ–Ñ€Ñƒ
     -- ÐŸÐµÑ€ÐµÐ²Ñ–Ñ€Ñ Ñ”Ð¼Ð¾ Ñ‡Ð¸ Ñ‡Ð°Ñ  Ð´Ð»Ñ  Ð½Ð¾Ð²Ð¾Ð³Ð¾ Ð²Ð¸Ð¼Ñ–Ñ€Ñƒ
     if self.currentTime > self.avgTime or self.totalDistance > self.distanceForMeasuring then
-        self:updateSettingsImpact() -- ?????? ?????? ????? ???????????
+        self:updateSettingsImpact() -- EN: Recalculate settings penalty / UA: Перераховання штрафу налаштувань
         self:calculateEngineLoad(vehicle)
         self:calculateSpeedLimit(vehicle)
         

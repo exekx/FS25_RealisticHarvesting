@@ -1,11 +1,21 @@
 ---@class CombineSettingsDatabase
+-- EN: Static database of optimal combine settings and crop profiles.
+--     Stores parameter templates (fan, rotor, sieves, feeder) for every supported crop type,
+--     maps FS25 FillType enums to internal crop names, and defines which parameters are
+--     active for each machine type (grain, forage, root, cotton).
+-- UA: Статична база даних оптимальних налаштувань комбайна та профілів культур.
+--     Зберігає шаблони параметрів (вентилятор, ротор, решета, подача) для кожного типу культури,
+--     відображає FillType enum FS25 на внутрішні назви культур, і визначає які параметри активні
+--     для кожного типу машини (зернова, форажна, коренеплоди, бавовна).
 CombineSettingsDatabase = {}
 
----Базові шаблони для груп культур
----Кожен параметр має: optimal (оптимум), min/max (діапазон), tolerance (допустиме відхилення)
+-- EN: Base templates for crop groups. Each parameter has: optimal, min, max, tolerance.
+--     Values are expressed as percentages (0-100) representing the corresponding physical range.
+-- UA: Базові шаблони для груп культур. Кожен параметр має: optimal, min, max, tolerance.
+--     Значення виражені у відсотках (0-100) що представляють відповідний фізичний діапазон.
 local templates = {
-    -- Середні зернові (пшениця, ячмінь)
-    -- Wheat / Triticale / Rye / Spelt - Rotor 560-850 (Avg 700 = 56%), Fan 800 (56%), Upper 14mm (47%), Lower 8mm (32%)
+    -- EN: Standard grain cereals — Wheat/Rye/Spelt/Triticale. Rotor 560-850rpm (avg 56%), Fan 800rpm (56%), Upper 14mm (47%), Lower 8mm (32%).
+    -- UA: Стандартні зернові — Пшениця/Жито/Спельта/Тритикале. Ротор 560-850об/хв (сер. 56%), Вентилятор 800об/хв (56%), Верх 14мм (47%), Низ 8мм (32%).
     wheat = {
         fan = {optimal = 56, min = 40, max = 70, tolerance = 7},
         upperSieve = {optimal = 47, min = 35, max = 60, tolerance = 6},
@@ -272,8 +282,8 @@ local templates = {
         feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
     },
 }
----@field machineParams table Active parameters per machine type
----@field machineParamLabels table L10n keys for parameter labels per machine type
+-- EN: Active parameters per machine type. Defines which parameter sliders appear in the calibration GUI.
+-- UA: Активні параметри для кожного типу машини. Визначає які повзунки параметрів відображаються в GUI калібрування.
 
 ---Active parameters per machine type (defines which sliders appear in GUI)
 CombineSettingsDatabase.machineParams = {
@@ -310,14 +320,20 @@ CombineSettingsDatabase.machineParamLabels = {
     },
 }
 
----Get active parameter names for a machine type
----@param machineType string  "grain"|"forage"|"root"|"cotton"
----@return table params Ordered list of active parameter names
+-- EN: Returns the ordered list of parameter names active for the given machine type.
+--     Used to determine which sliders to display and which CombineMemory keys to initialize.
+-- UA: Повертає впорядкований список назв параметрів активних для заданого типу машини.
+--     Використовується для визначення яких повзунки відображати та які ключі CombineMemory ініціалізувати.
+---@param machineType string EN: "grain"|"forage"|"root"|"cotton" / UA: тип машини
+---@return table params
 function CombineSettingsDatabase:getParamsForMachineType(machineType)
     return self.machineParams[machineType] or self.machineParams.grain
 end
 
----Get l10n key for a parameter label given machine type
+-- EN: Returns the localization key for a parameter label based on machine type.
+--     Falls back to generic "rhm_ui_<param>" if no specific override is defined.
+-- UA: Повертає ключ локалізації для підпису параметру залежно від типу машини.
+--     Повертається до загального "rhm_ui_<param>" якщо немає специфічного перевизначення.
 ---@param machineType string
 ---@param paramName string
 ---@return string l10nKey
@@ -329,8 +345,8 @@ function CombineSettingsDatabase:getParamLabel(machineType, paramName)
     return "rhm_ui_" .. paramName
 end
 
--- FIX: Всі fillType огорнуті в умовний вираз для захисту від nil
--- якщо FillType.WHEAT == nil (DLC/мод не встановлений) -> повертаємо nil безпечно
+-- EN: Guard wrapper for FillType values — returns nil if the fill type is missing (DLC/mod not loaded).
+-- UA: Захисна обгортка для значень FillType — повертає nil якщо тип врожаю відсутній (DLC/мод не завантажений).
 local function safeFillType(ft)
     return (ft ~= nil and ft ~= 0) and ft or nil
 end
@@ -402,9 +418,12 @@ CombineSettingsDatabase.crops = {
     ["COTTON"] = { name = "Бавовник", nameEN = "Cotton", template = templates.cotton_picker, machineType = "cotton", group = "cotton", fillType = safeFillType(FillType.COTTON) },
 }
 
----Отримати налаштування для культури за назвою
----@param cropName string Назва культури (наприклад "WHEAT")
----@return table|nil settings Таблиця з налаштуваннями або nil якщо не знайдено
+-- EN: Returns the optimal settings template for a crop by internal name (e.g. "WHEAT").
+--     Returns nil if the crop is not in the database (unknown mod crop).
+-- UA: Повертає шаблон оптимальних налаштувань для культури за внутрішньою назвою (напр. "WHEAT").
+--     Повертає nil якщо культура відсутня в базі даних (невідома культура мода).
+---@param cropName string
+---@return table|nil
 function CombineSettingsDatabase:getSettingsForCrop(cropName)
     local crop = self.crops[cropName]
     if crop then
@@ -413,9 +432,12 @@ function CombineSettingsDatabase:getSettingsForCrop(cropName)
     return nil
 end
 
----Отримати назву культури за fillType з гри
----@param fillType number FillType з гри
----@return string|nil cropName Назва культури або nil
+-- EN: Converts a game FillType integer to the internal crop name used in the database.
+--     Handles windrow variants (_WINDROW suffix) and cut variants (CUT_ prefix) via fallback logic.
+-- UA: Перетворює ціле число FillType гри на внутрішню назву культури у базі даних.
+--     Обробляє варіанти валків (_WINDROW суфікс) та зрізані варіанти (CUT_ префікс) через резервну логіку.
+---@param fillType number
+---@return string|nil cropName
 function CombineSettingsDatabase:getCropNameFromFillType(fillType)
     if not fillType or fillType == FillType.UNKNOWN then
         return nil
@@ -507,15 +529,17 @@ function CombineSettingsDatabase:getCropNameFromFillType(fillType)
     return matchedName
 end
 
----Отримати дані про культуру за назвою
----@param cropName string Назва культури
----@return table|nil cropData Повні дані про культуру
+-- EN: Returns the full crop data record (template, machineType, group, fillType, names).
+-- UA: Повертає повний запис даних культури (шаблон, тип машини, група, fillType, назви).
+---@param cropName string
+---@return table|nil
 function CombineSettingsDatabase:getCropData(cropName)
     return self.crops[cropName]
 end
 
----Отримати список всіх доступних культур
----@return table cropNames Масив назв культур
+-- EN: Returns a sorted list of all registered crop names in the database.
+-- UA: Повертає відсортований список всіх зареєстрованих назв культур у базі даних.
+---@return table
 function CombineSettingsDatabase:getAllCropNames()
     local names = {}
     for cropName, _ in pairs(self.crops) do
@@ -525,9 +549,10 @@ function CombineSettingsDatabase:getAllCropNames()
     return names
 end
 
----Отримати список культур для конкретного типу машини
----@param machineType string "grain"|"forage"|"root"|"cotton"
----@return table cropNames Відсортований масив назв культур для цього типу
+-- EN: Returns a sorted list of crop names that match the specified machine type.
+-- UA: Повертає відсортований список назв культур що відповідають заданому типу машини.
+---@param machineType string
+---@return table
 function CombineSettingsDatabase:getCropNamesForMachineType(machineType)
     local names = {}
     for cropName, cropData in pairs(self.crops) do
@@ -539,10 +564,15 @@ function CombineSettingsDatabase:getCropNamesForMachineType(machineType)
     return names
 end
 
----Розрахувати передбачувані втрати врожаю для культури з поточними налаштуваннями
----@param cropName string Назва культури
----@param settings table Поточні налаштування {fan=N, rotor=N, ...}
----@return number totalPenalty Загальний штраф (%),  table warnings Список попереджень
+-- EN: Calculates a preview of total crop loss for arbitrary settings without applying them.
+--     Used in the calibration GUI to show color-coded feedback before the player commits.
+--     Loss = 0.15% per unit of deviation above tolerance, capped at 25%.
+-- UA: Розраховує попередній перегляд загальних втрат врожаю для довільних налаштувань без їх застосування.
+--     Використовується в GUI калібрування для кольорового зворотного зв'язку до підтвердження гравцем.
+--     Втрати = 0.15% за одиницю відхилення понад допуск, обмежено до 25%.
+---@param cropName string
+---@param settings table
+---@return number totalPenalty, table warnings
 function CombineSettingsDatabase:calcSettingsLossPreview(cropName, settings)
     local template = self:getSettingsForCrop(cropName)
     if not template then return 0, {} end
@@ -572,11 +602,14 @@ function CombineSettingsDatabase:calcSettingsLossPreview(cropName, settings)
     return math.min(totalPenalty, 25.0), warnings  -- cap at 25%
 end
 
----Перевірити чи налаштування в межах допустимого діапазону
----@param cropName string Назва культури
----@param paramName string Назва параметру (fan, upperSieve, etc)
----@param value number Значення параметру
----@return boolean isValid Чи значення в допустимому діапазоні
+-- EN: Checks if a parameter value is within the allowed range (min-max) for the crop.
+--     Values outside this range are physically unrealistic and blocked by the GUI.
+-- UA: Перевіряє чи значення параметру знаходиться в допустимому діапазоні (min-max) для культури.
+--     Значення поза цим діапазоном є фізично нереалістичними і блокуються GUI.
+---@param cropName string
+---@param paramName string
+---@param value number
+---@return boolean
 function CombineSettingsDatabase:isValueValid(cropName, paramName, value)
     local settings = self:getSettingsForCrop(cropName)
     if not settings or not settings[paramName] then

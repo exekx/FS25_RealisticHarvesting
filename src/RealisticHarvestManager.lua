@@ -1,36 +1,46 @@
 ---@class RealisticHarvestManager
+-- EN: Central manager for the Realistic Harvesting mod. Created once per mission and stored
+--     as the global g_realisticHarvestManager. Coordinates all mod subsystems:
+--     settings, HUD, calibration GUI, console commands, and input events.
+-- UA: Центральний менеджер мода Realistic Harvesting. Створюється один раз за місію і зберігається
+--     як глобальний g_realisticHarvestManager. Координує всі підсистеми мода:
+--     налаштування, HUD, GUI калібрування, консольні команди та події вводу.
 RealisticHarvestManager = {}
 local RealisticHarvestManager_mt = Class(RealisticHarvestManager)
 
+-- EN: Initializes all mod subsystems: settings, UI, HUD, calibration GUI, and console commands.
+--     Creates the HUD and settings UI only on the game client (not dedicated server).
+-- UA: Ініціалізує всі підсистеми мода: налаштування, UI, HUD, GUI калібрування і консольні команди.
+--     Створює HUD і settings UI тільки на клієнті гри (не на виділеному сервері).
 function RealisticHarvestManager.new(mission, modDirectory, modName)
     local self = setmetatable({}, RealisticHarvestManager_mt)
-    
+
     self.mission = mission
     self.modDirectory = modDirectory
     self.modName = modName
-    
-    -- Global debug flag (keeps log.txt clean by default)
+
     self.debug = RHM_Debug.isEnabled("Manager")
-    
-    -- Ініціалізація налаштувань
+
+    -- EN: Initialize settings: the SettingsManager handles XML I/O, Settings holds all values.
+    -- UA: Ініціалізуємо налаштування: SettingsManager обробляє XML, Settings зберігає значення.
     self.settingsManager = SettingsManager.new()
     self.settings = Settings.new(self.settingsManager)
-    
-    -- Storage for camera rotation state
-    self.savedCameraRotatableInfo = {}
-    
-    -- Підготовка UI
+
+    self.savedCameraRotatableInfo = {} -- EN: Stores camera rotatability before cursor mode / UA: Зберігає стан камери до режиму курсора
+
+    -- EN: Inject settings into the FS25 in-game settings menu (client only).
+    --     Hooks onFrameOpen and updateButtons to ensure our controls appear in the right place.
+    -- UA: Впроваджуємо налаштування в меню налаштувань FS25 (тільки клієнт).
+    --     Підключаємо onFrameOpen і updateButtons щоб наші елементи з'являлись у правильному місці.
     if mission:getIsClient() and g_gui then
         self.settingsUI = SettingsUI.new(self.settings)
-        
-        -- Hook for menu creation (INSTANCE HOOK to avoid conflicts)
+
         local settingsPage = g_gui.screenControllers[InGameMenu].pageSettings
         if settingsPage then
             settingsPage.onFrameOpen = Utils.appendedFunction(settingsPage.onFrameOpen, function()
                 self.settingsUI:inject()
             end)
-            
-            -- Hook for footer buttons (reset)
+
             settingsPage.updateButtons = Utils.appendedFunction(settingsPage.updateButtons, function(frame)
                 if self.settingsUI then
                     self.settingsUI:ensureResetButton(frame)
@@ -39,87 +49,86 @@ function RealisticHarvestManager.new(mission, modDirectory, modName)
         else
             Logging.error("RHM: InGameMenuSettingsFrame (pageSettings) not found!")
         end
-        
-
     end
-    
-    -- Реєструємо консольні команди для налаштувань
+
+    -- EN: Console commands are always registered (server and client need them).
+    -- UA: Консольні команди реєструються завжди (і сервер, і клієнт їх потребують).
     self.settingsGUI = SettingsGUI.new()
     self.settingsGUI:registerConsoleCommands()
-    
-    -- Створюємо GUI для налаштувань комбайна
+
     self.combineSettingsGUI = CombineSettingsGUI.new()
-    
-    -- Завантаження збережених даних при старті
+
+    -- EN: Load saved settings from XML before creating HUD (HUD reads settings in its constructor).
+    -- UA: Завантажуємо збережені налаштування з XML перед створенням HUD (HUD читає налаштування в конструкторі).
     self.settings:load()
-    
-    -- Створюємо HUD (але НЕ ініціалізуємо елементи - це буде в load())
+
+    -- EN: Create the draggable HUD overlay (client only, handles display of live data).
+    -- UA: Створюємо перетягуваний HUD (тільки клієнт, відображає живі дані).
     if mission:getIsClient() then
-        -- DraggableHUD.new(modDirectory, settings)
         self.hud = DraggableHUD.new(self.modDirectory, self.settings)
-        
+
         if not self.hud then
             Logging.error("RHM: Failed to create HUD instance!")
         end
-        
-        -- Простий Debug Logger (console logging)
+
         self.debugLogTimer = 0
-        self.debugLogInterval = 10000  -- 10 секунд в мілісекундах
+        self.debugLogInterval = 10000  -- EN: 10s interval for debug info in logs / UA: 10сек інтервал для відладки в логах
     end
-    
-    -- Create Calibration GUI
+
+    -- EN: Create the visual calibration GUI (client only, for manual settings adjustment).
+    -- UA: Створюємо візуальний GUI калібрування (тільки клієнт, для ручного регулювання).
     if mission:getIsClient() then
         self.calibrationGUI = CombineCalibrationGUI.new(modDirectory)
     end
-    
+
     return self
 end
 
--- Toggle the Calibration GUI
+-- EN: Toggles the calibration GUI open/closed for the given combine vehicle.
+-- UA: Перемикає GUI калібрування відкритий/закритий для заданого комбайна.
+---@param vehicle table
 function RealisticHarvestManager:toggleMenu(vehicle)
     if self.calibrationGUI then
         self.calibrationGUI:toggle(vehicle)
     end
 end
 
--- Викликається після завантаження місії
+-- EN: Called after the mission finishes loading. Initializes HUD overlay assets (textures, positions).
+-- UA: Викликається після завершення завантаження місії. Ініціалізує ресурси HUD (текстури, позиції).
 function RealisticHarvestManager:onMissionLoaded()
     if self.hud then
         self.hud:load()
     end
 end
 
--- Рекурсивно шукає vehicle з rhm_Combine spec в ієрархії
+-- EN: Recursively searches the vehicle hierarchy for the first vehicle with spec_rhm_Combine.
+--     Used to find the combine when the player is controlling a tractor in a Nexat modular system.
+-- UA: Рекурсивно шукає в ієрархії транспорту перший транспортний засіб з spec_rhm_Combine.
+--     Використовується для пошуку комбайна коли гравець керує трактором у модульній системі Nexat.
+---@param vehicle table
+---@param checkedVehicles table|nil EN: Visited nodes (prevents infinite recursion) / UA: Відвідані вузли (запобігає нескінченній рекурсії)
+---@return table|nil
 local function findCombineInHierarchy(vehicle, checkedVehicles)
-    if not vehicle then
-        return nil
-    end
-    
-    -- Запобігаємо нескінченній рекурсії
+    if not vehicle then return nil end
+
     checkedVehicles = checkedVehicles or {}
-    if checkedVehicles[vehicle] then
-        return nil
-    end
+    if checkedVehicles[vehicle] then return nil end
     checkedVehicles[vehicle] = true
-    
-    -- Перевіряємо поточний vehicle
-    if vehicle.spec_rhm_Combine then
-        return vehicle
-    end
-    
-    -- Перевіряємо rootVehicle
+
+    if vehicle.spec_rhm_Combine then return vehicle end
+
+    -- EN: Search up through parent (rootVehicle, attacherVehicle) and down through children.
+    -- UA: Шукаємо вгору через батьків (rootVehicle, attacherVehicle) і вниз через дочірні.
     if vehicle.rootVehicle and not checkedVehicles[vehicle.rootVehicle] then
         local found = findCombineInHierarchy(vehicle.rootVehicle, checkedVehicles)
         if found then return found end
     end
-    
-    -- Перевіряємо attacherVehicle (parent)
+
     if vehicle.attacherVehicle and not checkedVehicles[vehicle.attacherVehicle] then
         local found = findCombineInHierarchy(vehicle.attacherVehicle, checkedVehicles)
         if found then return found end
     end
-    
-    -- Перевіряємо всі attached vehicles (children)
+
     if vehicle.getAttachedImplements then
         local implements = vehicle:getAttachedImplements()
         if implements then
@@ -131,22 +140,23 @@ local function findCombineInHierarchy(vehicle, checkedVehicles)
             end
         end
     end
-    
+
     return nil
 end
 
--- Helper: Find the actual vehicle the player is controlling
+-- EN: Returns the vehicle currently controlled by the local player.
+--     Falls back through multiple methods to handle various FS25 versions/states.
+-- UA: Повертає транспортний засіб, яким зараз керує локальний гравець.
+--     Перебирає кілька методів для підтримки різних версій/станів FS25.
+---@return table|nil
 function RealisticHarvestManager:getControlledVehicle()
-    -- 1. Check standard game function
     local vehicle = g_currentMission.controlledVehicle
     if vehicle then return vehicle end
-    
-    -- 2. Check local player's current vehicle (fallback)
+
     if g_localPlayer and g_localPlayer:getCurrentVehicle() then
         return g_localPlayer:getCurrentVehicle()
     end
-    
-    -- 3. Iterate entered vehicles (extreme fallback)
+
     if g_currentMission.vehicles then
         for _, v in pairs(g_currentMission.vehicles) do
             if v.getIsEntered and v:getIsEntered() then
@@ -154,74 +164,78 @@ function RealisticHarvestManager:getControlledVehicle()
             end
         end
     end
-    
+
     return nil
 end
 
--- Викликається кожен кадр
+-- EN: Called every game frame. Updates the calibration GUI and HUD data.
+--     Searches the player's vehicle hierarchy for a combine spec to track live data.
+--     Only updates HUD when a combine is found and running.
+-- UA: Викликається щоразу за кадр гри. Оновлює GUI калібрування і дані HUD.
+--     Шукає в ієрархії транспорту гравця специфікацію комбайна для відстеження живих даних.
+--     Оновлює HUD тільки коли знайдено і запущено комбайн.
+---@param dt number EN: Delta time in milliseconds / UA: Дельта часу в мілісекундах
 function RealisticHarvestManager:update(dt)
-    -- Update GUI
     if self.calibrationGUI then
         self.calibrationGUI:update(dt)
     end
 
-    -- Оновлюємо HUD якщо він існує
     if self.hud then
-        -- Знаходимо, де зараз гравець
         local vehicle = self:getControlledVehicle()
         local combineVehicle = nil
-        
+
         if vehicle then
-            -- Для модульних систем (Nexat) шукаємо з rootVehicle
+            -- EN: For modular systems (Nexat), search from the root vehicle of the train.
+            -- UA: Для модульних систем (Nexat), шукаємо від кореневого транспортного засобу.
             local searchRoot = vehicle.rootVehicle or vehicle
-            
-            -- Шукаємо комбайн у всій ієрархії (для Nexat та інших модульних систем)
             combineVehicle = findCombineInHierarchy(searchRoot)
         end
-        
-        -- Зберігаємо на майбутнє для draw()
+
         self.lastActiveCombine = combineVehicle
-        
+
         if combineVehicle and combineVehicle:getIsTurnedOn() then
-            -- Встановлюємо активний комбайн
             self.hud:setVehicle(combineVehicle)
-            
-            -- Оновлюємо дані HUD
             self.hud:update(dt)
         else
-            -- Скидаємо комбайн якщо не активний
             self.hud:setVehicle(nil)
         end
     end
 end
 
--- Викликається кожен кадр для МАЛЮВАННЯ HUD
+-- EN: Called every game frame to draw the HUD and calibration GUI.
+--     Suppresses all drawing when any game menu is open, when the game HUD is hidden,
+--     or when the player is not in a vehicle.
+-- UA: Викликається щоразу за кадр для відображення HUD і GUI калібрування.
+--     Пригнічує всі малювання коли відкрите будь-яке меню гри, коли HUD гри прихований,
+--     або коли гравець не в транспортному засобі.
 function RealisticHarvestManager:draw()
-    -- НЕ малюємо НІЧОГО (ні HUD, ни GUI) якщо відкрито меню гри (ESC) або інші GUI
+    -- EN: Skip all drawing when any FS25 GUI screen is visible (e.g. ESC menu, map, settings).
+    -- UA: Пропускаємо все малювання коли відкритий будь-який GUI екран FS25 (меню ESC, карта, налаштування).
     if g_gui:getIsGuiVisible() then
         return
     end
 
-    -- Draw GUI (always on top)
+    -- EN: Calibration GUI is drawn above the HUD independently.
+    -- UA: GUI калібрування малюється поверх HUD незалежно.
     if self.calibrationGUI then
         self.calibrationGUI:draw()
     end
-    
-    -- HUD HIDER SUPPORT: Check if game HUD is visible
+
+    -- EN: Respect third-party HUD hider mods by checking game HUD visibility.
+    -- UA: Поважаємо сторонні моди приховування HUD, перевіряючи видимість HUD гри.
     if g_currentMission and g_currentMission.hud and not g_currentMission.hud:getIsVisible() then
         return
     end
-    
-    -- Перевіряємо чи є активний комбайн
+
     local combineVehicle = self.lastActiveCombine
-    
-    -- Також перевіряємо чи гравець все ще в техніці (щоб HUD зникав при виході)
+
+    -- EN: Don't draw HUD if the player has exited the vehicle.
+    -- UA: Не малюємо HUD якщо гравець вийшов з транспортного засобу.
     local playerVehicle = self:getControlledVehicle()
     if not playerVehicle then
         return
     end
-    
-    -- Малюємо HUD якщо є активний комбайн і він увімкнений
+
     if self.hud and combineVehicle and combineVehicle:getIsTurnedOn() then
         if self.settings and self.settings.showHUD then
             self.hud:draw()
@@ -229,8 +243,9 @@ function RealisticHarvestManager:draw()
     end
 end
 
+-- EN: Cleans up all HUD and GUI resources on mission end.
+-- UA: Очищає всі ресурси HUD і GUI при завершенні місії.
 function RealisticHarvestManager:delete()
-    -- Очистка HUD
     if self.hud then
         self.hud:delete()
         self.hud = nil
@@ -240,49 +255,53 @@ function RealisticHarvestManager:delete()
     end
 end
 
----Обробка mouse events
+-- EN: Routes mouse events to the calibration GUI first, then to the HUD (for dragging).
+--     The GUI gets priority so it can capture events before the HUD.
+-- UA: Направляє події миші спочатку до GUI калібрування, а потім до HUD (для перетягування).
+--     GUI отримує пріоритет, щоб перехоплювати події до HUD.
+---@param posX number
+---@param posY number
+---@param isDown boolean
+---@param isUp boolean
+---@param button number
+---@return boolean handled
 function RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.mission:getIsClient() then
         return
     end
-    
-    -- GUI has priority
+
     if self.calibrationGUI and self.calibrationGUI:mouseEvent(posX, posY, isDown, isUp, button) then
         return true
     end
-    
+
     if self.hud then
         return self.hud:mouseEvent(posX, posY, isDown, isUp, button)
     end
-    
+
     return false
 end
 
+-- EN: Toggles mouse cursor visibility for HUD drag interaction.
+--     Disables camera rotation while cursor is visible.
+-- UA: Перемикає видимість курсора миші для взаємодії з перетягуванням HUD.
+--     Вимикає обертання камери поки курсор видимий.
 function RealisticHarvestManager:toggleCursor()
     if not self.hud then return end
-    
-    -- Перемикаємо курсор
+
     self.isCursorVisible = not self.isCursorVisible
     g_inputBinding:setShowMouseCursor(self.isCursorVisible)
-    
-    -- Get current vehicle
+
     local vehicle = self:getControlledVehicle()
-    
+
     if self.isCursorVisible then
-        -- Enable cursor mode
         if g_currentMission then
-            -- Повідомляємо користувача
             g_currentMission:showBlinkingWarning("RHM: HUD Cursor Enabled - Drag HUD to move", 3000)
         end
-        
         if vehicle then
             RHMInputUtil.setCameraRotation(vehicle, false, self.savedCameraRotatableInfo)
         end
     else
-        -- Disable cursor mode
         g_inputBinding:setShowMouseCursor(false)
-        
-        -- Restore camera rotation
         if vehicle then
             RHMInputUtil.setCameraRotation(vehicle, true, self.savedCameraRotatableInfo)
         end
