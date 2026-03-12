@@ -15,7 +15,7 @@
         <br>Colheita Realista</br>
         <uk>Реалістичний Збір Врожаю</uk>
         <ru>Реалистичный Сбор Урожая</ru>
-        <hu>Realisztikus betakarítás</hu>
+        <hu>Realisztikus Betakarítás</hu>
     </title>
     <description>
         <en><![CDATA[Adds realistic harvesting mechanics to your combines.
@@ -860,14 +860,5 @@ Funkciók:
             <ru>КОМБАЙН КРИТИЧЕСКИ ПЕРЕГРУЖЕН! Серьёзные потери урожая!</ru>
             <hu>A KOMBÁJN KRITIKUSAN TÚLTERHELT! Súlyos termésveszteség!</hu>
         </text>
-
-        <text name="rhm_ui_forage_fan"><en>Forage Fan</en><de>Häckslergebläse</de><fr>Ventilateur Ensil.</fr><pl>Wentylator Sieczk.</pl><es>Ventilador Picadora</es><it>Ventola Trincia</it><cz>Ventilátor Řezačky</cz><br>Ventilador Forrageira</br><uk>Вентилятор Силосозбирача</uk><ru>Вентилятор Силосоуборочного</ru><hu>Szecskázó Ventilátor</hu></text>
-        <text name="rhm_ui_forage_drum"><en>Drum Speed</en><de>Trommeldrehzahl</de><fr>Vitesse Tambour</fr><pl>Obroty Bębna</pl><es>Velocidad Tambor</es><it>Velocità Tamburo</it><cz>Otáčky Bubnu</cz><br>Velidade Tambor</br><uk>Оберти Барабана</uk><ru>Обороты Барабана</ru><hu>Dob Fordulat</hu></text>
-        <text name="rhm_ui_forage_feeder"><en>Feeder Speed</en><de>Einzugsdrehzahl</de><fr>Vitesse Convoyeur</fr><pl>Obroty Wciągarki</pl><es>Velocidad Alimentador</es><it>Velocità Alimentatore</it><cz>Otáčky Vkládání</cz><br>Velocidade Alimentador</br><uk>Оберти Подачі</uk><ru>Обороты Подачи</ru><hu>Behordó Fordulat</hu></text>
-        
-        <text name="rhm_ui_root_roller"><en>Roller Speed</en><de>Walzendrehzahl</de><fr>Vitesse Rouleaux</fr><pl>Obroty Wałków</pl><es>Velocidad Rodillos</es><it>Velocità Rulli</it><cz>Otáčky Válců</cz><br>Velocidade Rolos</br><uk>Оберти Вальців</uk><ru>Обороты Вальцов</ru><hu>Henger Fordulat</hu></text>
-        <text name="rhm_ui_root_feeder"><en>Feeder Web</en><de>Siebband</de><fr>Tapis Tries</fr><pl>Taśma Przesiew.</pl><es>Cinta Alimentadora</es><it>Nastro Alimentatore</it><cz>Prosévací Pás</cz><br>Esteira Alimentadora</br><uk>Подавальний Транспортер</uk><ru>Подающий Транспортер</ru><hu>Behordó Szalag</hu></text>
-        
-        <text name="rhm_ui_picker_speed"><en>Picker Speed</en><de>Pflückerdrehzahl</de><fr>Vitesse Cueilleur</fr><pl>Obroty Zbieracza</pl><es>Velocidad Cosechador</es><it>Velocità Raccoglitore</it><cz>Otáčky Česače</cz><br>Velocidade Colhedora</br><uk>Оберти Збирача</uk><ru>Обороты Сборщика</ru><hu>Szedő Fordulat</hu></text>
     </l10n>
 </modDesc>

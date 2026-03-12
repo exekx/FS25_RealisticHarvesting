@@ -110,7 +110,10 @@ function rhm_Combine.registerEventListeners(vehicleType)
         local modName = g_currentModName 
             or (g_realisticHarvestManager and g_realisticHarvestManager.modName)
             or "FS25_RealisticHarvesting"
-        local basePath = string.format("%s.rhm_Combine", modName)
+        
+        -- EN: Registration path must match the game's internal structure: vehicles.vehicle(?).MODNAME.rhm_Combine
+        -- UA: Шлях реєстрації має відповідати структурі гри: vehicles.vehicle(?).MODNAME.rhm_Combine
+        local basePath = string.format("vehicles.vehicle(?).%s.rhm_Combine", modName)
         rhm_Combine.registerXMLPaths(Vehicle.xmlSchemaSavegame, basePath)
         
         if rhm_Combine.debug then
@@ -260,50 +263,55 @@ function rhm_Combine:onLoad(savegame)
     local sc = self.spec_combine
 
     if sc then
-        local canThreshInRain = sc.allowThreshingDuringRain
+        -- EN: Detection Priorities:
+        -- 1. Explicit harvester specializations (ForageHarvester / CottonPicker / RootHarvester)
+        -- 2. Physical features (Straw effects = Grain combine)
+        -- 3. Capability signals (Rain work + Pipe + No Cutter = Forage)
+        
+        local isForageHarvester = SpecializationUtil.hasSpecialization(ForageHarvester, self.specializations)
+        -- EN: FS25 API: iterate fill units to check if any supports COTTON (getFillUnitIndexByFillType does not exist in FS25).
+        -- UA: API FS25: ітеруємо fill units щоб перевірити чи будь-яка підтримує COTTON (getFillUnitIndexByFillType не існує в FS25).
+        local isCottonHarvester = false
+        if FillType.COTTON then
+            local fillUnits = self:getFillUnits()
+            if fillUnits then
+                for _, fillUnit in ipairs(fillUnits) do
+                    if fillUnit.supportedFillTypes and fillUnit.supportedFillTypes[FillType.COTTON] then
+                        isCottonHarvester = true
+                        break
+                    end
+                end
+            end
+        end
         local hasStrawEffects = sc.strawEffects and #sc.strawEffects > 0
+        local canThreshInRain = sc.allowThreshingDuringRain
 
         if self.spec_fruitPreparer then
-            -- Root/potato/sugarbeet harvesters have a fruit preparer (cleaning / dirt removal)
+            -- Cleaning / dirt removal → Root harvester
             machineType = "root"
-
-        elseif not canThreshInRain and hasStrawEffects then
-            -- Standard grain combine: cannot work in rain, produces straw
+        elseif isForageHarvester then
+            machineType = "forage"
+        elseif isCottonHarvester then
+            machineType = "cotton"
+        elseif hasStrawEffects then
+            -- Grain combine always has straw effects, regardless of rain capability
             machineType = "grain"
-
         elseif canThreshInRain then
             local hasPipe   = self.spec_pipe   ~= nil
             local hasCutter = self.spec_cutter ~= nil
 
             if hasPipe and not hasCutter then
-                -- Forage harvester: pivotable discharge pipe, no separate cutter spec
+                -- Forage harvester fallback (if spec check failed)
                 machineType = "forage"
-
             elseif hasCutter and not hasPipe then
-                -- Direct-cut vegetable harvester (Holaras UMR-style)
+                -- Direct-cut vegetable harvester
                 machineType = "root"
-
-            elseif hasPipe and hasCutter then
-                -- Both pipe and cutter → likely root harvester with elevator pipe
-                machineType = "root"
-
             else
-                -- Unusual: threshes in rain but no pipe/cutter → treat as grain
-                machineType = "grain"
+                machineType = "root"
             end
-        end
-    end
-
-    -- Cotton picker override: if the fill unit stores COTTON, treat as cotton
-    if FillType.COTTON and machineType == "grain" then
-        local fu = self.spec_fillUnit
-        if fu and fu.fillUnits then
-            for _, unit in ipairs(fu.fillUnits) do
-                if unit.fillType == FillType.COTTON then
-                    machineType = "cotton"
-                    break
-                end
-            end
+        else
+            -- Unknown: treat as grain
+            machineType = "grain"
         end
     end
 
