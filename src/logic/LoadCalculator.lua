@@ -1,180 +1,209 @@
----@class LoadCalculator
--- Розраховує навантаження на двигун комбайна
+-- EN: Physics-based engine load and speed limit calculator for combine harvesters.
+--     Tracks cut area and harvested mass each tick to compute: engine load (%),
+--     dynamic speed limit, productivity (t/h, L/h), yield (t/ha), and crop loss (%)
+--     from combine settings deviation. Supports grain, forage, root, and cotton types.
+-- UA: Фізичний калькулятор навантаження двигуна та ліміту швидкості для комбайнів.
+--     Відстежує площу зрізу та масу врожаю кожен тік для розрахунку: навантаження (%),
+--     динамічного ліміту швидкості, продуктивності (т/год, л/год), врожайності (т/га)
+--     та втрат врожаю (%) від відхилення налаштувань. Підтримує зернові, форажні, коренеплоди, бавовну.
 LoadCalculator = {}
 local LoadCalculator_mt = Class(LoadCalculator)
 
 function LoadCalculator.new(modDirectory)
     local self = setmetatable({}, LoadCalculator_mt)
     
-    self.debug = false -- TEMPORARY DEBUG ENABLED
-    self.modDirectory = modDirectory or g_currentModDirectory  -- Зберігаємо modDirectory (with fallback)
+    self.modDirectory = modDirectory or g_currentModDirectory
     
-    -- Коефіцієнти складності культур
-    self.CROP_FACTORS = {}
+    -- EN: Crop difficulty coefficients / UA: Коефіцієнти складності культур
+    self.CROP_FACTORS = {} -- By FruitType ID
+    self.CROP_FACTORS_FT = {} -- By FillType ID
     self:loadDefaultCropFactors()
     
-    -- Дані для розрахунку середнього навантаження
+    -- EN: average load calculation data / UA: Дані для розрахунку середнього навантаження
     self.totalDistance = 0
     self.totalArea = 0
     self.currentTime = 0
-    self.avgTime = 1500  -- 1.5 секунди між вимірами
-    self.distanceForMeasuring = 3  -- 3 метри
+    self.avgTime = 1500  -- EN: 1.5 seconds between measuring / UA: 1.5 секунди між вимірами
+    self.distanceForMeasuring = 3  -- EN: 3 meters / UA: 3 метри
     
-    -- Базова продуктивність (буде встановлена в onLoad)
-    self.basePerfMass = 0  -- кг на секунду
+    -- EN: Base perf (will be set in onLoad) / UA: Базова продуктивність (оновиться в onLoad)
+    self.basePerfMass = 0  -- EN: kg per second / UA: кг на секунду
     self.currentAvgMass = 0
-    self.lastAvgMass = 0  -- Попереднє середнє (для розрахунку прискорення)
-    self.rawAvgMass = 0  -- Сире (незгладжене) значення для аварійного гальмування
+    self.lastAvgMass = 0  -- EN: Prior average for acceleration / UA: Попереднє середнє для прискорення
+    self.rawAvgMass = 0  -- EN: Raw unsmoothed value for braking / UA: Сире незгладжене для гальмування
     
-    -- Поточне навантаження
+    -- EN: Current Load Enum / UA: Поточне навантаження
     self.engineLoad = 0
-    self.speedLimit = 15  -- Поточний ліміт швидкості (км/год)
-    self.genuineSpeedLimit = 15  -- Оригінальний ліміт з гри
-    self.workingSpeedLimit = 0  -- Робочий ліміт (зберігається між сесіями збирання)
-    self.lastCropType = nil  -- Остання культура (для детекції зміни)
-    self.lastHarvestTime = 0  -- Час останнього збирання (для детекції тривалої паузи)
+    self.speedLimit = 15  -- EN: Current km/h limit / UA: Поточний ліміт км/год
+    self.genuineSpeedLimit = -1  -- EN: Genuine limits from game db / UA: Ліміт з гри
+    self.lastCropType = nil  -- EN: Last crop / UA: Остання культура
+    self.lastHarvestTime = 0  -- EN: Last harvest time / UA: Час останнього збирання
     
     -- Crop loss and productivity
-    self.cropLoss = 0  -- Поточні втрати врожаю (%)
-    self.tonPerHour = 0  -- Продуктивність в T/h
-    self.litersPerHour = 0  -- Продуктивність в L/h
-    self.totalOutputMass = 0  -- Загальна маса зібраного врожаю
+    self.cropLoss = 0  -- EN: Current crop loss (%) / UA: Поточні втрати врожаю (%)
+    self.tonPerHour = 0  -- EN: Yield in T/h / UA: Продуктивність в Т/год
+    self.litersPerHour = 0  -- EN: Yield in L/h / UA: Продуктивність в Л/год
+    self.totalOutputMass = 0  -- EN: Total harvested mass / UA: Загальна маса зібраного врожаю
     
-    -- Накопичення для розрахунку T/h та L/h
-    self.productivityMass = 0  -- Накопичена маса за поточний період (кг)
-    self.productivityLiters = 0  -- Накопичений об'єм за поточний період (л)
-    self.productivityTime = 0  -- Час накопичення (мс)
-    self.productivityUpdateInterval = 3000  -- Оновлювати кожні 3 секунди
+    -- EN: Yield counters accumulation / UA: Накопичення продуктивності
+    self.productivityMass = 0  -- EN: Accumulated mass (kg) / UA: Накопичена маса (кг)
+    self.productivityLiters = 0  -- EN: Accumulated volume (L) / UA: Накопичений об'єм (л)
+    self.productivityTime = 0  -- EN: Accumulation time (ms) / UA: Час накопичення (мс)
+    self.productivityUpdateInterval = 3000  -- EN: Update interval (ms) / UA: Інтервал оновлення
     
-    -- Накопичувач для розрахунку навантаження
-    self.loadAccumulatedMass = 0 -- кг
+    -- EN: Load accumulator / UA: Накопичувач навантаження
+    self.loadAccumulatedMass = 0 -- kg
     
     -- Combine Settings System
-    self.combineMemory = nil  -- Буде встановлено з rhm_Combine
-    self.currentCrop = nil    -- Поточна культура для розрахунку settings loss
+    self.combineMemory = nil  -- EN: Will be set by rhm_Combine / UA: Буде встановлено з rhm_Combine
+    self.currentCrop = nil    -- EN: Current crop for loss calc / UA: Поточна культура для розрахунку втрат
     
-    print("RHM: LoadCalculator initialized")
+    self.debug = RHM_Debug and RHM_Debug.isEnabled("LoadCalculator") or false
+    if self.debug then
+        print("RHM: LoadCalculator initialized")
+    end
     
     return self
 end
 
----Завантажує стандартні коефіцієнти культур
+---EN: Loads default crop difficulty factors / UA: Завантажує стандартні коефіцієнти складності культур
 function LoadCalculator:loadDefaultCropFactors()
-    -- Fallback до базових значень
-    -- 1.0 = Стандарт (Пшениця)
-    self.CROP_FACTORS[FruitType.WHEAT] = 1.0
-    self.CROP_FACTORS[FruitType.BARLEY] = 1.0 -- Barley same/slightly easier than wheat
-    
-    -- Кукурудза: Збільшено до 1.2 (було 0.85) для реалістичної швидкості 5-6 км/год
-    -- Кукурудза містить багато маси і важка для обробки
-    self.CROP_FACTORS[FruitType.MAIZE] = 1.2
-    
-    -- Соя: В таблиці 0.7 vs 0.8 Wheat -> легше. АЛЕ в FS25 вона дуже легка за вагою. 
-    -- Щоб отримати реалістичну швидкість (6-7 км/год), треба підняти до 1.8
-    self.CROP_FACTORS[FruitType.SOYBEAN] = 1.8
-    
-    -- Соняшник: Дуже легкий за масою (0.18 kg/m2). Треба фактор 2.0 для швидкості 9-10 км/год.
-    self.CROP_FACTORS[FruitType.SUNFLOWER] = 2.0
-    
-    -- Ріпак: Легший за пшеницю, але густий. Фактор 1.3 -> ~7 км/год.
-    self.CROP_FACTORS[FruitType.CANOLA] = 1.3
-    
-     -- Овес: Дуже легкий (0.57 l/m2), тому треба великий фактор (2.2), щоб не літати під 14 км/год
-    self.CROP_FACTORS[FruitType.OAT] = 2.2
-    
-    -- Other cereals (standard extensions)
-    if FruitType.RYE then self.CROP_FACTORS[FruitType.RYE] = 1.0 end
-    if FruitType.SPELT then self.CROP_FACTORS[FruitType.SPELT] = 1.0 end
-    if FruitType.TRITICALE then self.CROP_FACTORS[FruitType.TRITICALE] = 1.0 end
-    if FruitType.MILLET then self.CROP_FACTORS[FruitType.MILLET] = 0.9 end
-    
-    -- Sorghum (mass similar to wheat but grain header use). 0.9 -> ~6-7 km/h
-    if FruitType.SORGHUM then self.CROP_FACTORS[FruitType.SORGHUM] = 0.9 end
-    
-    -- Rice (Tough) - Factor 2.3 for ~4 km/h
-    if FruitType.RICE then self.CROP_FACTORS[FruitType.RICE] = 2.3 end
-    -- Rice Long - Factor 1.5 for ~5 km/h
-    if FruitType.RICELONGGRAIN then self.CROP_FACTORS[FruitType.RICELONGGRAIN] = 1.5 end
-    
-    -- Pulses
-    if FruitType.PEA then self.CROP_FACTORS[FruitType.PEA] = 1.0 end
-    
-    -- Root Crops (Massive Mass -> Low Factors)
-    -- Root Crops (Massive Mass -> Low Factors)
-    if FruitType.SUGARBEET then self.CROP_FACTORS[FruitType.SUGARBEET] = 0.35 end
-    if FruitType.POTATO then self.CROP_FACTORS[FruitType.POTATO] = 0.40 end
-    
-    -- Vegetable Crops (High Volume -> Low Factors)
-    -- Tuned for High Yield Maps (approx 10x standard)
-    if FruitType.CARROT then self.CROP_FACTORS[FruitType.CARROT] = 0.30 end
-    if FruitType.PARSNIP then self.CROP_FACTORS[FruitType.PARSNIP] = 0.30 end
-    if FruitType.BEETROOT then self.CROP_FACTORS[FruitType.BEETROOT] = 0.30 end
-    if FruitType.ONION then self.CROP_FACTORS[FruitType.ONION] = 0.30 end 
-    
-    -- Leafy / Others
-    if FruitType.SPINACH then self.CROP_FACTORS[FruitType.SPINACH] = 0.3 end
-    
-    -- Pulses
-    if FruitType.PEA then self.CROP_FACTORS[FruitType.PEA] = 1.0 end
-    if FruitType.GREENBEAN then self.CROP_FACTORS[FruitType.GREENBEAN] = 0.8 end
-    
-    -- Special
-    if FruitType.COTTON then self.CROP_FACTORS[FruitType.COTTON] = 3.0 end -- Light but slow
-    if FruitType.SUGARCANE then self.CROP_FACTORS[FruitType.SUGARCANE] = 0.1 end -- Massive mass
-    
-    -- Other
-    if FruitType.POPLAR then self.CROP_FACTORS[FruitType.POPLAR] = 0.2 end -- massive yield (6.6 l/m2)
-    if FruitType.OILSEEDRADISH then self.CROP_FACTORS[FruitType.OILSEEDRADISH] = 0.5 end
-    
-    if FruitType.GRAPE then self.CROP_FACTORS[FruitType.GRAPE] = 0.5 end
-    if FruitType.OLIVE then self.CROP_FACTORS[FruitType.OLIVE] = 0.5 end
+    -- EN: Target load factors for crops / UA: Цільові фактори навантаження для культур
+    -- EN: Lower factor = lighter crop = faster drive / UA: Менший фактор = легша культура = комбайн їде швидше
+    local factorMap = {
+        ["WHEAT"] = 0.814,
+        ["BARLEY"] = 0.869,
+        ["OAT"] = 1.164,        -- EN: +25% / UA: +25%
+        ["MAIZE"] = 0.572,      -- EN: -50% / UA: -50%
+        ["CORN"] = 0.572,
+        ["MAIZE_FORAGE"] = 0.572,
+        ["MAIZE_SILAGE"] = 0.572,
+        ["SOYBEAN"] = 1.788,    -- EN: -20% / UA: -20%
+        ["SUNFLOWER"] = 2.324,
+        ["CANOLA"] = 1.738,
+        ["SORGHUM"] = 0.801,    -- EN: -20% / UA: -20%
+        
+        -- EN: Rice is a heavy crop / UA: Рис важка культура
+        ["RICE"] = 1.303,
+        ["RICE_LONG_GRAIN"] = 1.303,
+        
+        -- EN: Legumes / UA: Бобові
+        ["PEA"] = 1.152,        -- EN: -20% / UA: -20%
+        ["LENTIL"] = 1.152,
+        ["CHICKPEA"] = 1.152,
+        ["GREENBEAN"] = 2.240,  -- EN: -20% / UA: -20%
+        
+        -- EN: Root crops / UA: Коренеплоди
+        ["POTATO"] = 0.600,     -- EN: Lighter / UA: Полегшено
+        ["SUGARBEET"] = 0.920,  -- EN: +15% / UA: +15%
+        ["BEETROOT"] = 1.050,   -- EN: +15% / UA: +15%
+        ["CARROT"] = 0.323,     -- EN: -15% / UA: -15%
+        ["PARSNIP"] = 0.400,    -- EN: Lighter / UA: Полегшено
+        ["ONION"] = 0.600,      
+        ["SPINACH"] = 2.880,    
+        
+        -- EN: Grass & Silage / UA: Трава та силос
+        ["GRASS"] = 1.221,      -- EN: 1.5x Wheat / UA: 1.5x Пшениці
+        ["DRYGRASS"] = 1.100,
+        ["ALFALFA"] = 1.100,
+        ["CLOVER"] = 1.100,
+        ["MEADOW"] = 1.221,
+        ["ONION_DIRTY"] = 0.700, -- EN: Dirty onions (Root crop) / UA: Брудна цибуля
+        
+        -- EN: Other / Mod crops / UA: Інші культури
+        ["COTTON"] = 4.782,     -- EN: 2x heavier / UA: у 2 рази важча
+        ["SUGARCANE"] = 0.654,
+        ["POPLAR"] = 0.156,
+        ["OILSEED_RADISH"] = 0.391,
+        ["GRAPE"] = 0.391,
+        ["OLIVE"] = 0.391,
+        ["RYE"] = 0.814,
+        ["SPELT"] = 0.814,
+        ["TRITICALE"] = 0.461,
+        ["MILLET"] = 0.976,
+        ["MINT"] = 1.054,
+    }
+
+    -- EN: Dynamically mapping FruitType Enum
+    for key, value in pairs(FruitType) do
+        local mappedFactor = factorMap[key]
+        if not mappedFactor then
+            if key:find("_WINDROW") then
+                mappedFactor = factorMap[key:gsub("_WINDROW", "")]
+            elseif key:find("CUT_") then
+                mappedFactor = factorMap[key:gsub("CUT_", "")]
+            end
+        end
+        if mappedFactor then
+            self.CROP_FACTORS[value] = mappedFactor
+        elseif type(value) == "number" and not key:find("NUM_") then
+            -- EN: Use Wheat as the base fallback for any unknown crops
+            -- UA: Використовуємо Пшеницю як базовий фолбек для невідомих культур
+            self.CROP_FACTORS[value] = factorMap["WHEAT"] or 0.8
+        end
+    end
+
+    -- EN: Also map FillType Enum (Critical for Pickups and Mod Crops)
+    -- UA: Також мапуємо FillType Enum (Критично для підбирачів та мод-культур)
+    if g_fillTypeManager then
+        for key, value in pairs(FillType) do
+            local mappedFactor = factorMap[key]
+            if not mappedFactor then
+                if key:find("_WINDROW") then
+                    mappedFactor = factorMap[key:gsub("_WINDROW", "")]
+                elseif key:find("CUT_") then
+                    mappedFactor = factorMap[key:gsub("CUT_", "")]
+                elseif key == "ONION_DIRTY" then
+                    mappedFactor = factorMap["ONION_DIRTY"] or factorMap["ONION"]
+                elseif key == "MEADOW" then
+                    mappedFactor = factorMap["GRASS"]
+                end
+            end
+            if mappedFactor then
+                self.CROP_FACTORS_FT[value] = mappedFactor
+            end
+        end
+    end
 end
 
----Встановлює базову продуктивність комбайна mass-based
----@param basePerfMass number Базова продуктивність в кг/с
+---EN: Sets base performance mass / UA: Встановлює базову продуктивність (маса)
 function LoadCalculator:setBasePerformance(basePerfMass)
     self.basePerfMass = basePerfMass
     
-    if self.debug then
+    if rhm_Combine and rhm_Combine.debug then
         print(string.format("RHM: Base performance set to %.2f kg/s (%.1f t/h)", 
             self.basePerfMass, self.basePerfMass * 3.6))
     end
 end
 
----Отримує базову продуктивність з потужності двигуна
----@param vehicle table Комбайн
----@return number Базова продуктивність в кг/сек
+---EN: Gets base performance from engine power / UA: Отримує базову продуктивність з потужності двигуна
 function LoadCalculator:getBasePerformanceFromPower(vehicle)
     -- NEW LOGIC: Calculate throughput based on Horsepower
     -- Approximation: 1 HP ~= 0.035 kg/s throughput for Grain
-    -- Example: 790 HP (X9 1100) -> 27.65 kg/s -> ~100 t/h
-    -- Example: 500 HP (S780) -> 17.5 kg/s -> ~63 t/h
     
-    local coef = 0.035  -- Стандартний коефіцієнт для зернозбиральних комбайнів (kg/s per HP)
+    local coef = 0.035  -- EN: Standard coefficient for grain / UA: Стандартний коефіцієнт для зерна
     local power = 0
     
-    -- Визначаємо тип техніки за категорією
     local keyCategory = "vehicle.storeData.category"
     local category = vehicle.xmlFile:getValue(keyCategory)
     
     if category == "forageHarvesters" or category == "forageHarvesterCutters" then
-        coef = 0.150  -- Кормозбиральні: ~150-200 t/h -> 0.15 kg/s per HP
+        coef = 0.051  -- Forage harvesters: calibrated to JD 9900 (956hp) ~400 t/hr corn silage
     elseif category == "beetVehicles" or category == "beetHarvesting" then
-        coef = 0.060  -- Бурякозбиральні: very high throughput
+        coef = 0.060  -- Beet harvesting
     elseif category == "potatoVehicles" then
-        coef = 0.060  -- Картоплезбиральні
+        coef = 0.060  -- Potato harvesting
     elseif category == "cottonVehicles" then
-        coef = 0.015  -- Бавовна (легка, повільна обробка)
+        coef = 0.015  -- Cotton
     elseif category == "vegetableVehicles" then
-        coef = 0.060  -- Овочева техніка (Adjusted for realistic load)
+        coef = 0.060  -- Vegetable harvesting
     end
     
-    -- Спробувати отримати потужність з motorized spec
     if vehicle.spec_motorized and vehicle.spec_motorized.motor then
         power = vehicle.spec_motorized.motor.hp or 0
     end
     
-    -- SMART DETECTION: If category didn't match specific types (still default 0.035), checks fillTypes AND Names
+    -- SMART DETECTION: If category didn't match specific types
     if math.abs(coef - 0.035) < 0.001 then
         local isVegetable = false
         
@@ -197,66 +226,47 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
             end
         end
         
-        -- 2. Check Vehicle Name / Filename (Fallback for windrowers/diggers like UR-205)
+        -- 2. Check Vehicle Name / Filename
         if not isVegetable then
             local name = string.lower(vehicle:getFullName() or "")
             local xml = string.lower(vehicle.configFileName or "")
             
             if name:find("onion") or name:find("carrot") or name:find("vegetable") or 
                xml:find("onion") or xml:find("carrot") or xml:find("vegetable") or
-               name:find("ur%-%d+") or name:find("umr") or name:find("keiler") or -- UR-205, UMR, Ropa Keiler
+               name:find("ur%-%d+") or name:find("umr") or name:find("keiler") or 
                xml:find("ur_") or xml:find("umr_") then
                 isVegetable = true
-                print(string.format("RHM: Smart Detection -> Found keyword in name/xml (%s), assuming Vegetable", name))
             end
         end
         
         if isVegetable then
-            coef = 0.060 -- Standardized vegetable coeff
-            print("RHM: Applied Vegetable Coef (0.060)")
+            coef = 0.060 -- EN: Standardized vegetable coefficient / UA: Стандартизований коефіцієнт для овочів
         end
     end
     
-    -- Debug entry
-    -- print(string.format("RHM DEBUG: Checking power for %s. Initial power: %s", vehicle:getFullName(), tostring(power)))
-    
-    -- NEXAT FIX: Якщо це модуль (немає мотора), шукаємо двигун рекурсивно вгору по ієрархії
+    -- NEXAT FIX (Module search)
     if (not power or power == 0) then
         local function findVehicleWithEngine(v)
             if not v then return nil end
-            
-            -- Check current vehicle
             if v.spec_motorized and v.spec_motorized.motor and v.spec_motorized.motor.hp and v.spec_motorized.motor.hp > 0 then
                 return v
             end
-            
-            -- Debug traversal
-            -- print(string.format("RHM DEBUG: Search engine in %s (hasAttacher: %s, root: %s)", 
-            --    v:getFullName(), tostring(v.getAttacherVehicle ~= nil), v.rootVehicle and v.rootVehicle:getFullName() or "nil"))
-
-            -- Check attacher vehicle (upwards)
             if v.getAttacherVehicle then
                 return findVehicleWithEngine(v:getAttacherVehicle())
             end
-            
-            -- FALLBACK: Check rootVehicle directly if recursion failed/ended
             if v.rootVehicle and v.rootVehicle ~= v then
                  if v.rootVehicle.spec_motorized and v.rootVehicle.spec_motorized.motor and v.rootVehicle.spec_motorized.motor.hp > 0 then
                     return v.rootVehicle
                  end
             end
-
             return nil
         end
-        
         local engineVeh = findVehicleWithEngine(vehicle)
         if engineVeh then
             power = engineVeh.spec_motorized.motor.hp or 0
-            -- print(string.format("RHM DEBUG: Found power in hierarchy (%s): %d HP", engineVeh:getFullName(), power))
         end
     end
     
-    -- Якщо не знайшли, спробувати з XML
     if power == 0 then
         local key, motorId = ConfigurationUtil.getXMLConfigurationKey(
             vehicle.xmlFile, 
@@ -276,373 +286,320 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
     end
     
     if power and tonumber(power) > 0 then
-        -- Стандартний розрахунок: 1 HP ~= 0.035 kg/s throughput
-        -- Для 1100 HP (NEXAT) це буде ~38.5 kg/s (~138 t/h)
-        -- Для 500 HP це буде ~17.5 kg/s (~63 t/h)
         local basePerf = tonumber(power) * coef
-        
-        print(string.format("RHM DEBUG: BasePerf Mass computed for %s (cat: %s, coef: %.3f): %d hp -> %.2f kg/s (%.1f t/h)", 
-            vehicle:getFullName(), category or "unknown", coef, power, basePerf, basePerf * 3.6))
+        if rhm_Combine and rhm_Combine.debug then
+            print(string.format("RHM DEBUG: BasePerf Mass computed for %s (cat: %s, coef: %.3f): %d hp -> %.2f kg/s (%.1f t/h)", 
+                vehicle:getFullName(), category or "unknown", coef, power, basePerf, basePerf * 3.6))
+        end
         return basePerf
     end
     
-    -- NEXAT POWER FIX: Якщо це NEXAT і power не знайдено, використовуємо 1100hp
-    -- Debug показав що система не бачить двигун NEXAT (modular structure issue)
+    -- NEXAT POWER FIX
     if vehicle.configFileName and vehicle.configFileName:lower():find("nexat") then
-        local basePerf = 1100 * coef  -- 1100hp * 0.035 = 38.5 kg/s
-        print(string.format("RHM: NEXAT detected with power=0 - using hardcoded 1100 HP -> %.2f kg/s", basePerf))
+        local basePerf = 1100 * coef  
         return basePerf
     end
     
-    print("RHM: Warning - Could not determine combine power, using default basePerf")
     return 10.0  -- Default ~36 t/h
 end
 
----Оновлює дані для розрахунку навантаження
----@param vehicle table Комбайн
----@param dt number Delta time в мс
----@param mass number Маса зібраного врожаю (кг) - НОВИЙ ПАРАМЕТР
+---EN: Updates load calculation variables / UA: Оновлює дані для розрахунку навантаження
 function LoadCalculator:update(vehicle, dt, mass)
-    -- Оновлюємо відстань
     self.totalDistance = self.totalDistance + vehicle.lastMovedDistance
-    
-    -- Оновлюємо масу (замість площі)
     self.loadAccumulatedMass = (self.loadAccumulatedMass or 0) + mass
     
     -- INSTANT REACTION FIX:
-    -- Якщо почали збирати (mass > 0), а ліміт все ще максимальний - негайно обмежуємо
-    -- Не чекаємо 1.5 секунди вимірювання
-    if mass > 0 and self.speedLimit >= (self.genuineSpeedLimit - 0.1) then
-         if self.workingSpeedLimit > 0 and self.workingSpeedLimit < 12 then
-             self.speedLimit = self.workingSpeedLimit
-         else
-             self.speedLimit = 5.0 -- Консервативний старт
-             self.workingSpeedLimit = 5.0
-         end
-         if self.debug then
-            print("RHM: Instant start limit applied: " .. tostring(self.speedLimit))
-         end
+    -- EN: Only reset to 5 km/h if starting from idle (prevents reset loop during harvest)
+    -- UA: Після простою скидаємо до 5 км/год (запобігає циклу скидання під час роботи)
+    if mass > 0 and self.speedLimit >= (self.genuineSpeedLimit - 0.1) and self.genuineSpeedLimit > 0 
+       and (self.lastAvgMass or 0) < 0.1 then
+         self.speedLimit = 5.0
     end
     
-    -- Оновлюємо час
     self.currentTime = self.currentTime + dt
-    
-    -- Перевіряємо чи час для нового виміру
     if self.currentTime > self.avgTime or self.totalDistance > self.distanceForMeasuring then
+        self:updateSettingsImpact() -- EN: Recalculate settings penalty / UA: Перераховання штрафу налаштувань
         self:calculateEngineLoad(vehicle)
         self:calculateSpeedLimit(vehicle)
         
-        -- Скидаємо лічильники
+        -- EN: Reset tick accumulators / UA: Скидаємо лічильники
         self.currentTime = 0
         self.loadAccumulatedMass = 0
         self.totalDistance = 0
     end
 end
 
----Розраховує навантаження на двигун (Mass-based)
----@param vehicle table Комбайн
+---EN: Calculates Engine Load / UA: Розраховує навантаження на двигун
 function LoadCalculator:calculateEngineLoad(vehicle)
     if self.currentTime <= 0 then
         return
     end
     
-    -- Отримуємо коефіцієнт культури
-    local cropFactor = 1.0
+    -- EN: BASE CROP FACTOR / UA: БАЗОВИЙ КОЕФІЦІЄНТ КУЛЬТУРИ
+    -- EN: Priority: 1. FruitType (Direct Cut), 2. FillType (Pickup/Windrow), 3. Wheat fallback
     local spec_combine = vehicle.spec_combine
-    if spec_combine and spec_combine.lastValidInputFruitType then
-        cropFactor = self.CROP_FACTORS[spec_combine.lastValidInputFruitType] or 1.0
+    local rhmSpec = vehicle.spec_rhm_Combine
+    
+    local cropFactor = self.CROP_FACTORS[spec_combine.lastValidInputFruitType]
+    
+    -- Fallback to FillType (especially for Pickups/Root Crops)
+    if not cropFactor and rhmSpec and rhmSpec.lastFillType then
+        cropFactor = self.CROP_FACTORS_FT[rhmSpec.lastFillType]
     end
     
-    -- PICKUP HEADER DETECTION: Check output fill type for grass
-    -- Pickup headers have lastCuttersOutputFillType = GRASS but InputFruitType = 0
-    -- Direct cutting has both Input and Output as GRASS
-    if spec_combine and spec_combine.lastCuttersOutputFillType then
-        local outputFill = spec_combine.lastCuttersOutputFillType
-        if outputFill == FillType.GRASS or 
-           outputFill == FillType.GRASS_WINDROW or
-           outputFill == FillType.DRYGRASS_WINDROW then
-            -- Only apply lighter cropFactor for pickup headers (Input=0)
-            -- Direct cutting uses cropFactor from XML
-            if spec_combine.lastValidInputFruitType == 0 then
-                cropFactor = 0.35  -- Pickup = lighter crop, faster speed
+    -- Final fallback to Wheat
+    if not cropFactor then
+        cropFactor = self.CROP_FACTORS[FruitType.WHEAT] or 0.814
+    end
+    
+    -- EN: INPUT DETECTION (PICKUP / CUTTER / FORAGE)
+    local fruitTypeDesc = g_fruitTypeManager:getFruitTypeByIndex(spec_combine.lastValidInputFruitType or 0)
+    local currentFruitTypeName = "UNKNOWN"
+    
+    if fruitTypeDesc then
+        currentFruitTypeName = string.upper(fruitTypeDesc.name)
+    elseif rhmSpec and rhmSpec.lastFillType then
+        -- Try to get name from fillType if fruitType is unknown
+        local fillTypeDesc = g_fillTypeManager:getFillTypeByIndex(rhmSpec.lastFillType)
+        if fillTypeDesc then
+            currentFruitTypeName = string.upper(fillTypeDesc.name)
+        end
+    end
+    local isPickup = false
+    local isForageCutter = false
+    
+    -- EN: ROBUST DETECTION (Check attached implements) / UA: НАДІЙНА ДЕТЕКЦІЯ
+    if vehicle.getAttachedImplements then
+        for _, implement in pairs(vehicle:getAttachedImplements()) do
+            local implObj = implement.object
+            if implObj then
+                local storeItem = g_storeManager:getItemByXMLFilename(implObj.configFileName)
+                local cat = storeItem and storeItem.categoryName or ""
+                
+                -- EN: Detect Forage Harvester Header / UA: Силосна жатка
+                if implObj.spec_forageHarvesterCutter ~= nil or implObj.spec_forageCutter ~= nil 
+                   or cat == "forageHarvesterCutters" then
+                    isForageCutter = true
+                end
+
+                -- EN: Detect WINDROW Pickup (not vegetable harvester!)
+                -- UA: Визначаємо підбірач валків (не овочевий комбайн!)
+                if implObj.spec_pickup ~= nil or cat == "pickups" or cat == "slasher" then
+                    
+                    -- EN: Check if this is a vegetable/root crop direct harvester
+                    -- UA: Перевіряємо чи це прямий збирач овочів/коренеплодів
+                    local isVegetableHarvester = false
+                    
+                    -- 1. Category check
+                    if cat == "vegetableVehicles" or cat == "onionHarvesters" 
+                       or cat == "rootCropHarvesters" then
+                        isVegetableHarvester = true
+                    end
+                    
+                    -- 2. FillType check
+                    if not isVegetableHarvester and implObj.spec_fillUnit then
+                        for _, fillUnit in ipairs(implObj.spec_fillUnit.fillUnits or {}) do
+                            if fillUnit.supportedFillTypes then
+                                for fillTypeIndex, _ in pairs(fillUnit.supportedFillTypes) do
+                                    local ft = g_fillTypeManager:getFillTypeByIndex(fillTypeIndex)
+                                    if ft and ft.name then
+                                        local ftName = string.upper(ft.name)
+                                        if ftName == "ONION" or ftName == "ONION_DIRTY"
+                                           or ftName == "CARROT" or ftName == "BEETROOT"
+                                           or ftName == "PARSNIP" or ftName == "POTATO" then
+                                            isVegetableHarvester = true
+                                            break
+                                        end
+                                    end
+                                end
+                            end
+                            if isVegetableHarvester then break end
+                        end
+                    end
+                    
+                    -- 3. Filename fallback
+                    if not isVegetableHarvester then
+                        local xml = string.lower(implObj.configFileName or "")
+                        if xml:find("onion") or xml:find("carrot") or xml:find("beetroot")
+                           or xml:find("parsnip") or xml:find("ur_") or xml:find("umr_")
+                           or xml:find("keiler") then
+                            isVegetableHarvester = true
+                        end
+                    end
+                    
+                    if not isVegetableHarvester then
+                        isPickup = true
+                    end
+                end
+                
+                if isPickup or isForageCutter then break end
             end
         end
     end
+
+    -- EN: Fallback pickup detection: if input fruit type contains WINDROW or is UNKNOWN but area is processed
+    if not isPickup then
+        if currentFruitTypeName:find("WINDROW") or spec_combine.lastValidInputFruitType == 0 then
+            isPickup = true
+        end
+    end
+
+    -- EN: APPLY MULTIPLIERS / UA: ЗАСТОСУВАННЯ МНОЖНИКІВ
+    self.isPickup = isPickup
+    if isPickup then
+        -- EN: Root crops & Vegetables should NOT be easier when picked up (already high volume)
+        -- UA: Коренеплоди та овочі не повинні бути легшими при підбиранні
+        local isRootOrVeg = currentFruitTypeName:find("ONION") 
+                         or currentFruitTypeName:find("POTATO") 
+                         or currentFruitTypeName:find("CARROT")
+                         or currentFruitTypeName:find("PARSNIP")
+                         or currentFruitTypeName:find("BEETROOT")
+                         or currentFruitTypeName:find("SUGARBEET")
+                         or currentFruitTypeName:find("SPINACH")
+                         or currentFruitTypeName:find("GREENBEAN")
+                         
+        if not isRootOrVeg then
+            cropFactor = cropFactor * 0.25  -- EN: Standard windrows (Wheat, Barley, etc.)
+        end
+    elseif isForageCutter then
+        cropFactor = cropFactor * 0.75  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
+    end
+
+    -- --- [RHM DEBUG: INFO LOG] ---
+    if rhm_Combine and rhm_Combine.debug and self.lastCropType ~= spec_combine.lastValidInputFruitType then
+        self.lastCropType = spec_combine.lastValidInputFruitType
+        local mode = isPickup and "PICKUP" or (isForageCutter and "FORAGE_CUTTER" or "DIRECT_CUT")
+        print(string.format("RHM DEBUG: [INPUT] %s (%s). Final Factor: %.3f", mode, currentFruitTypeName, cropFactor))
+    end
     
-    -- Розраховуємо RAW середню масу за секунду (кг/с)
-    -- currentTime в мс, тому 1000/currentTime для секунд
-    -- Використовуємо accumulatedMass
-    local rawAvgMass = (self.loadAccumulatedMass or 0) * (1000 / self.currentTime) * cropFactor
+    -- EN: Calculate RAW average mass intake per second / UA: Розраховуємо RAW середню масу за секунду (кг/с)
+    -- EN: Uses accumulatedMass over the target distance/time / UA: Використовуємо accumulatedMass
+    local safeTime = math.max(100, self.currentTime) -- Protect against division by zero
+    local rawAvgMass = (self.loadAccumulatedMass or 0) * (1000 / safeTime) * cropFactor
     
-    -- ADAPTIVE SMOOTHING: більше згладжування при високому навантаженні
+    -- ADAPTIVE SMOOTHING
     local loadRatio = self.currentAvgMass / math.max(0.01, self.basePerfMass)
     local smoothFactor = 0.3 + 0.4 * math.min(1.0, loadRatio)
     smoothFactor = math.min(0.7, smoothFactor)  -- Max 70% smoothing
     
-    -- Застосовуємо згладжування тільки якщо є попереднє значення
     local avgMass = rawAvgMass
     if self.currentAvgMass > (0.5 * self.basePerfMass) then
         avgMass = (1 - smoothFactor) * rawAvgMass + smoothFactor * self.currentAvgMass
     end
     
-    -- Зберігаємо обидва значення для різних цілей
     self.lastAvgMass = self.currentAvgMass
     self.currentAvgMass = avgMass
-    self.rawAvgMass = rawAvgMass  -- Для аварійного гальмування
+    self.rawAvgMass = rawAvgMass  
     
-    -- Отримуємо power boost для розрахунку навантаження
+    -- EN: Fetch power boost for load calculation / UA: Отримуємо power boost для розрахунку навантаження
     local powerBoost = 0
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         powerBoost = g_realisticHarvestManager.settings:getPowerBoost()
     end
     
-    -- Максимальна допустима маса з урахуванням power boost
-    local maxAvgMass = (1 + 0.01 * powerBoost) * self.basePerfMass
+    local maxAvgMass = (1 + 0.01 * powerBoost) * self.basePerfMass * (self.settingsEfficiency or 1.0)
     
-    -- Розраховуємо навантаження відносно maxAvgMass
     if maxAvgMass > 0 then
         self.engineLoad = self.currentAvgMass / maxAvgMass
     else
         self.engineLoad = 0
     end
-    
-    if self.debug then
-        print(string.format("RHM DEBUG: Load: %.1f%% (Raw: %.2f kg/s, Smooth: %.2f kg/s) | Base: %.2f kg/s | Max: %.2f kg/s", 
-            self.engineLoad * 100, rawAvgMass, self.currentAvgMass, self.basePerfMass, maxAvgMass))
-    end
 end
 
----Розраховує обмеження швидкості
----@param vehicle table Комбайн
+---EN: Calculates Vehicle Speed Limit / UA: Розраховує обмеження швидкості
 function LoadCalculator:calculateSpeedLimit(vehicle)
-    -- Якщо не збираємо врожай (mass = 0), не обмежуємо швидкість
     if self.currentAvgMass == 0 then
-        -- Зберігаємо поточний робочий ліміт перед скиданням
-        if self.speedLimit < self.genuineSpeedLimit then
-            self.workingSpeedLimit = self.speedLimit
+        -- EN: If not harvesting, return to vanilla working speed / UA: Якщо не збираємо, повертаємось до ванільної робочої швидкості
+        local target = self.vanillaWorkingSpeed or 10.0
+        if self.speedLimit > target then
+            self.speedLimit = math.max(target, self.speedLimit - 0.5)
+        elseif self.speedLimit < target then
+            self.speedLimit = math.min(target, self.speedLimit + 0.5)
         end
-        self.speedLimit = self.genuineSpeedLimit
         return
     end
     
-    -- Детекція зміни культури або тривалої паузи
-    local currentCropType = nil
-    local spec_combine = vehicle.spec_combine
-    if spec_combine and spec_combine.lastValidInputFruitType then
-        currentCropType = spec_combine.lastValidInputFruitType
+    local currentSpeed = vehicle.lastSpeedReal * 3600 
+    local speedKmh = math.max(1.0, currentSpeed)
+    if currentSpeed < 1.0 and self.currentAvgMass > (self.basePerfMass * 0.1) then
+        speedKmh = math.max(2.0, self.speedLimit)
     end
     
-    local currentTime = g_currentMission.time or 0
-    local timeSinceLastHarvest = currentTime - self.lastHarvestTime
-    
-    -- Скидаємо workingSpeedLimit якщо:
-    -- 1. Змінилась культура
-    -- 2. Пройшло >30 секунд без збирання (переїхали на інше поле)
-    if (currentCropType and self.lastCropType and currentCropType ~= self.lastCropType) or
-       (timeSinceLastHarvest > 30000) then
-        self.workingSpeedLimit = 0  -- Скидаємо, почнемо з 7 км/год
-    end
-    
-    self.lastCropType = currentCropType
-    self.lastHarvestTime = currentTime
-    
-    -- CONSERVATIVE START: При першому заході в культуру встановлюємо безпечний ліміт
-    -- Якщо є збережений робочий ліміт - використовуємо його, інакше - консервативний старт
-    if self.speedLimit == self.genuineSpeedLimit then
-        if self.workingSpeedLimit > 0 and self.workingSpeedLimit < 12 then
-            -- Відновлюємо попередній робочий ліміт
-            self.speedLimit = self.workingSpeedLimit
-        else
-            -- Перший раз за сесію - консервативний старт
-            self.speedLimit = 7.0
-            self.workingSpeedLimit = 7.0
-        end
-    end
-    
-    -- Отримуємо поточну швидкість
-    local avgSpeed = 1000 * self.totalDistance / self.currentTime  -- м/с
-    
-    -- Отримуємо power boost
     local powerBoost = 0
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         powerBoost = g_realisticHarvestManager.settings:getPowerBoost()
     end
+    local maxAvgMass = (1 + 0.01 * powerBoost) * self.basePerfMass * (self.settingsEfficiency or 1.0)
+    if maxAvgMass <= 0.01 then return end
     
-    local maxAvgMass = (1 + 0.01 * powerBoost) * self.basePerfMass
-    
-    -- Розраховуємо прискорення (derivative of smoothed value)
-    local massAcc = 0
-    if self.currentTime > 0 and self.lastAvgMass > 0 then
-        massAcc = (self.currentAvgMass - self.lastAvgMass) / self.currentTime
-    end
-    
-    -- === THREE-ZONE CONTROL SYSTEM ===
     local loadRatio = self.currentAvgMass / maxAvgMass
     local rawLoadRatio = (self.rawAvgMass or self.currentAvgMass) / maxAvgMass
-    local newSpeedLimit = self.speedLimit
-    local controlZone = "HOLD"
     
-    -- === GRADUATED EMERGENCY BRAKE SYSTEM ===
-    -- Чим вище навантаження, тим агресивніше гальмування
-    local emergencyBrake = false
-    local brakeRate = 0
+    local targetLoad = 0.85
+    local idealSpeed = self.genuineSpeedLimit
     
-    -- SPECIAL: Перший раз перевищили 100% - різко скидаємо швидкість
-    -- Це запобігає "overshoot" (розгін → перевантаження → гальмування → цикл)
-    if rawLoadRatio > 1.0 and rawLoadRatio <= 1.05 then
-        -- Тільки що перевищили 100% - агресивний скид
-        controlZone = "THRESHOLD_BRAKE"
-        brakeRate = 2.5  -- -2.5 км/год (агресивно, щоб load впав)
-        emergencyBrake = true
-        newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
-        
-    elseif rawLoadRatio > 1.5 then
-        -- EXTREME: >150% load - максимальне гальмування
-        controlZone = "EMERGENCY_EXTREME"
-        brakeRate = 5.0  -- -5 км/год за раз
-        emergencyBrake = true
-        newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
-        
-    elseif rawLoadRatio > 1.2 then
-        -- CRITICAL: 120-150% load - сильне гальмування
-        controlZone = "EMERGENCY_CRITICAL"
-        brakeRate = 3.0  -- -3 км/год за раз
-        emergencyBrake = true
-        newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
-        
-    elseif rawLoadRatio > 1.1 then
-        -- HIGH: 110-120% load - помірне гальмування
-        controlZone = "EMERGENCY_HIGH"
-        brakeRate = 1.5  -- -1.5 км/год за раз
-        emergencyBrake = true
-        newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
-        
-    elseif rawLoadRatio > 1.05 or loadRatio > 1.08 then
-        -- MODERATE: 105-110% load - легке гальмування
-        controlZone = "EMERGENCY_MODERATE"
-        brakeRate = 1.0  -- -1 км/год за раз
-        emergencyBrake = true
-        newSpeedLimit = math.max(2, self.speedLimit - brakeRate)
+    if loadRatio > 0.05 then 
+        idealSpeed = speedKmh * (targetLoad / loadRatio)
+    end
+    idealSpeed = math.min(self.genuineSpeedLimit, math.max(2.0, idealSpeed))
     
-    -- ZONE 1: DANGER (>108% smoothed OR >115% raw) - Standard brake
-    elseif loadRatio > 1.08 or rawLoadRatio > 1.15 then
-        controlZone = "DANGER"
-        if rawLoadRatio > 1.15 then
-            -- HARD brake (using raw value for immediate response)
-            newSpeedLimit = math.max(2, math.min(self.speedLimit, avgSpeed * 3.6) - 15 * (rawLoadRatio - 1.0)^2)
+    local alpha = 0.1 
+    local controlZone = "NORMAL"
+    
+    if rawLoadRatio > 1.25 then
+        alpha = 1.0 -- PANIC
+        controlZone = "PANIC"
+        local emergencyIdeal = math.min(speedKmh, self.speedLimit) * (targetLoad / rawLoadRatio)
+        idealSpeed = math.min(idealSpeed, math.max(2.0, emergencyIdeal))
+    elseif rawLoadRatio > 1.10 then
+        alpha = 0.6 -- HARD BRAKE
+        controlZone = "HARD_BRAKE"
+        local hardbrakeIdeal = math.min(speedKmh, self.speedLimit) * (targetLoad / rawLoadRatio)
+        idealSpeed = math.min(idealSpeed, math.max(2.0, hardbrakeIdeal))
+    elseif loadRatio >= 0.85 and loadRatio <= 0.95 then
+        alpha = 0.02 -- DEADBAND
+        controlZone = "LOCKED"
+    elseif loadRatio < 0.85 then
+        if loadRatio < 0.50 then
+            alpha = self.isPickup and 0.15 or 0.40 -- EN: Slow down pickup accel / UA: Повільне прискорення підбирача
+            controlZone = "ACCEL_FAST"
+        elseif loadRatio < 0.75 then
+            alpha = self.isPickup and 0.10 or 0.25 
+            controlZone = "ACCEL_MED"
         else
-            -- Soft brake (using smoothed value)
-            newSpeedLimit = math.max(2, math.min(self.speedLimit, avgSpeed * 3.6) - 8 * (loadRatio - 1.0)^2)
-        end
-    
-    -- ZONE 2: CAUTION (85-108%) - Hold steady or gentle adjustment
-    elseif loadRatio >= 0.85 and loadRatio <= 1.08 then
-        controlZone = "CAUTION"
-        -- В зоні обережності активно утримуємо швидкість
-        if loadRatio > 1.00 then
-            -- >100%: Легке гальмування (щоб не доводити до emergency)
-            newSpeedLimit = math.max(2, self.speedLimit - 0.4)
-        elseif loadRatio > 0.90 and self.speedLimit > avgSpeed * 3.6 then
-            -- 90-100%: Якщо швидкість зростає (ззовні), обмежуємо
-            newSpeedLimit = math.max(2, avgSpeed * 3.6 - 0.2)
-        end
-        -- else: <90% в CAUTION - тримаємо стабільно
-    
-    -- ZONE 3: SAFE (<85%) - Accelerate with prediction
-    else
-        controlZone = "SAFE"
-        
-        -- Check prediction before accelerating
-        local predictLimitSet = false
-        if massAcc > 0 then
-            -- Adaptive prediction horizon (shorter at high load)
-            local predictHorizon = 2500 + 500 * (1 - loadRatio)
-            local predictAvgMass = self.currentAvgMass + massAcc * predictHorizon
-            
-            -- RAW PREDICTION CHECK
-            local predictThreshold = 1.5
-            
-            if predictAvgMass > predictThreshold * maxAvgMass then
-                -- Predictive brake
-                newSpeedLimit = math.max(2, math.min(0.96 * self.speedLimit, avgSpeed * 3.6))
-                predictLimitSet = true
-                controlZone = "SAFE_PREDICT"
-            end
-        end
-        
-        -- If no prediction triggered, check for acceleration
-        if not predictLimitSet then
-            -- === SOFT CEILING AT 85% ===
-            -- Якщо load наближається до 85%, обмежуємо розгін
-            -- Але якщо вже на 85% (через зміну густини) - не гальмуємо
-            if loadRatio > 0.70 and loadRatio < 0.80 then
-                -- 70-80%: Обережний розгін (не хочемо перевищити 85%)
-                -- Розганяємось тільки якщо є великий запас
-                local capacityRatio = (maxAvgMass - self.currentAvgMass) / maxAvgMass
-                if capacityRatio > 0.25 then  -- Тільки якщо запас >25%
-                    local accelFactor = 0.05  -- Повільний розгін
-                    newSpeedLimit = math.min(self.genuineSpeedLimit, 
-                        self.speedLimit + accelFactor * (maxAvgMass / self.currentAvgMass)^2)
-                end
-                -- else: запас малий - тримаємо поточну швидкість
-                
-            elseif loadRatio <= 0.70 then
-                -- <70%: Нормальний розгін (далеко від стелі)
-                local capacityRatio = (maxAvgMass - self.currentAvgMass) / maxAvgMass
-                local accelFactor = 0.08 + 0.05 * capacityRatio  -- 0.08-0.13 range
-                newSpeedLimit = math.min(self.genuineSpeedLimit, 
-                    self.speedLimit + accelFactor * (maxAvgMass / self.currentAvgMass)^2.5)
-            end
-            -- else: 80%+ в SAFE зоні - тримаємо (не розганяємо, не гальмуємо)
+            alpha = self.isPickup and 0.05 or 0.15 
+            controlZone = "ACCEL_SLOW"
         end
     end
     
-    -- === RATE LIMITING === (prevent jerky changes)
-    -- Використовуємо різні ліміти залежно від зони
-    local maxChange = 0.8  -- Default: 0.8 km/h change per update
+    local diff = idealSpeed - self.speedLimit
+    local maxStep = 1.0
+    if controlZone == "PANIC" then maxStep = 10.0 end
+    if controlZone == "HARD_BRAKE" then maxStep = 5.0 end
     
-    if emergencyBrake then
-        -- В аварійних ситуаціях дозволяємо швидкі зміни
-        maxChange = brakeRate  -- Використовуємо розрахований brakeRate
-    elseif controlZone == "DANGER" then
-        maxChange = 1.5  -- Швидші зміни в небезпечній зоні
-    end
-    
-    newSpeedLimit = math.clamp(newSpeedLimit, 
-        self.speedLimit - maxChange, 
-        self.speedLimit + maxChange)
-    
-    self.speedLimit = newSpeedLimit
-    
-    if self.debug then
-        print(string.format("RHM: [%s] Load: %.1f%% (Raw: %.1f%%) | Speed: %.1f→%.1f | Acc: %.4f", 
-            controlZone, loadRatio * 100, rawLoadRatio * 100, 
-            avgSpeed * 3.6, self.speedLimit, massAcc))
-    end
+    local step = diff * alpha
+    step = math.clamp(step, -maxStep, maxStep)
+    self.speedLimit = self.speedLimit + step
 end
 
----Отримує поточне навантаження на двигун
----@return number Навантаження в відсотках (0-100+)
+---EN: Returns current engine load factor / UA: Повертає поточне навантаження двигуна
 function LoadCalculator:getEngineLoad()
     return self.engineLoad * 100
 end
 
----Отримує поточний ліміт швидкості
----@return number Ліміт швидкості в км/год
+---EN: Returns calculated speed limit target / UA: Повертає остаточний ліміт швидкості
 function LoadCalculator:getSpeedLimit()
     return self.speedLimit or 0
 end
 
-
-
----Встановлює оригінальне обмеження швидкості комбайна
----@param limit number Оригінальний ліміт в км/год
-function LoadCalculator:setGenuineSpeedLimit(limit)
-    self.genuineSpeedLimit = limit
+---EN: Caches base limit speed boundary / UA: Встановлює оригінальні межі ліміту
+function LoadCalculator:setGenuineSpeedLimit(limit, maxCap)
+    self.vanillaWorkingSpeed = limit
+    self.genuineSpeedLimit = maxCap or limit
     self.speedLimit = limit
 end
 
----Скидає всі дані
+---EN: Fully resets accumulated internal data variables / UA: Повністю очищує змінні бази даних
 function LoadCalculator:reset()
     self.totalDistance = 0
     self.totalArea = 0
@@ -650,244 +607,201 @@ function LoadCalculator:reset()
     self.currentAvgMass = 0
     self.engineLoad = 0
     self.cropLoss = 0
-    -- Скидаємо speedLimit до genuineSpeedLimit (коли не косимо)
-    self.speedLimit = self.genuineSpeedLimit
-    
-    -- Скидаємо накопичення продуктивності
+    self.speedLimit = self.vanillaWorkingSpeed or (self.genuineSpeedLimit > 0 and self.genuineSpeedLimit or 15)
     self.productivityMass = 0
     self.productivityLiters = 0
     self.productivityTime = 0
     self.tonPerHour = 0
     self.litersPerHour = 0
     
-    -- Скидаємо буфери врожайності та шуму
+    self.prodBuffer = {}
+    self.prodStartIndex = 1
+    self.prodEndIndex = 0
+    self.currentBufferTime = 0
+    
     self.yieldBuffer = {}
+    self.yieldStartIndex = 1
+    self.yieldEndIndex = 0
+    
     self.currentYield = 0
     self.instantYield = 0
-    
-    if self.debug then
-        print("RHM: LoadCalculator reset")
-    end
 end
 
----Розраховує втрати врожаю при перевантаженні
----@return number Втрати в відсотках (0-50)
+---EN: Calculates settings-related quality losses / UA: Розраховує втрати врожаю
 function LoadCalculator:calculateCropLoss()
-    -- Перевіряємо чи увімкнені втрати
-    if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
-        return 0
-    end
+    if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then return 0 end
+    if not g_realisticHarvestManager.settings.enableCropLoss then return 0 end
     
-    if not g_realisticHarvestManager.settings.enableCropLoss then
-        return 0
-    end
+    local activeEfficiency = self.settingsEfficiency or 1.0
+    local shieldBonus = math.max(0, activeEfficiency - 1.0)
+    local lossThreshold = 0.95 + shieldBonus
     
-    -- НОВИЙ ПОРІГ: Втрати починаються з 95% навантаження
-    if self.engineLoad > 0.95 then
-        -- Розраховуємо overload відносно 95%
-        local overload = self.engineLoad - 0.95  -- 0.0 при 95%, 0.05 при 100%, 0.25 при 120% і т.д.
-        
-        -- Отримуємо множник втрат залежно від складності
+    if self.engineLoad > lossThreshold then
+        local overload = self.engineLoad - lossThreshold
         local lossMultiplier = g_realisticHarvestManager.settings:getLossMultiplier()
-        
-        -- Прогресивна формула втрат:
-        -- 95-100% load: Мінімальні втрати (0-2%)
-        -- 100-120% load: Помірні втрати (2-15%)
-        -- 120%+ load: Серйозні втрати (15-50%)
-        -- 
-        -- Формула: ((overload / 0.05)^1.5) * lossMultiplier * базовий_відсоток
-        -- де 0.05 = діапазон від 95% до 100%
-        local normalizedOverload = overload / 0.05  -- 0.0 при 95%, 1.0 при 100%, 5.0 при 120%
-        local loss = (normalizedOverload^1.5) * lossMultiplier * 2.5  -- 2.5 = базовий % при 100% load
-        
-        self.cropLoss = math.min(loss, 50) -- Максимум 50% втрат
+        local loss = 0
+        if overload <= 0.10 then
+            loss = overload * 40 * lossMultiplier
+        elseif overload <= 0.20 then
+            loss = (4.0 + (overload - 0.10) * 80) * lossMultiplier
+        else
+            loss = (12.0 + (overload - 0.20) * 150) * lossMultiplier
+        end
+        self.cropLoss = math.min(loss, 50) 
     else
         self.cropLoss = 0
     end
-    
     return self.cropLoss
 end
 
----Розраховує втрати від неправильних налаштувань комбайна
----@return number settingsLoss Втрати від налаштувань (0-50%)
-function LoadCalculator:calculateSettingsLoss()
-    -- Якщо немає memory або культури - втрат немає
-    if not self.combineMemory or not self.currentCrop then
-        return 0
+---EN: Calculates losses from inaccurate player threshing settings / UA: Розраховує втрати від неправильних налаштувань гравцем
+function LoadCalculator:updateSettingsImpact()
+    self.settingsEfficiency = 1.0
+    self.settingsLoss = 0
+    if not self.combineMemory or not self.currentCrop then return end
+    local effPenalty, lossPenalty, _ = self.combineMemory:checkSettingsForCrop(self.currentCrop)
+    
+    if effPenalty < 0 then
+        self.settingsEfficiency = 1.0 + (math.abs(effPenalty) * 5.0 / 100.0)
+    else
+        self.settingsEfficiency = 1.0 - (effPenalty / 100.0)
     end
     
-    -- Однакова математика для AUTO і MANUAL:
-    -- AUTO отримує невеликий відхил від оптимуму (1-10 одиниць) при налаштуванні,
-    -- тому матиме малі, але реальні втрати — "автомат не ідеальний"
-    -- MANUAL дає гравцю можливість зробити і краще (якщо точно потрапить в оптимум)
-    -- і гірше (якщо виставить неправильні значення)
-    
-    -- Отримуємо результат перевірки налаштувань (включаючи бонус)
-    local netPenalty, _ = self.combineMemory:checkSettingsForCrop(self.currentCrop)
-    
-    -- netPenalty може бути від'ємним (бонус) або додатнім (штраф)
-    -- Обмежуємо діапазон: Максимальний бонус -5%, Максимальний штраф 30%
-    local settingsFactor = math.max(-5, math.min(netPenalty, 30))
-    
-    return settingsFactor
+    if lossPenalty < 0 then
+        self.settingsLoss = 0 
+    else
+        self.settingsLoss = lossPenalty
+    end
 end
 
----Розраховує загальні втрати врожаю (базові + налаштування)
----@return number totalLoss Загальні втрати (0-50%)
 function LoadCalculator:calculateTotalCropLoss()
-    -- Базові втрати від перевантаження
     local baseLoss = self:calculateCropLoss()
-    
-    -- Втрати від налаштувань
-    local settingsLoss = self:calculateSettingsLoss()
-    
-    -- TODO: В майбутньому додати:
-    -- local moistureLoss = self:calculateMoistureLoss()
-    -- local speedLoss = self:calculateSpeedLoss()
-    
-    -- Загальні втрати (сумуються)
-    local totalLoss = baseLoss + settingsLoss
-    
-    -- Обмежуємо максимум
+    local settingsAddedLoss = self.settingsLoss or 0
+    local totalLoss = baseLoss + settingsAddedLoss
     totalLoss = math.min(totalLoss, 50)
-    
-    -- Зберігаємо для відображення в HUD
     self.cropLoss = totalLoss
-    
     return totalLoss
 end
 
----Отримує поточні втрати врожаю
----@return number Втрати в відсотках (0-50)
-function LoadCalculator:getCropLoss()
-    return self.cropLoss
-end
-
----Отримує продуктивність в тоннах на годину
----@return number Продуктивність в T/h
+---EN: Returns instantaneous processed metric tonnes per clock hour / UA: Перерахунок в тонни на годину
 function LoadCalculator:getTonPerHour()
     return self.tonPerHour
 end
 
----Отримує продуктивність в літрах на годину (де факто volume flow)
----@return number Продуктивність в L/h
+---EN: Returns yield in L/h / UA: Розрахунок літрів на годину
 function LoadCalculator:getLitersPerHour()
     return self.litersPerHour or 0
 end
 
----Оновлює продуктивність на основі зібраної маси та об'єму
----@param mass number Маса зібраного врожаю в кг
----@param liters number Обєм зібраного врожаю в л
----@param dt number Delta time в мс
+---EN: Updates sliding window rolling averages for metric evaluations / UA: Оновлює ковзні середні продуктивності
 function LoadCalculator:updateProductivity(mass, liters, dt)
     self.totalOutputMass = self.totalOutputMass + mass
     
-    -- Накопичуємо масу, об'єм та час
-    self.productivityMass = self.productivityMass + mass
-    self.productivityLiters = (self.productivityLiters or 0) + liters
-    self.productivityTime = self.productivityTime + dt
+    self.prodBuffer = self.prodBuffer or {}
+    self.prodStartIndex = self.prodStartIndex or 1
+    self.prodEndIndex = self.prodEndIndex or 0
     
-    -- Оновлюємо T/h та L/h кожні 3 секунди для стабільного значення
-    -- АБО якщо це перший запуск (productivityTime малий але є маса)
-    if self.productivityTime >= self.productivityUpdateInterval then
-        if self.productivityTime > 0 then
-            -- T/h = (Mass_kg / 1000) / (Time_ms / 3600000)
-            local hours = self.productivityTime / 3600000
-            self.tonPerHour = (self.productivityMass / 1000) / hours
-            self.litersPerHour = (self.productivityLiters or 0) / hours
-        end
-        
-        -- Reset counters with SMOOTHING (keep 20% to prevent drops)
-        self.productivityMass = self.productivityMass * 0.2
-        self.productivityLiters = (self.productivityLiters or 0) * 0.2
-        self.productivityTime = self.productivityTime * 0.2
-        
-    elseif self.tonPerHour == 0 and self.productivityTime > 1000 and self.productivityMass > 0 then
-        -- Швидкий старт
-        local hours = self.productivityTime / 3600000
-        self.tonPerHour = (self.productivityMass / 1000) / hours
-        self.litersPerHour = (self.productivityLiters or 0) / hours
+    self.prodEndIndex = self.prodEndIndex + 1
+    self.prodBuffer[self.prodEndIndex] = {m = mass, l = liters or 0, t = dt}
+    
+    self.currentBufferTime = (self.currentBufferTime or 0) + dt
+    while (self.prodEndIndex - self.prodStartIndex + 1) > 1 and self.currentBufferTime > 12000 do
+        local old = self.prodBuffer[self.prodStartIndex]
+        self.currentBufferTime = self.currentBufferTime - old.t
+        self.prodBuffer[self.prodStartIndex] = nil -- free memory
+        self.prodStartIndex = self.prodStartIndex + 1
+    end
+    
+    local sumMass = 0
+    local sumLiters = 0
+    local sumTime = 0
+    for i = self.prodStartIndex, self.prodEndIndex do
+        local v = self.prodBuffer[i]
+        sumMass = sumMass + v.m
+        sumLiters = sumLiters + v.l
+        sumTime = sumTime + v.t
+    end
+    
+    if sumTime > 100 then
+        local hours = sumTime / 3600000
+        local rawTonPerHour = (sumMass / 1000) / hours
+        self.litersPerHour = sumLiters / hours
+        local alpha = 0.05
+        if self.tonPerHour == 0 then self.tonPerHour = rawTonPerHour end
+        self.tonPerHour = self.tonPerHour * (1 - alpha) + rawTonPerHour * alpha
+    else
+        self.tonPerHour = 0
+        self.litersPerHour = 0
     end
 end
 
----Оновлює продуктивність і ВРОЖАЙНІСТЬ
----@param mass number Маса (кг)
----@param liters number Об'єм (л)
----@param area number Площа (м2)
----@param dt number Час (мс)
+---EN: Processes complete physical output block calculations / UA: Виконує розрахунки врожайності
 function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
-    self:updateProductivity(mass, liters, dt) -- Call original logic
-    
-    if area <= 0.001 then
-        self.instantYield = 0
+    self:updateProductivity(mass, liters, dt)
+    if area <= 0.0001 and mass <= 0.001 then
+        self.currentYield = self.currentYield or 0
         return
     end
     
-    -- 1. Calculate raw yield (Metric: t/ha)
-    -- (kg / m2) * 10 = t/ha
-    local rawYield = (mass / area) * 10
-    
-    -- 2. Apply smoothing (Simple moving average)
-    -- BUFFER: 20 ticks seems good (~10 frames if called every update, or less if updateProductivity is called less often)
-    
     self.yieldBuffer = self.yieldBuffer or {}
-    table.insert(self.yieldBuffer, rawYield)
-    if #self.yieldBuffer > 30 then table.remove(self.yieldBuffer, 1) end
+    self.yieldStartIndex = self.yieldStartIndex or 1
+    self.yieldEndIndex = self.yieldEndIndex or 0
     
-    local sum = 0
-    for _, v in ipairs(self.yieldBuffer) do sum = sum + v end
-    local smoothedYield = sum / #self.yieldBuffer
+    self.yieldEndIndex = self.yieldEndIndex + 1
+    self.yieldBuffer[self.yieldEndIndex] = {m = mass, a = area}
     
-    -- 3. REMOVED Noise (+/- 5%) - User requested actual values
-    -- Noise factor removed for stability
-    
-    -- Apply User Calibration
-    local calibration = 1.0
-    if self.combineMemory and self.combineMemory.currentYieldCalibration then
-        calibration = self.combineMemory.currentYieldCalibration
+    if (self.yieldEndIndex - self.yieldStartIndex + 1) > 600 then 
+        self.yieldBuffer[self.yieldStartIndex] = nil
+        self.yieldStartIndex = self.yieldStartIndex + 1
     end
     
-    self.currentYield = smoothedYield * calibration
+    local sumMass = 0
+    local sumArea = 0
+    for i = self.yieldStartIndex, self.yieldEndIndex do 
+        local v = self.yieldBuffer[i]
+        sumMass = sumMass + v.m
+        sumArea = sumArea + v.a 
+    end
+    
+    if sumArea > 0.1 then
+        local rawYield = (sumMass / sumArea) * 10
+        local alpha = 0.03
+        if not self.currentYield or self.currentYield == 0 then self.currentYield = rawYield end
+        self.currentYield = self.currentYield * (1 - alpha) + rawYield * alpha
+    end
 end
 
----Встановити реальну врожайність з rhm_Combine (User Request)
----@param yieldTha number Врожайність в т/га
 function LoadCalculator:setRealTimeYield(yieldTha)
-    -- Apply smoothing (Simple moving average)
     self.yieldBuffer = self.yieldBuffer or {}
-    table.insert(self.yieldBuffer, yieldTha)
-    if #self.yieldBuffer > 20 then table.remove(self.yieldBuffer, 1) end
+    self.yieldStartIndex = self.yieldStartIndex or 1
+    self.yieldEndIndex = self.yieldEndIndex or 0
+    
+    self.yieldEndIndex = self.yieldEndIndex + 1
+    self.yieldBuffer[self.yieldEndIndex] = yieldTha
+    
+    if (self.yieldEndIndex - self.yieldStartIndex + 1) > 20 then 
+        self.yieldBuffer[self.yieldStartIndex] = nil
+        self.yieldStartIndex = self.yieldStartIndex + 1
+    end
     
     local sum = 0
-    for _, v in ipairs(self.yieldBuffer) do sum = sum + v end
-    local smoothedYield = sum / #self.yieldBuffer
-
-    -- No Calibration - Pure Real-time Yield (User Request)
-    self.currentYield = smoothedYield
+    local count = self.yieldEndIndex - self.yieldStartIndex + 1
+    for i = self.yieldStartIndex, self.yieldEndIndex do 
+        sum = sum + self.yieldBuffer[i] 
+    end
+    self.currentYield = sum / count
 end
 
----Отримує форматований рядок врожайності
----@param unitSystem number (1=Metric, 2=Imperial, 3=Bushels)
----@return string, string (Value, Unit)
+---EN: Returns formatted yield string / UA: Отримує форматований рядок врожайності
 function LoadCalculator:getYieldText(unitSystem)
-    -- BUGFIX: Removed duplicate T/h calculation that was causing jumps
-    -- This method is now a PURE GETTER for Yield only
-    
     local yield = self.currentYield or 0
-    
     if yield < 0.1 then return "0.0", "t/ha" end
     
-    if unitSystem == 2 then -- Imperial (UK/US tons per acre?) 
-        -- 1 t/ha = 0.446 t/ac (approx short ton) or just use t/ac
-        local t_ac = yield * 0.446
-        return string.format("%.2f", t_ac), "t/ac"
-        
-    elseif unitSystem == 3 then -- Bushels (bu/ac)
-        -- Standard conversion factor (avg for grains): ~15
-        local bu_ac = yield * 15 
-        return string.format("%.0f", bu_ac), "bu/ac"
-        
-    else -- Metric (t/ha)
+    if unitSystem == 2 then 
+        return string.format("%.2f", yield * 0.446), "t/ac"
+    elseif unitSystem == 3 then 
+        return string.format("%.0f", yield * 15), "bu/ac"
+    else 
         return string.format("%.1f", yield), "t/ha"
     end
 end

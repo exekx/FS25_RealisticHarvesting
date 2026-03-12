@@ -7,7 +7,27 @@
 
 ## 📜 Version History (Changelog)
 
-### v1.4.1.0 (Current)
+### v1.4.2.0 (Current)
+**New Features:**
+*   **Pickup Header / Swath Support:** Automatic detection of pickup/swath headers (`lastValidInputFruitType == 0`). Applies a **0.75x engine load multiplier**, simulating lower resistance compared to windrowing.
+*   **High-Precision Calibration:** Complete overhaul of all crop factors (20+ types) based on real-world high-efficiency throughput targets and technical manuals (e.g., John Deere/Case IH field guides).
+*   **Multiplayer Sync Fix:** Resolved "AUTO" button desync on dedicated servers. GUI actions are now server-authoritative.
+*   **Per-Crop Highlighting:** GUI now highlights "Optimal" values (Green) based on precise technical tolerances for each crop.
+*   **Lentil & Chickpea:** Individual presets added for pulses based on actual harvester manual settings (High fan, low rotor).
+*   **Forage Harvester Realism:** Adjusted forage harvester capacity (coefficient 0.051) to match real-world tonnage (~400 t/hr silage).
+*   **Savegame Reliability:** Fixed "Path not registered" errors in Dedicated Server logs with redundant schema registration.
+
+**Fixed:**
+*   **Multiplayer Desync:** Fixed "flicker" effect where client settings were reverted by the server shortly after change.
+*   **Duplicate l10n Entries:** Removed duplicate strings in `modDesc.xml` that caused engine warnings.
+*   **Lentil Template Missing:** Added the missing technical template for Lentils to the database.
+
+**Improved:**
+*   **Crop Factors Rebalanced** — `SPINACH`: 0.3→**3.0**, `GREENBEAN`: 0.8→**2.5** for realistic engine load on vegetable harvesters.
+*   **Localization:** All GUI text strings (title, buttons, labels, hints) now use `g_i18n` with full translations across all 10 languages.
+*   **CHAFF, GRASS, SILAGE, COTTON** added to `fillTypeMapping` for complete auto-detection coverage.
+
+### v1.4.1.0
 **Fixed:**
 *   **DLC Compatibility:** Fixed game crash `attempt to call missing method 'getIsControlled'` when using Highland DLC equipment (NH 8040 + Holaras tools). Added a safe nil guard before calling the method.
 *   **Courseplay — Second Combine Stuck at 10 km/h:** Removed incorrect `movingDirection` check from `getSpeedLimit()`. Courseplay speed workaround now only activates when the cutter is actually harvesting.
@@ -84,8 +104,8 @@
 Based on community feedback and suggestions, here is the plan for future updates.
 
 ### Phase 1: Core Mechanics & Refinement (Next)
-*   **Smoother Load Control:** Improve the "feel" of the governor to maintain ~90-95% load more consistently without "hunting" or hesitation.
 *   **Pickup Header Improved Support:** Better handling for windrow harvesting (grass/straw) with accurate load calculations.
+*   **No-Bunker Machine Loss Exemption:** Automatically disable calibration crop loss penalty for machines that don't have a bunker — specifically forage harvesters (blow directly into trailer) and root crop diggers (transfer via elevator to trailer). For these machines, "losing grain" is not a meaningful concept — only speed (engine load) matters.
 
 ### Phase 2: Advanced Realism Features
 *   **Realistic Weather Integration:**

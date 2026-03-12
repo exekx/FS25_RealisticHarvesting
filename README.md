@@ -1,10 +1,11 @@
-﻿# Realistic Harvesting — Farming Simulator 25
+# Realistic Harvesting — Farming Simulator 25
 
-[![Version](https://img.shields.io/badge/version-1.4.1.0-green.svg)](https://github.com/exekx/FS25_RealisticHarvesting)
-[![FS25](https://img.shields.io/badge/FS25-Compatible-blue.svg)](https://www.farming-simulator.com/)
-[![Multiplayer](https://img.shields.io/badge/Multiplayer-Supported-brightgreen.svg)](https://github.com/exekx/FS25_RealisticHarvesting)
-[![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red.svg)](LICENSE)
-[![Roadmap](https://img.shields.io/badge/Roadmap-blue.svg)](ROADMAP.md)
+[![Version](https://img.shields.io/badge/version-1.4.2.0-green?style=for-the-badge&logo=github)](https://github.com/exekx/FS25_RealisticHarvesting)
+[![FS25](https://img.shields.io/badge/FS25-Compatible-blue?style=for-the-badge&logo=farming-simulator)](https://www.farming-simulator.com/)
+[![Multiplayer](https://img.shields.io/badge/Multiplayer-Supported-brightgreen?style=for-the-badge&logo=users)](https://github.com/exekx/FS25_RealisticHarvesting)
+[![License](https://img.shields.io/badge/License-All_Rights_Reserved-red?style=for-the-badge&logo=copyright)](LICENSE)
+[![Roadmap](https://img.shields.io/badge/Roadmap-blue?style=for-the-badge&logo=map)](ROADMAP.md)
+[![Discord](https://img.shields.io/discord/1479017497209471036?color=7289da&label=Discord&logo=discord&style=for-the-badge)](https://discord.gg/Dc2CvZJqU4)
 
 > **Your combine now behaves like a real machine. Push it too hard — and you'll pay the price.**
 
@@ -27,6 +28,8 @@ Your combine now has a real engine load that responds to:
 - Header width
 - Terrain slope
 - Calibration settings
+- **Pickup Header / Swathing** (detected automatically, 0.75x load multiplier)
+- **Extreme Precision Calibration** (15+ crops tuned to real-world bu/hr targets)
 
 Drive too fast → engine overloads → you lose grain. Simple.
 
@@ -90,7 +93,11 @@ Losses happen from two sources:
 *Full trailer when harvesting correctly*
 
 ### 2. Poor Calibration (Settings)
-If your combine's Fan, Rotor, Sieves, or Feeder are set incorrectly for the current crop, you'll incur a calibration penalty on top of speed losses.
+If your combine's settings are incorrect for the current crop, you'll incur a calibration penalty on top of speed losses.
+
+Each machine type now has **unique controls** — different parameters appear depending on whether you're driving a grain combine, forage harvester, root harvester, or cotton picker.
+
+> **Preview Loss** in the Calibration Menu shows the estimated penalty from your current settings — even when you're not harvesting!
 
 New saves start at **neutral settings (50%)** — safe, but not optimal.
 
@@ -138,105 +145,84 @@ Press **Right Shift + K** while in a combine to open the Calibration Menu.
 
 > AUTO is convenient. MANUAL rewards the skilled operator with up to **+2.5% efficiency bonus**.
 
-### How Calibration Affects Loss
+### How Calibration Affects Your Combine
 
-The calibration system uses a **continuous curve** for each parameter:
+The physics are strictly divided into two distinct mechanics based on which part of the combine you are tuning:
 
-| Position | Effect |
-|:---|:---:|
-| Exactly at Sweet Spot | +2.5% efficiency bonus |
-| Zero Loss zone | 0% |
-| Edge of tolerance | −2.5% penalty |
-| Beyond tolerance | Increasing penalty |
+**1. Efficiency (Speed) — Rotor & Feeder House**
+These components pull crop into the machine and thresh the bulk of it. If these are poorly configured, the engine will struggle, throughput will drop, and your cruise control will force you to drive slower. Perfect settings grant up to a **+5.0% Speed Bonus**.
 
-> All 5 parameters are interconnected — you can't ignore 4 and fix 1.
+**2. Crop Loss (Wasted Grain) — Fan & Sieves**
+These components separate the grain from the chaff. If the fan is too strong or sieves are badly adjusted, clean grain gets blown out the back onto the field. Perfect settings ensure **0% Added Crop Loss**.
+
+> **Overload Shield:** Achieving perfection in your Speed settings also grants an "Overload Shield", preventing minor crop density spikes from accidentally triggering crop losses when you are driving fast! All 5 parameters are interconnected.
+---
 
 ---
 
-## Zero Loss Settings Reference
+## Calibration Settings Reference — Zero Loss Zones
 
-These are the ranges where calibration contributes **0% loss** when all parameters are set correctly.
+The **Zero Loss Zone** is the range where settings contribute 0% penalty. Values outside this range start adding crop loss.
 
-### Standard Grain — Wheat, Barley
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 62 – 69 |
-| **Rotor Speed** | 72 – 78 |
-| **Upper Sieve** | 57 – 63 |
-| **Lower Sieve** | 67 – 73 |
-| **Feeder House** | 45 – 55 |
+Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops manually — the GUI shows a **Preview Loss %** even without harvesting.
 
-### Light Grain — Oat
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 67 – 74 |
-| **Rotor Speed** | 77 – 83 |
-| **Upper Sieve** | 62 – 68 |
-| **Lower Sieve** | 72 – 78 |
-| **Feeder House** | 50 – 60 |
+---
 
-### Corn (Maize)
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 82 – 88 |
-| **Rotor Speed** | 88 – 93 |
-| **Upper Sieve** | 77 – 83 |
-| **Lower Sieve** | 82 – 88 |
-| **Feeder House** | 65 – 75 |
+### 🌾 Grain Combines — 5 Parameters
+*(Fan Speed · Rotor Speed · Upper Sieve · Lower Sieve · Feeder House)*
 
-### Soybean / Legumes
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 47 – 54 |
-| **Rotor Speed** | 52 – 58 |
-| **Upper Sieve** | 47 – 53 |
-| **Lower Sieve** | 57 – 63 |
-| **Feeder House** | 31 – 39 |
+| Crop | Fan Speed (RPM) | Rotor Speed (RPM) | Upper Sieve (mm) | Lower Sieve (mm) | Feeder House (RPM) |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| **Wheat / Barley** | 940–1070 | 870–970 | 15–18 | 10–13 | 500–600 |
+| **Oat** | 940–1070 | 820–930 | 18–21 | 12–15 | 530–630 |
+| **Corn (Maize)** | 1070–1180 | 470–560 | 21–24 | 15–18 | 600–700 |
+| **Soybean / Pea / Legumes** | 910–1040 | 640–750 | 15–18 | 10–13 | 490–570 |
+| **Canola (Rapeseed)** | 880–980 | 600–700 | 14–16 | 9–11 | 490–570 |
+| **Sunflower** | 870–990 | 440–530 | 19–23 | 14–17 | 550–650 |
+| **Rice** | 960–1080 | 910–1020 | 19–23 | 16–19 | 540–660 |
+| **Sorghum** | 940–1070 | 720–830 | 15–18 | 11–14 | 500–600 |
+| **Lentil** | 960–1080 | 520–610 | 18–21 | 12–15 | 610–690 |
+| **Chickpea** | 1080–1230 | 520–610 | 21–24 | 14–16 | 610–690 |
 
-### Canola (Rapeseed)
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 42 – 48 |
-| **Rotor Speed** | 57 – 63 |
-| **Upper Sieve** | 38 – 42 |
-| **Lower Sieve** | 48 – 52 |
-| **Feeder House** | 36 – 44 |
+---
 
-### Sunflower
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 52 – 59 |
-| **Rotor Speed** | 62 – 68 |
-| **Upper Sieve** | 67 – 73 |
-| **Lower Sieve** | 77 – 83 |
-| **Feeder House** | 55 – 65 |
+### 🌿 Forage Harvesters — 3 Parameters
+*(Fan Speed · Drum Speed · Feeder Speed)*
 
-### Rice
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 77 – 84 |
-| **Rotor Speed** | 82 – 88 |
-| **Upper Sieve** | 67 – 73 |
-| **Lower Sieve** | 67 – 73 |
-| **Feeder House** | 54 – 66 |
+| Crop | Fan Speed (RPM) | Drum Speed (RPM) | Feeder Speed (RPM) |
+|:---|:---:|:---:|:---:|
+| **Grass / Dry Grass** | 1150–1290 | 1110–1150 | 380–460 |
+| **Corn Silage (CHAFF)** | 1220–1360 | 1140–1180 | 440–520 |
 
-### Root Crops — Potato, Sugarbeet
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 35 – 45 |
-| **Rotor Speed** | 45 – 55 |
-| **Upper Sieve** | 75 – 85 |
-| **Lower Sieve** | 75 – 85 |
-| **Feeder House** | 45 – 55 |
+---
 
-### Vegetables — Carrot, Onion, Beetroot, etc.
-| Parameter | Zero Loss Zone |
-|:---|:---:|
-| **Fan Speed** | 57 – 67 |
-| **Rotor Speed** | 52 – 62 |
-| **Upper Sieve** | 60 – 70 |
-| **Lower Sieve** | 60 – 70 |
-| **Feeder House** | 52 – 62 |
+### 🥔 Root & Vegetable Harvesters — 3 Parameters
+*(Fan Speed · Roller Speed · Feeder Web)*
+
+> Each crop has **unique optimal values** — check the Calibration Menu when switching crops!
+
+| Crop | Fan Speed (optimal) | Roller Speed (optimal) | Feeder Web (optimal) | Notes |
+|:---|:---:|:---:|:---:|:---|
+| **Potato** | **610 RPM** | **200 RPM** | **310 RPM** | Low air: soil doesn't blow, gentle roller: prevent bruises |
+| **Sugarbeet** | **640 RPM** | **240 RPM** | **300 RPM** | Harder than potato, faster cleaning |
+| **Beetroot** | **630 RPM** | **220 RPM** | **300 RPM** | Between potato and sugarbeet |
+| **Onion** | **850 RPM** ⬆️ | **210 RPM** | **270 RPM** | Strong airflow needed to separate skins and leaves |
+| **Carrot / Parsnip** | **580 RPM** | **190 RPM** | **330 RPM** ⬆️ | Very gentle root, fast feeder to lift weight |
+| **Spinach** | **520 RPM** ⬇️ | **160 RPM** ⬇️ | **280 RPM** | Minimal air: leaves fly and tear easily |
+| **Green Bean** | **670 RPM** | **200 RPM** | **290 RPM** | Moderate, careful: pods crack easily |
+
+**Tolerance zone:** ±5–8% from the optimal value shown above.
+
+---
+
+### 🪡 Cotton Pickers — 3 Parameters
+*(Fan Speed · Picker Speed · Feeder House)*
+
+| Parameter | Optimal | Zero Loss Zone |
+|:---|:---:|:---:|
+| **Fan Speed (RPM)** | 3250 | 3100–3400 |
+| **Picker Speed (RPM)** | 210 | 200–220 |
+| **Feeder House (RPM)** | 190 | 170–210 |
 
 ---
 
