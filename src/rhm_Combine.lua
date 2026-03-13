@@ -1074,10 +1074,19 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             local motor = self.spec_motorized.motor
             local currentLimit = spec.loadCalculator:getSpeedLimit()
             
-            -- If the AI tries to drive faster than our dynamic limit, force the motor to slow down
-            if motor.speedLimit > currentLimit then
-                motor:setSpeedLimit(currentLimit)
+            -- EN: ALWAYS apply the calculated limit (both up and down).
+            --     Previously we only called setSpeedLimit when lowering, so after a heavy windrow
+            --     the motor limit stayed at 1-2 km/h permanently (Courseplay speed-lock bug).
+            --     Cap at genuineSpeedLimit so we never restore above the original ceiling.
+            -- UA: ЗАВЖДИ застосовуємо розрахований ліміт (і вниз, і вгору).
+            --     Раніше ми викликали setSpeedLimit лише при зниженні, тому після важких рядків
+            --     ліміт мотора назавжди залишався на 1-2 км/год (баг блокування швидкості Courseplay).
+            --     Обмежуємо genuineSpeedLimit щоб не перевищити оригінальну стелю.
+            local ceiling = spec.loadCalculator.genuineSpeedLimit
+            if ceiling and ceiling > 0 then
+                currentLimit = math.min(currentLimit, ceiling)
             end
+            motor:setSpeedLimit(currentLimit)
         end
     end
     
