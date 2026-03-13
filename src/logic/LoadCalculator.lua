@@ -462,7 +462,14 @@ function LoadCalculator:calculateEngineLoad(vehicle)
             cropFactor = cropFactor * 0.25  -- EN: Standard windrows (Wheat, Barley, etc.)
         end
     elseif isForageCutter then
-        cropFactor = cropFactor * 0.75  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
+        local targetLoad = 0.95
+        if g_realisticHarvestManager and g_realisticHarvestManager.settings then
+            targetLoad = g_realisticHarvestManager.settings.targetEngineLoad or 0.95
+        end
+        -- EN: Scale the forage cutter difficulty based on the player's target load setting.
+        -- UA: Масштабуємо складність силосної жатки залежно від налаштувань цільового навантаження гравця.
+        -- We use (targetLoad / 1.15) so that at 95% target, the factor is ~0.82 (close to the old 0.75 but dynamic).
+        cropFactor = cropFactor * (targetLoad / 1.15)
     end
 
     -- --- [RHM DEBUG: INFO LOG] ---
@@ -510,7 +517,7 @@ end
 function LoadCalculator:calculateSpeedLimit(vehicle)
     if self.currentAvgMass == 0 then
         -- EN: If not harvesting, return to vanilla working speed / UA: Якщо не збираємо, повертаємось до ванільної робочої швидкості
-        local target = self.vanillaWorkingSpeed or 10.0
+        local target = self.genuineSpeedLimit > 0 and self.genuineSpeedLimit or 10.0
         if self.speedLimit > target then
             self.speedLimit = math.max(target, self.speedLimit - 0.5)
         elseif self.speedLimit < target then
@@ -519,67 +526,38 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
         return
     end
     
-    local currentSpeed = vehicle.lastSpeedReal * 3600 
-    local speedKmh = math.max(1.0, currentSpeed)
-    if currentSpeed < 1.0 and self.currentAvgMass > (self.basePerfMass * 0.1) then
-        speedKmh = math.max(2.0, self.speedLimit)
-    end
-    
     local powerBoost = 0
+    local targetLoad = 0.95
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         powerBoost = g_realisticHarvestManager.settings:getPowerBoost()
+        targetLoad = g_realisticHarvestManager.settings.targetEngineLoad or 0.95
     end
+    
     local maxAvgMass = (1 + 0.01 * powerBoost) * self.basePerfMass * (self.settingsEfficiency or 1.0)
     if maxAvgMass <= 0.01 then return end
     
     local loadRatio = self.currentAvgMass / maxAvgMass
-    local rawLoadRatio = (self.rawAvgMass or self.currentAvgMass) / maxAvgMass
+
+    -- EN: Calculate error between target and current load
+    -- UA: Розраховуємо різницю між цільовим і реальним навантаженням
+    local difference = targetLoad - loadRatio
     
-    local targetLoad = 0.85
-    local idealSpeed = self.genuineSpeedLimit
-    
-    if loadRatio > 0.05 then 
-        idealSpeed = speedKmh * (targetLoad / loadRatio)
-    end
-    idealSpeed = math.min(self.genuineSpeedLimit, math.max(2.0, idealSpeed))
-    
-    local alpha = 0.1 
-    local controlZone = "NORMAL"
-    
-    if rawLoadRatio > 1.25 then
-        alpha = 1.0 -- PANIC
-        controlZone = "PANIC"
-        local emergencyIdeal = math.min(speedKmh, self.speedLimit) * (targetLoad / rawLoadRatio)
-        idealSpeed = math.min(idealSpeed, math.max(2.0, emergencyIdeal))
-    elseif rawLoadRatio > 1.10 then
-        alpha = 0.6 -- HARD BRAKE
-        controlZone = "HARD_BRAKE"
-        local hardbrakeIdeal = math.min(speedKmh, self.speedLimit) * (targetLoad / rawLoadRatio)
-        idealSpeed = math.min(idealSpeed, math.max(2.0, hardbrakeIdeal))
-    elseif loadRatio >= 0.85 and loadRatio <= 0.95 then
-        alpha = 0.02 -- DEADBAND
-        controlZone = "LOCKED"
-    elseif loadRatio < 0.85 then
-        if loadRatio < 0.50 then
-            alpha = self.isPickup and 0.15 or 0.40 -- EN: Slow down pickup accel / UA: Повільне прискорення підбирача
-            controlZone = "ACCEL_FAST"
-        elseif loadRatio < 0.75 then
-            alpha = self.isPickup and 0.10 or 0.25 
-            controlZone = "ACCEL_MED"
-        else
-            alpha = self.isPickup and 0.05 or 0.15 
-            controlZone = "ACCEL_SLOW"
-        end
+    -- EN: Proportional adjustment: hard brake on overload, smooth acceleration on underload
+    -- UA: Пропорційне регулювання: швидке гальмування при перевантаженні, плавний розгін
+    local step = difference * 2.0
+    if difference < 0 then
+        step = difference * 5.0 -- EN: Panic brake / UA: Екстренне скидання швидкості при забиванні
     end
     
-    local diff = idealSpeed - self.speedLimit
-    local maxStep = 1.0
-    if controlZone == "PANIC" then maxStep = 10.0 end
-    if controlZone == "HARD_BRAKE" then maxStep = 5.0 end
+    -- EN: Limit speed jump to avoid jittering
+    -- UA: Обмежуємо максимальний стрибок швидкості за один тік, щоб уникнути ривків
+    step = math.max(-3.0, math.min(1.0, step))
     
-    local step = diff * alpha
-    step = math.clamp(step, -maxStep, maxStep)
     self.speedLimit = self.speedLimit + step
+
+    -- EN: Clamp speed within safe bounds
+    -- UA: Обмеження швидкості: не менше 2 км/год і не більше оригінального ліміту гри
+    self.speedLimit = math.max(2.0, math.min(self.genuineSpeedLimit, self.speedLimit))
 end
 
 ---EN: Returns current engine load factor / UA: Повертає поточне навантаження двигуна
@@ -632,22 +610,26 @@ function LoadCalculator:calculateCropLoss()
     if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then return 0 end
     if not g_realisticHarvestManager.settings.enableCropLoss then return 0 end
     
-    local activeEfficiency = self.settingsEfficiency or 1.0
-    local shieldBonus = math.max(0, activeEfficiency - 1.0)
-    local lossThreshold = 0.95 + shieldBonus
+    local lossMultiplier = g_realisticHarvestManager.settings:getLossMultiplier()
     
-    if self.engineLoad > lossThreshold then
-        local overload = self.engineLoad - lossThreshold
-        local lossMultiplier = g_realisticHarvestManager.settings:getLossMultiplier()
-        local loss = 0
-        if overload <= 0.10 then
-            loss = overload * 40 * lossMultiplier
-        elseif overload <= 0.20 then
-            loss = (4.0 + (overload - 0.10) * 80) * lossMultiplier
-        else
-            loss = (12.0 + (overload - 0.20) * 150) * lossMultiplier
+    -- EN: Losses start smoothly from 80% engine load
+    -- UA: Втрати починаються плавно з 80% завантаження
+    if self.engineLoad > 0.80 then
+        local overload = self.engineLoad - 0.80
+        -- UA: Прогресивна крива (експонента): 
+        -- При 80% (overload=0) -> 0% втрат
+        -- При 90% (overload=0.1) -> 0.5% (мізерні втрати)
+        -- При 100% (overload=0.2) -> 2.0% (допустимі втрати)
+        -- При 110% (overload=0.3) -> 4.5% (пік продуктивності)
+        -- При 130% (overload=0.5) -> 12.5% (величезні втрати)
+        local rawLoss = (overload * overload) * 50
+        
+        -- UA: Різке зростання, якщо завантаження перевищило 110% (забита молотарка)
+        if self.engineLoad > 1.10 then
+            rawLoss = rawLoss + ((self.engineLoad - 1.10) * 100)
         end
-        self.cropLoss = math.min(loss, 50) 
+        
+        self.cropLoss = math.min(rawLoss * lossMultiplier, 50) 
     else
         self.cropLoss = 0
     end
