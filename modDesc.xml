@@ -2,7 +2,7 @@
 <modDesc descVersion="106">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.4.2.0</version>
+    <version>1.4.3.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -620,6 +620,11 @@ Funkciók:
         <!-- ============================= -->
         <!-- CALIBRATION GUI STRINGS       -->
         <!-- ============================= -->
+        <text name="rhm_target_load">
+            <en>Target Engine Load</en><de>Soll-Motorlast</de><fr>Charge Cible</fr>
+            <pl>Docelowe obciążenie</pl><es>Carga Objetivo</es><it>Carico Target</it>
+            <cz>Cílové zatížení</cz><br>Carga Alvo</br><uk>Цільове Навантаження</uk><ru>Целевая Нагрузка</ru><hu>Cél Motorterhelés</hu>
+        </text>
         <text name="rhm_gui_title"><en>Combine Settings</en><de>Mähdreschereinstellungen</de><fr>Paramètres Moissonneuse</fr><pl>Ustawienia Kombajnu</pl><es>Ajustes Cosechadora</es><it>Impostazioni Mietitrebbia</it><cz>Nastavení Kombajnu</cz><uk>Налаштування Комбайна</uk><ru>Настройки Комбайна</ru><hu>Kombájn Beállítások</hu></text>
         <text name="rhm_gui_crop"><en>Crop:</en><de>Kultur:</de><fr>Culture:</fr><pl>Kultura:</pl><es>Cultivo:</es><it>Coltura:</it><cz>Plodina:</cz><uk>Культура:</uk><ru>Культура:</ru><hu>Növény:</hu></text>
         <text name="rhm_gui_none"><en>NONE</en><de>KEINE</de><fr>AUCUN</fr><pl>BRAK</pl><es>NINGUNO</es><it>NESSUNO</it><cz>ŽÁDNÁ</cz><uk>НЕМАЄ</uk><ru>НЕТ</ru><hu>NINCS</hu></text>
