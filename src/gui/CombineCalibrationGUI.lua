@@ -357,6 +357,24 @@ function CombineCalibrationGUI:draw()
     self.hoveredParameter = nil
     
     local ui = self.ui
+    local spec = self.activeVehicle and self.activeVehicle.spec_rhm_Combine
+
+    if spec and spec.combineMemory then
+        local machineType = spec.machineType or "grain"
+        local activeParams = CombineSettingsDatabase:getParamsForMachineType(machineType)
+        local numParams = #activeParams + 1 -- +1 for targetEngineLoad
+        
+        -- EN: Dynamic height based on number of parameter rows
+        -- UA: Динамічна висота на основі кількості рядків параметрів
+        local dynamicH = 0.3065 + (numParams * ui.lineHeight)
+        local targetTop = 0.90 -- Anchor GUI to top
+        ui.h = dynamicH
+        ui.y = targetTop - dynamicH
+    else
+        ui.h = 0.45
+        ui.y = 0.45
+    end
+
     local x, y = ui.x, ui.y
     local w, h = ui.w, ui.h
     
@@ -455,6 +473,17 @@ function CombineCalibrationGUI:draw()
         self:drawParameterRow(x + ui.margin, cy, w - ui.margin*2, param, label, memory, ui, machineType)
         cy = cy - ui.lineHeight
     end
+    
+    -- EN: Visual separator for engine settings
+    -- UA: Візуальний розділювач для налаштувань двигуна
+    self:drawRect(x + ui.margin, cy + 0.015, w - ui.margin*2, 0.001, {1, 1, 1, 0.15})
+    
+    -- EN: Add Target Engine Load below crop physical parameters
+    -- UA: Додаємо цільове навантаження двигуна під фізичними параметрами
+    cy = cy - ui.lineHeight * 0.2
+    local loadLabel = g_i18n:hasText("rhm_target_load") and g_i18n:getText("rhm_target_load") or "Target Engine Load"
+    self:drawParameterRow(x + ui.margin, cy, w - ui.margin*2, "targetEngineLoad", loadLabel, memory, ui, machineType)
+    cy = cy - ui.lineHeight
     
     cy = cy - ui.lineHeight * 0.5
     
@@ -631,6 +660,11 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
     --     Розраховує фізичний крок (10 об/хв або 0.5 мм), спочатку прив'язується до сітки,
     --     потім конвертує назад у %. Відступає до кроків 1% якщо UnitConverter недоступний.
     local function performSmartStep(direction)
+        if param == "targetEngineLoad" then
+            memory:updateSetting(param, val + (direction * 5))
+            return
+        end
+
         if UnitConverter and UnitConverter.percentToPhysical then
             local physVal = UnitConverter.percentToPhysical(param, val, machineType)
             local range = UnitConverter.getPhysicalRange(param, machineType)
@@ -787,6 +821,11 @@ function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
                     local currentVal = spec.combineMemory.currentSettings[param]
                     local machineType = spec.machineType or "grain"
                     
+                    if param == "targetEngineLoad" then
+                        spec.combineMemory:updateSetting(param, currentVal + (delta * 5))
+                        return true
+                    end
+
                     -- EN: Smart step: use physical unit increments (10 RPM, 0.5 mm) same as button logic.
                     -- UA: Розумний крок: використовуємо фізичні кроки (10 об/хв, 0.5 мм) як у логіці кнопок.
                     if UnitConverter and UnitConverter.percentToPhysical then

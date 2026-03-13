@@ -48,8 +48,6 @@ function Settings.new(manager)
     self.showYield = true
     self.showSpeedometer = true
     self.enableIndependentLaunch = true -- EN: Separate header start enabled by default / UA: Окремий запуск жатки увімкнено за замовчуванням
-    
-    self.targetEngineLoad = 0.95 -- EN: Target load for Cruise Control (70%-110%) / UA: Цільове навантаження круїз-контролю
 
     -- EN: HUD visibility toggles (client-side, per-player).
     -- UA: Перемикачі видимості HUD (клієнтські, для кожного гравця).
@@ -216,7 +214,6 @@ function Settings:resetToDefaults()
     self.showSpeedometer = true
     self.showLoadWarnings = true
     self.enableIndependentLaunch = true
-    self.targetEngineLoad = 0.95
     self.hudOffsetX = 0
     self.hudOffsetY = 350
     self.hudPosX = nil -- EN: Reset to automatic HUD positioning / UA: Скидаємо на автоматичну позицію HUD

@@ -30,6 +30,7 @@ function CombineMemory.new(combine, machineType)
     for _, paramName in ipairs(activeParams) do
         self.currentSettings[paramName] = 50
     end
+    self.currentSettings["targetEngineLoad"] = 95
 
     self.currentYieldCalibration = 1.0
 
@@ -197,6 +198,7 @@ function CombineMemory:loadUserPreset()
             self.currentSettings.upperSieve = profile.upperSieve
             self.currentSettings.lowerSieve = profile.lowerSieve
             self.currentSettings.feeder = profile.feeder
+            self.currentSettings.targetEngineLoad = profile.targetEngineLoad or 95
             self.mode = "MANUAL"
             self.autoSwitchEnabled = false
         end
@@ -224,6 +226,9 @@ function CombineMemory:checkSettingsForCrop(cropName)
     local warnings = {}
     local efficiencyScore = 0  -- EN: Impacts throughput/speed / UA: Впливає на пропускну здатність/швидкість
     local lossScore = 0        -- EN: Impacts direct crop loss / UA: Впливає на прямі втрати врожаю
+    
+    local effParamCount = 0
+    local lossParamCount = 0
 
     for param, value in pairs(self.currentSettings) do
         if optimalSettings[param] then
@@ -253,17 +258,37 @@ function CombineMemory:checkSettingsForCrop(cropName)
 
             -- EN: Route penalty to the appropriate physical effect based on parameter type.
             --     Feeder/Rotor → efficiency (speed) | Fan/Sieves → loss (separation).
+            --     We also count parameters to normalize the scores later.
             -- UA: Направляємо штраф до відповідного фізичного ефекту залежно від параметру.
             --     Подача/Ротор → ефективність (швидкість) | Вентилятор/Решета → втрати (очищення).
+            --     Також підраховуємо параметри для подальшої нормалізації балів.
             if param == "feeder" or param == "rotor" then
                 efficiencyScore = efficiencyScore + score
+                effParamCount = effParamCount + 1
             elseif param == "fan" or param == "upperSieve" or param == "lowerSieve" then
                 lossScore = lossScore + score
+                lossParamCount = lossParamCount + 1
             else
                 efficiencyScore = efficiencyScore + (score * 0.5)
                 lossScore = lossScore + (score * 0.5)
+                effParamCount = effParamCount + 0.5
+                lossParamCount = lossParamCount + 0.5
             end
         end
+    end
+
+    -- EN: Normalize scores so that machines with fewer parameters (e.g., forage/root)
+    --     can still reach the same max bonus and max penalty as 5-parameter grain combines.
+    -- UA: Нормалізуємо бали, щоб машини з меншою кількістю параметрів (напр., форажні/бурякові)
+    --     могли досягати тих же максимальних бонусів/штрафів, що й 5-параметрові зернові комбайни.
+    if effParamCount > 0 then
+        -- Grain combines have 2 efficiency params (feeder, rotor). We scale to 2.
+        efficiencyScore = efficiencyScore * (2.0 / effParamCount)
+    end
+    
+    if lossParamCount > 0 then
+        -- Grain combines have 3 loss params (fan, upperSieve, lowerSieve). We scale to 3.
+        lossScore = lossScore * (3.0 / lossParamCount)
     end
 
     -- EN: Clamp penalties to reasonable bounds.
@@ -282,6 +307,10 @@ end
 -- UA: Встановлює значення одного параметру (0-100) і перемикає в MANUAL режим.
 function CombineMemory:setParameter(paramName, value)
     if self.currentSettings[paramName] ~= nil then
+        if paramName == "targetEngineLoad" then
+            self.currentSettings[paramName] = math.max(70, math.min(110, value))
+            return true
+        end
         self.currentSettings[paramName] = math.max(0, math.min(100, value))
         self.mode = "MANUAL" -- EN: Any manual change overrides AUTO mode / UA: Будь-яка ручна зміна скасовує AUTO режим
         return true
@@ -409,8 +438,10 @@ end
 function CombineMemory:updateSetting(param, value)
     local success = self:setParameter(param, value)
     if success then
-        self.autoSwitchEnabled = false
-        self.mode = "MANUAL"
+        if param ~= "targetEngineLoad" then
+            self.autoSwitchEnabled = false
+            self.mode = "MANUAL"
+        end
 
         if g_client and self.combine then
             local event = CombineSettingsEvent.new(self.combine, param, self.currentSettings[param], false, nil)

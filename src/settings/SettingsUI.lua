@@ -144,37 +144,6 @@ function SettingsUI:inject()
     end
     self.cropLossOption = cropLossOpt
 
-    -- EN: Target Engine Load — lets player pick their cruise control target.
-    -- UA: Цільове навантаження двигуна — дозволяє гравцеві вибрати ціль для круїз-контролю.
-    local targetLoadOptions = {
-        "70%", "75%", "80%", "85%", "90%", "95%", "100%", "105%", "110%"
-    }
-    
-    -- Convert 0.70-1.10 float to an index from 1 to 9
-    local currentLoadIndex = math.floor((self.settings.targetEngineLoad - 0.70) / 0.05 + 0.5) + 1
-    currentLoadIndex = math.max(1, math.min(9, currentLoadIndex))
-    
-    local targetLoadOpt = UIHelper.createMultiOption(
-        layout,
-        "rhm_target_load",
-        "rhm_target_load",
-        targetLoadOptions,
-        currentLoadIndex,
-        function(val)
-            if not self.settings:canChangeServerSettings() then return end
-            -- Convert index back to float: (val - 1) * 0.05 + 0.70
-            self.settings.targetEngineLoad = (val - 1) * 0.05 + 0.70
-            self.settings:save()
-            if g_currentMission.missionDynamicInfo.isMultiplayer and SettingsSync then
-                SettingsSync:sendToClients(self.settings)
-            end
-        end
-    )
-    if targetLoadOpt.setDisabled then
-        targetLoadOpt:setDisabled(not isAdmin)
-    end
-    self.targetLoadOption = targetLoadOpt
-
     -- EN: Inject "HUD & Display" section header.
     -- UA: Впроваджуємо заголовок секції "HUD та Відображення".
     UIHelper.createSection(layout, "rhm_section_visuals")
@@ -290,13 +259,6 @@ function SettingsUI:refreshUI()
     if self.cropLossOption and self.cropLossOption.setIsChecked then
         self.cropLossOption:setIsChecked(self.settings.enableCropLoss)
         if self.cropLossOption.setDisabled then self.cropLossOption:setDisabled(not isAdmin) end
-    end
-
-    if self.targetLoadOption and self.targetLoadOption.setState then
-        local currentLoadIndex = math.floor((self.settings.targetEngineLoad - 0.70) / 0.05 + 0.5) + 1
-        currentLoadIndex = math.max(1, math.min(9, currentLoadIndex))
-        self.targetLoadOption:setState(currentLoadIndex)
-        if self.targetLoadOption.setDisabled then self.targetLoadOption:setDisabled(not isAdmin) end
     end
 
     if self.unitSystemOption and self.unitSystemOption.setState then

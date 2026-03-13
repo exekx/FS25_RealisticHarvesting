@@ -462,14 +462,7 @@ function LoadCalculator:calculateEngineLoad(vehicle)
             cropFactor = cropFactor * 0.25  -- EN: Standard windrows (Wheat, Barley, etc.)
         end
     elseif isForageCutter then
-        local targetLoad = 0.95
-        if g_realisticHarvestManager and g_realisticHarvestManager.settings then
-            targetLoad = g_realisticHarvestManager.settings.targetEngineLoad or 0.95
-        end
-        -- EN: Scale the forage cutter difficulty based on the player's target load setting.
-        -- UA: Масштабуємо складність силосної жатки залежно від налаштувань цільового навантаження гравця.
-        -- We use (targetLoad / 1.15) so that at 95% target, the factor is ~0.82 (close to the old 0.75 but dynamic).
-        cropFactor = cropFactor * (targetLoad / 1.15)
+        cropFactor = cropFactor * 0.75  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
     end
 
     -- --- [RHM DEBUG: INFO LOG] ---
@@ -528,9 +521,12 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
     
     local powerBoost = 0
     local targetLoad = 0.95
+    if self.combineMemory and self.combineMemory.currentSettings and self.combineMemory.currentSettings.targetEngineLoad then
+        targetLoad = self.combineMemory.currentSettings.targetEngineLoad / 100.0
+    end
+    
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         powerBoost = g_realisticHarvestManager.settings:getPowerBoost()
-        targetLoad = g_realisticHarvestManager.settings.targetEngineLoad or 0.95
     end
     
     local maxAvgMass = (1 + 0.01 * powerBoost) * self.basePerfMass * (self.settingsEfficiency or 1.0)

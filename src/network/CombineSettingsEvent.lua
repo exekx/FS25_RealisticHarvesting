@@ -43,6 +43,7 @@ function CombineSettingsEvent:readStream(streamId, connection)
         self.fullSettings.upperSieve = streamReadUInt8(streamId)
         self.fullSettings.lowerSieve = streamReadUInt8(streamId)
         self.fullSettings.feeder = streamReadUInt8(streamId)
+        self.fullSettings.targetEngineLoad = streamReadUInt8(streamId)
     else
         -- EN: Single parameter mode: read parameter name and its value.
         -- UA: Режим одного параметру: зчитуємо назву параметру і його значення.
@@ -66,6 +67,7 @@ function CombineSettingsEvent:writeStream(streamId, connection)
         streamWriteUInt8(streamId, self.fullSettings.upperSieve or 50)
         streamWriteUInt8(streamId, self.fullSettings.lowerSieve or 50)
         streamWriteUInt8(streamId, self.fullSettings.feeder or 50)
+        streamWriteUInt8(streamId, self.fullSettings.targetEngineLoad or 95)
     else
         -- EN: Write single parameter name and value.
         -- UA: Записуємо назву та значення одного параметру.
@@ -91,6 +93,7 @@ function CombineSettingsEvent:run(connection)
                 mem.currentSettings.upperSieve = self.fullSettings.upperSieve
                 mem.currentSettings.lowerSieve = self.fullSettings.lowerSieve
                 mem.currentSettings.feeder = self.fullSettings.feeder
+                mem.currentSettings.targetEngineLoad = self.fullSettings.targetEngineLoad
                 mem.autoSwitchEnabled = false
                 mem.mode = "MANUAL"
                 if RHM_Debug and RHM_Debug.isEnabled("Network") then
@@ -128,9 +131,12 @@ function CombineSettingsEvent:run(connection)
                     -- EN: Apply a single parameter change (e.g. "fan" = 65).
                     -- UA: Застосовуємо зміну одного параметру (наприклад "fan" = 65).
                     if mem.currentSettings[self.parameter] ~= nil then
-                        mem.currentSettings[self.parameter] = math.max(0, math.min(100, self.value))
-                        mem.autoSwitchEnabled = false
-                        mem.mode = "MANUAL"
+                        local maxVal = self.parameter == "targetEngineLoad" and 110 or 100
+                        mem.currentSettings[self.parameter] = math.max(0, math.min(maxVal, self.value))
+                        if self.parameter ~= "targetEngineLoad" then
+                            mem.autoSwitchEnabled = false
+                            mem.mode = "MANUAL"
+                        end
                         if RHM_Debug and RHM_Debug.isEnabled("Network") then
                             print(string.format("RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
                         end
@@ -144,7 +150,8 @@ function CombineSettingsEvent:run(connection)
                 rotor = mem.currentSettings.rotor,
                 upperSieve = mem.currentSettings.upperSieve,
                 lowerSieve = mem.currentSettings.lowerSieve,
-                feeder = mem.currentSettings.feeder
+                feeder = mem.currentSettings.feeder,
+                targetEngineLoad = mem.currentSettings.targetEngineLoad
             }
             g_server:broadcastEvent(CombineSettingsEvent.new(self.vehicle, "", 0, true, fullSettings), nil, connection, self.vehicle)
             local spec = self.vehicle.spec_rhm_Combine
@@ -163,14 +170,18 @@ function CombineSettingsEvent:run(connection)
                 mem.currentSettings.upperSieve = self.fullSettings.upperSieve
                 mem.currentSettings.lowerSieve = self.fullSettings.lowerSieve
                 mem.currentSettings.feeder = self.fullSettings.feeder
+                mem.currentSettings.targetEngineLoad = self.fullSettings.targetEngineLoad
             elseif self.parameter == "AUTO_MODE" then
                 mem.autoSwitchEnabled = (self.value == 1)
                 mem.mode = mem.autoSwitchEnabled and "AUTO" or "MANUAL"
             elseif self.parameter ~= "AUTO_SET" and self.parameter ~= "RESET_SET" then
                 if mem.currentSettings[self.parameter] ~= nil then
-                    mem.currentSettings[self.parameter] = math.max(0, math.min(100, self.value))
-                    mem.autoSwitchEnabled = false
-                    mem.mode = "MANUAL"
+                    local maxVal = self.parameter == "targetEngineLoad" and 110 or 100
+                    mem.currentSettings[self.parameter] = math.max(0, math.min(maxVal, self.value))
+                    if self.parameter ~= "targetEngineLoad" then
+                        mem.autoSwitchEnabled = false
+                        mem.mode = "MANUAL"
+                    end
                 end
             end
         end

@@ -256,30 +256,49 @@ function DraggableHUD:draw()
     local titleTextY = self.y + self.height + self.headerHeight * 0.65
     renderText(headerTextX, titleTextY, titleTextSize, "Realistic Harvesting")
 
-    -- EN: Draw "Settings" sub-label below the title with hover color change.
-    -- UA: Малюємо підпис "Settings" під назвою зі зміною кольору при наведенні.
+    -- EN: Draw "Settings" button in the header with a faint bounding box and hover color change.
+    -- UA: Малюємо кнопку "Settings" у заголовку з тьмяною рамкою та зміною кольору при наведенні.
     setTextBold(false)
     setTextAlignment(RenderText.ALIGN_CENTER)
 
+    local settingsTextSize = 0.009
+    local btnW = 0.040
+    local btnH = self.headerHeight * 0.45
+    local btnX = self.x + (self.width - btnW) / 2
+    local btnY = self.y + self.height + self.headerHeight * 0.05
+
     local settingsButtonArea = {
-        x = self.x,
-        y = self.y + self.height,
-        w = self.width,
-        h = self.headerHeight * 0.4
+        x = btnX,
+        y = btnY,
+        w = btnW,
+        h = btnH
     }
     local mx, my = g_inputBinding:getMousePosition()
     local isHovered = mx >= settingsButtonArea.x and mx <= settingsButtonArea.x + settingsButtonArea.w and
                       my >= settingsButtonArea.y and my <= settingsButtonArea.y + settingsButtonArea.h
 
+    -- Draw button background box
     if isHovered then
-        setTextColor(0.6, 1.0, 1.0, 1)  -- EN: Cyan on hover / UA: Блакитний при наведенні
+        if self.backgroundOverlay then
+            -- Use the existing overlay class with a custom color
+            local rect = Overlay.new(self.modDirectory .. "textures/hud_background.dds", btnX, btnY, btnW, btnH)
+            rect:setColor(1, 1, 1, 0.2)
+            rect:render()
+            rect:delete()
+        end
+        setTextColor(1.0, 1.0, 1.0, 1)  -- EN: White on hover / UA: Білий при наведенні
     else
-        setTextColor(0.8, 0.8, 1.0, 1)  -- EN: Light blue default / UA: Блакитний за замовчуванням
+        if self.backgroundOverlay then
+            local rect = Overlay.new(self.modDirectory .. "textures/hud_background.dds", btnX, btnY, btnW, btnH)
+            rect:setColor(0, 0, 0, 0.3)
+            rect:render()
+            rect:delete()
+        end
+        setTextColor(0.8, 0.8, 0.8, 1)  -- EN: Light gray default / UA: Світло-сірий за замовчуванням
     end
 
-    local settingsTextSize = 0.009
-    local settingsTextY = self.y + self.height + self.headerHeight * 0.20
-    renderText(headerTextX, settingsTextY, settingsTextSize, "Settings")
+    local textYOffset = btnY + (btnH - settingsTextSize) / 2 + 0.002
+    renderText(headerTextX, textYOffset, settingsTextSize, "Settings")
     setTextBold(false)
 
     -- EN: Store button area for mouse event hit-testing.
@@ -455,6 +474,16 @@ function DraggableHUD:drawRow(iconX, textX, textY, iconWidth, iconHeight, textSi
         setTextColor(1, 1, 1, 0.95)
     end
     renderText(textX, textY, textSize, text)
+    
+    -- EN: Draw a faint horizontal separator line below the row (unless it's the bottom row)
+    -- UA: Малюємо тьмяну горизонтальну лінію розділювача під рядком
+    if self.backgroundOverlay then
+        local lineY = textY - 0.004
+        local line = Overlay.new(self.modDirectory .. "textures/hud_background.dds", self.x + 0.005, lineY, self.width - 0.010, 0.0007)
+        line:setColor(1, 1, 1, 0.1)
+        line:render()
+        line:delete()
+    end
 end
 
 -- EN: Maps engine load value to a display color: white (low), yellow (moderate), red (high).

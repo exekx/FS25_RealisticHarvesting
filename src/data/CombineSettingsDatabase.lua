@@ -280,6 +280,15 @@ local templates = {
         rotor = {optimal = 80, min = 65, max = 95, tolerance = 6},
         feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
     },
+
+    -- ============================
+    -- COTTON HARVESTER TEMPLATES
+    -- ============================
+    cotton_picker = {
+        fan = {optimal = 80, min = 60, max = 100, tolerance = 10},
+        rotor = {optimal = 70, min = 50, max = 90, tolerance = 10},
+        feeder = {optimal = 60, min = 40, max = 80, tolerance = 10},
+    },
 }
 -- EN: Active parameters per machine type. Defines which parameter sliders appear in the calibration GUI.
 -- UA: Активні параметри для кожного типу машини. Визначає які повзунки параметрів відображаються в GUI калібрування.
