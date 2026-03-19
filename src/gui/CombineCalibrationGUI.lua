@@ -24,6 +24,10 @@ function CombineCalibrationGUI.new(modDirectory)
     self.isCursorActive = false
     self.debug = true -- EN: Enable diagnostic logging / UA: Увімкнути діагностичне логування
     
+    self.isCropDropdownOpen = false
+    self.cropDropdownScroll = 0
+    self.hoveredDropdown = false
+    
     -- EN: UI layout configuration: position, size, margins, typography, and color palette.
     -- UA: Конфігурація розмітки UI: позиція, розмір, відступи, типографіка та кольорова палітра.
     self.ui = {
@@ -198,6 +202,7 @@ function CombineCalibrationGUI:close()
     
     self.isOpen = false
     self.isCursorActive = false
+    self.isCropDropdownOpen = false
     
     -- EN: Use the controller vehicle (cab) for camera restoration, not the combine module.
     -- UA: Використовуємо транспорт з кабіною для відновлення камери, а не модуль комбайна.
@@ -338,6 +343,41 @@ function CombineCalibrationGUI:update(dt)
     end
 end
 
+-- EN: Localize the crop name via FillType manager, with l10n key fallback.
+-- UA: Локалізуємо назву культури через FillType менеджер, з резервним l10n ключем.
+function CombineCalibrationGUI:getLocalizedCropName(rawName)
+    if not rawName then return g_i18n:getText("rhm_gui_none") end
+    
+    local displayName = rawName
+    local fillTypeIndex = g_fillTypeManager:getFillTypeIndexByName(rawName)
+    if fillTypeIndex and fillTypeIndex > 0 then
+        local fillType = g_fillTypeManager:getFillTypeByIndex(fillTypeIndex)
+        if fillType and fillType.title then
+            displayName = fillType.title
+        end
+    end
+
+    if displayName == rawName then
+        local l10nKey = "fillType_" .. string.lower(rawName)
+        if g_i18n:hasText(l10nKey) then
+            displayName = g_i18n:getText(l10nKey)
+        end
+    end
+    
+    -- Formatting fallback for unlocalized raw names (e.g. RICE_LONG_GRAIN -> Rice Long Grain)
+    -- or if the mapped title is perfectly matching the uppercase raw name (e.g. POPPY)
+    if displayName == rawName or displayName == string.upper(rawName) then
+        local name = string.gsub(rawName, "_", " ")
+        name = string.lower(name)
+        name = string.gsub(name, "(%a)([%w_']*)", function(first, rest) 
+            return string.upper(first) .. rest
+        end)
+        return name
+    end
+    
+    return displayName
+end
+
 -- EN: Main draw function. Renders the calibration panel with header, crop selector,
 --     mode buttons (AUTO/LOAD PRESET), parameter rows, loss/speed preview, and profile buttons.
 --     Also processes mouse wheel scroll over parameter rows at the end of the frame.
@@ -385,14 +425,14 @@ function CombineCalibrationGUI:draw()
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(ui.colors.text))
-    renderText(x + w/2, y + h - ui.headerHeight + 0.01, ui.titleSize, g_i18n:getText("rhm_gui_title"))
+    self:drawText(x + w/2, y + h - ui.headerHeight + 0.01, ui.titleSize, g_i18n:getText("rhm_gui_title"))
     
     local cy = y + h - ui.headerHeight - ui.margin - ui.lineHeight
     
     if not self.activeVehicle then
         if self.debug then print("RHM: [GUI] draw() rendering 'No Combine Selected'") end
         setTextAlignment(RenderText.ALIGN_CENTER)
-        renderText(x + w/2, cy, ui.fontSize, g_i18n:getText("rhm_gui_no_combine"))
+        self:drawText(x + w/2, cy, ui.fontSize, g_i18n:getText("rhm_gui_no_combine"))
         return
     end
     
@@ -401,64 +441,23 @@ function CombineCalibrationGUI:draw()
     if not spec or not spec.combineMemory then
         if self.debug then print("RHM: [GUI] draw() rendering 'Combine not initialized' | spec="..tostring(spec~=nil).." memory="..tostring(spec and spec.combineMemory~=nil)) end
         setTextAlignment(RenderText.ALIGN_CENTER)
-        renderText(x + w/2, cy, ui.fontSize, g_i18n:getText("rhm_gui_not_init"))
+        self:drawText(x + w/2, cy, ui.fontSize, g_i18n:getText("rhm_gui_not_init"))
         return
     end
     
     local memory = spec.combineMemory
     
-    -- EN: Crop selector row with prev/next buttons and localized crop name.
-    -- UA: Рядок вибору культури з кнопками попередньої/наступної та локалізованою назвою культури.
-    setTextAlignment(RenderText.ALIGN_LEFT)
-    renderText(x + ui.margin, cy + 0.005, ui.fontSize, g_i18n:getText("rhm_gui_crop"))
-    
-    local cropX = x + ui.margin + 0.05
-    
-    self:drawButton(cropX, cy, 0.025, 0.035, "<", function()
-        self:cycleCrop(-1)
-    end)
-    
-    -- EN: Localize the crop name via FillType manager, with l10n key fallback.
-    -- UA: Локалізуємо назву культури через FillType менеджер, з резервним l10n ключем.
-    local function getLocalizedCropName(rawName)
-        if not rawName then return g_i18n:getText("rhm_gui_none") end
-        
-        local displayName = rawName
-        local fillTypeIndex = g_fillTypeManager:getFillTypeIndexByName(rawName)
-        if fillTypeIndex and fillTypeIndex > 0 then
-            local fillType = g_fillTypeManager:getFillTypeByIndex(fillTypeIndex)
-            if fillType and fillType.title then
-                displayName = fillType.title
-            end
-        else
-            local l10nKey = "fillType_" .. string.lower(rawName)
-            if g_i18n:hasText(l10nKey) then
-                displayName = g_i18n:getText(l10nKey)
-            end
-        end
-        return displayName
-    end
-    
-    setTextAlignment(RenderText.ALIGN_CENTER)
-    renderText(cropX + 0.025 + 0.07, cy + 0.005, ui.fontSize, getLocalizedCropName(memory.currentCrop))
-    
-    self:drawButton(cropX + 0.025 + 0.14, cy, 0.025, 0.035, ">", function()
-        self:cycleCrop(1)
-    end)
-    
-    cy = cy - ui.lineHeight * 1.2
-    
-    -- EN: Mode buttons: AUTO applies optimal settings (server-side randomized); LOAD PRESET loads the user's saved profile.
-    -- UA: Кнопки режиму: AUTO застосовує оптимальні налаштування (з серверною рандомізацією); LOAD PRESET завантажує збережений профіль.
+    -- EN: Mode buttons: AUTO applies optimal settings; RESET DEFAULT resets everything to physics defaults.
+    -- UA: Кнопки режиму: AUTO застосовує оптимальні налаштування; RESET DEFAULT скидає всі налаштування.
     local btnWidth = (w - ui.margin * 2.5 - 0.01) / 2
     
     self:drawButton(x + ui.margin, cy, btnWidth, 0.035, g_i18n:getText("rhm_gui_btn_auto"), function()
         memory:requestAutoSettings()
     end, {0.9, 0.7, 0.1, 1})
     
-    self:drawButton(x + w - ui.margin - btnWidth, cy, btnWidth, 0.035, g_i18n:getText("rhm_gui_btn_load_preset"), function()
-        memory:loadUserPreset()
-    end, {0.1, 0.5, 0.9, 1})
+    self:drawButton(x + w - ui.margin - btnWidth, cy, btnWidth, 0.035, g_i18n:getText("rhm_gui_btn_reset"), function()
+        memory:requestResetSettings()
+    end, ui.colors.warning)
     
     cy = cy - ui.lineHeight * 1.5
     
@@ -532,31 +531,101 @@ function CombineCalibrationGUI:draw()
     
     setTextAlignment(RenderText.ALIGN_LEFT)
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x + ui.margin, cy + 0.005, ui.fontSize, string.format(g_i18n:getText("rhm_gui_engine_load"), load))
+    self:drawText(x + ui.margin, cy + 0.005, ui.fontSize, string.format(g_i18n:getText("rhm_gui_engine_load"), load))
     
     setTextAlignment(RenderText.ALIGN_RIGHT)
     setTextColor(unpack(textColor))
-    renderText(x + w - ui.margin, cy + 0.005, ui.fontSize, textStr)
+    self:drawText(x + w - ui.margin, cy + 0.005, ui.fontSize, textStr)
 
     cy = cy - ui.lineHeight * 1.5
     
-    -- EN: Profile management buttons: save current settings, or reset to defaults.
-    -- UA: Кнопки управління профілем: зберегти поточні налаштування або скинути до типових.
-    self:drawButton(x + ui.margin, cy, 0.12, 0.035, g_i18n:getText("rhm_gui_btn_save"), function()
+    -- EN: Profile management buttons: save current settings, or load user preset.
+    -- UA: Кнопки управління профілем: зберегти поточні налаштування або завантажити профіль.
+    local btnWidth = (w - ui.margin * 2.5 - 0.01) / 2
+    
+    self:drawButton(x + ui.margin, cy, btnWidth, 0.035, g_i18n:getText("rhm_gui_btn_save"), function()
         memory:saveCurrentProfile(memory.currentCrop)
     end)
     
-    self:drawButton(x + w - ui.margin - 0.12, cy, 0.12, 0.035, g_i18n:getText("rhm_gui_btn_reset"), function()
-        memory:requestResetSettings()
-    end, ui.colors.warning)
+    self:drawButton(x + w - ui.margin - btnWidth, cy, btnWidth, 0.035, g_i18n:getText("rhm_gui_btn_load_preset"), function()
+        memory:loadUserPreset()
+    end, {0.1, 0.5, 0.9, 1})
     
-    cy = cy - ui.lineHeight
+    cy = cy - ui.lineHeight * 1.2
+    
+    -- EN: Crop selector row moved to bottom, opens upwards.
+    -- UA: Рядок вибору культури переміщено в самий низ, відкривається вгору.
+    setTextAlignment(RenderText.ALIGN_LEFT)
+    self:drawText(x + ui.margin, cy + 0.005, ui.fontSize, g_i18n:getText("rhm_gui_crop"))
+    
+    local cropX = x + ui.margin + 0.05
+    local dropW = 0.2
+    
+    local cropName = self:getLocalizedCropName(memory.currentCrop)
+    self:drawButton(cropX, cy, dropW, 0.035, cropName .. (self.isCropDropdownOpen and "  ^" or "  v"), function()
+        self.isCropDropdownOpen = not self.isCropDropdownOpen
+        self.cropDropdownScroll = 0
+    end, nil, true)
+    
+    if self.isCropDropdownOpen and spec then
+        local crops = CombineSettingsDatabase:getCropNamesForMachineType(machineType)
+        if crops then
+            local displayCount = math.min(#crops, 6)
+            self.dropRect = {
+                x = cropX,
+                y = cy - (displayCount * 0.035), -- Opens downwards below the button!
+                w = dropW,
+                h = displayCount * 0.035
+            }
+        else
+            self.dropRect = nil
+        end
+    else
+        self.dropRect = nil
+    end
+    
+    cy = cy - ui.lineHeight * 1.0
     
     -- EN: Close hint text at the bottom (e.g. "Press K to close").
     -- UA: Підказка закриття внизу (напр. "Натисніть K для закриття").
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x + w/2, cy + 0.005, ui.fontSize * 0.9, g_i18n:getText("rhm_gui_close_hint"))
+    self:drawText(x + w/2, cy + 0.005, ui.fontSize * 0.9, g_i18n:getText("rhm_gui_close_hint"))
+    
+    -- EN: Draw dropdown if open over everything else / UA: Малюємо випадаючий список поверх всього
+    if self.isCropDropdownOpen and self.dropRect and spec then
+        local crops = CombineSettingsDatabase:getCropNamesForMachineType(machineType)
+        if crops then
+            local displayCount = math.min(#crops, 6)
+            local itemH = 0.035
+            local cropDropX = self.dropRect.x
+            local dropY = self.dropRect.y
+            local dropW = self.dropRect.w
+            local dropH = self.dropRect.h
+            local dropBtnY = dropY + dropH
+
+            self.hoveredDropdown = self:checkHover(cropDropX, dropY, dropW, dropH)
+
+            self:drawRect(cropDropX, dropY, dropW, dropH, {0.05, 0.05, 0.05, 0.98})
+            self:drawRect(cropDropX, dropY, dropW, 0.002, {0.3, 0.3, 0.3, 1})
+            
+            for i = 1, displayCount do
+                local cropIdx = i + self.cropDropdownScroll
+                if crops[cropIdx] then
+                    local cName = crops[cropIdx]
+                    local isCurrent = (cName == memory.currentCrop)
+                    local btnY = dropBtnY - (i * itemH)
+                    local bgColor = isCurrent and {0.2, 0.5, 0.8, 0.8} or {0.15, 0.15, 0.15, 0.9}
+                    self:drawButton(cropDropX, btnY, dropW, itemH, self:getLocalizedCropName(cName), function()
+                        spec.combineMemory:switchCrop(cName)
+                        self.isCropDropdownOpen = false
+                    end, bgColor, true)
+                end
+            end
+        end
+    else
+        self.hoveredDropdown = false
+    end
     
     -- EN: Process scroll wheel adjustments (debounced). Only fires when mouse is inside GUI.
     --     Shift held = 5x step multiplier for faster adjustment.
@@ -626,7 +695,7 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
     
     setTextAlignment(RenderText.ALIGN_LEFT)
     setTextColor(unpack(ui.colors.text))
-    renderText(x, y + 0.005, ui.fontSize, label)
+    self:drawText(x, y + 0.005, ui.fontSize, label)
     
     -- EN: Value box occupies 25-75% of row width for hover detection.
     -- UA: Область значення займає 25-75% ширини рядка для виявлення наведення.
@@ -651,7 +720,7 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
     
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(valColor))
-    renderText(x + w * 0.5, y + 0.005, ui.fontSize, displayStr)
+    self:drawText(x + w * 0.5, y + 0.005, ui.fontSize, displayStr)
     
     -- EN: Smart step logic for [-]/[+] buttons.
     --     Calculates physical increment (10 RPM or 0.5 mm), snaps to grid first,
@@ -739,7 +808,7 @@ end
 --     Registers the button in self.buttons for click hit-testing in mouseEvent.
 -- UA: Малює кольоровий прямокутник кнопки та її мітку. Текст стає блакитним при наведенні.
 --     Реєструє кнопку в self.buttons для перевірки кліків у mouseEvent.
-function CombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOverride)
+function CombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOverride, ignoreCull)
     local isHovered = self:checkHover(x, y, w, h)
     
     local bgColor = colorOverride or self.ui.colors.button
@@ -751,7 +820,7 @@ function CombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOverr
     else
         setTextColor(1, 1, 1, 1)
     end
-    renderText(x + w/2, y + h/2 - self.ui.fontSize/2.5, self.ui.fontSize, text)
+    self:drawText(x + w/2, y + h/2 - self.ui.fontSize/2.5, self.ui.fontSize, text, ignoreCull)
     
     table.insert(self.buttons, {x=x, y=y, w=w, h=h, callback=callback})
 end
@@ -779,6 +848,27 @@ function CombineCalibrationGUI:checkHover(x, y, w, h)
     return mx >= x and mx <= x + w and my >= y and my <= y + h
 end
 
+-- EN: Renders text while respecting occlusion from the crop dropdown bounds.
+-- UA: Відображає текст, враховуючи перекриття рамками випадаючого списку культур.
+function CombineCalibrationGUI:drawText(textX, textY, size, text, ignoreCull)
+    if not ignoreCull and self.dropRect and text and text ~= "" then
+        local r = self.dropRect
+        if textY > r.y and textY < r.y + r.h then
+            local textW = 0
+            if getTextWidth then
+                textW = getTextWidth(size, text)
+            else
+                textW = string.len(tostring(text)) * size * 0.45
+            end
+            
+            if (textX + textW > r.x) and (textX - textW < r.x + r.w) then
+                return -- Dropdown occludes this text
+            end
+        end
+    end
+    renderText(textX, textY, size, text)
+end
+
 -- EN: Full mouse event handler. Tracks mouse position, consumes all wheel events inside the GUI,
 --     dispatches scroll wheel to smart parameter adjustment (with Shift=5x multiplier),
 --     and dispatches left-clicks to the registered button callbacks.
@@ -797,6 +887,13 @@ function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
     
     local insideGUI = posX >= self.ui.x and posX <= self.ui.x + self.ui.w and
                       posY >= self.ui.y and posY <= self.ui.y + self.ui.h
+                      
+    if self.isCropDropdownOpen and self.dropRect then
+        local r = self.dropRect
+        if posX >= r.x and posX <= r.x + r.w and posY >= r.y and posY <= r.y + r.h then
+            insideGUI = true
+        end
+    end
     
     -- EN: Scroll wheel inside GUI: adjust the hovered parameter with smart physical steps.
     --     Shift held applies a 5x multiplier for fast adjustment.
@@ -814,6 +911,17 @@ function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
                 delta = delta * 5
             end
             
+            if self.isCropDropdownOpen and self.hoveredDropdown then
+                local spec = self.activeVehicle.spec_rhm_Combine
+                local machineType = spec and spec.machineType or "grain"
+                local crops = CombineSettingsDatabase:getCropNamesForMachineType(machineType)
+                if crops and #crops > 6 then
+                    self.cropDropdownScroll = self.cropDropdownScroll - (delta > 0 and 1 or -1)
+                    self.cropDropdownScroll = math.max(0, math.min(self.cropDropdownScroll, #crops - 6))
+                end
+                return true
+            end
+
             local param = self:getParameterAtMouse(posX, posY)
             if param then
                 local spec = self.activeVehicle.spec_rhm_Combine
@@ -872,16 +980,27 @@ function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
         return true  -- EN: Always consume wheel events inside GUI / UA: Завжди поглинаємо події колеса всередині GUI
     end
     
-    -- EN: Dispatch left-click to button callbacks.
-    -- UA: Направляємо лівий клік до колбеків кнопок.
+    -- EN: Dispatch left-click to button callbacks. Iterate backwards to respect visual Z-order (dropdown on top).
+    -- UA: Направляємо лівий клік до колбеків кнопок. Перебираємо з кінця для збереження Z-порядку (dropdown зверху).
     if isDown and button == Input.MOUSE_BUTTON_LEFT then
-        for _, btn in ipairs(self.buttons) do
+        local clickedButton = false
+        for i = #self.buttons, 1, -1 do
+            local btn = self.buttons[i]
             if posX >= btn.x and posX <= btn.x + btn.w and posY >= btn.y and posY <= btn.y + btn.h then
                 if btn.callback then
                     btn.callback()
                 end
-                return true
+                clickedButton = true
+                break
             end
+        end
+        
+        if self.isCropDropdownOpen and not clickedButton then
+            self.isCropDropdownOpen = false
+        end
+        
+        if clickedButton then
+            return true
         end
     end
     
