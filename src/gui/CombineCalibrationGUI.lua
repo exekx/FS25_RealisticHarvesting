@@ -24,11 +24,19 @@ local CombineCalibrationGUI_mt = Class(CombineCalibrationGUI)
 --     Параметри яких немає у цьому списку що приходять з getParamsForMachineType потрапляють
 --     у загальну секцію "OTHER" перед секцією Performance/TargetEngineLoad.
 local PARAM_SECTION_MAP = {
-    fan        = "CLEANING",
+    -- GRAIN
     rotor      = "SEPARATION",
-    feeder     = "SEPARATION",
+    concave    = "SEPARATION",
     upperSieve = "CLEANING",
     lowerSieve = "CLEANING",
+    fan        = "CLEANING",
+    -- FORAGE (no CLEANING section — choppers don't clean grain)
+    chopLength      = "SEPARATION",
+    kernelProcessor = "SEPARATION",
+    blower          = "DISCHARGE",
+    -- ROOT
+    shakingIntensity = "SEPARATION",
+    feeder           = "SEPARATION",
 }
 
 -- EN: Ordered section definitions for the draw loop.
@@ -36,6 +44,7 @@ local PARAM_SECTION_MAP = {
 local SECTIONS_ORDERED = {
     { key = "SEPARATION", label = "rhm_ui_section_separation" },
     { key = "CLEANING",   label = "rhm_ui_section_cleaning"   },
+    { key = "DISCHARGE",  label = "rhm_ui_section_discharge"  },
 }
 
 -- EN: Creates a new GUI instance. Initializes UI layout constants, color palette,
@@ -445,7 +454,9 @@ function CombineCalibrationGUI:draw()
     renderText(x + ui.margin + 0.028, cy + 0.008, ui.fontSize, string.format("%.0f%%", load))
 
     -- EN: Speed/loss preview — center of stats bar.
+    --     For forage harvesters: only show speed efficiency, no crop loss (choppers don't lose grain).
     -- UA: Попередній перегляд швидкості/втрат — центр смуги статистики.
+    --     Для силосних комбайнів: тільки ефективність швидкості, без втрат врожаю.
     local speedStr
     if effPenalty < 0 then
         speedStr = string.format("+%.1f%%", math.abs(effPenalty) * 5.0)
@@ -453,17 +464,20 @@ function CombineCalibrationGUI:draw()
         speedStr = string.format("-%.1f%%", effPenalty)
     end
 
+    local isForage = (machineType == "forage")
     local lossStr
-    if lossPenalty <= 0 then
+    if isForage then
+        lossStr = "N/A"
+    elseif lossPenalty <= 0 then
         lossStr = "0.0%"
     else
         lossStr = string.format("+%.1f%%", lossPenalty)
     end
 
     local statsTextColor = ui.colors.text
-    if lossPenalty > 0.5 or effPenalty > 0.5 then
+    if not isForage and (lossPenalty > 0.5 or effPenalty > 0.5) then
         statsTextColor = ui.colors.error
-    elseif effPenalty < -0.1 and lossPenalty <= 0.5 then
+    elseif effPenalty < -0.1 and (isForage or lossPenalty <= 0.5) then
         statsTextColor = ui.colors.success
     end
 

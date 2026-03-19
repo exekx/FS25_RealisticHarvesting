@@ -459,10 +459,10 @@ function LoadCalculator:calculateEngineLoad(vehicle)
                          or currentFruitTypeName:find("GREENBEAN")
                          
         if not isRootOrVeg then
-            cropFactor = cropFactor * 0.25  -- EN: Standard windrows (Wheat, Barley, etc.)
+            cropFactor = cropFactor * 0.75  -- EN: Standard windrows (Wheat, Barley, etc.)
         end
     elseif isForageCutter then
-        cropFactor = cropFactor * 0.75  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
+        cropFactor = cropFactor * 0.80  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
     end
 
     -- --- [RHM DEBUG: INFO LOG] ---
@@ -645,7 +645,12 @@ function LoadCalculator:updateSettingsImpact()
         self.settingsEfficiency = 1.0 - (effPenalty / 100.0)
     end
     
-    if lossPenalty < 0 then
+    -- EN: Forage harvesters (silage choppers) produce no grain losses — all crop goes to tank/trailer.
+    -- UA: Силосні комбайни не мають втрат зерна — весь врожай йде в бак/причеп.
+    local machineType = self.combineMemory.machineType
+    if machineType == "forage" then
+        self.settingsLoss = 0
+    elseif lossPenalty < 0 then
         self.settingsLoss = 0 
     else
         self.settingsLoss = lossPenalty
@@ -653,6 +658,12 @@ function LoadCalculator:updateSettingsImpact()
 end
 
 function LoadCalculator:calculateTotalCropLoss()
+    -- EN: Forage harvesters never have crop loss — bypass all calculations.
+    -- UA: Силосні комбайни ніколи не мають втрат врожаю — пропускаємо всі розрахунки.
+    if self.combineMemory and self.combineMemory.machineType == "forage" then
+        self.cropLoss = 0
+        return 0
+    end
     local baseLoss = self:calculateCropLoss()
     local settingsAddedLoss = self.settingsLoss or 0
     local totalLoss = baseLoss + settingsAddedLoss

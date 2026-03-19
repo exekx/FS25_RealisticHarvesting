@@ -198,26 +198,51 @@ end
 --     UA: Вони визначають реальний робочий діапазон, до якого відображується бекенд 0-100%.
 UnitConverter.PHYSICAL_RANGES = {
     grain = {
-        fan        = { min = 300,  max = 1200, unit = "RPM", decimals = 0, step = 10 },
-        rotor      = { min = 200,  max = 1100, unit = "RPM", decimals = 0, step = 10 },
+        -- EN: Rotor (Threshing Drum): 200-1000 RPM. Universal across all major brands.
+        -- UA: Ротор (Молотарний барабан): 200-1000 об/хв. Однаковий для всіх великих брендів.
+        rotor      = { min = 200,  max = 1000, unit = "RPM", decimals = 0, step = 10 },
+        -- EN: Concave Clearance (Зазор підбарабання): 0-50 mm. Most critical grain combine setting.
+        -- UA: Зазор підбарабання: 0-50 мм. Найважливіший параметр зернового комбайна.
+        concave    = { min = 0,    max = 50,   unit = "mm",  decimals = 0, step = 1  },
+        -- EN: Chaffer (Upper Sieve): 0-30 mm. Top cleaning sieve.
+        -- UA: Верхнє решето (Chaffer): 0-30 мм.
         upperSieve = { min = 0,    max = 30,   unit = "mm",  decimals = 0, step = 1  },
-        lowerSieve = { min = 0,    max = 25,   unit = "mm",  decimals = 0, step = 1  },
-        feeder     = { min = 300,  max = 800,  unit = "RPM", decimals = 0, step = 10 },
+        -- EN: Sieve (Lower Sieve): 0-30 mm. Bottom cleaning sieve.
+        -- UA: Нижнє решето (Sieve): 0-30 мм.
+        lowerSieve = { min = 0,    max = 30,   unit = "mm",  decimals = 0, step = 1  },
+        -- EN: Cleaning Fan: 500-1400 RPM. Same range for all major brands.
+        -- UA: Вентилятор очищення: 500-1400 об/хв. Однаковий для всіх брендів.
+        fan        = { min = 500,  max = 1400, unit = "RPM", decimals = 0, step = 10 },
     },
     forage = {
-        fan    = { min = 800,  max = 1500, unit = "RPM", decimals = 0, step = 10 }, -- EN: Intake blower / UA: Вентилятор подачі
-        rotor  = { min = 1000, max = 1200, unit = "RPM", decimals = 0, step = 10 }, -- EN: Chopping drum / UA: Барабан подрібнення
-        feeder = { min = 200,  max = 600,  unit = "RPM", decimals = 0, step = 10 }, -- EN: Feed rolls / UA: Подавальні ролики
+        -- EN: Chop Length (Довжина різки): 3-25 mm. Most important forage harvester setting.
+        --     Real-world optimum depends on crop moisture: grass 5-9mm, corn silage 8-12mm.
+        -- UA: Довжина різки: 3-25 мм. Найважливіший параметр кормозбирального комбайна.
+        chopLength      = { min = 3,   max = 25,  unit = "mm", decimals = 0, step = 1 },
+        -- EN: Kernel Processor Gap: 0-5 mm. Only needed for corn silage — cracks kernels for better digestion.
+        --     For grass, set to 0 (wide open, not needed).
+        -- UA: Зазор процесора зерна: 0-5 мм. Потрібен лише для кукурудзяного силосу.
+        kernelProcessor = { min = 0,   max = 5,   unit = "mm", decimals = 1, step = 0.5 },
+        -- EN: Blower Gap: 0-6 mm. Controls discharge blower pressure.
+        -- UA: Зазор вентилятора: 0-6 мм. Керує тиском вентилятора викиду.
+        blower          = { min = 0,   max = 6,   unit = "mm", decimals = 1, step = 0.5 },
     },
     root = {
-        fan    = { min = 400, max = 1000, unit = "RPM", decimals = 0, step = 10 }, -- EN: Separation blower / UA: Відокремлювальний вентилятор
-        rotor  = { min = 100, max = 350,  unit = "RPM", decimals = 0, step = 10 }, -- EN: Cleaning rollers / UA: Очищувальні ролики
-        feeder = { min = 100, max = 400,  unit = "RPM", decimals = 0, step = 10 }, -- EN: Elevator belt / UA: Стрічка елеватора
+        -- EN: Cleaning Rollers: 100-350 RPM. Controls separation speed. Too fast = crop damage.
+        -- UA: Очисні ролики: 100-350 об/хв. Занадто швидко = пошкодження врожаю.
+        rotor            = { min = 100, max = 350,  unit = "RPM", decimals = 0, step = 10 },
+        -- EN: Shaking Intensity: 1-5 scale. 1=gentle (soft soil), 5=aggressive (heavy clay).
+        --     No physical fan on real potato/beet harvesters.
+        -- UA: Інтенсивність струшування: 1-5. 1=м'яко (пухкий ґрунт), 5=агресивно (важка глина).
+        shakingIntensity = { min = 1,   max = 5,    unit = "",    decimals = 0, step = 1  },
+        -- EN: Elevator Belt: 100-400 RPM. Lift speed for heavy root crops.
+        -- UA: Стрічка елеватора: 100-400 об/хв.
+        feeder           = { min = 100, max = 400,  unit = "RPM", decimals = 0, step = 10 },
     },
     cotton = {
-        fan    = { min = 2500, max = 4000, unit = "RPM", decimals = 0, step = 10 }, -- EN: Air system blower / UA: Вентилятор повітряної системи
-        rotor  = { min = 150,  max = 250,  unit = "RPM", decimals = 0, step = 10 }, -- EN: Spindle drums / UA: Барабани шпинделів
-        feeder = { min = 100,  max = 300,  unit = "RPM", decimals = 0, step = 10 }, -- EN: Feeder / UA: Подача
+        fan    = { min = 2500, max = 4000, unit = "RPM", decimals = 0, step = 10 },
+        rotor  = { min = 150,  max = 250,  unit = "RPM", decimals = 0, step = 10 },
+        feeder = { min = 100,  max = 300,  unit = "RPM", decimals = 0, step = 10 },
     }
 }
 
