@@ -9,16 +9,9 @@
 DraggableHUD = {}
 DraggableHUD.__index = DraggableHUD
 
--- EN: Minimum drag time delay before a click becomes a drag (milliseconds).
--- UA: Мінімальна затримка часу перед тим як клік стане перетягуванням (мілісекунди).
 DraggableHUD.DRAG_DELAY_MS = 15
-
--- EN: Minimum pixel distance moved before treating as a drag (prevents accidental moves on click).
--- UA: Мінімальна відстань переміщення в пікселях щоб вважати це перетягуванням (запобігає випадковому переміщенню при кліку).
 DraggableHUD.DRAG_LIMIT = 2
 
--- EN: Creates a new HUD instance. Resources are loaded separately via :load().
--- UA: Створює новий екземпляр HUD. Ресурси завантажуються окремо через :load().
 function DraggableHUD.new(modDirectory, settings)
     local self = setmetatable({}, DraggableHUD)
 
@@ -26,8 +19,6 @@ function DraggableHUD.new(modDirectory, settings)
     self.settings = settings
     self.vehicle = nil
 
-    -- EN: Live data cache updated each frame from the combine spec.
-    -- UA: Кеш живих даних що оновлюється щокадру зі специфікації комбайна.
     self.data = {
         load = 0,
         yield = 0,
@@ -38,15 +29,11 @@ function DraggableHUD.new(modDirectory, settings)
         recommendedSpeed = 0
     }
 
-    -- EN: Normalized screen-space dimensions (0-1). Scaled in load() based on UI scale.
-    -- UA: Нормалізовані розміри в просторі екрану (0-1). Масштабуються в load() за масштабом UI.
     self.width = 0.11
     self.height = 0.18
     self.headerHeight = 0.028
     self.uiScale = 1.0
 
-    -- EN: Drag state — tracking whether the user is currently dragging the HUD.
-    -- UA: Стан перетягування — відстежуємо чи зараз користувач перетягує HUD.
     self.dragging = false
     self.dragStartX = nil
     self.dragOffsetX = nil
@@ -56,39 +43,38 @@ function DraggableHUD.new(modDirectory, settings)
 
     self.backgroundOverlay = nil
     self.headerOverlay = nil
+    self.accentLineOverlay = nil
     self.icons = {}
 
     return self
 end
 
--- EN: Loads HUD textures, icons, and calculates initial position based on UI scale.
---     Must be called after the mission is loaded (textures require the game to be initialized).
--- UA: Завантажує текстури HUD, іконки та розраховує початкову позицію за масштабом UI.
---     Має викликатись після завантаження місії (текстури потребують ініціалізацію гри).
 function DraggableHUD:load()
     self.uiScale = 1.0
     if g_gameSettings then
         self.uiScale = g_gameSettings:getValue("uiScale") or 1.0
     end
 
-    -- EN: Scale all dimensions to match the game's UI scale setting.
-    -- UA: Масштабуємо всі розміри відповідно до налаштування масштабу UI гри.
     self.width = 0.09 * self.uiScale
     self.height = 0.155 * self.uiScale
     self.headerHeight = 0.030 * self.uiScale
 
     self.x, self.y = self:getPosition()
 
-    -- EN: Create the colored header strip (green) above the main panel.
-    -- UA: Створюємо кольорову смугу заголовку (зелену) над основною панеллю.
-    local headerTexture = self.modDirectory .. "textures/hud_background.dds"
-    self.headerOverlay = Overlay.new(headerTexture, self.x, self.y + self.height, self.width, self.headerHeight)
-    self.headerOverlay:setColor(0.22323, 0.40724, 0.00368, 1)
+    local bgTexture = self.modDirectory .. "textures/hud_background.dds"
 
-    -- EN: Create the semi-transparent dark background panel.
-    -- UA: Створюємо напівпрозору темну фонову панель.
-    self.backgroundOverlay = Overlay.new(headerTexture, self.x, self.y, self.width, self.height)
-    self.backgroundOverlay:setColor(0, 0, 0, 0.5)
+    -- EN: Dark amber-tinted header strip replacing the old green one.
+    -- UA: Темна бурштинова смуга заголовку замість старої зеленої.
+    self.headerOverlay = Overlay.new(bgTexture, self.x, self.y + self.height, self.width, self.headerHeight)
+    self.headerOverlay:setColor(0.09, 0.07, 0.03, 1.0)
+
+    -- Removed the thin amber accent line at the top of the header as requested.
+    self.accentLineOverlay = nil
+
+    -- EN: Dark olive background panel, more opaque for better readability.
+    -- UA: Темно-оливкова фонова панель, більш непрозора для кращої читабельності.
+    self.backgroundOverlay = Overlay.new(bgTexture, self.x, self.y, self.width, self.height)
+    self.backgroundOverlay:setColor(0.04, 0.05, 0.03, 0.92)
 
     self:loadIcons(self.uiScale)
 
@@ -97,10 +83,6 @@ function DraggableHUD:load()
     end
 end
 
--- EN: Loads icon overlay objects for each HUD row (load, yield, speed, loss, productivity).
---     Icons are sized proportionally to the UI scale and aspect ratio.
--- UA: Завантажує оверлеї іконок для кожного рядка HUD (навантаження, врожайність, швидкість, втрати, продуктивність).
---     Іконки масштабуються пропорційно до масштабу UI та співвідношення сторін.
 function DraggableHUD:loadIcons(uiScale)
     local iconHeight = 0.024 * self.uiScale
     local iconWidth = iconHeight / g_screenAspectRatio
@@ -118,12 +100,10 @@ function DraggableHUD:loadIcons(uiScale)
     for name, filename in pairs(iconNames) do
         local iconPath = iconsPath .. filename .. ".dds"
         local icon = Overlay.new(iconPath, 0, 0, iconWidth, iconHeight)
-        icon:setColor(1, 1, 1, 0.95)
+        icon:setColor(1, 1, 1, 0.80)
         self.icons[name] = icon
     end
 
-    -- EN: Default all row visibility settings to true if not yet set in saved settings.
-    -- UA: Встановлюємо видимість всіх рядків за замовчуванням на true якщо ще не задано.
     if self.settings.showLoad == nil then self.settings.showLoad = true end
     if self.settings.showYield == nil then self.settings.showYield = true end
     if self.settings.showSpeed == nil then self.settings.showSpeed = true end
@@ -131,17 +111,11 @@ function DraggableHUD:loadIcons(uiScale)
     if self.settings.showProductivity == nil then self.settings.showProductivity = true end
 end
 
--- EN: Returns the HUD position — from saved settings if available and on-screen, or auto-positioned
---     left of the speed meter, with a fallback to (0.7, 0.05).
--- UA: Повертає позицію HUD — із збережених налаштувань якщо є і в межах екрану, або авто-позиціонується
---     зліва від спідометра, з запасним варіантом (0.7, 0.05).
 function DraggableHUD:getPosition()
     local x = self.settings.hudPosX
     local y = self.settings.hudPosY
 
     if x and y then
-        -- EN: Allow small margin for floating point drift, reset if well off-screen.
-        -- UA: Допускаємо невелику похибку, скидаємо якщо далеко за межами екрану.
         if x >= -0.1 and x <= 1.1 and y >= -0.1 and y <= 1.1 then
             x = math.max(0, math.min(1 - (self.width or 0), x))
             y = math.max(0, math.min(1 - (self.height or 0), y))
@@ -153,8 +127,6 @@ function DraggableHUD:getPosition()
         end
     end
 
-    -- EN: Auto-position: left of the game's speed meter. Guard against uninitialized speedBg.
-    -- UA: Авто-позиціонування: зліва від спідометра гри. Захист від неініціалізованого speedBg.
     if g_currentMission and g_currentMission.hud and g_currentMission.hud.speedMeter then
         local speedMeter = g_currentMission.hud.speedMeter
         if speedMeter.speedBg and speedMeter.speedBg.x and speedMeter.speedBg.x > 0.01 then
@@ -164,25 +136,19 @@ function DraggableHUD:getPosition()
         end
     end
 
-    return 0.7, 0.05 -- EN: Last-resort fallback position / UA: Останній запасний варіант позиції
+    return 0.7, 0.05
 end
 
--- EN: Sets the HUD top-left position (normalized screen coords).
--- UA: Встановлює верхню ліву позицію HUD (нормалізовані координати екрану).
 function DraggableHUD:setPosition(x, y)
     self.x = x
     self.y = y
 end
 
--- EN: Sets the active combine vehicle. Clears live data when nil is passed.
--- UA: Встановлює активний комбайн. Очищає живі дані коли передано nil.
 function DraggableHUD:setVehicle(vehicle)
     self.vehicle = vehicle
     if vehicle then
         self:update(vehicle)
     else
-        -- EN: Reset all displayed metrics when no vehicle is active.
-        -- UA: Скидаємо всі відображувані метрики коли немає активного транспортного засобу.
         self.data.load = 0
         self.data.yield = 0
         self.data.speed = 0
@@ -193,10 +159,6 @@ function DraggableHUD:setVehicle(vehicle)
     end
 end
 
--- EN: Updates live data from the vehicle's rhm_Combine spec and handles drag movement.
---     Called every frame. Drag movement is processed here for smooth real-time updating.
--- UA: Оновлює живі дані зі специфікації rhm_Combine транспортного засобу та обробляє перетягування.
---     Викликається щоразу за кадр. Рух перетягування обробляється тут для плавного оновлення.
 function DraggableHUD:update(dt)
     local vehicle = self.vehicle
     if not vehicle then return end
@@ -204,8 +166,6 @@ function DraggableHUD:update(dt)
     local spec = vehicle.spec_rhm_Combine
     if not spec or not spec.data then return end
 
-    -- EN: Pull latest values from the combine's live data table.
-    -- UA: Беремо останні значення з таблиці живих даних комбайна.
     self.data.load             = spec.data.load or 0
     self.data.yield            = spec.data.yield or 0
     self.data.cropLoss         = spec.data.cropLoss or 0
@@ -214,8 +174,6 @@ function DraggableHUD:update(dt)
     self.data.recommendedSpeed = spec.data.recommendedSpeed or 0
     self.data.speed            = vehicle:getLastSpeed() or 0
 
-    -- EN: Move HUD to follow mouse during drag (processed every frame for smoothness).
-    -- UA: Переміщуємо HUD слідуючи за мишею під час перетягування (обробляється щокадру для плавності).
     if self.dragging then
         if g_inputBinding and g_inputBinding.getMousePosition then
             local posX, posY = g_inputBinding:getMousePosition()
@@ -226,10 +184,6 @@ function DraggableHUD:update(dt)
     end
 end
 
--- EN: Renders the complete HUD including header, settings button, and metric rows.
---     Skipped when on server, when HUD is hidden, or when no vehicle is active.
--- UA: Відображає повний HUD включаючи заголовок, кнопку налаштувань та рядки метрик.
---     Пропускається на сервері, коли HUD прихований, або коли немає активного транспортного засобу.
 function DraggableHUD:draw()
     if not g_currentMission:getIsClient() then return end
     if not self.settings.showHUD then return end
@@ -237,84 +191,68 @@ function DraggableHUD:draw()
 
     self:updateSize()
 
-    -- EN: Sync overlay positions and dimensions to match current layout.
-    -- UA: Синхронізуємо позиції та розміри оверлеїв з поточним розмічуванням.
     self.backgroundOverlay:setPosition(self.x, self.y)
     self.headerOverlay:setPosition(self.x, self.y + self.height)
     self.backgroundOverlay:setDimension(self.width, self.height)
+    self.headerOverlay:setDimension(self.width, self.headerHeight)
 
     self.backgroundOverlay:render()
     self.headerOverlay:render()
 
-    -- EN: Draw "Realistic Harvesting" title text centered in the header.
-    -- UA: Малюємо назву "Realistic Harvesting" по центру заголовку.
+
+
+    -- EN: Amber title text in header.
+    -- UA: Бурштиновий заголовок.
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_CENTER)
-    setTextColor(1, 1, 1, 1)
-    local titleTextSize = 0.013
+    setTextColor(0.83, 0.54, 0.04, 1.0)
+    local titleTextSize = 0.012 * self.uiScale
     local headerTextX = self.x + self.width / 2
     local titleTextY = self.y + self.height + self.headerHeight * 0.65
     renderText(headerTextX, titleTextY, titleTextSize, "Realistic Harvesting")
 
-    -- EN: Draw "Settings" button in the header with a faint bounding box and hover color change.
-    -- UA: Малюємо кнопку "Settings" у заголовку з тьмяною рамкою та зміною кольору при наведенні.
     setTextBold(false)
     setTextAlignment(RenderText.ALIGN_CENTER)
 
-    local settingsTextSize = 0.009
-    local btnW = 0.040
-    local btnH = self.headerHeight * 0.45
+    local settingsTextSize = 0.009 * self.uiScale
+    local btnW = 0.040 * self.uiScale
+    local btnH = self.headerHeight * 0.40
     local btnX = self.x + (self.width - btnW) / 2
-    local btnY = self.y + self.height + self.headerHeight * 0.05
+    local btnY = self.y + self.height + self.headerHeight * 0.06
 
-    local settingsButtonArea = {
-        x = btnX,
-        y = btnY,
-        w = btnW,
-        h = btnH
-    }
+    local settingsButtonArea = { x = btnX, y = btnY, w = btnW, h = btnH }
     local mx, my = g_inputBinding:getMousePosition()
     local isHovered = mx >= settingsButtonArea.x and mx <= settingsButtonArea.x + settingsButtonArea.w and
                       my >= settingsButtonArea.y and my <= settingsButtonArea.y + settingsButtonArea.h
 
-    -- Draw button background box
+    if self.backgroundOverlay then
+        local btnBgTex = self.modDirectory .. "textures/hud_background.dds"
+        local rect = Overlay.new(btnBgTex, btnX, btnY, btnW, btnH)
+        if isHovered then
+            rect:setColor(0.83, 0.54, 0.04, 0.22)
+        else
+            rect:setColor(0.00, 0.00, 0.00, 0.28)
+        end
+        rect:render()
+        rect:delete()
+    end
+
     if isHovered then
-        if self.backgroundOverlay then
-            -- Use the existing overlay class with a custom color
-            local rect = Overlay.new(self.modDirectory .. "textures/hud_background.dds", btnX, btnY, btnW, btnH)
-            rect:setColor(1, 1, 1, 0.2)
-            rect:render()
-            rect:delete()
-        end
-        setTextColor(1.0, 1.0, 1.0, 1)  -- EN: White on hover / UA: Білий при наведенні
+        setTextColor(0.83, 0.54, 0.04, 1.0)
     else
-        if self.backgroundOverlay then
-            local rect = Overlay.new(self.modDirectory .. "textures/hud_background.dds", btnX, btnY, btnW, btnH)
-            rect:setColor(0, 0, 0, 0.3)
-            rect:render()
-            rect:delete()
-        end
-        setTextColor(0.8, 0.8, 0.8, 1)  -- EN: Light gray default / UA: Світло-сірий за замовчуванням
+        setTextColor(0.38, 0.36, 0.32, 1.0)
     end
 
     local textYOffset = btnY + (btnH - settingsTextSize) / 2 + 0.002
     renderText(headerTextX, textYOffset, settingsTextSize, "Settings")
     setTextBold(false)
 
-    -- EN: Store button area for mouse event hit-testing.
-    -- UA: Зберігаємо область кнопки для перевірки попадань мишею.
     self.menuButtonArea = settingsButtonArea
 
     self:drawContent()
     setTextBold(false)
 end
 
--- EN: Draws the metric data rows (load, yield, productivity, crop loss, speed).
---     Each row consists of an icon and a formatted text value with color coding.
---     Uses UnitConverter for metric/imperial/bushel formatting.
--- UA: Малює рядки метрик (навантаження, врожайність, продуктивність, втрати, швидкість).
---     Кожен рядок містить іконку та відформатоване текстове значення з кодуванням кольором.
---     Використовує UnitConverter для форматування метрик/американських/бушелів.
 function DraggableHUD:drawContent()
     local textSize   = 0.015 * self.uiScale
     local lineHeight = 0.028 * self.uiScale
@@ -328,7 +266,7 @@ function DraggableHUD:drawContent()
 
     setTextAlignment(RenderText.ALIGN_LEFT)
     setTextBold(true)
-    setTextColor(1, 1, 1, 0.95)
+    setTextColor(0.91, 0.87, 0.78, 0.95)
 
     local unitSystem = self.settings.unitSystem or 1
     local fruitType = nil
@@ -336,8 +274,8 @@ function DraggableHUD:drawContent()
         fruitType = self.vehicle.spec_combine.lastValidInputFruitType
     end
 
-    -- EN: Row 1 — Engine Load (%).
-    -- UA: Рядок 1 — Навантаження двигуна (%).
+    -- EN: Row 1 — Engine Load.
+    -- UA: Рядок 1 — Навантаження двигуна.
     if self.settings.showLoad then
         local loadColor = self:getLoadColor(self.data.load)
         self:drawRow(iconX, textX, textY, iconWidth, iconHeight, textSize, "load",
@@ -345,8 +283,8 @@ function DraggableHUD:drawContent()
         textY = textY - lineHeight
     end
 
-    -- EN: Row 2 — Yield (t/ha, bu/ac, etc.).
-    -- UA: Рядок 2 — Врожайність (т/га, бу/акр тощо).
+    -- EN: Row 2 — Yield.
+    -- UA: Рядок 2 — Врожайність.
     if self.settings.showYield then
         local yieldVal = self.data.yield or 0
         local yieldStr
@@ -360,8 +298,8 @@ function DraggableHUD:drawContent()
         textY = textY - lineHeight
     end
 
-    -- EN: Row 3 — Productivity (t/h or bu/h).
-    -- UA: Рядок 3 — Продуктивність (т/год або бу/год).
+    -- EN: Row 3 — Productivity.
+    -- UA: Рядок 3 — Продуктивність.
     if self.settings.showProductivity then
         local prodVal = self.data.tonPerHour or 0
         local prodStr
@@ -375,8 +313,8 @@ function DraggableHUD:drawContent()
         textY = textY - lineHeight
     end
 
-    -- EN: Row 4 — Crop Loss (%). Color-coded: green=optimal, yellow=mild loss, red=high loss.
-    -- UA: Рядок 4 — Втрати зерна (%). Кольорове кодування: зелений=оптимум, жовтий=помірні, червоний=великі.
+    -- EN: Row 4 — Crop Loss.
+    -- UA: Рядок 4 — Втрати зерна.
     if self.settings.showCropLoss then
         local lossVal = self.data.cropLoss or 0
         local lossStr
@@ -388,18 +326,19 @@ function DraggableHUD:drawContent()
             lossStr = "0%"
         end
 
-        local r, g, b = 1, 1, 1
-        if lossVal > 3.0 then           r, g, b = 0.9, 0.1, 0.1  -- EN: Red (high loss) / UA: Червоний (великі втрати)
-        elseif lossVal > 1.0 then       r, g, b = 0.9, 0.8, 0.1  -- EN: Yellow (moderate) / UA: Жовтий (помірні)
-        elseif lossVal < -0.1 then      r, g, b = 0.2, 1.0, 0.2  -- EN: Bright green (bonus) / UA: Яскраво-зелений (бонус)
-        else                            r, g, b = 0.2, 0.8, 0.2  end  -- EN: Green (optimal) / UA: Зелений (оптимум)
+        local r, g, b = 0.91, 0.87, 0.78
+        if lossVal > 3.0 then       r, g, b = 0.89, 0.29, 0.29
+        elseif lossVal > 1.0 then   r, g, b = 0.91, 0.78, 0.25
+        elseif lossVal < -0.1 then  r, g, b = 0.24, 0.90, 0.55
+        else                        r, g, b = 0.24, 0.72, 0.47
+        end
 
         self:drawRow(iconX, textX, textY, iconWidth, iconHeight, textSize, "loss", lossStr, lossVal, r, g, b)
         textY = textY - lineHeight
     end
 
-    -- EN: Row 5 — Speed (current / recommended). Red/yellow when over recommended limit.
-    -- UA: Рядок 5 — Швидкість (поточна / рекомендована). Червоний/жовтий при перевищенні ліміту.
+    -- EN: Row 5 — Speed (current / recommended).
+    -- UA: Рядок 5 — Швидкість (поточна / рекомендована).
     if self.settings.showSpeed then
         local currentSpeed = self.data.speed
         local recSpeed = self.data.recommendedSpeed or 0
@@ -421,20 +360,17 @@ function DraggableHUD:drawContent()
             end
         end
 
-        local r, g, b = 1, 1, 1
+        local r, g, b = 0.91, 0.87, 0.78
         if recSpeed > 0 then
-            if currentSpeed > (recSpeed + 2) then r, g, b = 1, 0.4, 0.4    -- EN: Over speed / UA: Перевищення
-            elseif currentSpeed > recSpeed then   r, g, b = 1, 1, 0.4  end -- EN: Near limit / UA: Близько до ліміту
+            if currentSpeed > (recSpeed + 2) then   r, g, b = 0.89, 0.29, 0.29
+            elseif currentSpeed > recSpeed then     r, g, b = 0.91, 0.78, 0.25
+            end
         end
 
         self:drawRow(iconX, textX, textY, iconWidth, iconHeight, textSize, "speed", speedStr, 0, r, g, b)
     end
 end
 
--- EN: Recalculates HUD height based on how many rows are enabled.
---     Adjusts the Y position so the header line stays fixed while the body shrinks/grows.
--- UA: Перераховує висоту HUD залежно від кількості увімкнених рядків.
---     Регулює позицію Y щоб лінія заголовку залишалась фіксованою поки тіло зменшується/збільшується.
 function DraggableHUD:updateSize()
     local rowCount = 0
     if self.settings.showLoad then rowCount = rowCount + 1 end
@@ -444,7 +380,7 @@ function DraggableHUD:updateSize()
     if self.settings.showSpeed then rowCount = rowCount + 1 end
 
     local lineHeight  = 0.028 * self.uiScale
-    local padding     = 0.01 * self.uiScale
+    local padding     = 0.010 * self.uiScale
     local targetHeight = math.max(0.01 * self.uiScale, (rowCount * lineHeight) + padding)
 
     if math.abs(self.height - targetHeight) > 0.0001 then
@@ -455,68 +391,53 @@ function DraggableHUD:updateSize()
     end
 end
 
--- EN: Draws a single HUD row: an icon on the left and a formatted text value.
---     Optional RGB color overrides the default white text color.
--- UA: Малює один рядок HUD: іконка зліва та відформатоване текстове значення.
---     Необов'язковий RGB колір замінює стандартний білий колір тексту.
 function DraggableHUD:drawRow(iconX, textX, textY, iconWidth, iconHeight, textSize, iconName, text, value, r, g, b)
     local icon = self.icons[iconName]
     if icon then
         local iconY = textY + textSize / 2 - iconHeight / 2
         icon:setPosition(iconX, iconY)
-        icon:setColor(1, 1, 1, 0.95)
+        icon:setColor(0.91, 0.87, 0.78, 0.60)
         icon:render()
     end
 
     if r and g and b then
         setTextColor(r, g, b, 0.95)
     else
-        setTextColor(1, 1, 1, 0.95)
+        setTextColor(0.91, 0.87, 0.78, 0.95)
     end
     renderText(textX, textY, textSize, text)
-    
-    -- EN: Draw a faint horizontal separator line below the row (unless it's the bottom row)
-    -- UA: Малюємо тьмяну горизонтальну лінію розділювача під рядком
+
     if self.backgroundOverlay then
         local lineY = textY - 0.004
-        local line = Overlay.new(self.modDirectory .. "textures/hud_background.dds", self.x + 0.005, lineY, self.width - 0.010, 0.0007)
-        line:setColor(1, 1, 1, 0.1)
+        local lineTex = self.modDirectory .. "textures/hud_background.dds"
+        local line = Overlay.new(lineTex, self.x + 0.005, lineY, self.width - 0.010, 0.0007)
+        line:setColor(1, 1, 1, 0.07)
         line:render()
         line:delete()
     end
 end
 
--- EN: Maps engine load value to a display color: white (low), yellow (moderate), red (high).
--- UA: Відображає значення навантаження двигуна на колір: білий (низьке), жовтий (помірне), червоний (високе).
+-- EN: Engine load → color: warm white < 60%, amber-yellow 60-85%, red > 85%.
+-- UA: Навантаження двигуна → колір: тепло-білий < 60%, бурштиново-жовтий 60-85%, червоний > 85%.
 function DraggableHUD:getLoadColor(load)
-    if load < 50 then
-        return {1, 1, 1}    -- EN: White / UA: Білий
-    elseif load < 80 then
-        return {1, 1, 0.4}  -- EN: Yellow / UA: Жовтий
+    if load < 60 then
+        return {0.91, 0.87, 0.78}
+    elseif load < 85 then
+        return {0.91, 0.78, 0.25}
     else
-        return {1, 0.4, 0.4} -- EN: Red / UA: Червоний
+        return {0.89, 0.29, 0.29}
     end
 end
 
--- EN: Returns true if the given position is within the draggable header area.
--- UA: Повертає true якщо задана позиція знаходиться в межах перетягуваної області заголовку.
 function DraggableHUD:isMouseOverHeader(posX, posY)
     return posX >= self.x and posX <= (self.x + self.width) and
            posY >= (self.y + self.height) and posY <= (self.y + self.height + self.headerHeight)
 end
 
--- EN: Handles mouse button events. Routes Settings button clicks and manages drag start/stop.
---     The Settings button click opens the calibration GUI via the manager.
---     Drag saves position on mouse-up for persistence.
--- UA: Обробляє події кнопок миші. Маршрутизує кліки кнопки Settings та керує початком/кінцем перетягування.
---     Клік кнопки Settings відкриває GUI калібрування через менеджер.
---     Перетягування зберігає позицію при відпусканні миші для збереження.
 function DraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.settings.showHUD then return false end
     if button ~= Input.MOUSE_BUTTON_LEFT then return false end
 
-    -- EN: Check click on "Settings" button in header to open the calibration GUI.
-    -- UA: Перевіряємо клік на кнопку "Settings" у заголовку для відкриття GUI калібрування.
     if self.menuButtonArea and isDown then
         if posX >= self.menuButtonArea.x and posX <= (self.menuButtonArea.x + self.menuButtonArea.w) and
            posY >= self.menuButtonArea.y and posY <= (self.menuButtonArea.y + self.menuButtonArea.h) then
@@ -527,8 +448,6 @@ function DraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
         end
     end
 
-    -- EN: Start drag on mouse-down over the header area.
-    -- UA: Починаємо перетягування при натисканні миші над областю заголовку.
     if isDown and self:isMouseOverHeader(posX, posY) then
         if not self.dragging then
             self.dragStartX  = posX
@@ -541,8 +460,6 @@ function DraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
             return true
         end
     elseif isUp then
-        -- EN: Stop drag on mouse-up and save the position once to avoid per-frame saves.
-        -- UA: Зупиняємо перетягування при відпусканні миші і зберігаємо позицію один раз щоб уникнути збереження щокадру.
         if self.dragging then
             self.dragging = false
             if RHM_Debug and RHM_Debug.isEnabled("UI") then
@@ -558,22 +475,14 @@ function DraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
     return false
 end
 
--- EN: Moves the HUD to the given position, clamped to keep it fully visible on-screen.
---     Saves the position to settings in memory only (save to disk happens on drag stop).
--- UA: Переміщує HUD до заданої позиції, обмежуючи щоб він залишався повністю видимим на екрані.
---     Зберігає позицію в налаштуваннях тільки в пам'яті (збереження на диск відбувається при зупинці перетягування).
 function DraggableHUD:moveTo(x, y)
     x = math.max(0, math.min(1 - self.width, x))
     y = math.max(0, math.min(1 - (self.height + self.headerHeight), y))
-
     self:setPosition(x, y)
-
     self.settings.hudPosX = x
     self.settings.hudPosY = y
 end
 
--- EN: Releases all GPU resources (overlay objects and icon overlays).
--- UA: Звільняє всі ресурси GPU (об'єкти оверлеїв та іконок).
 function DraggableHUD:delete()
     if self.backgroundOverlay then self.backgroundOverlay:delete() end
     if self.headerOverlay then self.headerOverlay:delete() end
