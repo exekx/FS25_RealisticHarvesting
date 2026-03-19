@@ -58,14 +58,16 @@ end
 -- UA: Реєструє шляхи XML для конфігурації засобу (XML магазину/modDesc). Зберігає налаштування комбайна для кожного засобу.
 function rhm_Combine.registerXMLPaths(schema, basePath)
     local cur = basePath .. ".combineMemory.current"
-    schema:register(XMLValueType.STRING, cur .. "#mode",        "Combine settings mode", "AUTO")
-    schema:register(XMLValueType.STRING, cur .. "#currentCrop", "Current crop", "")
-    schema:register(XMLValueType.BOOL,   cur .. "#autoSwitch",  "Auto switch enabled", true)
-    schema:register(XMLValueType.INT,    cur .. "#fan",         "Fan", 50)
-    schema:register(XMLValueType.INT,    cur .. "#upperSieve",  "Upper sieve", 50)
-    schema:register(XMLValueType.INT,    cur .. "#lowerSieve",  "Lower sieve", 50)
-    schema:register(XMLValueType.INT,    cur .. "#rotor",       "Rotor", 50)
-    schema:register(XMLValueType.INT,    cur .. "#feeder",      "Feeder", 50)
+    schema:register(XMLValueType.STRING, cur .. "#mode",         "Combine settings mode", "AUTO")
+    schema:register(XMLValueType.STRING, cur .. "#currentCrop",  "Current crop", "")
+    schema:register(XMLValueType.BOOL,   cur .. "#autoSwitch",   "Auto switch enabled", true)
+    schema:register(XMLValueType.INT,    cur .. "#fan",          "Fan", 50)
+    schema:register(XMLValueType.INT,    cur .. "#upperSieve",   "Upper sieve", 50)
+    schema:register(XMLValueType.INT,    cur .. "#lowerSieve",   "Lower sieve", 50)
+    schema:register(XMLValueType.INT,    cur .. "#rotor",        "Rotor", 50)
+    schema:register(XMLValueType.INT,    cur .. "#concave",      "Concave gap (grain) / Feed roll (others)", 50)
+    schema:register(XMLValueType.INT,    cur .. "#feeder",       "Feeder (legacy / forage+root+cotton)", 50)
+    schema:register(XMLValueType.INT,    cur .. "#upgradeLevel", "Upgrade tier (0-4)", 0)
 end
 
 -- EN: Mirrors registerXMLPaths for the savegame vehicles.xml schema.
@@ -339,12 +341,20 @@ function rhm_Combine:onLoad(savegame)
         speed = 0,
         load = 0,
         cropLoss = 0,
+        headerLoss = 0,        -- EN: Speed-related header loss (%) / UA: Втрати від швидкості на жатці (%)
         tonPerHour = 0,
         litersPerHour = 0,
         yield = 0,
         recommendedSpeed = 0,  -- EN: Updated by server tick, synced to clients / UA: Оновлюється сервером, синхронізується на клієнти
-        overloadLevel = 0      -- EN: 0=normal, 1=HIGH (120%+), 2=CRITICAL (150%+) — synced for warning display / UA: 0=норма, 1=ВИСОКЕ (120%+), 2=КРИТИЧНЕ (150%+)
+        overloadLevel = 0,     -- EN: 0=normal, 1=HIGH (120%+), 2=CRITICAL (150%+) — synced for warning display / UA: 0=норма, 1=ВИСОКЕ (120%+), 2=КРИТИЧНЕ (150%+)
+        isPlugged = false,     -- EN: True when rotor plug is active / UA: True коли активне засмічення ротора
+        moistureLabel = "",    -- EN: Short label for current moisture condition / UA: Коротка мітка поточного стану вологості
+        plugTimerPct = 0,      -- EN: 0-100% progress toward plug (for HUD warning ramp-up) / UA: 0-100% прогрес до засмічення
     }
+
+    -- EN: Start session tracking immediately on load.
+    -- UA: Починаємо відстеження сесії відразу при завантаженні.
+    spec.loadCalculator:startSession()
     
     -- Лічильник для збереження площі з addCutterArea
     spec.lastArea = 0
@@ -573,7 +583,15 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
     if not spec or not spec.loadCalculator then
         return limit, doCheckSpeedLimit
     end
-    
+
+    -- EN: PLUG OVERRIDE: When rotor is plugged, bring the combine to a near-stop (1 km/h).
+    --     This applies regardless of Speed Control tier — a plugged combine cannot move.
+    -- UA: ПЕРЕВИЗНАЧЕННЯ ПРИ ЗАСМІЧЕННІ: При засміченні ротора зупиняємо комбайн (1 км/год).
+    if spec.loadCalculator.isPlugged then
+        spec.isSpeedLimitActive = true
+        return math.min(limit, 1.0), doCheckSpeedLimit
+    end
+
     -- EN: Skip speed limiting if the thresher is off.
     -- UA: Пропускаємо обмеження швидкості якщо молотарка вимкнена.
     if not self:getIsTurnedOn() then
@@ -620,13 +638,21 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
             spec.isSpeedLimitActive = false
             return limit, doCheckSpeedLimit
         end
-        
+
         -- EN: In Arcade difficulty mode, don't limit speed (like vanilla game).
         -- UA: В режимі складності Arcade не обмежуємо швидкість (як у ванільній грі).
         if g_realisticHarvestManager.settings.difficultyMotor == 1 then -- DIFFICULTY_ARCADE
             spec.isSpeedLimitActive = false
             return limit, doCheckSpeedLimit
         end
+    end
+
+    -- EN: Speed Control upgrade (Tier 3) required for automatic speed limiting.
+    --     Without it, players must manage speed manually — no automation.
+    -- UA: Для автоматичного обмеження швидкості потрібен апгрейд Speed Control (Рівень 3).
+    if spec.combineMemory and (spec.combineMemory.upgradeLevel or 0) < 3 then
+        spec.isSpeedLimitActive = false
+        return limit, doCheckSpeedLimit
     end
     
     -- EN: If the cutter changed, reset genuineSpeedLimit to recalibrate for the new header's speed range.
@@ -997,6 +1023,10 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- UA: Використовуємо lastRawArea (реальну геометричну площу) для розрахунку врожайності.
     local areaForYield = spec.lastRawArea or spec.lastArea or 0 
     
+    -- EN: Update time-of-day moisture factor (cached, cheap call).
+    -- UA: Оновлюємо коефіцієнт вологості часу доби (кешується, дешевий виклик).
+    spec.loadCalculator:updateMoistureFactor(dt)
+
     -- EN: Pass accumulated MASS to LoadCalculator (not area) — mass is the main driver now.
     -- UA: Передаємо накопичену МАСУ в LoadCalculator (не площу) — маса тепер основний показник.
     spec.loadCalculator:update(self, dt, massKg)
@@ -1007,6 +1037,21 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     --     щоб показник т/год плавно падав до 0 між проходами.
     spec.loadCalculator:updateProductivityAndYield(massKg, liters, areaForYield, dt) 
     
+    -- EN: Calculate header loss based on current travel speed (server side only).
+    -- UA: Розраховуємо втрати на жатці виходячи з поточної швидкості (тільки на сервері).
+    local headerLoss = spec.loadCalculator:calculateHeaderLoss(self)
+
+    -- EN: Update plug state machine — 130%+ load for 10s → plug.
+    -- UA: Оновлюємо стан засмічення — навантаження 130%+ протягом 10с → засмічення.
+    local plugChanged = spec.loadCalculator:updatePlugState(dt)
+    if plugChanged and spec.loadCalculator.isPlugged then
+        -- EN: Plug event — show warning. Speed automation will force speed to ~0.
+        -- UA: Подія засмічення — показуємо попередження.
+        if g_i18n then
+            g_currentMission:showBlinkingWarning(g_i18n:getText("rhm_warn_rotor_plugged"), 8000)
+        end
+    end
+
     -- EN: Apply physical crop loss: remove lost grain from the fill unit on the server.
     --     This makes crop loss visible as a real reduction in tank fill level.
     -- UA: Застосовуємо фізичні втрати врожаю: видаляємо втрачене зерно з fill unit на сервері.
@@ -1016,6 +1061,10 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         -- UA: Розраховуємо загальні втрати врожаю включаючи штраф за відхилення налаштувань.
         local cropLoss = spec.loadCalculator:calculateTotalCropLoss()
         spec.combineMemory:updateStatistics(liters, cropLoss, spec.combineMemory.currentCrop)
+
+        -- EN: Update session statistics.
+        -- UA: Оновлюємо статистику сесії.
+        spec.loadCalculator:updateSession(massKg, areaForYield, cropLoss, headerLoss)
         
         if cropLoss > 0 and g_realisticHarvestManager and g_realisticHarvestManager.settings then
             if g_realisticHarvestManager.settings.enableCropLoss then
@@ -1056,13 +1105,25 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- EN: Update HUD live data table from LoadCalculator outputs.
     -- UA: Оновлюємо таблицю живих даних HUD з виводів LoadCalculator.
     if spec.data then
-        spec.data.load = spec.loadCalculator:getEngineLoad()
-        spec.data.cropLoss = spec.loadCalculator:calculateTotalCropLoss()
-        spec.data.tonPerHour = spec.loadCalculator:getTonPerHour()
-        spec.data.litersPerHour = spec.loadCalculator:getLitersPerHour() -- NEW: Volume flow
-        spec.data.recommendedSpeed = spec.loadCalculator:getSpeedLimit()
-        -- NEW: Yield Monitor Data
-        spec.data.yield = spec.loadCalculator.currentYield or 0
+        local lc = spec.loadCalculator
+        spec.data.load             = lc:getEngineLoad()
+        spec.data.cropLoss         = lc:calculateTotalCropLoss()
+        spec.data.headerLoss       = lc.headerLoss or 0
+        spec.data.tonPerHour       = lc:getTonPerHour()
+        spec.data.litersPerHour    = lc:getLitersPerHour()
+        spec.data.yield            = lc.currentYield or 0
+        spec.data.isPlugged        = lc.isPlugged or false
+        spec.data.moistureLabel    = lc.moistureLabel or ""
+        -- EN: plugTimerPct: 0-100% progress toward a plug, for HUD pre-warning ramp.
+        -- UA: plugTimerPct: 0-100% прогрес до засмічення для попереднього попередження HUD.
+        spec.data.plugTimerPct     = math.min(100, ((lc.plugTimer or 0) / 10000) * 100)
+        -- EN: Speed limit — if plugged, force 0 km/h regardless of Speed Control tier.
+        -- UA: Ліміт швидкості — при засміченні форсуємо 0 км/год незалежно від рівня апгрейду.
+        if lc.isPlugged then
+            spec.data.recommendedSpeed = 0
+        else
+            spec.data.recommendedSpeed = lc:getSpeedLimit()
+        end
     end
     
     -- === AI / COURSEPLAY WORKAROUND (Server Side) ===
@@ -1074,10 +1135,19 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             local motor = self.spec_motorized.motor
             local currentLimit = spec.loadCalculator:getSpeedLimit()
             
-            -- If the AI tries to drive faster than our dynamic limit, force the motor to slow down
-            if motor.speedLimit > currentLimit then
-                motor:setSpeedLimit(currentLimit)
+            -- EN: ALWAYS apply the calculated limit (both up and down).
+            --     Previously we only called setSpeedLimit when lowering, so after a heavy windrow
+            --     the motor limit stayed at 1-2 km/h permanently (Courseplay speed-lock bug).
+            --     Cap at genuineSpeedLimit so we never restore above the original ceiling.
+            -- UA: ЗАВЖДИ застосовуємо розрахований ліміт (і вниз, і вгору).
+            --     Раніше ми викликали setSpeedLimit лише при зниженні, тому після важких рядків
+            --     ліміт мотора назавжди залишався на 1-2 км/год (баг блокування швидкості Courseplay).
+            --     Обмежуємо genuineSpeedLimit щоб не перевищити оригінальну стелю.
+            local ceiling = spec.loadCalculator.genuineSpeedLimit
+            if ceiling and ceiling > 0 then
+                currentLimit = math.min(currentLimit, ceiling)
             end
+            motor:setSpeedLimit(currentLimit)
         end
     end
     
@@ -1152,17 +1222,21 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                 elseif math.abs((data.recommendedSpeed or 0) - (last.recommendedSpeed or 0)) > 0.2 then hasSignificantChange = true
                 elseif math.abs((data.yield or 0) - (last.yield or 0)) > 0.1 then hasSignificantChange = true
                 elseif data.overloadLevel ~= last.overloadLevel then hasSignificantChange = true
+                elseif (data.isPlugged ~= last.isPlugged) then hasSignificantChange = true
+                elseif math.abs((data.headerLoss or 0) - (last.headerLoss or 0)) > 0.3 then hasSignificantChange = true
                 end
             end
             
             -- Також форсуємо оновлення раз на секунду
             if hasSignificantChange or (now - spec.lastDataUpdateTime) >= 1000 then
                 spec.lastDataUpdateTime = now
-                spec.lastSyncedData.load = data.load
-                spec.lastSyncedData.cropLoss = data.cropLoss
-                spec.lastSyncedData.recommendedSpeed = data.recommendedSpeed
-                spec.lastSyncedData.yield = data.yield
-                spec.lastSyncedData.overloadLevel = data.overloadLevel
+                spec.lastSyncedData.load            = data.load
+                spec.lastSyncedData.cropLoss        = data.cropLoss
+                spec.lastSyncedData.headerLoss      = data.headerLoss
+                spec.lastSyncedData.recommendedSpeed= data.recommendedSpeed
+                spec.lastSyncedData.yield           = data.yield
+                spec.lastSyncedData.overloadLevel   = data.overloadLevel
+                spec.lastSyncedData.isPlugged       = data.isPlugged
                 
                 self:raiseDirtyFlags(spec.dataDirtyFlag)
             end
@@ -1204,15 +1278,22 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
         end
     end
     
-    safeSet(cur .. "#mode",       mem.mode or "AUTO")
-    safeSet(cur .. "#autoSwitch", mem.autoSwitchEnabled ~= false)
-    safeSet(cur .. "#currentCrop", mem.currentCrop or "")
-    safeSet(cur .. "#fan",        settings.fan or 50)
-    safeSet(cur .. "#upperSieve", settings.upperSieve or 50)
-    safeSet(cur .. "#lowerSieve", settings.lowerSieve or 50)
-    safeSet(cur .. "#rotor",      settings.rotor or 50)
-    safeSet(cur .. "#feeder",     settings.feeder or 50)
-    
+    safeSet(cur .. "#mode",         mem.mode or "AUTO")
+    safeSet(cur .. "#autoSwitch",   mem.autoSwitchEnabled ~= false)
+    safeSet(cur .. "#currentCrop",  mem.currentCrop or "")
+    safeSet(cur .. "#fan",          settings.fan or 50)
+    safeSet(cur .. "#upperSieve",   settings.upperSieve or 50)
+    safeSet(cur .. "#lowerSieve",   settings.lowerSieve or 50)
+    safeSet(cur .. "#rotor",        settings.rotor or 50)
+    safeSet(cur .. "#upgradeLevel", mem.upgradeLevel or 0)
+    -- EN: Save concave (grain) or feeder (forage/root/cotton) under their respective keys.
+    --     Both keys registered in schema; unused one gets 50 (default).
+    if spec.machineType == "grain" then
+        safeSet(cur .. "#concave", settings.concave or 50)
+    else
+        safeSet(cur .. "#feeder",  settings.feeder or 50)
+    end
+
     print(string.format("RHM: [SAVE] Saved combine state for %s", self:getName() or "?"))
 end
 
@@ -1231,8 +1312,18 @@ function rhm_Combine:loadFromXMLFile(xmlFile, key, resetVehicles)
     spec.combineMemory.currentSettings.upperSieve = xmlFile:getValue(cur .. "#upperSieve", 50)
     spec.combineMemory.currentSettings.lowerSieve = xmlFile:getValue(cur .. "#lowerSieve", 50)
     spec.combineMemory.currentSettings.rotor      = xmlFile:getValue(cur .. "#rotor", 50)
-    spec.combineMemory.currentSettings.feeder     = xmlFile:getValue(cur .. "#feeder", 50)
-    
+    spec.combineMemory.upgradeLevel               = xmlFile:getValue(cur .. "#upgradeLevel", 0)
+    -- EN: Load the correct 5th parameter key based on machine type.
+    --     Grain combines use 'concave'; fall back to '#feeder' for old saves.
+    --     Forage/root/cotton use 'feeder'.
+    if spec.machineType == "grain" then
+        local concaveVal = xmlFile:getValue(cur .. "#concave", nil)
+        local feederFallback = xmlFile:getValue(cur .. "#feeder", 50)
+        spec.combineMemory.currentSettings.concave = concaveVal or feederFallback
+    else
+        spec.combineMemory.currentSettings.feeder = xmlFile:getValue(cur .. "#feeder", 50)
+    end
+
     print(string.format("RHM: [LOAD] Loaded combine state for %s", self:getName() or "?"))
 end
 
@@ -1257,9 +1348,10 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteUInt8(streamId, 50)  -- rotor
         streamWriteUInt8(streamId, 50)  -- upperSieve
         streamWriteUInt8(streamId, 50)  -- lowerSieve
-        streamWriteUInt8(streamId, 50)  -- feeder
+        streamWriteUInt8(streamId, 50)  -- slot5 (concave/feeder)
         streamWriteString(streamId, "AUTO")  -- mode
         streamWriteString(streamId, "")      -- currentCrop (empty = nil)
+        streamWriteUInt8(streamId, 0)        -- upgradeLevel
         return
     end
     
@@ -1272,24 +1364,27 @@ function rhm_Combine:onWriteStream(streamId, connection)
     streamWriteFloat32(streamId, spec.data.yield or 0)
     streamWriteUInt8(streamId, spec.data.overloadLevel or 0)
     
-    -- CombineMemory settings (FIX 4: sync on initial connect)
+    -- CombineMemory settings (sync on initial connect)
     local mem = spec.combineMemory
     if mem then
         streamWriteUInt8(streamId, mem.currentSettings.fan or 50)
         streamWriteUInt8(streamId, mem.currentSettings.rotor or 50)
         streamWriteUInt8(streamId, mem.currentSettings.upperSieve or 50)
         streamWriteUInt8(streamId, mem.currentSettings.lowerSieve or 50)
-        streamWriteUInt8(streamId, mem.currentSettings.feeder or 50)
+        -- EN: slot5 = concave (grain) or feeder (forage/root/cotton)
+        streamWriteUInt8(streamId, mem.currentSettings.concave or mem.currentSettings.feeder or 50)
         streamWriteString(streamId, mem.mode or "AUTO")
         streamWriteString(streamId, mem.currentCrop or "")
+        streamWriteUInt8(streamId, mem.upgradeLevel or 0)
     else
         streamWriteUInt8(streamId, 50)
         streamWriteUInt8(streamId, 50)
         streamWriteUInt8(streamId, 50)
         streamWriteUInt8(streamId, 50)
-        streamWriteUInt8(streamId, 50)
+        streamWriteUInt8(streamId, 50)  -- slot5
         streamWriteString(streamId, "AUTO")
         streamWriteString(streamId, "")
+        streamWriteUInt8(streamId, 0)   -- upgradeLevel
     end
 end
 
@@ -1310,9 +1405,10 @@ function rhm_Combine:onReadStream(streamId, connection)
         streamReadUInt8(streamId)
         streamReadUInt8(streamId)
         streamReadUInt8(streamId)
-        streamReadUInt8(streamId)
+        streamReadUInt8(streamId)  -- slot5
         streamReadString(streamId)
         streamReadString(streamId)
+        streamReadUInt8(streamId)  -- upgradeLevel
         return
     end
     
@@ -1334,19 +1430,26 @@ function rhm_Combine:onReadStream(streamId, connection)
     local rotor = streamReadUInt8(streamId)
     local upperSieve = streamReadUInt8(streamId)
     local lowerSieve = streamReadUInt8(streamId)
-    local feeder = streamReadUInt8(streamId)
+    local slot5 = streamReadUInt8(streamId)   -- concave (grain) or feeder (forage/root/cotton)
     local mode = streamReadString(streamId)
     local currentCrop = streamReadString(streamId)
-    
+    local upgradeLevel = streamReadUInt8(streamId)
+
     -- Apply to combineMemory if available
     if spec.combineMemory then
         spec.combineMemory.currentSettings.fan = fan
         spec.combineMemory.currentSettings.rotor = rotor
         spec.combineMemory.currentSettings.upperSieve = upperSieve
         spec.combineMemory.currentSettings.lowerSieve = lowerSieve
-        spec.combineMemory.currentSettings.feeder = feeder
+        -- EN: Apply slot5 to the key that exists in this machine's settings table.
+        if spec.combineMemory.currentSettings.concave ~= nil then
+            spec.combineMemory.currentSettings.concave = slot5
+        elseif spec.combineMemory.currentSettings.feeder ~= nil then
+            spec.combineMemory.currentSettings.feeder = slot5
+        end
         spec.combineMemory.mode = mode or "AUTO"
         spec.combineMemory.currentCrop = (currentCrop ~= "" and currentCrop) or nil
+        spec.combineMemory.upgradeLevel = upgradeLevel or 0
     end
 end
 
@@ -1368,13 +1471,16 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
             end
             
             -- HUD data
-            spec.data.load = streamReadFloat32(streamId)
-            spec.data.cropLoss = streamReadFloat32(streamId)
-            spec.data.tonPerHour = streamReadFloat32(streamId)
-            spec.data.litersPerHour = streamReadFloat32(streamId)
+            spec.data.load             = streamReadFloat32(streamId)
+            spec.data.cropLoss         = streamReadFloat32(streamId)
+            spec.data.headerLoss       = streamReadFloat32(streamId)
+            spec.data.tonPerHour       = streamReadFloat32(streamId)
+            spec.data.litersPerHour    = streamReadFloat32(streamId)
             spec.data.recommendedSpeed = streamReadFloat32(streamId)
-            spec.data.yield = streamReadFloat32(streamId)
-            spec.data.overloadLevel = streamReadUInt8(streamId)
+            spec.data.yield            = streamReadFloat32(streamId)
+            spec.data.overloadLevel    = streamReadUInt8(streamId)
+            spec.data.isPlugged        = streamReadBool(streamId)
+            spec.data.plugTimerPct     = streamReadUInt8(streamId)
         end
 
         if hasSettingsUpdate then
@@ -1383,18 +1489,24 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
             local rotor = streamReadUInt8(streamId)
             local upperSieve = streamReadUInt8(streamId)
             local lowerSieve = streamReadUInt8(streamId)
-            local feeder = streamReadUInt8(streamId)
+            local slot5 = streamReadUInt8(streamId)  -- concave or feeder
             local mode = streamReadString(streamId)
             local currentCrop = streamReadString(streamId)
-            
+            local upgradeLevel = streamReadUInt8(streamId)
+
             if spec.combineMemory then
                 spec.combineMemory.currentSettings.fan = fan
                 spec.combineMemory.currentSettings.rotor = rotor
                 spec.combineMemory.currentSettings.upperSieve = upperSieve
                 spec.combineMemory.currentSettings.lowerSieve = lowerSieve
-                spec.combineMemory.currentSettings.feeder = feeder
+                if spec.combineMemory.currentSettings.concave ~= nil then
+                    spec.combineMemory.currentSettings.concave = slot5
+                elseif spec.combineMemory.currentSettings.feeder ~= nil then
+                    spec.combineMemory.currentSettings.feeder = slot5
+                end
                 spec.combineMemory.mode = mode or "AUTO"
                 spec.combineMemory.currentCrop = (currentCrop ~= "" and currentCrop) or nil
+                spec.combineMemory.upgradeLevel = upgradeLevel or 0
             end
         end
     end
@@ -1419,13 +1531,16 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
         if hasDataUpdate then
             -- HUD data
             local data = spec.data or {}
-            streamWriteFloat32(streamId, data.load or 0)
-            streamWriteFloat32(streamId, data.cropLoss or 0)
-            streamWriteFloat32(streamId, data.tonPerHour or 0)
-            streamWriteFloat32(streamId, data.litersPerHour or 0)
+            streamWriteFloat32(streamId, data.load             or 0)
+            streamWriteFloat32(streamId, data.cropLoss         or 0)
+            streamWriteFloat32(streamId, data.headerLoss       or 0)
+            streamWriteFloat32(streamId, data.tonPerHour       or 0)
+            streamWriteFloat32(streamId, data.litersPerHour    or 0)
             streamWriteFloat32(streamId, data.recommendedSpeed or 0)
-            streamWriteFloat32(streamId, data.yield or 0)
-            streamWriteUInt8(streamId, data.overloadLevel or 0)
+            streamWriteFloat32(streamId, data.yield            or 0)
+            streamWriteUInt8(streamId,   data.overloadLevel    or 0)
+            streamWriteBool(streamId,    data.isPlugged        or false)
+            streamWriteUInt8(streamId,   math.floor(math.min(100, data.plugTimerPct or 0)))
         end
 
         if hasSettingsUpdate then
@@ -1436,17 +1551,20 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
                 streamWriteUInt8(streamId, mem.currentSettings.rotor or 50)
                 streamWriteUInt8(streamId, mem.currentSettings.upperSieve or 50)
                 streamWriteUInt8(streamId, mem.currentSettings.lowerSieve or 50)
-                streamWriteUInt8(streamId, mem.currentSettings.feeder or 50)
+                -- EN: slot5 = concave (grain) or feeder (forage/root/cotton)
+                streamWriteUInt8(streamId, mem.currentSettings.concave or mem.currentSettings.feeder or 50)
                 streamWriteString(streamId, mem.mode or "AUTO")
                 streamWriteString(streamId, mem.currentCrop or "")
+                streamWriteUInt8(streamId, mem.upgradeLevel or 0)
             else
                 streamWriteUInt8(streamId, 50)
                 streamWriteUInt8(streamId, 50)
                 streamWriteUInt8(streamId, 50)
                 streamWriteUInt8(streamId, 50)
-                streamWriteUInt8(streamId, 50)
+                streamWriteUInt8(streamId, 50)  -- slot5
                 streamWriteString(streamId, "AUTO")
                 streamWriteString(streamId, "")
+                streamWriteUInt8(streamId, 0)   -- upgradeLevel
             end
         end
     end

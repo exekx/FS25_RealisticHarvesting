@@ -1,7 +1,9 @@
--- EN: Network event for syncing combine settings changes (fan, rotor, sieve, feeder) from
+-- EN: Network event for syncing combine settings changes (fan, rotor, sieve, concave/feeder) from
 --     the client GUI to the server, and from the server back to all other clients.
 --     Supports two modes: single-parameter update or full profile apply.
--- UA: Мережева подія для синхронізації змін налаштувань комбайна (вентилятор, ротор, решета, подача)
+--     NOTE: The 5th slot in fullSettings is called "slot5" internally and maps to either
+--           "concave" (grain) or "feeder" (forage/root/cotton) based on the machine type.
+-- UA: Мережева подія для синхронізації змін налаштувань комбайна (вентилятор, ротор, решета, деко/подача)
 --     від GUI клієнта до сервера, і від сервера до всіх інших клієнтів.
 --     Підтримує два режими: оновлення одного параметру або застосування повного профілю.
 CombineSettingsEvent = {}
@@ -35,14 +37,17 @@ function CombineSettingsEvent:readStream(streamId, connection)
     self.isFullProfile = streamReadBool(streamId)
 
     if self.isFullProfile then
-        -- EN: Full profile mode: read all 5 parameter values.
-        -- UA: Режим повного профілю: зчитуємо всі 5 значень параметрів.
+        -- EN: Full profile mode: read all 5 parameter values + upgrade level.
+        --     slot5 carries either "concave" (grain) or "feeder" (forage/root/cotton).
+        -- UA: Режим повного профілю: зчитуємо всі 5 значень параметрів + рівень апгрейду.
         self.fullSettings = {}
         self.fullSettings.fan = streamReadUInt8(streamId)
         self.fullSettings.rotor = streamReadUInt8(streamId)
         self.fullSettings.upperSieve = streamReadUInt8(streamId)
         self.fullSettings.lowerSieve = streamReadUInt8(streamId)
-        self.fullSettings.feeder = streamReadUInt8(streamId)
+        self.fullSettings.slot5 = streamReadUInt8(streamId)        -- concave or feeder
+        self.fullSettings.targetEngineLoad = streamReadUInt8(streamId)
+        self.fullSettings.upgradeLevel = streamReadUInt8(streamId)
     else
         -- EN: Single parameter mode: read parameter name and its value.
         -- UA: Режим одного параметру: зчитуємо назву параметру і його значення.
@@ -59,13 +64,16 @@ function CombineSettingsEvent:writeStream(streamId, connection)
     streamWriteBool(streamId, self.isFullProfile)
 
     if self.isFullProfile then
-        -- EN: Write all 5 parameter values for a full profile transfer.
-        -- UA: Записуємо всі 5 значень параметрів для передачі повного профілю.
+        -- EN: Write all 5 parameter values + upgrade level for a full profile transfer.
+        --     slot5 carries either "concave" (grain) or "feeder" (forage/root/cotton).
+        -- UA: Записуємо всі 5 значень параметрів + рівень апгрейду для передачі повного профілю.
         streamWriteUInt8(streamId, self.fullSettings.fan or 50)
         streamWriteUInt8(streamId, self.fullSettings.rotor or 50)
         streamWriteUInt8(streamId, self.fullSettings.upperSieve or 50)
         streamWriteUInt8(streamId, self.fullSettings.lowerSieve or 50)
-        streamWriteUInt8(streamId, self.fullSettings.feeder or 50)
+        streamWriteUInt8(streamId, self.fullSettings.slot5 or 50)   -- concave or feeder
+        streamWriteUInt8(streamId, self.fullSettings.targetEngineLoad or 95)
+        streamWriteUInt8(streamId, self.fullSettings.upgradeLevel or 0)
     else
         -- EN: Write single parameter name and value.
         -- UA: Записуємо назву та значення одного параметру.
@@ -82,6 +90,16 @@ function CombineSettingsEvent:run(connection)
     if self.vehicle and self.vehicle:getIsSynchronized() and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.combineMemory then
         local mem = self.vehicle.spec_rhm_Combine.combineMemory
 
+        -- EN: Helper: apply slot5 value to the correct key (concave for grain, feeder for others).
+        -- UA: Допоміжна: застосовуємо значення slot5 до правильного ключа.
+        local function applySlot5(memory, val)
+            if memory.currentSettings.concave ~= nil then
+                memory.currentSettings.concave = val  -- grain combines
+            elseif memory.currentSettings.feeder ~= nil then
+                memory.currentSettings.feeder = val   -- forage/root/cotton
+            end
+        end
+
         if g_server ~= nil then
             if self.isFullProfile then
                 -- EN: Apply a complete user preset profile to the combine memory.
@@ -90,14 +108,25 @@ function CombineSettingsEvent:run(connection)
                 mem.currentSettings.rotor = self.fullSettings.rotor
                 mem.currentSettings.upperSieve = self.fullSettings.upperSieve
                 mem.currentSettings.lowerSieve = self.fullSettings.lowerSieve
-                mem.currentSettings.feeder = self.fullSettings.feeder
+                applySlot5(mem, self.fullSettings.slot5 or 50)
+                mem.currentSettings.targetEngineLoad = self.fullSettings.targetEngineLoad
+                if self.fullSettings.upgradeLevel then
+                    mem.upgradeLevel = self.fullSettings.upgradeLevel
+                end
                 mem.autoSwitchEnabled = false
                 mem.mode = "MANUAL"
                 if RHM_Debug and RHM_Debug.isEnabled("Network") then
                     print("RHM: [Sync] Received full user profile settings via network")
                 end
             else
-                if self.parameter == "AUTO_SET" then
+                if self.parameter == "UPGRADE_LEVEL" then
+                    -- EN: Client purchased an upgrade — update level on server and broadcast.
+                    -- UA: Клієнт придбав апгрейд — оновлюємо рівень на сервері та транслюємо.
+                    mem.upgradeLevel = math.max(mem.upgradeLevel or 0, math.floor(self.value))
+                    if RHM_Debug and RHM_Debug.isEnabled("Network") then
+                        print(string.format("RHM: [Sync] Upgrade level set to %d", mem.upgradeLevel))
+                    end
+                elseif self.parameter == "AUTO_SET" then
                     -- EN: Client requested AUTO mode — configure optimal settings for current crop.
                     -- UA: Клієнт запросив AUTO режим — налаштовуємо оптимальні значення для поточної культури.
                     mem.autoSwitchEnabled = true
@@ -128,9 +157,12 @@ function CombineSettingsEvent:run(connection)
                     -- EN: Apply a single parameter change (e.g. "fan" = 65).
                     -- UA: Застосовуємо зміну одного параметру (наприклад "fan" = 65).
                     if mem.currentSettings[self.parameter] ~= nil then
-                        mem.currentSettings[self.parameter] = math.max(0, math.min(100, self.value))
-                        mem.autoSwitchEnabled = false
-                        mem.mode = "MANUAL"
+                        local maxVal = self.parameter == "targetEngineLoad" and 110 or 100
+                        mem.currentSettings[self.parameter] = math.max(0, math.min(maxVal, self.value))
+                        if self.parameter ~= "targetEngineLoad" then
+                            mem.autoSwitchEnabled = false
+                            mem.mode = "MANUAL"
+                        end
                         if RHM_Debug and RHM_Debug.isEnabled("Network") then
                             print(string.format("RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
                         end
@@ -139,12 +171,15 @@ function CombineSettingsEvent:run(connection)
             end
 
             -- EN: Server always broadcasts the full state so clients sync perfectly without duplicate calculations.
+            --     slot5 carries concave (grain) or feeder (forage/root/cotton) dynamically.
             local fullSettings = {
                 fan = mem.currentSettings.fan,
                 rotor = mem.currentSettings.rotor,
                 upperSieve = mem.currentSettings.upperSieve,
                 lowerSieve = mem.currentSettings.lowerSieve,
-                feeder = mem.currentSettings.feeder
+                slot5 = mem.currentSettings.concave or mem.currentSettings.feeder or 50,
+                targetEngineLoad = mem.currentSettings.targetEngineLoad,
+                upgradeLevel = mem.upgradeLevel or 0,
             }
             g_server:broadcastEvent(CombineSettingsEvent.new(self.vehicle, "", 0, true, fullSettings), nil, connection, self.vehicle)
             local spec = self.vehicle.spec_rhm_Combine
@@ -162,15 +197,24 @@ function CombineSettingsEvent:run(connection)
                 mem.currentSettings.rotor = self.fullSettings.rotor
                 mem.currentSettings.upperSieve = self.fullSettings.upperSieve
                 mem.currentSettings.lowerSieve = self.fullSettings.lowerSieve
-                mem.currentSettings.feeder = self.fullSettings.feeder
+                applySlot5(mem, self.fullSettings.slot5 or 50)
+                mem.currentSettings.targetEngineLoad = self.fullSettings.targetEngineLoad
+                if self.fullSettings.upgradeLevel then
+                    mem.upgradeLevel = self.fullSettings.upgradeLevel
+                end
+            elseif self.parameter == "UPGRADE_LEVEL" then
+                mem.upgradeLevel = math.max(mem.upgradeLevel or 0, math.floor(self.value))
             elseif self.parameter == "AUTO_MODE" then
                 mem.autoSwitchEnabled = (self.value == 1)
                 mem.mode = mem.autoSwitchEnabled and "AUTO" or "MANUAL"
             elseif self.parameter ~= "AUTO_SET" and self.parameter ~= "RESET_SET" then
                 if mem.currentSettings[self.parameter] ~= nil then
-                    mem.currentSettings[self.parameter] = math.max(0, math.min(100, self.value))
-                    mem.autoSwitchEnabled = false
-                    mem.mode = "MANUAL"
+                    local maxVal = self.parameter == "targetEngineLoad" and 110 or 100
+                    mem.currentSettings[self.parameter] = math.max(0, math.min(maxVal, self.value))
+                    if self.parameter ~= "targetEngineLoad" then
+                        mem.autoSwitchEnabled = false
+                        mem.mode = "MANUAL"
+                    end
                 end
             end
         end

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    FS25 Realistic Harvesting — Crop Throughput Configuration
+    ==========================================================
+
+    HOW THIS FILE WORKS
+    -------------------
+    The mod derives a power-law throughput curve for each crop using two
+    real-world anchor points taken from AEM combine class data:
+
+        buPerHrMin  = what a CLASS 6  combine  (≈ 280 hp) achieves
+        buPerHrMax  = what a CLASS 10 combine  (≈ 750 hp) achieves
+
+    From those two numbers the mod calculates:
+        throughput (kg/s)  =  A  *  hp ^ B
+
+    where B and A are solved automatically so the curve passes exactly
+    through both anchor points.  Every combine HP between 280 and 750 then
+    falls on the right calibrated curve — small machines land near the min,
+    large machines land near the max.
+
+    WHAT TO TUNE
+    ------------
+    Change buPerHrMin and buPerHrMax to match what your local crop and
+    variety actually produces under good conditions.  You do NOT need to
+    list every crop — any crop not listed here uses the mod's built-in
+    defaults.
+
+    FILE LOCATION
+    -------------
+    This file ships in the mod folder and loads automatically.
+    To override it, copy it to:
+        <My Documents>/My Games/FarmingSimulator2025/
+            modSettings/FS25_RealisticHarvesting/cropThroughput.xml
+    The modSettings copy takes priority over the bundled one.
+
+    BUSHEL WEIGHTS USED (USDA test weight)
+    ----------------------------------------
+    wheat / soybean / legume / potato : 60 lb/bu
+    corn / sorghum                    : 56 lb/bu
+    barley                            : 48 lb/bu
+    canola (rapeseed)                 : 50 lb/bu
+    rice                              : 45 lb/bu
+    oat / cotton                      : 32 lb/bu
+    sunflower                         : 25 lb/bu
+
+    REAL-WORLD ANCHOR REFERENCES
+    (ideal conditions, modern header, proper settings)
+    ---------------------------------------------------
+    Class 6  ≈ 280 hp  e.g. JD S670,   Case IH 7250,  NH CR8.90
+    Class 10 ≈ 750 hp  e.g. JD X9 1100, Case AF9240,  NH CR11
+
+                        Class 6      Class 10
+    Wheat               1,200        3,500 bu/hr
+    Barley              1,400        3,800 bu/hr
+    Oat                 1,200        3,200 bu/hr
+    Corn                2,000        6,000 bu/hr
+    Soybean               900        2,600 bu/hr
+    Canola                700        1,800 bu/hr
+    Sunflower             450        1,100 bu/hr
+    Sorghum             1,200        3,200 bu/hr
+    Rice                  800        2,000 bu/hr
+    Legume/Peas           900        2,600 bu/hr
+
+    PREDICTED MID-RANGE (computed from the defaults above)
+    -------------------------------------------------------
+                        400 hp       500 hp       600 hp
+    Wheat               1,768        2,253        2,747 bu/hr
+    Barley              2,010        2,520        3,031 bu/hr
+    Corn                2,977        3,818        4,678 bu/hr
+    Soybean             1,321        1,680        2,045 bu/hr
+    Canola                985        1,220        1,453 bu/hr
+
+    ALTERNATIVE: SINGLE-POINT MODE (advanced)
+    ------------------------------------------
+    If you only want to set one reference point, use buPerHrRef alone.
+    The mod will treat it as the 400 hp reference and use a fixed exponent
+    of 0.75.  This is less accurate than the two-point form.
+        <crop name="wheat" buPerHrRef="1800" />
+-->
+
+<cropThroughput>
+
+    <!-- ── Grain crops ──────────────────────────────────────────────────── -->
+
+    <crop name="wheat"
+          buPerHrMin="1200"
+          buPerHrMax="3500" />
+
+    <crop name="barley"
+          buPerHrMin="1400"
+          buPerHrMax="3800" />
+
+    <crop name="oat"
+          buPerHrMin="1200"
+          buPerHrMax="3200" />
+
+    <crop name="corn"
+          buPerHrMin="2000"
+          buPerHrMax="6000" />
+
+    <crop name="sorghum"
+          buPerHrMin="1200"
+          buPerHrMax="3200" />
+
+    <crop name="rice"
+          buPerHrMin="800"
+          buPerHrMax="2000" />
+
+    <!-- ── Oilseed and specialty crops ──────────────────────────────────── -->
+
+    <crop name="soybean"
+          buPerHrMin="900"
+          buPerHrMax="2600" />
+
+    <crop name="canola"
+          buPerHrMin="700"
+          buPerHrMax="1800" />
+
+    <crop name="sunflower"
+          buPerHrMin="450"
+          buPerHrMax="1100" />
+
+    <!-- ── Pulse crops ───────────────────────────────────────────────────── -->
+
+    <crop name="legume"
+          buPerHrMin="900"
+          buPerHrMax="2600" />
+
+</cropThroughput>

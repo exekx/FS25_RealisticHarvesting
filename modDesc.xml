@@ -2,7 +2,7 @@
 <modDesc descVersion="106">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.4.2.0</version>
+    <version>1.4.3.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -552,12 +552,13 @@ Funkciók:
         <text name="rhm_ui_load"><en>Engine Load</en><de>Motorlast</de><fr>Charge Moteur</fr><pl>Obciążenie Silnika</pl><es>Carga Motor</es><it>Carico Motore</it><cz>Zatížení Motoru</cz><br>Carga do Motor</br><uk>Навантаження</uk><ru>Нагрузка</ru><hu>Motor Terhelés</hu></text>
         <text name="rhm_ui_loss"><en>Loss</en><de>Verlust</de><fr>Perte</fr><pl>Strata</pl><es>Pérdida</es><it>Perdita</it><cz>Ztráta</cz><br>Perda</br><uk>Втрати</uk><ru>Потери</ru><hu>Veszteség</hu></text>
         
-        <text name="rhm_ui_fan_speed"><en>Fan Speed</en><de>Gebläsedrehzahl</de><fr>Vitesse Ventilateur</fr><pl>Obroty Wentylatora</pl><es>Velocidad Ventilador</es><it>Velocità Ventola</it><cz>Otáčky Ventilátoru</cz><br>Velocidade Ventoinha</br><uk>Оберти Вентилятора</uk><ru>Обороты Вентилятора</ru><hu>Ventilátor Fordulat</hu></text>
-        <text name="rhm_ui_rotor_speed"><en>Rotor Speed</en><de>Rotordrehzahl</de><fr>Vitesse Rotor</fr><pl>Obroty Rotora</pl><es>Velocidad Rotor</es><it>Velocità Rotore</it><cz>Otáčky Rotoru</cz><br>Velocidade Rotor</br><uk>Оберти Ротора</uk><ru>Обороты Ротора</ru><hu>Rotor Fordulat</hu></text>
-        <text name="rhm_ui_upper_sieve"><en>Upper Sieve</en><de>Obersieb</de><fr>Grille Supérieure</fr><pl>Sito Górne</pl><es>Criba Superior</es><it>Crivello Superiore</it><cz>Horní Síto</cz><br>Peneira Superior</br><uk>Верхнє Решето</uk><ru>Верхнее Решето</ru><hu>Felső Rosta</hu></text>
-        <text name="rhm_ui_lower_sieve"><en>Lower Sieve</en><de>Untersieb</de><fr>Grille Inférieure</fr><pl>Sito Dolne</pl><es>Criba Inferior</es><it>Crivello Inferiore</it><cz>Spodní Síto</cz><br>Peneira Inferior</br><uk>Нижнє Решето</uk><ru>Нижнее Решето</ru><hu>Alsó Rosta</hu></text>
-        <text name="rhm_ui_feeder_speed"><en>Feeder House</en><de>Schrägförderer</de><fr>Convoyeur</fr><pl>Przenośnik Pochyły</pl><es>Alimentador</es><it>Canale Elevatore</it><cz>Šikmý Dopravník</cz><br>Alimentador</br><uk>Похила Камера</uk><ru>Наклонная Камера</ru><hu>Ferde Felhordó</hu></text>
-        
+        <text name="rhm_ui_fan_speed"><en>Cleaning Fan</en><de>Gebläse</de><fr>Ventilateur</fr><pl>Wentylator</pl><es>Ventilador</es><it>Ventola</it><cz>Ventilátor</cz><br>Ventoinha</br><uk>Вентилятор очистки</uk><ru>Вентилятор очистки</ru><hu>Ventilátor</hu></text>
+        <text name="rhm_ui_rotor_speed"><en>Rotor / Drum</en><de>Rotor/Trommel</de><fr>Rotor/Tambour</fr><pl>Rotor/Bęben</pl><es>Rotor/Tambor</es><it>Rotore/Tamburo</it><cz>Rotor/Buben</cz><br>Rotor/Tambor</br><uk>Ротор / Барабан</uk><ru>Ротор / Барабан</ru><hu>Rotor/Dob</hu></text>
+        <text name="rhm_ui_upper_sieve"><en>Top Sieve</en><de>Obersieb</de><fr>Grille sup.</fr><pl>Sito górne</pl><es>Criba sup.</es><it>Crivello sup.</it><cz>Horní síto</cz><br>Peneira sup.</br><uk>Верхнє решето</uk><ru>Верхнее решето</ru><hu>Felső rosta</hu></text>
+        <text name="rhm_ui_lower_sieve"><en>Bottom Sieve</en><de>Untersieb</de><fr>Grille inf.</fr><pl>Sito dolne</pl><es>Criba inf.</es><it>Crivello inf.</it><cz>Spodní síto</cz><br>Peneira inf.</br><uk>Нижнє решето</uk><ru>Нижнее решето</ru><hu>Alsó rosta</hu></text>
+        <text name="rhm_ui_feeder_speed"><en>Feeder House</en><de>Schrägförderer</de><fr>Convoyeur</fr><pl>Przenośник</pl><es>Alimentador</es><it>Canale Elevatore</it><cz>Šikmý dopravník</cz><br>Alimentador</br><uk>Похила камера</uk><ru>Наклонная камера</ru><hu>Ferde felhordó</hu></text>
+        <text name="rhm_ui_concave_gap"><en>Concave Gap</en><de>Dreschkorb</de><fr>Jeu Batteur</fr><pl>Szczelina klepiszcza</pl><es>Holgura Cóncavo</es><it>Gioco Barra</it><cz>Vůle mlátidla</cz><br>Folga Côncavo</br><uk>Зазор деки</uk><ru>Зазор деки</ru><hu>Kosár rés</hu></text>
+
         <text name="rhm_ui_mode_auto"><en>AUTO</en><de>AUTO</de><fr>AUTO</fr><pl>AUTO</pl><es>AUTO</es><it>AUTO</it><cz>AUTO</cz><br>AUTO</br><uk>АВТО</uk><ru>АВТО</ru><hu>AUTO</hu></text>
         <text name="rhm_ui_mode_manual"><en>MANUAL</en><de>MANUELL</de><fr>MANUEL</fr><pl>RĘCZNY</pl><es>MANUAL</es><it>MANUALE</it><cz>MANUÁLNÍ</cz><br>MANUAL</br><uk>РУЧНИЙ</uk><ru>РУЧНОЙ</ru><hu>KÉZI</hu></text>
         <text name="rhm_ui_btn_reset"><en>RESET DEFAULT</en><de>STANDARD</de><fr>RÉINIT.</fr><pl>DOMYŚLNE</pl><es>REINICIAR</es><it>REIMPOSTA</it><cz>VÝCHOZÍ</cz><br>RESTAURAR</br><uk>ЗБИТИ</uk><ru>СБРОС</ru><hu>VISSZAÁLLÍTÁS</hu></text>
@@ -620,8 +621,13 @@ Funkciók:
         <!-- ============================= -->
         <!-- CALIBRATION GUI STRINGS       -->
         <!-- ============================= -->
+        <text name="rhm_target_load">
+            <en>Target Engine Load</en><de>Soll-Motorlast</de><fr>Charge Cible</fr>
+            <pl>Docelowe obciążenie</pl><es>Carga Objetivo</es><it>Carico Target</it>
+            <cz>Cílové zatížení</cz><br>Carga Alvo</br><uk>Цільове Навантаження</uk><ru>Целевая Нагрузка</ru><hu>Cél Motorterhelés</hu>
+        </text>
         <text name="rhm_gui_title"><en>Combine Settings</en><de>Mähdreschereinstellungen</de><fr>Paramètres Moissonneuse</fr><pl>Ustawienia Kombajnu</pl><es>Ajustes Cosechadora</es><it>Impostazioni Mietitrebbia</it><cz>Nastavení Kombajnu</cz><uk>Налаштування Комбайна</uk><ru>Настройки Комбайна</ru><hu>Kombájn Beállítások</hu></text>
-        <text name="rhm_gui_crop"><en>Crop:</en><de>Kultur:</de><fr>Culture:</fr><pl>Kultura:</pl><es>Cultivo:</es><it>Coltura:</it><cz>Plodina:</cz><uk>Культура:</uk><ru>Культура:</ru><hu>Növény:</hu></text>
+        <text name="rhm_gui_crop"><en>Crop</en><de>Kultur</de><fr>Culture</fr><pl>Kultura</pl><es>Cultivo</es><it>Coltura</it><cz>Plodina</cz><uk>Культура</uk><ru>Культура</ru><hu>Növény</hu></text>
         <text name="rhm_gui_none"><en>NONE</en><de>KEINE</de><fr>AUCUN</fr><pl>BRAK</pl><es>NINGUNO</es><it>NESSUNO</it><cz>ŽÁDNÁ</cz><uk>НЕМАЄ</uk><ru>НЕТ</ru><hu>NINCS</hu></text>
         <text name="rhm_gui_btn_auto"><en>AUTO</en><de>AUTO</de><fr>AUTO</fr><pl>AUTO</pl><es>AUTO</es><it>AUTO</it><cz>AUTO</cz><uk>АВТО</uk><ru>АВТО</ru><hu>AUTO</hu></text>
         <text name="rhm_gui_btn_load_preset"><en>Load Preset</en><de>Profil laden</de><fr>Charger profil</fr><pl>Wczytaj profil</pl><es>Cargar perfil</es><it>Carica profilo</it><cz>Načíst profil</cz><uk>Завантажити профіль</uk><ru>Загрузить профиль</ru><hu>Profil betöltése</hu></text>
@@ -633,6 +639,16 @@ Funkciók:
         <text name="rhm_gui_close_hint"><en>RShift+K to Close</en><de>RShift+K zum Schließen</de><fr>RShift+K pour fermer</fr><pl>RShift+K aby zamknąć</pl><es>RShift+K para cerrar</es><it>RShift+K per chiudere</it><cz>RShift+K pro zavření</cz><uk>RShift+K щоб закрити</uk><ru>RShift+K чтобы закрыть</ru><hu>RShift+K a bezáráshoz</hu></text>
         <text name="rhm_gui_no_combine"><en>No Combine Selected</en><de>Kein Mähdrescher gewählt</de><fr>Aucune moissonneuse</fr><pl>Brak kombajnu</pl><es>Sin cosechadora</es><it>Nessuna mietitrebbia</it><cz>Žádný kombajn</cz><uk>Комбайн не обрано</uk><ru>Комбайн не выбран</ru><hu>Nincs kombájn kiválasztva</hu></text>
         <text name="rhm_gui_not_init"><en>Combine Not Initialized</en><de>Kombajn nicht initialisiert</de><fr>Moissonneuse non initialisée</fr><pl>Kombajn nie zainicjowany</pl><es>Cosechadora no inicializada</es><it>Mietitrebbia non inizializzata</it><cz>Kombajn neinicializován</cz><uk>Комбайн не ініціалізовано</uk><ru>Комбайн не инициализирован</ru><hu>Kombájn nincs inicializálva</hu></text>
+
+        <text name="rhm_ui_section_separation">
+            <en>Separation</en><uk>Сепарація</uk><de>Abscheidung</de><fr>Séparation</fr><pl>Separacja</pl>
+        </text>
+        <text name="rhm_ui_section_cleaning">
+            <en>Cleaning</en><uk>Очистка</uk><de>Reinigung</de><fr>Nettoyage</fr><pl>Czyszczenie</pl>
+        </text>
+        <text name="rhm_ui_section_performance">
+            <en>Performance</en><uk>Ефективність</uk><de>Leistung</de><fr>Performance</fr><pl>Efektywność</pl>
+        </text>
 
         <!-- ============================= -->
         <!-- MACHINE-TYPE PARAMETER LABELS -->
@@ -860,5 +876,75 @@ Funkciók:
             <ru>КОМБАЙН КРИТИЧЕСКИ ПЕРЕГРУЖЕН! Серьёзные потери урожая!</ru>
             <hu>A KOMBÁJN KRITIKUSAN TÚLTERHELT! Súlyos termésveszteség!</hu>
         </text>
+
+        <!-- ── Rotor plug warning ─────────────────────────────────────────── -->
+        <text name="rhm_warn_rotor_plugged">
+            <en>ROTOR PLUGGED! Reverse and clear the machine.</en>
+            <de>ROTOR VERSTOPFT! Rückwärts fahren und Maschine freimachen.</de>
+            <fr>ROTOR BOUCHÉ ! Faites marche arrière et dégagez la machine.</fr>
+            <pl>ROTOR ZATKANY! Cofnij i oczyść maszynę.</pl>
+            <es>¡ROTOR ATASCADO! Marcha atrás y limpie la máquina.</es>
+            <it>ROTORE INTASATO! Fare retromarcia e liberare la macchina.</it>
+            <cz>ROTOR UCPANÝ! Couvejte a stroj vyčistěte.</cz>
+            <br>ROTOR ENTUPIDO! Dê ré e limpe a máquina.</br>
+            <uk>РОТОР ЗАБИТИЙ! Дайте задній хід та очистіть машину.</uk>
+            <ru>РОТОР ЗАБИТ! Дайте задний ход и очистите машину.</ru>
+            <hu>A ROTOR ELTÖMŐDÖTT! Tolasson hátra és tisztítsa meg a gépet.</hu>
+        </text>
+
+        <!-- ── Rotor plug pre-warning (shown in HUD at 50 %+ plug timer) ─── -->
+        <text name="rhm_warn_plug_risk">
+            <en>PLUG RISK</en>
+            <de>VERSTOPFGEFAHR</de>
+            <fr>RISQUE BOUCHAGE</fr>
+            <pl>RYZYKO ZATKANIA</pl>
+            <es>RIESGO ATASCO</es>
+            <it>RISCHIO INTASAM.</it>
+            <cz>RIZIKO UCPÁNÍ</cz>
+            <br>RISCO DE ENTUPIR</br>
+            <uk>РИЗИК ЗАСМІЧЕННЯ</uk>
+            <ru>РИСК ЗАБИВАНИЯ</ru>
+            <hu>DUGULÁSI KOCKÁZAT</hu>
+        </text>
+
+        <!-- ── HUD labels ─────────────────────────────────────────────────── -->
+        <text name="rhm_hud_thr_label"><en>Thr</en><de>Drsch</de><fr>Bat</fr><pl>Om</pl><es>Tri</es><it>Bat</it><cz>Mlát</cz><br>Bat</br><uk>Мол</uk><ru>Мол</ru><hu>Csép</hu></text>
+        <text name="rhm_hud_hdr_label"><en>Hdr</en><de>Schn</de><fr>Hdr</fr><pl>Pżn</pl><es>Cap</es><it>Tes</it><cz>Hdr</cz><br>Col</br><uk>Жтк</uk><ru>Жтк</ru><hu>Fej</hu></text>
+        <text name="rhm_hud_plugged"><en>PLUGGED</en><de>VERSTOPFT</de><fr>BOUCHÉ</fr><pl>ZATKANY</pl><es>ATASCADO</es><it>INTASATO</it><cz>UCPANÝ</cz><br>ENTUPIDO</br><uk>ЗАБИТИЙ</uk><ru>ЗАБИТ</ru><hu>ELTÖMŐDÖTT</hu></text>
+
+        <!-- ── Moisture labels (HUD) ─────────────────────────────────────── -->
+        <text name="rhm_moisture_morning"><en>Morning dew</en><de>Morgentau</de><fr>Rosée mat.</fr><pl>Poranna rosa</pl><es>Rocío mat.</es><it>Rugiada mat.</it><cz>Ranní rosa</cz><br>Orvalho mat.</br><uk>Ранкова роса</uk><ru>Утренняя роса</ru><hu>Reggeli harmat</hu></text>
+        <text name="rhm_moisture_drying"><en>Drying out</en><de>Trocknet ab</de><fr>Assèchement</fr><pl>Przesychanie</pl><es>Secándose</es><it>Asciugatura</it><cz>Vysychá</cz><br>Secando</br><uk>Підсихає</uk><ru>Просыхает</ru><hu>Szárítás</hu></text>
+        <text name="rhm_moisture_optimal"><en>Optimal</en><de>Optimal</de><fr>Optimal</fr><pl>Optymalny</pl><es>Óptimo</es><it>Ottimale</it><cz>Optimální</cz><br>Ótimo</br><uk>Оптимально</uk><ru>Оптимально</ru><hu>Optimális</hu></text>
+        <text name="rhm_moisture_evening"><en>Evening humidity</en><de>Abendfeuchte</de><fr>Humidité soir</fr><pl>Wilgoć wiecz.</pl><es>Humedad tard.</es><it>Umidità sera</it><cz>Večer. vlhkost</cz><br>Humidade tard.</br><uk>Вечірня вологість</uk><ru>Вечерняя влажность</ru><hu>Esti páratartalom</hu></text>
+        <text name="rhm_moisture_dew"><en>Evening dew</en><de>Abendtau</de><fr>Rosée soir</fr><pl>Wieczorna rosa</pl><es>Rocío tard.</es><it>Rugiada sera</it><cz>Večerní rosa</cz><br>Orvalho tard.</br><uk>Вечірня роса</uk><ru>Вечерняя роса</ru><hu>Esti harmat</hu></text>
+        <text name="rhm_moisture_night"><en>Night moisture</en><de>Nachtfeuchte</de><fr>Humidité nuit</fr><pl>Wilgoć nocy</pl><es>Humedad noche</es><it>Umidità notte</it><cz>Noční vlhkost</cz><br>Humidade noite</br><uk>Нічна вологість</uk><ru>Ночная влажность</ru><hu>Éjszakai nedvesség</hu></text>
+
+        <!-- ── Harvest Report section (CombineCalibrationGUI) ────────────── -->
+        <text name="rhm_report_title"><en>HARVEST REPORT</en><de>ERNTEBERICHT</de><fr>RAPPORT RÉCOLTE</fr><pl>RAPORT ZBIORU</pl><es>INFORME COSECHA</es><it>RAPPORTO RACCOLTO</it><cz>ZPRÁVA O SKLIZNI</cz><br>RELATÓRIO COLHEITA</br><uk>ЗВІТ ПРО ЖНИВА</uk><ru>ОТЧЁТ О ЖАТВЕ</ru><hu>BETAKARÍTÁSI JELENTÉS</hu></text>
+        <text name="rhm_report_time"><en>Time</en><de>Zeit</de><fr>Durée</fr><pl>Czas</pl><es>Tiempo</es><it>Tempo</it><cz>Čas</cz><br>Tempo</br><uk>Час</uk><ru>Время</ru><hu>Idő</hu></text>
+        <text name="rhm_report_area"><en>Area</en><de>Fläche</de><fr>Surface</fr><pl>Powierzchnia</pl><es>Área</es><it>Area</it><cz>Plocha</cz><br>Área</br><uk>Площа</uk><ru>Площадь</ru><hu>Terület</hu></text>
+        <text name="rhm_report_yield"><en>Yield</en><de>Ertrag</de><fr>Rendement</fr><pl>Plon</pl><es>Rendimiento</es><it>Resa</it><cz>Výnos</cz><br>Rendimento</br><uk>Врожайність</uk><ru>Урожайность</ru><hu>Hozam</hu></text>
+        <text name="rhm_report_avg_load"><en>Avg Load</en><de>Ø Last</de><fr>Chrg moy.</fr><pl>Śr. obsz.</pl><es>Carga med.</es><it>Carico med.</it><cz>Průměr. zat.</cz><br>Carga méd.</br><uk>Сер. нав.</uk><ru>Сред. нагр.</ru><hu>Átl. terhelés</hu></text>
+        <text name="rhm_report_peak_load"><en>Peak Load</en><de>Max Last</de><fr>Chrg max.</fr><pl>Maks. obsz.</pl><es>Carga máx.</es><it>Carico mas.</it><cz>Max. zatíž.</cz><br>Carga máx.</br><uk>Пік нав.</uk><ru>Пик нагр.</ru><hu>Csúcsterhelés</hu></text>
+        <text name="rhm_report_thr_loss"><en>Thr Loss</en><de>Dresch.verl.</de><fr>Perte bat.</fr><pl>Str. omł.</pl><es>Pérd. tri.</es><it>Perd. bat.</it><cz>Ztr. mlát.</cz><br>Perd. bat.</br><uk>Втр. мол.</uk><ru>Пот. мол.</ru><hu>Csép. veszt.</hu></text>
+        <text name="rhm_report_hdr_loss"><en>Hdr Loss</en><de>Schn.verl.</de><fr>Perte hdr.</fr><pl>Str. żniwna</pl><es>Pérd. cap.</es><it>Perd. tes.</it><cz>Ztr. hdr.</cz><br>Perd. col.</br><uk>Втр. жтк.</uk><ru>Пот. жтк.</ru><hu>Fej. veszt.</hu></text>
+        <text name="rhm_report_plugs"><en>Plugs</en><de>Verstopf.</de><fr>Bouchages</fr><pl>Zatk.</pl><es>Atascos</es><it>Intasat.</it><cz>Ucpání</cz><br>Entupim.</br><uk>Засміч.</uk><ru>Забивания</ru><hu>Dugulások</hu></text>
+        <text name="rhm_report_grade"><en>Grade</en><de>Note</de><fr>Note</fr><pl>Ocena</pl><es>Calificación</es><it>Voto</it><cz>Hodnocení</cz><br>Nota</br><uk>Оцінка</uk><ru>Оценка</ru><hu>Osztályzat</hu></text>
+        <text name="rhm_report_reset"><en>RESET SESSION</en><de>SITZUNG RESET</de><fr>RÉI. SESSION</fr><pl>RESETUJ SESJĘ</pl><es>REINICIAR SESIÓN</es><it>AZZERA SESSIONE</it><cz>RESETOVAT RELACI</cz><br>RESETAR SESSÃO</br><uk>СКИНУТИ СЕСІЮ</uk><ru>СБРОС СЕССИИ</ru><hu>MUNKAMENET RESET</hu></text>
+        <text name="rhm_report_no_data"><en>No harvest data yet</en><de>Noch keine Erntedaten</de><fr>Aucune donnée récoltée</fr><pl>Brak danych zbioru</pl><es>Sin datos de cosecha</es><it>Nessun dato raccolto</it><cz>Žádná data o sklizni</cz><br>Sem dados de colheita</br><uk>Даних про жнива ще немає</uk><ru>Данных о жатве пока нет</ru><hu>Még nincs betakarítási adat</hu></text>
+
+        <!-- ── Upgrade tier descriptions ─────────────────────────────────── -->
+        <text name="rhm_upgrade_tier0_name"><en>No Upgrade</en><de>Kein Upgrade</de><fr>Sans amélioration</fr><pl>Bez ulepszeń</pl><es>Sin mejora</es><it>Nessun upgrade</it><cz>Bez upgradu</cz><br>Sem melhoria</br><uk>Без покращень</uk><ru>Без улучшения</ru><hu>Nincs fejlesztés</hu></text>
+        <text name="rhm_upgrade_tier1_name"><en>Calibration System</en><de>Kalibrierungssystem</de><fr>Système étalonnage</fr><pl>System kalibracji</pl><es>Sistema calibración</es><it>Sistema calibrazione</it><cz>Kalibrační systém</cz><br>Sistema calibração</br><uk>Система калібрування</uk><ru>Система калибровки</ru><hu>Kalibrálórendszer</hu></text>
+        <text name="rhm_upgrade_tier2_name"><en>Machine Monitor</en><de>Maschinenmonitor</de><fr>Moniteur machine</fr><pl>Monitor maszyny</pl><es>Monitor máquina</es><it>Monitor macchina</it><cz>Monitor stroje</cz><br>Monitor máquina</br><uk>Монітор машини</uk><ru>Монитор машины</ru><hu>Gépmonitor</hu></text>
+        <text name="rhm_upgrade_tier3_name"><en>Speed Control</en><de>Geschwindigkeitsregelung</de><fr>Contrôle vitesse</fr><pl>Kontrola prędkości</pl><es>Control velocidad</es><it>Controllo velocità</it><cz>Řízení rychlosti</cz><br>Controle velocidade</br><uk>Контроль швидкості</uk><ru>Контроль скорости</ru><hu>Sebességszabályozás</hu></text>
+        <text name="rhm_upgrade_tier4_name"><en>Auto Pilot</en><de>Autopilot</de><fr>Pilote automatique</fr><pl>Autopilot</pl><es>Piloto automático</es><it>Pilota automatico</it><cz>Autopilot</cz><br>Piloto automático</br><uk>Автопілот</uk><ru>Автопилот</ru><hu>Automata vezető</hu></text>
+
+        <!-- ── Dynamic hints (Tier 2 stats bar) ─────────────────────────── -->
+        <text name="rhm_hint_slow_down"><en>Load high — slow down!</en><de>Last hoch — langsamer!</de><fr>Charge élevée — ralentir !</fr><pl>Duże obciążenie — zwolnij!</pl><es>Carga alta — ¡reducir velocidad!</es><it>Carico alto — rallentare!</it><cz>Zatížení vysoké — zpomalte!</cz><br>Carga alta — reduza!</br><uk>Навантаження висок. — сповільніть!</uk><ru>Нагрузка высокая — сбавьте скорость!</ru><hu>Magas terhelés — lassítson!</hu></text>
+        <text name="rhm_hint_hdr_loss"><en>Hdr loss — reduce speed</en><de>Schn.verlust — langsamer</de><fr>Perte hdr — réduire vitesse</fr><pl>Str. żniwna — zwolnij</pl><es>Pérd. cap — reducir vel.</es><it>Perd. tes — ridurre vel.</it><cz>Ztr. hdr — zpomalte</cz><br>Perd. col — reduzir vel.</br><uk>Втр. жтк — знизьте швидкість</uk><ru>Пот. жтк — снизьте скорость</ru><hu>Fejveszteség — lassítson</hu></text>
+        <text name="rhm_hint_check_settings"><en>Check settings for crop</en><de>Einstellungen prüfen</de><fr>Vérifier réglages culture</fr><pl>Sprawdź ustawienia</pl><es>Revisar ajustes cultivo</es><it>Controlla impostazioni</it><cz>Zkontrolujte nastavení</cz><br>Verificar configurações</br><uk>Перевірте налаштування</uk><ru>Проверьте настройки</ru><hu>Ellenőrizze a beállításokat</hu></text>
+        <text name="rhm_hint_speed_up"><en>Under-utilized — increase speed</en><de>Unterausgelastet — schneller!</de><fr>Sous-utilisé — accélérer</fr><pl>Niedobciążony — przyspiesz</pl><es>Bajo uso — aumentar vel.</es><it>Sotto-utilizzato — accelerare</it><cz>Nedostatečné zatížení — zrychlete</cz><br>Subutilizado — aumentar vel.</br><uk>Недозавантажений — збільшіть швидкість</uk><ru>Недогруженный — ускорьтесь</ru><hu>Kihasználatlan — gyorsítson</hu></text>
     </l10n>
 </modDesc>

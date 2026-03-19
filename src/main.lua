@@ -30,6 +30,7 @@ source(modDirectory .. "src/data/CombineSettingsDatabase.lua")
 source(modDirectory .. "src/settings/ProfileManager.lua")
 source(modDirectory .. "src/settings/CombineMemory.lua")
 source(modDirectory .. "src/network/CombineSettingsEvent.lua")
+source(modDirectory .. "src/config/CropThroughputConfig.lua")
 source(modDirectory .. "src/logic/LoadCalculator.lua")
 source(modDirectory .. "src/rhm_Combine.lua")
 -- EN: CRITICAL: rhm_Cutter must be loaded AFTER rhm_Combine for independent header launch to work.
@@ -66,6 +67,12 @@ local function loadedMission(mission, node)
     -- UA: Безпечно ініціалізуємо коефіцієнти бушелів (FruitType доступний тільки після завантаження місії).
     if UnitConverter and UnitConverter.initBushelCoefficients then
         UnitConverter.initBushelCoefficients()
+    end
+
+    -- EN: Load per-crop throughput overrides from modSettings XML (if present).
+    -- UA: Завантажуємо перевизначення продуктивності культур з modSettings XML (якщо є).
+    if CropThroughputConfig and CropThroughputConfig.load then
+        CropThroughputConfig.load()
     end
 
     rhm:onMissionLoaded()

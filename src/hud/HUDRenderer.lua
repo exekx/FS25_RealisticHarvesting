@@ -6,55 +6,54 @@
 --     а також для вимірювання ширини тексту. Використовується DraggableHUD та іншими HUD-компонентами.
 HUDRenderer = {}
 
--- EN: Predefined color constants used throughout HUD rendering.
--- UA: Заздалегідь визначені константи кольорів для рендерингу HUD.
+-- EN: Predefined color constants — industrial dark theme with amber accents.
+--     Dark olive background, warm white text, amber highlights.
+-- UA: Заздалегідь визначені константи кольорів — індустріальна темна тема з бурштиновими акцентами.
+--     Темно-оливковий фон, тепло-білий текст, бурштинові підсвічування.
 HUDRenderer.COLORS = {
-    BACKGROUND = {0, 0, 0, 0.7},      -- EN: Dark semi-transparent background / UA: Темний напівпрозорий фон
-    BORDER     = {1, 1, 1, 0.3},      -- EN: Light semi-transparent border / UA: Світла напівпрозора рамка
-    TEXT_WHITE  = {1, 1, 1, 1},       -- EN: White text / UA: Білий текст
-    TEXT_GREEN  = {0.2, 1, 0.2, 1},   -- EN: Green text (good/optimal status) / UA: Зелений текст (хороший/оптимальний стан)
-    TEXT_YELLOW = {1, 1, 0.2, 1},     -- EN: Yellow text (warning) / UA: Жовтий текст (попередження)
-    TEXT_RED    = {1, 0.2, 0.2, 1}    -- EN: Red text (critical/overload) / UA: Червоний текст (критичний/перевантаження)
+    BACKGROUND      = {0.04, 0.05, 0.03, 0.95},
+    HEADER          = {0.09, 0.07, 0.03, 1.00},
+    SURFACE         = {1.00, 1.00, 1.00, 0.04},
+    STATS_BG        = {0.00, 0.00, 0.00, 0.28},
+    BAR_BG          = {1.00, 1.00, 1.00, 0.07},
+    BAR_OPTIMAL     = {1.00, 1.00, 1.00, 0.42},
+    SECTION_LINE    = {1.00, 1.00, 1.00, 0.08},
+    SEPARATOR       = {1.00, 1.00, 1.00, 0.10},
+    ACCENT          = {0.83, 0.54, 0.04, 1.00},
+    ACCENT_DIM      = {0.83, 0.54, 0.04, 0.14},
+    TEXT_WHITE      = {0.91, 0.87, 0.78, 1.00},
+    TEXT_DIM        = {0.38, 0.36, 0.32, 1.00},
+    TEXT_GREEN      = {0.24, 0.72, 0.47, 1.00},
+    TEXT_YELLOW     = {0.91, 0.78, 0.25, 1.00},
+    TEXT_RED        = {0.89, 0.29, 0.29, 1.00},
+    TEXT_TEAL       = {0.60, 1.00, 0.80, 1.00},
+    BTN_DEFAULT     = {0.10, 0.10, 0.08, 1.00},
+    BTN_HOVER       = {0.20, 0.20, 0.16, 1.00},
+    BTN_PLUS_HOVER  = {0.06, 0.20, 0.10, 1.00},
+    BTN_MINUS_HOVER = {0.22, 0.06, 0.06, 1.00},
+    BTN_AUTO        = {0.05, 0.18, 0.09, 1.00},
+    BTN_RESET       = {0.20, 0.08, 0.03, 1.00},
+    BTN_SAVE        = {0.06, 0.12, 0.04, 1.00},
 }
 
--- EN: Size constants for layout calculations (all values in normalized screen coordinates).
--- UA: Константи розмірів для розрахунку розмітки (всі значення в нормалізованих координатах екрану).
 HUDRenderer.SIZES = {
-    PADDING      = 0.005,  -- EN: Internal padding around content / UA: Внутрішні відступи навколо контенту
-    BORDER_WIDTH = 0.002,  -- EN: Border thickness / UA: Товщина рамки
-    LINE_HEIGHT  = 0.015   -- EN: Text line height / UA: Висота рядка тексту
+    PADDING      = 0.005,
+    BORDER_WIDTH = 0.001,
+    LINE_HEIGHT  = 0.015
 }
 
--- EN: Renders text at the given screen position with the specified color, size, and alignment.
---     Resets text state (color, alignment, bold) to defaults after rendering.
--- UA: Відображає текст у заданій позиції екрану з вказаним кольором, розміром і вирівнюванням.
---     Скидає стан тексту (колір, вирівнювання, жирний) до значень за замовчуванням після відображення.
 function HUDRenderer.drawText(text, x, y, size, color, align)
     align = align or "left"
-
-    -- EN: Skip empty text to avoid unnecessary render calls.
-    -- UA: Пропускаємо порожній текст, щоб уникнути зайвих викликів рендерингу.
-    if not text or text == "" then
-        return
-    end
-
+    if not text or text == "" then return end
     setTextColor(color[1], color[2], color[3], color[4])
     setTextBold(true)
     setTextAlignment(RenderText["ALIGN_" .. string.upper(align)])
-
     renderText(x, y, size, text)
-
-    -- EN: Reset text rendering state to engine defaults after every draw call.
-    -- UA: Скидаємо стан рендерингу тексту до значень рушія після кожного виклику малювання.
     setTextAlignment(RenderText.ALIGN_LEFT)
     setTextBold(false)
     setTextColor(1, 1, 1, 1)
 end
 
--- EN: Calculates and returns the rendered width of a text string at the given font size.
---     Temporarily sets bold mode to match the rendering style used in drawText.
--- UA: Розраховує та повертає ширину відображуваного рядка тексту при заданому розмірі шрифту.
---     Тимчасово вмикає жирний шрифт, щоб відповідати стилю відображення в drawText.
 function HUDRenderer.getTextWidth(text, size)
     setTextBold(true)
     local width = getTextWidth(size, text)

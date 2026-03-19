@@ -8,6 +8,30 @@
 CombineMemory = {}
 local CombineMemory_mt = Class(CombineMemory)
 
+-- ============================================================================
+-- EN: Upgrade tier constants.
+--     Tier 0 (free)   : Manual settings only. No loss display, no hints, no auto.
+--     Tier 1 ($2,500) : Calibration   — live crop loss % shown in HUD.
+--     Tier 2 ($5,000) : Machine Monitor — optimal setting hints shown in GUI.
+--     Tier 3 ($20,000): Auto Pilot    — combine self-applies optimal settings on crop change.
+--     Each tier includes all lower tiers. Purchased once per combine (not per farm).
+-- UA: Константи рівнів апгрейду.
+-- ============================================================================
+CombineMemory.UPGRADE_COSTS = { [1] = 2500, [2] = 5000, [3] = 10000, [4] = 20000 }
+CombineMemory.UPGRADE_NAMES = {
+    [0] = "No Upgrade",
+    [1] = "Calibration System",
+    [2] = "Machine Monitor",
+    [3] = "Speed Control",
+    [4] = "Auto Pilot",
+}
+CombineMemory.UPGRADE_DESC = {
+    [1] = "Shows live crop loss % and header loss in HUD",
+    [2] = "Shows optimal settings hints and yield trend in GUI",
+    [3] = "Activates automatic speed control to prevent overloads and plugging",
+    [4] = "Auto-applies optimal settings on crop change",
+}
+
 -- EN: Creates a new CombineMemory instance tied to a specific combine vehicle.
 --     Initializes all parameters to 50% and sets AUTO mode as default.
 -- UA: Створює новий екземпляр CombineMemory, прив'язаний до конкретного комбайна.
@@ -30,14 +54,70 @@ function CombineMemory.new(combine, machineType)
     for _, paramName in ipairs(activeParams) do
         self.currentSettings[paramName] = 50
     end
+    self.currentSettings["targetEngineLoad"] = 95
 
     self.currentYieldCalibration = 1.0
+
+    -- EN: Upgrade level: 0=None, 1=Calibration($2500), 2=Monitor($5000), 3=AutoPilot($20000).
+    --     Each tier is purchased once per combine and persists in the savegame.
+    -- UA: Рівень апгрейду: 0=Відсутній, 1=Калібрування, 2=Моніторинг, 3=Автопілот.
+    self.upgradeLevel = 0
 
     self.mode = "AUTO"            -- EN: Starts in AUTO mode by default / UA: За замовчуванням починає в AUTO режимі
     self.autoSwitchEnabled = true -- EN: Auto-applies optimal settings on crop change / UA: Автоматично застосовує оптимальні при зміні культури
     self.showWarnings = true      -- EN: Show warnings for incorrect settings / UA: Показувати попередження при неправильних налаштуваннях
 
     return self
+end
+
+-- EN: Attempts to purchase the specified upgrade tier for this combine.
+--     Deducts cost from the player's farm budget. Sends a network sync event.
+--     Returns true + "success" on success, or false + reason string on failure.
+--     Buying tier 3 directly skips tier 1 and 2 (you get all features).
+-- UA: Намагається придбати вказаний рівень апгрейду для цього комбайна.
+function CombineMemory:purchaseUpgrade(targetLevel)
+    if targetLevel <= (self.upgradeLevel or 0) then
+        return false, "already_owned"
+    end
+    if targetLevel < 1 or targetLevel > 4 then
+        return false, "invalid_level"
+    end
+
+    local cost = CombineMemory.UPGRADE_COSTS[targetLevel] or 0
+
+    -- EN: Resolve player farm and check balance.
+    local farmId = g_currentMission and g_currentMission.player and g_currentMission.player.farmId
+    local farm   = farmId and g_farmManager and g_farmManager:getFarmById(farmId)
+    if not farm then
+        return false, "no_farm"
+    end
+
+    local balance = farm.money or 0
+    if balance < cost then
+        return false, "insufficient_funds"
+    end
+
+    -- EN: Deduct money. FS25 uses addMoney with negative value + MoneyType.
+    g_currentMission:addMoney(-cost, farmId, MoneyType.SHOP_PROPERTY_BUY, true, true)
+
+    self.upgradeLevel = targetLevel
+
+    -- EN: Sync upgrade level to server / all clients via CombineSettingsEvent.
+    if g_client and self.combine then
+        local event = CombineSettingsEvent.new(self.combine, "UPGRADE_LEVEL", targetLevel)
+        if not g_server then
+            g_client:getServerConnection():sendEvent(event)
+        else
+            local conn = g_currentMission and g_currentMission.player and g_currentMission.player.serverConnection or nil
+            event:run(conn)
+        end
+    end
+
+    if self.debug then
+        print(string.format("RHM: [Upgrade] Purchased tier %d (%s) for $%d",
+            targetLevel, CombineMemory.UPGRADE_NAMES[targetLevel] or "?", cost))
+    end
+    return true, "success"
 end
 
 -- EN: Saves the current settings as a global profile for the given crop in ProfileManager.
@@ -196,7 +276,14 @@ function CombineMemory:loadUserPreset()
             self.currentSettings.rotor = profile.rotor
             self.currentSettings.upperSieve = profile.upperSieve
             self.currentSettings.lowerSieve = profile.lowerSieve
-            self.currentSettings.feeder = profile.feeder
+            -- EN: Grain combines use 'concave'; forage/root/cotton still use 'feeder'.
+            --     Load 'concave' from profile, falling back to legacy 'feeder' key for old saves.
+            if self.currentSettings.concave ~= nil then
+                self.currentSettings.concave = profile.concave or profile.feeder or 50
+            else
+                self.currentSettings.feeder = profile.feeder or 50
+            end
+            self.currentSettings.targetEngineLoad = profile.targetEngineLoad or 95
             self.mode = "MANUAL"
             self.autoSwitchEnabled = false
         end
@@ -224,6 +311,9 @@ function CombineMemory:checkSettingsForCrop(cropName)
     local warnings = {}
     local efficiencyScore = 0  -- EN: Impacts throughput/speed / UA: Впливає на пропускну здатність/швидкість
     local lossScore = 0        -- EN: Impacts direct crop loss / UA: Впливає на прямі втрати врожаю
+    
+    local effParamCount = 0
+    local lossParamCount = 0
 
     for param, value in pairs(self.currentSettings) do
         if optimalSettings[param] then
@@ -252,18 +342,38 @@ function CombineMemory:checkSettingsForCrop(cropName)
             end
 
             -- EN: Route penalty to the appropriate physical effect based on parameter type.
-            --     Feeder/Rotor → efficiency (speed) | Fan/Sieves → loss (separation).
+            --     Rotor/Feeder/Concave → efficiency (threshing throughput).
+            --     Fan/Sieves → loss (separation quality).
+            --     Concave (grain) affects threshing intensity — too open = unthreshed grain (loss),
+            --     too tight = grain cracking (efficiency). We route it to efficiency as a simplification.
             -- UA: Направляємо штраф до відповідного фізичного ефекту залежно від параметру.
-            --     Подача/Ротор → ефективність (швидкість) | Вентилятор/Решета → втрати (очищення).
-            if param == "feeder" or param == "rotor" then
+            if param == "feeder" or param == "rotor" or param == "concave" then
                 efficiencyScore = efficiencyScore + score
+                effParamCount = effParamCount + 1
             elseif param == "fan" or param == "upperSieve" or param == "lowerSieve" then
                 lossScore = lossScore + score
+                lossParamCount = lossParamCount + 1
             else
                 efficiencyScore = efficiencyScore + (score * 0.5)
                 lossScore = lossScore + (score * 0.5)
+                effParamCount = effParamCount + 0.5
+                lossParamCount = lossParamCount + 0.5
             end
         end
+    end
+
+    -- EN: Normalize scores so that machines with fewer parameters (e.g., forage/root)
+    --     can still reach the same max bonus and max penalty as 5-parameter grain combines.
+    -- UA: Нормалізуємо бали, щоб машини з меншою кількістю параметрів (напр., форажні/бурякові)
+    --     могли досягати тих же максимальних бонусів/штрафів, що й 5-параметрові зернові комбайни.
+    if effParamCount > 0 then
+        -- Grain combines have 2 efficiency params (feeder, rotor). We scale to 2.
+        efficiencyScore = efficiencyScore * (2.0 / effParamCount)
+    end
+    
+    if lossParamCount > 0 then
+        -- Grain combines have 3 loss params (fan, upperSieve, lowerSieve). We scale to 3.
+        lossScore = lossScore * (3.0 / lossParamCount)
     end
 
     -- EN: Clamp penalties to reasonable bounds.
@@ -282,6 +392,10 @@ end
 -- UA: Встановлює значення одного параметру (0-100) і перемикає в MANUAL режим.
 function CombineMemory:setParameter(paramName, value)
     if self.currentSettings[paramName] ~= nil then
+        if paramName == "targetEngineLoad" then
+            self.currentSettings[paramName] = math.max(70, math.min(110, value))
+            return true
+        end
         self.currentSettings[paramName] = math.max(0, math.min(100, value))
         self.mode = "MANUAL" -- EN: Any manual change overrides AUTO mode / UA: Будь-яка ручна зміна скасовує AUTO режим
         return true
@@ -389,7 +503,11 @@ function CombineMemory:switchCrop(newCropName)
         self:loadUserPreset()
     else
         if self.debug then print(string.format("RHM: Switching to crop %s - No profile, applying defaults", newCropName)) end
-        if self.autoSwitchEnabled then
+        -- EN: Auto-apply optimal settings only if Auto Pilot upgrade (tier 4) is installed.
+        --     Lower tiers keep 50% neutral defaults — player must set manually.
+        -- UA: Автоматичне застосування оптимальних налаштувань тільки з апгрейдом Автопілот (рівень 4).
+        local hasAutoPilot = (self.upgradeLevel or 0) >= 4
+        if self.autoSwitchEnabled and hasAutoPilot then
             self:autoConfigureForCrop(newCropName, true)
         else
             self:autoConfigureForCrop(newCropName, false)
@@ -409,8 +527,10 @@ end
 function CombineMemory:updateSetting(param, value)
     local success = self:setParameter(param, value)
     if success then
-        self.autoSwitchEnabled = false
-        self.mode = "MANUAL"
+        if param ~= "targetEngineLoad" then
+            self.autoSwitchEnabled = false
+            self.mode = "MANUAL"
+        end
 
         if g_client and self.combine then
             local event = CombineSettingsEvent.new(self.combine, param, self.currentSettings[param], false, nil)

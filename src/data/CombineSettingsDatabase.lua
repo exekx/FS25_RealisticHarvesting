@@ -1,7 +1,9 @@
 -- EN: Static database of optimal combine settings and crop profiles.
---     Stores parameter templates (fan, rotor, sieves, feeder) for every supported crop type,
+--     Stores parameter templates (fan, rotor, sieves, concave) for every supported crop type,
 --     maps FS25 FillType enums to internal crop names, and defines which parameters are
 --     active for each machine type (grain, forage, root, cotton).
+--     NOTE: Grain combines use 'concave' (0-50mm clearance) instead of 'feeder'.
+--           Forage/root/cotton harvesters still use 'feeder' (feed roll speed).
 -- UA: Статична база даних оптимальних налаштувань комбайна та профілів культур.
 --     Зберігає шаблони параметрів (вентилятор, ротор, решета, подача) для кожного типу культури,
 --     відображає FillType enum FS25 на внутрішні назви культур, і визначає які параметри активні
@@ -13,99 +15,95 @@ CombineSettingsDatabase = {}
 -- UA: Базові шаблони для груп культур. Кожен параметр має: optimal, min, max, tolerance.
 --     Значення виражені у відсотках (0-100) що представляють відповідний фізичний діапазон.
 local templates = {
-    -- EN: Standard grain cereals — Wheat/Rye/Spelt/Triticale. Rotor 560-850rpm (avg 56%), Fan 800rpm (56%), Upper 14mm (47%), Lower 8mm (32%).
-    -- UA: Стандартні зернові — Пшениця/Жито/Спельта/Тритикале. Ротор 560-850об/хв (сер. 56%), Вентилятор 800об/хв (56%), Верх 14мм (47%), Низ 8мм (32%).
+    -- EN: Standard grain cereals — Wheat/Rye/Spelt/Triticale. Rotor 560-850rpm (avg 56%), Fan 800rpm (56%), Chaffer 14mm (47%), Sieve 8mm (32%), Concave 25mm (50%).
+    -- UA: Стандартні зернові — Пшениця/Жито/Спельта/Тритикале. Ротор 560-850об/хв (сер. 56%), Вентилятор 800об/хв (56%), Верх 14мм (47%), Низ 8мм (32%), Деко 25мм (50%).
     wheat = {
         fan = {optimal = 56, min = 40, max = 70, tolerance = 7},
         upperSieve = {optimal = 47, min = 35, max = 60, tolerance = 6},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 56, min = 45, max = 70, tolerance = 6},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        concave = {optimal = 50, min = 35, max = 65, tolerance = 10},  -- 0-50mm: 50% = 25mm
     },
 
-    -- Barley - Drum speed 640-900 (Avg 770 = 63%), Fan 800 (56%), Upper 14mm (47%), Lower 8mm (32%)
+    -- Barley - Drum speed 640-900 (Avg 770 = 63%), Fan 800 (56%), Chaffer 14mm (47%), Sieve 8mm (32%)
     barley = {
         fan = {optimal = 56, min = 40, max = 70, tolerance = 7},
         upperSieve = {optimal = 47, min = 35, max = 60, tolerance = 6},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 63, min = 50, max = 75, tolerance = 6},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        concave = {optimal = 50, min = 35, max = 65, tolerance = 10},
     },
 
-    -- Oat - Drum speed 640-800 = 720 = 58%, Fan 700 = 44%, Upper 10mm = 33%, Lower 6mm = 24%
+    -- Oat - Drum speed 640-800 = 720 = 58%, Fan 700 = 44%, Chaffer 10mm = 33%, Sieve 6mm = 24%
     oat = {
         fan = {optimal = 44, min = 30, max = 60, tolerance = 7},
         upperSieve = {optimal = 33, min = 20, max = 50, tolerance = 6},
         lowerSieve = {optimal = 24, min = 15, max = 40, tolerance = 6},
         rotor = {optimal = 58, min = 45, max = 75, tolerance = 6},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        concave = {optimal = 50, min = 35, max = 65, tolerance = 10},
     },
-    
-    -- Легкі зернові (овес)
-    -- Canola (Rape Seed) - Drum speed 480-520 (Avg 500 = 33%), Fan 650 (39%)
+
+    -- Canola (Rape Seed) - Drum speed 480-520 (Avg 500 = 33%), Fan 650 (39%), tight concave ~10mm (20%)
     canola = {
         fan = {optimal = 39, min = 25, max = 55, tolerance = 6},
         upperSieve = {optimal = 40, min = 25, max = 55, tolerance = 4},
         lowerSieve = {optimal = 25, min = 15, max = 40, tolerance = 4},
         rotor = {optimal = 33, min = 20, max = 45, tolerance = 6},
-        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        concave = {optimal = 22, min = 10, max = 35, tolerance = 6},   -- tighter: ~11mm
     },
-    
-    -- Легкі олійні (ріпак)
-    -- Soya Bean - Drum speed 550 rpm (39%), Fan 850 rpm (61%), Upper 15mm (50%), Lower 10mm (40%)
+
+    -- Soya Bean - Drum speed 550 rpm (39%), Fan 850 rpm (61%), Chaffer 15mm (50%), Sieve 10mm (40%)
     soybean = {
         fan = {optimal = 61, min = 45, max = 75, tolerance = 7},
         upperSieve = {optimal = 50, min = 35, max = 65, tolerance = 6},
         lowerSieve = {optimal = 40, min = 25, max = 55, tolerance = 6},
         rotor = {optimal = 39, min = 25, max = 55, tolerance = 6},
-        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        concave = {optimal = 45, min = 30, max = 60, tolerance = 8},   -- ~22mm
     },
-    
-    -- Важкі олійні (соняшник)
-    -- Sunflower - Drum speed 320 rpm (13%), Fan 700 rpm (44%)
+
+    -- Sunflower - Drum speed 320 rpm (13%), Fan 700 rpm (44%), wide concave ~30mm (60%)
     sunflower = {
         fan = {optimal = 44, min = 30, max = 60, tolerance = 7},
         upperSieve = {optimal = 60, min = 45, max = 75, tolerance = 6},
         lowerSieve = {optimal = 45, min = 30, max = 60, tolerance = 6},
         rotor = {optimal = 13, min = 5, max = 25, tolerance = 5},
-        feeder = {optimal = 60, min = 45, max = 75, tolerance = 10},
+        concave = {optimal = 60, min = 45, max = 75, tolerance = 10},  -- wide: ~30mm
     },
 
-    -- Sorghum - Drum speed 640 = 49%, Fan 700-800 = 750 = 50%, Upper 10mm = 33%, Lower 8mm = 32%
+    -- Sorghum - Drum speed 640 = 49%, Fan 700-800 = 750 = 50%, Chaffer 10mm = 33%, Sieve 8mm = 32%
     sorghum = {
         fan = {optimal = 50, min = 35, max = 65, tolerance = 7},
         upperSieve = {optimal = 33, min = 20, max = 45, tolerance = 6},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 49, min = 35, max = 65, tolerance = 6},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        concave = {optimal = 50, min = 35, max = 65, tolerance = 10},
     },
-    
-    -- Кукурудза
-    -- Maize (Corn) - Drum speed 320-400 (Avg 360 = 18%), Fan 900 (67%), Upper 18mm (60%), Lower 12mm (48%)
+
+    -- Maize (Corn) - Drum speed 320-400 (Avg 360 = 18%), Fan 900 (67%), Chaffer 18mm (60%), Sieve 12mm (48%), wide concave ~35mm (70%)
     corn = {
         fan = {optimal = 67, min = 50, max = 85, tolerance = 6},
         upperSieve = {optimal = 60, min = 45, max = 75, tolerance = 6},
         lowerSieve = {optimal = 48, min = 35, max = 65, tolerance = 6},
         rotor = {optimal = 18, min = 5, max = 30, tolerance = 5},
-        feeder = {optimal = 70, min = 55, max = 85, tolerance = 10},
+        concave = {optimal = 70, min = 55, max = 85, tolerance = 10},  -- wide: ~35mm
     },
-    
-    -- Бобові (Beans/Peas) - Drum speed 320-360 = 340 = 16%, Fan 800-950 = 875 = 64%, Upper 15mm = 50%, Lower 10mm = 40%
+
+    -- Beans/Peas - Drum speed 320-360 = 340 = 16%, Fan 800-950 = 875 = 64%, Chaffer 15mm = 50%, Sieve 10mm = 40%
     legume = {
         fan = {optimal = 64, min = 50, max = 80, tolerance = 7},
         upperSieve = {optimal = 50, min = 35, max = 65, tolerance = 6},
         lowerSieve = {optimal = 40, min = 25, max = 55, tolerance = 6},
         rotor = {optimal = 16, min = 5, max = 30, tolerance = 5},
-        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        concave = {optimal = 45, min = 30, max = 60, tolerance = 8},
     },
     
-    -- Rice - Drum speed 450-650 = 550 = 39%, Fan 700-850 = 775 = 53%, Upper 14mm = 47%, Lower 8mm = 32%
+    -- Rice - Drum speed 450-650 = 550 = 39%, Fan 700-850 = 775 = 53%, Chaffer 14mm = 47%, Sieve 8mm = 32%
     rice = {
         fan = {optimal = 53, min = 40, max = 70, tolerance = 7},
         upperSieve = {optimal = 47, min = 35, max = 60, tolerance = 6},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 39, min = 25, max = 55, tolerance = 6},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        concave = {optimal = 50, min = 35, max = 65, tolerance = 10},
     },
     
     -- Коренеплоди важкі (Картопля, Буряк)
@@ -227,58 +225,67 @@ local templates = {
         feeder = {optimal = 55, min = 35, max = 75, tolerance = 10},
     },
 
-    -- Chickpea (Garbanzos) - Rotor 300-500 = 400 = 22%, Fan 800-1100 = 950 = 72%, Upper 12-16 = 14mm = 47%, Lower 6-10 = 8mm = 32%
+    -- Chickpea (Garbanzos) - Rotor 300-500 = 400 = 22%, Fan 800-1100 = 950 = 72%, Chaffer 14mm = 47%, Sieve 8mm = 32%
     chickpea = {
         fan = {optimal = 72, min = 55, max = 85, tolerance = 8},
         upperSieve = {optimal = 47, min = 35, max = 60, tolerance = 5},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 4},
         rotor = {optimal = 22, min = 10, max = 35, tolerance = 5},
-        feeder = {optimal = 70, min = 55, max = 85, tolerance = 8},
+        concave = {optimal = 70, min = 55, max = 85, tolerance = 8},
     },
 
-    -- Lentil (Lentejas) - Rotor 300-500 = 400 = 22%, Fan 700-850 = 775 = 53%, Upper 10-15 = 12.5mm = 42%, Lower 4-7 = 5.5mm = 22%
+    -- Lentil (Lentejas) - Rotor 300-500 = 400 = 22%, Fan 700-850 = 775 = 53%, Chaffer 12.5mm = 42%, Sieve 5.5mm = 22%
     lentil = {
         fan = {optimal = 53, min = 40, max = 65, tolerance = 7},
         upperSieve = {optimal = 42, min = 30, max = 55, tolerance = 6},
         lowerSieve = {optimal = 22, min = 10, max = 35, tolerance = 6},
         rotor = {optimal = 22, min = 10, max = 35, tolerance = 5},
-        feeder = {optimal = 70, min = 55, max = 85, tolerance = 8},
+        concave = {optimal = 70, min = 55, max = 85, tolerance = 8},
     },
 
-    -- Flax / Linseed - Drum speed 640-800 = 720 = 58%, Fan 600 = 33%, Upper 10mm = 33%, Lower 4mm = 16%
+    -- Flax / Linseed - Drum speed 640-800 = 720 = 58%, Fan 600 = 33%, Chaffer 10mm = 33%, Sieve 4mm = 16%
     flax = {
         fan = {optimal = 33, min = 20, max = 50, tolerance = 7},
         upperSieve = {optimal = 33, min = 20, max = 50, tolerance = 5},
         lowerSieve = {optimal = 16, min = 5, max = 30, tolerance = 5},
         rotor = {optimal = 58, min = 45, max = 70, tolerance = 6},
-        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        concave = {optimal = 20, min = 10, max = 35, tolerance = 6},   -- tight: ~10mm
     },
 
-    -- Mustard / Buckwheat - Drum speed 480-520 = 500 = 33%, Fan 550 = 28%, Upper 10-25 = 17mm = 57%, Lower 8mm = 32%
+    -- Mustard / Buckwheat - Drum speed 480-520 = 500 = 33%, Fan 550 = 28%, Chaffer 17mm = 57%, Sieve 8mm = 32%
     mustard = {
         fan = {optimal = 28, min = 15, max = 45, tolerance = 6},
         upperSieve = {optimal = 57, min = 40, max = 75, tolerance = 5},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 5},
         rotor = {optimal = 33, min = 20, max = 50, tolerance = 6},
-        feeder = {optimal = 40, min = 25, max = 55, tolerance = 8},
+        concave = {optimal = 20, min = 10, max = 35, tolerance = 6},
     },
 
-    -- Clover - MAXIMUM Drum speed 1100 = 100%, MAX fan 1200 = 100%, Upper 3-5mm = 4mm = 13%, Lower 2mm = 8%
+    -- Clover - MAXIMUM Drum speed 1100 = 100%, MAX fan 1200 = 100%, Chaffer 4mm = 13%, Sieve 2mm = 8%
     clover = {
         fan = {optimal = 100, min = 85, max = 100, tolerance = 5},
         upperSieve = {optimal = 13, min = 5, max = 25, tolerance = 5},
         lowerSieve = {optimal = 8, min = 0, max = 20, tolerance = 5},
         rotor = {optimal = 100, min = 85, max = 100, tolerance = 5},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 8},
+        concave = {optimal = 10, min = 0, max = 25, tolerance = 5},    -- very tight: ~5mm
     },
 
-    -- Grass Seed - MAX Drum (Fine) 920 = 80%, Fan 650 = 39%, Upper 5mm = 17%, Lower 3mm = 12%
+    -- Grass Seed - MAX Drum (Fine) 920 = 80%, Fan 650 = 39%, Chaffer 5mm = 17%, Sieve 3mm = 12%
     grass_seed = {
         fan = {optimal = 39, min = 25, max = 55, tolerance = 7},
         upperSieve = {optimal = 17, min = 5, max = 30, tolerance = 5},
         lowerSieve = {optimal = 12, min = 0, max = 25, tolerance = 5},
         rotor = {optimal = 80, min = 65, max = 95, tolerance = 6},
-        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        concave = {optimal = 15, min = 5, max = 30, tolerance = 5},
+    },
+
+    -- ============================
+    -- COTTON HARVESTER TEMPLATES
+    -- ============================
+    cotton_picker = {
+        fan = {optimal = 80, min = 60, max = 100, tolerance = 10},
+        rotor = {optimal = 70, min = 50, max = 90, tolerance = 10},
+        feeder = {optimal = 60, min = 40, max = 80, tolerance = 10},
     },
 }
 -- EN: Active parameters per machine type. Defines which parameter sliders appear in the calibration GUI.
@@ -286,7 +293,7 @@ local templates = {
 
 ---Active parameters per machine type (defines which sliders appear in GUI)
 CombineSettingsDatabase.machineParams = {
-    grain   = { "fan", "rotor", "upperSieve", "lowerSieve", "feeder" },
+    grain   = { "fan", "rotor", "upperSieve", "lowerSieve", "concave" },  -- concave = 0-50mm clearance
     forage  = { "fan", "rotor", "feeder" },
     root    = { "fan", "rotor", "feeder" },
     cotton  = { "fan", "rotor", "feeder" },
@@ -300,7 +307,7 @@ CombineSettingsDatabase.machineParamLabels = {
         rotor      = "rhm_ui_rotor_speed",
         upperSieve = "rhm_ui_upper_sieve",
         lowerSieve = "rhm_ui_lower_sieve",
-        feeder     = "rhm_ui_feeder_speed",
+        concave    = "rhm_ui_concave_gap",  -- 0-50mm clearance
     },
     forage = {
         fan    = "rhm_ui_forage_fan",
