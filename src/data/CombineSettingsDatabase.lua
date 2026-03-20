@@ -23,7 +23,6 @@ local templates = {
     -- Params: rotor | concave | upperSieve (Chaffer) | lowerSieve (Sieve) | fan (Cleaning Fan)
     -- Real ranges: Rotor 200-1000 RPM, Concave 0-50mm, Chaffer 0-30mm, Sieve 0-30mm, Fan 500-1400 RPM
     -- ============================
-
     -- Wheat/Rye/Spelt/Triticale
     -- Rotor: ~590 RPM → 49%, Concave: 12mm → 24%, Chaffer: 14mm → 47%, Sieve: 8mm → 27%, Fan: 740 RPM → 27%
     wheat = {
@@ -190,7 +189,6 @@ local templates = {
     -- Optimal settings depend on crop moisture. No crop losses for forage harvesters.
     -- kernelProcessor only relevant for corn silage (improves digestibility).
     -- ============================
-
     -- Grass / Dry Grass — shorter chop for better fermentation, no kernel processor needed
     forage_grass = {
         chopLength      = {optimal = 27, min = 0,  max = 100, tolerance = 15},  -- ~6 mm (typical grass)
@@ -217,7 +215,6 @@ local templates = {
     -- NO cleaning fan used on real potato/beet harvesters.
     -- Shaking Intensity: 1=gentle (soft soil), 5=aggressive (heavy clay).
     -- ============================
-
     -- Potato — gentle shaking (1-2), slow rollers, fast elevator
     -- Rollers: ~160 RPM → 24%, Shaking: 2 → 25%, Elevator: ~310 RPM → 71%
     root_potato = {

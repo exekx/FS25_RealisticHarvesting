@@ -144,6 +144,28 @@ function SettingsUI:inject()
     end
     self.cropLossOption = cropLossOpt
 
+    -- MOISTURE INFLUENCE TOGGLE (Only if MoistureSystem is active)
+    if g_currentMission.MoistureSystem then
+        local moistureEnableOpt = UIHelper.createBinaryOption(
+            layout,
+            "rhm_moisture_enable",
+            "rhm_moisture_enable",
+            self.settings.enableMoisture,
+            function(val)
+                if not self.settings:canChangeServerSettings() then return end
+                self.settings.enableMoisture = val
+                self.settings:save()
+                if g_currentMission.missionDynamicInfo.isMultiplayer and SettingsSync then
+                    SettingsSync:sendToClients(self.settings)
+                end
+            end
+        )
+        if moistureEnableOpt.setDisabled then
+            moistureEnableOpt:setDisabled(not isAdmin)
+        end
+        self.moistureEnableOption = moistureEnableOpt
+    end
+
     -- EN: Inject "HUD & Display" section header.
     -- UA: Впроваджуємо заголовок секції "HUD та Відображення".
     UIHelper.createSection(layout, "rhm_section_visuals")
@@ -173,6 +195,12 @@ function SettingsUI:inject()
 
     local prodOpt = UIHelper.createBinaryOption(layout, "rhm_show_productivity", "rhm_show_productivity", self.settings.showProductivity, function(val) self.settings.showProductivity = val; self.settings:save() end)
     self.productivityOption = prodOpt
+
+    -- MOISTURE HUD TOGGLE (Only if MoistureSystem is active)
+    if g_currentMission.MoistureSystem then
+        local moistureVisOpt = UIHelper.createBinaryOption(layout, "rhm_show_moisture", "rhm_show_moisture", self.settings.showMoisture, function(val) self.settings.showMoisture = val; self.settings:save() end)
+        self.moistureVisOption = moistureVisOpt
+    end
 
     -- EN: Controls HUD crop loss row visibility (distinct from the server enableCropLoss feature).
     -- UA: Керує видимістю рядку втрат врожаю у HUD (відрізняється від серверного enableCropLoss).

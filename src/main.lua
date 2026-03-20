@@ -31,6 +31,7 @@ source(modDirectory .. "src/settings/ProfileManager.lua")
 source(modDirectory .. "src/settings/CombineMemory.lua")
 source(modDirectory .. "src/network/CombineSettingsEvent.lua")
 source(modDirectory .. "src/logic/LoadCalculator.lua")
+source(modDirectory .. "src/logic/CombineSettingsManager.lua")
 source(modDirectory .. "src/rhm_Combine.lua")
 -- EN: CRITICAL: rhm_Cutter must be loaded AFTER rhm_Combine for independent header launch to work.
 -- UA: КРИТИЧНО: rhm_Cutter має бути завантажений ПІСЛЯ rhm_Combine, щоб роздільний запуск жатки працював.
@@ -111,10 +112,16 @@ local function validateTypes(manager)
         -- UA: Реєструємо сам клас спеціалізації.
         g_specializationManager:addSpecialization("rhm_Combine", "rhm_Combine", modDirectory .. "src/rhm_Combine.lua", nil)
 
-        -- EN: Add the specialization to every vehicle type that has a Combine spec.
-        -- UA: Додаємо спеціалізацію до кожного типу транспорту, який має спеціалізацію Combine.
+        -- EN: Add the specialization to every vehicle type that can harvest.
+        -- UA: Додаємо спеціалізацію до кожного типу транспорту, який може збирати врожай.
         for typeName, typeEntry in pairs(g_vehicleTypeManager:getTypes()) do
-            if SpecializationUtil.hasSpecialization(Combine, typeEntry.specializations) then
+            local hasAnyHarvesterSpec = 
+                SpecializationUtil.hasSpecialization(Combine, typeEntry.specializations) or
+                SpecializationUtil.hasSpecialization(ForageHarvester, typeEntry.specializations) or
+                SpecializationUtil.hasSpecialization(RootHarvester, typeEntry.specializations) or
+                SpecializationUtil.hasSpecialization(CottonPicker, typeEntry.specializations)
+
+            if hasAnyHarvesterSpec then
                 g_vehicleTypeManager:addSpecialization(typeName, modName .. ".rhm_Combine")
             end
         end
