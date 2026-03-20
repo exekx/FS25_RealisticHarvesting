@@ -242,9 +242,9 @@ function SettingsManager:saveServerSettings(settingsObject)
         -- EN: Verify the file was actually saved to disk.
         -- UA: Перевіряємо що файл справді збережений на диску.
         if fileExists(xmlPath) then
-            print(string.format("RHM: [Save] ✓ File verified to exist: %s", xmlPath))
+            print(string.format("RHM: [Save] [OK] File verified to exist: %s", xmlPath))
         else
-            print(string.format("RHM: [Save] ✗ WARNING - File does NOT exist after save: %s", xmlPath))
+            print(string.format("RHM: [Save] [ERROR] WARNING - File does NOT exist after save: %s", xmlPath))
         end
 
         print("RHM: [Save] Server settings saved successfully")

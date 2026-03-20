@@ -16,27 +16,18 @@ rhm_Combine.debug = false
 -- UA: Перевіряє чи транспортний засіб має базову спеціалізацію Combine.
 --     Повертає true для всіх машин, включаючи модульні системи на кшталт NEXAT.
 function rhm_Combine.prerequisitesPresent(specializations)
-    -- EN: Print all specialization class names for diagnostic logging.
-    -- UA: Виводимо всі назви класів спеціалізацій для діагностичного логування.
-    print("========================================")
-    print("RHM: Checking prerequisites for vehicle")
-    print("Available specializations:")
-    for specName, specTable in pairs(specializations) do
-        if type(specTable) == "table" and specTable.className then
-            print("  - " .. specTable.className)
-        end
+    -- EN: Check for any harvester-type base specialization.
+    -- UA: Перевіряємо наявність будь-якої базової спеціалізації типу "комбайн".
+    local hasAny = SpecializationUtil.hasSpecialization(Combine, specializations) or
+                   SpecializationUtil.hasSpecialization(ForageHarvester, specializations) or
+                   SpecializationUtil.hasSpecialization(RootHarvester, specializations) or
+                   SpecializationUtil.hasSpecialization(CottonPicker, specializations)
+    
+    if rhm_Combine.debug then
+        print("RHM: Prerequisites check for vehicle - hasAnyHarvester: " .. tostring(hasAny))
     end
     
-    -- Перевіряємо базову specialization Combine
-    local hasCombine = SpecializationUtil.hasSpecialization(Combine, specializations)
-    print("Has Combine: " .. tostring(hasCombine))
-    
-    -- Для Nexat: тимчасово спрощуємо перевірку
-    -- Повертаємо true якщо просто є Combine
-    print("Result: " .. tostring(hasCombine))
-    print("========================================")
-    
-    return hasCombine
+    return hasAny
 end
 
 -- EN: Registers rhm_Combine's overwritten (proxied) functions before event listeners.
@@ -73,6 +64,9 @@ end
 -- UA: Дзеркально дублює registerXMLPaths для схеми vehicles.xml збереження.
 --     Викликається автоматично FS25 для кожної спеціалізації при реєстрації схеми збереження.
 function rhm_Combine.registerSavegameXMLPaths(schema, basePath)
+    if rhm_Combine.debug then
+        print(string.format("RHM: registerSavegameXMLPaths called with basePath: %s", tostring(basePath)))
+    end
     rhm_Combine.registerXMLPaths(schema, basePath)
 end
 
@@ -104,22 +98,6 @@ function rhm_Combine.registerEventListeners(vehicleType)
     
     -- INPUT: Реєструємо події введення
     SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", rhm_Combine)
-    
-    -- CRITICAL FIX: явна реєстрація схеми savegame_vehicles для програмно доданих спеціалізацій
-    if Vehicle and Vehicle.xmlSchemaSavegame then
-        local modName = g_currentModName 
-            or (g_realisticHarvestManager and g_realisticHarvestManager.modName)
-            or "FS25_RealisticHarvesting"
-        
-        -- EN: Registration path must match the game's internal structure: vehicles.vehicle(?).MODNAME.rhm_Combine
-        -- UA: Шлях реєстрації має відповідати структурі гри: vehicles.vehicle(?).MODNAME.rhm_Combine
-        local basePath = string.format("vehicles.vehicle(?).%s.rhm_Combine", modName)
-        rhm_Combine.registerXMLPaths(Vehicle.xmlSchemaSavegame, basePath)
-        
-        if rhm_Combine.debug then
-            print(string.format("RHM: Registered savegame XML schema paths via Vehicle.xmlSchemaSavegame (basePath: %s)", basePath))
-        end
-    end
 end
 
 -- EN: Global hook for non-combine vehicles in a modular system (e.g. NEXAT main tractor).
@@ -342,6 +320,7 @@ function rhm_Combine:onLoad(savegame)
         tonPerHour = 0,
         litersPerHour = 0,
         yield = 0,
+        moisture = 0,          -- EN: Grain moisture (%) / UA: Вологість зерна (%)
         recommendedSpeed = 0,  -- EN: Updated by server tick, synced to clients / UA: Оновлюється сервером, синхронізується на клієнти
         overloadLevel = 0      -- EN: 0=normal, 1=HIGH (120%+), 2=CRITICAL (150%+) — synced for warning display / UA: 0=норма, 1=ВИСОКЕ (120%+), 2=КРИТИЧНЕ (150%+)
     }
@@ -373,6 +352,14 @@ function rhm_Combine:onLoad(savegame)
     
     -- TEST: Прапорець для показу тестового повідомлення
     spec.testMessageShown = false
+
+    -- EN: Mark this vehicle as a Realistic Harvester for easy detection by the HUD.
+    -- UA: Позначаємо цей транспорт як Realistic Harvester для легкого виявлення через HUD.
+    self.isRealisticHarvester = true
+    
+    if rhm_Combine.debug then
+        print(string.format("RHM: [OK] Vehicle %s marked as isRealisticHarvester", tostring(self:getFullName())))
+    end
 end
 
 -- EN: Override for addFillUnitFillLevel — tracks actual liters added to the bunker (hopper).
@@ -1063,6 +1050,37 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec.data.recommendedSpeed = spec.loadCalculator:getSpeedLimit()
         -- NEW: Yield Monitor Data
         spec.data.yield = spec.loadCalculator.currentYield or 0
+
+        -- MOISTURE: Get from MoistureSystem
+        local moisture = 0
+        local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+        
+        if settings and settings.enableMoisture and g_currentMission.MoistureSystem then
+            local uniqueId = self.uniqueId
+            local fillType = spec.lastFillType or spec.currentFillType or (self.spec_combine and self.spec_combine.fillUnitIndex and self:getFillUnitFillType(self.spec_combine.fillUnitIndex))
+            
+            if uniqueId and fillType and fillType ~= FillType.UNKNOWN then
+                 moisture = g_currentMission.MoistureSystem:getObjectMoisture(uniqueId, fillType) or 0
+            end
+            
+            -- Fallback: if we don't have moisture for the object yet (e.g. just started), 
+            -- try to get it from the ground where we are currently harvesting
+            if moisture == 0 and cutterIsTurnedOn then
+                local mSum = 0
+                local mCount = 0
+                for cutter, _ in pairs(spec_combine.attachedCutters) do
+                    if cutter.spec_cutter then
+                        local mx, _, mz = getWorldTranslation(cutter.rootNode)
+                        mSum = mSum + (g_currentMission.MoistureSystem:getMoistureAtPosition(mx, mz) or 0)
+                        mCount = mCount + 1
+                    end
+                end
+                if mCount > 0 then
+                    moisture = mSum / mCount
+                end
+            end
+        end
+        spec.data.moisture = moisture * 100 -- Convert to percentage (will be 0 if disabled/missing)
     end
     
     -- === AI / COURSEPLAY WORKAROUND (Server Side) ===
@@ -1196,53 +1214,74 @@ end
 --     Uses pcall for each setValue so schema validation errors don't crash the save.
 -- UA: Зберігає налаштування комбайна (режим, поточна культура, значення вентилятора/ротора/решета/подачі) у XML файл збереження.
 --     Використовує pcall для кожного setValue щоб помилки валідації схеми не падали при збереженні.
+-- EN: Saves combine settings to the custom manager to avoid schema validation errors in vehicles.xml.
+-- UA: Зберігає налаштування комбайна до нашого менеджера щоб уникнути помилок валідації схеми.
 function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local spec = self.spec_rhm_Combine
     if not spec or not spec.combineMemory then return end
     
-    local cur = key .. ".combineMemory.current"
-    local mem = spec.combineMemory
-    local settings = mem.currentSettings
-    
-    -- EN: Use pcall for each setValue to prevent schema validation crashes.
-    -- UA: pcall для кожного setValue щоб помилки схеми не падали.
-    local function safeSet(path, value)
-        local ok, err = pcall(function() xmlFile:setValue(path, value) end)
-        if not ok then
-            print("RHM: [SAVE] Warning - could not set " .. tostring(path) .. ": " .. tostring(err))
-        end
+    if g_realisticHarvestManager and g_realisticHarvestManager.combineSettingsManager then
+        local mem = spec.combineMemory
+        local settings = mem.currentSettings
+        
+        -- Use configFileName as key (simple mapping)
+        g_realisticHarvestManager.combineSettingsManager.settingsData[self.configFileName] = {
+            mode = mem.mode or "AUTO",
+            autoSwitch = mem.autoSwitchEnabled ~= false,
+            currentCrop = mem.currentCrop or "",
+            fan = settings.fan or 50,
+            upperSieve = settings.upperSieve or 50,
+            lowerSieve = settings.lowerSieve or 50,
+            rotor = settings.rotor or 50,
+            feeder = settings.feeder or 50
+        }
     end
     
-    safeSet(cur .. "#mode",       mem.mode or "AUTO")
-    safeSet(cur .. "#autoSwitch", mem.autoSwitchEnabled ~= false)
-    safeSet(cur .. "#currentCrop", mem.currentCrop or "")
-    safeSet(cur .. "#fan",        settings.fan or 50)
-    safeSet(cur .. "#upperSieve", settings.upperSieve or 50)
-    safeSet(cur .. "#lowerSieve", settings.lowerSieve or 50)
-    safeSet(cur .. "#rotor",      settings.rotor or 50)
-    safeSet(cur .. "#feeder",     settings.feeder or 50)
-    
-    print(string.format("RHM: [SAVE] Saved combine state for %s", self:getName() or "?"))
+    if rhm_Combine.debug then
+        print(string.format("RHM: [SAVE] Staged combine state for %s", self:getName() or "?"))
+    end
 end
 
----Завантаження стану з savegame файлу
+---Завантаження стану з custom XML (через менеджер)
 function rhm_Combine:loadFromXMLFile(xmlFile, key, resetVehicles)
     local spec = self.spec_rhm_Combine
     if not spec or not spec.combineMemory then return end
     
-    -- Поточні налаштування
-    local cur = key .. ".combineMemory.current"
-    spec.combineMemory.mode              = xmlFile:getValue(cur .. "#mode", "AUTO")
-    spec.combineMemory.autoSwitchEnabled = xmlFile:getValue(cur .. "#autoSwitch", true)
-    local savedCrop = xmlFile:getValue(cur .. "#currentCrop")
-    spec.combineMemory.currentCrop = (savedCrop ~= "" and savedCrop) or nil
-    spec.combineMemory.currentSettings.fan        = xmlFile:getValue(cur .. "#fan", 50)
-    spec.combineMemory.currentSettings.upperSieve = xmlFile:getValue(cur .. "#upperSieve", 50)
-    spec.combineMemory.currentSettings.lowerSieve = xmlFile:getValue(cur .. "#lowerSieve", 50)
-    spec.combineMemory.currentSettings.rotor      = xmlFile:getValue(cur .. "#rotor", 50)
-    spec.combineMemory.currentSettings.feeder     = xmlFile:getValue(cur .. "#feeder", 50)
+    -- EN: Try to load from our custom manager first
+    -- UA: Спочатку пробуємо завантажити з нашого кастомного менеджера
+    if g_realisticHarvestManager and g_realisticHarvestManager.combineSettingsManager then
+        local data = g_realisticHarvestManager.combineSettingsManager.settingsData[self.configFileName]
+        if data then
+            local mem = spec.combineMemory
+            mem.mode = data.mode or "AUTO"
+            mem.autoSwitchEnabled = data.autoSwitch ~= false
+            mem.currentCrop = (data.currentCrop ~= "" and data.currentCrop) or nil
+            mem.currentSettings.fan = data.fan or 50
+            mem.currentSettings.upperSieve = data.upperSieve or 50
+            mem.currentSettings.lowerSieve = data.lowerSieve or 50
+            mem.currentSettings.rotor = data.rotor or 50
+            mem.currentSettings.feeder = data.feeder or 50
+            
+            print(string.format("RHM: [LOAD] Loaded combine state from custom XML for %s", self:getName() or "?"))
+            return
+        end
+    end
     
-    print(string.format("RHM: [LOAD] Loaded combine state for %s", self:getName() or "?"))
+    -- EN: Fallback to vehicles.xml (if anyone still has old data there, though schema errors will occur)
+    -- UA: Резервний варіант до vehicles.xml (якщо у когось є старі дані, хоча будуть помилки схеми)
+    local cur = key .. ".combineMemory.current"
+    if xmlFile:hasProperty(cur) then
+        spec.combineMemory.mode              = xmlFile:getValue(cur .. "#mode", "AUTO")
+        spec.combineMemory.autoSwitchEnabled = xmlFile:getValue(cur .. "#autoSwitch", true)
+        local savedCrop = xmlFile:getValue(cur .. "#currentCrop")
+        spec.combineMemory.currentCrop = (savedCrop ~= "" and savedCrop) or nil
+        spec.combineMemory.currentSettings.fan        = xmlFile:getValue(cur .. "#fan", 50)
+        spec.combineMemory.currentSettings.upperSieve = xmlFile:getValue(cur .. "#upperSieve", 50)
+        spec.combineMemory.currentSettings.lowerSieve = xmlFile:getValue(cur .. "#lowerSieve", 50)
+        spec.combineMemory.currentSettings.rotor      = xmlFile:getValue(cur .. "#rotor", 50)
+        spec.combineMemory.currentSettings.feeder     = xmlFile:getValue(cur .. "#feeder", 50)
+        print(string.format("RHM: [LOAD] Loaded legacy combine state for %s", self:getName() or "?"))
+    end
 end
 
 -- ============================================================================
@@ -1260,6 +1299,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0) -- yield
+        streamWriteFloat32(streamId, 0) -- moisture
         streamWriteUInt8(streamId, 0)   -- overloadLevel
         -- CombineMemory: write defaults
         streamWriteUInt8(streamId, 50)  -- fan
@@ -1279,6 +1319,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
     streamWriteFloat32(streamId, spec.data.litersPerHour or 0)
     streamWriteFloat32(streamId, spec.data.recommendedSpeed or 0)
     streamWriteFloat32(streamId, spec.data.yield or 0)
+    streamWriteFloat32(streamId, spec.data.moisture or 0)
     streamWriteUInt8(streamId, spec.data.overloadLevel or 0)
     
     -- CombineMemory settings (FIX 4: sync on initial connect)
@@ -1313,6 +1354,7 @@ function rhm_Combine:onReadStream(streamId, connection)
         streamReadFloat32(streamId)
         streamReadFloat32(streamId)
         streamReadFloat32(streamId) -- yield
+        streamReadFloat32(streamId) -- moisture
         streamReadUInt8(streamId)   -- overloadLevel
         -- CombineMemory defaults (skip)
         streamReadUInt8(streamId)
@@ -1336,6 +1378,7 @@ function rhm_Combine:onReadStream(streamId, connection)
     spec.data.litersPerHour = streamReadFloat32(streamId)
     spec.data.recommendedSpeed = streamReadFloat32(streamId)
     spec.data.yield = streamReadFloat32(streamId)
+    spec.data.moisture = streamReadFloat32(streamId)
     spec.data.overloadLevel = streamReadUInt8(streamId)
     
     -- CombineMemory settings
@@ -1383,6 +1426,7 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
             spec.data.litersPerHour = streamReadFloat32(streamId)
             spec.data.recommendedSpeed = streamReadFloat32(streamId)
             spec.data.yield = streamReadFloat32(streamId)
+            spec.data.moisture = streamReadFloat32(streamId)
             spec.data.overloadLevel = streamReadUInt8(streamId)
         end
 
@@ -1434,6 +1478,7 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
             streamWriteFloat32(streamId, data.litersPerHour or 0)
             streamWriteFloat32(streamId, data.recommendedSpeed or 0)
             streamWriteFloat32(streamId, data.yield or 0)
+            streamWriteFloat32(streamId, data.moisture or 0)
             streamWriteUInt8(streamId, data.overloadLevel or 0)
         end
 
