@@ -73,7 +73,8 @@ function ProfileManager:loadProfiles()
                     rotor = xml:getInt(key .. "#rotor", 50),
                     upperSieve = xml:getInt(key .. "#upperSieve", 50),
                     lowerSieve = xml:getInt(key .. "#lowerSieve", 50),
-                    feeder = xml:getInt(key .. "#feeder", 50)
+                    feeder = xml:getInt(key .. "#feeder", 50),
+                    targetEngineLoad = xml:getInt(key .. "#targetEngineLoad", 95)
                 }
             end
             i = i + 1
@@ -104,6 +105,7 @@ function ProfileManager:saveProfiles()
             xml:setInt(key .. "#upperSieve", settings.upperSieve or 50)
             xml:setInt(key .. "#lowerSieve", settings.lowerSieve or 50)
             xml:setInt(key .. "#feeder", settings.feeder or 50)
+            xml:setInt(key .. "#targetEngineLoad", settings.targetEngineLoad or 95)
             i = i + 1
         end
         xml:save()
@@ -133,7 +135,8 @@ function ProfileManager:saveProfile(cropName, settings)
         rotor = settings.rotor or 50,
         upperSieve = settings.upperSieve or 50,
         lowerSieve = settings.lowerSieve or 50,
-        feeder = settings.feeder or 50
+        feeder = settings.feeder or 50,
+        targetEngineLoad = settings.targetEngineLoad or 95
     }
 
     self:saveProfiles()

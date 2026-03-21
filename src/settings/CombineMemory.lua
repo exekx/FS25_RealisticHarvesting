@@ -190,13 +190,15 @@ function CombineMemory:loadUserPreset()
                 event:run(conn)
             end
         else
-            -- EN: Direct application (single player without g_client).
-            -- UA: Пряме застосування (однокористувацька гра без g_client).
-            self.currentSettings.fan = profile.fan
-            self.currentSettings.rotor = profile.rotor
-            self.currentSettings.upperSieve = profile.upperSieve
-            self.currentSettings.lowerSieve = profile.lowerSieve
-            self.currentSettings.feeder = profile.feeder
+            -- EN: Direct application (single player without g_client). Dynamically apply all active params.
+            -- UA: Пряме застосування (однокористувацька гра без g_client). Динамічно застосовуємо всі активні параметри.
+            local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
+            for _, paramName in ipairs(activeParams) do
+                if profile[paramName] ~= nil then
+                    self.currentSettings[paramName] = profile[paramName]
+                end
+            end
+			self.currentSettings.targetEngineLoad = profile.targetEngineLoad or 95
             self.mode = "MANUAL"
             self.autoSwitchEnabled = false
         end
@@ -224,6 +226,8 @@ function CombineMemory:checkSettingsForCrop(cropName)
     local warnings = {}
     local efficiencyScore = 0  -- EN: Impacts throughput/speed / UA: Впливає на пропускну здатність/швидкість
     local lossScore = 0        -- EN: Impacts direct crop loss / UA: Впливає на прямі втрати врожаю
+    local effParamCount = 0
+    local lossParamCount = 0
 
     for param, value in pairs(self.currentSettings) do
         if optimalSettings[param] then
@@ -252,16 +256,30 @@ function CombineMemory:checkSettingsForCrop(cropName)
             end
 
             -- EN: Route penalty to the appropriate physical effect based on parameter type.
-            --     Feeder/Rotor → efficiency (speed) | Fan/Sieves → loss (separation).
+            --     GRAIN: rotor/concave → efficiency (threshing) | fan/upperSieve/lowerSieve → loss (cleaning)
+            --     FORAGE: all params → efficiency only (silage choppers have no grain to lose)
+            --     ROOT: all params → efficiency only (no fan, no sieve losses)
             -- UA: Направляємо штраф до відповідного фізичного ефекту залежно від параметру.
-            --     Подача/Ротор → ефективність (швидкість) | Вентилятор/Решета → втрати (очищення).
-            if param == "feeder" or param == "rotor" then
+            local isForage = (self.machineType == "forage")
+            local isRoot   = (self.machineType == "root")
+
+            if isForage or isRoot then
+                -- EN: All params on forage/root affect only efficiency (no grain to lose)
                 efficiencyScore = efficiencyScore + score
+                effParamCount = effParamCount + 1
+            elseif param == "rotor" or param == "concave" then
+                -- EN: GRAIN: rotor/concave control threshing → primarily efficiency
+                efficiencyScore = efficiencyScore + score
+				effParamCount = effParamCount + 1
             elseif param == "fan" or param == "upperSieve" or param == "lowerSieve" then
+                -- EN: GRAIN: fan/sieves control cleaning → primarily crop loss
                 lossScore = lossScore + score
+				lossParamCount = lossParamCount + 1
             else
+				-- EN: Unknown param — split penalty evenly
                 efficiencyScore = efficiencyScore + (score * 0.5)
                 lossScore = lossScore + (score * 0.5)
+				effParamCount = effParamCount + 0.5
             end
         end
     end

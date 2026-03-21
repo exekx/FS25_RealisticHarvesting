@@ -459,10 +459,10 @@ function LoadCalculator:calculateEngineLoad(vehicle)
                          or currentFruitTypeName:find("GREENBEAN")
                          
         if not isRootOrVeg then
-            cropFactor = cropFactor * 0.25  -- EN: Standard windrows (Wheat, Barley, etc.)
+            cropFactor = cropFactor * 0.75  -- EN: Standard windrows (Wheat, Barley, etc.)
         end
     elseif isForageCutter then
-        cropFactor = cropFactor * 0.75  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
+        cropFactor = cropFactor * 0.80  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
     end
 
     -- --- [RHM DEBUG: INFO LOG] ---
@@ -475,7 +475,24 @@ function LoadCalculator:calculateEngineLoad(vehicle)
     -- EN: Calculate RAW average mass intake per second / UA: Розраховуємо RAW середню масу за секунду (кг/с)
     -- EN: Uses accumulatedMass over the target distance/time / UA: Використовуємо accumulatedMass
     local safeTime = math.max(100, self.currentTime) -- Protect against division by zero
-    local rawAvgMass = (self.loadAccumulatedMass or 0) * (1000 / safeTime) * cropFactor
+    
+    -- MOISTURE FACTOR: Optimal is 14%. Every 1% above adds 2% difficulty.
+    local moistureFactor = 1.0
+    local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+    
+    if settings and settings.enableMoisture and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.data and vehicle.spec_rhm_Combine.data.moisture then
+        local m = vehicle.spec_rhm_Combine.data.moisture / 100 -- 0.0 to 1.0 (already a percentage in spec.data)
+        if m > 0 then
+            local diff = m - 0.14
+            if diff > 0 then
+                moistureFactor = 1.0 + (diff * 2.0)
+            else
+                moistureFactor = math.max(0.9, 1.0 + (diff * 0.5))
+            end
+        end
+    end
+
+    local rawAvgMass = (self.loadAccumulatedMass or 0) * (1000 / safeTime) * cropFactor * moistureFactor
     
     -- ADAPTIVE SMOOTHING
     local loadRatio = self.currentAvgMass / math.max(0.01, self.basePerfMass)
@@ -667,7 +684,12 @@ function LoadCalculator:updateSettingsImpact()
         self.settingsEfficiency = 1.0 - (effPenalty / 100.0)
     end
     
-    if lossPenalty < 0 then
+    -- EN: Forage harvesters (silage choppers) produce no grain losses — all crop goes to tank/trailer.
+    -- UA: Силосні комбайни не мають втрат зерна — весь врожай йде в бак/причеп.
+    local machineType = self.combineMemory.machineType
+    if machineType == "forage" then
+        self.settingsLoss = 0
+    elseif lossPenalty < 0 then
         self.settingsLoss = 0 
     else
         self.settingsLoss = lossPenalty
@@ -675,6 +697,12 @@ function LoadCalculator:updateSettingsImpact()
 end
 
 function LoadCalculator:calculateTotalCropLoss()
+	-- EN: Forage harvesters never have crop loss — bypass all calculations.
+    -- UA: Силосні комбайни ніколи не мають втрат врожаю — пропускаємо всі розрахунки.
+    if self.combineMemory and self.combineMemory.machineType == "forage" then
+        self.cropLoss = 0
+        return 0
+    end
     local baseLoss = self:calculateCropLoss()
     local settingsAddedLoss = self.settingsLoss or 0
     local totalLoss = baseLoss + settingsAddedLoss

@@ -2,7 +2,7 @@
 <modDesc descVersion="106">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.4.2.0</version>
+    <version>1.4.3.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -530,6 +530,17 @@ Funkciók:
             <hu>Átbocsátás (t/h) megjelenítése a HUD-on</hu>
         </text>
         
+        <text name="rhm_moisture_enable">
+            <en>Moisture Influence</en>
+            <de>Feuchtigkeitseinfluss</de>
+            <uk>Вплив вологості</uk>
+        </text>
+        <text name="rhm_show_moisture">
+            <en>Show Grain Moisture</en>
+            <de>Kornfeuchtigkeit anzeigen</de>
+            <uk>Показувати вологість зерна</uk>
+        </text>
+        
         <text name="rhm_show_croploss_short">
             <en>Show Crop Loss</en>
             <de>Verlust anzeigen</de>
@@ -552,11 +563,11 @@ Funkciók:
         <text name="rhm_ui_load"><en>Engine Load</en><de>Motorlast</de><fr>Charge Moteur</fr><pl>Obciążenie Silnika</pl><es>Carga Motor</es><it>Carico Motore</it><cz>Zatížení Motoru</cz><br>Carga do Motor</br><uk>Навантаження</uk><ru>Нагрузка</ru><hu>Motor Terhelés</hu></text>
         <text name="rhm_ui_loss"><en>Loss</en><de>Verlust</de><fr>Perte</fr><pl>Strata</pl><es>Pérdida</es><it>Perdita</it><cz>Ztráta</cz><br>Perda</br><uk>Втрати</uk><ru>Потери</ru><hu>Veszteség</hu></text>
         
-        <text name="rhm_ui_fan_speed"><en>Fan Speed</en><de>Gebläsedrehzahl</de><fr>Vitesse Ventilateur</fr><pl>Obroty Wentylatora</pl><es>Velocidad Ventilador</es><it>Velocità Ventola</it><cz>Otáčky Ventilátoru</cz><br>Velocidade Ventoinha</br><uk>Оберти Вентилятора</uk><ru>Обороты Вентилятора</ru><hu>Ventilátor Fordulat</hu></text>
-        <text name="rhm_ui_rotor_speed"><en>Rotor Speed</en><de>Rotordrehzahl</de><fr>Vitesse Rotor</fr><pl>Obroty Rotora</pl><es>Velocidad Rotor</es><it>Velocità Rotore</it><cz>Otáčky Rotoru</cz><br>Velocidade Rotor</br><uk>Оберти Ротора</uk><ru>Обороты Ротора</ru><hu>Rotor Fordulat</hu></text>
-        <text name="rhm_ui_upper_sieve"><en>Upper Sieve</en><de>Obersieb</de><fr>Grille Supérieure</fr><pl>Sito Górne</pl><es>Criba Superior</es><it>Crivello Superiore</it><cz>Horní Síto</cz><br>Peneira Superior</br><uk>Верхнє Решето</uk><ru>Верхнее Решето</ru><hu>Felső Rosta</hu></text>
-        <text name="rhm_ui_lower_sieve"><en>Lower Sieve</en><de>Untersieb</de><fr>Grille Inférieure</fr><pl>Sito Dolne</pl><es>Criba Inferior</es><it>Crivello Inferiore</it><cz>Spodní Síto</cz><br>Peneira Inferior</br><uk>Нижнє Решето</uk><ru>Нижнее Решето</ru><hu>Alsó Rosta</hu></text>
-        <text name="rhm_ui_feeder_speed"><en>Feeder House</en><de>Schrägförderer</de><fr>Convoyeur</fr><pl>Przenośnik Pochyły</pl><es>Alimentador</es><it>Canale Elevatore</it><cz>Šikmý Dopravník</cz><br>Alimentador</br><uk>Похила Камера</uk><ru>Наклонная Камера</ru><hu>Ferde Felhordó</hu></text>
+        <text name="rhm_ui_fan_speed"><en>Cleaning Fan</en><de>Gebläse</de><fr>Ventilateur</fr><pl>Wentylator</pl><es>Ventilador</es><it>Ventola</it><cz>Ventilátor</cz><br>Ventoinha</br><uk>Вентилятор очистки</uk><ru>Вентилятор очистки</ru><hu>Ventilátor</hu></text>
+        <text name="rhm_ui_rotor_speed"><en>Rotor / Drum</en><de>Rotor/Trommel</de><fr>Rotor/Tambour</fr><pl>Rotor/Bęben</pl><es>Rotor/Tambor</es><it>Rotore/Tamburo</it><cz>Rotor/Buben</cz><br>Rotor/Tambor</br><uk>Ротор / Барабан</uk><ru>Ротор / Барабан</ru><hu>Rotor/Dob</hu></text>
+        <text name="rhm_ui_upper_sieve"><en>Top Sieve</en><de>Obersieb</de><fr>Grille sup.</fr><pl>Sito górne</pl><es>Criba sup.</es><it>Crivello sup.</it><cz>Horní síto</cz><br>Peneira sup.</br><uk>Верхнє решето</uk><ru>Верхнее решето</ru><hu>Felső rosta</hu></text>
+        <text name="rhm_ui_lower_sieve"><en>Bottom Sieve</en><de>Untersieb</de><fr>Grille inf.</fr><pl>Sito dolne</pl><es>Criba inf.</es><it>Crivello inf.</it><cz>Spodní síto</cz><br>Peneira inf.</br><uk>Нижнє решето</uk><ru>Нижнее решето</ru><hu>Alsó rosta</hu></text>
+        <text name="rhm_ui_feeder_speed"><en>Feeder House</en><de>Schrägförderer</de><fr>Convoyeur</fr><pl>Przenośник</pl><es>Alimentador</es><it>Canale Elevatore</it><cz>Šikmý dopravník</cz><br>Alimentador</br><uk>Похила камера</uk><ru>Наклонная камера</ru><hu>Ferde felhordó</hu></text>
         
         <text name="rhm_ui_mode_auto"><en>AUTO</en><de>AUTO</de><fr>AUTO</fr><pl>AUTO</pl><es>AUTO</es><it>AUTO</it><cz>AUTO</cz><br>AUTO</br><uk>АВТО</uk><ru>АВТО</ru><hu>AUTO</hu></text>
         <text name="rhm_ui_mode_manual"><en>MANUAL</en><de>MANUELL</de><fr>MANUEL</fr><pl>RĘCZNY</pl><es>MANUAL</es><it>MANUALE</it><cz>MANUÁLNÍ</cz><br>MANUAL</br><uk>РУЧНИЙ</uk><ru>РУЧНОЙ</ru><hu>KÉZI</hu></text>
@@ -620,8 +631,13 @@ Funkciók:
         <!-- ============================= -->
         <!-- CALIBRATION GUI STRINGS       -->
         <!-- ============================= -->
+        <text name="rhm_target_load">
+            <en>Target Engine Load</en><de>Soll-Motorlast</de><fr>Charge Cible</fr>
+            <pl>Docelowe obciążenie</pl><es>Carga Objetivo</es><it>Carico Target</it>
+            <cz>Cílové zatížení</cz><br>Carga Alvo</br><uk>Цільове Навантаження</uk><ru>Целевая Нагрузка</ru><hu>Cél Motorterhelés</hu>
+        </text>
         <text name="rhm_gui_title"><en>Combine Settings</en><de>Mähdreschereinstellungen</de><fr>Paramètres Moissonneuse</fr><pl>Ustawienia Kombajnu</pl><es>Ajustes Cosechadora</es><it>Impostazioni Mietitrebbia</it><cz>Nastavení Kombajnu</cz><uk>Налаштування Комбайна</uk><ru>Настройки Комбайна</ru><hu>Kombájn Beállítások</hu></text>
-        <text name="rhm_gui_crop"><en>Crop:</en><de>Kultur:</de><fr>Culture:</fr><pl>Kultura:</pl><es>Cultivo:</es><it>Coltura:</it><cz>Plodina:</cz><uk>Культура:</uk><ru>Культура:</ru><hu>Növény:</hu></text>
+        <text name="rhm_gui_crop"><en>Crop</en><de>Kultur</de><fr>Culture</fr><pl>Kultura</pl><es>Cultivo</es><it>Coltura</it><cz>Plodina</cz><uk>Культура</uk><ru>Культура</ru><hu>Növény</hu></text>
         <text name="rhm_gui_none"><en>NONE</en><de>KEINE</de><fr>AUCUN</fr><pl>BRAK</pl><es>NINGUNO</es><it>NESSUNO</it><cz>ŽÁDNÁ</cz><uk>НЕМАЄ</uk><ru>НЕТ</ru><hu>NINCS</hu></text>
         <text name="rhm_gui_btn_auto"><en>AUTO</en><de>AUTO</de><fr>AUTO</fr><pl>AUTO</pl><es>AUTO</es><it>AUTO</it><cz>AUTO</cz><uk>АВТО</uk><ru>АВТО</ru><hu>AUTO</hu></text>
         <text name="rhm_gui_btn_load_preset"><en>Load Preset</en><de>Profil laden</de><fr>Charger profil</fr><pl>Wczytaj profil</pl><es>Cargar perfil</es><it>Carica profilo</it><cz>Načíst profil</cz><uk>Завантажити профіль</uk><ru>Загрузить профиль</ru><hu>Profil betöltése</hu></text>
@@ -633,6 +649,16 @@ Funkciók:
         <text name="rhm_gui_close_hint"><en>RShift+K to Close</en><de>RShift+K zum Schließen</de><fr>RShift+K pour fermer</fr><pl>RShift+K aby zamknąć</pl><es>RShift+K para cerrar</es><it>RShift+K per chiudere</it><cz>RShift+K pro zavření</cz><uk>RShift+K щоб закрити</uk><ru>RShift+K чтобы закрыть</ru><hu>RShift+K a bezáráshoz</hu></text>
         <text name="rhm_gui_no_combine"><en>No Combine Selected</en><de>Kein Mähdrescher gewählt</de><fr>Aucune moissonneuse</fr><pl>Brak kombajnu</pl><es>Sin cosechadora</es><it>Nessuna mietitrebbia</it><cz>Žádný kombajn</cz><uk>Комбайн не обрано</uk><ru>Комбайн не выбран</ru><hu>Nincs kombájn kiválasztva</hu></text>
         <text name="rhm_gui_not_init"><en>Combine Not Initialized</en><de>Kombajn nicht initialisiert</de><fr>Moissonneuse non initialisée</fr><pl>Kombajn nie zainicjowany</pl><es>Cosechadora no inicializada</es><it>Mietitrebbia non inizializzata</it><cz>Kombajn neinicializován</cz><uk>Комбайн не ініціалізовано</uk><ru>Комбайн не инициализирован</ru><hu>Kombájn nincs inicializálva</hu></text>
+
+        <text name="rhm_ui_section_separation">
+            <en>Separation</en><uk>Сепарація</uk><de>Abscheidung</de><fr>Séparation</fr><pl>Separacja</pl>
+        </text>
+        <text name="rhm_ui_section_cleaning">
+            <en>Cleaning</en><uk>Очистка</uk><de>Reinigung</de><fr>Nettoyage</fr><pl>Czyszczenie</pl>
+        </text>
+        <text name="rhm_ui_section_performance">
+            <en>Performance</en><uk>Ефективність</uk><de>Leistung</de><fr>Performance</fr><pl>Efektywność</pl>
+        </text>
 
         <!-- ============================= -->
         <!-- MACHINE-TYPE PARAMETER LABELS -->
@@ -681,6 +707,191 @@ Funkciók:
             <en>Elevator Web</en><de>Siebband</de><fr>Tapis cribleur</fr>
             <pl>Taśma odsiewająca</pl><es>Cinta de criba</es><it>Nastro elevatore</it>
             <cz>Prosévací pás</cz><uk>Транспортер</uk><ru>Транспортер</ru><hu>Felhordószalag</hu>
+        </text>
+        <!-- ============================= -->
+        <!-- NEW PARAM LABELS (v1.5)       -->
+        <!-- ============================= -->
+        <!-- GRAIN: Concave Clearance -->
+        <text name="rhm_ui_concave">
+            <en>Concave Clearance</en>
+            <de>Dreschkorb-Abstand</de>
+            <fr>Jeu du contre-batteur</fr>
+            <pl>Prześwit klejonicy</pl>
+            <es>Separación del cóncavo</es>
+            <it>Distanza concavo</it>
+            <cz>Vůle mlátičky</cz>
+            <br>Folga do côncavo</br>
+            <uk>Зазор підбарабання</uk>
+            <ru>Зазор подбарабанья</ru>
+            <hu>Kosárrés</hu>
+        </text>
+
+        <!-- FORAGE: Chop Length -->
+        <text name="rhm_ui_chop_length">
+            <en>Chop Length</en>
+            <de>Häcksellänge</de>
+            <fr>Longueur de coupe</fr>
+            <pl>Długość sieczki</pl>
+            <es>Longitud de corte</es>
+            <it>Lunghezza del taglio</it>
+            <cz>Délka řezu</cz>
+            <br>Comprimento do corte</br>
+            <uk>Довжина різки</uk>
+            <ru>Длина резки</ru>
+            <hu>Vágáshossz</hu>
+        </text>
+
+        <!-- FORAGE: Kernel Processor Gap -->
+        <text name="rhm_ui_kernel_processor">
+            <en>Kernel Processor</en>
+            <de>Körnerprozessor</de>
+            <fr>Processeur de grains</fr>
+            <pl>Procesor ziarna</pl>
+            <es>Procesador de grano</es>
+            <it>Processore grani</it>
+            <cz>Zpracovač zrna</cz>
+            <br>Processador de grãos</br>
+            <uk>Процесор зерна</uk>
+            <ru>Процессор зерна</ru>
+            <hu>Szemfeldolgozó</hu>
+        </text>
+
+        <!-- FORAGE: Discharge Blower Gap -->
+        <text name="rhm_ui_blower_gap">
+            <en>Blower Gap</en>
+            <de>Gebläse-Spalt</de>
+            <fr>Jeu du souffleur</fr>
+            <pl>Szczelina dmuchawy</pl>
+            <es>Huelgo del soplador</es>
+            <it>Gioco del ventilatore</it>
+            <cz>Mezera dmychadla</cz>
+            <br>Folga do soprador</br>
+            <uk>Зазор вентилятора викиду</uk>
+            <ru>Зазор вентилятора выброса</ru>
+            <hu>Fúvórés</hu>
+        </text>
+
+        <!-- ROOT: Shaking Intensity -->
+        <text name="rhm_ui_shaking_intensity">
+            <en>Shaking Intensity</en>
+            <de>Schüttelintensität</de>
+            <fr>Intensité de vibration</fr>
+            <pl>Intensywność wibracji</pl>
+            <es>Intensidad de vibración</es>
+            <it>Intensità di vibrazione</it>
+            <cz>Intenzita třepání</cz>
+            <br>Intensidade de vibração</br>
+            <uk>Інтенсивність струшування</uk>
+            <ru>Интенсивность встряхивания</ru>
+            <hu>Rázásintenzitás</hu>
+        </text>
+
+        <!-- SECTION: Discharge (for Forage Harvesters) -->
+        <text name="rhm_ui_section_discharge">
+            <en>Discharge</en>
+            <de>Auswurf</de>
+            <fr>Déchargement</fr>
+            <pl>Wyrzut</pl>
+            <es>Descarga</es>
+            <it>Scarico</it>
+            <cz>Výhoz</cz>
+            <br>Descarga</br>
+            <uk>Викид</uk>
+            <ru>Выброс</ru>
+            <hu>Kiadás</hu>
+        </text>
+
+        <!-- ============================= -->
+        <!-- NEW PARAM LABELS (v1.5)       -->
+        <!-- ============================= -->
+        <!-- GRAIN: Concave Clearance -->
+        <text name="rhm_ui_concave">
+            <en>Concave Clearance</en>
+            <de>Dreschkorb-Abstand</de>
+            <fr>Jeu du contre-batteur</fr>
+            <pl>Prześwit klejonicy</pl>
+            <es>Separación del cóncavo</es>
+            <it>Distanza concavo</it>
+            <cz>Vůle mlátičky</cz>
+            <br>Folga do côncavo</br>
+            <uk>Зазор підбарабання</uk>
+            <ru>Зазор подбарабанья</ru>
+            <hu>Kosárrés</hu>
+        </text>
+
+        <!-- FORAGE: Chop Length -->
+        <text name="rhm_ui_chop_length">
+            <en>Chop Length</en>
+            <de>Häcksellänge</de>
+            <fr>Longueur de coupe</fr>
+            <pl>Długość sieczki</pl>
+            <es>Longitud de corte</es>
+            <it>Lunghezza del taglio</it>
+            <cz>Délka řezu</cz>
+            <br>Comprimento do corte</br>
+            <uk>Довжина різки</uk>
+            <ru>Длина резки</ru>
+            <hu>Vágáshossz</hu>
+        </text>
+
+        <!-- FORAGE: Kernel Processor Gap -->
+        <text name="rhm_ui_kernel_processor">
+            <en>Kernel Processor</en>
+            <de>Körnerprozessor</de>
+            <fr>Processeur de grains</fr>
+            <pl>Procesor ziarna</pl>
+            <es>Procesador de grano</es>
+            <it>Processore grani</it>
+            <cz>Zpracovač zrna</cz>
+            <br>Processador de grãos</br>
+            <uk>Процесор зерна</uk>
+            <ru>Процессор зерна</ru>
+            <hu>Szemfeldolgozó</hu>
+        </text>
+
+        <!-- FORAGE: Discharge Blower Gap -->
+        <text name="rhm_ui_blower_gap">
+            <en>Blower Gap</en>
+            <de>Gebläse-Spalt</de>
+            <fr>Jeu du souffleur</fr>
+            <pl>Szczelina dmuchawy</pl>
+            <es>Huelgo del soplador</es>
+            <it>Gioco del ventilatore</it>
+            <cz>Mezera dmychadla</cz>
+            <br>Folga do soprador</br>
+            <uk>Зазор вентилятора викиду</uk>
+            <ru>Зазор вентилятора выброса</ru>
+            <hu>Fúvórés</hu>
+        </text>
+
+        <!-- ROOT: Shaking Intensity -->
+        <text name="rhm_ui_shaking_intensity">
+            <en>Shaking Intensity</en>
+            <de>Schüttelintensität</de>
+            <fr>Intensité de vibration</fr>
+            <pl>Intensywność wibracji</pl>
+            <es>Intensidad de vibración</es>
+            <it>Intensità di vibrazione</it>
+            <cz>Intenzita třepání</cz>
+            <br>Intensidade de vibração</br>
+            <uk>Інтенсивність струшування</uk>
+            <ru>Интенсивность встряхивания</ru>
+            <hu>Rázásintenzitás</hu>
+        </text>
+
+        <!-- SECTION: Discharge (for Forage Harvesters) -->
+        <text name="rhm_ui_section_discharge">
+            <en>Discharge</en>
+            <de>Auswurf</de>
+            <fr>Déchargement</fr>
+            <pl>Wyrzut</pl>
+            <es>Descarga</es>
+            <it>Scarico</it>
+            <cz>Výhoz</cz>
+            <br>Descarga</br>
+            <uk>Викид</uk>
+            <ru>Выброс</ru>
+            <hu>Kiadás</hu>
         </text>
 
         <text name="rhm_units_short">

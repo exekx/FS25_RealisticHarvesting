@@ -32,6 +32,7 @@ function DraggableHUD.new(modDirectory, settings)
         load = 0,
         yield = 0,
         speed = 0,
+        moisture = 0,
         cropLoss = 0,
         tonPerHour = 0,
         litersPerHour = 0,
@@ -110,6 +111,7 @@ function DraggableHUD:loadIcons(uiScale)
     local iconNames = {
         load         = "icon_load",
         yield        = "icon_yield",
+        moisture     = "icon_moisture",
         speed        = "icon_speed",
         loss         = "icon_loss",
         productivity = "icon_productivity"
@@ -126,6 +128,7 @@ function DraggableHUD:loadIcons(uiScale)
     -- UA: Встановлюємо видимість всіх рядків за замовчуванням на true якщо ще не задано.
     if self.settings.showLoad == nil then self.settings.showLoad = true end
     if self.settings.showYield == nil then self.settings.showYield = true end
+    if self.settings.showMoisture == nil then self.settings.showMoisture = true end
     if self.settings.showSpeed == nil then self.settings.showSpeed = true end
     if self.settings.showCropLoss == nil then self.settings.showCropLoss = true end
     if self.settings.showProductivity == nil then self.settings.showProductivity = true end
@@ -144,27 +147,41 @@ function DraggableHUD:getPosition()
         -- UA: Допускаємо невелику похибку, скидаємо якщо далеко за межами екрану.
         if x >= -0.1 and x <= 1.1 and y >= -0.1 and y <= 1.1 then
             x = math.max(0, math.min(1 - (self.width or 0), x))
-            y = math.max(0, math.min(1 - (self.height or 0), y))
+            y = math.max(0, math.min(1 - ((self.height or 0) + (self.headerHeight or 0)), y))
             return x, y
-        else
-            if RHM_Debug and RHM_Debug.isEnabled("UI") then
-                print(string.format("RHM: Saved HUD position (%.2f, %.2f) is off-screen. Resetting to default.", x, y))
-            end
         end
     end
 
-    -- EN: Auto-position: left of the game's speed meter. Guard against uninitialized speedBg.
-    -- UA: Авто-позиціонування: зліва від спідометра гри. Захист від неініціалізованого speedBg.
+    -- EN: Auto-position: left of the game's speed meter.
+    -- UA: Авто-позиціонування: зліва від спідометра гри.
     if g_currentMission and g_currentMission.hud and g_currentMission.hud.speedMeter then
         local speedMeter = g_currentMission.hud.speedMeter
-        if speedMeter.speedBg and speedMeter.speedBg.x and speedMeter.speedBg.x > 0.01 then
-            local offsetX = speedMeter:scalePixelToScreenWidth(-145)
-            local offsetY = speedMeter:scalePixelToScreenHeight(15)
-            return speedMeter.speedBg.x + offsetX, speedMeter.speedBg.y + offsetY
+        -- EN: In FS25, overlays might not have public x/y, try getPosition().
+        -- UA: У FS25 оверлеї можуть не мати публічних x/y, пробуємо getPosition().
+        local smX, smY
+        if speedMeter.speedBg and speedMeter.speedBg.getPosition then
+            smX, smY = speedMeter.speedBg:getPosition()
+        elseif speedMeter.speedBg and speedMeter.speedBg.x then
+            smX, smY = speedMeter.speedBg.x, speedMeter.speedBg.y
+        end
+
+        if smX and smX > 0.01 then
+            local offsetX = -0.14 * (self.uiScale or 1.0)
+            local offsetY = 0.02 * (self.uiScale or 1.0)
+            local resX = smX + offsetX
+            local resY = smY + offsetY
+            
+            if RHM_Debug and RHM_Debug.isEnabled("UI") then
+                print(string.format("RHM: Auto-positioned HUD at (%.3f, %.3f) near speed meter at (%.3f, %.3f)", resX, resY, smX, smY))
+            end
+            return resX, resY
         end
     end
 
-    return 0.7, 0.05 -- EN: Last-resort fallback position / UA: Останній запасний варіант позиції
+    if RHM_Debug and RHM_Debug.isEnabled("UI") then
+        print("RHM: HUD using fallback position (0.7, 0.05)")
+    end
+    return 0.7, 0.05 -- EN: Last-resort fallback position / UA: Останній засіб
 end
 
 -- EN: Sets the HUD top-left position (normalized screen coords).
@@ -208,6 +225,7 @@ function DraggableHUD:update(dt)
     -- UA: Беремо останні значення з таблиці живих даних комбайна.
     self.data.load             = spec.data.load or 0
     self.data.yield            = spec.data.yield or 0
+    self.data.moisture         = spec.data.moisture or 0
     self.data.cropLoss         = spec.data.cropLoss or 0
     self.data.tonPerHour       = spec.data.tonPerHour or 0
     self.data.litersPerHour    = spec.data.litersPerHour or 0
@@ -233,25 +251,39 @@ end
 function DraggableHUD:draw()
     if not g_currentMission:getIsClient() then return end
     if not self.settings.showHUD then return end
-    if not self.vehicle then return end
+    
+    -- EN: Diagnostic: Ensure coordinates are valid.
+    -- UA: Діагностика: Переконуємось, що координати дійсні.
+    if self.x == nil or self.y == nil then
+        self.x, self.y = self:getPosition()
+        if self.debug then print(string.format("RHM: HUD position was nil, reset to %.2f, %.2f", self.x, self.y)) end
+    end
+
+    if not self.vehicle then 
+        return 
+    end
 
     self:updateSize()
 
     -- EN: Sync overlay positions and dimensions to match current layout.
     -- UA: Синхронізуємо позиції та розміри оверлеїв з поточним розмічуванням.
-    self.backgroundOverlay:setPosition(self.x, self.y)
-    self.headerOverlay:setPosition(self.x, self.y + self.height)
-    self.backgroundOverlay:setDimension(self.width, self.height)
-
-    self.backgroundOverlay:render()
-    self.headerOverlay:render()
+    if self.backgroundOverlay then
+        self.backgroundOverlay:setPosition(self.x, self.y)
+        self.backgroundOverlay:setDimension(self.width, self.height)
+        self.backgroundOverlay:render()
+    end
+    
+    if self.headerOverlay then
+        self.headerOverlay:setPosition(self.x, self.y + self.height)
+        self.headerOverlay:render()
+    end
 
     -- EN: Draw "Realistic Harvesting" title text centered in the header.
     -- UA: Малюємо назву "Realistic Harvesting" по центру заголовку.
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_CENTER)
-    setTextColor(1, 1, 1, 1)
-    local titleTextSize = 0.013
+    setTextColor(0.83, 0.54, 0.04, 1.0)
+    local titleTextSize = 0.012 * self.uiScale
     local headerTextX = self.x + self.width / 2
     local titleTextY = self.y + self.height + self.headerHeight * 0.65
     renderText(headerTextX, titleTextY, titleTextSize, "Realistic Harvesting")
@@ -265,7 +297,7 @@ function DraggableHUD:draw()
         x = self.x,
         y = self.y + self.height,
         w = self.width,
-        h = self.headerHeight * 0.4
+        h = (self.headerHeight or 0) * 0.4
     }
     local mx, my = g_inputBinding:getMousePosition()
     local isHovered = mx >= settingsButtonArea.x and mx <= settingsButtonArea.x + settingsButtonArea.w and
@@ -278,7 +310,7 @@ function DraggableHUD:draw()
     end
 
     local settingsTextSize = 0.009
-    local settingsTextY = self.y + self.height + self.headerHeight * 0.20
+    local settingsTextY = self.y + self.height + (self.headerHeight or 0) * 0.20
     renderText(headerTextX, settingsTextY, settingsTextSize, "Settings")
     setTextBold(false)
 
@@ -341,8 +373,29 @@ function DraggableHUD:drawContent()
         textY = textY - lineHeight
     end
 
-    -- EN: Row 3 — Productivity (t/h or bu/h).
-    -- UA: Рядок 3 — Продуктивність (т/год або бу/год).
+    -- EN: Row 3 — Grain Moisture (%).
+    -- UA: Рядок 3 — Вологість зерна (%).
+    if self.settings.showMoisture and g_currentMission.MoistureSystem then
+        local m = self.data.moisture or 0
+        local moistureStr = string.format("%.1f%%", m)
+        local r, g, b = 1, 1, 1
+        
+        -- If moisture is 0 but we are supposed to have data, it might be N/A
+        if m <= 0 then
+            moistureStr = "N/A"
+        else
+            -- Color coding for moisture
+            if m > 20 or m < 10 then      r, g, b = 1, 0.4, 0.4  -- EN: Red (Bad) / UA: Червоний (Погано)
+            elseif m > 15 or m < 13 then  r, g, b = 1, 1, 0.4    -- EN: Yellow (Caution) / UA: Жовтий (Увага)
+            else                          r, g, b = 0.4, 1, 0.4  end -- EN: Green (Optimal) / UA: Зелений (Оптимально)
+        end
+        
+        self:drawRow(iconX, textX, textY, iconWidth, iconHeight, textSize, "moisture", moistureStr, m, r, g, b)
+        textY = textY - lineHeight
+    end
+
+    -- EN: Row 4 — Productivity (t/h or bu/h).
+    -- UA: Рядок 4 — Продуктивність (т/год або бу/год).
     if self.settings.showProductivity then
         local prodVal = self.data.tonPerHour or 0
         local prodStr
@@ -356,9 +409,13 @@ function DraggableHUD:drawContent()
         textY = textY - lineHeight
     end
 
-    -- EN: Row 4 — Crop Loss (%). Color-coded: green=optimal, yellow=mild loss, red=high loss.
-    -- UA: Рядок 4 — Втрати зерна (%). Кольорове кодування: зелений=оптимум, жовтий=помірні, червоний=великі.
-    if self.settings.showCropLoss then
+    -- EN: Row 5 — Crop Loss. Skipped entirely for forage harvesters (no grain losses on choppers).
+    -- UA: Рядок 5 — Втрати зерна. Пропускається для силосних комбайнів (немає втрат).
+    local machineType = nil
+    if self.vehicle and self.vehicle.spec_rhm_Combine then
+        machineType = self.vehicle.spec_rhm_Combine.machineType
+    end
+    if self.settings.showCropLoss and machineType ~= "forage" then
         local lossVal = self.data.cropLoss or 0
         local lossStr
         if lossVal > 0.1 then
@@ -379,8 +436,8 @@ function DraggableHUD:drawContent()
         textY = textY - lineHeight
     end
 
-    -- EN: Row 5 — Speed (current / recommended). Red/yellow when over recommended limit.
-    -- UA: Рядок 5 — Швидкість (поточна / рекомендована). Червоний/жовтий при перевищенні ліміту.
+    -- EN: Row 6 — Speed (current / recommended). Red/yellow when over recommended limit.
+    -- UA: Рядок 6 — Швидкість (поточна / рекомендована). Червоний/жовтий при перевищенні ліміту.
     if self.settings.showSpeed then
         local currentSpeed = self.data.speed
         local recSpeed = self.data.recommendedSpeed or 0
@@ -417,11 +474,21 @@ end
 -- UA: Перераховує висоту HUD залежно від кількості увімкнених рядків.
 --     Регулює позицію Y щоб лінія заголовку залишалась фіксованою поки тіло зменшується/збільшується.
 function DraggableHUD:updateSize()
+    -- EN: Detect machine type to exclude forage-specific suppressed rows from height.
+    -- UA: Визначаємо тип машини щоб прибрати зайве місце для silosних комбайнів.
+    local machineType = nil
+    if self.vehicle and self.vehicle.spec_rhm_Combine then
+        machineType = self.vehicle.spec_rhm_Combine.machineType
+    end
+
     local rowCount = 0
     if self.settings.showLoad then rowCount = rowCount + 1 end
     if self.settings.showYield then rowCount = rowCount + 1 end
+    if self.settings.showMoisture and g_currentMission.MoistureSystem then rowCount = rowCount + 1 end
     if self.settings.showProductivity then rowCount = rowCount + 1 end
-    if self.settings.showCropLoss then rowCount = rowCount + 1 end
+    -- EN: Crop Loss row is not shown for forage harvesters — exclude from height.
+    -- UA: Рядок втрат не відображається для силосних — не рахуємо в висоту.
+    if self.settings.showCropLoss and machineType ~= "forage" then rowCount = rowCount + 1 end
     if self.settings.showSpeed then rowCount = rowCount + 1 end
 
     local lineHeight  = 0.028 * self.uiScale
