@@ -530,17 +530,6 @@ Funkciók:
             <hu>Átbocsátás (t/h) megjelenítése a HUD-on</hu>
         </text>
         
-        <text name="rhm_moisture_enable">
-            <en>Moisture Influence</en>
-            <de>Feuchtigkeitseinfluss</de>
-            <uk>Вплив вологості</uk>
-        </text>
-        <text name="rhm_show_moisture">
-            <en>Show Grain Moisture</en>
-            <de>Kornfeuchtigkeit anzeigen</de>
-            <uk>Показувати вологість зерна</uk>
-        </text>
-        
         <text name="rhm_show_croploss_short">
             <en>Show Crop Loss</en>
             <de>Verlust anzeigen</de>
@@ -707,98 +696,6 @@ Funkciók:
             <en>Elevator Web</en><de>Siebband</de><fr>Tapis cribleur</fr>
             <pl>Taśma odsiewająca</pl><es>Cinta de criba</es><it>Nastro elevatore</it>
             <cz>Prosévací pás</cz><uk>Транспортер</uk><ru>Транспортер</ru><hu>Felhordószalag</hu>
-        </text>
-        <!-- ============================= -->
-        <!-- NEW PARAM LABELS (v1.5)       -->
-        <!-- ============================= -->
-        <!-- GRAIN: Concave Clearance -->
-        <text name="rhm_ui_concave">
-            <en>Concave Clearance</en>
-            <de>Dreschkorb-Abstand</de>
-            <fr>Jeu du contre-batteur</fr>
-            <pl>Prześwit klejonicy</pl>
-            <es>Separación del cóncavo</es>
-            <it>Distanza concavo</it>
-            <cz>Vůle mlátičky</cz>
-            <br>Folga do côncavo</br>
-            <uk>Зазор підбарабання</uk>
-            <ru>Зазор подбарабанья</ru>
-            <hu>Kosárrés</hu>
-        </text>
-
-        <!-- FORAGE: Chop Length -->
-        <text name="rhm_ui_chop_length">
-            <en>Chop Length</en>
-            <de>Häcksellänge</de>
-            <fr>Longueur de coupe</fr>
-            <pl>Długość sieczki</pl>
-            <es>Longitud de corte</es>
-            <it>Lunghezza del taglio</it>
-            <cz>Délka řezu</cz>
-            <br>Comprimento do corte</br>
-            <uk>Довжина різки</uk>
-            <ru>Длина резки</ru>
-            <hu>Vágáshossz</hu>
-        </text>
-
-        <!-- FORAGE: Kernel Processor Gap -->
-        <text name="rhm_ui_kernel_processor">
-            <en>Kernel Processor</en>
-            <de>Körnerprozessor</de>
-            <fr>Processeur de grains</fr>
-            <pl>Procesor ziarna</pl>
-            <es>Procesador de grano</es>
-            <it>Processore grani</it>
-            <cz>Zpracovač zrna</cz>
-            <br>Processador de grãos</br>
-            <uk>Процесор зерна</uk>
-            <ru>Процессор зерна</ru>
-            <hu>Szemfeldolgozó</hu>
-        </text>
-
-        <!-- FORAGE: Discharge Blower Gap -->
-        <text name="rhm_ui_blower_gap">
-            <en>Blower Gap</en>
-            <de>Gebläse-Spalt</de>
-            <fr>Jeu du souffleur</fr>
-            <pl>Szczelina dmuchawy</pl>
-            <es>Huelgo del soplador</es>
-            <it>Gioco del ventilatore</it>
-            <cz>Mezera dmychadla</cz>
-            <br>Folga do soprador</br>
-            <uk>Зазор вентилятора викиду</uk>
-            <ru>Зазор вентилятора выброса</ru>
-            <hu>Fúvórés</hu>
-        </text>
-
-        <!-- ROOT: Shaking Intensity -->
-        <text name="rhm_ui_shaking_intensity">
-            <en>Shaking Intensity</en>
-            <de>Schüttelintensität</de>
-            <fr>Intensité de vibration</fr>
-            <pl>Intensywność wibracji</pl>
-            <es>Intensidad de vibración</es>
-            <it>Intensità di vibrazione</it>
-            <cz>Intenzita třepání</cz>
-            <br>Intensidade de vibração</br>
-            <uk>Інтенсивність струшування</uk>
-            <ru>Интенсивность встряхивания</ru>
-            <hu>Rázásintenzitás</hu>
-        </text>
-
-        <!-- SECTION: Discharge (for Forage Harvesters) -->
-        <text name="rhm_ui_section_discharge">
-            <en>Discharge</en>
-            <de>Auswurf</de>
-            <fr>Déchargement</fr>
-            <pl>Wyrzut</pl>
-            <es>Descarga</es>
-            <it>Scarico</it>
-            <cz>Výhoz</cz>
-            <br>Descarga</br>
-            <uk>Викид</uk>
-            <ru>Выброс</ru>
-            <hu>Kiadás</hu>
         </text>
 
         <!-- ============================= -->

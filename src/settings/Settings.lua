@@ -44,7 +44,6 @@ function Settings.new(manager)
     -- UA: Прапорці перемикання функцій (серверні, глобальні для всіх гравців).
     self.enableSpeedLimit = true
     self.enableCropLoss = true
-    self.enableMoisture = true -- EN: Moisture influence on engine load / UA: Вплив вологості на навантаження
     self.showHUD = true
     self.showYield = true
     self.showSpeedometer = true
@@ -55,10 +54,8 @@ function Settings.new(manager)
     self.showLoad = true
     self.showProductivity = true
     self.showCropLoss = true
-    self.showMoisture = true -- EN: Show moisture in HUD / UA: Показувати вологість в HUD
     self.showSpeed = true
     self.showLoadWarnings = true
-    self.debugUI = false -- EN: Enable on-screen UI diagnostics / UA: Увімкнути екранну діагностику UI
 
     -- EN: HUD position (client-side). nil = automatic positioning.
     -- UA: Позиція HUD (клієнтська). nil = автоматичне позиціонування.
