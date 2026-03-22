@@ -24,12 +24,12 @@
 In vanilla FS25, you can drive at full speed through any crop density with no consequences. **Realistic Harvesting** changes that.
 
 Your combine now has a real engine load that responds to:
-- Crop density and type
-- Header width
-- Terrain slope
-- Calibration settings
+- **Crop density** and type (30+ crops with unique difficulty coefficients)
+- **Header width** and engine horsepower
+- **Terrain slope**
+- **Calibration settings** (fan, rotor, sieves, feeder — unique per crop)
 - **Pickup Header / Swathing** (detected automatically, 0.75x load multiplier)
-- **Extreme Precision Calibration** (15+ crops tuned to real-world bu/hr targets)
+- **Machine type** (grain combines, forage harvesters, root harvesters, cotton pickers)
 
 Drive too fast → engine overloads → you lose grain. Simple.
 
@@ -62,35 +62,31 @@ The HUD appears automatically when you enter a combine. Right-click to enable cu
 | Indicator | What It Means |
 |:---|:---|
 | **Engine Load %** | How hard your combine is working. Stay below 95%. |
-| **T/h** | Tons per hour — your harvesting productivity. |
-| **Yield** | Live t/ha or bu/ac. Fluctuates naturally. |
+| **T/h or L/h** | Tons (or liters) per hour — your harvesting productivity. |
+| **Yield** | Live t/ha or bu/ac. Fluctuates naturally with field density. |
 | **Speed / Rec.** | Your speed vs. the recommended safe speed. |
 | **Loss** | LOW / MED / HIGH — how much grain you're losing right now. |
 
 **Color code:** Green = good, Yellow = caution, Red = losing grain.
 
+Each metric can be individually shown or hidden. Switch between Metric (t/ha, km/h), Imperial (bu/ac, mph), and Bushel display units in ESC → Settings → Realistic Harvesting. HUD position is saved per-player.
+
 ---
 
 ## Crop Loss — How It Works
 
-Losses happen from two sources:
+Losses happen from two independent sources:
 
 ### 1. Overloading (Speed)
 - Engine Load > 95% → losses begin
 - The faster you push past the limit, the more grain you lose
-- Slow down or switch to a narrower header
+- Slow down, use a narrower header, or choose a more powerful combine
 
 ![High Crop Loss - Combine](docs/images/crop_loss_high_combine.png)
 *High losses — combine going too fast*
 
-![High Crop Loss - Truck](docs/images/crop_loss_high_truck.png)
-*Less grain in the trailer as a result*
-
 ![Low Crop Loss - Combine](docs/images/crop_loss_low_combine.png)
 *Optimal speed — minimal losses*
-
-![Low Crop Loss - Truck](docs/images/crop_loss_low_truck.png)
-*Full trailer when harvesting correctly*
 
 ### 2. Poor Calibration (Settings)
 If your combine's settings are incorrect for the current crop, you'll incur a calibration penalty on top of speed losses.
@@ -99,7 +95,15 @@ Each machine type now has **unique controls** — different parameters appear de
 
 > **Preview Loss** in the Calibration Menu shows the estimated penalty from your current settings — even when you're not harvesting!
 
-New saves start at **neutral settings (50%)** — safe, but not optimal.
+### Calibration Physics — Two Distinct Mechanics
+
+**1. Efficiency (Speed) — Rotor & Feeder House**
+These components pull crop into the machine and thresh it. Poor configuration makes the engine struggle, cruise control forces slower driving. Perfect settings grant up to a **+5.0% Speed Bonus**.
+
+**2. Crop Loss (Wasted Grain) — Fan & Sieves**
+These components separate grain from chaff. If the fan is too strong or sieves are badly adjusted, clean grain gets blown out the back. Perfect settings ensure **0% Added Crop Loss**.
+
+> **Overload Shield:** Perfect Efficiency settings also grant a protective shield that absorbs minor crop density spikes — preventing accidental crop losses when you're driving near the limit.
 
 ---
 
@@ -110,18 +114,42 @@ Open: **ESC → Settings → Realistic Harvesting**
 ![Settings Menu](docs/images/settings_menu.png)
 
 ### Engine Power
-| Mode | Capacity |
-|:---|:---:|
-| Arcade | 200% — very forgiving |
-| Normal | 120% — slight boost |
-| Realistic | 100% — real machine specs |
+| Mode | Capacity | Description |
+|:---|:---:|:---|
+| Arcade | 200% | Very forgiving — almost impossible to overload |
+| Normal | 120% | Slight boost — default for casual play |
+| Realistic | 100% | Real machine specs — requires skill |
 
 ### Crop Loss Severity
-| Mode | Penalty |
-|:---|:---:|
-| Arcade | 50% of standard |
-| Normal | Standard |
-| Realistic | 200% — very strict |
+| Mode | Penalty | Description |
+|:---|:---:|:---|
+| Arcade | 50% | Half the standard penalty |
+| Normal | 100% | Standard |
+| Realistic | 200% | Very strict — even minor overload = heavy losses |
+
+### Additional Toggles
+| Setting | Description |
+|:---|:---|
+| **Speed Limiter** (ON/OFF) | Automatically reduces speed when engine load is too high |
+| **Crop Loss System** (ON/OFF) | Enables or disables grain loss simulation entirely |
+| **Independent Launch** | Allows starting thresher without lowering the header first |
+
+**Multiplayer:** Server settings (difficulty, speed limit, crop loss) are shared for all players and can only be changed by the admin. Client settings (HUD, units, position) are personal per-player. All settings persist across save games.
+
+---
+
+## RHM Electronics — Upgrade Packages
+
+When buying or modifying a combine, you can choose an **RHM Electronics** tier in the shop configuration menu:
+
+| Tier | Name | Price | Features |
+|:---|:---|:---:|:---|
+| 1 | **Standard** | Free | Basic engine load and speed limiting |
+| 2 | **Sensor Kit** | $3,500 | Unlocks live Yield (t/ha) and Productivity (t/h) readouts on HUD |
+| 3 | **Yield & Loss Monitor** | $8,500 | Full real-time Crop Loss indicator + color-coded warnings |
+| 4 | **Opti-Harvest AI** | $15,000 | Autonomous calibration system — auto-detects crop and sets optimal parameters for 0% loss |
+
+> Tier 4 is the ultimate upgrade: plug-and-play zero-loss harvesting. Let the AI handle calibration while you focus on driving.
 
 ---
 
@@ -145,31 +173,17 @@ Press **Right Shift + K** while in a combine to open the Calibration Menu.
 
 > AUTO is convenient. MANUAL rewards the skilled operator with up to **+2.5% efficiency bonus**.
 
-### How Calibration Affects Your Combine
-
-The physics are strictly divided into two distinct mechanics based on which part of the combine you are tuning:
-
-**1. Efficiency (Speed) — Rotor & Feeder House**
-These components pull crop into the machine and thresh the bulk of it. If these are poorly configured, the engine will struggle, throughput will drop, and your cruise control will force you to drive slower. Perfect settings grant up to a **+5.0% Speed Bonus**.
-
-**2. Crop Loss (Wasted Grain) — Fan & Sieves**
-These components separate the grain from the chaff. If the fan is too strong or sieves are badly adjusted, clean grain gets blown out the back onto the field. Perfect settings ensure **0% Added Crop Loss**.
-
-> **Overload Shield:** Achieving perfection in your Speed settings also grants an "Overload Shield", preventing minor crop density spikes from accidentally triggering crop losses when you are driving fast! All 5 parameters are interconnected.
 ---
 
----
-
-## Calibration Settings Reference — Zero Loss Zones
-
-The **Zero Loss Zone** is the range where settings contribute 0% penalty. Values outside this range start adding crop loss.
-
-Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops manually — the GUI shows a **Preview Loss %** even without harvesting.
-
----
+## Supported Machine Types
 
 ### 🌾 Grain Combines — 5 Parameters
 *(Fan Speed · Rotor Speed · Upper Sieve · Lower Sieve · Feeder House)*
+
+Organized into sections:
+- **SEPARATION** (Rotor, Concave) — affects throughput efficiency  
+- **CLEANING** (Fan, Upper Sieve, Lower Sieve) — affects grain loss
+- **PERFORMANCE** (Feeder House) — affects overall speed
 
 | Crop | Fan Speed (RPM) | Rotor Speed (RPM) | Upper Sieve (mm) | Lower Sieve (mm) | Feeder House (RPM) |
 |:---|:---:|:---:|:---:|:---:|:---:|
@@ -187,9 +201,9 @@ Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops 
 ---
 
 ### 🌿 Forage Harvesters — 3 Parameters
-*(Fan Speed · Drum Speed · Feeder Speed)*
+*(Blower Speed · Chopping Drum · Feed Rolls)*
 
-| Crop | Fan Speed (RPM) | Drum Speed (RPM) | Feeder Speed (RPM) |
+| Crop | Blower Speed (RPM) | Chopping Drum (RPM) | Feed Rolls (RPM) |
 |:---|:---:|:---:|:---:|
 | **Grass / Dry Grass** | 1150–1290 | 1110–1150 | 380–460 |
 | **Corn Silage (CHAFF)** | 1220–1360 | 1140–1180 | 440–520 |
@@ -197,32 +211,47 @@ Open the Calibration GUI with **RShift+K**. Use **< >** buttons to switch crops 
 ---
 
 ### 🥔 Root & Vegetable Harvesters — 3 Parameters
-*(Fan Speed · Roller Speed · Feeder Web)*
+*(Fan Speed · Cleaning Rollers · Elevator Web)*
 
-> Each crop has **unique optimal values** — check the Calibration Menu when switching crops!
-
-| Crop | Fan Speed (optimal) | Roller Speed (optimal) | Feeder Web (optimal) | Notes |
+| Crop | Fan Speed (optimal) | Cleaning Rollers (optimal) | Elevator Web (optimal) | Notes |
 |:---|:---:|:---:|:---:|:---|
-| **Potato** | **610 RPM** | **200 RPM** | **310 RPM** | Low air: soil doesn't blow, gentle roller: prevent bruises |
+| **Potato** | **610 RPM** | **200 RPM** | **310 RPM** | Gentle roller to prevent bruises |
 | **Sugarbeet** | **640 RPM** | **240 RPM** | **300 RPM** | Harder than potato, faster cleaning |
 | **Beetroot** | **630 RPM** | **220 RPM** | **300 RPM** | Between potato and sugarbeet |
-| **Onion** | **850 RPM** ⬆️ | **210 RPM** | **270 RPM** | Strong airflow needed to separate skins and leaves |
-| **Carrot / Parsnip** | **580 RPM** | **190 RPM** | **330 RPM** ⬆️ | Very gentle root, fast feeder to lift weight |
-| **Spinach** | **520 RPM** ⬇️ | **160 RPM** ⬇️ | **280 RPM** | Minimal air: leaves fly and tear easily |
-| **Green Bean** | **670 RPM** | **200 RPM** | **290 RPM** | Moderate, careful: pods crack easily |
+| **Onion** | **850 RPM** ⬆️ | **210 RPM** | **270 RPM** | Strong airflow to separate skins/leaves |
+| **Carrot / Parsnip** | **580 RPM** | **190 RPM** | **330 RPM** ⬆️ | Very gentle, fast feeder to lift weight |
+| **Spinach** | **520 RPM** ⬇️ | **160 RPM** ⬇️ | **280 RPM** | Minimal air — leaves fly and tear easily |
+| **Green Bean** | **670 RPM** | **200 RPM** | **290 RPM** | Moderate; pods crack easily |
 
 **Tolerance zone:** ±5–8% from the optimal value shown above.
 
 ---
 
 ### 🪡 Cotton Pickers — 3 Parameters
-*(Fan Speed · Picker Speed · Feeder House)*
+*(Fan Speed · Picker Speed · Feeder Speed)*
 
 | Parameter | Optimal | Zero Loss Zone |
 |:---|:---:|:---:|
 | **Fan Speed (RPM)** | 3250 | 3100–3400 |
 | **Picker Speed (RPM)** | 210 | 200–220 |
 | **Feeder House (RPM)** | 190 | 170–210 |
+
+---
+
+## Engine Load Physics
+
+Engine load is calculated based on **engine horsepower** and **crop difficulty**:
+
+| Machine Type | Base Coefficient | Example |
+|:---|:---:|:---|
+| Grain Combines | 0.035 kg/s per HP | 500 HP → 17.5 kg/s base throughput |
+| Forage Harvesters | 0.051 kg/s per HP | 950 HP → ~400 t/hr corn silage |
+| Root/Vegetable Harvesters | 0.060–0.080 kg/s per HP | Higher capacity for heavy root crops |
+| Cotton Pickers | 0.015 kg/s per HP | Lower capacity — cotton is light |
+
+Each crop has a unique **difficulty coefficient** (e.g., Wheat = 0.814, Cotton = 4.782, Spinach = 2.880) that modifies how much load the crop puts on the engine. Heavier/denser crops fill the machine faster.
+
+**NEXAT modular harvesters** are fully supported — the mod searches the vehicle hierarchy to find the correct engine power.
 
 ---
 
@@ -241,7 +270,13 @@ No. AUTO is intentionally imperfect. A skilled manual operator can outperform AU
 Two main causes: (1) driving too fast — watch the Load bar, (2) wrong calibration — open RShift+K and check your settings for the current crop.
 
 **Q: Does this work in Multiplayer?**
-Yes. Speed limiting syncs across all players. Each player has their own HUD settings.
+Yes. Speed limiting syncs across all players. Each player has their own HUD settings. Server-side settings (difficulty, crop loss) are managed by the admin.
+
+**Q: What are RHM Packages?**
+These are electronic upgrade tiers you select when buying/modifying a combine. They unlock additional HUD metrics and features, from basic monitoring to full AI-assisted zero-loss harvesting.
+
+**Q: How do I open the Calibration Menu?**
+Press **Right Shift + K** while seated in a combine.
 
 ---
 

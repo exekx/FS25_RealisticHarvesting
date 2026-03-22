@@ -395,9 +395,9 @@ function CombineCalibrationGUI:draw()
     self:drawRect(x, headerY, w, 0.0015, ui.colors.headerAccent)
 
     setTextBold(true)
-    setTextAlignment(RenderText.ALIGN_CENTER)
+    setTextAlignment(RenderText.ALIGN_LEFT)
     setTextColor(unpack(ui.colors.accent))
-    renderText(x + w / 2, headerY + ui.headerHeight * 0.35, ui.titleSize, g_i18n:getText("rhm_gui_title"))
+    renderText(x + ui.margin, headerY + ui.headerHeight * 0.35, ui.titleSize, g_i18n:getText("rhm_gui_title"))
     setTextBold(false)
 
     -- EN: Close hint right-aligned in header.
@@ -587,9 +587,18 @@ function CombineCalibrationGUI:draw()
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(memory.currentCrop and ui.colors.text or ui.colors.textDim))
-    renderText(cropNavX + arrowW + 0.052, cy + 0.010, ui.fontSize, cropName)
+    
+    local cropNavW = 0.104 -- Total width for the crop name display area (between arrows)
+    local cropTextW = getTextWidth(ui.fontSize, cropName)
+    local maxCropW = cropNavW - 0.010 -- Allow some padding
+    local cropScale = 1.0
+    if cropTextW > maxCropW then
+        cropScale = maxCropW / cropTextW
+    end
+    renderText(cropNavX + arrowW + cropNavW / 2, cy + 0.010 + ui.fontSize * (1 - cropScale) * 0.5, ui.fontSize * cropScale, cropName)
+    setTextBold(false)
 
-    self:drawButton(cropNavX + arrowW + 0.104, cy + 0.004, arrowW, ui.buttonH, ">", function()
+    self:drawButton(cropNavX + arrowW + cropNavW, cy + 0.004, arrowW, ui.buttonH, ">", function()
         self:cycleCrop(1)
     end)
 
@@ -862,12 +871,25 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_LEFT)
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x, y + 0.014, ui.fontSize, label)
+    local labelTextW = getTextWidth(ui.fontSize, label)
+    local maxLabelW = labelW - 0.010
+    local labelScale = 1.0
+    if labelTextW > maxLabelW then
+        labelScale = maxLabelW / labelTextW
+    end
+    renderText(x + 0.005, y + 0.014 + ui.fontSize * (1 - labelScale) * 0.5, ui.fontSize * labelScale, label)
 
     -- ── Value ──────────────────────────────────────────────────────────────
+    setTextBold(true)
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(valColor))
-    renderText(valX + valW / 2, y + 0.014, ui.fontSize, displayStr)
+    local valTextW = getTextWidth(ui.fontSize, displayStr)
+    local maxValW = valW - 0.005
+    local valScale = 1.0
+    if valTextW > maxValW then
+        valScale = maxValW / valTextW
+    end
+    renderText(valX + valW * 0.5, y + 0.014 + ui.fontSize * (1 - valScale) * 0.5, ui.fontSize * valScale, displayStr)
 
     -- ── Status hint ────────────────────────────────────────────────────────
     if statusText ~= "" and statusW > 0.008 then

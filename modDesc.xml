@@ -935,7 +935,7 @@ Funkciók:
             <ru>Система Опти-Гарвест AI</ru>
             <hu>Opti-Harvest AI</hu>
         </text>
-        
+
         <text name="rhm_msg_req_level_4">
             <en>Requires Opti-Harvest AI package (Level 4).</en>
             <de>Benötigt Opti-Harvest AI Paket (Level 4).</de>
@@ -949,5 +949,546 @@ Funkciók:
             <ru>Требуется пакет Опти-Гарвест AI (Уровень 4) в магазине.</ru>
             <hu>Opti-Harvest AI csomag szükséges (4. szint).</hu>
         </text>
-    </l10n>
+        <text name="rhm_help_title">
+            <en>Realistic Harvesting Guide</en>
+            <de>Leitfaden für realistisches Ernten</de>
+            <fr>Guide de Récolte Réaliste</fr>
+            <it>Guida al Raccolto Realistico</it>
+            <es>Guía de Cosecha Realista</es>
+            <br>Guia de Colheita Realista</br>
+            <pl>Poradnik Realistycznych Zbiorów</pl>
+            <ru>Руководство по реалистичной уборке</ru>
+            <hu>Realisztikus Betakarítási Útmutató</hu>
+            <cz>Průvodce realistickou sklizní</cz>
+            <uk>Посібник з реалістичного збирання</uk>
+        </text>
+        <text name="rhm_help_overview_title">
+            <en>1. Processing Physics Overview</en>
+            <de>1. Übersicht der Erntephysik</de>
+            <fr>1. Aperçu de la physique du traitement</fr>
+            <it>1. Panoramica della fisica di lavorazione</it>
+            <es>1. Vista general de la física de procesamiento</es>
+            <br>1. Visão geral da física de processamento</br>
+            <pl>1. Przegląd fizyki przetwarzania</pl>
+            <ru>1. Обзор физики обработки зерна</ru>
+            <hu>1. Feldolgozási fizika áttekintése</hu>
+            <cz>1. Přehled fyziky zpracování</cz>
+            <uk>1. Фізика обробки: Огляд</uk>
+
+        </text>
+        <text name="rhm_help_category">
+            <en>Realistic Harvesting</en>
+            <de>Realistic Harvesting</de>
+            <fr>Realistic Harvesting</fr>
+            <it>Realistic Harvesting</it>
+            <es>Realistic Harvesting</es>
+            <br>Realistic Harvesting</br>
+            <pl>Realistic Harvesting</pl>
+            <ru>Realistic Harvesting</ru>
+            <hu>Realistic Harvesting</hu>
+            <cz>Realistic Harvesting</cz>
+            <uk>Realistic Harvesting</uk>
+        </text>
+        <text name="rhm_help_overview_1">
+            <en>The Realistic Harvesting mod introduces a complex grain processing physics model.&#10;&#10;Unlike the base game, your combine's performance now depends on the actual volume of crop (mass flow) passing through its internal components. Each crop type has its own resistance, weight, and processing complexity.</en>
+            <de>Die Realistic Harvesting Mod führt ein komplexes physikalisches Modell für die Getreideverarbeitung ein. Die Leistung Ihres Mähdreschers hängt nun vom tatsächlichen Erntevolumen (Massestrom) ab. Jede Fruchtart hat ihren eigenen Widerstand und ihr eigenes Gewicht.</de>
+            <fr>Le mod Realistic Harvesting introduit un modèle physique complexe. Contrairement au jeu de base, les performances dépendent désormais du volume réel de récolte (flux massique). Chaque culture a sa propre résistance et son propre poids.</fr>
+            <pl>Mod Realistic Harvesting wprowadza złożony model fizyki przetwarzania ziarna. Wydajność kombajnu zależy teraz od rzeczywistej objętości uprawy (przepływu masy). Każdy rodzaj uprawy ma własną wagę i złożoność.</pl>
+            <es>El mod Realistic Harvesting introduce un modelo físico complejo. El rendimiento de su cosechadora ahora depende del volumen real de cultivo (flujo de masa). Cada cultivo tiene su propia resistencia y peso.</es>
+            <it>Il mod Realistic Harvesting introduce un modello fisico complesso. Le prestazioni della mietitrebbia ora dipendono dal volume effettivo del prodotto (flusso di massa). Ogni coltura ha la propria resistenza e peso.</it>
+            <cz>Mod Realistic Harvesting zavádí komplexní model fyziky zpracování zrna. Výkon vašeho kombajnu nyní závisí na skutečném objemu plodiny (hmotnostním toku). Každá plodina má svou vlastní hmotnost.</cz>
+            <br>O mod Realistic Harvesting apresenta um modelo de física complexo. O desempenho da sua colheitadeira depende agora do volume real da cultura (fluxo de massa). Cada tipo de cultura tem a sua própria resistência e peso.</br>
+            <ru>Мод Realistic Harvesting вводит сложную физическую модель обработки зерна. На производительность вашего комбайна теперь влияет фактический объем урожая. Каждая культура имеет свое сопротивление и вес.</ru>
+            <hu>A Realistic Harvesting mod összetett fizikai modellt vezet be. A kombájn teljesítménye mostantól a tényleges termésmennyiségtől (tömegáram) függ. Minden terménytípusnak saját ellenállása és súlya van.</hu>
+            <uk>Мод Realistic Harvesting вводить складну фізичну модель обробки зерна.&#10;&#10;На відміну від стандартної гри, - продуктивність вашого комбайна тепер залежить від фактичного об'єму врожаю (масового потоку), що проходить крізь його внутрішні вузли. - Кожна культура має свій опір, вагу та складність обробки.</uk>
+        </text>
+        <text name="rhm_help_overview_2">
+            <en>To achieve maximum efficiency, maintain your engine load between 95% and 100%.&#10;&#10;If you drive too fast, the machine will overload, resulting in significant grain loss and potential damage.&#10;&#10;If you drive too slow, you are wasting fuel and time.&#10;&#10;Adjust your speed according to crop density and header width.</en>
+            <de>Um maximale Effizienz zu erreichen, halten Sie Ihre Motorlast zwischen 95% und 100%.&#10;&#10;Wenn Sie zu schnell fahren, überlastet die Maschine, was zu erheblichen Getreideverlusten führt.&#10;&#10;Wenn Sie zu langsam fahren, verschwenden Sie Kraftstoff und Zeit.&#10;&#10;Passen Sie die Geschwindigkeit an die Fruchtdichte an.</de>
+            <fr>Pour une efficacité maximale, maintenez la charge moteur entre 95% et 100%.&#10;&#10;Si vous roulez trop vite, la machine surchargera, entraînant des pertes de grain importantes.&#10;&#10;Si vous roulez trop lentement, vous perdez du temps.&#10;&#10;Ajustez votre vitesse selon la densité de la culture.</fr>
+            <it>Per la massima efficienza, mantieni il carico motore tra 95% e 100%.&#10;&#10;Se guidi troppo veloce, la macchina si sovraccaricherà, causando perdite di granella.&#10;&#10;Se guidi troppo piano, sprechi carburante e tempo.&#10;&#10;Regola la velocità in base alla densità del prodotto.</it>
+            <es>Para lograr la máxima eficiencia, mantenga la carga del motor entre 95% y 100%.&#10;&#10;Si conduce demasiado rápido, la máquina se sobrecargará, lo que provocará pérdidas de grano.&#10;&#10;Si conduce demasiado lento, desperdiciará combustible.&#10;&#10;Ajuste su velocidad según la densidad del cultivo.</es>
+            <br>Para obter a máxima eficiência, mantenha a carga do motor entre 95% e 100%.&#10;&#10;Se dirigir muito rápido, a máquina ficará sobrecarregada, resultando em perdas de grãos.&#10;&#10;Se dirigir muito devagar, desperdiçará combustível.&#10;&#10;Ajuste sua velocidade de acordo com a densidade da cultura.</br>
+            <pl>Aby osiągnąć maksymalną wydajność, utrzymuj obciążenie silnika w granicach 95-100%.&#10;&#10;Zbyt szybka jazda przeciąży maszynę, co spowoduje straty ziarna.&#10;&#10;Zbyt wolna jazda to strata paliwa i czasu.&#10;&#10;Dostosuj prędkość do gęstości uprawy i szerokości hederu.</pl>
+            <ru>Для максимальной эффективности держите нагрузку двигателя в пределах 95-100%.&#10;&#10;Слишком быстрая езда перегрузит машину, что приведет к потерям зерна.&#10;&#10;Слишком медленная езда — это потеря времени.&#10;&#10;Регулируйте скорость в зависимости от плотности посева.</ru>
+            <hu>A maximális hatékonyság érdekében tartsd a motorterhelést 95% és 100% között.&#10;&#10;Ha túl gyorsan mész, a gép túlterhelődik, ami komoly szemveszteséget okoz.&#10;&#10;Ha túl lassan mész, üzemanyagot és időt pazarolsz.&#10;&#10;Állítsd be a sebességet a termény sűrűségének megfelelően.</hu>
+            <cz>Pro dosažení maximální efektivity udržujte zatížení motoru mezi 95 % a 100 %.&#10;&#10;Pokud pojedete příliš rychle, stroj se přetíží, což povede k výrazným ztrátám zrna.&#10;&#10;Pokud pojedete příliš pomalu, plýtváte palivem a časem.&#10;&#10;Rychlost přizpůsobte hustotě plodiny.</cz>
+            <uk>Для досягнення максимальної ефективності тримайте навантаження двигуна в межах 95-100%.&#10;&#10;Якщо ви їдете занадто швидко - комбайн перевантажиться, що призведе до значних втрат зерна.&#10;&#10;Якщо занадто повільно - ви витрачаєте паливо та час дарма.&#10;&#10;Коригуйте швидкість залежно від густоти посіву та ширини жатки.</uk>
+        </text>
+        <text name="rhm_help_calibration_title">
+            <en>3. Mastering Calibration</en>
+            <de>3. Meistern der Kalibrierung</de>
+            <fr>3. Maîtriser le calibrage</fr>
+            <it>3. Padroneggiare la calibrazione</it>
+            <es>3. Dominar la calibración</es>
+            <br>3. Dominar a calibração</br>
+            <pl>3. Opanowanie kalibracji</pl>
+            <ru>3. Мастерство калибровки</ru>
+            <hu>3. A kalibrálás elsajátítása</hu>
+            <cz>3. Ovládnutí kalibrace</cz>
+            <uk>3. Калібрування компонентів</uk>
+        </text>
+        <text name="rhm_help_calibration_1">
+            <en>Access the Calibration Menu (RShift + K) to fine-tune your machine.&#10;&#10;ROTOR separates grain from straw (high speed for small seeds, low for corn).&#10;&#10;FAN blows out chaff but must keep the grain.&#10;&#10;SIEVES filter impurities - finding the "Sweet Spot" between a clean sample and zero tailings is key for profitability.</en>
+            <de>Öffnen Sie das Kalibrierungsmenü (RShift + K), um die Maschine abzustimmen.&#10;&#10;Der ROTOR trennt das Getreide vom Stroh.&#10;&#10;Das GEBLÄSE bläst Spreu aus, muss aber das Getreide halten.&#10;&#10;SIEBE filtern Verunreinigungen - den "Sweet Spot" zwischen sauberem Getreide und null Verlusten zu finden, ist entscheidend.</de>
+            <fr>Accédez au menu de calibrage (RShift + K) pour affiner la machine. le ROTOR sépare le grain de la paille.&#10;&#10;Le VENTILATEUR évacue la balle.&#10;&#10;Les GRILLES filtrent les impuretés.&#10;&#10;Trouver le point optimal entre un grain propre et une perte nulle est la clé de la rentabilité.</fr>
+            <it>Accedi al menu di calibrazione (RShift + K) per mettere a punto la macchina.&#10;&#10;Il ROTORE separa la granella dalla paglia.&#10;&#10;La VENTOLA soffia via la crusca.&#10;&#10;I CRIVELLI filtrano le impurità.&#10;&#10;Trovare l'equilibrio tra un campione pulito e perdite zero è fondamentale.</it>
+            <es>Acceda al menú de calibración (RShift + K) para ajustar su máquina. el ROTOR separa el grano de la paja.&#10;&#10;El VENTILADOR expulsa el tamo.&#10;&#10;Las CRIBAS filtran las impurezas.&#10;&#10;Encontrar el punto óptimo entre una muestra limpia y cero pérdidas es clave.</es>
+            <br>Acesse o Menu de Calibração (RShift + K) para ajustar sua máquina. o ROTOR separa o grão da palha.&#10;&#10;A VENTOINHA sopra a palha miúda.&#10;&#10;As PENEIRAS filtram impurezas.&#10;&#10;Encontrar o ponto ideal entre uma amostra limpa e perda zero é a chave.</br>
+            <pl>Dostęp do menu kalibracji (RShift + K) pozwala dostroić maszynę.&#10;&#10;ROTOR oddziela ziarno od słomy.&#10;&#10;WENTYLATOR wydmuchuje plewy.&#10;&#10;SITA filtrują zanieczyszczenia - znalezienie idealnego balansu między czystym ziarnem a zerowymi stratami jest kluczem do zysku.</pl>
+            <ru>Меню калибровки (RShift + K) позволяет тонко настроить машину.&#10;&#10;РОТОР отделяет зерно от соломы.&#10;&#10;ВЕНТИЛЯТОР выдувает полову.&#10;&#10;РЕШЕТА фильтруют примеси — поиск баланса между чистым бункером и отсутствием потерь невероятно важен.</ru>
+            <hu>Nyisd meg a kalibrálási menüt (RShift + K) a gép finomhangolásához.&#10;&#10;A ROTOR elválasztja a szemet a szalmától.&#10;&#10;A VENTILÁTOR kifújja a pelyvát.&#10;&#10;A ROSTÁK kiszűrik a szennyeződéseket - a tiszta minta és a nulla veszteség közötti egyensúly megtalálása a kulcs.</hu>
+            <cz>Vstupte do menu kalibrace (RShift + K) a doladte svůj stroj.&#10;&#10;ROTOR odděluje zrno od slámy.&#10;&#10;VENTILÁTOR vyfukuje plevy.&#10;&#10;SÍTA filtrují nečistoty – nalezení „Sweet Spot“ mezi čistým vzorkem a nulovými ztrátami je klíčem k zisku.</cz>
+            <uk>Викликайте Меню Калібрування (RShift + K) для тонкого налаштування машини.&#10;&#10;РОТОР відокремлює зерно від соломи (високі оберти для дрібного зерна, низькі для кукурудзи).&#10;&#10;ВЕНТИЛЯТОР видуває полову, але має лишати зерно всередині.&#10;&#10;РЕШЕТА фільтрують нечистоти.&#10;&#10;Знайти "золоту середину" між чистим бункером та нульовими втратами - це ключ до прибутку.</uk>
+        </text>
+        <text name="rhm_help_calibration_2">
+            <en>Each crop has its own optimal ranges.&#10;&#10;Use the color-coded status indicators (Sensor Kit required) to guide your adjustments during the harvest.&#10;&#10;High quality harvest report will be generated after finishing the field, showing how your calibration affected the final results and potential income.</en>
+            <de>Jede Frucht hat optimale Bereiche.&#10;&#10;Nutzen Sie Farbstatusanzeigen (Sensor Kit benötigt), um Anpassungen vorzunehmen.&#10;&#10;Ein Erntebericht wird nach Beendigung des Feldes erstellt, der zeigt, wie die Kalibrierung die Ergebnisse und das Einkommen beeinflusst hat.</de>
+            <fr>Chaque culture a des plages optimales.&#10;&#10;Utilisez les indicateurs de couleur (Kit Capteurs requis) pour vous guider.&#10;&#10;Un rapport de récolte sera généré après le champ, montrant comment le calibrage a affecté vos revenus potentiels.</fr>
+            <it>Ogni coltura ha intervalli ottimali.&#10;&#10;Usa gli indicatori colorati (richiesto Kit Sensori) per guidare le regolazioni.&#10;&#10;Verrà generato un report ad ogni fine campo che mostrerà come la calibrazione ha influito sui guadagni.</it>
+            <es>Cada cultivo tiene rangos óptimos.&#10;&#10;Use los indicadores de estado (requiere Kit de Sensores) para guiarse.&#10;&#10;Se generará un informe de cosecha detallado que mostrará cómo afectó su calibración a los ingresos finales.</es>
+            <br>Cada cultura tem as suas faixas ideais.&#10;&#10;Use os indicadores coloridos (requer Kit de Sensores) para guiar os seus ajustes.&#10;&#10;Um relatório de colheita detalhado será gerado após o campo, mostrando como sua calibração afetou a renda final.</br>
+            <pl>Każda uprawa ma optymalne zakresy.&#10;&#10;Użyj kolorowych wskaźników (wymagany Zestaw Czujników), aby ułatwić regulację.&#10;&#10;Po żniwach zostanie wygenerowany raport, pokazujący jak kalibracja wpłynęła na plon i zyski.</pl>
+            <ru>Для каждой культуры есть свои оптимальные диапазоны.&#10;&#10;Используйте цветовые индикаторы для настройки точно в цель.&#10;&#10;После уборки поля будет сформирован отчет, показывающий влияние ваших настроек на итоговый доход.</ru>
+            <hu>Minden terménynek megvannak az optimális tartományai.&#10;&#10;Használd a színkódolt állapotjelzőket (Szenzor Kit szükséges) a beállításhoz.&#10;&#10;A betakarítás után jelentés készül, amely megmutatja, hogyan befolyásolták a beállítások a bevételt.</hu>
+            <cz>Každá plodina má své optimální rozsahy.&#10;&#10;Použijte barevné indikátory stavu (vyžadován senzorový balíček) jako vodítko.&#10;&#10;Po dokončení pole bude vygenerován protokol o sklizni, který ukáže, jak kalibrace ovlivnila výsledky.</cz>
+            <uk>Кожна культура має свої оптимальні діапазони.&#10;&#10;Використовуйте кольорові підказки (потрібне покращення в магазині) для точного налаштування.&#10;&#10;Після завершення поля буде створено детальний Звіт про Врожай, який покаже, як ваші налаштування вплинули на ітоговий прибуток.</uk>
+        </text>
+        <text name="rhm_help_upgrades_title">
+            <en>7. Professional Upgrades</en>
+            <de>7. Professionelle Upgrades</de>
+            <fr>7. Améliorations Professionnels</fr>
+            <it>7. Potenziamenti Professionali</it>
+            <es>7. Mejoras Profesionales</es>
+            <br>7. Melhorias Profissionais</br>
+            <pl>7. Profesjonalne ulepszenia</pl>
+            <ru>7. Профессиональные улучшения</ru>
+            <hu>7. Professzionális fejlesztések</hu>
+            <cz>7. Profesionální upgrady</cz>
+            <uk>7. Прогресія та Покращення</uk>
+        </text>
+        <text name="rhm_help_upgrades_1">
+            <en>Equip your combine with RHM Electronics packages at the dealership.&#10;&#10;Higher tiers provide the data necessary to minimize waste.&#10;&#10;The 'Sensor Kit' (Tier 2) unlocks loss sensors, while the 'Yield Monitor' (Tier 3) shows the real-time impact of your settings through live statistics in the calibration menu.</en>
+            <de>Rüsten Sie Ihren Mähdrescher mit RHM Electronics-Paketen beim Händler aus. 'Sensor Kit' (Tier 2) schaltet Verlustsensoren frei, während der 'Ertragsmonitor' (Tier 3) die Echtzeit-Auswirkungen Ihrer Einstellungen durch Live-Statistiken im Kalibrierungsmenü anzeigt.</de>
+            <fr>Équipez votre machine avec les packs RHM Electronics chez le concessionnaire.&#10;&#10;Le 'Pack Capteurs' (Niveau 2) débloque les capteurs de perte, tandis que le 'Moniteur de Rendement' (Niveau 3) affiche l'impact en temps réel de vos réglages.</fr>
+            <it>Equipaggia la tua mietitrebbia con i pacchetti RHM Electronics dal concessionario.&#10;&#10;Il 'Kit Sensori' (Livello 2) sblocca i sensori di perdita, mentre il 'Monitor di Resa' (Livello 3) mostra l'impatto delle impostazioni tramite statistiche live.</it>
+            <es>Equipe su cosechadora con los paquetes RHM Electronics en el concesionario.&#10;&#10;El 'Kit de Sensores' (Nivel 2) desbloquea los sensores de pérdida, mientras que el 'Monitor de Rendimiento' (Nivel 3) muestra el impacto en tiempo real de sus ajustes.</es>
+            <br>Equipe sua colheitadeira com os pacotes RHM Electronics no concessionário.&#10;&#10;O 'Kit de Sensores' (Nível 2) desbloqueia sensores de perda, enquanto o 'Monitor de Rendimento' (Nível 3) mostra o impacto em tempo real de seus ajustes.</br>
+            <pl>Wyposaż kombajn w pakiety RHM Electronics u dealera. 'Zestaw Czujników' (Poziom 2) odblokowuje czujniki strat, a 'Monitor Plonu' (Poziom 3) pokazuje wpływ ustawień na bieżąco poprzez statystyki w menu kalibracji.</pl>
+            <ru>Оснастите свой комбайн электроникой RHM в магазине. «Набор датчиков» (ур. 2) открывает индикаторы потерь, а «Монитор урожайности» (ур. 3) показывает влияние ваших настроек на статистику в реальном времени.</ru>
+            <hu>Szereld fel kombájnodat RHM Electronics csomagokkal a kereskedőnél.&#10;&#10;A 'Szenzor Kit' (2. szint) feloldja a veszteségérzékelőket, míg a 'Hozammonitor' (3. szint) az élő statisztikákon keresztül mutatja a beállítások hatását.</hu>
+            <cz>Vybavte svůj kombajn balíčky RHM Electronics u prodejce. „Senzorový balíček“ (2. úroveň) odblokuje senzory ztrát, zatímco „Monitor výnosu“ (3. úroveň) ukazuje vliv vašeho nastavení v reálném čase prostřednictvím statistik.</cz>
+            <uk>Оснастіть свій комбайн пакетами електроніки RHM в магазині.&#10;&#10;Вищі рівні надають дані, необхідні для мінімізації відходів.&#10;&#10;«Набір датчиків» (рів. 2) відкриває індикатори втрат, а «Монітор врожаю» (рів. 3) показує вплив ваших налаштувань у реальному часі через статистику в меню калібрування.</uk>
+        </text>
+        <text name="rhm_help_hud_2_1">
+            <en>Right-click to enable the cursor and drag the HUD panel anywhere on screen.</en>
+            <de>Rechtsklick aktiviert den Cursor — ziehen Sie das HUD überall hin.</de>
+            <fr>Clic droit pour activer le curseur et déplacer le HUD.</fr>
+            <it>Clic destro per attivare il cursore e trascinare l'HUD ovunque.</it>
+            <es>Clic derecho para activar el cursor y arrastrar el HUD.</es>
+            <br>Clique direito para ativar o cursor e arrastar o HUD.</br>
+            <pl>Kliknij prawym przyciskiem, aby włączyć kursor i przeciągnij HUD.</pl>
+            <ru>Правый клик включает курсор — перетащите панель куда угодно.</ru>
+            <hu>Jobb klikkel aktiváld a kurzort és húzd a HUD-ot bárhová.</hu>
+            <cz>Pravým kliknutím aktivujte kurzor a přetáhněte HUD.</cz>
+
+            <uk>Клацніть правою кнопкою миші для увімкнення курсора та перетягніть панель HUD куди завгодно.</uk>
+        </text>
+        <text name="rhm_help_hud_2_2">
+            <en>Each metric can be shown or hidden individually via ESC - Settings - Realistic Harvesting.</en>
+            <de>Jeder Messwert kann über ESC - Einstellungen - Realistic Harvesting ein-/ausgeblendet werden.</de>
+            <fr>Chaque mesure peut être masquée via ESC - Paramètres - Realistic Harvesting.</fr>
+            <it>Ogni metrica può essere mostrata/nascosta tramite ESC - Impostazioni.</it>
+            <es>Cada métrica puede mostrarse u ocultarse desde ESC - Ajustes.</es>
+            <br>Cada métrica pode ser mostrada/ocultada em ESC - Configurações.</br>
+            <pl>Każdy wskaźnik można ukryć w ESC - Ustawienia - Realistic Harvesting.</pl>
+            <ru>Каждую метрику можно скрыть через ESC - Настройки - Realistic Harvesting.</ru>
+            <hu>Minden mutató elrejthető az ESC - Beállítások menüben.</hu>
+            <cz>Každou metriku lze skrýt v ESC - Nastavení.</cz>
+            <uk>Кожну метрику можна приховати окремо через ESC - Налаштування - Realistic Harvesting.</uk>
+        </text>
+        <text name="rhm_help_hud_2_3">
+            <en>You can switch between Metric (t/ha, km/h)&#10;• Imperial (bu/ac, mph), and Bushel display units.</en>
+            <de>Sie können zwischen Metrisch (t/ha)&#10;• Imperial (bu/ac) und Scheffel umschalten.</de>
+            <fr>Vous pouvez basculer entre Métrique (t/ha)&#10;• Impérial (bu/ac) et Boisseaux.</fr>
+            <it>Puoi passare tra Metrico (t/ha)&#10;• Imperiale (bu/ac) e Staia.</it>
+            <es>Puede cambiar entre Métrico (t/ha)&#10;• Imperial (bu/ac) y Fanegas.</es>
+            <br>Você pode alternar entre Métrico (t/ha)&#10;• Imperial (bu/ac) e Alqueires.</br>
+            <pl>Możesz przełączać między Metrycznym (t/ha)&#10;• Imperialnym (bu/ac) i Buszelami.</pl>
+            <ru>Переключение между Метрической (т/га)&#10;• Имперской (бу/акр) и Бушельной системами.</ru>
+            <hu>Váltás Metrikus (t/ha)&#10;• Angolszász (bu/ac) és Véka rendszer között.</hu>
+            <cz>Přepínání mezi Metrickým (t/ha)&#10;• Imperiálním (bu/ac) a Bušlem.</cz>
+            <uk>Перемикайтеся між Метричною (т/га, км/год)&#10;• Імперською (бу/акр, миль/год) та Бушельною системами одиниць.</uk>
+        </text>
+        <text name="rhm_help_hud_2_4">
+            <en>Your HUD position and visibility settings are saved per-player and persist across sessions.</en>
+            <de>Position und Einstellungen werden pro Spieler gespeichert.</de>
+            <fr>La position est sauvegardée par joueur.</fr>
+            <it>La posizione viene salvata per giocatore.</it>
+            <es>La posición se guarda por jugador.</es>
+            <br>A posição é salva por jogador.</br>
+            <pl>Pozycja jest zapisywana dla każdego gracza.</pl>
+            <ru>Позиция сохраняется для каждого игрока.</ru>
+            <hu>A pozíció játékosonként mentődik.</hu>
+            <cz>Pozice se ukládá pro každého hráče.</cz>
+            <uk>Позиція та видимість панелі зберігаються для кожного гравця та зберігаються між сесіями.</uk>
+        </text>
+
+        <!-- ===== PAGE 2: HUD ===== -->
+        <text name="rhm_help_hud_title">
+            <en>2. HUD — On-Screen Display</en>
+            <de>2. HUD — Bildschirmanzeige</de>
+            <fr>2. HUD — Affichage à l'écran</fr>
+            <it>2. HUD — Visualizzazione su schermo</it>
+            <es>2. HUD — Pantalla en vivo</es>
+            <br>2. HUD — Exibição na tela</br>
+            <pl>2. HUD — Wyświetlacz na ekranie</pl>
+            <ru>2. HUD — Экранные показатели</ru>
+            <hu>2. HUD — Képernyőkijelző</hu>
+            <cz>2. HUD — Zobrazení na obrazovce</cz>
+            <uk>2. HUD — Показники на екрані</uk>
+        </text>
+        <text name="rhm_help_hud_1_1">
+            <en>The HUD panel appears automatically when you enter a combine.</en>
+            <de>Das HUD-Panel erscheint automatisch beim Einsteigen.</de>
+            <fr>Le panneau HUD apparaît automatiquement.</fr>
+            <it>Il pannello HUD appare automaticamente.</it>
+            <es>El panel HUD aparece automáticamente.</es>
+            <br>O painel HUD aparece automaticamente.</br>
+            <pl>Panel HUD pojawia się automatycznie.</pl>
+            <ru>Панель HUD появляется автоматически при входе в комбайн.</ru>
+            <hu>A HUD panel automatikusan megjelenik.</hu>
+            <cz>Panel HUD se zobrazí automaticky.</cz>
+            <uk>Панель HUD з'являється автоматично при вході в комбайн.</uk>
+        </text>
+        <text name="rhm_help_hud_1_2">
+            <en>It shows 5 live metrics:&#10;• Engine Load (%) — how hard your machine works&#10;• Productivity (t/h or L/h) — your harvesting speed&#10;• Yield (t/ha) — crop density on the field&#10;• Speed and Recommended Speed — your current vs safe speed&#10;• Crop Loss (LOW/MED/HIGH) — real-time grain waste indicator.</en>
+            <de>Es zeigt 5 Live-Messwerte:&#10;• Motorlast (%)&#10;• Produktivität (t/h)&#10;• Ertrag (t/ha), aktuelle und empfohlene Geschwindigkeit, Ernteverluste (NIEDRIG/MITTEL/HOCH).</de>
+            <fr>Il affiche 5 mesures en direct :&#10;• Charge moteur (%)&#10;• Productivité (t/h)&#10;• Rendement (t/ha)&#10;• Vitesse actuelle et recommandée, Pertes (BAS/MOY/HAUT).</fr>
+            <it>Mostra 5 metriche live:&#10;• Carico motore (%)&#10;• Produttività (t/h)&#10;• Resa (t/ha)&#10;• Velocità attuale e raccomandata, Perdite (BASSE/MEDIE/ALTE).</it>
+            <es>Muestra 5 métricas en vivo:&#10;• Carga del motor (%)&#10;• Productividad (t/h)&#10;• Rendimiento (t/ha)&#10;• Velocidad actual y recomendada, Pérdidas (BAJO/MEDIO/ALTO).</es>
+            <br>Exibe 5 métricas ao vivo:&#10;• Carga do motor (%)&#10;• Produtividade (t/h)&#10;• Rendimento (t/ha)&#10;• Velocidade atual e recomendada, Perdas (BAIXO/MÉDIO/ALTO).</br>
+            <pl>Pokazuje 5 wskaźników na żywo:&#10;• Obciążenie silnika (%)&#10;• Produktywność (t/h)&#10;• Plon (t/ha)&#10;• Prędkość aktualna i zalecana, Straty (NISKIE/ŚREDNIE/WYSOKIE).</pl>
+            <ru>Показывает 5 метрик в реальном времени:&#10;• Нагрузка двигателя (%)&#10;• Производительность (т/ч або л/ч)&#10;• Урожайность (т/га)&#10;• Скорость и Рекомендуемая скорость&#10;• Потери (НИЗКИЕ/СРЕДНИЕ/ВЫСОКИЕ).</ru>
+            <hu>5 élő mutatót jelenít meg:&#10;• Motorterhelés (%)&#10;• Termelékenység (t/h)&#10;• Hozam (t/ha)&#10;• Aktuális és ajánlott sebesség, Veszteség (ALACSONY/KÖZEPES/MAGAS).</hu>
+            <cz>Ukazuje 5 živých metrik:&#10;• Zatížení motoru (%)&#10;• Produktivita (t/h)&#10;• Výnos (t/ha)&#10;• Aktuální a doporučená rychlost, Ztráty (NÍZKÉ/STŘEDNÍ/VYSOKÉ).</cz>
+            <uk>Показує 5 метрик у реальному часі:&#10;• Навантаження двигуна (%) — наскільки важко працює машина&#10;• Продуктивність (т/год або л/год) — швидкість збирання&#10;• Врожайність (т/га) — густота культури на полі&#10;• Швидкість і Рекомендована швидкість&#10;• Втрати (НИЗЬКІ/СЕРЕДНІ/ВИСОКІ).</uk>
+        </text>
+        <text name="rhm_help_hud_1">
+            <en>The HUD panel appears automatically when you enter a combine.&#10;&#10;It shows 5 live metrics: Engine Load (%), Productivity (t/h), Yield (t/ha), Speed, and Crop Loss (LOW/MED/HIGH).&#10;&#10;Green = safe, Yellow = caution, Red = losing grain.</en>
+            <de>Das HUD erscheint automatisch beim Einsteigen. Es zeigt 5 Live-Messwerte: Motorlast (%), Produktivität (t/h), Ertrag (t/ha), Geschwindigkeit und Verlust (NIEDRIG/MITTEL/HOCH). Grün = sicher, Gelb = Vorsicht, Rot = Verluste.</de>
+            <fr>Le panneau HUD apparaît automatiquement. Il affiche 5 mesures : Charge moteur (%), Productivité (t/h), Rendement (t/ha), Vitesse et Pertes (BAS/MOY/HAUT). Vert = OK, Jaune = attention, Rouge = pertes.</fr>
+            <it>Il pannello HUD appare automaticamente. Mostra 5 metriche live: Carico motore (%), Produttività (t/h), Resa (t/ha), Velocità e Perdite (BASSE/MEDIE/ALTE). Verde = OK, Giallo = attenzione, Rosso = perdite.</it>
+            <es>El panel HUD aparece automáticamente. Muestra 5 métricas: Carga del motor (%), Productividad (t/h), Rendimiento (t/ha), Velocidad y Pérdidas (BAJO/MEDIO/ALTO). Verde = bien, Amarillo = precaución, Rojo = pérdidas.</es>
+            <br>O painel HUD aparece automaticamente. Exibe 5 métricas: Carga do motor (%), Produtividade (t/h), Rendimento (t/ha), Velocidade e Perdas (BAIXO/MÉDIO/ALTO). Verde = OK, Amarelo = atenção, Vermelho = perdas.</br>
+            <pl>Panel HUD pojawia się automatycznie. Pokazuje 5 wskaźników: Obciążenie silnika (%), Produktywność (t/h), Plon (t/ha), Prędkość i Straty (NISKIE/ŚREDNIE/WYSOKIE). Zielony = OK, Żółty = uwaga, Czerwony = straty.</pl>
+            <ru>Панель HUD появляется автоматически. Показывает 5 метрик: Нагрузка двигателя (%), Производительность (т/ч), Урожайность (т/га), Скорость и Потери (НИЗКИЕ/СРЕДНИЕ/ВЫСОКИЕ). Зелёный = норма, Жёлтый = внимание, Красный = потери.</ru>
+            <hu>A HUD automatikusan megjelenik. 5 mutatót jelenít meg: Motorterhelés (%), Termelékenység (t/h), Hozam (t/ha), Sebesség és Veszteség (ALACSONY/KÖZEPES/MAGAS). Zöld = OK, Sárga = figyelem, Piros = veszteség.</hu>
+            <cz>Panel HUD se zobrazí automaticky. Ukazuje 5 metrik: Zatížení motoru (%), Produktivita (t/h), Výnos (t/ha), Rychlost a Ztráty (NÍZKÉ/STŘEDNÍ/VYSOKÉ). Zelená = OK, Žlutá = pozor, Červená = ztráty.</cz>
+            <uk>Панель HUD з'являється автоматично при вході в комбайн.&#10;&#10;Вона показує 5 метрик: Навантаження двигуна (%), Продуктивність (т/год), Врожайність (т/га), Швидкість та Втрати (НИЗЬКІ/СЕРЕДНІ/ВИСОКІ).&#10;&#10;Зелений = норма, Жовтий = обережно, Червоний = втрати зерна.</uk>
+        </text>
+        <text name="rhm_help_hud_1_3">
+            <en>Green = safe, Yellow = caution, Red = losing grain.</en>
+            <de>Grün = sicher, Gelb = Vorsicht, Rot = Verluste.</de>
+            <fr>Vert = OK, Jaune = attention, Rouge = pertes.</fr>
+            <it>Verde = OK, Giallo = attenzione, Rosso = perdite.</it>
+            <es>Verde = bien, Amarillo = precaución, Rojo = pérdidas.</es>
+            <br>Verde = OK, Amarelo = atenção, Vermelho = perdas.</br>
+            <pl>Zielony = OK, Żółty = uwaga, Czerwony = straty.</pl>
+            <ru>Зелёный = норма, Жёлтый = внимание, Красный = потери зерна.</ru>
+            <hu>Zöld = OK, Sárga = figyelem, Piros = veszteség.</hu>
+            <cz>Zelená = OK, Žlutá = pozor, Červená = ztráty.</cz>
+            <uk>Зелений = норма, Жовтий = обережно, Червоний = втрати зерна.</uk>
+        </text>
+        
+        <text name="rhm_help_hud_2">
+            <en>Right-click to enable the cursor and drag the HUD panel anywhere on screen.&#10;&#10;Each metric can be shown or hidden individually via ESC - Settings - Realistic Harvesting.&#10;&#10;You can switch between Metric (t/ha, km/h)&#10;• Imperial (bu/ac, mph), and Bushel display units.&#10;&#10;Your HUD position and visibility settings are saved per-player and persist across sessions.</en>
+            <de>Rechtsklick aktiviert den Cursor — ziehen Sie das HUD überall hin.&#10;&#10;Jeder Messwert kann über ESC - Einstellungen - Realistic Harvesting ein-/ausgeblendet werden.&#10;&#10;Sie können zwischen Metrisch (t/ha)&#10;• Imperial (bu/ac) und Scheffel umschalten.&#10;&#10;Position und Einstellungen werden pro Spieler gespeichert.</de>
+            <fr>Clic droit pour activer le curseur et déplacer le HUD.&#10;&#10;Chaque mesure peut être masquée via ESC - Paramètres - Realistic Harvesting.&#10;&#10;Vous pouvez basculer entre Métrique (t/ha)&#10;• Impérial (bu/ac) et Boisseaux.&#10;&#10;La position est sauvegardée par joueur.</fr>
+            <it>Clic destro per attivare il cursore e trascinare l'HUD ovunque.&#10;&#10;Ogni metrica può essere mostrata/nascosta tramite ESC - Impostazioni.&#10;&#10;Puoi passare tra Metrico (t/ha)&#10;• Imperiale (bu/ac) e Staia.&#10;&#10;La posizione viene salvata per giocatore.</it>
+            <es>Clic derecho para activar el cursor y arrastrar el HUD.&#10;&#10;Cada métrica puede mostrarse u ocultarse desde ESC - Ajustes.&#10;&#10;Puede cambiar entre Métrico (t/ha)&#10;• Imperial (bu/ac) y Fanegas.&#10;&#10;La posición se guarda por jugador.</es>
+            <br>Clique direito para ativar o cursor e arrastar o HUD.&#10;&#10;Cada métrica pode ser mostrada/ocultada em ESC - Configurações.&#10;&#10;Você pode alternar entre Métrico (t/ha)&#10;• Imperial (bu/ac) e Alqueires.&#10;&#10;A posição é salva por jogador.</br>
+            <pl>Kliknij prawym przyciskiem, aby włączyć kursor i przeciągnij HUD.&#10;&#10;Każdy wskaźnik można ukryć w ESC - Ustawienia - Realistic Harvesting.&#10;&#10;Możesz przełączać między Metrycznym (t/ha)&#10;• Imperialnym (bu/ac) i Buszelami.&#10;&#10;Pozycja jest zapisywana dla każdego gracza.</pl>
+            <ru>Правый клик включает курсор — перетащите панель куда угодно.&#10;&#10;Каждую метрику можно скрыть через ESC - Настройки - Realistic Harvesting.&#10;&#10;Переключение между Метрической (т/га)&#10;• Имперской (бу/акр) и Бушельной системами.&#10;&#10;Позиция сохраняется для каждого игрока.</ru>
+            <hu>Jobb klikkel aktiváld a kurzort és húzd a HUD-ot bárhová.&#10;&#10;Minden mutató elrejthető az ESC - Beállítások menüben.&#10;&#10;Váltás Metrikus (t/ha)&#10;• Angolszász (bu/ac) és Véka rendszer között.&#10;&#10;A pozíció játékosonként mentődik.</hu>
+            <cz>Pravým kliknutím aktivujte kurzor a přetáhněte HUD.&#10;&#10;Každou metriku lze skrýt v ESC - Nastavení.&#10;&#10;Přepínání mezi Metrickým (t/ha)&#10;• Imperiálním (bu/ac) a Bušlem.&#10;&#10;Pozice se ukládá pro každého hráče.</cz>
+            <uk>Клацніть правою кнопкою миші для увімкнення курсора та перетягніть панель HUD куди завгодно.&#10;&#10;Кожну метрику можна приховати окремо через ESC - Налаштування - Realistic Harvesting.&#10;&#10;Перемикайтеся між Метричною (т/га, км/год)&#10;• Імперською (бу/акр, миль/год) та Бушельною системами одиниць.&#10;&#10;Позиція та видимість панелі зберігаються для кожного гравця та зберігаються між сесіями.</uk>
+        </text>
+
+        <!-- ===== PAGE 4: SPECIAL COMBINES ===== -->
+        <text name="rhm_help_special_title">
+            <en>4. Special Machines — Forage, Root, Cotton</en>
+            <de>4. Spezialmaschinen — Futter, Rüben, Baumwolle</de>
+            <fr>4. Machines spéciales — Fourrage, Racines, Coton</fr>
+            <it>4. Macchine speciali — Foraggio, Radici, Cotone</it>
+            <es>4. Máquinas especiales — Forraje, Raíces, Algodón</es>
+            <br>4. Máquinas especiais — Forragem, Raízes, Algodão</br>
+            <pl>4. Maszyny specjalne — Kiszonka, Korzeniowe, Bawełna</pl>
+            <ru>4. Спецтехника — Кормоуборочные, Корнеплоды, Хлопок</ru>
+            <hu>4. Speciális gépek — Szálastakarmány, Gyökérzöldség, Gyapot</hu>
+            <cz>4. Speciální stroje — Pícniny, Okopaniny, Bavlna</cz>
+            <uk>4. Спецтехніка — Форажири, Коренеплоди, Бавовна</uk>
+        </text>
+        <text name="rhm_help_special_1">
+            <en>FORAGE HARVESTERS have 3 parameters:&#10;• Blower Speed (accelerator)&#10;• Chopping Drum (cutting cylinder speed), and Feed Rolls (intake roller speed).&#10;&#10;They process grass, dry grass, alfalfa, clover, and corn silage.&#10;&#10;Corn silage requires the highest drum speed and fan airflow due to thick stalks.&#10;&#10;Grass and hay are more delicate — reduce drum speed to avoid shredding.</en>
+            <de>FELDHÄCKSLER haben 3 Parameter:&#10;• Beschleuniger (Blower Speed)&#10;• Häckseltrommel (Chopping Drum) und Einzugswalzen (Feed Rolls).&#10;&#10;Sie verarbeiten Gras, Heu, Luzerne, Klee und Maissilage.&#10;&#10;Maissilage braucht die höchste Trommel- und Gebläseleistung.&#10;&#10;Gras ist empfindlicher — reduzieren Sie die Trommelgeschwindigkeit.</de>
+            <fr>Les ENSILEUSES ont 3 paramètres :&#10;• Accélérateur (Blower Speed)&#10;• Tambour hacheur (Chopping Drum) et Rouleaux d alimentation (Feed Rolls).&#10;&#10;Elles traitent herbe, foin, luzerne, trèfle et ensilage de maïs.&#10;&#10;L'ensilage de maïs nécessite la vitesse maximale.&#10;&#10;L'herbe est plus fragile — réduisez la vitesse du tambour.</fr>
+            <it>Le TRINCIATRICI hanno 3 parametri:&#10;• Acceleratore (Blower Speed)&#10;• Tamburo trinciante (Chopping Drum) e Rulli di alimentazione (Feed Rolls).&#10;&#10;Trattano erba, fieno, erba medica, trifoglio e insilato di mais.&#10;&#10;L'insilato di mais richiede la velocità massima.&#10;&#10;L'erba è più delicata — riduci la velocità del tamburo.</it>
+            <es>Las COSECHADORAS DE FORRAJE tienen 3 parámetros:&#10;• Acelerador (Blower Speed)&#10;• Tambor picador (Chopping Drum) y Rodillos de alimentación (Feed Rolls).&#10;&#10;Procesan hierba, heno, alfalfa, trébol y ensilaje de maíz.&#10;&#10;El ensilaje requiere la velocidad máxima.&#10;&#10;La hierba es más delicada — reduzca la velocidad del tambor.</es>
+            <br>As COLHEITADEIRAS DE FORRAGEM têm 3 parâmetros:&#10;• Acelerador (Blower Speed)&#10;• Tambor triturador (Chopping Drum) e Rolos de alimentação (Feed Rolls).&#10;&#10;Processam grama, feno, alfafa, trevo e silagem de milho.&#10;&#10;A silagem exige velocidade máxima.&#10;&#10;A grama é mais delicada — reduza a velocidade do tambor.</br>
+            <pl>SIECZKARNIE mają 3 parametry:&#10;• Przyspieszacz (Blower Speed)&#10;• Bęben tnący (Chopping Drum) i Walce wciągające (Feed Rolls).&#10;&#10;Przetwarzają trawę, siano, lucernę, koniczynę i kiszonkę z kukurydzy.&#10;&#10;Kiszonka wymaga najwyższej prędkości.&#10;&#10;Trawa jest delikatniejsza — zmniejsz prędkość bębna.</pl>
+            <ru>КОРМОУБОРОЧНЫЕ КОМБАЙНЫ имеют 3 параметра:&#10;• Ускоритель (Blower Speed)&#10;• Измельчающий барабан (Chopping Drum) и Питающие вальцы (Feed Rolls).&#10;&#10;Они обрабатывают траву, сено, люцерну, клевер и кукурузный силос.&#10;&#10;Силос из кукурузы требует максимальной скорости барабана.&#10;&#10;Трава нежнее — снижайте обороты.</ru>
+            <hu>A SZECSKÁZÓK 3 paraméterrel rendelkeznek:&#10;• Gyorsító (Blower Speed)&#10;• Szecskázó dob (Chopping Drum) és Behúzóhengerek (Feed Rolls).&#10;&#10;Feldolgozzák a füvet, szénát, lucernát, lóherét és kukoricaszilázst.&#10;&#10;A kukoricaszilázs maximális sebességet igényel.&#10;&#10;A fű kényesebb — csökkentsd a dob sebességét.</hu>
+            <cz>ŘEZAČKY mají 3 parametry:&#10;• Urychlovač (Blower Speed), Řezací buben (Chopping Drum) a Vkládací válce (Feed Rolls).&#10;&#10;Zpracovávají trávu, seno, vojtěšku, jetel a kukuřičnou siláž.&#10;&#10;Kukuřičná siláž vyžaduje nejvyšší rychlost.&#10;&#10;Tráva je jemnější — snižte rychlost bubnu.</cz>
+            <uk>КОРМОЗБИРАЛЬНІ КОМБАЙНИ мають 3 параметри:&#10;• Прискорювач (Blower Speed)&#10;• Подрібнюючий барабан (Chopping Drum) та Живильні вальці (Feed Rolls).&#10;&#10;Вони обробляють траву, суху траву, люцерну, конюшину та кукурудзяний силос.&#10;&#10;Силос з кукурудзи потребує найвищої швидкості барабана та вентилятора через товсті стебла.&#10;&#10;Трава делікатніша — зменшуйте оберти барабана, щоб не перемолоти.</uk>
+        </text>
+        <text name="rhm_help_special_2">
+            <en>ROOT HARVESTERS (potato, sugarbeet, onion, carrot, spinach) have Fan Speed (separation blower)&#10;• Cleaning Rollers (dirt removal speed), and Elevator Web (transport chain speed).&#10;&#10;Each root crop has UNIQUE optimal values!&#10;&#10;Potatoes need gentle rollers (they bruise easily).&#10;&#10;Onions need strong airflow (to separate skins).&#10;&#10;Spinach needs minimum air (leaves fly away).&#10;&#10;COTTON PICKERS have Fan Speed, Picker Speed (spindle RPM), and Feeder Speed — cotton is extremely light, so precise calibration of the picker drum is critical.</en>
+            <de>RÜBENRODER (Kartoffel, Zuckerrübe, Zwiebel, Karotte, Spinat) haben Gebläse (Fan Speed)&#10;• Reinigungswalzen (Cleaning Rollers) und Siebband (Elevator Web).&#10;&#10;Jede Hackfrucht hat EINZIGARTIGE Werte!&#10;&#10;Kartoffeln brauchen sanfte Walzen.&#10;&#10;Zwiebeln brauchen starken Luftstrom.&#10;&#10;Spinat braucht minimale Luft.&#10;&#10;BAUMWOLLPFLÜCKER haben Gebläse (Fan Speed)&#10;• Pflückergeschwindigkeit (Picker Speed) und Zuführung (Feeder Speed) — Baumwolle ist extrem leicht, präzise Kalibrierung ist entscheidend.</de>
+            <fr>Les ARRACHEUSES (pomme de terre, betterave, oignon, carotte, épinard) ont Ventilateur, Rouleau et Chaîne d'alimentation.&#10;&#10;Chaque racine a des valeurs UNIQUES !&#10;&#10;Les pommes de terre nécessitent des rouleaux doux.&#10;&#10;Les oignons un fort flux d'air.&#10;&#10;Les épinards un minimum d'air.&#10;&#10;Les CUEILLEUSES DE COTON ont Ventilateur (Fan Speed)&#10;• Vitesse du cueilleur (Picker Speed) et Alimentation (Feeder Speed) — le coton est extrêmement léger.</fr>
+            <it>Le RACCOGLITRICI (patata, barbabietola, cipolla, carota, spinaci) hanno Ventola (Fan Speed)&#10;• Rulli di pulizia (Cleaning Rollers) e Nastro elevatore (Elevator Web).&#10;&#10;Ogni radice ha valori UNICI!&#10;&#10;Le patate richiedono rulli delicati.&#10;&#10;Le cipolle un forte flusso d'aria.&#10;&#10;Gli spinaci aria minima.&#10;&#10;Le RACCOGLITRICI DI COTONE hanno Ventola (Fan Speed)&#10;• Velocità raccoglitore (Picker Speed) e Alimentatore (Feeder Speed) — il cotone è estremamente leggero.</it>
+            <es>Las COSECHADORAS DE RAÍCES (patata, remolacha, cebolla, zanahoria, espinaca) tienen Ventilador (Fan Speed)&#10;• Rodillos de limpieza (Cleaning Rollers) y Cinta de criba (Elevator Web).&#10;&#10;Cada raíz tiene valores ÚNICOS.&#10;&#10;Las patatas necesitan rodillos suaves.&#10;&#10;Las cebollas necesitan fuerte flujo de aire.&#10;&#10;La espinaca necesita aire mínimo.&#10;&#10;Las COSECHADORAS DE ALGODÓN tienen Ventilador (Fan Speed)&#10;• Velocidad del recolector (Picker Speed) y Alimentador (Feeder Speed) — el algodón es extremadamente ligero.</es>
+            <br>As COLHEITADEIRAS DE RAÍZES (batata, beterraba, cebola, cenoura, espinafre) têm Ventilador (Fan Speed)&#10;• Rolos de limpeza (Cleaning Rollers) e Correia elevadora (Elevator Web).&#10;&#10;Cada raiz tem valores ÚNICOS!&#10;&#10;Batatas precisam de rolos suaves.&#10;&#10;Cebolas precisam de forte fluxo de ar.&#10;&#10;Espinafre precisa de ar mínimo.&#10;&#10;As COLHEITADEIRAS DE ALGODÃO têm Ventilador (Fan Speed)&#10;• Velocidade do colhedor (Picker Speed) e Alimentador (Feeder Speed) — o algodão é extremamente leve.</br>
+            <pl>KOMBAJNY KORZENIOWE (ziemniaki, buraki, cebula, marchew, szpinak) mają Wentylator (Fan Speed)&#10;• Rolki czyszczące (Cleaning Rollers) i Taśma odsiewająca (Elevator Web).&#10;&#10;Każda roślina ma UNIKALNE optymalne wartości!&#10;&#10;Ziemniaki wymagają delikatnych walców.&#10;&#10;Cebula wymaga silnego strumienia powietrza.&#10;&#10;Szpinak wymaga minimum dmuchania.&#10;&#10;ZBIERAKI BAWEŁNY mają Wentylator (Fan Speed)&#10;• Prędkość zbieracza (Picker Speed) i Podajnik (Feeder Speed) — bawełna jest niezwykle lekka.</pl>
+            <ru>УБОРЩИКИ КОРНЕПЛОДОВ имеют Вентилятор (Fan Speed)&#10;• Очистительные вальцы (Cleaning Rollers) и Транспортер (Elevator Web).&#10;&#10;У каждой культуры УНИКАЛЬНЫЕ оптимальные значения!&#10;&#10;Картофель — нежные вальцы (легко повредить).&#10;&#10;Лук — сильный обдув (отделяет шелуху).&#10;&#10;Шпинат — минимум воздуха (листья улетают).&#10;&#10;ХЛОПКОУБОРЩИКИ имеют Вентилятор (Fan Speed)&#10;• Обороты шпинделей (Picker Speed) и Подачу (Feeder Speed) — хлопок крайне лёгкий, калибровка критична.</ru>
+            <hu>A GYÖKÉRZÖLDSÉG-BETAKARÍTÓK (burgonya, cukorrépa, hagyma, sárgarépa, spenót) Ventilátorral (Fan Speed)&#10;• Tisztítóhengerekkel (Cleaning Rollers) és Felhordószalaggal (Elevator Web) rendelkeznek.&#10;&#10;Minden gyökérzöldségnek EGYEDI optimális értékei vannak!&#10;&#10;A burgonya kíméletes görgőket igényel.&#10;&#10;A hagyma erős légáramot.&#10;&#10;A spenót minimális levegőt.&#10;&#10;A GYAPOTBETAKARÍTÓK Ventilátorral (Fan Speed)&#10;• Felszedő sebessége (Picker Speed) és Adagolóval (Feeder Speed) rendelkeznek — a gyapot rendkívül könnyű.</hu>
+            <cz>SKLÍZEČE OKOPANIN (brambory, cukrová řepa, cibule, mrkev, špenát) mají Ventilátor (Fan Speed), Čisticí válce (Cleaning Rollers) a Prosévací pás (Elevator Web).&#10;&#10;Každá plodina má JEDINEČNÉ optimální hodnoty!&#10;&#10;Brambory potřebují jemné válce.&#10;&#10;Cibule silný proud vzduchu. Špenát minimální vzduch.&#10;&#10;SBĚRAČE BAVLNY mají Ventilátor (Fan Speed)&#10;• Rychlost sběrače (Picker Speed) a Podavač (Feeder Speed) — bavlna je extrémně lehká.</cz>
+            <uk>КОРЕНЕЗБИРАЛЬНІ КОМБАЙНИ (картопля, буряк, цибуля, морква, шпинат) мають Вентилятор (Fan Speed)&#10;• Очисні вальці (Cleaning Rollers) та Транспортер (Elevator Web).&#10;&#10;У кожної культури УНІКАЛЬНІ оптимальні значення!&#10;&#10;Картопля — ніжні вальці (легко пошкодити).&#10;&#10;Цибуля — сильний обдув (відокремлює шкірку).&#10;&#10;Шпинат — мінімум повітря (листя розлітається).&#10;&#10;БАВОВНОЗБИРАЛЬНІ МАШИНИ мають Вентилятор (Fan Speed)&#10;• Оберти шпинделів (Picker Speed) та Подачу (Feeder Speed) — бавовна надзвичайно легка, тому точне калібрування барабана збирача є критичним.</uk>
+        </text>
+
+        <!-- ===== PAGE 5: CROP LOSS ===== -->
+        <text name="rhm_help_croploss_title">
+            <en>5. Crop Loss — Causes and Prevention</en>
+            <de>5. Ernteverluste — Ursachen und Vorbeugung</de>
+            <fr>5. Pertes de récolte — Causes et prévention</fr>
+            <it>5. Perdite di raccolto — Cause e prevenzione</it>
+            <es>5. Pérdidas de cultivo — Causas y prevención</es>
+            <br>5. Perdas de colheita — Causas e prevenção</br>
+            <pl>5. Straty plonów — Przyczyny i zapobieganie</pl>
+            <ru>5. Потери урожая — Причины и профилактика</ru>
+            <hu>5. Termésveszteség — Okok és megelőzés</hu>
+            <cz>5. Ztráty sklizně — Příčiny a prevence</cz>
+            <uk>5. Втрати врожаю — Причини та запобігання</uk>
+        </text>
+        <text name="rhm_help_croploss_1">
+            <en>Crop losses come from TWO independent sources.&#10;&#10;SOURCE 1 — OVERLOAD (Speed):&#10;• When engine load exceeds 95%, grain losses begin.&#10;&#10;The faster you push past the limit, the more grain falls on the ground.&#10;&#10;Solution:&#10;• slow down, use a narrower header, or choose a more powerful combine.&#10;&#10;SOURCE 2 — POOR CALIBRATION (Settings):&#10;• If your fan, rotor, or sieves are wrong for the current crop, you get a calibration penalty on top of speed losses.&#10;&#10;Use the Preview Loss feature in the Calibration Menu (RShift+K) to check your penalty even when not harvesting.</en>
+            <de>Ernteverluste kommen aus ZWEI unabhängigen Quellen.&#10;&#10;QUELLE 1 — ÜBERLASTUNG (Geschwindigkeit):&#10;• Ab 95% Motorlast beginnen Verluste.&#10;&#10;Je schneller, desto mehr.&#10;&#10;Lösung:&#10;• langsamer fahren, schmaleres Schneidwerk nutzen.&#10;&#10;QUELLE 2 — FALSCHE KALIBRIERUNG:&#10;• Falsche Einstellungen von Gebläse, Rotor oder Sieben verursachen einen Zusatzstrafwert.&#10;&#10;Nutzen Sie die Verlustvorschau im Kalibrierungsmenü (RShift+K).</de>
+            <fr>Les pertes viennent de DEUX sources indépendantes.&#10;&#10;SOURCE 1 — SURCHARGE (Vitesse) :&#10;• Au-delà de 95% de charge moteur, les pertes commencent.&#10;&#10;Plus vous poussez, plus vous perdez.&#10;&#10;Solution :&#10;• ralentir.&#10;&#10;SOURCE 2 — MAUVAIS CALIBRAGE :&#10;• Si le ventilateur, rotor ou grilles sont mal réglés, une pénalité s'ajoute.&#10;&#10;Utilisez l'Aperçu des Pertes dans le menu de calibrage (RShift+K).</fr>
+            <it>Le perdite vengono da DUE fonti indipendenti.&#10;&#10;FONTE 1 — SOVRACCARICO (Velocità):&#10;• Oltre il 95% di carico, le perdite iniziano.&#10;&#10;Più vai veloce, più perdi.&#10;&#10;Soluzione:&#10;• rallenta.&#10;&#10;FONTE 2 — CATTIVA CALIBRAZIONE:&#10;• Ventola, rotore o crivelli errati aggiungono una penalità.&#10;&#10;Usa l'Anteprima Perdite nel menu calibrazione (RShift+K).</it>
+            <es>Las pérdidas vienen de DOS fuentes independientes.&#10;&#10;FUENTE 1 — SOBRECARGA (Velocidad):&#10;• Sobre el 95% de carga, las pérdidas comienzan.&#10;&#10;Cuanto más rápido, más pierde.&#10;&#10;Solución:&#10;• reduzca velocidad.&#10;&#10;FUENTE 2 — MALA CALIBRACIÓN:&#10;• Ventilador, rotor o cribas incorrectos añaden una penalización.&#10;&#10;Use la Vista Previa de Pérdidas en el menú (RShift+K).</es>
+            <br>As perdas vêm de DUAS fontes independentes.&#10;&#10;FONTE 1 — SOBRECARGA (Velocidade):&#10;• Acima de 95% de carga, as perdas começam.&#10;&#10;Quanto mais rápido, mais perde.&#10;&#10;Solução:&#10;• reduza velocidade.&#10;&#10;FONTE 2 — MÁ CALIBRAÇÃO:&#10;• Ventilador, rotor ou peneiras incorretos adicionam penalidade.&#10;&#10;Use a Prévia de Perdas no menu (RShift+K).</br>
+            <pl>Straty pochodzą z DWÓCH niezależnych źródeł.&#10;&#10;ŹRÓDŁO 1 — PRZECIĄŻENIE (Prędkość):&#10;• Powyżej 95% obciążenia silnika straty się zaczynają.&#10;&#10;Im szybciej jedziesz, tym więcej tracisz.&#10;&#10;Rozwiązanie:&#10;• zwolnij.&#10;&#10;ŹRÓDŁO 2 — ZŁA KALIBRACJA:&#10;• Złe ustawienia wentylatora, rotora lub sit dodają karę.&#10;&#10;Użyj Podglądu Strat w menu (RShift+K).</pl>
+            <ru>Потери идут из ДВУХ независимых источников.&#10;&#10;ИСТОЧНИК 1 — ПЕРЕГРУЗКА (Скорость):&#10;• Когда нагрузка превышает 95%, зерно начинает теряться.&#10;&#10;Чем быстрее — тем больше потери.&#10;&#10;Решение:&#10;• замедлиться, использовать узкую жатку или мощнее комбайн.&#10;&#10;ИСТОЧНИК 2 — ПЛОХАЯ КАЛИБРОВКА (Настройки):&#10;• Неправильные вентилятор, ротор или решёта дают штрафные потери сверху.&#10;&#10;Используйте «Предпросмотр потерь» в меню (RShift+K).</ru>
+            <hu>A veszteségek KÉT független forrásból származnak.&#10;&#10;FORRÁS 1 — TÚLTERHELÉS (Sebesség):&#10;• 95% fölötti motorterhelésnél a veszteségek megkezdődnek.&#10;&#10;Megoldás:&#10;• lassíts.&#10;&#10;FORRÁS 2 — ROSSZ KALIBRÁLÁS:&#10;• Rossz ventilátor, rotor vagy rosta beállítások büntetést adnak.&#10;&#10;Használd a Veszteség Előnézetet a menüben (RShift+K).</hu>
+            <cz>Ztráty pocházejí ze DVOU nezávislých zdrojů.&#10;&#10;ZDROJ 1 — PŘETÍŽENÍ (Rychlost):&#10;• Nad 95% zatížení motoru začínají ztráty. Čím rychleji, tím více. Řešení:&#10;• zpomalte.&#10;&#10;ZDROJ 2 — ŠPATNÁ KALIBRACE:&#10;• Špatný ventilátor, rotor nebo síta přidávají penalizaci.&#10;&#10;Použijte Náhled Ztrát v menu (RShift+K).</cz>
+            <uk>Втрати врожаю мають ДВА незалежні джерела.&#10;&#10;ДЖЕРЕЛО 1 — ПЕРЕВАНТАЖЕННЯ (Швидкість):&#10;• Коли навантаження двигуна перевищує 95%, зерно починає втрачатися.&#10;&#10;Чим швидше ви їдете понад ліміт, тим більше зерна падає на землю.&#10;&#10;Рішення:&#10;• знизити швидкість, використати вужчу жатку або потужніший комбайн.&#10;&#10;ДЖЕРЕЛО 2 — ПОГАНЕ КАЛІБРУВАННЯ (Налаштування):&#10;• Якщо вентилятор, ротор або решета неправильно налаштовані для поточної культури, ви отримуєте додаткові штрафні втрати.&#10;&#10;Використовуйте функцію Попереднього Перегляду Втрат у Меню Калібрування (RShift+K) для перевірки штрафу навіть коли ви не збираєте.</uk>
+        </text>
+        <text name="rhm_help_croploss_2">
+            <en>Calibration physics are split into two mechanics.&#10;&#10;EFFICIENCY components (Rotor and Feeder House) affect throughput speed — if poorly configured, the engine struggles, and cruise control forces you to drive slower.&#10;&#10;Perfect settings grant up to +5% Speed Bonus.&#10;&#10;CLEANING components (Fan and Sieves) affect grain separation — if the fan is too strong or sieves poorly adjusted, clean grain gets blown out the back.&#10;&#10;Perfect settings ensure 0% Added Crop Loss.&#10;&#10;BONUS:&#10;• Perfect speed settings also grant an Overload Shield that absorbs minor crop density spikes.</en>
+            <de>Die Kalibrierungsphysik teilt sich in zwei Mechaniken.&#10;&#10;EFFIZIENZ-Komponenten (Rotor, Zuführwerk) beeinflussen die Durchsatzgeschwindigkeit.&#10;&#10;Perfekte Einstellungen gewähren bis zu +5% Geschwindigkeitsbonus.&#10;&#10;REINIGUNGS-Komponenten (Gebläse, Siebe) beeinflussen die Korntrennung.&#10;&#10;Perfekte Einstellungen garantieren 0% Zusatzstrafwert.&#10;&#10;BONUS:&#10;• Perfekte Einstellungen gewähren einen Überlastungsschutz.</de>
+            <fr>La physique de calibrage se divise en deux mécaniques.&#10;&#10;Les composants D'EFFICACITÉ (Rotor, Alimentation) affectent le débit.&#10;&#10;Des réglages parfaits donnent +5% de Bonus Vitesse.&#10;&#10;Les composants DE NETTOYAGE (Ventilateur, Grilles) affectent la séparation.&#10;&#10;Des réglages parfaits garantissent 0% de Perte Ajoutée.&#10;&#10;BONUS :&#10;• La perfection donne un Bouclier Anti-Surcharge.</fr>
+            <it>La fisica della calibrazione si divide in due meccaniche.&#10;&#10;I componenti di EFFICIENZA (Rotore, Alimentatore) influenzano la velocità.&#10;&#10;Impostazioni perfette danno +5% di Bonus Velocità.&#10;&#10;I componenti di PULITURA (Ventola, Crivelli) influenzano la separazione.&#10;&#10;Impostazioni perfette garantiscono 0% di Perdita Aggiunta.&#10;&#10;BONUS:&#10;• La perfezione dà uno Scudo Anti-Sovraccarico.</it>
+            <es>La física de calibración se divide en dos mecánicas.&#10;&#10;Los componentes de EFICIENCIA (Rotor, Alimentador) afectan el rendimiento.&#10;&#10;Ajustes perfectos dan +5% de Bonus de Velocidad.&#10;&#10;Los componentes de LIMPIEZA (Ventilador, Cribas) afectan la separación.&#10;&#10;Ajustes perfectos garantizan 0% de Pérdida Añadida.&#10;&#10;BONUS:&#10;• La perfección otorga un Escudo Anti-Sobrecarga.</es>
+            <br>A física da calibração se divide em duas mecânicas.&#10;&#10;Os componentes de EFICIÊNCIA (Rotor, Alimentador) afetam a velocidade.&#10;&#10;Ajustes perfeitos dão +5% de Bônus de Velocidade.&#10;&#10;Os componentes de LIMPEZA (Ventilador, Peneiras) afetam a separação.&#10;&#10;Ajustes perfeitos garantem 0% de Perda Adicional.&#10;&#10;BÔNUS:&#10;• A perfeição dá um Escudo Anti-Sobrecarga.</br>
+            <pl>Fizyka kalibracji dzieli się na dwie mechaniki.&#10;&#10;Komponenty WYDAJNOŚCI (Rotor, Podajnik) wpływają na przepustowość.&#10;&#10;Idealne ustawienia dają +5% Bonusu Prędkości.&#10;&#10;Komponenty CZYSZCZENIA (Wentylator, Sita) wpływają na separację.&#10;&#10;Idealne ustawienia gwarantują 0% Dodatkowych Strat.&#10;&#10;BONUS:&#10;• Perfekcja daje Tarczę Antyobciążeniową chroniącą przed skokami gęstości.</pl>
+            <ru>Физика калибровки делится на две механики.&#10;&#10;Компоненты ЭФФЕКТИВНОСТИ (Ротор, Подача) влияют на скорость обработки — при плохих настройках двигатель перегружается, круиз-контроль замедляет.&#10;&#10;Идеальная настройка даёт +5% Бонуса к Скорости.&#10;&#10;Компоненты ОЧИСТКИ (Вентилятор, Решёта) влияют на сепарацию зерна — слишком сильный воздух выдувает зерно.&#10;&#10;Идеал = 0% Добавленных Потерь.&#10;&#10;БОНУС:&#10;• Идеал эффективности даёт Щит от Перегрузки.</ru>
+            <hu>A kalibrálás fizikája két mechanikára oszlik.&#10;&#10;A HATÉKONYSÁGI komponensek (Rotor, Adagoló) a sebességet befolyásolják.&#10;&#10;Tökéletes beállítások +5% Sebesség Bónuszt adnak.&#10;&#10;A TISZTÍTÁSI komponensek (Ventilátor, Rosták) a szeparálást befolyásolják.&#10;&#10;Tökéletes beállítások 0% Hozzáadott Veszteséget garantálnak.&#10;&#10;BÓNUSZ:&#10;• A tökéletesség Túlterhelés Pajzsot ad.</hu>
+            <cz>Fyzika kalibrace se dělí na dvě mechaniky.&#10;&#10;Komponenty ÚČINNOSTI (Rotor, Podavač) ovlivňují rychlost.&#10;&#10;Dokonalé nastavení dává +5% Bonus Rychlosti.&#10;&#10;Komponenty ČIŠTĚNÍ (Ventilátor, Síta) ovlivňují separaci.&#10;&#10;Dokonalé nastavení zaručuje 0% Přidané Ztráty.&#10;&#10;BONUS:&#10;• Dokonalost dává Štít Proti Přetížení.</cz>
+            <uk>Фізика калібрування ділиться на дві механіки.&#10;&#10;Компоненти ЕФЕКТИВНОСТІ (Ротор та Подача) впливають на швидкість обробки — при поганих налаштуваннях двигун перевантажується, а круїз-контроль вимушено знижує швидкість.&#10;&#10;Ідеальні налаштування дають до +5% Бонусу Швидкості.&#10;&#10;Компоненти ОЧИЩЕННЯ (Вентилятор та Решета) впливають на сепарацію зерна — занадто сильний вентилятор видуває чисте зерно назад на поле.&#10;&#10;Ідеальні налаштування гарантують 0% Додаткових Втрат.&#10;&#10;БОНУС:&#10;• Ідеальні налаштування ефективності також дають Щит Від Перевантаження, який поглинає незначні стрибки густоти посіву.</uk>
+        </text>
+
+        <!-- ===== PAGE 6: DIFFICULTY ===== -->
+        <text name="rhm_help_difficulty_title">
+            <en>6. Difficulty Settings and Configuration</en>
+            <de>6. Schwierigkeitseinstellungen und Konfiguration</de>
+            <fr>6. Paramètres de difficulté et configuration</fr>
+            <it>6. Impostazioni di difficoltà e configurazione</it>
+            <es>6. Ajustes de dificultad y configuración</es>
+            <br>6. Configurações de dificuldade</br>
+            <pl>6. Ustawienia trudności i konfiguracja</pl>
+            <ru>6. Настройки сложности и конфигурация</ru>
+            <hu>6. Nehézségi beállítások és konfiguráció</hu>
+            <cz>6. Nastavení obtížnosti a konfigurace</cz>
+            <uk>6. Рівні складності та конфігурація</uk>
+        </text>
+        <text name="rhm_help_difficulty_1">
+            <en>Open ESC - Settings - Realistic Harvesting.&#10;&#10;ENGINE POWER controls combine capacity:&#10;• Arcade (200% — very forgiving, almost impossible to overload)&#10;• Normal (120% — slight boost)&#10;• Realistic (100% — real machine specs, requires skill).&#10;&#10;CROP LOSS SEVERITY controls penalty intensity:&#10;• Arcade (50% penalty)&#10;• Normal (standard)&#10;• Realistic (200% — very strict, even minor overload causes heavy losses).</en>
+            <de>ESC - Einstellungen - Realistic Harvesting.&#10;&#10;MOTORLEISTUNG steuert die Kapazität:&#10;• Arcade (200%)&#10;• Normal (120%)&#10;• Realistisch (100%).&#10;&#10;ERNTEVERLUST-SCHWERE steuert die Strafintensität:&#10;• Arcade (50%)&#10;• Normal (Standard)&#10;• Realistisch (200%).</de>
+            <fr>ESC - Paramètres - Realistic Harvesting.&#10;&#10;PUISSANCE MOTEUR contrôle la capacité :&#10;• Arcade (200%)&#10;• Normal (120%)&#10;• Réaliste (100%).&#10;&#10;SÉVÉRITÉ DES PERTES contrôle l'intensité :&#10;• Arcade (50%)&#10;• Normal (standard)&#10;• Réaliste (200%).</fr>
+            <it>ESC - Impostazioni - Realistic Harvesting.&#10;&#10;POTENZA MOTORE controlla la capacità:&#10;• Arcade (200%)&#10;• Normale (120%)&#10;• Realistico (100%).&#10;&#10;GRAVITÀ PERDITE controlla l'intensità della penalità:&#10;• Arcade (50%)&#10;• Normale (standard)&#10;• Realistico (200%).</it>
+            <es>ESC - Ajustes - Realistic Harvesting.&#10;&#10;POTENCIA DEL MOTOR controla la capacidad:&#10;• Arcade (200%)&#10;• Normal (120%)&#10;• Realista (100%).&#10;&#10;SEVERIDAD DE PÉRDIDAS controla la intensidad:&#10;• Arcade (50%)&#10;• Normal (estándar)&#10;• Realista (200%).</es>
+            <br>ESC - Configurações - Realistic Harvesting.&#10;&#10;POTÊNCIA DO MOTOR controla a capacidade:&#10;• Arcade (200%)&#10;• Normal (120%)&#10;• Realista (100%).&#10;&#10;SEVERIDADE DAS PERDAS controla a intensidade:&#10;• Arcade (50%)&#10;• Normal (padrão)&#10;• Realista (200%).</br>
+            <pl>ESC - Ustawienia - Realistic Harvesting.&#10;&#10;MOC SILNIKA kontroluje wydajność:&#10;• Arcade (200%)&#10;• Normal (120%)&#10;• Realistyczny (100%).&#10;&#10;INTENSYWNOŚĆ STRAT kontroluje karę:&#10;• Arcade (50%)&#10;• Normal (standard)&#10;• Realistyczny (200%).</pl>
+            <ru>ESC - Настройки - Realistic Harvesting.&#10;&#10;МОЩНОСТЬ ДВИГАТЕЛЯ управляет вместимостью:&#10;• Аркада (200% — почти невозможно перегрузить)&#10;• Нормальный (120%)&#10;• Реалистичный (100% — реальные характеристики).&#10;&#10;ЖЁСТКОСТЬ ПОТЕРЬ управляет штрафами:&#10;• Аркада (50%)&#10;• Нормальный (стандарт)&#10;• Реалистичный (200% — очень строго).</ru>
+            <hu>ESC - Beállítások - Realistic Harvesting.&#10;&#10;MOTORTELJESÍTMÉNY szabályozza a kapacitást:&#10;• Arcade (200%)&#10;• Normál (120%)&#10;• Realisztikus (100%).&#10;&#10;VESZTESÉG SÚLYOSSÁGA szabályozza a büntetés intenzitását:&#10;• Arcade (50%)&#10;• Normál (standard)&#10;• Realisztikus (200%).</hu>
+            <cz>ESC - Nastavení - Realistic Harvesting.&#10;&#10;VÝKON MOTORU řídí kapacitu:&#10;• Arkáda (200%)&#10;• Normální (120%)&#10;• Realistický (100%).&#10;&#10;ZÁVAŽNOST ZTRÁT řídí intenzitu penalizace:&#10;• Arkáda (50%)&#10;• Normální (standard)&#10;• Realistický (200%).</cz>
+            <uk>Меню:&#10;• ESC - Налаштування - Realistic Harvesting.&#10;&#10;ПОТУЖНІСТЬ ДВИГУНА контролює продуктивність комбайна:&#10;• Аркадний (200% — дуже поблажливий, практично неможливо перевантажити)&#10;• Нормальний (120% — невелике підвищення)&#10;• Реалістичний (100% — реальні характеристики машини, потребує майстерності).&#10;&#10;СУВОРІСТЬ ВТРАТ контролює інтенсивність штрафів:&#10;• Аркадний (50% штрафу)&#10;• Нормальний (стандарт)&#10;• Реалістичний (200% — дуже строго, навіть невелике перевантаження спричиняє великі втрати).</uk>
+        </text>
+        <text name="rhm_help_difficulty_2">
+            <en>Additional toggles:&#10;• Speed Limiter (ON/OFF) — automaticaly reduces your speed when engine load is too high&#10;• Crop Loss System (ON/OFF) — enables or disables grain loss simulation entirely&#10;• Independent Launch — allows starting thresher without lowering the header first.&#10;&#10;In MULTIPLAYER, server settings (difficulty, speed limit, crop loss) are shared for all players and can only be changed by the admin.&#10;&#10;Client settings (HUD, units, position) are personal per-player.&#10;&#10;All settings persist across save games.</en>
+            <de>Weitere Optionen:&#10;• Geschwindigkeitsbegrenzung (EIN/AUS)&#10;• Ernteverlust-System (EIN/AUS)&#10;• Unabhängiger Start.&#10;&#10;Im MEHRSPIELER sind Servereinstellungen (Schwierigkeit) für alle gleich und nur vom Admin änderbar.&#10;&#10;Clienteinstellungen (HUD, Einheiten) sind pro Spieler.&#10;&#10;Alle Einstellungen bleiben gespeichert.</de>
+            <fr>Options supplémentaires :&#10;• Limiteur de Vitesse (ON/OFF)&#10;• Système de Pertes (ON/OFF)&#10;• Lancement Indépendant.&#10;&#10;En MULTIJOUEUR, les paramètres serveur sont partagés (admin uniquement).&#10;&#10;Les paramètres client (HUD, unités) sont personnels.&#10;&#10;Tout est sauvegardé.</fr>
+            <it>Opzioni aggiuntive:&#10;• Limitatore Velocità (ON/OFF)&#10;• Sistema Perdite (ON/OFF)&#10;• Avvio Indipendente.&#10;&#10;In MULTIGIOCATORE, le impostazioni server sono condivise (solo admin).&#10;&#10;Le impostazioni client (HUD, unità) sono personali.&#10;&#10;Tutto viene salvato.</it>
+            <es>Opciones adicionales:&#10;• Limitador de Velocidad (ON/OFF)&#10;• Sistema de Pérdidas (ON/OFF)&#10;• Arranque Independiente.&#10;&#10;En MULTIJUGADOR, los ajustes del servidor son compartidos (solo admin).&#10;&#10;Los ajustes del cliente (HUD, unidades) son personales.&#10;&#10;Todo se guarda.</es>
+            <br>Opções adicionais:&#10;• Limitador de Velocidade (ON/OFF)&#10;• Sistema de Perdas (ON/OFF)&#10;• Início Independente.&#10;&#10;No MULTIJOGADOR, as configurações do servidor são compartilhadas (apenas admin).&#10;&#10;As configurações do cliente (HUD, unidades) são pessoais.&#10;&#10;Tudo é salvo.</br>
+            <pl>Dodatkowe opcje:&#10;• Ogranicznik Prędkości (WŁ/WYŁ)&#10;• System Strat (WŁ/WYŁ)&#10;• Niezależny Rozruch.&#10;&#10;W MULTIPLAYERZE ustawienia serwera (trudność) są wspólne i zmienia je tylko admin.&#10;&#10;Ustawienia klienta (HUD, jednostki) są indywidualne.&#10;&#10;Wszystko jest zapisywane.</pl>
+            <ru>Дополнительные переключатели:&#10;• Ограничитель скорости (ВКЛ/ВЫКЛ) — автоматически снижает скорость при перегрузке&#10;• Система потерь (ВКЛ/ВЫКЛ) — полностью включает/отключает симуляцию потерь&#10;• Независимый запуск — позволяет включить молотилку без опускания жатки.&#10;&#10;В МУЛЬТИПЛЕЕРЕ серверные настройки (сложность) общие для всех, изменяет только админ.&#10;&#10;Клиентские (HUD, единицы) — индивидуальные.&#10;&#10;Всё сохраняется между сессиями.</ru>
+            <hu>További kapcsolók:&#10;• Sebességkorlátozó (BE/KI)&#10;• Veszteségrendszer (BE/KI)&#10;• Független Indítás.&#10;&#10;TÖBBJÁTÉKOS módban a szerver beállítások (nehézség) közösek és csak admin változtathatja.&#10;&#10;A kliens beállítások (HUD, mértékegységek) személyesek.&#10;&#10;Minden mentődik.</hu>
+            <cz>Další přepínače:&#10;• Omezovač Rychlosti (ZAP/VYP)&#10;• Systém Ztrát (ZAP/VYP)&#10;• Nezávislý Start.&#10;&#10;V MULTIPLAYERU jsou serverová nastavení (obtížnost) sdílená a mění je pouze admin.&#10;&#10;Klientská nastavení (HUD, jednotky) jsou osobní.&#10;&#10;Vše se ukládá.</cz>
+            <uk>Додаткові перемикачі:&#10;• Обмежувач швидкості (УВМК/ВИМК) — автоматично знижує швидкість при перевантаженні&#10;• Система втрат (УВМК/ВИМК) — повністю вмикає або вимикає симуляцію втрат зерна&#10;• Незалежний запуск — дозволяє увімкнути молотарку без попереднього опускання жатки.&#10;&#10;У МУЛЬТИПЛЕЄРІ серверні налаштування (складність, ліміт швидкості, втрати) спільні для всіх і може змінювати тільки адміністратор.&#10;&#10;Клієнтські (HUD, одиниці, позиція) — персональні для кожного гравця.&#10;&#10;Всі налаштування зберігаються між сесіями.</uk>
+        </text>
+    
+        <text name="rhm_help_overview_sub1">
+            <en>Core Mechanics</en> <de>Kernmechanik</de> <fr>Mécanique de base</fr> <it>Meccanica di base</it> <es>Mecánica central</es> <br>Mecânica central</br> <pl>Główna mechanika</pl> <ru>Основная механика</ru> <hu>Alapvető mechanika</hu> <cz>Základní mechanika</cz> <uk>Основна механіка</uk>
+        </text>
+        <text name="rhm_help_overview_sub2">
+            <en>Efficiency &amp; Engine Load</en> <de>Effizienz &amp; Motorlast</de> <fr>Efficacité et Charge</fr> <it>Efficienza e Carico</it> <es>Eficiencia y Carga</es> <br>Eficiência e Carga</br> <pl>Wydajność i Obciążenie</pl> <ru>Эффективность и Нагрузка</ru> <hu>Hatékonyság és Terhelés</hu> <cz>Účinnost a Zatížení</cz> <uk>Ефективність та Навантаження</uk>
+        </text>
+        <text name="rhm_help_hud_sub1">
+            <en>Live Metrics</en> <de>Live-Metriken</de> <fr>Mesures en Direct</fr> <it>Metriche Live</it> <es>Métricas en Vivo</es> <br>Métricas ao Vivo</br> <pl>Pomiary na Żywo</pl> <ru>Текущие показатели</ru> <hu>Élő Mutatók</hu> <cz>Živé Metriky</cz> <uk>Показники в реальному часі</uk>
+        </text>
+        <text name="rhm_help_hud_sub2">
+            <en>Customization</en> <de>Anpassung</de> <fr>Personnalisation</fr> <it>Personalizzazione</it> <es>Personalización</es> <br>Personalização</br> <pl>Personalizacja</pl> <ru>Настройки интерфейса</ru> <hu>Testreszabás</hu> <cz>Přizpůsobení</cz> <uk>Налаштування інтерфейсу</uk>
+        </text>
+        <text name="rhm_help_calibration_sub1">
+            <en>Internal Components</en> <de>Interne Komponenten</de> <fr>Composants Internes</fr> <it>Componenti Interni</it> <es>Componentes Internos</es> <br>Componentes Internos</br> <pl>Elementy Wewnętrzne</pl> <ru>Внутренние узлы</ru> <hu>Belső Alkatrészek</hu> <cz>Vnitřní Komponenty</cz> <uk>Внутрішні вузли</uk>
+        </text>
+        <text name="rhm_help_calibration_sub2">
+            <en>Harvest Report</en> <de>Erntebericht</de> <fr>Rapport de Récolte</fr> <it>Rapporto di Raccolta</it> <es>Informe de Cosecha</es> <br>Relatório de Colheita</br> <pl>Raport ze Zbiorów</pl> <ru>Отчет об уборке</ru> <hu>Betakarítási Jelentés</hu> <cz>Zpráva o Sklizni</cz> <uk>Звіт про врожай</uk>
+        </text>
+        <text name="rhm_help_special_sub1">
+            <en>Forage Harvesters</en> <de>Feldhäcksler</de> <fr>Ensileuses</fr> <it>Trinciatrici</it> <es>Cosechadoras de Forraje</es> <br>Colheitadeiras de Forragem</br> <pl>Sieczkarnie</pl> <ru>Кормоуборочные комбайны</ru> <hu>Szecskázók</hu> <cz>Řezačky</cz> <uk>Кормозбиральні комбайни</uk>
+        </text>
+        <text name="rhm_help_special_sub2">
+            <en>Root Crop &amp; Cotton</en> <de>Hackfrucht &amp; Baumwolle</de> <fr>Racines &amp; Coton</fr> <it>Radici &amp; Cotone</it> <es>Raíces &amp; Algodón</es> <br>Raízes &amp; Algodão</br> <pl>Okopowe i Bawełna</pl> <ru>Корнеплоды и Хлопок</ru> <hu>Gyökérzöldség és Gyapot</hu> <cz>Okopaniny a Bavlna</cz> <uk>Коренеплоди та Бавовна</uk>
+        </text>
+        <text name="rhm_help_croploss_sub1">
+            <en>Sources of Loss</en> <de>Verlustquellen</de> <fr>Sources de Perte</fr> <it>Fonti di Perdita</it> <es>Fuentes de Pérdida</es> <br>Fontes de Perda</br> <pl>Źródła Strat</pl> <ru>Источники потерь</ru> <hu>Veszteség Forrásai</hu> <cz>Zdroje Ztrát</cz> <uk>Джерела втрат</uk>
+        </text>
+        <text name="rhm_help_croploss_sub2">
+            <en>Calibration Penalties</en> <de>Kalibrierungsstrafen</de> <fr>Pénalités de Calibrage</fr> <it>Penalità di Calibrazione</it> <es>Penalizaciones de Calibración</es> <br>Penalidades de Calibração</br> <pl>Kary za Kalibrację</pl> <ru>Штрафы за калибровку</ru> <hu>Kalibrálási Büntetések</hu> <cz>Penále za Kalibraci</cz> <uk>Штрафи за калібрування</uk>
+        </text>
+        <text name="rhm_help_difficulty_sub1">
+            <en>Game Difficulty</en> <de>Spielschwierigkeit</de> <fr>Difficulté du Jeu</fr> <it>Difficoltà di Gioco</it> <es>Dificultad del Juego</es> <br>Dificuldade do Jogo</br> <pl>Poziom Trudności</pl> <ru>Сложность игры</ru> <hu>Játék Nehézsége</hu> <cz>Obtížnost Hry</cz> <uk>Складність гри</uk>
+        </text>
+        <text name="rhm_help_difficulty_sub2">
+            <en>Additional Settings</en> <de>Zusätzliche Einstellungen</de> <fr>Paramètres Supplémentaires</fr> <it>Impostazioni Aggiuntive</it> <es>Ajustes Adicionales</es> <br>Configurações Adicionais</br> <pl>Dodatkowe Ustawienia</pl> <ru>Активные модули</ru> <hu>További Beállítások</hu> <cz>Další Nastavení</cz> <uk>Активні модулі</uk>
+        </text>
+        <text name="rhm_help_upgrades_sub1">
+            <en>RHM Electronics</en> <de>RHM-Elektronik</de> <fr>Électronique RHM</fr> <it>Elettronica RHM</it> <es>Electrónica RHM</es> <br>Eletrônica RHM</br> <pl>Elektronika RHM</pl> <ru>Электроника RHM</ru> <hu>RHM Elektronika</hu> <cz>Elektronika RHM</cz> <uk>Електроніка RHM</uk>
+        </text>
+        <text name="rhm_help_upgrades_sub2">
+            <en>Opti-Harvest AI</en> <de>Opti-Harvest KI</de> <fr>IA Opti-Harvest</fr> <it>IA Opti-Harvest</it> <es>IA Opti-Harvest</es> <br>IA Opti-Harvest</br> <pl>Opti-Harvest AI</pl> <ru>Система Opti-Harvest AI</ru> <hu>Opti-Harvest AI</hu> <cz>Umělá Inteligence Opti-Harvest</cz> <uk>Система Opti-Harvest AI</uk>
+        </text>
+</l10n>
+
+    <helpLines>
+        <!-- Title category for GUI -->
+        <category title="$l10n_rhm_help_category">
+            <page title="$l10n_rhm_help_overview_title" iconSliceId="helpline.icon_shop">
+                <paragraph>
+                    <image filename="textures/help_overview.dds" aspectRatio="0.5"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_overview_sub1"/>
+                    <text text="$l10n_rhm_help_overview_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_overview_sub2"/>
+                    <text text="$l10n_rhm_help_overview_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 2: HUD ===== -->
+            <page title="$l10n_rhm_help_hud_title" iconSliceId="helpline.icon_camera">
+                <paragraph>
+                    <image filename="textures/help_hud.dds" aspectRatio="0.5"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_hud_sub1"/>
+                    <text text="$l10n_rhm_help_hud_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_hud_sub2"/>
+                    <text text="$l10n_rhm_help_hud_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 3: CALIBRATION ===== -->
+            <page title="$l10n_rhm_help_calibration_title" iconSliceId="helpline.icon_gears">
+                <paragraph>
+                    <image filename="textures/help_calibration.dds" aspectRatio="0.5"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_calibration_sub1"/>
+                    <text text="$l10n_rhm_help_calibration_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_calibration_sub2"/>
+                    <text text="$l10n_rhm_help_calibration_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 4: SPECIAL COMBINES ===== -->
+            <page title="$l10n_rhm_help_special_title" iconSliceId="helpline.icon_multiplayer">
+                <paragraph>
+                    <image filename="textures/help_special.dds" aspectRatio="0.5"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_special_sub1"/>
+                    <text text="$l10n_rhm_help_special_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_special_sub2"/>
+                    <text text="$l10n_rhm_help_special_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 5: CROP LOST ===== -->
+            <page title="$l10n_rhm_help_croploss_title" iconSliceId="helpline.icon_animals">
+                <paragraph>
+                    <image filename="textures/help_croploss.dds" aspectRatio="0.5"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_croploss_sub1"/>
+                    <text text="$l10n_rhm_help_croploss_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_croploss_sub2"/>
+                    <text text="$l10n_rhm_help_croploss_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 6: DIFFICULTY ===== -->
+            <page title="$l10n_rhm_help_difficulty_title" iconSliceId="helpline.icon_tractor">
+                <paragraph>
+                    <image filename="textures/help_difficulty.dds" aspectRatio="0.5"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_difficulty_sub1"/>
+                    <text text="$l10n_rhm_help_difficulty_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_difficulty_sub2"/>
+                    <text text="$l10n_rhm_help_difficulty_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 7: UPGRADES ===== -->
+            <page title="$l10n_rhm_help_upgrades_title" iconSliceId="helpline.icon_pallet">
+                <paragraph>
+                    <image filename="textures/help_upgrades.dds" aspectRatio="0.5"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_upgrades_sub1"/>
+                    <text text="$l10n_rhm_help_upgrades_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_upgrades_sub2"/>
+                    <text text="$l10n_rhm_help_upgrades_2"/>
+                </paragraph>
+            </page>
+        </category>
+    </helpLines>
+
 </modDesc>
