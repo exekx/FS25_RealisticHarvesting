@@ -359,15 +359,18 @@ function CombineCalibrationGUI:draw()
         end
         sectionsShown = sectionsShown + 1  -- +1 for PERFORMANCE section
 
+        -- EN: Only add statsHeight and its associated margin if packageLevel >= 3 (Yield Monitor).
+        -- UA: Додаємо statsHeight та відступ тільки якщо packageLevel >= 3.
+        local packageLevel = spec.packageLevel or 1
+        local actualStatsHeight = (packageLevel >= 3) and (ui.statsHeight + ui.margin * 0.4) or 0
+
         local dynamicH = ui.headerHeight
-                       + ui.statsHeight
+                       + actualStatsHeight
                        + ui.lineHeight        -- crop row
-                       + ui.margin * 0.5
                        + (sectionsShown * ui.sectionGap)
                        + (numParams * ui.lineHeight)
-                       + ui.lineHeight * 2.2  -- action buttons
-                       + ui.lineHeight * 0.8  -- close hint
-                       + ui.margin * 4
+                       + (ui.lineHeight * 2.0)  -- action buttons
+                       + ui.margin * 3.2      -- precise bottom padding
 
         local targetTop = 0.91
         ui.h = dynamicH
@@ -438,17 +441,20 @@ function CombineCalibrationGUI:draw()
     local memory = spec.combineMemory
     local machineType = spec.machineType or "grain"
 
-    -- ── Stats bar (3 separate sections) ──────────────────────────────────────
-    -- EN: Live stats split into 3 distinct color-coded sections: Load | Speed | Loss.
-    --     Each section has its own background and individual color coding.
-    -- UA: Жива статистика розділена на 3 окремі секції з кольоровим кодуванням: Навантаження | Швидкість | Втрати.
-    --     Кожна секція має власний фон та індивідуальний колір.
-    cy = cy - ui.statsHeight
-    local sectionGap = 0.003  -- EN: Gap between sections / UA: Відступ між секціями
+    local packageLevel = spec.packageLevel or 1
+    
+    if packageLevel >= 3 then
+        -- ── Stats bar (3 separate sections) ──────────────────────────────────────
+        -- EN: Live stats split into 3 distinct color-coded sections: Load | Speed | Loss.
+        --     Each section has its own background and individual color coding.
+        -- UA: Жива статистика розділена на 3 окремі секції з кольоровим кодуванням: Навантаження | Швидкість | Втрати.
+        --     Кожна секція має власний фон та індивідуальний колір.
+        cy = cy - ui.statsHeight
+        local sectionGap = 0.003  -- EN: Gap between sections / UA: Відступ між секціями
 
-    local load = (spec.loadCalculator and spec.loadCalculator.engineLoad or 0) * 100
-    local effPenalty = 0
-    local lossPenalty = 0
+        local load = (spec.loadCalculator and spec.loadCalculator.engineLoad or 0) * 100
+        local effPenalty = 0
+        local lossPenalty = 0
     if memory.currentCrop then
         effPenalty, lossPenalty, _ = memory:checkSettingsForCrop(memory.currentCrop)
     end
@@ -535,8 +541,9 @@ function CombineCalibrationGUI:draw()
         renderText(sx3Center, cy + sectionH * 0.12, ui.fontSize, string.format("%.1f%%", displayLoss))
     end
 
-    setTextBold(false)
-    cy = cy - ui.margin * 0.4
+        setTextBold(false)
+        cy = cy - ui.margin * 0.4
+    end
 
     -- ── Crop selector + AUTO button ─────────────────────────────────────────
     cy = cy - ui.lineHeight
@@ -587,12 +594,35 @@ function CombineCalibrationGUI:draw()
     end)
 
     -- EN: AUTO button — right-aligned in crop row. Sets optimal settings for current crop.
-    -- UA: Кнопка AUTO — по правому краю рядка культури. Встановлює оптимальні налаштування для поточної культури.
+    --     Disabled if packageLevel < 4.
+    -- UA: Кнопка AUTO — по правому краю. Встановлює оптимальні налаштування. 
+    --     Заблоковано, якщо packageLevel < 4.
     local autoBtnW = 0.065
     local autoBtnX = x + w - ui.margin - autoBtnW
-    self:drawButton(autoBtnX, cy + 0.003, autoBtnW, ui.buttonH + 0.003, g_i18n:getText("rhm_gui_btn_auto"), function()
-        memory:requestAutoSettings()
-    end, ui.colors.buttonAuto)
+    local packageLevel = spec.packageLevel or 1
+    
+    if packageLevel >= 4 then
+        self:drawButton(autoBtnX, cy + 0.003, autoBtnW, ui.buttonH + 0.003, g_i18n:getText("rhm_gui_btn_auto"), function()
+            memory:requestAutoSettings()
+        end, ui.colors.buttonAuto)
+    else
+        -- EN: Fully disabled visual state (no hover effect)
+        -- UA: Повністю неактивний візуальний стан (без ефекту наведення)
+        local btnH = ui.buttonH + 0.003
+        self:drawRect(autoBtnX, cy + 0.003, autoBtnW, btnH, {0.10, 0.10, 0.09, 0.85})
+        setTextAlignment(RenderText.ALIGN_CENTER)
+        setTextBold(true)
+        setTextColor(0.45, 0.42, 0.38, 1.0)
+        renderText(autoBtnX + autoBtnW / 2, cy + 0.003 + btnH / 2 - ui.fontSize / 2.5, ui.fontSize * 0.8, "AUTO (LOCKED)")
+        setTextBold(false)
+        
+        -- Add just the click hit-box to trigger the message
+        table.insert(self.buttons, {x=autoBtnX, y=cy + 0.003, w=autoBtnW, h=btnH, callback=function()
+            if g_currentMission and g_currentMission.hud then
+                g_currentMission.hud:showInGameMessage("RHM", g_i18n:hasText("rhm_msg_req_level_4") and g_i18n:getText("rhm_msg_req_level_4") or "Requires Opti-Harvest AI (Level 4)", -1)
+            end
+        end})
+    end
 
     -- EN: Thin separator under crop row.
     -- UA: Тонкий розділювач під рядком культури.
@@ -800,6 +830,18 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
             statusColor = ui.colors.warning
         end
         statusText = (val < optimal) and "^ low" or "v high"
+    end
+
+    -- EN: Package Level override: hide hints if packageLevel < 2 (Sensor Kit).
+    -- UA: Перевизначення рівня: приховуємо підказки та оптимальні кольори якщо рівень < 2.
+    if self.activeVehicle and self.activeVehicle.spec_rhm_Combine then
+        local packageLevel = self.activeVehicle.spec_rhm_Combine.packageLevel or 1
+        if packageLevel < 2 then
+            valColor = ui.colors.text
+            statusText = ""
+            statusColor = ui.colors.textDim
+            hasOptimal = false -- Disable optimal pin marker & green bar
+        end
     end
 
     -- EN: Teal highlight when mouse is over the value area (scroll wheel target).

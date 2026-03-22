@@ -248,6 +248,17 @@ function rhm_Combine:onLoad(savegame)
     local basePerf = spec.loadCalculator:getBasePerformanceFromPower(self)
     spec.loadCalculator:setBasePerformance(basePerf)
     
+    -- EN: Get the RHM Package level from the store configuration (1=Standard, 4=Opti-Harvest)
+    -- UA: Отримуємо рівень RHM Пакету з конфігурації магазину (1=Standard, 4=Opti-Harvest)
+    local pkgLevel = 1
+    if self.configurations and self.configurations["rhmPackage"] then
+        pkgLevel = tonumber(self.configurations["rhmPackage"]) or 1
+    end
+    spec.packageLevel = pkgLevel
+    if rhm_Combine.debug then
+        RHM_Debug.log("Combine", string.format("RHM: Installed Package Level: %d", pkgLevel))
+    end
+    
     -- EN: Detect machine type from FS25 specialization signals (verified from log analysis).
     --     Grain:  allowThreshingDuringRain=false and strawEffects.n>0
     --     Root:   spec_fruitPreparer present OR (cutter present, no pipe)

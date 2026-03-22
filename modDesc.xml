@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="106">
+<modDesc descVersion="107">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
     <version>1.4.3.0</version>
@@ -864,6 +864,90 @@ Funkciók:
             <uk>КОМБАЙН КРИТИЧНО ПЕРЕВАНТАЖЕНИЙ! Серйозні втрати врожаю!</uk>
             <ru>КОМБАЙН КРИТИЧЕСКИ ПЕРЕГРУЖЕН! Серьёзные потери урожая!</ru>
             <hu>A KOMBÁJN KRITIKUSAN TÚLTERHELT! Súlyos termésveszteség!</hu>
+        </text>
+
+        <text name="rhm_configuration_title">
+            <en>RHM Electronics</en>
+            <de>RHM Elektronik</de>
+            <fr>RHM Électronique</fr>
+            <pl>RHM Elektronika</pl>
+            <es>Electrónica RHM</es>
+            <it>Elettronica RHM</it>
+            <cz>RHM Elektronika</cz>
+            <br>Eletrônica RHM</br>
+            <uk>Інтелектуальні Системи RHM</uk>
+            <ru>Электроника RHM</ru>
+            <hu>RHM Elektronika</hu>
+        </text>
+
+        <text name="rhm_package_standard">
+            <en>Standard</en>
+            <de>Standard</de>
+            <fr>Standard</fr>
+            <pl>Standard</pl>
+            <es>Estándar</es>
+            <it>Standard</it>
+            <cz>Standard</cz>
+            <br>Standard</br>
+            <uk>Базовий</uk>
+            <ru>Базовый</ru>
+            <hu>Standard</hu>
+        </text>
+
+        <text name="rhm_package_sensor">
+            <en>Sensor Kit</en>
+            <de>Sensor Kit</de>
+            <fr>Kit Capteurs</fr>
+            <pl>Zestaw Czujników</pl>
+            <es>Kit de Sensores</es>
+            <it>Kit Sensori</it>
+            <cz>Sada Senzorů</cz>
+            <br>Kit de Sensores</br>
+            <uk>Набір Датчиків</uk>
+            <ru>Набор Датчиков</ru>
+            <hu>Sensor Kit</hu>
+        </text>
+
+        <text name="rhm_package_yield">
+            <en>Yield &amp; Loss Monitor</en>
+            <de>Ertrags- &amp; Verlustmonitor</de>
+            <fr>Moniteur Rendement &amp; Pertes</fr>
+            <pl>Monitor Plonu i Strat</pl>
+            <es>Monitor de Rendto. y Pérdidas</es>
+            <it>Monitor Resa e Perdite</it>
+            <cz>Monitor Výnosu a Ztrát</cz>
+            <br>Monitor de Rendto. e Perdas</br>
+            <uk>Монітор Врожаю та Втрат</uk>
+            <ru>Монитор Урожая и Потерь</ru>
+            <hu>Hozam és Veszteség Monitor</hu>
+        </text>
+
+        <text name="rhm_package_opti">
+            <en>Opti-Harvest AI</en>
+            <de>Opti-Harvest AI</de>
+            <fr>Opti-Harvest AI</fr>
+            <pl>Opti-Harvest AI</pl>
+            <es>Opti-Harvest AI</es>
+            <it>Opti-Harvest AI</it>
+            <cz>Opti-Harvest AI</cz>
+            <br>Opti-Harvest AI</br>
+            <uk>Система Опті-Гарвест AI</uk>
+            <ru>Система Опти-Гарвест AI</ru>
+            <hu>Opti-Harvest AI</hu>
+        </text>
+        
+        <text name="rhm_msg_req_level_4">
+            <en>Requires Opti-Harvest AI package (Level 4).</en>
+            <de>Benötigt Opti-Harvest AI Paket (Level 4).</de>
+            <fr>Nécessite le pack Opti-Harvest AI (Niveau 4).</fr>
+            <pl>Wymaga pakietu Opti-Harvest AI (Poziom 4).</pl>
+            <es>Requiere paquete Opti-Harvest AI (Nivel 4).</es>
+            <it>Richiede pacchetto Opti-Harvest AI (Livello 4).</it>
+            <cz>Vyžaduje balíček Opti-Harvest AI (Úroveň 4).</cz>
+            <br>Requer pacote Opti-Harvest AI (Nível 4).</br>
+            <uk>Потребує пакету Опті-Гарвест AI (Рівень 4) в магазині.</uk>
+            <ru>Требуется пакет Опти-Гарвест AI (Уровень 4) в магазине.</ru>
+            <hu>Opti-Harvest AI csomag szükséges (4. szint).</hu>
         </text>
     </l10n>
 </modDesc>

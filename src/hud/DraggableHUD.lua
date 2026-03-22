@@ -316,10 +316,12 @@ function DraggableHUD:drawContent()
     -- EN: Row 4 — Crop Loss. Skipped entirely for forage harvesters (no grain losses on choppers).
     -- UA: Рядок 4 — Втрати зерна. Пропускається для силосних комбайнів (немає втрат).
     local machineType = nil
+    local packageLevel = 1
     if self.vehicle and self.vehicle.spec_rhm_Combine then
         machineType = self.vehicle.spec_rhm_Combine.machineType
+        packageLevel = self.vehicle.spec_rhm_Combine.packageLevel or 1
     end
-    if self.settings.showCropLoss and machineType ~= "forage" then
+    if self.settings.showCropLoss and machineType ~= "forage" and packageLevel >= 2 then
         local lossVal = self.data.cropLoss or 0
         local lossStr
         if lossVal > 0.1 then
@@ -379,17 +381,19 @@ function DraggableHUD:updateSize()
     -- EN: Detect machine type to exclude forage-specific suppressed rows from height.
     -- UA: Визначаємо тип машини щоб прибрати зайве місце для silosних комбайнів.
     local machineType = nil
+    local packageLevel = 1
     if self.vehicle and self.vehicle.spec_rhm_Combine then
         machineType = self.vehicle.spec_rhm_Combine.machineType
+        packageLevel = self.vehicle.spec_rhm_Combine.packageLevel or 1
     end
 
     local rowCount = 0
     if self.settings.showLoad then rowCount = rowCount + 1 end
     if self.settings.showYield then rowCount = rowCount + 1 end
     if self.settings.showProductivity then rowCount = rowCount + 1 end
-    -- EN: Crop Loss row is not shown for forage harvesters — exclude from height.
-    -- UA: Рядок втрат не відображається для силосних — не рахуємо в висоту.
-    if self.settings.showCropLoss and machineType ~= "forage" then rowCount = rowCount + 1 end
+    -- EN: Crop Loss row is not shown for forage harvesters / Low packages.
+    -- UA: Рядок втрат не відображається для силосних та базових пакетів.
+    if self.settings.showCropLoss and machineType ~= "forage" and packageLevel >= 2 then rowCount = rowCount + 1 end
     if self.settings.showSpeed then rowCount = rowCount + 1 end
 
     local lineHeight  = 0.028 * self.uiScale

@@ -24,6 +24,7 @@ end
 -- EN: Load all subsystem scripts in dependency order.
 -- UA: Завантажуємо всі підсистемні скрипти у порядку залежностей.
 source(modDirectory .. "src/utils/RHM_Debug.lua")
+source(modDirectory .. "src/settings/RHMConfiguration.lua")
 source(modDirectory .. "src/settings/SettingsManager.lua")
 source(modDirectory .. "src/settings/Settings.lua")
 source(modDirectory .. "src/settings/SettingsGUI.lua")

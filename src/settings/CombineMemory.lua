@@ -81,29 +81,12 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
     end
 
     if forceOptimal and optimalSettings then
-        -- EN: AUTO mode: add small random deviation around the optimal value.
-        --     Randomness is generated ONLY on the server (to prevent server/client desync).
-        -- UA: AUTO режим: додаємо невелике випадкове відхилення від оптимального значення.
-        --     Випадковість генерується ТІЛЬКИ на сервері (щоб уникнути розсинхронізації).
-        local function getAutoValue(optimal, tolerance)
-            local deviation = 0
-            if (g_server ~= nil) then
-                -- EN: Deviation slightly larger than tolerance to make AUTO good but not always perfect.
-                -- UA: Відхилення трохи більше за допуск, щоб AUTO був хорошим, але не завжди ідеальним.
-                local maxDev = tolerance + 2
-                deviation = math.random(0, maxDev)
-                local sign = math.random() > 0.5 and 1 or -1
-                deviation = sign * deviation
-            end
-            local value = optimal + deviation
-            return math.max(0, math.min(100, value))
-        end
-
+        -- EN: AUTO mode: sets exactly the 100% optimal values (Opti-Harvest Level 4 exclusive).
+        -- UA: AUTO режим: встановлює рівно 100% оптимальні значення (ексклюзив для пакету Opti-Harvest 4 рівня).
         local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
         for _, pName in ipairs(activeParams) do
             if optimalSettings[pName] then
-                local tol = optimalSettings[pName].tolerance or 5
-                self.currentSettings[pName] = getAutoValue(optimalSettings[pName].optimal, tol)
+                self.currentSettings[pName] = optimalSettings[pName].optimal
             else
                 self.currentSettings[pName] = 50
             end
