@@ -430,11 +430,13 @@ function CombineCalibrationGUI:draw()
     local memory = spec.combineMemory
     local machineType = spec.machineType or "grain"
 
-    -- ── Stats bar ───────────────────────────────────────────────────────────
-    -- EN: Live stats: engine load | speed penalty preview | loss preview.
-    -- UA: Жива статистика: навантаження двигуна | попередній перегляд штрафу швидкості | попередній перегляд втрат.
+    -- ── Stats bar (3 separate sections) ──────────────────────────────────────
+    -- EN: Live stats split into 3 distinct color-coded sections: Load | Speed | Loss.
+    --     Each section has its own background and individual color coding.
+    -- UA: Жива статистика розділена на 3 окремі секції з кольоровим кодуванням: Навантаження | Швидкість | Втрати.
+    --     Кожна секція має власний фон та індивідуальний колір.
     cy = cy - ui.statsHeight
-    self:drawRect(x, cy, w, ui.statsHeight, ui.colors.statsBg)
+    local sectionGap = 0.003  -- EN: Gap between sections / UA: Відступ між секціями
 
     local load = (spec.loadCalculator and spec.loadCalculator.engineLoad or 0) * 100
     local effPenalty = 0
@@ -442,49 +444,90 @@ function CombineCalibrationGUI:draw()
     if memory.currentCrop then
         effPenalty, lossPenalty, _ = memory:checkSettingsForCrop(memory.currentCrop)
     end
+    local isForage = (machineType == "forage")
 
-    -- EN: Engine load — colored by threshold.
-    -- UA: Навантаження двигуна — кольоровий за порогом.
+    -- EN: Calculate section widths: 3 equal columns with gaps.
+    -- UA: Розраховуємо ширину секцій: 3 рівні колонки з відступами.
+    local totalGaps = sectionGap * 2
+    local sectionW = (w - totalGaps) / 3
+    local sectionH = ui.statsHeight
+
+    -- EN: Darker background for each individual section panel.
+    -- UA: Темніший фон для кожної окремої секції.
+    local sectionBg = {0.08, 0.07, 0.05, 0.85}
+
+    -- ── Section 1: ENGINE LOAD ──
+    local sx1 = x
+    self:drawRect(sx1, cy, sectionW, sectionH, sectionBg)
+
     local loadColor = load > 95 and ui.colors.error or (load > 80 and ui.colors.warning or ui.colors.success)
     setTextBold(true)
-    setTextAlignment(RenderText.ALIGN_LEFT)
+    setTextAlignment(RenderText.ALIGN_CENTER)
+    local sx1Center = sx1 + sectionW * 0.5
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x + ui.margin, cy + 0.008, ui.statusSize, "Load")
+    renderText(sx1Center, cy + sectionH * 0.55, ui.statusSize * 0.85, g_i18n:hasText("rhm_ui_load") and g_i18n:getText("rhm_ui_load") or "Load")
     setTextColor(unpack(loadColor))
-    renderText(x + ui.margin + 0.028, cy + 0.008, ui.fontSize, string.format("%.0f%%", load))
+    renderText(sx1Center, cy + sectionH * 0.12, ui.fontSize, string.format("%.0f%%", load))
 
-    -- EN: Speed/loss preview — center of stats bar.
-    --     For forage harvesters: only show speed efficiency, no crop loss (choppers don't lose grain).
-    -- UA: Попередній перегляд швидкості/втрат — центр смуги статистики.
-    --     Для силосних комбайнів: тільки ефективність швидкості, без втрат врожаю.
-    local speedStr
+    -- ── Section 2: SPEED EFFICIENCY ──
+    local sx2 = sx1 + sectionW + sectionGap
+    self:drawRect(sx2, cy, sectionW, sectionH, sectionBg)
+
+    -- EN: effPenalty < 0 = bonus (green), 0 = neutral (green), 0..2 = mild penalty (yellow), >2 = bad (red).
+    -- UA: effPenalty < 0 = бонус (зелений), 0 = нейтральний (зелений), 0..2 = штраф (жовтий), >2 = поганий (червоний).
+    local speedVal
     if effPenalty < 0 then
-        speedStr = string.format("+%.1f%%", math.abs(effPenalty) * 5.0)
+        speedVal = math.abs(effPenalty) * 5.0
     else
-        speedStr = string.format("-%.1f%%", effPenalty)
+        speedVal = effPenalty
+    end
+    local speedColor
+    if effPenalty < 0 then
+        speedColor = ui.colors.success   -- EN: Bonus speed / UA: Бонус швидкості
+    elseif effPenalty <= 0.1 then
+        speedColor = ui.colors.success   -- EN: Perfect settings / UA: Ідеальні налаштування
+    elseif effPenalty <= 2.0 then
+        speedColor = ui.colors.warning   -- EN: Mild penalty / UA: Легкий штраф
+    else
+        speedColor = ui.colors.error     -- EN: Significant penalty / UA: Значний штраф
     end
 
-    local isForage = (machineType == "forage")
-    local lossStr
+    local sx2Center = sx2 + sectionW * 0.5
+    setTextColor(unpack(ui.colors.textDim))
+    renderText(sx2Center, cy + sectionH * 0.55, ui.statusSize * 0.85, g_i18n:hasText("rhm_ui_speed_eff") and g_i18n:getText("rhm_ui_speed_eff") or "Speed")
+    setTextColor(unpack(speedColor))
+    renderText(sx2Center, cy + sectionH * 0.12, ui.fontSize, string.format("%.1f%%", speedVal))
+
+    -- ── Section 3: CROP LOSS ──
+    local sx3 = sx2 + sectionW + sectionGap
+    self:drawRect(sx3, cy, sectionW, sectionH, sectionBg)
+
+    local sx3Center = sx3 + sectionW * 0.5
+    setTextColor(unpack(ui.colors.textDim))
+    renderText(sx3Center, cy + sectionH * 0.55, ui.statusSize * 0.85, g_i18n:hasText("rhm_ui_loss") and g_i18n:getText("rhm_ui_loss") or "Loss")
+
     if isForage then
-        lossStr = "N/A"
-    elseif lossPenalty <= 0 then
-        lossStr = "0.0%"
+        -- EN: Forage harvesters have no crop loss — show "N/A" dimmed.
+        -- UA: Силосні комбайни не мають втрат — показуємо "N/A" тьмяним.
+        setTextColor(unpack(ui.colors.textDim))
+        renderText(sx3Center, cy + sectionH * 0.12, ui.fontSize, "N/A")
     else
-        lossStr = string.format("+%.1f%%", lossPenalty)
+        -- EN: Loss penalty can be negative internally (bonus), but physically loss can't be negative. Clamp to 0.
+        -- UA: Штраф за втрати внутрішньо може бути від'ємним (бонус), але фізично втрати не можуть бути < 0.
+        local displayLoss = math.max(0, lossPenalty)
+        local lossColor
+        if displayLoss <= 0.1 then
+            lossColor = ui.colors.success    -- EN: No loss / UA: Без втрат
+        elseif displayLoss <= 2.0 then
+            lossColor = ui.colors.warning    -- EN: Mild loss / UA: Помірні втрати
+        else
+            lossColor = ui.colors.error      -- EN: Significant loss / UA: Значні втрати
+        end
+        setTextColor(unpack(lossColor))
+        renderText(sx3Center, cy + sectionH * 0.12, ui.fontSize, string.format("%.1f%%", displayLoss))
     end
 
-    local statsTextColor = ui.colors.text
-    if not isForage and (lossPenalty > 0.5 or effPenalty > 0.5) then
-        statsTextColor = ui.colors.error
-    elseif effPenalty < -0.1 and (isForage or lossPenalty <= 0.5) then
-        statsTextColor = ui.colors.success
-    end
-
-    setTextAlignment(RenderText.ALIGN_RIGHT)
-    setTextColor(unpack(statsTextColor))
-    renderText(x + w - ui.margin, cy + 0.008, ui.fontSize, "Spd " .. speedStr .. "  Loss " .. lossStr)
-
+    setTextBold(false)
     cy = cy - ui.margin * 0.4
 
     -- ── Crop selector + AUTO button ─────────────────────────────────────────

@@ -459,10 +459,10 @@ function LoadCalculator:calculateEngineLoad(vehicle)
                          or currentFruitTypeName:find("GREENBEAN")
                          
         if not isRootOrVeg then
-            cropFactor = cropFactor * 0.75  -- EN: Standard windrows (Wheat, Barley, etc.)
+            cropFactor = cropFactor * 0.25  -- EN: Standard windrows (Wheat, Barley, etc.)
         end
     elseif isForageCutter then
-        cropFactor = cropFactor * 0.80  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
+        cropFactor = cropFactor * 0.75  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
     end
 
     -- --- [RHM DEBUG: INFO LOG] ---
