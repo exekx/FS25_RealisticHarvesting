@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="95">
+    <author>PeterAH (Modding-Welt)</author>
+    <version>0.9.0.0</version>
+    
+    <title>
+        <en>Adjust Working Speed</en>
+        <de>Arbeitsgeschwindigkeit Einstellen</de>
+    </title>
+    
+    <description>
+        <en><![CDATA[With this Script-Mod the working speed of attachments can be adjusted when buying them in the store. The setting range is up to 10 kph (or 6.2 miles) more or less in 1 kph (or 0.62 miles) increments, starting from the default value of the attachment.
+
+Realistic players can use this to slow down their attachments, which is especially useful for youngtimer and oldtimer attachments. But the working speed can also be increased.
+
+Another criterion for setting the working speed can be the existing farm tractor. If your own tractor has hardly any reserves in relation to the attachment (e.g. cultivator or plow), then the working speed should be selected lower.
+
+In the multiplayer, each player can buy an attachment with his or her preferred working speed, i.e. there may be the same attachment with different working speeds in the game.
+
+Adjusting the working speed works with all attachments, whether from the main game, a DLC or mods. 
+
+There are a few mods, where the working speed does not correspond to the usual default values, this can now be adjusted in the store configuration.
+]]>
+        </en>
+        <de><![CDATA[Mit diesem Script-Mod kann die Arbeitsgeschwindigkeit von Anbaugeräten beim Kauf im Shop eingestellt werden. Der Einstellbereich beträgt bis zu 10 kmh mehr oder weniger in jeweils 1 kmh Schritten, ausgehend vom Standardwert des Gerätes.
+
+Realistische Spieler können hiermit ihre Geräte etwas langsamer machen, was vor allem bei Youngtimer- und Oldtimergeräten sinnvoll ist. Die Arbeitsgeschwindigkeit kann aber auch erhöht werden.
+
+Ein weiteres Kriterium für die Einstellung der Arbeitsgeschwindigkeit kann auch der vorhandene Hofschlepper sein. Hat der eigene Traktor in Bezug auf das Gerät (z. B. Grubber oder Pflug) kaum Reserven, dann sollte die Arbeitsgeschwindigkeit etwas niedriger gewählt werden.
+
+Im Multiplayer kann sich jeder Spieler ein Anbaugerät mit der von ihm bevorzugten Arbeitsgeschwindigkeit kaufen, d.h. es gibt dann unter Umständen das gleiche Gerät mit verschiedenen Arbeitsgeschwindigkeit im Spiel.
+
+Das Einstellen der Arbeitsgeschwindigkeit funktioniert bei allen Anbaugeräten, egal ob aus dem Hauptspiel, aus einem DLC oder bei Mods. 
+
+Vereinzelt gibt es Mods, bei denen die Arbeitsgeschwindigkeit nicht den üblichen Standardwerten entspricht, diese kann dann über die Shop-Konfiguration angepasst werden.
+]]>
+        </de>
+    </description>
+    
+    <iconFilename>icon_adjustWorkingSpeed.png</iconFilename>
+    <multiplayer supported="true"/>
+
+    <extraSourceFiles>
+        <sourceFile filename="adjustWorkingSpeedRegister.lua"/>
+    </extraSourceFiles>
+
+    <l10n>
+        <text name="CONFIG_TITLE">
+            <en>Working speed</en>
+            <de>Arbeitsgeschwindigkeit</de>
+        </text>
+        <text name="CONFIG_STANDARD">
+            <en>(Standard)</en>
+            <de>(Standard)</de>
+        </text>        
+        <text name="CONFIG_KPH">
+            <en>kph</en>
+            <de>kmh</de>
+        </text>        
+    </l10n>
+    
+</modDesc>

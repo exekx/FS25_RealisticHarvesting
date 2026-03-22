@@ -18,7 +18,7 @@
         <hu>Realisztikus Betakarítás</hu>
     </title>
     <description>
-        <en><![CDATA[Adds realistic harvesting mechanics to your combines.
+<en><![CDATA[Adds realistic harvesting mechanics to your combines.
 
 Features:
 - Dynamic engine load calculation based on throughput (mass/sec)
@@ -33,8 +33,8 @@ Features:
 - Combine Settings & Calibration System
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></en>
-        <de><![CDATA[Fügt realistische Erntemechanik zu Ihren Mähdreschern hinzu.
+]]></en>
+<de><![CDATA[Fügt realistische Erntemechanik zu Ihren Mähdreschern hinzu.
 
 Funktionen:
 - Dynamische Motorlastberechnung basierend auf Erntedichte und Schneidwerksbreite
@@ -46,8 +46,8 @@ Funktionen:
 - Experimentelle NEXAT-Unterstützung
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></de>
-        <fr><![CDATA[Ajoute des mécaniques de récolte réalistes à vos moissonneuses-batteuses.
+]]></de>
+<fr><![CDATA[Ajoute des mécaniques de récolte réalistes à vos moissonneuses-batteuses.
 
 Fonctionnalités:
 - Calcul dynamique de la charge moteur basé sur la densité des cultures et la largeur de la coupe
@@ -59,8 +59,8 @@ Fonctionnalités:
 - Support expérimental NEXAT
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></fr>
-        <pl><![CDATA[Dodaje realistyczną mechanikę żniw do kombajnów.
+]]></fr>
+<pl><![CDATA[Dodaje realistyczną mechanikę żniw do kombajnów.
 
 Funkcje:
 - Dynamiczne obliczanie obciążenia silnika w oparciu o gęstość plonów i szerokość hederów
@@ -72,8 +72,8 @@ Funkcje:
 - Eksperymentalne wsparcie dla NEXAT
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></pl>
-        <es><![CDATA[Añade mecánicas de cosecha realistas a tus cosechadoras.
+]]></pl>
+<es><![CDATA[Añade mecánicas de cosecha realistas a tus cosechadoras.
 
 Características:
 - Cálculo dinámico de carga del motor basado en densidad de cultivos y ancho de cabezal
@@ -85,8 +85,8 @@ Características:
 - Soporte experimental para NEXAT
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></es>
-        <it><![CDATA[Aggiunge meccaniche di raccolta realistiche alle tue mietitrebbie.
+]]></es>
+<it><![CDATA[Aggiunge meccaniche di raccolta realistiche alle tue mietitrebbie.
 
 Caratteristiche:
 - Calcolo dinamico del carico motore basato su densità colture e larghezza testata
@@ -98,8 +98,8 @@ Caratteristiche:
 - Supporto sperimentale NEXAT
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></it>
-        <cz><![CDATA[Přidává realistickou mechaniku sklizně k vašim kombajnům.
+]]></it>
+<cz><![CDATA[Přidává realistickou mechaniku sklizně k vašim kombajnům.
 
 Funkce:
 - Dynamický výpočet zatížení motoru na základě hustoty plodin a šířky žacího ústrojí
@@ -111,8 +111,8 @@ Funkce:
 - Experimentální podpora NEXAT
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></cz>
-        <br><![CDATA[Adiciona mecânicas de colheita realistas às suas colheitadeiras.
+]]></cz>
+<br><![CDATA[Adiciona mecânicas de colheita realistas às suas colheitadeiras.
 
 Recursos:
 - Cálculo dinâmico de carga do motor baseado em densidade de culturas e largura da plataforma
@@ -124,8 +124,8 @@ Recursos:
 - Suporte experimental para NEXAT
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></br>
-        <uk><![CDATA[Додає реалістичну механіку збору врожаю до ваших комбайнів.
+]]></br>
+<uk><![CDATA[Додає реалістичну механіку збору врожаю до ваших комбайнів.
 
 Функції:
 - Динамічний розрахунок навантаження двигуна на основі щільності культур та ширини жатки
@@ -135,8 +135,8 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting
 - Повна підтримка мультиплеєра з налаштуваннями на стороні сервера
 - Підтримка бавовняних комбайнів, коренезбиральних комбайнів та часткова підтримка кормозбиральних комбайнів
 - Експериментальна підтримка NEXAT
-    ]]></uk>
-    <ru><![CDATA[Добавляет реалистичную механику уборки урожая к вашим комбайнам.
+]]></uk>
+<ru><![CDATA[Добавляет реалистичную механику уборки урожая к вашим комбайнам.
 
 Функции:
 - Динамический расчет нагрузки двигателя на основе плотности культур и ширины жатки
@@ -146,8 +146,8 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting
 - Полная поддержка мультиплеера с настройками на стороне сервера
 - Поддержка хлопкоуборочных комбайнов, корнеуборочных комбайнов и частичная поддержка кормоуборочных комбайнов
 - Экспериментальная поддержка NEXAT
-    ]]></ru>
-    <hu><![CDATA[Valósághű betakarítási mechanikákat ad hozzá a kombájnjaidhoz.
+]]></ru>
+<hu><![CDATA[Valósághű betakarítási mechanikákat ad hozzá a kombájnjaidhoz.
 
 Funkciók:
 - Dinamikus motor­terhelés-számítás a termény sűrűsége és a vágóasztal szélessége alapján
@@ -157,7 +157,7 @@ Funkciók:
 - Teljes többjátékos támogatás, szerveroldali beállításokkal
 - Támogatás gyapotbetakarítókhoz, gyökérnövény-betakarítókhoz, valamint részleges támogatás silózó betakarítókhoz
 - Kísérleti NEXAT támogatás
-    ]]></hu>
+]]></hu>
     </description>
     <iconFilename>icon_FS25_RealisticHarvesting.dds</iconFilename>
     

@@ -10,6 +10,17 @@
 local modDirectory = g_currentModDirectory
 local modName = g_currentModName
 
+-- EN: Custom logging function that respects FS25 development warnings setting.
+-- UA: Кастомна функція логування, яка поважає налаштування development warnings FS25.
+function rhm_log(...)
+    if g_gameSettings and type(g_gameSettings.getIsDevelopmentVersion) == "function" then
+        if not g_gameSettings:getIsDevelopmentVersion() then
+            return
+        end
+    end
+    print(...)
+end
+
 -- EN: Load all subsystem scripts in dependency order.
 -- UA: Завантажуємо всі підсистемні скрипти у порядку залежностей.
 source(modDirectory .. "src/utils/RHM_Debug.lua")

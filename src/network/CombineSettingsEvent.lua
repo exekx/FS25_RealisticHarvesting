@@ -97,7 +97,7 @@ function CombineSettingsEvent:run(connection)
                 mem.autoSwitchEnabled = false
                 mem.mode = "MANUAL"
                 if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                    print("RHM: [Sync] Received full user profile settings via network")
+                    RHM_Debug.log("Network", "RHM: [Sync] Received full user profile settings via network")
                 end
             else
                 if self.parameter == "AUTO_SET" then
@@ -108,7 +108,7 @@ function CombineSettingsEvent:run(connection)
                     if mem.currentCrop then
                         mem:autoConfigureForCrop(mem.currentCrop, true)
                         if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                            print(string.format("RHM: [Sync] Server applied AUTO mode for %s", mem.currentCrop))
+                            RHM_Debug.log("Network", string.format("RHM: [Sync] Server applied AUTO mode for %s", mem.currentCrop))
                         end
                     end
                 elseif self.parameter == "RESET_SET" then
@@ -119,7 +119,7 @@ function CombineSettingsEvent:run(connection)
                     if mem.currentCrop then
                         mem:autoConfigureForCrop(mem.currentCrop, false)
                         if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                            print(string.format("RHM: [Sync] Server applied RESET to 50%% for %s", mem.currentCrop))
+                            RHM_Debug.log("Network", string.format("RHM: [Sync] Server applied RESET to 50%% for %s", mem.currentCrop))
                         end
                     end
                 elseif self.parameter == "AUTO_MODE" then
@@ -138,7 +138,7 @@ function CombineSettingsEvent:run(connection)
                             mem.mode = "MANUAL"
                         end
                         if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                            print(string.format("RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
+                            RHM_Debug.log("Network", string.format("RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
                         end
                     end
                 end

@@ -18,11 +18,11 @@ RHM_Debug.Modules = {
 
     -- EN: Combine specialization logic (crop detection, speed limiting)
     -- UA: Логіка комбайна (відбір культур, обмеження швидкості)
-    Combine = true,
+    Combine = false,
 
     -- EN: Load calculator (yield, crop types, engine load % and math)
     -- UA: Калькулятор навантаження (врожайність, типи культур, навантаження % і математика)
-    LoadCalculator = true,
+    LoadCalculator = false,
 
     -- EN: Combine memory (fan, rotor, sieve setting changes)
     -- UA: Пам'ять комбайна (зміна налаштувань вентилятора, ротора і тд)
@@ -58,6 +58,6 @@ end
 -- UA: Зручна функція для виведення дебаг-повідомлення для конкретного модуля.
 function RHM_Debug.log(moduleName, message)
     if RHM_Debug.isEnabled(moduleName) then
-        print(string.format("RHM [%s]: %s", moduleName, message))
+        rhm_log(string.format("RHM [%s]: %s", moduleName, message))
     end
 end

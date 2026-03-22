@@ -174,9 +174,9 @@ function CombineCalibrationGUI:open(vehicle)
         local found = findCombine(vehicle.rootVehicle or vehicle, {})
         if found then
             combineVehicle = found
-            print(string.format("RHM: [GUI] NEXAT: found combine vehicle in hierarchy: %s", tostring(combineVehicle)))
+            RHM_Debug.log("UI", string.format("RHM: [GUI] NEXAT: found combine vehicle in hierarchy: %s", tostring(combineVehicle)))
         else
-            print("RHM: [GUI] No combine with spec_rhm_Combine found in vehicle hierarchy — GUI will not open")
+            RHM_Debug.log("UI", "RHM: [GUI] No combine with spec_rhm_Combine found in vehicle hierarchy — GUI will not open")
             return
         end
     end
@@ -219,17 +219,14 @@ function CombineCalibrationGUI:close()
     local hudCursorActive = g_realisticHarvestManager and g_realisticHarvestManager.isCursorVisible
     g_inputBinding:setShowMouseCursor(hudCursorActive or false)
 
-    if vehicle and vehicle.spec_enterable then
-        for _, camera in pairs(vehicle.spec_enterable.cameras) do
-            local savedRotatable = self.savedCameraRotatableInfo[camera]
-            local savedZoom = self.savedCameraZoomInfo[camera]
-            camera.isRotatable = savedRotatable ~= nil and savedRotatable or true
-            camera.allowTranslation = savedZoom ~= nil and savedZoom or true
-            camera.allowZoom = savedZoom ~= nil and savedZoom or true
-        end
-        self.savedCameraRotatableInfo = {}
-        self.savedCameraZoomInfo = {}
+    for camera, savedRotatable in pairs(self.savedCameraRotatableInfo) do
+        local savedZoom = self.savedCameraZoomInfo[camera]
+        camera.isRotatable = savedRotatable ~= nil and savedRotatable or true
+        camera.allowTranslation = savedZoom ~= nil and savedZoom or true
+        camera.allowZoom = savedZoom ~= nil and savedZoom or true
     end
+    self.savedCameraRotatableInfo = {}
+    self.savedCameraZoomInfo = {}
 
     if hudCursorActive and vehicle and vehicle.spec_enterable then
         RHMInputUtil.setCameraRotation(vehicle, false, g_realisticHarvestManager.savedCameraRotatableInfo)
@@ -303,7 +300,7 @@ function CombineCalibrationGUI:update(dt)
     end
 
     if not isEntered then
-        print("RHM: [GUI] Closing due to isEntered=false."
+        RHM_Debug.log("UI", "RHM: [GUI] Closing due to isEntered=false."
             .. " RHM_cv=" .. tostring(g_realisticHarvestManager and g_realisticHarvestManager:getControlledVehicle())
             .. " vToCheck=" .. tostring(vehicleToCheck)
             .. " (root=" .. tostring(vehicleToCheck and (vehicleToCheck.rootVehicle or vehicleToCheck)) .. ")")
@@ -330,7 +327,7 @@ end
 function CombineCalibrationGUI:draw()
     if not self.isOpen then return end
     if not (g_currentMission and g_currentMission.hud) then
-        if self.debug then print("RHM: [GUI] draw() abort: no g_currentMission.hud") end
+        if self.debug then RHM_Debug.log("UI", "RHM: [GUI] draw() abort: no g_currentMission.hud") end
         return
     end
 
@@ -400,11 +397,22 @@ function CombineCalibrationGUI:draw()
     renderText(x + w / 2, headerY + ui.headerHeight * 0.35, ui.titleSize, g_i18n:getText("rhm_gui_title"))
     setTextBold(false)
 
-    -- EN: Close shortcut right-aligned in header.
-    -- UA: Комбінація клавіш закриття по правому краю заголовку.
+    -- EN: Close hint right-aligned in header.
+    -- UA: Підказка закриття по правому краю заголовку.
+    local closeHintText = g_i18n:hasText("rhm_gui_close_hint") and g_i18n:getText("rhm_gui_close_hint") or "RShift+K to Close"
     setTextAlignment(RenderText.ALIGN_RIGHT)
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x + w - ui.margin, headerY + ui.headerHeight * 0.35, ui.fontSize * 0.80, g_i18n:getText("rhm_gui_close_hint"))
+    renderText(x + w - ui.margin - 0.025, headerY + ui.headerHeight * 0.35, ui.fontSize * 0.80, closeHintText)
+
+    -- EN: Close [X] button
+    -- UA: Кнопка закриття [X]
+    local closeBtnW = 0.018
+    local closeBtnH = ui.headerHeight * 0.7
+    local closeBtnX = x + w - ui.margin - closeBtnW + 0.005
+    local closeBtnY = headerY + (ui.headerHeight - closeBtnH) * 0.5
+    self:drawButton(closeBtnX, closeBtnY, closeBtnW, closeBtnH, "X", function()
+        self:close()
+    end, {0.6, 0.1, 0.1, 0.9})
 
     local cy = headerY - ui.margin * 0.5
 
@@ -1135,4 +1143,4 @@ function CombineCalibrationGUI:getParameterAtMouse(x, y)
     return nil
 end
 
-print("[OK] CombineCalibrationGUI loaded")
+RHM_Debug.log("UI", "[OK] CombineCalibrationGUI loaded")

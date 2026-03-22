@@ -26,7 +26,7 @@ end
 function ProfileManager:getXmlFilePath()
     local userPath = getUserProfileAppPath()
     if not userPath then
-        print("RHM: ERROR - Cannot get user profile path for profiles")
+        RHM_Debug.log("Settings", "RHM: ERROR - Cannot get user profile path for profiles")
         return nil
     end
 
@@ -80,7 +80,7 @@ function ProfileManager:loadProfiles()
             i = i + 1
         end
         xml:delete()
-        print(string.format("RHM: Loaded %d user crop profiles from %s", i, xmlPath))
+        RHM_Debug.log("Settings", string.format("RHM: Loaded %d user crop profiles from %s", i, xmlPath))
         return true
     end
     return false
@@ -110,7 +110,7 @@ function ProfileManager:saveProfiles()
         end
         xml:save()
         xml:delete()
-        print(string.format("RHM: Saved %d user crop profiles to %s", i, xmlPath))
+        RHM_Debug.log("Settings", string.format("RHM: Saved %d user crop profiles to %s", i, xmlPath))
         return true
     end
     return false

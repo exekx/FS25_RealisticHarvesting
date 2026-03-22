@@ -18,23 +18,23 @@ rhm_Combine.debug = false
 function rhm_Combine.prerequisitesPresent(specializations)
     -- EN: Print all specialization class names for diagnostic logging.
     -- UA: Виводимо всі назви класів спеціалізацій для діагностичного логування.
-    print("========================================")
-    print("RHM: Checking prerequisites for vehicle")
-    print("Available specializations:")
+    RHM_Debug.log("Combine", "========================================")
+    RHM_Debug.log("Combine", "RHM: Checking prerequisites for vehicle")
+    RHM_Debug.log("Combine", "Available specializations:")
     for specName, specTable in pairs(specializations) do
         if type(specTable) == "table" and specTable.className then
-            print("  - " .. specTable.className)
+            RHM_Debug.log("Combine", "  - " .. specTable.className)
         end
     end
     
     -- Перевіряємо базову specialization Combine
     local hasCombine = SpecializationUtil.hasSpecialization(Combine, specializations)
-    print("Has Combine: " .. tostring(hasCombine))
+    RHM_Debug.log("Combine", "Has Combine: " .. tostring(hasCombine))
     
     -- Для Nexat: тимчасово спрощуємо перевірку
     -- Повертаємо true якщо просто є Combine
-    print("Result: " .. tostring(hasCombine))
-    print("========================================")
+    RHM_Debug.log("Combine", "Result: " .. tostring(hasCombine))
+    RHM_Debug.log("Combine", "========================================")
     
     return hasCombine
 end
@@ -44,7 +44,7 @@ end
 -- UA: Реєструє перевизначені (proxy) функції rhm_Combine до подій-прислухачів.
 --     Ці функції перехоплюють основні поведінки комбайна для вбудованої логіки навантаження і швидкості.
 function rhm_Combine.registerOverwrittenFunctions(vehicleType)
-    print("RHM: Registering overwritten functions for rhm_Combine")
+    RHM_Debug.log("Combine", "RHM: Registering overwritten functions for rhm_Combine")
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "addCutterArea", rhm_Combine.addCutterArea)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "addFillUnitFillLevel", rhm_Combine.addFillUnitFillLevel)
     SpecializationUtil.registerOverwrittenFunction(vehicleType, "getSpeedLimit", rhm_Combine.getSpeedLimit)
@@ -85,7 +85,7 @@ end
 --     Також реєструє шляхи XML схеми збереження через Vehicle.xmlSchemaSavegame як критичне виправлення
 --     для спеціалізацій доданих програмно, які інакше пропускаються.
 function rhm_Combine.registerEventListeners(vehicleType)
-    print("RHM: Registering event listeners for rhm_Combine")
+    RHM_Debug.log("Combine", "RHM: Registering event listeners for rhm_Combine")
     SpecializationUtil.registerEventListener(vehicleType, "onLoad", rhm_Combine)
     SpecializationUtil.registerEventListener(vehicleType, "onUpdateTick", rhm_Combine)
     SpecializationUtil.registerEventListener(vehicleType, "onDraw", rhm_Combine)
@@ -117,7 +117,7 @@ function rhm_Combine.registerEventListeners(vehicleType)
         rhm_Combine.registerXMLPaths(Vehicle.xmlSchemaSavegame, basePath)
         
         if rhm_Combine.debug then
-            print(string.format("RHM: Registered savegame XML schema paths via Vehicle.xmlSchemaSavegame (basePath: %s)", basePath))
+            RHM_Debug.log("Combine", string.format("RHM: Registered savegame XML schema paths via Vehicle.xmlSchemaSavegame (basePath: %s)", basePath))
         end
     end
 end
@@ -182,7 +182,7 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
                 end
             end, false, true, false, true, nil)
         g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
-        -- print("RHM: [NEXAT] Registered RHM_OPEN_MENU for non-combine vehicle: " .. tostring(vehicle:getFullName()))
+        -- RHM_Debug.log("Combine", "RHM: [NEXAT] Registered RHM_OPEN_MENU for non-combine vehicle: " .. tostring(vehicle:getFullName()))
     end
 end
 
@@ -193,7 +193,7 @@ if not rhm_Combine._nexatHookApplied then
         Vehicle.onRegisterActionEvents,
         RHM_globalOnRegisterActionEvents
     )
-    print("RHM: [NEXAT] Global Vehicle.onRegisterActionEvents hook applied.")
+    RHM_Debug.log("Combine", "RHM: [NEXAT] Global Vehicle.onRegisterActionEvents hook applied.")
 end
 -- ============================================================================
 
@@ -224,7 +224,7 @@ function rhm_Combine:onLoad(savegame)
     rhm_Combine.debug = RHM_Debug.isEnabled("Combine")
     
     if rhm_Combine.debug then
-        print(string.format("RHM: onLoad called for %s (has savegame: %s)", 
+        RHM_Debug.log("Combine", string.format("RHM: onLoad called for %s (has savegame: %s)", 
             tostring(self:getFullName()), tostring(savegame ~= nil)))
     end
     
@@ -316,7 +316,7 @@ function rhm_Combine:onLoad(savegame)
     end
 
     spec.machineType = machineType
-    print(string.format("RHM: [OK] Machine type detected: %s (pipe=%s, cutter=%s, rainOK=%s, fruitPrep=%s)",
+    RHM_Debug.log("Combine", string.format("RHM: [OK] Machine type detected: %s (pipe=%s, cutter=%s, rainOK=%s, fruitPrep=%s)",
         machineType,
         tostring(self.spec_pipe ~= nil),
         tostring(self.spec_cutter ~= nil),
@@ -330,7 +330,7 @@ function rhm_Combine:onLoad(savegame)
     --     щоб регулювання налаштувань впливало на поточні розрахунки навантаження і втрат.
     spec.combineMemory = CombineMemory.new(self, machineType)
     spec.loadCalculator.combineMemory = spec.combineMemory
-    print("RHM: [OK] Combine Settings System initialized")
+    RHM_Debug.log("Combine", "RHM: [OK] Combine Settings System initialized")
 
     
     -- EN: HUD live data table — all fields are updated every tick on the server and synced to clients.
@@ -501,7 +501,7 @@ function rhm_Combine:addCutterArea(superFunc, ...)
                     -- EN: Confirmed after 2 seconds / UA: Підтверджено після 2 секунд
                     spec._pendingCrop = nil
                     if rhm_Combine and rhm_Combine.debug then
-                        print(string.format("RHM: [CROP] Detected crop: %s", cropName))
+                        RHM_Debug.log("Combine", string.format("RHM: [CROP] Detected crop: %s", cropName))
                     end
                     rhm_Combine.onCropTypeChanged(self, cropName)
                 end
@@ -521,7 +521,7 @@ function rhm_Combine:addCutterArea(superFunc, ...)
     -- if (retLiters or 0) > 0 and areaForYield > 0 then
     --    local areaHa = areaForYield / 10000
     --    local yieldL_Ha = retLiters / areaHa
-    --    print(string.format("RHM YIELD DEBUG: Liters=%.2f, Area=%.4f m2, Yield=%.0f L/ha", 
+    --    RHM_Debug.log("Combine", string.format("RHM YIELD DEBUG: Liters=%.2f, Area=%.4f m2, Yield=%.0f L/ha", 
     --        retLiters, areaForYield, yieldL_Ha))
     -- end
     
@@ -1034,12 +1034,12 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                         nil
                     )
                     
-                    if rhm_Combine.debug or cropLoss > 10 then
-                        print(string.format("RHM: [LOSS] Crop Loss Applied: %.1f L lost (%.1f%% of %.1f L harvest)",
+                    if rhm_Combine.debug then
+                        RHM_Debug.log("Combine", string.format("RHM: [LOSS] Crop Loss Applied: %.1f L lost (%.1f%% of %.1f L harvest)",
                             lostLiters, cropLoss, liters))
                     end
                 else
-                    print("RHM: Warning - Could not find fill unit for crop loss removal")
+                    RHM_Debug.log("Combine", "RHM: Warning - Could not find fill unit for crop loss removal")
                 end
             end
         end
@@ -1209,7 +1209,7 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local function safeSet(path, value)
         local ok, err = pcall(function() xmlFile:setValue(path, value) end)
         if not ok then
-            print("RHM: [SAVE] Warning - could not set " .. tostring(path) .. ": " .. tostring(err))
+            RHM_Debug.log("Combine", "RHM: [SAVE] Warning - could not set " .. tostring(path) .. ": " .. tostring(err))
         end
     end
     
@@ -1222,7 +1222,7 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     safeSet(cur .. "#rotor",      settings.rotor or 50)
     safeSet(cur .. "#feeder",     settings.feeder or 50)
     
-    print(string.format("RHM: [SAVE] Saved combine state for %s", self:getName() or "?"))
+    RHM_Debug.log("Combine", string.format("RHM: [SAVE] Saved combine state for %s", self:getName() or "?"))
 end
 
 ---Завантаження стану з savegame файлу
@@ -1242,7 +1242,7 @@ function rhm_Combine:loadFromXMLFile(xmlFile, key, resetVehicles)
     spec.combineMemory.currentSettings.rotor      = xmlFile:getValue(cur .. "#rotor", 50)
     spec.combineMemory.currentSettings.feeder     = xmlFile:getValue(cur .. "#feeder", 50)
     
-    print(string.format("RHM: [LOAD] Loaded combine state for %s", self:getName() or "?"))
+    RHM_Debug.log("Combine", string.format("RHM: [LOAD] Loaded combine state for %s", self:getName() or "?"))
 end
 
 -- ============================================================================

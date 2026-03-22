@@ -50,12 +50,12 @@ function CombineMemory:saveCurrentProfile(cropName)
     if pm then
         pm:saveProfile(cropName, self.currentSettings)
         if self.debug then
-            print(string.format("RHM: [OK] Profile saved globally: %s", cropName))
+            RHM_Debug.log("CombineMemory", string.format("RHM: [OK] Profile saved globally: %s", cropName))
         end
         return true
     end
     if self.debug then
-        print("RHM: [!] Failed to save global profile: ProfileManager not found")
+        RHM_Debug.log("CombineMemory", "RHM: [!] Failed to save global profile: ProfileManager not found")
     end
     return false
 end
@@ -68,14 +68,14 @@ end
 --     Режим RESET (forceOptimal=false) встановлює всі параметри на нейтральні 50%.
 function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
     if not cropName then
-        if self.debug then print("RHM: [!] autoConfigureForCrop called with nil cropName, skipping") end
+        if self.debug then RHM_Debug.log("CombineMemory", "RHM: [!] autoConfigureForCrop called with nil cropName, skipping") end
         return false
     end
 
     local optimalSettings = CombineSettingsDatabase:getSettingsForCrop(cropName)
 
     if not optimalSettings then
-        if self.debug then print(string.format("RHM: [!] No settings found for crop: %s", cropName)) end
+        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: [!] No settings found for crop: %s", cropName)) end
         -- EN: Crop is unknown but we still proceed with defaults.
         -- UA: Культура невідома, але продовжуємо зі значеннями за замовчуванням.
     end
@@ -110,7 +110,7 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
         end
 
         self.mode = "AUTO"
-        if self.debug then print(string.format("RHM: [OK] Auto settings applied for: %s (forceOptimal=%s)", cropName, tostring(forceOptimal))) end
+        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: [OK] Auto settings applied for: %s (forceOptimal=%s)", cropName, tostring(forceOptimal))) end
     else
         -- EN: RESET mode: set all active params to the neutral 50% position.
         -- UA: Режим RESET: встановлюємо всі активні параметри на нейтральну позицію 50%.
@@ -120,7 +120,7 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
         end
 
         self.mode = "MANUAL"
-        if self.debug then print(string.format("RHM: [OK] Default settings (50%%) applied for: %s", cropName)) end
+        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: [OK] Default settings (50%%) applied for: %s", cropName)) end
     end
 
     -- EN: Reset yield calibration when switching to a new crop without an existing profile.
@@ -148,7 +148,7 @@ function CombineMemory:requestAutoSettings()
         else
             event:run(nil) -- EN: Singleplayer: process locally / UA: Однокористувацька: обробляємо локально
         end
-        if self.debug then print("RHM: [Sync] Requested AUTO settings from server") end
+        if self.debug then RHM_Debug.log("CombineMemory", "RHM: [Sync] Requested AUTO settings from server") end
     end
 end
 
@@ -164,7 +164,7 @@ function CombineMemory:requestResetSettings()
         else
             event:run(nil)
         end
-        if self.debug then print("RHM: [Sync] Requested RESET settings from server") end
+        if self.debug then RHM_Debug.log("CombineMemory", "RHM: [Sync] Requested RESET settings from server") end
     end
 end
 
@@ -203,10 +203,10 @@ function CombineMemory:loadUserPreset()
             self.mode = "MANUAL"
             self.autoSwitchEnabled = false
         end
-        if self.debug then print(string.format("RHM: [OK] Global profile applied for %s", self.currentCrop)) end
+        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: [OK] Global profile applied for %s", self.currentCrop)) end
         return true
     else
-        if self.debug then print(string.format("RHM: No global user preset found for %s", self.currentCrop)) end
+        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: No global user preset found for %s", self.currentCrop)) end
         return false
     end
 end
@@ -346,7 +346,7 @@ function CombineMemory:setMode(mode)
             self.mode = "AUTO"
             self.autoSwitchEnabled = true
             if self.debug then
-                print("RHM: [AUTO] currentCrop is nil on DS, pending AUTO mode set. Will apply when crop detected.")
+                RHM_Debug.log("CombineMemory", "RHM: [AUTO] currentCrop is nil on DS, pending AUTO mode set. Will apply when crop detected.")
             end
         end
     elseif mode == "MANUAL" then
@@ -424,10 +424,10 @@ function CombineMemory:switchCrop(newCropName)
 
     local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
     if pm and pm:getProfile(newCropName) then
-        if self.debug then print(string.format("RHM: Switching to crop %s - Loading global profile", newCropName)) end
+        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: Switching to crop %s - Loading global profile", newCropName)) end
         self:loadUserPreset()
     else
-        if self.debug then print(string.format("RHM: Switching to crop %s - No profile, applying defaults", newCropName)) end
+        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: Switching to crop %s - No profile, applying defaults", newCropName)) end
         if self.autoSwitchEnabled then
             self:autoConfigureForCrop(newCropName, true)
         else
@@ -478,7 +478,7 @@ function CombineMemory:toggleAutoMode()
         local event = CombineSettingsEvent.new(self.combine, "AUTO_MODE", targetMode and 1 or 0)
         g_client:getServerConnection():sendEvent(event)
         if self.debug then
-            print(string.format("RHM: [Sync] Sent AUTO mode request to server: %s", targetMode and "ON" or "OFF"))
+            RHM_Debug.log("CombineMemory", string.format("RHM: [Sync] Sent AUTO mode request to server: %s", targetMode and "ON" or "OFF"))
         end
     else
         -- EN: Singleplayer or server: apply immediately.
@@ -494,7 +494,7 @@ function CombineMemory:toggleAutoMode()
             self.mode = "MANUAL"
         end
         if self.debug then
-            print(string.format("RHM: Auto Switch %s", self.autoSwitchEnabled and "ENABLED" or "DISABLED"))
+            RHM_Debug.log("CombineMemory", string.format("RHM: Auto Switch %s", self.autoSwitchEnabled and "ENABLED" or "DISABLED"))
         end
     end
 end
@@ -505,4 +505,4 @@ function CombineMemory:saveProfile(cropName)
     return self:saveCurrentProfile(cropName)
 end
 
-print("[OK] CombineMemory class loaded")
+RHM_Debug.log("CombineMemory", "[OK] CombineMemory class loaded")

@@ -69,7 +69,7 @@ function SettingsSyncEvent:run(connection)
         local settings = g_realisticHarvestManager.settings
         if settings then
             if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                print(string.format("RHM: [Sync] Server APPLYING settings - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
+                RHM_Debug.log("Network", string.format("RHM: [Sync] Server APPLYING settings - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
                     self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableIndependentLaunch)))
             end
 
@@ -91,7 +91,7 @@ function SettingsSyncEvent:run(connection)
             -- UA: Ретранслюємо зміни всім іншим підключеним клієнтам.
             g_server:broadcastEvent(self, nil, connection, nil)
         else
-            print("RHM: [Sync] ERROR - g_realisticHarvestManager.settings is nil!")
+            RHM_Debug.log("Network", "RHM: [Sync] ERROR - g_realisticHarvestManager.settings is nil!")
         end
         return
     end
@@ -110,7 +110,7 @@ function SettingsSyncEvent:run(connection)
             settings.enableIndependentLaunch = self.enableIndependentLaunch
             
             if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                print(string.format("RHM: [Sync] Client received update - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
+                RHM_Debug.log("Network", string.format("RHM: [Sync] Client received update - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
                     self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableIndependentLaunch)))
            end
         end

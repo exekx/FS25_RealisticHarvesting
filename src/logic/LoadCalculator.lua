@@ -60,7 +60,7 @@ function LoadCalculator.new(modDirectory)
     
     self.debug = RHM_Debug and RHM_Debug.isEnabled("LoadCalculator") or false
     if self.debug then
-        print("RHM: LoadCalculator initialized")
+        RHM_Debug.log("LoadCalculator", "RHM: LoadCalculator initialized")
     end
     
     return self
@@ -171,7 +171,7 @@ function LoadCalculator:setBasePerformance(basePerfMass)
     self.basePerfMass = basePerfMass
     
     if rhm_Combine and rhm_Combine.debug then
-        print(string.format("RHM: Base performance set to %.2f kg/s (%.1f t/h)", 
+        RHM_Debug.log("LoadCalculator", string.format("RHM: Base performance set to %.2f kg/s (%.1f t/h)", 
             self.basePerfMass, self.basePerfMass * 3.6))
     end
 end
@@ -240,7 +240,7 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
         end
         
         if isVegetable then
-            coef = 0.060 -- EN: Standardized vegetable coefficient / UA: Стандартизований коефіцієнт для овочів
+            coef = 0.080 -- EN: Standardized vegetable coefficient (increased for downhill capacity) / UA: Стандартизований коефіцієнт для овочів
         end
     end
     
@@ -288,7 +288,7 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
     if power and tonumber(power) > 0 then
         local basePerf = tonumber(power) * coef
         if rhm_Combine and rhm_Combine.debug then
-            print(string.format("RHM DEBUG: BasePerf Mass computed for %s (cat: %s, coef: %.3f): %d hp -> %.2f kg/s (%.1f t/h)", 
+            RHM_Debug.log("LoadCalculator", string.format("RHM DEBUG: BasePerf Mass computed for %s (cat: %s, coef: %.3f): %d hp -> %.2f kg/s (%.1f t/h)", 
                 vehicle:getFullName(), category or "unknown", coef, power, basePerf, basePerf * 3.6))
         end
         return basePerf
@@ -469,7 +469,7 @@ function LoadCalculator:calculateEngineLoad(vehicle)
     if rhm_Combine and rhm_Combine.debug and self.lastCropType ~= spec_combine.lastValidInputFruitType then
         self.lastCropType = spec_combine.lastValidInputFruitType
         local mode = isPickup and "PICKUP" or (isForageCutter and "FORAGE_CUTTER" or "DIRECT_CUT")
-        print(string.format("RHM DEBUG: [INPUT] %s (%s). Final Factor: %.3f", mode, currentFruitTypeName, cropFactor))
+        RHM_Debug.log("LoadCalculator", string.format("RHM DEBUG: [INPUT] %s (%s). Final Factor: %.3f", mode, currentFruitTypeName, cropFactor))
     end
     
     -- EN: Calculate RAW average mass intake per second / UA: Розраховуємо RAW середню масу за секунду (кг/с)
@@ -552,8 +552,8 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
     self.speedLimit = self.speedLimit + step
 
     -- EN: Clamp speed within safe bounds
-    -- UA: Обмеження швидкості: не менше 2 км/год і не більше оригінального ліміту гри
-    self.speedLimit = math.max(2.0, math.min(self.genuineSpeedLimit, self.speedLimit))
+    -- UA: Обмеження швидкості: не менше 4 км/год і не більше оригінального ліміту гри
+    self.speedLimit = math.max(math.min(self.genuineSpeedLimit, 4.0), math.min(self.genuineSpeedLimit, self.speedLimit))
 end
 
 ---EN: Returns current engine load factor / UA: Повертає поточне навантаження двигуна

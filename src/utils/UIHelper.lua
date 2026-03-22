@@ -304,7 +304,7 @@ function UIHelper.createMultiOption(layout, id, textId, options, state, callback
         opt.elements[1]:setText(tooltipText)
     end
 
-    print(string.format("RHM: Set tooltip for %s: %s", textId, tooltipText))
+    RHM_Debug.log("UI", string.format("RHM: Set tooltip for %s: %s", textId, tooltipText))
 
     return opt
 end

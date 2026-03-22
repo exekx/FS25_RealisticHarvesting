@@ -221,5 +221,5 @@ function Settings:resetToDefaults()
 
     self:saveAndSync()
 
-    print("RHM: Settings reset to defaults")
+    RHM_Debug.log("Settings", "RHM: Settings reset to defaults")
 end

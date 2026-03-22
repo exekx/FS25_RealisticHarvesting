@@ -32,25 +32,25 @@ function SettingsSync:sendToServer(settings)
     end
 
     if g_client == nil then
-        print("RHM: [Sync] Error - g_client is nil")
+        RHM_Debug.log("Network", "RHM: [Sync] Error - g_client is nil")
         return
     end
 
     local connection = g_client:getServerConnection()
     if connection == nil then
-        print("RHM: [Sync] Error - Server connection is nil")
+        RHM_Debug.log("Network", "RHM: [Sync] Error - Server connection is nil")
         return
     end
 
     if RHM_Debug and RHM_Debug.isEnabled("Network") then
-        print(string.format("RHM: [Sync] Sending event to server via connection %s", tostring(connection)))
+        RHM_Debug.log("Network", string.format("RHM: [Sync] Sending event to server via connection %s", tostring(connection)))
     end
     
     local event = SettingsSyncEvent.new(settings)
     connection:sendEvent(event)
 
     if RHM_Debug and RHM_Debug.isEnabled("Network") then
-        print(string.format("RHM: [Sync] Event sent (Motor: %d, Loss: %d)", tostring(settings.difficultyMotor or 2), tostring(settings.difficultyLoss or 2)))
+        RHM_Debug.log("Network", string.format("RHM: [Sync] Event sent (Motor: %d, Loss: %d)", tostring(settings.difficultyMotor or 2), tostring(settings.difficultyLoss or 2)))
     end
 end
 
