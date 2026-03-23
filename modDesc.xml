@@ -2218,8 +2218,10 @@ Piros = veszteség.]]>
 
 Each metric can be shown or hidden individually via ESC > Settings > Realistic Harvesting.
 
-You can switch between Metric (t/ha, km/h)
-- Imperial (bu/ac, mph), and Bushel display units.
+You can switch between systems:
+- Metric (t/ha)
+- Imperial (bu/ac)
+- Bushel system
 
 Your HUD position and visibility settings are saved per-player and persist across sessions.]]>
         </en>
@@ -2228,8 +2230,10 @@ Your HUD position and visibility settings are saved per-player and persist acros
 
 Jeder Messwert kann über ESC > Einstellungen > Realistic Harvesting ein-/ausgeblendet werden.
 
-Sie können zwischen Metrisch (t/ha)
-- Imperial (bu/ac) und Scheffel umschalten.
+Wählen Sie Ihr System:
+- Metrisch (t/ha)
+- Imperial (bu/ac)
+- Scheffel (Bushels)
 
 Position und Einstellungen werden pro Spieler gespeichert.]]>
         </de>
@@ -2238,8 +2242,10 @@ Position und Einstellungen werden pro Spieler gespeichert.]]>
 
 Chaque mesure peut être masquée via ESC > Paramètres > Realistic Harvesting.
 
-Vous pouvez basculer entre Métrique (t/ha)
-- Impérial (bu/ac) et Boisseaux.
+Choisissez votre système :
+- Métrique (t/ha)
+- Impérial (bu/ac)
+- Boisseaux
 
 La position est sauvegardée par joueur.]]>
         </fr>
@@ -2249,8 +2255,10 @@ La position est sauvegardée par joueur.]]>
 Ogni metrica può essere mostrata/nascosta tramite ESC
 - Impostazioni.
 
-Puoi passare tra Metrico (t/ha)
-- Imperiale (bu/ac) e Staia.
+Scegli il tuo sistema:
+- Metrico (t/ha)
+- Imperiale (bu/ac)
+- Staia (Bushel)
 
 La posizione viene salvata per giocatore.]]>
         </it>
@@ -2259,8 +2267,10 @@ La posizione viene salvata per giocatore.]]>
 
 Cada métrica puede mostrarse u ocultarse desde ESC > Ajustes.
 
-Puede cambiar entre Métrico (t/ha)
-- Imperial (bu/ac) y Fanegas.
+Elija su sistema:
+- Métrico (t/ha)
+- Imperial (bu/ac)
+- Fanegas (Bushels)
 
 La posición se guarda por jugador.]]>
         </es>
@@ -2269,8 +2279,10 @@ La posición se guarda por jugador.]]>
 
 Cada métrica pode ser mostrada/ocultada em ESC > Configurações.
 
-Você pode alternar entre Métrico (t/ha)
-- Imperial (bu/ac) e Alqueires.
+Escolha seu sistema:
+- Métrico (t/ha)
+- Imperial (bu/ac)
+- Alqueires (Bushels)
 
 A posição é salva por jogador.]]>
         </br>
@@ -2279,8 +2291,10 @@ A posição é salva por jogador.]]>
 
 Każdy wskaźnik można ukryć w ESC > Ustawienia > Realistic Harvesting.
 
-Możesz przełączać między Metrycznym (t/ha)
-- Imperialnym (bu/ac) i Buszelami.
+Wybierz system:
+- Metryczny (t/ha)
+- Imperialny (bu/ac)
+- Buszele
 
 Pozycja jest zapisywana dla każdego gracza.]]>
         </pl>
@@ -2289,8 +2303,10 @@ Pozycja jest zapisywana dla każdego gracza.]]>
 
 Каждую метрику можно скрыть через ESC > Настройки > Realistic Harvesting.
 
-Переключение между Метрической (т/га)
-- Имперской (бу/акр) и Бушельной системами.
+Выбор системы измерения:
+- Метрическая (т/га)
+- Имперская (бу/акр)
+- Бушельная система
 
 Позиция сохраняется для каждого игрока.]]>
         </ru>
@@ -2300,8 +2316,10 @@ Pozycja jest zapisywana dla każdego gracza.]]>
 Minden mutató elrejthető az ESC
 - Beállítások menüben.
 
-Váltás Metrikus (t/ha)
-- Angolszász (bu/ac) és Véka rendszer között.
+Választható rendszerek:
+- Metrikus (t/ha)
+- Angolszász (bu/ac)
+- Véka (Bushel)
 
 A pozíció játékosonként mentődik.]]>
         </hu>
@@ -2311,8 +2329,10 @@ A pozíció játékosonként mentődik.]]>
 Každou metriku lze skrýt v ESC
 - Nastavení.
 
-Přepínání mezi Metrickým (t/ha)
-- Imperiálním (bu/ac) a Bušlem.
+Změna jednotek:
+- Metrické (t/ha)
+- Imperiální (bu/ac)
+- Bušl (Bushel)
 
 Pozice se ukládá pro každého hráče.]]>
         </cz>
@@ -2321,8 +2341,10 @@ Pozice se ukládá pro každého hráče.]]>
 
 Кожну метрику можна приховати окремо через ESC > Налаштування > Realistic Harvesting.
 
-Перемикайтеся між Метричною (т/га, км/год)
-- Імперською (бу/акр, миль/год) та Бушельною системами одиниць.
+Вибір системи вимірювання:
+- Метрична (т/га)
+- Імперська (бу/акр)
+- Бушельна система
 
 Позиція та видимість панелі зберігаються для кожного гравця та зберігаються між сесіями.]]>
         </uk>
@@ -2331,37 +2353,37 @@ Pozice se ukládá pro každého hráče.]]>
         <!-- ===== PAGE 4: SPECIAL COMBINES ===== -->
         <text name="rhm_help_special_title">
             <en>
-            <![CDATA[4. Special Machines — Forage, Root, Cotton]]>
+            <![CDATA[4. Special Machines]]>
         </en>
             <de>
-            <![CDATA[4. Spezialmaschinen — Futter, Rüben, Baumwolle]]>
+            <![CDATA[4. Spezialmaschinen]]>
         </de>
             <fr>
-            <![CDATA[4. Machines spéciales — Fourrage, Racines, Coton]]>
+            <![CDATA[4. Machines spéciales]]>
         </fr>
             <it>
-            <![CDATA[4. Macchine speciali — Foraggio, Radici, Cotone]]>
+            <![CDATA[4. Macchine speciali]]>
         </it>
             <es>
-            <![CDATA[4. Máquinas especiales — Forraje, Raíces, Algodón]]>
+            <![CDATA[4. Máquinas especiales]]>
         </es>
             <br>
-            <![CDATA[4. Máquinas especiais — Forragem, Raízes, Algodão]]>
+            <![CDATA[4. Máquinas especiais]]>
         </br>
             <pl>
-            <![CDATA[4. Maszyny specjalne — Kiszonka, Korzeniowe, Bawełna]]>
+            <![CDATA[4. Maszyny specjalne]]>
         </pl>
             <ru>
-            <![CDATA[4. Спецтехника — Кормоуборочные, Корнеплоды, Хлопок]]>
+            <![CDATA[4. Спецтехника]]>
         </ru>
             <hu>
-            <![CDATA[4. Speciális gépek — Szálastakarmány, Gyökérzöldség, Gyapot]]>
+            <![CDATA[4. Speciális gépek]]>
         </hu>
             <cz>
-            <![CDATA[4. Speciální stroje — Pícniny, Okopaniny, Bavlna]]>
+            <![CDATA[4. Speciální stroje]]>
         </cz>
             <uk>
-            <![CDATA[4. Спецтехніка — Форажири, Коренеплоди, Бавовна]]>
+            <![CDATA[4. Спецтехніка]]>
         </uk>
         </text>
         <text name="rhm_help_special_1">
@@ -2454,7 +2476,8 @@ Trawa jest delikatniejsza — zmniejsz prędkość bębna.]]>
             <ru>
             <![CDATA[КОРМОУБОРОЧНЫЕ КОМБАЙНЫ имеют 3 параметра:
 - Ускоритель (Blower Speed)
-- Измельчающий барабан (Chopping Drum) и Питающие вальцы (Feed Rolls).
+- Измельчающий барабан (Chopping Drum)
+- Питающие вальцы (Feed Rolls).
 
 Они обрабатывают траву, сено, люцерну, клевер и кукурузный силос.
 
@@ -2476,8 +2499,9 @@ A fű kényesebb — csökkentsd a dob sebességét.]]>
         </hu>
             <cz>
             <![CDATA[ŘEZAČKY mají 3 parametry:
-- Urychlovač (Blower Speed), Řezací buben (Chopping Drum)
-- a Vkládací válce (Feed Rolls).
+- Urychlovač (Blower Speed)
+- Řezací buben (Chopping Drum)
+- Vkládací válce (Feed Rolls).
 
 Zpracovávají trávu, seno, vojtěšku, jetel a kukuřičnou siláž.
 
@@ -2500,9 +2524,10 @@ Tráva je jemnější — snižte rychlost bubnu.]]>
         </text>
         <text name="rhm_help_special_2">
             <en>
-            <![CDATA[ROOT HARVESTERS (potato, sugarbeet, onion, carrot, spinach) have Fan Speed (separation blower)
+            <![CDATA[ROOT HARVESTERS (potato, sugarbeet, onion, carrot, spinach):
+- Fan Speed (separation blower)
 - Cleaning Rollers (dirt removal speed)
-- and Elevator Web (transport chain speed).
+- Elevator Web (transport chain speed)
 
 Each root crop has UNIQUE optimal values!
 
@@ -2512,15 +2537,17 @@ Onions need strong airflow (to separate skins).
 
 Spinach needs minimum air (leaves fly away).
 
-COTTON PICKERS have - Fan Speed
+COTTON PICKERS:
+- Fan Speed
 - Picker Speed (spindle RPM)
 - Feeder Speed
 - cotton is extremely light, so precise calibration of the picker drum is critical.]]>
         </en>
             <de>
-            <![CDATA[RÜBENRODER (Kartoffel, Zuckerrübe, Zwiebel, Karotte, Spinat) haben Gebläse (Fan Speed)
+            <![CDATA[RÜBENRODER (Картофель, Свекла и др.):
+- Gebläse (Fan Speed)
 - Reinigungswalzen (Cleaning Rollers)
-- und Siebband (Elevator Web).
+- Siebband (Elevator Web)
 
 Jede Hackfrucht hat EINZIGARTIGE Werte!
 
@@ -2530,9 +2557,10 @@ Zwiebeln brauchen starken Luftstrom.
 
 Spinat braucht minimale Luft.
 
-BAUMWOLLPFLÜCKER haben Gebläse (Fan Speed)
+BAUMWOLLPFLÜCKER:
+- Gebläse (Fan Speed)
 - Pflückergeschwindigkeit (Picker Speed)
-- und Zuführung (Feeder Speed) — Baumwolle ist extrem leicht, präzise Kalibrierung ist entscheidend.]]>
+- Zuführung (Feeder Speed) — Baumwolle ist extrem leicht, präzise Kalibrierung ist entscheidend.]]>
         </de>
             <fr>
             <![CDATA[Les ARRACHEUSES (pomme de terre, betterave, oignon, carotte, épinard) ont Ventilateur, Rouleau et Chaîne d'alimentation.
@@ -2550,9 +2578,10 @@ Les CUEILLEUSES DE COTON ont Ventilateur (Fan Speed)
 - et Alimentation (Feeder Speed) — le coton est extrêmement léger.]]>
         </fr>
             <it>
-            <![CDATA[Le RACCOGLITRICI (patata, barbabietola, cipolla, carota, spinaci) hanno Ventola (Fan Speed)
+            <![CDATA[Le RACCOGLITRICI (Radici):
+- Ventola (Fan Speed)
 - Rulli di pulizia (Cleaning Rollers)
-- e Nastro elevatore (Elevator Web).
+- Nastro elevatore (Elevator Web)
 
 Ogni radice ha valori UNICI!
 
@@ -2567,9 +2596,10 @@ Le RACCOGLITRICI DI COTONE hanno Ventola (Fan Speed)
 - e Alimentatore (Feeder Speed) — il cotone è estremamente leggero.]]>
         </it>
             <es>
-            <![CDATA[Las COSECHADORAS DE RAÍCES (patata, remolacha, cebolla, zanahoria, espinaca) tienen Ventilador (Fan Speed)
+            <![CDATA[Las COSECHADORAS DE RAÍCES:
+- Ventilador (Fan Speed)
 - Rodillos de limpieza (Cleaning Rollers)
-- y Cinta de criba (Elevator Web).
+- Cinta de criba (Elevator Web).
 
 Cada raíz tiene valores ÚNICOS.
 
@@ -2584,9 +2614,10 @@ Las COSECHADORAS DE ALGODÓN tienen Ventilador (Fan Speed)
 - y Alimentador (Feeder Speed) — el algodón es extremadamente ligero.]]>
         </es>
             <br>
-            <![CDATA[As COLHEITADEIRAS DE RAÍZES (batata, beterraba, cebola, cenoura, espinafre) têm Ventilador (Fan Speed)
+            <![CDATA[As COLHEITADEIRAS DE RAÍZES:
+- Ventilador (Fan Speed)
 - Rolos de limpeza (Cleaning Rollers)
-- e Correia elevadora (Elevator Web).
+- Correia elevadora (Elevator Web).
 
 Cada raiz tem valores ÚNICOS!
 
@@ -2601,9 +2632,10 @@ As COLHEITADEIRAS DE ALGODÃO têm Ventilador (Fan Speed)
 - e Alimentador (Feeder Speed) — o algodão é extremamente leve.]]>
         </br>
             <pl>
-            <![CDATA[KOMBAJNY KORZENIOWE (ziemniaki, buraki, cebula, marchew, szpinak) mają Wentylator (Fan Speed)
+            <![CDATA[KOMBAJNY KORZENIOWE:
+- Wentylator (Fan Speed)
 - Rolki czyszczące (Cleaning Rollers)
-- i Taśma odsiewająca (Elevator Web).
+- Taśma odsiewająca (Elevator Web)
 
 Każda roślina ma UNIKALNE optymalne wartości!
 
@@ -2629,13 +2661,15 @@ ZBIERAKI BAWEŁNY mają Wentylator (Fan Speed)
 - Шпинат — минимум воздуха (листья разлетаются).
 
 ХЛОПКОУБОРОЧНЫЕ МАШИНЫ:
-- Шпиндели (Picker Speed) и подача (Feeder Speed).
+- Шпиндели (Picker Speed)
+- Подача (Feeder Speed)
 - Хлопок чрезвычайно легкий, поэтому точная калибровка критична.]]>
         </ru>
             <hu>
-            <![CDATA[A GYÖKÉRZÖLDSÉG-BETAKARÍTÓK (burgonya, cukorrépa, hagyma, sárgarépa, spenót) Ventilátorral (Fan Speed)
-- Tisztítóhengerekkel (Cleaning Rollers)
-- és Felhordószalaggal (Elevator Web) rendelkeznek.
+            <![CDATA[GYÖKÉRZÖLDSÉG-BETAKARÍTÓK:
+- Ventilátor (Fan Speed)
+- Tisztítóhengerek (Cleaning Rollers)
+- Felhordószalag (Elevator Web)
 
 Minden gyökérzöldségnek EGYEDI optimális értékei vannak!
 
@@ -2645,9 +2679,10 @@ A hagyma erős légáramot.
 
 A spenót minimális levegőt.
 
-A GYAPOTBETAKARÍTÓK Ventilátorral (Fan Speed)
+GYAPOTBETAKARÍTÓK:
+- Ventilátor (Fan Speed)
 - Felszedő sebessége (Picker Speed)
-- és Adagolóval (Feeder Speed) rendelkeznek — a gyapot rendkívül könnyű.]]>
+- Adagoló (Feeder Speed) — a gyapot rendkívül könnyű.]]>
         </hu>
             <cz>
             <![CDATA[SKLÍZEČE OKOPANIN (brambory, cukrová řepa, cibule, mrkev, špenát) mají Ventilátor (Fan Speed), Čisticí válce (Cleaning Rollers)
@@ -2682,7 +2717,7 @@ SBĚRAČE BAVLNY mají Ventilátor (Fan Speed)
         </text>
 
         <!-- ===== PAGE 5: CROP LOSS ===== -->
-        <text name="rhm_help_croploss_title">
+        <text name="rhm_help_loss_title">
             <en>
             <![CDATA[5. Crop Loss — Causes and Prevention]]>
         </en>
@@ -2717,7 +2752,20 @@ SBĚRAČE BAVLNY mají Ventilátor (Fan Speed)
             <![CDATA[5. Втрати врожаю — Причини та запобігання]]>
         </uk>
         </text>
-        <text name="rhm_help_croploss_1">
+        <text name="rhm_help_loss_sub1">
+            <en><![CDATA[Source 1: Overload & Speed]]></en>
+            <de><![CDATA[Quelle 1: Überlastung & Geschwindigkeit]]></de>
+            <fr><![CDATA[Source 1 : Surcharge et vitesse]]></fr>
+            <it><![CDATA[Fonte 1: Sovraccarico e velocità]]></it>
+            <es><![CDATA[Fuente 1: Sobrecarga y velocidad]]></es>
+            <br><![CDATA[Fonte 1: Sobrecarga e velocidade]]></br>
+            <pl><![CDATA[Źródło 1: Przeciążenie i prędkość]]></pl>
+            <ru><![CDATA[Источник 1: Перегрузка и скорость]]></ru>
+            <hu><![CDATA[1. forrás: Túlterhelés és sebesség]]></hu>
+            <cz><![CDATA[Zdroj 1: Přetížení a rychlost]]></cz>
+            <uk><![CDATA[Джерело 1: Перевантаження та швидкість]]></uk>
+        </text>
+        <text name="rhm_help_loss_1">
             <en>
             <![CDATA[Crop losses come from TWO independent sources.
 
@@ -2886,7 +2934,20 @@ Použijte Náhled Ztrát v menu (RShift+K).]]>
 Використовуйте функцію «Прогноз втрат» у меню калібрування (RShift+K), щоб перевірити налаштування навіть без збирання.]]>
         </uk>
         </text>
-        <text name="rhm_help_croploss_2">
+        <text name="rhm_help_loss_sub2">
+            <en><![CDATA[Source 2: Poor Calibration Settings]]></en>
+            <de><![CDATA[Quelle 2: Falsche Kalibrierung]]></de>
+            <fr><![CDATA[Source 2 : Mauvais réglages de calibrage]]></fr>
+            <it><![CDATA[Fonte 2: Impostazioni di calibrazione errate]]></it>
+            <es><![CDATA[Fuente 2: Ajustes de calibración incorrectos]]></es>
+            <br><![CDATA[Fonte 2: Ajustes de calibração incorretos]]></br>
+            <pl><![CDATA[Źródło 2: Złe ustawienia kalibracji]]></pl>
+            <ru><![CDATA[Источник 2: Плохая калибровка]]></ru>
+            <hu><![CDATA[2. forrás: Rossz kalibrálási beállítások]]></hu>
+            <cz><![CDATA[Zdroj 2: Špatné nastavení kalibrace]]></cz>
+            <uk><![CDATA[Джерело 2: Погані налаштування калібрування]]></uk>
+        </text>
+        <text name="rhm_help_loss_2">
             <en>
             <![CDATA[Calibration physics are split into two mechanics.
 
@@ -3809,10 +3870,10 @@ Vše se ukládá.]]>
 
     <helpLines>
         <!-- Title category for GUI -->
-        <category title="$l10n_rhm_help_category">
-            <page title="$l10n_rhm_help_overview_title" iconFilename="textures/help/icon_overview.dds">
+        <category title="$l10n_rhm_help_category" iconFilename="textures/help/icon_overview.png" uvs="0px 0px 128px 128px" size="128 128">
+            <page title="$l10n_rhm_help_overview_title" iconFilename="textures/help/icon_overview.dds" uvs="0px 0px 128px 128px" size="128 128">
                 <paragraph>
-                    <image filename="textures/help_overview.dds" aspectRatio="0.2"/>
+                    <image filename="textures/help_overview.dds" aspectRatio="1" displaySize="512px 512px"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_overview_sub1"/>
@@ -3825,9 +3886,9 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 2: HUD ===== -->
-            <page title="$l10n_rhm_help_hud_title" iconFilename="textures/help/icon_hud.dds">
+            <page title="$l10n_rhm_help_hud_title" iconFilename="textures/help/icon_hud.dds" uvs="0px 0px 128px 128px" size="128 128">
                 <paragraph>
-                    <image filename="textures/help_hud.dds" aspectRatio="0.2"/>
+                    <image filename="textures/help_hud.dds" aspectRatio="1" displaySize="512px 512px"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_hud_sub1"/>
@@ -3840,9 +3901,9 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 3: CALIBRATION ===== -->
-            <page title="$l10n_rhm_help_calibration_title" iconFilename="textures/help/icon_calibration.dds">
+            <page title="$l10n_rhm_help_calibration_title" iconFilename="textures/help/icon_calibration.dds" uvs="0px 0px 128px 128px" size="128 128">
                 <paragraph>
-                    <image filename="textures/help_calibration.dds" aspectRatio="0.2"/>
+                    <image filename="textures/help_calibration.dds" aspectRatio="1" displaySize="512px 512px"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_calibration_sub1"/>
@@ -3855,9 +3916,9 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 4: SPECIAL COMBINES ===== -->
-            <page title="$l10n_rhm_help_special_title" iconFilename="textures/help/icon_special.dds">
+            <page title="$l10n_rhm_help_special_title" iconFilename="textures/help/icon_special.dds" uvs="0px 0px 128px 128px" size="128 128">
                 <paragraph>
-                    <image filename="textures/help_special.dds" aspectRatio="0.2"/>
+                    <image filename="textures/help_special.dds" aspectRatio="1" displaySize="512px 512px"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_special_sub1"/>
@@ -3870,24 +3931,24 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 5: CROP LOST ===== -->
-            <page title="$l10n_rhm_help_loss_title" iconFilename="textures/help/icon_loss.dds">
+            <page title="$l10n_rhm_help_loss_title" iconFilename="textures/help/icon_loss.dds" uvs="0px 0px 128px 128px" size="128 128">
                 <paragraph>
-                    <image filename="textures/help_croploss.dds" aspectRatio="0.2"/>
+                    <image filename="textures/help_croploss.dds" aspectRatio="1" displaySize="512px 512px"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_croploss_sub1"/>
-                    <text text="$l10n_rhm_help_croploss_1"/>
+                    <title text="$l10n_rhm_help_loss_sub1"/>
+                    <text text="$l10n_rhm_help_loss_1"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_croploss_sub2"/>
-                    <text text="$l10n_rhm_help_croploss_2"/>
+                    <title text="$l10n_rhm_help_loss_sub2"/>
+                    <text text="$l10n_rhm_help_loss_2"/>
                 </paragraph>
             </page>
 
             <!-- ===== PAGE 6: DIFFICULTY ===== -->
-            <page title="$l10n_rhm_help_difficulty_title" iconFilename="textures/help/icon_difficulty.dds">
+            <page title="$l10n_rhm_help_difficulty_title" iconFilename="textures/help/icon_difficulty.dds" uvs="0px 0px 128px 128px" size="128 128">
                 <paragraph>
-                    <image filename="textures/help_difficulty.dds" aspectRatio="0.2"/>
+                    <image filename="textures/help_difficulty.dds" aspectRatio="1" displaySize="512px 512px"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_difficulty_sub1"/>
@@ -3900,9 +3961,9 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 7: UPGRADES ===== -->
-            <page title="$l10n_rhm_help_upgrades_title" iconFilename="textures/help/icon_upgrades.dds">
+            <page title="$l10n_rhm_help_upgrades_title" iconFilename="textures/help/icon_upgrades.dds" uvs="0px 0px 128px 128px" size="128 128">
                 <paragraph>
-                    <image filename="textures/help_upgrades.dds" aspectRatio="0.2"/>
+                    <image filename="textures/help_upgrades.dds" aspectRatio="1" displaySize="512px 512px"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub1"/>
