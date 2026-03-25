@@ -96,9 +96,7 @@ function RHM_CombineSettingsEvent:run(connection)
                 mem.currentSettings.targetEngineLoad = self.fullSettings.targetEngineLoad
                 mem.autoSwitchEnabled = false
                 mem.mode = "MANUAL"
-                if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                    RHM_Debug.log("Network", "RHM: [Sync] Received full user profile settings via network")
-                end
+                rhm_log("RHM [Network]: RHM: [Sync] Received full user profile settings via network")
             else
                 if self.parameter == "AUTO_SET" then
                     -- EN: Client requested AUTO mode — configure optimal settings for current crop.
@@ -107,9 +105,7 @@ function RHM_CombineSettingsEvent:run(connection)
                     mem.mode = "AUTO"
                     if mem.currentCrop then
                         mem:autoConfigureForCrop(mem.currentCrop, true)
-                        if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                            RHM_Debug.log("Network", string.format("RHM: [Sync] Server applied AUTO mode for %s", mem.currentCrop))
-                        end
+                        rhm_log(string.format("RHM [Network]: RHM: [Sync] Server applied AUTO mode for %s", mem.currentCrop))
                     end
                 elseif self.parameter == "RESET_SET" then
                     -- EN: Client requested RESET — revert all settings to neutral 50%.
@@ -118,9 +114,7 @@ function RHM_CombineSettingsEvent:run(connection)
                     mem.mode = "MANUAL"
                     if mem.currentCrop then
                         mem:autoConfigureForCrop(mem.currentCrop, false)
-                        if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                            RHM_Debug.log("Network", string.format("RHM: [Sync] Server applied RESET to 50%% for %s", mem.currentCrop))
-                        end
+                        rhm_log(string.format("RHM [Network]: RHM: [Sync] Server applied RESET to 50%% for %s", mem.currentCrop))
                     end
                 elseif self.parameter == "AUTO_MODE" then
                     -- EN: Toggle the auto-switch behavior flag (1 = enabled, 0 = disabled).
@@ -137,9 +131,7 @@ function RHM_CombineSettingsEvent:run(connection)
                             mem.autoSwitchEnabled = false
                             mem.mode = "MANUAL"
                         end
-                        if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                            RHM_Debug.log("Network", string.format("RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
-                        end
+                        rhm_log(string.format("RHM [Network]: RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
                     end
                 end
             end

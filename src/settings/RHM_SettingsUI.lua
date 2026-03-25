@@ -10,7 +10,7 @@ RHMSettingsUI.injected = false
 --     FS25 calls: target.rhmOnOptionChanged(target, state, menuOption)
 -- UA: Спільний callback зміни опції.
 function RHMSettingsUI.callbacks.rhmOnOptionChanged(self, state, menuOption)
-    RHM_Debug.log("UI", "RHM: rhmOnOptionChanged id=" .. tostring(menuOption and menuOption.id) .. " state=" .. tostring(state))
+    rhm_log("RHM [UI]: RHM: rhmOnOptionChanged id=" .. tostring(menuOption and menuOption.id) .. " state=" .. tostring(state))
     if menuOption and menuOption.id then
         local fn = RHMSettingsUI._onChangeFns[menuOption.id]
         if fn then fn(state) end
@@ -230,7 +230,7 @@ function RHMSettingsUI.inject(settings)
     RHMSettingsUI.injected = true
     RHMSettingsUI._settings = settings
 
-    RHM_Debug.log("UI", "RHM: Settings injected successfully")
+    rhm_log("RHM [UI]: RHM: Settings injected successfully")
 end
 
 -- EN: Refreshes all controls to reflect the current settings state (called on menu open).
@@ -272,7 +272,7 @@ function RHMSettingsUI.ensureResetButton(settingsFrame)
             inputAction = InputAction.MENU_EXTRA_1,
             text = g_i18n:hasText("rhm_reset") and g_i18n:getText("rhm_reset") or "Reset RH",
             callback = function()
-                RHM_Debug.log("UI", "RHM: Reset button clicked!")
+                rhm_log("RHM [UI]: RHM: Reset button clicked!")
                 if g_realisticHarvestManager and g_realisticHarvestManager.settings then
                     g_realisticHarvestManager.settings:resetToDefaults()
                     RHMSettingsUI.refreshUI(g_realisticHarvestManager.settings)
@@ -288,5 +288,5 @@ function RHMSettingsUI.ensureResetButton(settingsFrame)
 
     table.insert(settingsFrame.menuButtonInfo, RHMSettingsUI._resetButton)
     settingsFrame:setMenuButtonInfoDirty()
-    RHM_Debug.log("UI", "RHM: Reset button added to footer! (X key)")
+    rhm_log("RHM [UI]: RHM: Reset button added to footer! (X key)")
 end

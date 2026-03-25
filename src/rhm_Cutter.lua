@@ -7,8 +7,6 @@
 
 rhm_Cutter = {}
 
-rhm_Cutter.debug = false
-
 -- EN: Override of Cutter.onLoad — called when any cutter (header) is loaded.
 --     If the independent launch feature is active in settings, disables the flag
 --     that makes the cutter turn on automatically via the attacher vehicle (combine).
@@ -41,4 +39,4 @@ end
 -- UA: Застосовуємо перевизначення onLoad до всіх екземплярів Cutter у грі.
 Cutter.onLoad = Utils.overwrittenFunction(Cutter.onLoad, rhm_Cutter.onLoad)
 
-RHM_Debug.log("Combine", "RHM: rhm_Cutter.lua loaded!")
+rhm_log("RHM [Combine]: RHM: rhm_Cutter.lua loaded!")

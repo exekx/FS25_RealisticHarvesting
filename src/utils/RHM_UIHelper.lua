@@ -349,7 +349,7 @@ function RHMUIHelper.createMultiOption(page, layout, id, textId, options, state,
         opt.elements[1]:setText(tooltipText)
     end
 
-    RHM_Debug.log("UI", string.format("RHM: Set tooltip for %s: %s", textId, tooltipText))
+    rhm_log(string.format("RHM [UI]: RHM: Set tooltip for %s: %s", textId, tooltipText))
 
     return opt
 end

@@ -18,8 +18,6 @@ function RHM_RealisticHarvestManager.new(mission, modDirectory, modName)
     self.modDirectory = modDirectory
     self.modName = modName
 
-    self.debug = RHM_Debug.isEnabled("Manager")
-
     -- EN: Initialize settings: the RHMSettingsManager handles XML I/O, RHMSettings holds all values.
     -- UA: Ініціалізуємо налаштування: RHMSettingsManager обробляє XML, RHMSettings зберігає значення.
     self.settingsManager = RHMSettingsManager.new()

@@ -21,8 +21,6 @@ function RHM_CombineMemory.new(combine, machineType)
     self.currentProfile = nil -- EN: Name of the currently active profile / UA: Назва поточного активного профілю
     self.currentCrop = nil    -- EN: Currently detected crop name / UA: Поточна визначена культура
 
-    self.debug = RHM_Debug and RHM_Debug.isEnabled("RHM_CombineMemory") or false
-
     -- EN: Dynamically initialize only the parameters for this machine type (not all 5 for every type).
     -- UA: Динамічно ініціалізуємо тільки параметри для цього типу машини (не всі 5 для кожного типу).
     self.currentSettings = {}
@@ -49,14 +47,10 @@ function RHM_CombineMemory:saveCurrentProfile(cropName)
     local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
     if pm then
         pm:saveProfile(cropName, self.currentSettings)
-        if self.debug then
-            RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [OK] Profile saved globally: %s", cropName))
-        end
+        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [OK] Profile saved globally: %s", cropName))
         return true
     end
-    if self.debug then
-        RHM_Debug.log("RHM_CombineMemory", "RHM: [!] Failed to save global profile: RHM_ProfileManager not found")
-    end
+    rhm_log("RHM [RHM_CombineMemory]: RHM: [!] Failed to save global profile: RHM_ProfileManager not found")
     return false
 end
 
@@ -68,14 +62,14 @@ end
 --     Режим RESET (forceOptimal=false) встановлює всі параметри на нейтральні 50%.
 function RHM_CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
     if not cropName then
-        if self.debug then RHM_Debug.log("RHM_CombineMemory", "RHM: [!] autoConfigureForCrop called with nil cropName, skipping") end
+        rhm_log("RHM [RHM_CombineMemory]: RHM: [!] autoConfigureForCrop called with nil cropName, skipping")
         return false
     end
 
     local optimalSettings = RHM_CombineSettingsDatabase:getSettingsForCrop(cropName)
 
     if not optimalSettings then
-        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [!] No settings found for crop: %s", cropName)) end
+        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [!] No settings found for crop: %s", cropName))
         -- EN: Crop is unknown but we still proceed with defaults.
         -- UA: Культура невідома, але продовжуємо зі значеннями за замовчуванням.
     end
@@ -93,7 +87,7 @@ function RHM_CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
         end
 
         self.mode = "AUTO"
-        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [OK] Auto settings applied for: %s (forceOptimal=%s)", cropName, tostring(forceOptimal))) end
+        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [OK] Auto settings applied for: %s (forceOptimal=%s)", cropName, tostring(forceOptimal)))
     else
         -- EN: RESET mode: set all active params to the neutral 50% position.
         -- UA: Режим RESET: встановлюємо всі активні параметри на нейтральну позицію 50%.
@@ -103,7 +97,7 @@ function RHM_CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
         end
 
         self.mode = "MANUAL"
-        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [OK] Default settings (50%%) applied for: %s", cropName)) end
+        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [OK] Default settings (50%%) applied for: %s", cropName))
     end
 
     -- EN: Reset yield calibration when switching to a new crop without an existing profile.
@@ -131,7 +125,7 @@ function RHM_CombineMemory:requestAutoSettings()
         else
             event:run(nil) -- EN: Singleplayer: process locally / UA: Однокористувацька: обробляємо локально
         end
-        if self.debug then RHM_Debug.log("RHM_CombineMemory", "RHM: [Sync] Requested AUTO settings from server") end
+        rhm_log("RHM [RHM_CombineMemory]: RHM: [Sync] Requested AUTO settings from server")
     end
 end
 
@@ -147,7 +141,7 @@ function RHM_CombineMemory:requestResetSettings()
         else
             event:run(nil)
         end
-        if self.debug then RHM_Debug.log("RHM_CombineMemory", "RHM: [Sync] Requested RESET settings from server") end
+        rhm_log("RHM [RHM_CombineMemory]: RHM: [Sync] Requested RESET settings from server")
     end
 end
 
@@ -186,10 +180,10 @@ function RHM_CombineMemory:loadUserPreset()
             self.mode = "MANUAL"
             self.autoSwitchEnabled = false
         end
-        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [OK] Global profile applied for %s", self.currentCrop)) end
+        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [OK] Global profile applied for %s", self.currentCrop))
         return true
     else
-        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: No global user preset found for %s", self.currentCrop)) end
+        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: No global user preset found for %s", self.currentCrop))
         return false
     end
 end
@@ -328,9 +322,7 @@ function RHM_CombineMemory:setMode(mode)
             -- UA: Виділений сервер: культура ще не визначена. Зберігаємо режим до першого збору врожаю.
             self.mode = "AUTO"
             self.autoSwitchEnabled = true
-            if self.debug then
-                RHM_Debug.log("RHM_CombineMemory", "RHM: [AUTO] currentCrop is nil on DS, pending AUTO mode set. Will apply when crop detected.")
-            end
+            rhm_log("RHM [RHM_CombineMemory]: RHM: [AUTO] currentCrop is nil on DS, pending AUTO mode set. Will apply when crop detected.")
         end
     elseif mode == "MANUAL" then
         self.mode = "MANUAL"
@@ -407,10 +399,10 @@ function RHM_CombineMemory:switchCrop(newCropName)
 
     local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
     if pm and pm:getProfile(newCropName) then
-        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: Switching to crop %s - Loading global profile", newCropName)) end
+        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: Switching to crop %s - Loading global profile", newCropName))
         self:loadUserPreset()
     else
-        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: Switching to crop %s - No profile, applying defaults", newCropName)) end
+        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: Switching to crop %s - No profile, applying defaults", newCropName))
         if self.autoSwitchEnabled then
             self:autoConfigureForCrop(newCropName, true)
         else
@@ -460,9 +452,7 @@ function RHM_CombineMemory:toggleAutoMode()
         local targetMode = not self.autoSwitchEnabled
         local event = RHM_CombineSettingsEvent.new(self.combine, "AUTO_MODE", targetMode and 1 or 0)
         g_client:getServerConnection():sendEvent(event)
-        if self.debug then
-            RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [Sync] Sent AUTO mode request to server: %s", targetMode and "ON" or "OFF"))
-        end
+        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [Sync] Sent AUTO mode request to server: %s", targetMode and "ON" or "OFF"))
     else
         -- EN: Singleplayer or server: apply immediately.
         -- UA: Однокористувацька або сервер: застосовуємо негайно.
@@ -476,9 +466,7 @@ function RHM_CombineMemory:toggleAutoMode()
         else
             self.mode = "MANUAL"
         end
-        if self.debug then
-            RHM_Debug.log("RHM_CombineMemory", string.format("RHM: Auto Switch %s", self.autoSwitchEnabled and "ENABLED" or "DISABLED"))
-        end
+        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: Auto Switch %s", self.autoSwitchEnabled and "ENABLED" or "DISABLED"))
     end
 end
 
@@ -488,5 +476,5 @@ function RHM_CombineMemory:saveProfile(cropName)
     return self:saveCurrentProfile(cropName)
 end
 
-RHM_Debug.log("RHM_CombineMemory", "[OK] RHM_CombineMemory class loaded")
+rhm_log("RHM [RHM_CombineMemory]: [OK] RHM_CombineMemory class loaded")
 

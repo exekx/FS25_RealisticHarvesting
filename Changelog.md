@@ -2,6 +2,17 @@
 
 ## Language: EN
 
+Changelog 1.4.3.0:
+- FIXED: Resolved a critical UI conflict where DLC settings (like Vredo Pack and Precision Farming) disappeared from the menu when the mod was active.
+- IMPROVED: Global Refactoring: All internal classes and files renamed with `RHM_` prefix to prevent global namespace collisions with other mods.
+- FIXED: Corrected capitalization of filenames in `main.lua` (`RHM_Combine.lua`, `RHM_Renderer.lua`), resolving the 55% loading screen freeze.
+- NEW: Added 7 detailed pages to the in-game Help Menu with unique icons and localization for 11 languages.
+- IMPROVED: Refactored settings injection mechanism to use class-level hooks (`InGameMenuSettingsFrame.onFrameOpen`) for better compatibility with DLCs.
+- FIXED: Resolved a bug where changes in the settings menu were not saved correctly due to an invalid callback signature.
+- IMPROVED: Optimized the UI layout to use the standard `gameSettingsLayout` for consistent positioning relative to other mods.
+- IMPROVED: Removed the redundant "Reset" button (X) from the footer as it was causing layout instability.
+- IMPROVED: Disabled master debug logging by default to keep the game console clean.
+
 Changelog 1.4.2.0:
 - FIXED: Maximum harvesting speed is strictly limited by the base game's header capabilities, preventing root crop harvesters from exceeding realistic speeds.
 - FIXED: Addressed network desynchronization issues on dedicated servers where client settings could override server defaults.
@@ -114,6 +125,17 @@ Changelog 1.1.0.0:
 
 ## Language: DE
 
+Changelog 1.4.3.0:
+- BEHOBEN: Ein kritischer UI-Konflikt wurde gelöst, bei dem DLC-Einstellungen (wie Vredo Pack und Precision Farming) aus dem Menü verschwanden.
+- VERBESSERT: Globales Refactoring: Alle internen Klassen und Dateien wurden mit dem Präfix `RHM_` versehen, um Namenskollisionen mit anderen Mods zu vermeiden.
+- BEHOBEN: Die Groß-/Kleinschreibung von Dateinamen in `main.lua` wurde korrigiert, wodurch das Einfrieren des Ladebildschirms bei 55% behoben wurde.
+- NEU: 7 detaillierte Seiten zum In-Game-Hilfemenü mit einzigartigen Symbolen und Lokalisierung für 11 Sprachen hinzugefügt.
+- VERBESSERT: Der Einstellungs-Injektionsmechanismus wurde auf Klassen-Hooks umgestellt, um die Kompatibilität mit DLCs zu verbessern.
+- BEHOBEN: Ein Fehler wurde behoben, durch den Änderungen im Einstellungsmenü aufgrund einer ungültigen Callback-Signatur nicht korrekt gespeichert wurden.
+- VERBESSERT: Das UI-Layout wurde auf das standardmäßige `gameSettingsLayout` umgestellt, um eine konsistente Positionierung zu gewährleisten.
+- VERBESSERT: Die redundante Schaltfläche "Zurücksetzen" (X) wurde aus der Fußzeile entfernt.
+- VERBESSERT: Die Master-Debug-Protokollierung wurde standardmäßig deaktiviert, um die Spielekonsole sauber zu halten.
+
 Changelog 1.4.2.0:
 - BEHOBEN: Die maximale Ernte-Geschwindigkeit wird nun streng durch die Basis-Fähigkeiten des Schneidwerks im Spiel begrenzt, wodurch unrealistische Geschwindigkeiten bei Wurzelerntern verhindert werden.
 - BEHOBEN: Netzwerk-Desynchronisationsprobleme auf dedizierten Servern behoben, bei denen Client-Einstellungen die Server-Standards überschreiben konnten.
@@ -225,6 +247,17 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: FR
+
+Changelog 1.4.3.0:
+- CORRIGÉ : Résolution d'un conflit d'interface critique où les paramètres DLC (comme le Pack Vredo et Precision Farming) disparaissaient du menu.
+- AMÉLIORÉ : Refactorisation globale : tous les fichiers et classes internes ont été renommés avec le préfixe `RHM_` pour éviter les collisions avec d'autres mods.
+- CORRIGÉ : Correction de la casse des noms de fichiers dans `main.lua`, résolvant le blocage de l'écran de chargement à 55 %.
+- NOUVEAU : Ajout de 7 pages détaillées au menu d'aide du jeu avec des icônes uniques et une localisation pour 11 langues.
+- AMÉLIORÉ : Refonte du mécanisme d'injection des paramètres pour utiliser des crochets au niveau de la classe afin d'améliorer la compatibilité avec les DLC.
+- CORRIGÉ : Résolution d'un bogue où les modifications apportées au menu des paramètres n'étaient pas enregistrées correctement.
+- AMÉLIORÉ : Optimisation de la mise en page de l'interface utilisateur pour utiliser le `gameSettingsLayout` standard.
+- AMÉLIORÉ : Suppression du bouton "Réinitialiser" (X) redondant dans le pied de page.
+- AMÉLIORÉ : Désactivation de la journalisation de débogage principale par défaut.
 
 Changelog 1.4.2.0:
 - CORRIGÉ : La vitesse de récolte maximale est désormais strictement limitée par les capacités de la barre de coupe du jeu de base, empêchant les arracheuses de racines de dépasser des vitesses réalistes.
@@ -340,6 +373,17 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: PL
+
+Changelog 1.4.3.0:
+- NAPRAWIONO: Rozwiązano krytyczny konflikt interfejsu, w wyniku którego ustawienia DLC (takie jak Vredo Pack i Precision Farming) znikały z menu.
+- ULEPSZONO: Globalny refaktoring: wszystkie wewnętrzne klasy i pliki zostały przemianowane na prefiks `RHM_`, aby zapobiec konfliktom z innymi modami.
+- NAPRAWIONO: Poprawiono wielkość liter w nazwach plików w `main.lua`, rozwiązując problem zawieszania się ekranu ładowania na 55%.
+- NOWOŚĆ: Dodano 7 szczegółowych stron do menu pomocy w grze z unikalnymi ikonami i lokalizacją dla 11 języków.
+- ULEPSZONO: Przebudowano mechanizm wstrzykiwania ustawień, aby korzystał z hooków na poziomie klasy w celu lepszej kompatybilności z DLC.
+- NAPRAWIONO: Rozwiązano błąd, w którym zmiany w menu ustawień nie były poprawnie zapisywane.
+- ULEPSZONO: Zoptymalizowano układ interfejsu, aby korzystał ze standardowego `gameSettingsLayout`.
+- ULEPSZONO: Usunięto nadmiarowy przycisk „Resetuj” (X) ze stopki.
+- ULEPSZONO: Domyślnie wyłączono główne logowanie debugowania.
 
 Changelog 1.4.2.0:
 - NAPRAWIONO: Maksymalna prędkość zbioru jest teraz ściśle ograniczona możliwościami hedera z podstawowej gry, zapobiegając przekraczaniu realistycznych prędkości przez kombajny do buraków/ziemniaków.
@@ -457,6 +501,17 @@ Changelog 1.1.0.0:
 
 ## Language: ES
 
+Changelog 1.4.3.0:
+- CORREGIDO: Se resolvió un conflicto crítico de la interfaz donde los ajustes del DLC (como Vredo Pack y Precision Farming) desaparecían del menú.
+- MEJORADO: Refactorización global: se cambió el nombre de todos los archivos y clases internos al prefijo `RHM_` para evitar colisiones con otros mods.
+- CORREGIDO: Se corrigió la mayúscula de los nombres de archivos en `main.lua`, resolviendo el bloqueo de la pantalla de carga al 55%.
+- NUEVO: Se agregaron 7 páginas detalladas al Menú de Ayuda del juego con iconos únicos y localización para 11 idiomas.
+- MEJORADO: Se refabricó el mecanismo de inyección de ajustes para usar ganchos a nivel de clase para una mejor compatibilidad con los DLC.
+- CORREGIDO: Se resolvió un error por el cual los cambios en el menú de ajustes no se guardaban correctamente.
+- MEJORADO: Se optimizó el diseño de la interfaz para usar el `gameSettingsLayout` estándar.
+- MEJORADO: Se eliminó el botón "Restablecer" (X) redundante del pie de página.
+- MEJORADO: Se desactivó el registro de depuración principal de forma predeterminada.
+
 Changelog 1.4.2.0:
 - CORREGIDO: La velocidad máxima de cosecha ahora está estrictamente limitada por la capacidad del cabezal del juego base, impidiendo que las cosechadoras de raíces excedan velocidades realistas.
 - CORREGIDO: Se abordaron los problemas de desincronización de red en servidores dedicados donde la configuración del cliente podía sobrescribir los valores predeterminados del servidor.
@@ -571,6 +626,17 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: IT
+
+Changelog 1.4.3.0:
+- RISOLTO: Risolto un conflitto critico dell'interfaccia utente in cui le impostazioni DLC (come Vredo Pack e Precision Farming) scomparivano dal menu.
+- MIGLIORATO: Refactoring globale: tutti i file e le classi interne sono stati rinominati con il prefisso `RHM_` per evitare collisioni con altri mod.
+- RISOLTO: Corretta la maiuscola dei nomi dei file in `main.lua`, risolvendo il blocco della schermata di caricamento al 55%.
+- NOVITÀ: Aggiunte 7 pagine dettagliate al menu di aiuto del gioco con icone uniche e localizzazione per 11 lingue.
+- MIGLIORATO: Rifattorizzato il meccanismo di iniezione delle impostazioni per utilizzare hook a livello di classe per una migliore compatibilità con i DLC.
+- RISOLTO: Risolto un bug per cui le modifiche nel menu delle impostazioni non venivano salvate correttamente.
+- MIGLIORATO: Ottimizzato il layout dell'interfaccia utente per utilizzare lo standard `gameSettingsLayout`.
+- MIGLIORATO: Rimosso il pulsante "Reset" (X) ridondante dal piè di pagina.
+- MIGLIORATO: Disabilitata la registrazione di debug principale per impostazione predefinita.
 
 Changelog 1.4.2.0:
 - CORRETTO: La velocità massima di raccolta è ora strettamente limitata dalle capacità della barra di taglio del gioco base, impedendo alle raccoglitrici di radici di superare velocità realistiche.
@@ -687,6 +753,17 @@ Changelog 1.1.0.0:
 
 ## Language: CZ
 
+Changelog 1.4.3.0:
+- OPRAVENO: Vyřešen kritický konflikt uživatelského rozhraní, kdy nastavení DLC (jako Vredo Pack a Precision Farming) zmizela z nabídky.
+- VYLEPŠENO: Globální refaktorizace: všechny interní třídy a soubory byly přejmenovány na předponu `RHM_`, aby se zabránilo kolizím s jinými mody.
+- OPRAVENO: Opravena velikost písmen názvů souborů v `main.lua`, čímž bylo vyřešeno zamrzání obrazovky načítání na 55 %.
+- NOVINKA: Do nabídky nápovědy ve hře bylo přidáno 7 podrobných stránek s jedinečnými ikonami a lokalizací pro 11 jazyků.
+- VYLEPŠENO: Refaktorován mechanismus vkládání nastavení tak, aby využíval hooky na úrovni třídy pro lepší kompatibilitu s DLC.
+- OPRAVENO: Vyřešena chyba, kdy se změny v nabídce nastavení neukládaly správně.
+- VYLEPŠENO: Optimalizované rozvržení uživatelského rozhraní tak, aby využívalo standardní `gameSettingsLayout`.
+- VYLEPŠENO: Ze zápatí bylo odstraněno nadbytečné tlačítko „Reset“ (X).
+- VYLEPŠENO: Ve výchozím nastavení bylo zakázáno hlavní protokolování ladění.
+
 Changelog 1.4.2.0:
 - OPRAVENO: Maximální rychlost sklizně je nyní přísně omezena možnostmi žací lišty v základní hře, což zabraňuje překročení realistických rychlostí u sklízečů kořenových plodin.
 - OPRAVENO: Vyřešeny problémy s desynchronizací sítě na dedikovaných serverech, kde nastavení klienta mohlo přepsat výchozí nastavení serveru.
@@ -801,6 +878,17 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: BR
+
+Changelog 1.4.3.0:
+- CORRIGIDO: Resolvido um conflito crítico de interface onde as configurações de DLC (como Vredo Pack e Precision Farming) desapareciam do menu.
+- MELHORADO: Refatoração Global: todos os arquivos e classes internos foram renomeados com o prefixo `RHM_` para evitar colisões com outros mods.
+- CORRIGIDO: Corrigida a capitalização dos nomes dos arquivos no `main.lua`, resolvendo o travamento da tela de carregamento em 55%.
+- NOVO: Adicionadas 7 páginas detalhadas ao Menu de Ajuda do jogo com ícones exclusivos e localização para 11 idiomas.
+- MELHORADO: Refatorado o mecanismo de injeção de configurações para usar hooks em nível de classe para melhor compatibilidade com DLCs.
+- CORRIGIDO: Resolvido um erro onde as alterações no menu de configurações não eram salvas corretamente.
+- MELHORADO: Otimizado o layout da interface para usar o `gameSettingsLayout` padrão.
+- MELHORADO: Removido o botão "Reset" (X) redundante do rodapé.
+- MELHORADO: Desativado o log de depuração mestre por padrão.
 
 Changelog 1.4.2.0:
 - CORRIGIDO: A velocidade máxima de colheita agora é estritamente limitada pelas capacidades da plataforma de corte do jogo base, impedindo que colheitadeiras de raízes excedam velocidades realistas.
@@ -917,6 +1005,17 @@ Changelog 1.1.0.0:
 
 ## Language: UK
 
+Зміни 1.4.3.0:
+- ВИПРАВЛЕНО: Вирішено критичний конфлікт інтерфейсу, через який налаштування DLC (такі як Vredo Pack та Precision Farming) зникали з меню.
+- ПОКРАЩЕНО: Глобальний рефакторинг: Всі файли та внутрішні класи перейменовано з префіксом `RHM_` для запобігання конфліктам з іншими модами.
+- ВИПРАВЛЕНО: Виправлено регістр імен файлів у `main.lua` (`RHM_Combine.lua`, `RHM_Renderer.lua`), що усунуло зависання на 55% при завантаженні карти.
+- НОВЕ: Додано 7 розширених сторінок у внутрішньоігрове меню допомоги з унікальними іконками та перекладом на 11 мов.
+- ПОКРАЩЕНО: Повністю перероблено механізм ін'єкції налаштувань з використанням хуків на рівні класу для кращої сумісності з DLC.
+- ВИПРАВЛЕНО: Виправлено баг, через який зміни в меню налаштувань не зберігалися коректно через неправильний підпис callback.
+- ПОКРАЩЕНО: Оптимізовано макет інтерфейсу для використання стандартного `gameSettingsLayout`.
+- ПОКРАЩЕНО: Видалено зайву кнопку "Скинути" (X) з підвалу меню.
+- ПОКРАЩЕНО: Вимкнено основне логування дебагу за замовчуванням для чистоти консолі.
+
 Зміни 1.4.2.0:
 - ВИПРАВЛЕНО: Проблема локалізації ('window_grass') для трави в меню HUD.
 - ПОКРАЩЕНО: Видалено зайві логи дебагу з розрахунків навантаження двигуна.
@@ -1017,6 +1116,17 @@ Changelog 1.1.0.0:
 
 ## Language: RU
 
+Изменения 1.4.3.0:
+- ИСПРАВЛЕНО: Решена критическая проблема конфликта интерфейса, из-за которой настройки DLC (такие как Vredo Pack и Precision Farming) исчезали из меню.
+- УЛУЧШЕНО: Глобальный рефакторинг: Все файлы и внутренние классы переименованы с префиксом `RHM_` для предотвращения конфликтов с другими модами.
+- ИСПРАВЛЕНО: Исправлен регистр имен файлов в `main.lua` (`RHM_Combine.lua`, `RHM_Renderer.lua`), что устранило зависание на 55% при загрузке карты.
+- НОВОЕ: Добавлено 7 расширенных страниц во внутриигровое меню помощи с уникальными иконками и переводом на 11 языков.
+- УЛУЧШЕНО: Полностью переработан механизм инъекции настроек с использованием хуков на уровне класса для лучшей совместимости с DLC.
+- ИСПРАВЛЕНО: Исправлен баг, из-за которого изменения в меню настроек не сохранялись корректно из-за неправильной подписи callback.
+- УЛУЧШЕНО: Оптимизирован макет интерфейса для использования стандартного `gameSettingsLayout`.
+- УЛУЧШЕНО: Удалена лишняя кнопка "Сбросить" (X) из подвала меню.
+- УЛУЧШЕНО: Отключено основное логирование отладки по умолчанию.
+
 Изменения 1.4.2.0:
 - ИСПРАВЛЕНО: Проблема локализации ('window_grass') для травы в меню HUD.
 - УЛУЧШЕНО: Удалены чрезмерные логи отладки из расчетов нагрузки двигателя.
@@ -1116,6 +1226,17 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: HU
+
+Változások 1.4.3.0:
+- JAVÍTVA: Megoldódott egy kritikus kezelőfelületi konfliktus, amely miatt a DLC-beállítások (például a Vredo Pack és a Precision Farming) eltűntek a menüből.
+- JAVÍTVA: Globális refaktorálás: Minden belső fájl és osztály átnevezve `RHM_` előtaggal, hogy elkerüljük az ütközéseket más modokkal.
+- JAVÍTVA: Javítva a fájlnevek kis- és nagybetűinek használata a `main.lua`-ban, megoldva a betöltőképernyő 55%-nál történő lefagyását.
+- ÚJ: 7 részletes oldallal bővült a játékon belüli súgó menü, egyedi ikonokkal és 11 nyelvű lokalizációval.
+- JAVÍTVA: A beállítások befecskendezési mechanizmusa át lett alakítva osztályszintű hook-ok használatára a jobb DLC-kompatibilitás érdekében.
+- JAVÍTVA: Megoldódott egy hiba, amely miatt a beállításmenüben végrehajtотт módosítások nem mentődtek el megfelelően.
+- JAVÍTVA: A felület elrendezése optimalizálva lett a standard `gameSettingsLayout` használatára.
+- JAVÍTVA: Az eltávolított redundáns "Reset" gomb (X) a láblécből.
+- JAVÍTVA: A master debug naplózás alapértelmezés szerint le van tiltva.
 
 Változások 1.4.2.0:
 - JAVÍTVA: A fű ('window_grass') lokalizációs hibája a HUD menüben.

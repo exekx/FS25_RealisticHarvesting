@@ -58,10 +58,8 @@ function RHM_LoadCalculator.new(modDirectory)
     self.combineMemory = nil  -- EN: Will be set by rhm_Combine / UA: Буде встановлено з rhm_Combine
     self.currentCrop = nil    -- EN: Current crop for loss calc / UA: Поточна культура для розрахунку втрат
     
-    self.debug = RHM_Debug and RHM_Debug.isEnabled("RHM_LoadCalculator") or false
-    if self.debug then
-        RHM_Debug.log("RHM_LoadCalculator", "RHM: RHM_LoadCalculator initialized")
-    end
+    self.debug = false  -- EN: Kept for compatibility, unused / UA: Залишено для сумісності, не використовується
+    rhm_log("RHM [RHM_LoadCalculator]: RHM: RHM_LoadCalculator initialized")
     
     return self
 end
@@ -170,10 +168,8 @@ end
 function RHM_LoadCalculator:setBasePerformance(basePerfMass)
     self.basePerfMass = basePerfMass
     
-    if rhm_Combine and rhm_Combine.debug then
-        RHM_Debug.log("RHM_LoadCalculator", string.format("RHM: Base performance set to %.2f kg/s (%.1f t/h)", 
-            self.basePerfMass, self.basePerfMass * 3.6))
-    end
+    rhm_log(string.format("RHM [RHM_LoadCalculator]: RHM: Base performance set to %.2f kg/s (%.1f t/h)", 
+        self.basePerfMass, self.basePerfMass * 3.6))
 end
 
 ---EN: Gets base performance from engine power / UA: Отримує базову продуктивність з потужності двигуна
@@ -287,10 +283,8 @@ function RHM_LoadCalculator:getBasePerformanceFromPower(vehicle)
     
     if power and tonumber(power) > 0 then
         local basePerf = tonumber(power) * coef
-        if rhm_Combine and rhm_Combine.debug then
-            RHM_Debug.log("RHM_LoadCalculator", string.format("RHM DEBUG: BasePerf Mass computed for %s (cat: %s, coef: %.3f): %d hp -> %.2f kg/s (%.1f t/h)", 
-                vehicle:getFullName(), category or "unknown", coef, power, basePerf, basePerf * 3.6))
-        end
+        rhm_log(string.format("RHM [RHM_LoadCalculator]: RHM DEBUG: BasePerf Mass computed for %s (cat: %s, coef: %.3f): %d hp -> %.2f kg/s (%.1f t/h)", 
+            vehicle:getFullName(), category or "unknown", coef, power, basePerf, basePerf * 3.6))
         return basePerf
     end
     
@@ -465,11 +459,10 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
         cropFactor = cropFactor * 0.75  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
     end
 
-    -- --- [RHM DEBUG: INFO LOG] ---
-    if rhm_Combine and rhm_Combine.debug and self.lastCropType ~= spec_combine.lastValidInputFruitType then
+    if self.lastCropType ~= spec_combine.lastValidInputFruitType then
         self.lastCropType = spec_combine.lastValidInputFruitType
         local mode = isPickup and "PICKUP" or (isForageCutter and "FORAGE_CUTTER" or "DIRECT_CUT")
-        RHM_Debug.log("RHM_LoadCalculator", string.format("RHM DEBUG: [INPUT] %s (%s). Final Factor: %.3f", mode, currentFruitTypeName, cropFactor))
+        rhm_log(string.format("RHM [RHM_LoadCalculator]: RHM DEBUG: [INPUT] %s (%s). Final Factor: %.3f", mode, currentFruitTypeName, cropFactor))
     end
     
     -- EN: Calculate RAW average mass intake per second / UA: Розраховуємо RAW середню масу за секунду (кг/с)

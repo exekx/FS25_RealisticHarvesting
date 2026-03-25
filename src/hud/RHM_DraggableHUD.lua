@@ -78,9 +78,7 @@ function RHMDraggableHUD:load()
 
     self:loadIcons(self.uiScale)
 
-    if RHM_Debug and RHM_Debug.isEnabled("UI") then
-        RHM_Debug.log("UI", "RHM: RHMDraggableHUD loaded successfully")
-    end
+    rhm_log("RHM [UI]: RHM: RHMDraggableHUD loaded successfully")
 end
 
 function RHMDraggableHUD:loadIcons(uiScale)
@@ -121,9 +119,7 @@ function RHMDraggableHUD:getPosition()
             y = math.max(0, math.min(1 - (self.height or 0), y))
             return x, y
         else
-            if RHM_Debug and RHM_Debug.isEnabled("UI") then
-                RHM_Debug.log("UI", string.format("RHM: Saved HUD position (%.2f, %.2f) is off-screen. Resetting to default.", x, y))
-            end
+            rhm_log(string.format("RHM [UI]: RHM: Saved HUD position (%.2f, %.2f) is off-screen. Resetting to default.", x, y))
         end
     end
 
@@ -473,15 +469,13 @@ function RHMDraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
             self.dragOffsetY = posY - self.y
             self.dragging = true
             self.lastDragTimeStamp = g_time
-            if RHM_Debug and RHM_Debug.isEnabled("UI") then RHM_Debug.log("UI", "RHM: Drag started") end
+            rhm_log("RHM [UI]: RHM: Drag started")
             return true
         end
     elseif isUp then
         if self.dragging then
             self.dragging = false
-            if RHM_Debug and RHM_Debug.isEnabled("UI") then
-                RHM_Debug.log("UI", string.format("RHM: Drag stopped at (%.3f, %.3f)", self.x, self.y))
-            end
+            rhm_log(string.format("RHM [UI]: RHM: Drag stopped at (%.3f, %.3f)", self.x, self.y))
             if self.settings and self.settings.save then
                 self.settings:save()
             end
@@ -508,9 +502,7 @@ function RHMDraggableHUD:delete()
         if icon then icon:delete() end
     end
 
-    if RHM_Debug and RHM_Debug.isEnabled("UI") then
-        RHM_Debug.log("UI", "RHM: RHMDraggableHUD unloaded")
-    end
+    rhm_log("RHM [UI]: RHM: RHMDraggableHUD unloaded")
 end
 
 return RHMDraggableHUD

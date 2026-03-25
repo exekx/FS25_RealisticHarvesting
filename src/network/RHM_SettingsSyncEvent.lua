@@ -68,10 +68,8 @@ function RHM_SettingsSyncEvent:run(connection)
 
         local settings = g_realisticHarvestManager.settings
         if settings then
-            if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                RHM_Debug.log("Network", string.format("RHM: [Sync] Server APPLYING settings - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
+            rhm_log(string.format("RHM [Network]: RHM: [Sync] Server APPLYING settings - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
                     self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableIndependentLaunch)))
-            end
 
             -- EN: Apply the received split difficulty fields and feature flags.
             -- UA: Застосовуємо отримані розділені поля складності та прапорці функцій.
@@ -91,7 +89,7 @@ function RHM_SettingsSyncEvent:run(connection)
             -- UA: Ретранслюємо зміни всім іншим підключеним клієнтам.
             g_server:broadcastEvent(self, nil, connection, nil)
         else
-            RHM_Debug.log("Network", "RHM: [Sync] ERROR - g_realisticHarvestManager.settings is nil!")
+            rhm_log("RHM [Network]: RHM: [Sync] ERROR - g_realisticHarvestManager.settings is nil!")
         end
         return
     end
@@ -109,8 +107,7 @@ function RHM_SettingsSyncEvent:run(connection)
             settings.enableCropLoss = self.enableCropLoss
             settings.enableIndependentLaunch = self.enableIndependentLaunch
             
-            if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                RHM_Debug.log("Network", string.format("RHM: [Sync] Client received update - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
+            rhm_log(string.format("RHM [Network]: RHM: [Sync] Client received update - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
                     self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableIndependentLaunch)))
            end
         end

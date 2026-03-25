@@ -26,14 +26,14 @@ function RHMInputUtil.setCameraRotation(vehicle, enableRotation, savedRotatableI
             local isRotatable = savedRotatableInfo[camera]
             if isRotatable ~= nil then
                 camera.isRotatable = isRotatable
-                RHM_Debug.log("UI", string.format("RHM: Camera %d restore isRotatable: %s", i, tostring(isRotatable)))
+                rhm_log(string.format("RHM [UI]: RHM: Camera %d restore isRotatable: %s", i, tostring(isRotatable)))
             else
                 camera.isRotatable = true
             end
         else
             -- EN: Save original rotation setting and disable camera rotation.
             -- UA: Зберігаємо оригінальне налаштування обертання і вимикаємо обертання камери.
-            RHM_Debug.log("UI", string.format("RHM: Camera %d disable rotation, current: %s", i, tostring(camera.isRotatable)))
+            rhm_log(string.format("RHM [UI]: RHM: Camera %d disable rotation, current: %s", i, tostring(camera.isRotatable)))
             savedRotatableInfo[camera] = camera.isRotatable
             camera.isRotatable = false
         end
@@ -66,14 +66,14 @@ function RHMInputUtil.setCameraZoom(vehicle, enableZoom, savedZoomInfo)
             local allowTranslation = savedZoomInfo[camera]
             if allowTranslation ~= nil then
                 camera.allowTranslation = allowTranslation
-                RHM_Debug.log("UI", string.format("RHM: Camera %d restore allowTranslation: %s", i, tostring(allowTranslation)))
+                rhm_log(string.format("RHM [UI]: RHM: Camera %d restore allowTranslation: %s", i, tostring(allowTranslation)))
             else
                 camera.allowTranslation = true
             end
         else
             -- EN: Save original zoom state and disable camera zoom.
             -- UA: Зберігаємо оригінальний стан масштабування і вимикаємо зум камери.
-            RHM_Debug.log("UI", string.format("RHM: Camera %d disable zoom, current: %s", i, tostring(camera.allowTranslation)))
+            rhm_log(string.format("RHM [UI]: RHM: Camera %d disable zoom, current: %s", i, tostring(camera.allowTranslation)))
             savedZoomInfo[camera] = camera.allowTranslation
             camera.allowTranslation = false
         end
@@ -82,4 +82,4 @@ function RHMInputUtil.setCameraZoom(vehicle, enableZoom, savedZoomInfo)
     return savedZoomInfo
 end
 
-RHM_Debug.log("UI", "[OK] RHMInputUtil loaded")
+rhm_log("RHM [UI]: [OK] RHMInputUtil loaded")

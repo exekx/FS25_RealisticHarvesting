@@ -199,7 +199,6 @@ function RHMSettingsGUI:consoleCommandShowSettings()
         settings.hudOffsetY or 0,
         settings.unitSystem == 1 and "Metric" or (settings.unitSystem == 2 and "Imperial" or "Bushels")
     )
-    rhm_log(info)
     return info
 end
 
@@ -328,7 +327,6 @@ function RHMSettingsGUI:consoleCommandCombineStatus()
         mem:getProfileCount()
     )
 
-    rhm_log(info)
     return info
 end
 
@@ -475,7 +473,6 @@ function RHMSettingsGUI:consoleCommandCombineProfiles()
         end
     end
 
-    rhm_log(info)
     return info
 end
 

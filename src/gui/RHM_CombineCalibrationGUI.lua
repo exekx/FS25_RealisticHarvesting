@@ -56,7 +56,6 @@ function RHMCombineCalibrationGUI.new(modDirectory)
     self.modDirectory = modDirectory
     self.isOpen = false
     self.isCursorActive = false
-    self.debug = true
 
     -- EN: UI layout — industrial dark theme with amber accents.
     -- UA: Розмітка UI — індустріальна темна тема з бурштиновими акцентами.
@@ -174,9 +173,9 @@ function RHMCombineCalibrationGUI:open(vehicle)
         local found = findCombine(vehicle.rootVehicle or vehicle, {})
         if found then
             combineVehicle = found
-            RHM_Debug.log("UI", string.format("RHM: [GUI] NEXAT: found combine vehicle in hierarchy: %s", tostring(combineVehicle)))
+            rhm_log(string.format("RHM [UI]: RHM: [GUI] NEXAT: found combine vehicle in hierarchy: %s", tostring(combineVehicle)))
         else
-            RHM_Debug.log("UI", "RHM: [GUI] No combine with spec_rhm_Combine found in vehicle hierarchy — GUI will not open")
+            rhm_log("RHM [UI]: RHM: [GUI] No combine with spec_rhm_Combine found in vehicle hierarchy — GUI will not open")
             return
         end
     end
@@ -300,7 +299,7 @@ function RHMCombineCalibrationGUI:update(dt)
     end
 
     if not isEntered then
-        RHM_Debug.log("UI", "RHM: [GUI] Closing due to isEntered=false."
+        rhm_log("RHM [UI]: RHM: [GUI] Closing due to isEntered=false."
             .. " RHM_cv=" .. tostring(g_realisticHarvestManager and g_realisticHarvestManager:getControlledVehicle())
             .. " vToCheck=" .. tostring(vehicleToCheck)
             .. " (root=" .. tostring(vehicleToCheck and (vehicleToCheck.rootVehicle or vehicleToCheck)) .. ")")
@@ -327,7 +326,7 @@ end
 function RHMCombineCalibrationGUI:draw()
     if not self.isOpen then return end
     if not (g_currentMission and g_currentMission.hud) then
-        if self.debug then RHM_Debug.log("UI", "RHM: [GUI] draw() abort: no g_currentMission.hud") end
+        rhm_log("RHM [UI]: RHM: [GUI] draw() abort: no g_currentMission.hud")
         return
     end
 
@@ -1207,5 +1206,5 @@ function RHMCombineCalibrationGUI:getParameterAtMouse(x, y)
     return nil
 end
 
-RHM_Debug.log("UI", "[OK] RHMCombineCalibrationGUI loaded")
+rhm_log("RHM [UI]: [OK] RHMCombineCalibrationGUI loaded")
 

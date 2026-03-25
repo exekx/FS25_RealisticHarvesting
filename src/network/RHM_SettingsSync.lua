@@ -32,26 +32,22 @@ function RHM_SettingsSync:sendToServer(settings)
     end
 
     if g_client == nil then
-        RHM_Debug.log("Network", "RHM: [Sync] Error - g_client is nil")
+        rhm_log("RHM [Network]: RHM: [Sync] Error - g_client is nil")
         return
     end
 
     local connection = g_client:getServerConnection()
     if connection == nil then
-        RHM_Debug.log("Network", "RHM: [Sync] Error - Server connection is nil")
+        rhm_log("RHM [Network]: RHM: [Sync] Error - Server connection is nil")
         return
     end
 
-    if RHM_Debug and RHM_Debug.isEnabled("Network") then
-        RHM_Debug.log("Network", string.format("RHM: [Sync] Sending event to server via connection %s", tostring(connection)))
-    end
+    rhm_log(string.format("RHM [Network]: RHM: [Sync] Sending event to server via connection %s", tostring(connection)))
     
     local event = RHM_SettingsSyncEvent.new(settings)
     connection:sendEvent(event)
 
-    if RHM_Debug and RHM_Debug.isEnabled("Network") then
-        RHM_Debug.log("Network", string.format("RHM: [Sync] Event sent (Motor: %d, Loss: %d)", tostring(settings.difficultyMotor or 2), tostring(settings.difficultyLoss or 2)))
-    end
+    rhm_log(string.format("RHM [Network]: RHM: [Sync] Event sent (Motor: %d, Loss: %d)", tostring(settings.difficultyMotor or 2), tostring(settings.difficultyLoss or 2)))
 end
 
 -- EN: Placeholder method called when the client receives settings from the server.

@@ -13,12 +13,11 @@ local modName = g_currentModName
 -- EN: Custom logging function that respects FS25 development warnings setting.
 -- UA: Кастомна функція логування, яка поважає налаштування development warnings FS25.
 function rhm_log(...)
-    if g_gameSettings and type(g_gameSettings.getIsDevelopmentVersion) == "function" then
-        if not g_gameSettings:getIsDevelopmentVersion() then
-            return
-        end
+    -- EN: Only print if -devWarnings is passed to the game or the game is explicitly a development build.
+    -- UA: Логуємо тільки якщо грі передано -devWarnings або гра у режимі розробника.
+    if g_showDevelopmentWarnings or g_isDevelopmentVersion then
+        print(...)
     end
-    print(...)
 end
 
 -- EN: Load all subsystem scripts in dependency order.
