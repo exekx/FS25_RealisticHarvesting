@@ -1,19 +1,19 @@
 -- EN: Draggable on-screen HUD overlay for the Realistic Harvesting mod.
 --     Displays live combine metrics: engine load, yield, productivity, crop loss, and speed.
 --     Supports drag-and-drop repositioning (via mouse on the header), dynamic row sizing
---     based on user-selected visible metrics, and the "Settings" button that opens the calibration GUI.
+--     based on user-selected visible metrics, and the "RHMSettings" button that opens the calibration GUI.
 -- UA: Перетягуваний HUD-оверлей на екрані для мода Realistic Harvesting.
 --     Відображає живі показники комбайна: навантаження двигуна, врожайність, продуктивність, втрати зерна, швидкість.
 --     Підтримує перетягування для репозиціонування (через мишу по заголовку), динамічне змінення розміру рядків
---     залежно від вибраних метрик і кнопку "Settings" яка відкриває GUI калібрування.
-DraggableHUD = {}
-DraggableHUD.__index = DraggableHUD
+--     залежно від вибраних метрик і кнопку "RHMSettings" яка відкриває GUI калібрування.
+RHMDraggableHUD = {}
+RHMDraggableHUD.__index = RHMDraggableHUD
 
-DraggableHUD.DRAG_DELAY_MS = 15
-DraggableHUD.DRAG_LIMIT = 2
+RHMDraggableHUD.DRAG_DELAY_MS = 15
+RHMDraggableHUD.DRAG_LIMIT = 2
 
-function DraggableHUD.new(modDirectory, settings)
-    local self = setmetatable({}, DraggableHUD)
+function RHMDraggableHUD.new(modDirectory, settings)
+    local self = setmetatable({}, RHMDraggableHUD)
 
     self.modDirectory = modDirectory
     self.settings = settings
@@ -49,7 +49,7 @@ function DraggableHUD.new(modDirectory, settings)
     return self
 end
 
-function DraggableHUD:load()
+function RHMDraggableHUD:load()
     self.uiScale = 1.0
     if g_gameSettings then
         self.uiScale = g_gameSettings:getValue("uiScale") or 1.0
@@ -79,11 +79,11 @@ function DraggableHUD:load()
     self:loadIcons(self.uiScale)
 
     if RHM_Debug and RHM_Debug.isEnabled("UI") then
-        RHM_Debug.log("UI", "RHM: DraggableHUD loaded successfully")
+        RHM_Debug.log("UI", "RHM: RHMDraggableHUD loaded successfully")
     end
 end
 
-function DraggableHUD:loadIcons(uiScale)
+function RHMDraggableHUD:loadIcons(uiScale)
     local iconHeight = 0.024 * self.uiScale
     local iconWidth = iconHeight / g_screenAspectRatio
 
@@ -111,7 +111,7 @@ function DraggableHUD:loadIcons(uiScale)
     if self.settings.showProductivity == nil then self.settings.showProductivity = true end
 end
 
-function DraggableHUD:getPosition()
+function RHMDraggableHUD:getPosition()
     local x = self.settings.hudPosX
     local y = self.settings.hudPosY
 
@@ -139,12 +139,12 @@ function DraggableHUD:getPosition()
     return 0.7, 0.05
 end
 
-function DraggableHUD:setPosition(x, y)
+function RHMDraggableHUD:setPosition(x, y)
     self.x = x
     self.y = y
 end
 
-function DraggableHUD:setVehicle(vehicle)
+function RHMDraggableHUD:setVehicle(vehicle)
     self.vehicle = vehicle
     if vehicle then
         self:update(vehicle)
@@ -159,7 +159,7 @@ function DraggableHUD:setVehicle(vehicle)
     end
 end
 
-function DraggableHUD:update(dt)
+function RHMDraggableHUD:update(dt)
     local vehicle = self.vehicle
     if not vehicle then return end
 
@@ -184,7 +184,7 @@ function DraggableHUD:update(dt)
     end
 end
 
-function DraggableHUD:draw()
+function RHMDraggableHUD:draw()
     if not g_currentMission:getIsClient() then return end
     if not self.settings.showHUD then return end
     if not self.vehicle then return end
@@ -244,7 +244,7 @@ function DraggableHUD:draw()
     end
 
     local textYOffset = btnY + (btnH - settingsTextSize) / 2 + 0.002
-    renderText(headerTextX, textYOffset, settingsTextSize, "Settings")
+    renderText(headerTextX, textYOffset, settingsTextSize, "RHMSettings")
     setTextBold(false)
 
     self.menuButtonArea = settingsButtonArea
@@ -253,7 +253,7 @@ function DraggableHUD:draw()
     setTextBold(false)
 end
 
-function DraggableHUD:drawContent()
+function RHMDraggableHUD:drawContent()
     local textSize   = 0.015 * self.uiScale
     local lineHeight = 0.028 * self.uiScale
     local iconHeight = 0.024 * self.uiScale
@@ -288,8 +288,8 @@ function DraggableHUD:drawContent()
     if self.settings.showYield then
         local yieldVal = self.data.yield or 0
         local yieldStr
-        if UnitConverter then
-            local val, suffix = UnitConverter.convertYield(yieldVal, unitSystem, fruitType)
+        if RHM_UnitConverter then
+            local val, suffix = RHM_UnitConverter.convertYield(yieldVal, unitSystem, fruitType)
             yieldStr = string.format("%.1f %s", val, suffix)
         else
             yieldStr = string.format("%.1f t/ha", yieldVal)
@@ -303,8 +303,8 @@ function DraggableHUD:drawContent()
     if self.settings.showProductivity then
         local prodVal = self.data.tonPerHour or 0
         local prodStr
-        if UnitConverter then
-            local val, suffix = UnitConverter.convertProductivity(prodVal, unitSystem, fruitType, self.data.litersPerHour)
+        if RHM_UnitConverter then
+            local val, suffix = RHM_UnitConverter.convertProductivity(prodVal, unitSystem, fruitType, self.data.litersPerHour)
             prodStr = string.format("%.1f %s", val, suffix)
         else
             prodStr = string.format("%.1f t/h", prodVal)
@@ -350,9 +350,9 @@ function DraggableHUD:drawContent()
         local recSpeed = self.data.recommendedSpeed or 0
         local speedStr
 
-        if UnitConverter then
-            local cur, suf = UnitConverter.convertSpeed(currentSpeed, unitSystem)
-            local rec, _   = UnitConverter.convertSpeed(recSpeed, unitSystem)
+        if RHM_UnitConverter then
+            local cur, suf = RHM_UnitConverter.convertSpeed(currentSpeed, unitSystem)
+            local rec, _   = RHM_UnitConverter.convertSpeed(recSpeed, unitSystem)
             if recSpeed > 0 then
                 speedStr = string.format("%.1f / %.1f %s", cur, rec, suf)
             else
@@ -377,7 +377,7 @@ function DraggableHUD:drawContent()
     end
 end
 
-function DraggableHUD:updateSize()
+function RHMDraggableHUD:updateSize()
     -- EN: Detect machine type to exclude forage-specific suppressed rows from height.
     -- UA: Визначаємо тип машини щоб прибрати зайве місце для silosних комбайнів.
     local machineType = nil
@@ -408,7 +408,7 @@ function DraggableHUD:updateSize()
     end
 end
 
-function DraggableHUD:drawRow(iconX, textX, textY, iconWidth, iconHeight, textSize, iconName, text, value, r, g, b)
+function RHMDraggableHUD:drawRow(iconX, textX, textY, iconWidth, iconHeight, textSize, iconName, text, value, r, g, b)
     local icon = self.icons[iconName]
     if icon then
         local iconY = textY + textSize / 2 - iconHeight / 2
@@ -436,7 +436,7 @@ end
 
 -- EN: Engine load → color: warm white < 60%, amber-yellow 60-85%, red > 85%.
 -- UA: Навантаження двигуна → колір: тепло-білий < 60%, бурштиново-жовтий 60-85%, червоний > 85%.
-function DraggableHUD:getLoadColor(load)
+function RHMDraggableHUD:getLoadColor(load)
     if load < 60 then
         return {0.91, 0.87, 0.78}
     elseif load < 85 then
@@ -446,12 +446,12 @@ function DraggableHUD:getLoadColor(load)
     end
 end
 
-function DraggableHUD:isMouseOverHeader(posX, posY)
+function RHMDraggableHUD:isMouseOverHeader(posX, posY)
     return posX >= self.x and posX <= (self.x + self.width) and
            posY >= (self.y + self.height) and posY <= (self.y + self.height + self.headerHeight)
 end
 
-function DraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
+function RHMDraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.settings.showHUD then return false end
     if button ~= Input.MOUSE_BUTTON_LEFT then return false end
 
@@ -492,7 +492,7 @@ function DraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
     return false
 end
 
-function DraggableHUD:moveTo(x, y)
+function RHMDraggableHUD:moveTo(x, y)
     x = math.max(0, math.min(1 - self.width, x))
     y = math.max(0, math.min(1 - (self.height + self.headerHeight), y))
     self:setPosition(x, y)
@@ -500,7 +500,7 @@ function DraggableHUD:moveTo(x, y)
     self.settings.hudPosY = y
 end
 
-function DraggableHUD:delete()
+function RHMDraggableHUD:delete()
     if self.backgroundOverlay then self.backgroundOverlay:delete() end
     if self.headerOverlay then self.headerOverlay:delete() end
 
@@ -509,8 +509,9 @@ function DraggableHUD:delete()
     end
 
     if RHM_Debug and RHM_Debug.isEnabled("UI") then
-        RHM_Debug.log("UI", "RHM: DraggableHUD unloaded")
+        RHM_Debug.log("UI", "RHM: RHMDraggableHUD unloaded")
     end
 end
 
-return DraggableHUD
+return RHMDraggableHUD
+

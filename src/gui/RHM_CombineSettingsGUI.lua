@@ -1,15 +1,15 @@
 -- EN: Legacy console-based settings interface for the combine. Allows the player to view
 --     combine settings status and control them through in-game console commands.
---     This is a secondary interface alongside the visual CombineCalibrationGUI.
+--     This is a secondary interface alongside the visual RHMCombineCalibrationGUI.
 -- UA: Консольний інтерфейс налаштувань комбайна (застарілий). Дозволяє гравцеві переглядати
 --     стан налаштувань комбайна та керувати ними через консольні команди в грі.
---     Це допоміжний інтерфейс поруч з візуальним CombineCalibrationGUI.
-CombineSettingsGUI = {}
-local CombineSettingsGUI_mt = Class(CombineSettingsGUI)
+--     Це допоміжний інтерфейс поруч з візуальним RHMCombineCalibrationGUI.
+RHMCombineSettingsGUI = {}
+local CombineSettingsGUI_mt = Class(RHMCombineSettingsGUI)
 
 -- EN: Creates a new GUI instance with no active vehicle or memory attached.
 -- UA: Створює новий екземпляр GUI без прив'язаного транспорту або пам'яті.
-function CombineSettingsGUI.new()
+function RHMCombineSettingsGUI.new()
     local self = setmetatable({}, CombineSettingsGUI_mt)
 
     self.isOpen = false
@@ -20,10 +20,10 @@ function CombineSettingsGUI.new()
 end
 
 -- EN: Opens the settings interface for a specific combine vehicle.
---     Validates that the vehicle has the rhm_Combine spec and a CombineMemory instance.
+--     Validates that the vehicle has the rhm_Combine spec and a RHM_CombineMemory instance.
 -- UA: Відкриває інтерфейс налаштувань для конкретного комбайна.
---     Перевіряє, що транспорт має специфікацію rhm_Combine та екземпляр CombineMemory.
-function CombineSettingsGUI:open(vehicle)
+--     Перевіряє, що транспорт має специфікацію rhm_Combine та екземпляр RHM_CombineMemory.
+function RHMCombineSettingsGUI:open(vehicle)
     if not vehicle then
         RHM_Debug.log("UI", "RHM: Cannot open settings - not a valid combine")
         return false
@@ -56,7 +56,7 @@ end
 
 -- EN: Closes the settings interface and detaches from the current vehicle.
 -- UA: Закриває інтерфейс налаштувань та відключається від поточного транспорту.
-function CombineSettingsGUI:close()
+function RHMCombineSettingsGUI:close()
     self.isOpen = false
     self.combineMemory = nil
     self.currentVehicle = nil
@@ -66,7 +66,7 @@ end
 --     Shows mode, current crop, active settings values, any penalties, and available commands.
 -- UA: Виводить повний поточний стан налаштувань комбайна у внутрішньоігрову консоль.
 --     Показує режим, поточну культуру, значення налаштувань, штрафи та доступні команди.
-function CombineSettingsGUI:printStatus()
+function RHMCombineSettingsGUI:printStatus()
     if not self.combineMemory then
         return
     end
@@ -84,7 +84,7 @@ function CombineSettingsGUI:printStatus()
     -- EN: Currently harvested crop.
     -- UA: Поточна культура, що збирається.
     if memory.currentCrop then
-        local cropData = CombineSettingsDatabase:getCropData(memory.currentCrop)
+        local cropData = RHM_CombineSettingsDatabase:getCropData(memory.currentCrop)
         local cropName = cropData and cropData.nameEN or memory.currentCrop
         RHM_Debug.log("UI", string.format("Current Crop: %s", cropName))
     else
@@ -162,7 +162,7 @@ end
 
 -- EN: Activates AUTO mode — sets optimal settings for the currently detected crop.
 -- UA: Активує режим AUTO — встановлює оптимальні налаштування для поточної визначеної культури.
-function CombineSettingsGUI:setModeAuto()
+function RHMCombineSettingsGUI:setModeAuto()
     if not self.combineMemory then
         return
     end
@@ -178,7 +178,7 @@ end
 
 -- EN: Activates MANUAL mode — allows the player to manually adjust all settings.
 -- UA: Активує режим MANUAL — дозволяє гравцеві вручну регулювати всі налаштування.
-function CombineSettingsGUI:setModeManual()
+function RHMCombineSettingsGUI:setModeManual()
     if not self.combineMemory then
         return
     end
@@ -190,7 +190,7 @@ end
 
 -- EN: Sets a single combine parameter to the specified value (0-100).
 -- UA: Встановлює один параметр комбайна на задане значення (0-100).
-function CombineSettingsGUI:setParameter(paramName, value)
+function RHMCombineSettingsGUI:setParameter(paramName, value)
     if not self.combineMemory then
         return
     end
@@ -210,9 +210,9 @@ function CombineSettingsGUI:setParameter(paramName, value)
     end
 end
 
--- EN: Loads a named profile from the combine memory (legacy method, profiles now in ProfileManager).
--- UA: Завантажує іменований профіль з пам'яті комбайна (застарілий метод, профілі тепер у ProfileManager).
-function CombineSettingsGUI:loadProfile(profileName)
+-- EN: Loads a named profile from the combine memory (legacy method, profiles now in RHM_ProfileManager).
+-- UA: Завантажує іменований профіль з пам'яті комбайна (застарілий метод, профілі тепер у RHM_ProfileManager).
+function RHMCombineSettingsGUI:loadProfile(profileName)
     if not self.combineMemory then
         return
     end
@@ -228,7 +228,7 @@ end
 
 -- EN: Saves the current settings as a named profile for the active crop.
 -- UA: Зберігає поточні налаштування як іменований профіль для активної культури.
-function CombineSettingsGUI:saveProfile(profileName)
+function RHMCombineSettingsGUI:saveProfile(profileName)
     if not self.combineMemory then
         return
     end
@@ -245,7 +245,7 @@ end
 
 -- EN: Lists all saved profiles to the console.
 -- UA: Виводить список всіх збережених профілів у консоль.
-function CombineSettingsGUI:listProfiles()
+function RHMCombineSettingsGUI:listProfiles()
     if not self.combineMemory then
         return
     end
@@ -272,4 +272,6 @@ function CombineSettingsGUI:listProfiles()
     RHM_Debug.log("UI", "======================================================")
 end
 
-RHM_Debug.log("UI", "[OK] CombineSettingsGUI loaded")
+RHM_Debug.log("UI", "[OK] RHMCombineSettingsGUI loaded")
+
+

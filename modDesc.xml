@@ -162,7 +162,6 @@ Funkciók:
 - Kísérleti NEXAT támogatás]]></hu>
     </description>
     <iconFilename>icon_FS25_RealisticHarvesting.dds</iconFilename>
-    
     <multiplayer supported="true"/>
 
     <actions>
@@ -443,7 +442,9 @@ Funkciók:
         </text>
         
         <text name="rhm_speedlimit_long">
-            <en>Automatically limit combine speed based on engine load</en>
+            <en>
+            <![CDATA[Automatically limit combine speed based on engine load]]>
+            </en>
             <de>
             <![CDATA[Mähdrescher-Geschwindigkeit automatisch basierend auf Motorlast begrenzen]]>
         </de>
@@ -459,7 +460,9 @@ Funkciók:
             <it>
             <![CDATA[Limita automaticamente la velocità della mietitrice in base al carico del motore]]>
         </it>
-            <cz>Automaticky omezit rychlost kombajnu podle zatížení motoru</cz>
+            <cz>
+            <![CDATA[Automaticky omezit rychlost kombajnu podle zatížení motoru]]>
+        </cz>
             <br>
             <![CDATA[Limitar automaticamente a velocidade da colheitadeira com base na carga do motor]]>
         </br>
@@ -3870,11 +3873,11 @@ Vše se ukládá.]]>
 
     <helpLines>
         <!-- Title category for GUI -->
-        <category title="$l10n_rhm_help_category" iconFilename="textures/help/icon_overview.png" uvs="0px 0px 128px 128px" size="128 128">
-            <page title="$l10n_rhm_help_overview_title" iconFilename="textures/help/icon_overview.dds" uvs="0px 0px 128px 128px" size="128 128">
-                <paragraph>
+        <category title="$l10n_rhm_help_category">
+            <page title="$l10n_rhm_help_overview_title">
+                <!--paragraph>
                     <image filename="textures/help_overview.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph>
+                </paragraph-->
                 <paragraph>
                     <title text="$l10n_rhm_help_overview_sub1"/>
                     <text text="$l10n_rhm_help_overview_1"/>
@@ -3886,10 +3889,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 2: HUD ===== -->
-            <page title="$l10n_rhm_help_hud_title" iconFilename="textures/help/icon_hud.dds" uvs="0px 0px 128px 128px" size="128 128">
-                <paragraph>
+            <page title="$l10n_rhm_help_hud_title">
+                <!--paragraph>
                     <image filename="textures/help_hud.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph>
+                </paragraph-->
                 <paragraph>
                     <title text="$l10n_rhm_help_hud_sub1"/>
                     <text text="$l10n_rhm_help_hud_1"/>
@@ -3901,10 +3904,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 3: CALIBRATION ===== -->
-            <page title="$l10n_rhm_help_calibration_title" iconFilename="textures/help/icon_calibration.dds" uvs="0px 0px 128px 128px" size="128 128">
-                <paragraph>
+            <page title="$l10n_rhm_help_calibration_title">
+                <!--paragraph>
                     <image filename="textures/help_calibration.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph>
+                </paragraph-->
                 <paragraph>
                     <title text="$l10n_rhm_help_calibration_sub1"/>
                     <text text="$l10n_rhm_help_calibration_1"/>
@@ -3916,10 +3919,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 4: SPECIAL COMBINES ===== -->
-            <page title="$l10n_rhm_help_special_title" iconFilename="textures/help/icon_special.dds" uvs="0px 0px 128px 128px" size="128 128">
-                <paragraph>
+            <page title="$l10n_rhm_help_special_title">
+                <!--paragraph>
                     <image filename="textures/help_special.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph>
+                </paragraph-->
                 <paragraph>
                     <title text="$l10n_rhm_help_special_sub1"/>
                     <text text="$l10n_rhm_help_special_1"/>
@@ -3931,10 +3934,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 5: CROP LOST ===== -->
-            <page title="$l10n_rhm_help_loss_title" iconFilename="textures/help/icon_loss.dds" uvs="0px 0px 128px 128px" size="128 128">
-                <paragraph>
+            <page title="$l10n_rhm_help_loss_title">
+                <!--paragraph>
                     <image filename="textures/help_croploss.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph>
+                </paragraph-->
                 <paragraph>
                     <title text="$l10n_rhm_help_loss_sub1"/>
                     <text text="$l10n_rhm_help_loss_1"/>
@@ -3946,10 +3949,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 6: DIFFICULTY ===== -->
-            <page title="$l10n_rhm_help_difficulty_title" iconFilename="textures/help/icon_difficulty.dds" uvs="0px 0px 128px 128px" size="128 128">
-                <paragraph>
+            <page title="$l10n_rhm_help_difficulty_title">
+                <!--paragraph>
                     <image filename="textures/help_difficulty.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph>
+                </paragraph-->
                 <paragraph>
                     <title text="$l10n_rhm_help_difficulty_sub1"/>
                     <text text="$l10n_rhm_help_difficulty_1"/>
@@ -3961,10 +3964,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 7: UPGRADES ===== -->
-            <page title="$l10n_rhm_help_upgrades_title" iconFilename="textures/help/icon_upgrades.dds" uvs="0px 0px 128px 128px" size="128 128">
-                <paragraph>
-                    <image filename="textures/help_upgrades.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph>
+            <page title="$l10n_rhm_help_upgrades_title">
+                <!--paragraph>
+                   <image filename="textures/help_upgrades.dds" aspectRatio="1" displaySize="512px 512px"/>
+                </paragraph-->
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub1"/>
                     <text text="$l10n_rhm_help_upgrades_1"/>

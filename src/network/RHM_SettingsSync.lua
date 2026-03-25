@@ -4,11 +4,11 @@
 -- UA: Допоміжний клас для відправлення подій синхронізації налаштувань по мережі.
 --     Надає методи для трансляції налаштувань від сервера до всіх клієнтів,
 --     або для надсилання оновлення від клієнта-адміністратора на сервер.
-SettingsSync = {}
+RHM_SettingsSync = {}
 
 -- EN: Broadcasts server settings to all clients. If called from a client admin, sends to server first.
 -- UA: Транслює серверні налаштування всім клієнтам. Якщо викликано від клієнта-адміна, спочатку надсилає на сервер.
-function SettingsSync:sendToClients(settings)
+function RHM_SettingsSync:sendToClients(settings)
     if not g_currentMission:getIsServer() then
         -- EN: We are a client (admin) — send the update to the server first.
         -- UA: Ми клієнт (адміністратор) — спочатку надсилаємо оновлення на сервер.
@@ -18,7 +18,7 @@ function SettingsSync:sendToClients(settings)
 
     -- EN: We are the server — broadcast the event to all connected clients.
     -- UA: Ми сервер — транслюємо подію всім підключеним клієнтам.
-    local event = SettingsSyncEvent.new(settings)
+    local event = RHM_SettingsSyncEvent.new(settings)
     g_server:broadcastEvent(event)
 end
 
@@ -26,7 +26,7 @@ end
 --     Only works if the caller is a client (not the server itself).
 -- UA: Надсилає оновлення налаштувань від клієнта-адміністратора на сервер.
 --     Працює тільки якщо викликано на клієнті (не на самому сервері).
-function SettingsSync:sendToServer(settings)
+function RHM_SettingsSync:sendToServer(settings)
     if g_currentMission:getIsServer() then
         return
     end
@@ -46,7 +46,7 @@ function SettingsSync:sendToServer(settings)
         RHM_Debug.log("Network", string.format("RHM: [Sync] Sending event to server via connection %s", tostring(connection)))
     end
     
-    local event = SettingsSyncEvent.new(settings)
+    local event = RHM_SettingsSyncEvent.new(settings)
     connection:sendEvent(event)
 
     if RHM_Debug and RHM_Debug.isEnabled("Network") then
@@ -55,11 +55,12 @@ function SettingsSync:sendToServer(settings)
 end
 
 -- EN: Placeholder method called when the client receives settings from the server.
---     Actual application of values happens in SettingsSyncEvent:run().
+--     Actual application of values happens in RHM_SettingsSyncEvent:run().
 -- UA: Метод-заглушка, що викликається коли клієнт отримує налаштування від сервера.
---     Фактичне застосування значень відбувається в SettingsSyncEvent:run().
-function SettingsSync:receiveFromServer(eventData)
+--     Фактичне застосування значень відбувається в RHM_SettingsSyncEvent:run().
+function RHM_SettingsSync:receiveFromServer(eventData)
     if g_currentMission:getIsServer() then
         return
     end
 end
+

@@ -4,14 +4,14 @@
 -- UA: Центральний менеджер мода Realistic Harvesting. Створюється один раз за місію і зберігається
 --     як глобальний g_realisticHarvestManager. Координує всі підсистеми мода:
 --     налаштування, HUD, GUI калібрування, консольні команди та події вводу.
-RealisticHarvestManager = {}
-local RealisticHarvestManager_mt = Class(RealisticHarvestManager)
+RHM_RealisticHarvestManager = {}
+local RealisticHarvestManager_mt = Class(RHM_RealisticHarvestManager)
 
 -- EN: Initializes all mod subsystems: settings, UI, HUD, calibration GUI, and console commands.
 --     Creates the HUD and settings UI only on the game client (not dedicated server).
 -- UA: Ініціалізує всі підсистеми мода: налаштування, UI, HUD, GUI калібрування і консольні команди.
 --     Створює HUD і settings UI тільки на клієнті гри (не на виділеному сервері).
-function RealisticHarvestManager.new(mission, modDirectory, modName)
+function RHM_RealisticHarvestManager.new(mission, modDirectory, modName)
     local self = setmetatable({}, RealisticHarvestManager_mt)
 
     self.mission = mission
@@ -20,43 +20,36 @@ function RealisticHarvestManager.new(mission, modDirectory, modName)
 
     self.debug = RHM_Debug.isEnabled("Manager")
 
-    -- EN: Initialize settings: the SettingsManager handles XML I/O, Settings holds all values.
-    -- UA: Ініціалізуємо налаштування: SettingsManager обробляє XML, Settings зберігає значення.
-    self.settingsManager = SettingsManager.new()
-    self.settings = Settings.new(self.settingsManager)
+    -- EN: Initialize settings: the RHMSettingsManager handles XML I/O, RHMSettings holds all values.
+    -- UA: Ініціалізуємо налаштування: RHMSettingsManager обробляє XML, RHMSettings зберігає значення.
+    self.settingsManager = RHMSettingsManager.new()
+    self.settings = RHMSettings.new(self.settingsManager)
 
     self.savedCameraRotatableInfo = {} -- EN: Stores camera rotatability before cursor mode / UA: Зберігає стан камери до режиму курсора
 
-    -- EN: Inject settings into the FS25 in-game settings menu (client only).
-    --     Hooks onFrameOpen and updateButtons to ensure our controls appear in the right place.
-    -- UA: Впроваджуємо налаштування в меню налаштувань FS25 (тільки клієнт).
-    --     Підключаємо onFrameOpen і updateButtons щоб наші елементи з'являлись у правильному місці.
+    -- EN: PREPEND to class onFrameOpen so our elements are in the layout BEFORE the base game
+    --     computes positions. appendedFunction runs too late (after the frame is already drawn).
+    -- UA: PREPEND до класу onFrameOpen — наші елементи потрапляють в layout ДО того як гра
+    --     рахує позиції. appendedFunction запускається занадто пізно (кадр вже намальований).
     if mission:getIsClient() and g_gui then
-        self.settingsUI = SettingsUI.new(self.settings)
-
-        local settingsPage = g_gui.screenControllers[InGameMenu].pageSettings
-        if settingsPage then
-            settingsPage.onFrameOpen = Utils.appendedFunction(settingsPage.onFrameOpen, function()
-                self.settingsUI:inject()
-                self.settingsUI:refreshUI()
-            end)
-
-            settingsPage.updateButtons = Utils.appendedFunction(settingsPage.updateButtons, function(frame)
-                if self.settingsUI then
-                    self.settingsUI:ensureResetButton(frame)
-                end
-            end)
-        else
-            Logging.error("RHM: InGameMenuSettingsFrame (pageSettings) not found!")
-        end
+        local settings = self.settings
+        InGameMenuSettingsFrame.onFrameOpen = Utils.prependedFunction(
+            InGameMenuSettingsFrame.onFrameOpen,
+            function(settingsPage)
+                pcall(function()
+                    RHMSettingsUI.inject(settings)
+                    RHMSettingsUI.refreshUI(settings)
+                end)
+            end
+        )
     end
 
     -- EN: Console commands are always registered (server and client need them).
     -- UA: Консольні команди реєструються завжди (і сервер, і клієнт їх потребують).
-    self.settingsGUI = SettingsGUI.new()
+    self.settingsGUI = RHMSettingsGUI.new()
     self.settingsGUI:registerConsoleCommands()
 
-    self.combineSettingsGUI = CombineSettingsGUI.new()
+    self.combineSettingsGUI = RHMCombineSettingsGUI.new()
 
     -- EN: Load saved settings from XML before creating HUD (HUD reads settings in its constructor).
     -- UA: Завантажуємо збережені налаштування з XML перед створенням HUD (HUD читає налаштування в конструкторі).
@@ -65,7 +58,7 @@ function RealisticHarvestManager.new(mission, modDirectory, modName)
     -- EN: Create the draggable HUD overlay (client only, handles display of live data).
     -- UA: Створюємо перетягуваний HUD (тільки клієнт, відображає живі дані).
     if mission:getIsClient() then
-        self.hud = DraggableHUD.new(self.modDirectory, self.settings)
+        self.hud = RHMDraggableHUD.new(self.modDirectory, self.settings)
 
         if not self.hud then
             Logging.error("RHM: Failed to create HUD instance!")
@@ -78,7 +71,7 @@ function RealisticHarvestManager.new(mission, modDirectory, modName)
     -- EN: Create the visual calibration GUI (client only, for manual settings adjustment).
     -- UA: Створюємо візуальний GUI калібрування (тільки клієнт, для ручного регулювання).
     if mission:getIsClient() then
-        self.calibrationGUI = CombineCalibrationGUI.new(modDirectory)
+        self.calibrationGUI = RHMCombineCalibrationGUI.new(modDirectory)
     end
 
     return self
@@ -86,7 +79,7 @@ end
 
 -- EN: Toggles the calibration GUI open/closed for the given combine vehicle.
 -- UA: Перемикає GUI калібрування відкритий/закритий для заданого комбайна.
-function RealisticHarvestManager:toggleMenu(vehicle)
+function RHM_RealisticHarvestManager:toggleMenu(vehicle)
     if self.calibrationGUI then
         self.calibrationGUI:toggle(vehicle)
     end
@@ -94,7 +87,7 @@ end
 
 -- EN: Called after the mission finishes loading. Initializes HUD overlay assets (textures, positions).
 -- UA: Викликається після завершення завантаження місії. Ініціалізує ресурси HUD (текстури, позиції).
-function RealisticHarvestManager:onMissionLoaded()
+function RHM_RealisticHarvestManager:onMissionLoaded()
     if self.hud then
         self.hud:load()
     end
@@ -144,7 +137,7 @@ end
 --     Falls back through multiple methods to handle various FS25 versions/states.
 -- UA: Повертає транспортний засіб, яким зараз керує локальний гравець.
 --     Перебирає кілька методів для підтримки різних версій/станів FS25.
-function RealisticHarvestManager:getControlledVehicle()
+function RHM_RealisticHarvestManager:getControlledVehicle()
     local vehicle = g_currentMission.controlledVehicle
     if vehicle then return vehicle end
 
@@ -169,7 +162,7 @@ end
 -- UA: Викликається щоразу за кадр гри. Оновлює GUI калібрування і дані HUD.
 --     Шукає в ієрархії транспорту гравця специфікацію комбайна для відстеження живих даних.
 --     Оновлює HUD тільки коли знайдено і запущено комбайн.
-function RealisticHarvestManager:update(dt)
+function RHM_RealisticHarvestManager:update(dt)
     if self.calibrationGUI then
         self.calibrationGUI:update(dt)
     end
@@ -202,7 +195,7 @@ end
 -- UA: Викликається щоразу за кадр для відображення HUD і GUI калібрування.
 --     Пригнічує всі малювання коли відкрите будь-яке меню гри, коли HUD гри прихований,
 --     або коли гравець не в транспортному засобі.
-function RealisticHarvestManager:draw()
+function RHM_RealisticHarvestManager:draw()
     -- EN: Skip all drawing when any FS25 GUI screen is visible (e.g. ESC menu, map, settings).
     -- UA: Пропускаємо все малювання коли відкритий будь-який GUI екран FS25 (меню ESC, карта, налаштування).
     if g_gui:getIsGuiVisible() then
@@ -239,7 +232,7 @@ end
 
 -- EN: Cleans up all HUD and GUI resources on mission end.
 -- UA: Очищає всі ресурси HUD і GUI при завершенні місії.
-function RealisticHarvestManager:delete()
+function RHM_RealisticHarvestManager:delete()
     if self.hud then
         self.hud:delete()
         self.hud = nil
@@ -253,7 +246,7 @@ end
 --     The GUI gets priority so it can capture events before the HUD.
 -- UA: Направляє події миші спочатку до GUI калібрування, а потім до HUD (для перетягування).
 --     GUI отримує пріоритет, щоб перехоплювати події до HUD.
-function RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button)
+function RHM_RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.mission:getIsClient() then
         return
     end
@@ -273,7 +266,7 @@ end
 --     Disables camera rotation while cursor is visible.
 -- UA: Перемикає видимість курсора миші для взаємодії з перетягуванням HUD.
 --     Вимикає обертання камери поки курсор видимий.
-function RealisticHarvestManager:toggleCursor()
+function RHM_RealisticHarvestManager:toggleCursor()
     if not self.hud then return end
 
     self.isCursorVisible = not self.isCursorVisible
@@ -295,3 +288,5 @@ function RealisticHarvestManager:toggleCursor()
         end
     end
 end
+
+

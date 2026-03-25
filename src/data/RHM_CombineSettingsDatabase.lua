@@ -6,7 +6,7 @@
 --     Зберігає шаблони параметрів (вентилятор, ротор, решета, подача) для кожного типу культури,
 --     відображає FillType enum FS25 на внутрішні назви культур, і визначає які параметри активні
 --     для кожного типу машини (зернова, форажна, коренеплоди, бавовна).
-CombineSettingsDatabase = {}
+RHM_CombineSettingsDatabase = {}
 
 -- EN: Base templates for crop groups. Each parameter has: optimal, min, max, tolerance.
 --     Values are expressed as percentages (0-100) representing the corresponding physical range.
@@ -294,7 +294,7 @@ local templates = {
 -- UA: Активні параметри для кожного типу машини. Визначає які повзунки параметрів відображаються в GUI калібрування.
 
 ---Active parameters per machine type (defines which sliders appear in GUI)
-CombineSettingsDatabase.machineParams = {
+RHM_CombineSettingsDatabase.machineParams = {
     grain   = { "fan", "rotor", "upperSieve", "lowerSieve", "feeder" },
     forage  = { "fan", "rotor", "feeder" },
     root    = { "fan", "rotor", "feeder" },
@@ -303,7 +303,7 @@ CombineSettingsDatabase.machineParams = {
 
 ---L10n key overrides for parameter labels per machine type
 ---Falls back to generic "rhm_ui_<param>" if no override defined
-CombineSettingsDatabase.machineParamLabels = {
+RHM_CombineSettingsDatabase.machineParamLabels = {
     grain = {
         fan        = "rhm_ui_fan_speed",
         rotor      = "rhm_ui_rotor_speed",
@@ -329,10 +329,10 @@ CombineSettingsDatabase.machineParamLabels = {
 }
 
 -- EN: Returns the ordered list of parameter names active for the given machine type.
---     Used to determine which sliders to display and which CombineMemory keys to initialize.
+--     Used to determine which sliders to display and which RHM_CombineMemory keys to initialize.
 -- UA: Повертає впорядкований список назв параметрів активних для заданого типу машини.
---     Використовується для визначення яких повзунки відображати та які ключі CombineMemory ініціалізувати.
-function CombineSettingsDatabase:getParamsForMachineType(machineType)
+--     Використовується для визначення яких повзунки відображати та які ключі RHM_CombineMemory ініціалізувати.
+function RHM_CombineSettingsDatabase:getParamsForMachineType(machineType)
     return self.machineParams[machineType] or self.machineParams.grain
 end
 
@@ -340,7 +340,7 @@ end
 --     Falls back to generic "rhm_ui_<param>" if no specific override is defined.
 -- UA: Повертає ключ локалізації для підпису параметру залежно від типу машини.
 --     Повертається до загального "rhm_ui_<param>" якщо немає специфічного перевизначення.
-function CombineSettingsDatabase:getParamLabel(machineType, paramName)
+function RHM_CombineSettingsDatabase:getParamLabel(machineType, paramName)
     local labels = self.machineParamLabels[machineType]
     if labels and labels[paramName] then
         return labels[paramName]
@@ -354,7 +354,7 @@ local function safeFillType(ft)
     return (ft ~= nil and ft ~= 0) and ft or nil
 end
 
-CombineSettingsDatabase.crops = {
+RHM_CombineSettingsDatabase.crops = {
     -- Зернові
     ["WHEAT"]   = { name = "Пшениця",            nameEN = "Wheat",            template = templates.wheat,         machineType = "grain", group = "grain",       fillType = safeFillType(FillType.WHEAT) },
     ["BARLEY"]  = { name = "Ячмінь",             nameEN = "Barley",           template = templates.barley,        machineType = "grain", group = "grain",       fillType = safeFillType(FillType.BARLEY) },
@@ -425,7 +425,7 @@ CombineSettingsDatabase.crops = {
 --     Returns nil if the crop is not in the database (unknown mod crop).
 -- UA: Повертає шаблон оптимальних налаштувань для культури за внутрішньою назвою (напр. "WHEAT").
 --     Повертає nil якщо культура відсутня в базі даних (невідома культура мода).
-function CombineSettingsDatabase:getSettingsForCrop(cropName)
+function RHM_CombineSettingsDatabase:getSettingsForCrop(cropName)
     local crop = self.crops[cropName]
     if crop then
         return crop.template
@@ -437,7 +437,7 @@ end
 --     Handles windrow variants (_WINDROW suffix) and cut variants (CUT_ prefix) via fallback logic.
 -- UA: Перетворює ціле число FillType гри на внутрішню назву культури у базі даних.
 --     Обробляє варіанти валків (_WINDROW суфікс) та зрізані варіанти (CUT_ префікс) через резервну логіку.
-function CombineSettingsDatabase:getCropNameFromFillType(fillType)
+function RHM_CombineSettingsDatabase:getCropNameFromFillType(fillType)
     if not fillType or fillType == FillType.UNKNOWN then
         return nil
     end
@@ -531,13 +531,13 @@ end
 
 -- EN: Returns the full crop data record (template, machineType, group, fillType, names).
 -- UA: Повертає повний запис даних культури (шаблон, тип машини, група, fillType, назви).
-function CombineSettingsDatabase:getCropData(cropName)
+function RHM_CombineSettingsDatabase:getCropData(cropName)
     return self.crops[cropName]
 end
 
 -- EN: Returns a sorted list of all registered crop names in the database.
 -- UA: Повертає відсортований список всіх зареєстрованих назв культур у базі даних.
-function CombineSettingsDatabase:getAllCropNames()
+function RHM_CombineSettingsDatabase:getAllCropNames()
     local names = {}
     for cropName, _ in pairs(self.crops) do
         table.insert(names, cropName)
@@ -548,7 +548,7 @@ end
 
 -- EN: Returns a sorted list of crop names that match the specified machine type.
 -- UA: Повертає відсортований список назв культур що відповідають заданому типу машини.
-function CombineSettingsDatabase:getCropNamesForMachineType(machineType)
+function RHM_CombineSettingsDatabase:getCropNamesForMachineType(machineType)
     local names = {}
     for cropName, cropData in pairs(self.crops) do
         if cropData.machineType == machineType then
@@ -565,7 +565,7 @@ end
 -- UA: Розраховує попередній перегляд загальних втрат врожаю для довільних налаштувань без їх застосування.
 --     Використовується в GUI калібрування для кольорового зворотного зв'язку до підтвердження гравцем.
 --     Втрати = 0.15% за одиницю відхилення понад допуск, обмежено до 25%.
-function CombineSettingsDatabase:calcSettingsLossPreview(cropName, settings)
+function RHM_CombineSettingsDatabase:calcSettingsLossPreview(cropName, settings)
     local template = self:getSettingsForCrop(cropName)
     if not template then return 0, {} end
     
@@ -598,7 +598,7 @@ end
 --     Values outside this range are physically unrealistic and blocked by the GUI.
 -- UA: Перевіряє чи значення параметру знаходиться в допустимому діапазоні (min-max) для культури.
 --     Значення поза цим діапазоном є фізично нереалістичними і блокуються GUI.
-function CombineSettingsDatabase:isValueValid(cropName, paramName, value)
+function RHM_CombineSettingsDatabase:isValueValid(cropName, paramName, value)
     local settings = self:getSettingsForCrop(cropName)
     if not settings or not settings[paramName] then
         return false
@@ -608,4 +608,5 @@ function CombineSettingsDatabase:isValueValid(cropName, paramName, value)
     return value >= param.min and value <= param.max
 end
 
-rhm_log("[OK] CombineSettingsDatabase loaded with " .. #CombineSettingsDatabase:getAllCropNames() .. " crops")
+rhm_log("[OK] RHM_CombineSettingsDatabase loaded with " .. #RHM_CombineSettingsDatabase:getAllCropNames() .. " crops")
+

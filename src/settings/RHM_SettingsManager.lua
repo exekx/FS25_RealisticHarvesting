@@ -6,17 +6,17 @@
 --     - Серверні налаштування (settings.xml): складність, ліміт швидкості, втрати врожаю — спільні для всіх гравців (зміна тільки адміном)
 --     - Клієнтські налаштування (client.xml): видимість HUD, позиція, система одиниць — персональні переваги гравця
 --     Обидва файли зберігаються в папці modSettings/FS25_RealisticHarvesting для доступу незалежно від карти.
-SettingsManager = {}
-local SettingsManager_mt = Class(SettingsManager)
+RHMSettingsManager = {}
+local SettingsManager_mt = Class(RHMSettingsManager)
 
-SettingsManager.MOD_NAME = g_currentModName
+RHMSettingsManager.MOD_NAME = g_currentModName
 -- EN: XML root element tag used in both settings files.
 -- UA: Назва кореневого тегу XML, що використовується у файлах налаштувань.
-SettingsManager.XMLTAG = "realisticHarvestManager"
+RHMSettingsManager.XMLTAG = "realisticHarvestManager"
 
 -- EN: List of server-side setting keys (shared globally, admin-only write).
 -- UA: Список ключів серверних налаштувань (глобальні, тільки адмін може змінювати).
-SettingsManager.SERVER_SETTINGS = {
+RHMSettingsManager.SERVER_SETTINGS = {
     "difficultyMotor",
     "difficultyLoss",
     "enableSpeedLimit",
@@ -26,7 +26,7 @@ SettingsManager.SERVER_SETTINGS = {
 
 -- EN: List of client-side setting keys (personal, per-player, HUD-related).
 -- UA: Список ключів клієнтських налаштувань (персональні, для кожного гравця, пов'язані з HUD).
-SettingsManager.CLIENT_SETTINGS = {
+RHMSettingsManager.CLIENT_SETTINGS = {
     "showHUD",
     "showYield",
     "showLoad",
@@ -44,7 +44,7 @@ SettingsManager.CLIENT_SETTINGS = {
 
 -- EN: Default configuration values used as fallback when no saved file exists.
 -- UA: Значення конфігурації за замовчуванням, що використовуються якщо збережений файл відсутній.
-SettingsManager.defaultConfig = {
+RHMSettingsManager.defaultConfig = {
     difficultyMotor = 2,
     difficultyLoss = 2,
     showHUD = true,
@@ -58,9 +58,9 @@ SettingsManager.defaultConfig = {
     unitSystem = 1
 }
 
--- EN: Creates a new SettingsManager instance.
--- UA: Створює новий екземпляр SettingsManager.
-function SettingsManager.new()
+-- EN: Creates a new RHMSettingsManager instance.
+-- UA: Створює новий екземпляр RHMSettingsManager.
+function RHMSettingsManager.new()
     return setmetatable({}, SettingsManager_mt)
 end
 
@@ -68,10 +68,10 @@ end
 --     Creates required directories (modSettings and mod subfolder) if they don't exist.
 -- UA: Повертає абсолютний шлях до XML-файлу серверних налаштувань.
 --     Створює необхідні директорії (modSettings та підпапку мода), якщо вони не існують.
-function SettingsManager:getServerXmlFilePath()
+function RHMSettingsManager:getServerXmlFilePath()
     local userPath = getUserProfileAppPath()
     if not userPath then
-        RHM_Debug.log("Settings", "RHM: ERROR - Cannot get user profile path")
+        RHM_Debug.log("RHMSettings", "RHM: ERROR - Cannot get user profile path")
         return nil
     end
 
@@ -80,12 +80,12 @@ function SettingsManager:getServerXmlFilePath()
 
     if not fileExists(modSettingsPath) then
         createFolder(modSettingsPath)
-        RHM_Debug.log("Settings", string.format("RHM: Created modSettings directory: %s", modSettingsPath))
+        RHM_Debug.log("RHMSettings", string.format("RHM: Created modSettings directory: %s", modSettingsPath))
     end
 
     if not fileExists(rhmPath) then
         createFolder(rhmPath)
-        RHM_Debug.log("Settings", string.format("RHM: Created mod settings directory: %s", rhmPath))
+        RHM_Debug.log("RHMSettings", string.format("RHM: Created mod settings directory: %s", rhmPath))
     end
 
     return rhmPath .. "/settings.xml"
@@ -95,7 +95,7 @@ end
 --     The client file is "client.xml" alongside "settings.xml".
 -- UA: Повертає абсолютний шлях до XML-файлу клієнтських налаштувань (та сама папка, що й серверний файл).
 --     Клієнтський файл — "client.xml" поруч з "settings.xml".
-function SettingsManager:getClientXmlFilePath()
+function RHMSettingsManager:getClientXmlFilePath()
     local serverPath = self:getServerXmlFilePath()
     if not serverPath then return nil end
     return serverPath:gsub("settings.xml$", "client.xml")
@@ -103,7 +103,7 @@ end
 
 -- EN: Legacy method kept for backward compatibility. Returns the server XML path.
 -- UA: Застарілий метод для зворотньої сумісності. Повертає шлях до серверного XML.
-function SettingsManager:getSavegameXmlFilePath()
+function RHMSettingsManager:getSavegameXmlFilePath()
     return self:getServerXmlFilePath()
 end
 
@@ -113,11 +113,11 @@ end
 -- UA: Завантажує серверні налаштування з XML-файлу в об'єкт налаштувань.
 --     Використовує значення за замовчуванням, якщо файл відсутній або не може бути прочитаний.
 --     Обробляє міграцію з застарілого поля "difficulty" до роздільних полів.
-function SettingsManager:loadServerSettings(settingsObject)
+function RHMSettingsManager:loadServerSettings(settingsObject)
     local xmlPath = self:getServerXmlFilePath()
 
-    RHM_Debug.log("Settings", string.format("RHM: [Load] Attempting to load server settings from: %s", tostring(xmlPath)))
-    RHM_Debug.log("Settings", string.format("RHM: [Load] File exists: %s", tostring(xmlPath and fileExists(xmlPath))))
+    RHM_Debug.log("RHMSettings", string.format("RHM: [Load] Attempting to load server settings from: %s", tostring(xmlPath)))
+    RHM_Debug.log("RHMSettings", string.format("RHM: [Load] File exists: %s", tostring(xmlPath and fileExists(xmlPath))))
 
     if xmlPath and fileExists(xmlPath) then
         local xml = XMLFile.load("RHM_ServerConfig", xmlPath)
@@ -132,7 +132,7 @@ function SettingsManager:loadServerSettings(settingsObject)
             end
             xml:delete()
 
-            RHM_Debug.log("Settings", string.format("RHM: [Load] Loaded values - Motor: %s, Loss: %s, SpeedLimit: %s",
+            RHM_Debug.log("RHMSettings", string.format("RHM: [Load] Loaded values - Motor: %s, Loss: %s, SpeedLimit: %s",
                 tostring(settingsObject.difficultyMotor),
                 tostring(settingsObject.difficultyLoss),
                 tostring(settingsObject.enableSpeedLimit)))
@@ -145,7 +145,7 @@ function SettingsManager:loadServerSettings(settingsObject)
                     local legacyDifficulty = legacyXml:getInt(self.XMLTAG..".difficulty", 2)
                     settingsObject.difficultyMotor = legacyDifficulty
                     settingsObject.difficultyLoss = legacyDifficulty
-                    RHM_Debug.log("Settings", string.format("RHM: Migrated legacy difficulty (%d) to split fields", legacyDifficulty))
+                    RHM_Debug.log("RHMSettings", string.format("RHM: Migrated legacy difficulty (%d) to split fields", legacyDifficulty))
                     legacyXml:delete()
                 end
             end
@@ -156,7 +156,7 @@ function SettingsManager:loadServerSettings(settingsObject)
 
     -- EN: File missing or unreadable — use defaults.
     -- UA: Файл відсутній або нечитабельний — використовуємо значення за замовчуванням.
-    RHM_Debug.log("Settings", "RHM: [Load] Using default values")
+    RHM_Debug.log("RHMSettings", "RHM: [Load] Using default values")
     for _, key in ipairs(self.SERVER_SETTINGS) do
         settingsObject[key] = self.defaultConfig[key]
     end
@@ -166,7 +166,7 @@ end
 --     Falls back to defaults if the file is missing.
 -- UA: Завантажує клієнтські налаштування (преференції HUD) з клієнтського XML-файлу.
 --     Використовує значення за замовчуванням, якщо файл відсутній.
-function SettingsManager:loadClientSettings(settingsObject)
+function RHMSettingsManager:loadClientSettings(settingsObject)
     local xmlPath = self:getClientXmlFilePath()
     if xmlPath and fileExists(xmlPath) then
         local xml = XMLFile.load("RHM_ClientConfig", xmlPath)
@@ -199,7 +199,7 @@ end
 --     Everyone reads server settings; each client also reads their own client settings.
 -- UA: Головний метод завантаження — завантажує серверні та клієнтські налаштування.
 --     Всі читають серверні налаштування; кожен клієнт також читає власні клієнтські налаштування.
-function SettingsManager:loadSettings(settingsObject)
+function RHMSettingsManager:loadSettings(settingsObject)
     self:loadServerSettings(settingsObject)
 
     if g_currentMission:getIsClient() then
@@ -212,15 +212,15 @@ end
 -- UA: Зберігає серверні налаштування у settings.xml. Тільки сервер повинен це викликати.
 --     EN: Verifies that the file actually exists after writing (safety measure).
 --     UA: Перевіряє, що файл справді існує після запису (запобіжний захід).
-function SettingsManager:saveServerSettings(settingsObject)
+function RHMSettingsManager:saveServerSettings(settingsObject)
     local xmlPath = self:getServerXmlFilePath()
     if not xmlPath then
-        RHM_Debug.log("Settings", "RHM: [Save] ERROR - Cannot get server XML path (savegame directory not available)")
+        RHM_Debug.log("RHMSettings", "RHM: [Save] ERROR - Cannot get server XML path (savegame directory not available)")
         return
     end
 
-    RHM_Debug.log("Settings", string.format("RHM: [Save] Saving server settings to: %s", xmlPath))
-    RHM_Debug.log("Settings", string.format("RHM: [Save] Values - Motor: %s, Loss: %s, SpeedLimit: %s, CropLoss: %s",
+    RHM_Debug.log("RHMSettings", string.format("RHM: [Save] Saving server settings to: %s", xmlPath))
+    RHM_Debug.log("RHMSettings", string.format("RHM: [Save] Values - Motor: %s, Loss: %s, SpeedLimit: %s, CropLoss: %s",
         tostring(settingsObject.difficultyMotor),
         tostring(settingsObject.difficultyLoss),
         tostring(settingsObject.enableSpeedLimit),
@@ -242,20 +242,20 @@ function SettingsManager:saveServerSettings(settingsObject)
         -- EN: Verify the file was actually saved to disk.
         -- UA: Перевіряємо що файл справді збережений на диску.
         if fileExists(xmlPath) then
-            RHM_Debug.log("Settings", string.format("RHM: [Save] ✓ File verified to exist: %s", xmlPath))
+            RHM_Debug.log("RHMSettings", string.format("RHM: [Save] ✓ File verified to exist: %s", xmlPath))
         else
-            RHM_Debug.log("Settings", string.format("RHM: [Save] ✗ WARNING - File does NOT exist after save: %s", xmlPath))
+            RHM_Debug.log("RHMSettings", string.format("RHM: [Save] ✗ WARNING - File does NOT exist after save: %s", xmlPath))
         end
 
-        RHM_Debug.log("Settings", "RHM: [Save] Server settings saved successfully")
+        RHM_Debug.log("RHMSettings", "RHM: [Save] Server settings saved successfully")
     else
-        RHM_Debug.log("Settings", "RHM: [Save] ERROR - Failed to create XML file")
+        RHM_Debug.log("RHMSettings", "RHM: [Save] ERROR - Failed to create XML file")
     end
 end
 
 -- EN: Saves client-side settings (HUD preferences) to client.xml for the current player.
 -- UA: Зберігає клієнтські налаштування (переваги HUD) у client.xml для поточного гравця.
-function SettingsManager:saveClientSettings(settingsObject)
+function RHMSettingsManager:saveClientSettings(settingsObject)
     local xmlPath = self:getClientXmlFilePath()
     if not xmlPath then return end
 
@@ -282,7 +282,7 @@ end
 
 -- EN: Main save method — saves server settings if on server, client settings if on client.
 -- UA: Головний метод збереження — зберігає серверні налаштування якщо на сервері, клієнтські якщо на клієнті.
-function SettingsManager:saveSettings(settingsObject)
+function RHMSettingsManager:saveSettings(settingsObject)
     if g_currentMission:getIsServer() then
         self:saveServerSettings(settingsObject)
     end

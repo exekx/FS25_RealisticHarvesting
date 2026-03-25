@@ -198,10 +198,10 @@ end
 -- ============================================================================
 
 -- EN: Called when the combine vehicle is loaded. Creates and wires up all subsystems:
---     LoadCalculator, machineType detection, CombineMemory, HUD data table, dirty flags,
+--     RHM_LoadCalculator, machineType detection, RHM_CombineMemory, HUD data table, dirty flags,
 --     and network throttling. Loads settings from XML if savegame exists.
 -- UA: Викликається при завантаженні комбайна. Створює і підключає всі підсистеми:
---     LoadCalculator, визначення типу машини, CombineMemory, таблиця даних HUD, прапорці "dirty",
+--     RHM_LoadCalculator, визначення типу машини, RHM_CombineMemory, таблиця даних HUD, прапорці "dirty",
 --     і тротлінг мережі. Завантажує налаштування з XML якщо існує збереження.
 function rhm_Combine:onLoad(savegame)
     -- Створюємо spec для нашого моду
@@ -228,18 +228,18 @@ function rhm_Combine:onLoad(savegame)
             tostring(self:getFullName()), tostring(savegame ~= nil)))
     end
     
-    -- Створюємо LoadCalculator з modDirectory
+    -- Створюємо RHM_LoadCalculator з modDirectory
     local modDir = g_realisticHarvestManager and g_realisticHarvestManager.modDirectory or g_currentModDirectory
     
-    if not LoadCalculator then
-        Logging.error("RHM: LoadCalculator class is missing! Check script loading order.")
+    if not RHM_LoadCalculator then
+        Logging.error("RHM: RHM_LoadCalculator class is missing! Check script loading order.")
         return
     end
 
-    spec.loadCalculator = LoadCalculator.new(modDir)
+    spec.loadCalculator = RHM_LoadCalculator.new(modDir)
     
     if not spec.loadCalculator then
-        Logging.error("RHM: Failed to create LoadCalculator for combine: %s", self:getFullName())
+        Logging.error("RHM: Failed to create RHM_LoadCalculator for combine: %s", self:getFullName())
         return
     end
     
@@ -335,13 +335,13 @@ function rhm_Combine:onLoad(savegame)
         tostring(self.spec_fruitPreparer ~= nil)))
 
 
-    -- EN: Create the combine memory system for current settings. Link it to LoadCalculator
+    -- EN: Create the combine memory system for current settings. Link it to RHM_LoadCalculator
     --     so that setting adjustments affect the live load and loss calculations.
-    -- UA: Створюємо систему пам'яті для поточних налаштувань. Підключаємо до LoadCalculator
+    -- UA: Створюємо систему пам'яті для поточних налаштувань. Підключаємо до RHM_LoadCalculator
     --     щоб регулювання налаштувань впливало на поточні розрахунки навантаження і втрат.
-    spec.combineMemory = CombineMemory.new(self, machineType)
+    spec.combineMemory = RHM_CombineMemory.new(self, machineType)
     spec.loadCalculator.combineMemory = spec.combineMemory
-    RHM_Debug.log("Combine", "RHM: [OK] Combine Settings System initialized")
+    RHM_Debug.log("Combine", "RHM: [OK] Combine RHMSettings System initialized")
 
     
     -- EN: HUD live data table — all fields are updated every tick on the server and synced to clients.
@@ -369,7 +369,7 @@ function rhm_Combine:onLoad(savegame)
     
     -- MULTIPLAYER: Dirty flags для роздільної синхронізації
     -- spec.dataDirtyFlag: часто оновлювана телеметрія (throttle)
-    -- spec.settingsDirtyFlag: зміни налаштувань CombineMemory (тільки при зміні)
+    -- spec.settingsDirtyFlag: зміни налаштувань RHM_CombineMemory (тільки при зміні)
     spec.dataDirtyFlag = self:getNextDirtyFlag()
     spec.settingsDirtyFlag = self:getNextDirtyFlag()
     spec.dirtyFlag = spec.dataDirtyFlag -- Fallback if needed
@@ -446,8 +446,8 @@ function rhm_Combine:addCutterArea(superFunc, ...)
     
     local areaForYield = area * sqmMultiplier
     
-    -- EN: Accumulate area for LoadCalculator and yield monitor separately.
-    -- UA: Накопичуємо площу окремо для LoadCalculator і монітора врожайності.
+    -- EN: Accumulate area for RHM_LoadCalculator and yield monitor separately.
+    -- UA: Накопичуємо площу окремо для RHM_LoadCalculator і монітора врожайності.
     spec.lastArea = (spec.lastArea or 0) + (areaForYield * multiplier)
     spec.lastRawArea = (spec.lastRawArea or 0) + areaForYield
     spec.lastMultiplier = multiplier
@@ -475,23 +475,23 @@ function rhm_Combine:addCutterArea(superFunc, ...)
         --    ...
         -- end
 
-        -- EN: Determine crop name from CombineSettingsDatabase — full table including
+        -- EN: Determine crop name from RHM_CombineSettingsDatabase — full table including
         --     grain, roots (POTATO/ONION/CARROT), vegetables (SPINACH/GREENBEAN), and forage outputs.
-        -- UA: Визначаємо назву культури через CombineSettingsDatabase — повна таблиця включаючи
+        -- UA: Визначаємо назву культури через RHM_CombineSettingsDatabase — повна таблиця включаючи
         --     зернові, коренеплоди (POTATO/ONION/CARROT), овочі (SPINACH/GREENBEAN) та форажні виводи.
-        local cropName = CombineSettingsDatabase:getCropNameFromFillType(outputFillType)
+        local cropName = RHM_CombineSettingsDatabase:getCropNameFromFillType(outputFillType)
         
         -- EN: Fallback for forage harvesters: they output CHAFF but inputFruitType=MAIZE.
         --     getCropNameFromFillType(CHAFF) returns "MAIZE_FORAGE" usually, but try inputFruitType if not.
         -- UA: Резервний варіант для форажних комбайнів: вони виводять CHAFF але inputFruitType=MAIZE.
         --     getCropNameFromFillType(CHAFF) зазвичай повертає "MAIZE_FORAGE", але спробуємо inputFruitType якщо ні.
         if not cropName and inputFruitType and inputFruitType ~= FillType.UNKNOWN then
-            cropName = CombineSettingsDatabase:getCropNameFromFillType(inputFruitType)
+            cropName = RHM_CombineSettingsDatabase:getCropNameFromFillType(inputFruitType)
         end
         
         if cropName then
-            -- EN: Update current crop in LoadCalculator.
-            -- UA: Оновлюємо поточну культуру в LoadCalculator.
+            -- EN: Update current crop in RHM_LoadCalculator.
+            -- UA: Оновлюємо поточну культуру в RHM_LoadCalculator.
             spec.loadCalculator.currentCrop = cropName
             
             -- EN: Detect crop change with 2-second debounce to avoid thrash when header
@@ -539,10 +539,10 @@ function rhm_Combine:addCutterArea(superFunc, ...)
     return r1, r2, r3, r4, r5, r6, r7, r8, r9, r10
 end
 
--- EN: Called when the detected crop type changes. Delegates to CombineMemory:switchCrop which
+-- EN: Called when the detected crop type changes. Delegates to RHM_CombineMemory:switchCrop which
 --     saves the old profile, loads the new one, and triggers network sync.
 --     Does NOT set currentCrop directly — switchCrop handles all state transitions.
--- UA: Викликається при зміні визначеного типу культури. Делегує до CombineMemory:switchCrop який
+-- UA: Викликається при зміні визначеного типу культури. Делегує до RHM_CombineMemory:switchCrop який
 --     зберігає старий профіль, завантажує новий та запускає мережеву синхронізацію.
 --     НЕ встановлює currentCrop напряму — switchCrop обробляє всі переходи стану.
 function rhm_Combine:onCropTypeChanged(newCropName)
@@ -564,11 +564,11 @@ function rhm_Combine:onCropTypeChanged(newCropName)
     end
 end
 
--- EN: Override for getSpeedLimit. Returns a dynamically calculated speed cap from LoadCalculator
+-- EN: Override for getSpeedLimit. Returns a dynamically calculated speed cap from RHM_LoadCalculator
 --     that maintains ~90% engine load target. Disabled on clients (uses synced recommendedSpeed).
 --     Respects the Arcade difficulty mode (no speed limiting), the enableSpeedLimit setting,
 --     and only activates when the cutter is actually lowered and working.
--- UA: Перевизначення getSpeedLimit. Повертає динамічний ліміт швидкості від LoadCalculator
+-- UA: Перевизначення getSpeedLimit. Повертає динамічний ліміт швидкості від RHM_LoadCalculator
 --     який підтримує ~90% навантаження двигуна. Вимкнено на клієнтах (використовує synced recommendedSpeed).
 --     Поважає режим складності Arcade (без обмеження швидкості), налаштування enableSpeedLimit,
 --     та активується лише коли жатка реально опущена і працює.
@@ -665,9 +665,9 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         spec.loadCalculator:setGenuineSpeedLimit(limit, limit)
     end
     
-    -- EN: MULTIPLAYER FIX: LoadCalculator only runs on the server.
+    -- EN: MULTIPLAYER FIX: RHM_LoadCalculator only runs on the server.
     --     Clients must use the synced spec.data.recommendedSpeed value.
-    -- UA: ВИПРАВЛЕННЯ МУЛЬТИПЛЕЕРА: LoadCalculator оновлюється лише на сервері.
+    -- UA: ВИПРАВЛЕННЯ МУЛЬТИПЛЕЕРА: RHM_LoadCalculator оновлюється лише на сервері.
     --     Клієнти повинні використовувати синхронізоване значення spec.data.recommendedSpeed.
     if not self.isServer then
         -- CLIENT: Use synced value from server
@@ -686,8 +686,8 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         return limit, doCheckSpeedLimit
     end
     
-    -- === SERVER: Continue with normal LoadCalculator logic ===
-    -- Отримуємо обмеження з LoadCalculator
+    -- === SERVER: Continue with normal RHM_LoadCalculator logic ===
+    -- Отримуємо обмеження з RHM_LoadCalculator
     local calculatedLimit = spec.loadCalculator:getSpeedLimit()
     local engineLoad = spec.loadCalculator:getEngineLoad()
     
@@ -898,10 +898,10 @@ end
 
 -- EN: Called on every game tick. Runs warning checks on client, load/yield/speed calculations on server.
 --     Server side: detects if thresher or cutter is off and resets HUD data accordingly.
---     Passes harvested mass and area to LoadCalculator for physics-based engine load calculation.
+--     Passes harvested mass and area to RHM_LoadCalculator for physics-based engine load calculation.
 -- UA: Викликається кожен тік гри. Запускає перевірки попереджень на клієнті, розрахунки навантаження/врожайності/швидкості на сервері.
 --     Серверна сторона: визначає якщо молотарка або жатка вимкнена і скидає дані HUD відповідно.
---     Передає зібрану масу та площу до LoadCalculator для фізичного розрахунку навантаження двигуна.
+--     Передає зібрану масу та площу до RHM_LoadCalculator для фізичного розрахунку навантаження двигуна.
 function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSelection, isSelected)
     -- EN: Client-side: update safety warnings only.
     -- UA: Клієнтська сторона: лише оновлення попереджень безпеки.
@@ -1008,8 +1008,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- UA: Використовуємо lastRawArea (реальну геометричну площу) для розрахунку врожайності.
     local areaForYield = spec.lastRawArea or spec.lastArea or 0 
     
-    -- EN: Pass accumulated MASS to LoadCalculator (not area) — mass is the main driver now.
-    -- UA: Передаємо накопичену МАСУ в LoadCalculator (не площу) — маса тепер основний показник.
+    -- EN: Pass accumulated MASS to RHM_LoadCalculator (not area) — mass is the main driver now.
+    -- UA: Передаємо накопичену МАСУ в RHM_LoadCalculator (не площу) — маса тепер основний показник.
     spec.loadCalculator:update(self, dt, massKg)
     
     -- EN: Update productivity and yield rolling average. Called even when not cutting
@@ -1064,8 +1064,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     spec.lastLiters = 0
     spec._fallbackLiters = 0
     
-    -- EN: Update HUD live data table from LoadCalculator outputs.
-    -- UA: Оновлюємо таблицю живих даних HUD з виводів LoadCalculator.
+    -- EN: Update HUD live data table from RHM_LoadCalculator outputs.
+    -- UA: Оновлюємо таблицю живих даних HUD з виводів RHM_LoadCalculator.
     if spec.data then
         spec.data.load = spec.loadCalculator:getEngineLoad()
         spec.data.cropLoss = spec.loadCalculator:calculateTotalCropLoss()
@@ -1191,10 +1191,10 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
 end
 
 -- EN: Called every frame when the player is in the combine.
---     HUD is drawn centrally in RealisticHarvestManager:draw() via hierarchy scanning,
+--     HUD is drawn centrally in RHM_RealisticHarvestManager:draw() via hierarchy scanning,
 --     so we don't draw here to avoid duplication.
 -- UA: Викликається кожен кадр коли гравець в комбайні.
---     HUD малюється централізовано в RealisticHarvestManager:draw() через сканування ієрархії,
+--     HUD малюється централізовано в RHM_RealisticHarvestManager:draw() через сканування ієрархії,
 --     тому тут не малюємо — щоб уникнути дублювання.
 function rhm_Combine:onDraw(isActiveForInput, isActiveForInputIgnoreSelection, isSelected)
 end
@@ -1272,7 +1272,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0) -- yield
         streamWriteUInt8(streamId, 0)   -- overloadLevel
-        -- CombineMemory: write defaults
+        -- RHM_CombineMemory: write defaults
         streamWriteUInt8(streamId, 50)  -- fan
         streamWriteUInt8(streamId, 50)  -- rotor
         streamWriteUInt8(streamId, 50)  -- upperSieve
@@ -1292,7 +1292,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
     streamWriteFloat32(streamId, spec.data.yield or 0)
     streamWriteUInt8(streamId, spec.data.overloadLevel or 0)
     
-    -- CombineMemory settings (FIX 4: sync on initial connect)
+    -- RHM_CombineMemory settings (FIX 4: sync on initial connect)
     local mem = spec.combineMemory
     if mem then
         streamWriteUInt8(streamId, mem.currentSettings.fan or 50)
@@ -1325,7 +1325,7 @@ function rhm_Combine:onReadStream(streamId, connection)
         streamReadFloat32(streamId)
         streamReadFloat32(streamId) -- yield
         streamReadUInt8(streamId)   -- overloadLevel
-        -- CombineMemory defaults (skip)
+        -- RHM_CombineMemory defaults (skip)
         streamReadUInt8(streamId)
         streamReadUInt8(streamId)
         streamReadUInt8(streamId)
@@ -1349,7 +1349,7 @@ function rhm_Combine:onReadStream(streamId, connection)
     spec.data.yield = streamReadFloat32(streamId)
     spec.data.overloadLevel = streamReadUInt8(streamId)
     
-    -- CombineMemory settings
+    -- RHM_CombineMemory settings
     local fan = streamReadUInt8(streamId)
     local rotor = streamReadUInt8(streamId)
     local upperSieve = streamReadUInt8(streamId)
@@ -1398,7 +1398,7 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
         end
 
         if hasSettingsUpdate then
-            -- CombineMemory settings
+            -- RHM_CombineMemory settings
             local fan = streamReadUInt8(streamId)
             local rotor = streamReadUInt8(streamId)
             local upperSieve = streamReadUInt8(streamId)
@@ -1449,7 +1449,7 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
         end
 
         if hasSettingsUpdate then
-            -- CombineMemory settings
+            -- RHM_CombineMemory settings
             local mem = spec.combineMemory
             if mem then
                 streamWriteUInt8(streamId, mem.currentSettings.fan or 50)
@@ -1508,6 +1508,8 @@ function rhm_Combine:actionOpenMenu(actionName, inputValue, callbackState, isAna
         g_realisticHarvestManager:toggleMenu(self)
     end
 end
+
+
 
 
 

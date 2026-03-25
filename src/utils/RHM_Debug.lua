@@ -22,11 +22,11 @@ RHM_Debug.Modules = {
 
     -- EN: Load calculator (yield, crop types, engine load % and math)
     -- UA: Калькулятор навантаження (врожайність, типи культур, навантаження % і математика)
-    LoadCalculator = false,
+    RHM_LoadCalculator = false,
 
     -- EN: Combine memory (fan, rotor, sieve setting changes)
     -- UA: Пам'ять комбайна (зміна налаштувань вентилятора, ротора і тд)
-    CombineMemory = false,
+    RHM_CombineMemory = false,
 
     -- EN: Network events (packet exchange between server and client)
     -- UA: Мережеві події (обмін пакетами між сервером та клієнтом)
@@ -61,3 +61,4 @@ function RHM_Debug.log(moduleName, message)
         rhm_log(string.format("RHM [%s]: %s", moduleName, message))
     end
 end
+

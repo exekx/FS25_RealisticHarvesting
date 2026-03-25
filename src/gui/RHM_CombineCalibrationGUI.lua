@@ -1,7 +1,7 @@
 -- EN: Interactive visual calibration GUI for combine harvester settings.
 --     Renders as an always-on overlay panel with [-]/[+] buttons and mouse wheel
 --     for each active parameter (fan, rotor, sieves, feeder) based on machine type.
---     Shows real-time color-coded loss and speed penalty preview from CombineSettingsDatabase.
+--     Shows real-time color-coded loss and speed penalty preview from RHM_CombineSettingsDatabase.
 --     Parameters grouped by function: SEPARATION / CLEANING / PERFORMANCE.
 --     Each parameter row shows: label | physical value | status hint | progress bar | [-][+] buttons.
 --     Supports NEXAT modular systems by searching the vehicle hierarchy for spec_rhm_Combine.
@@ -9,13 +9,13 @@
 -- UA: Інтерактивний візуальний GUI калібрування для налаштувань зернозбирального комбайна.
 --     Відображається як постійна накладка з кнопками [-]/[+] та колесом миші
 --     для кожного активного параметра (вентилятор, ротор, решета, подача) залежно від типу машини.
---     Показує попередній перегляд штрафів за втрати та швидкість у режимі реального часу з CombineSettingsDatabase.
+--     Показує попередній перегляд штрафів за втрати та швидкість у режимі реального часу з RHM_CombineSettingsDatabase.
 --     Параметри згруповані за функцією: SEPARATION / CLEANING / PERFORMANCE.
 --     Кожен рядок параметра показує: мітка | фізичне значення | статус | прогрес-бар | кнопки [-][+].
 --     Підтримує модульні системи NEXAT, шукаючи spec_rhm_Combine в ієрархії транспорту.
 --     Блокує обертання та масштабування камери при відкритті; відновлює при закритті.
-CombineCalibrationGUI = {}
-local CombineCalibrationGUI_mt = Class(CombineCalibrationGUI)
+RHMCombineCalibrationGUI = {}
+local CombineCalibrationGUI_mt = Class(RHMCombineCalibrationGUI)
 
 -- EN: Parameter section grouping — defines which parameters belong to which section label.
 --     Parameters not listed here that come from getParamsForMachineType fall through to a
@@ -51,7 +51,7 @@ local SECTIONS_ORDERED = {
 --     button registry, scroll debouncing, and the persistent overlay object.
 -- UA: Створює новий екземпляр GUI. Ініціалізує константи розмітки UI, кольорову палітру,
 --     реєстр кнопок, захист від дребезгу прокрутки та постійний об'єкт оверлею.
-function CombineCalibrationGUI.new(modDirectory)
+function RHMCombineCalibrationGUI.new(modDirectory)
     local self = setmetatable({}, CombineCalibrationGUI_mt)
     self.modDirectory = modDirectory
     self.isOpen = false
@@ -123,14 +123,14 @@ function CombineCalibrationGUI.new(modDirectory)
     return self
 end
 
-function CombineCalibrationGUI:delete()
+function RHMCombineCalibrationGUI:delete()
     if self.overlay then
         self.overlay:delete()
         self.overlay = nil
     end
 end
 
-function CombineCalibrationGUI:toggle(vehicle)
+function RHMCombineCalibrationGUI:toggle(vehicle)
     if self.isOpen then
         self:close()
     else
@@ -144,7 +144,7 @@ end
 -- UA: Відкриває GUI калібрування для транспортного засобу.
 --     Для модульних систем (NEXAT), шукає в усій ієрархії транспорту spec_rhm_Combine.
 --     Блокує обертання та масштабування камери для запобігання випадкового руху.
-function CombineCalibrationGUI:open(vehicle)
+function RHMCombineCalibrationGUI:open(vehicle)
     if self.isOpen then return end
 
     local combineVehicle = vehicle
@@ -208,7 +208,7 @@ end
 
 -- EN: Closes the calibration GUI. Restores camera rotation and zoom.
 -- UA: Закриває GUI калібрування. Відновлює обертання та масштаб камери.
-function CombineCalibrationGUI:close()
+function RHMCombineCalibrationGUI:close()
     if not self.isOpen then return end
 
     self.isOpen = false
@@ -235,10 +235,10 @@ end
 
 -- EN: Cycles to the previous (-1) or next (+1) crop in the machine-type-filtered list.
 -- UA: Перемикає на попередню (-1) або наступну (+1) культуру у відфільтрованому списку.
-function CombineCalibrationGUI:cycleCrop(direction)
+function RHMCombineCalibrationGUI:cycleCrop(direction)
     local spec = self.activeVehicle.spec_rhm_Combine
     local machineType = spec.machineType or "grain"
-    local crops = CombineSettingsDatabase:getCropNamesForMachineType(machineType)
+    local crops = RHM_CombineSettingsDatabase:getCropNamesForMachineType(machineType)
     if #crops == 0 then return end
 
     local current = spec.combineMemory.currentCrop
@@ -263,7 +263,7 @@ end
 
 -- EN: Called every frame while open. Auto-closes if the player exits the vehicle.
 -- UA: Викликається кожен кадр поки відкритий. Автоматично закриває якщо гравець виходить з транспорту.
-function CombineCalibrationGUI:update(dt)
+function RHMCombineCalibrationGUI:update(dt)
     if not self.isOpen then return end
 
     if not self.activeVehicle then
@@ -324,7 +324,7 @@ end
 --         кожен рядок: мітка | значення | статус | прогрес-бар | [-] [+]
 --       Кнопки Save Profile | Reset Default
 --       Підказка закриття
-function CombineCalibrationGUI:draw()
+function RHMCombineCalibrationGUI:draw()
     if not self.isOpen then return end
     if not (g_currentMission and g_currentMission.hud) then
         if self.debug then RHM_Debug.log("UI", "RHM: [GUI] draw() abort: no g_currentMission.hud") end
@@ -343,7 +343,7 @@ function CombineCalibrationGUI:draw()
     --     заголовки секцій, рядки параметрів, кнопки дій, підказку закриття.
     if spec and spec.combineMemory then
         local machineType = spec.machineType or "grain"
-        local activeParams = CombineSettingsDatabase:getParamsForMachineType(machineType)
+        local activeParams = RHM_CombineSettingsDatabase:getParamsForMachineType(machineType)
         local numParams = #activeParams + 1  -- +1 for targetEngineLoad
 
         -- EN: Count how many sections will be shown (for height calculation).
@@ -640,7 +640,7 @@ function CombineCalibrationGUI:draw()
     cy = cy - ui.margin * 0.3
 
     -- ── Parameter sections ──────────────────────────────────────────────────
-    local activeParams = CombineSettingsDatabase:getParamsForMachineType(machineType)
+    local activeParams = RHM_CombineSettingsDatabase:getParamsForMachineType(machineType)
     local drawnParams = {}
 
     for _, section in ipairs(SECTIONS_ORDERED) do
@@ -674,7 +674,7 @@ function CombineCalibrationGUI:draw()
             for _, p in ipairs(activeParams) do
                 if PARAM_SECTION_MAP[p] == section.key and not drawnParams[p] then
                     cy = cy - ui.lineHeight
-                    local labelKey = CombineSettingsDatabase:getParamLabel(machineType, p)
+                    local labelKey = RHM_CombineSettingsDatabase:getParamLabel(machineType, p)
                     local label = g_i18n:hasText(labelKey) and g_i18n:getText(labelKey) or p
                     self:drawParameterRow(x + ui.margin, cy, w - ui.margin * 2, p, label, memory, ui, machineType)
                     drawnParams[p] = true
@@ -700,7 +700,7 @@ function CombineCalibrationGUI:draw()
     for _, p in ipairs(activeParams) do
         if not drawnParams[p] then
             cy = cy - ui.lineHeight
-            local labelKey = CombineSettingsDatabase:getParamLabel(machineType, p)
+            local labelKey = RHM_CombineSettingsDatabase:getParamLabel(machineType, p)
             local label = g_i18n:hasText(labelKey) and g_i18n:getText(labelKey) or p
             self:drawParameterRow(x + ui.margin, cy, w - ui.margin * 2, p, label, memory, ui, machineType)
             drawnParams[p] = true
@@ -764,7 +764,7 @@ end
 --     з білим маркером в оптимальній позиції з бази даних.
 --     Підказка статусу показує "optimal" / "^ low" / "v high" з кольоровим кодуванням.
 --     Розумна логіка кроку розраховує фізичні кроки (10 об/хв / 0.5 мм) і конвертує назад у %.
-function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, ui, machineType)
+function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, ui, machineType)
     local val = memory.currentSettings[param] or 0
     local optimal = 0
     local tolerance = 5
@@ -780,8 +780,8 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
 
     -- EN: Fetch optimal value and tolerance from database.
     -- UA: Отримуємо оптимальне значення та допуск з бази даних.
-    if CombineSettingsDatabase and memory.currentCrop then
-        local settings = CombineSettingsDatabase:getSettingsForCrop(memory.currentCrop)
+    if RHM_CombineSettingsDatabase and memory.currentCrop then
+        local settings = RHM_CombineSettingsDatabase:getSettingsForCrop(memory.currentCrop)
         if settings and settings[param] then
             optimal = settings[param].optimal
             tolerance = settings[param].tolerance or 5
@@ -790,11 +790,11 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
         end
     end
 
-    -- EN: Format value with physical units (RPM, mm) via UnitConverter.
-    -- UA: Форматуємо значення у фізичних одиницях (об/хв, мм) через UnitConverter.
+    -- EN: Format value with physical units (RPM, mm) via RHM_UnitConverter.
+    -- UA: Форматуємо значення у фізичних одиницях (об/хв, мм) через RHM_UnitConverter.
     local displayStr = ""
-    if UnitConverter and UnitConverter.formatSetting then
-        displayStr = UnitConverter.formatSetting(param, val, machineType)
+    if RHM_UnitConverter and RHM_UnitConverter.formatSetting then
+        displayStr = RHM_UnitConverter.formatSetting(param, val, machineType)
     else
         displayStr = string.format("%d%%", val)
     end
@@ -929,18 +929,18 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
 
     -- ── Smart step logic ───────────────────────────────────────────────────
     -- EN: Calculates physical increment (10 RPM or 0.5 mm), snaps to grid,
-    --     converts back to %. Falls back to 1% steps if UnitConverter unavailable.
+    --     converts back to %. Falls back to 1% steps if RHM_UnitConverter unavailable.
     -- UA: Розраховує фізичний крок (10 об/хв або 0.5 мм), прив'язується до сітки,
-    --     конвертує назад у %. Відступає до кроків 1% якщо UnitConverter недоступний.
+    --     конвертує назад у %. Відступає до кроків 1% якщо RHM_UnitConverter недоступний.
     local function performSmartStep(direction)
         if param == "targetEngineLoad" then
             memory:updateSetting(param, val + (direction * 5))
             return
         end
 
-        if UnitConverter and UnitConverter.percentToPhysical then
-            local physVal = UnitConverter.percentToPhysical(param, val, machineType)
-            local range = UnitConverter.getPhysicalRange(param, machineType)
+        if RHM_UnitConverter and RHM_UnitConverter.percentToPhysical then
+            local physVal = RHM_UnitConverter.percentToPhysical(param, val, machineType)
+            local range = RHM_UnitConverter.getPhysicalRange(param, machineType)
 
             if range then
                 local stepValue = 1
@@ -976,7 +976,7 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
                     end
                 end
 
-                local targetPercent = UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
+                local targetPercent = RHM_UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
 
                 if math.abs(targetPercent - val) < 0.5 then
                     targetPercent = val + (direction * 1)
@@ -1005,7 +1005,7 @@ end
 --     to give instant visual feedback on the direction of change.
 -- UA: Малює кольорову кнопку. Колір тексту та наведення відрізняються для кнопок [-] та [+],
 --     щоб дати миттєвий візуальний зворотній зв'язок про напрямок зміни.
-function CombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOverride)
+function RHMCombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOverride)
     local isHovered = self:checkHover(x, y, w, h)
 
     local bgColor
@@ -1061,7 +1061,7 @@ end
 
 -- EN: Draws a solid-color rectangle using the persistent overlay object.
 -- UA: Малює суцільний кольоровий прямокутник використовуючи постійний об'єкт оверлею.
-function CombineCalibrationGUI:drawRect(x, y, w, h, color)
+function RHMCombineCalibrationGUI:drawRect(x, y, w, h, color)
     if not self.overlay then return end
     local r, g, b, a = unpack(color)
     self.overlay:setPosition(x, y)
@@ -1072,7 +1072,7 @@ end
 
 -- EN: Resets text rendering state to engine defaults.
 -- UA: Скидає стан рендерингу тексту до значень рушія.
-function CombineCalibrationGUI:_resetTextState()
+function RHMCombineCalibrationGUI:_resetTextState()
     setTextBold(false)
     setTextColor(1, 1, 1, 1)
     setTextAlignment(RenderText.ALIGN_LEFT)
@@ -1080,7 +1080,7 @@ end
 
 -- EN: Returns true if the current mouse position is inside the given rectangle.
 -- UA: Повертає true якщо поточна позиція миші знаходиться всередині заданого прямокутника.
-function CombineCalibrationGUI:checkHover(x, y, w, h)
+function RHMCombineCalibrationGUI:checkHover(x, y, w, h)
     local mx, my = self.mouseX, self.mouseY
     if not mx or not my then
         mx, my = g_inputBinding:getMousePosition()
@@ -1092,7 +1092,7 @@ end
 --     dispatches scroll to smart parameter adjustment (Shift=5x), dispatches clicks to buttons.
 -- UA: Повний обробник подій миші. Відстежує позицію, поглинає події колеса всередині GUI,
 --     направляє прокрутку до розумного регулювання (Shift=5x), направляє кліки до кнопок.
-function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
+function RHMCombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.isOpen then return end
 
     self.mouseX = posX
@@ -1123,9 +1123,9 @@ function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
                         return true
                     end
 
-                    if UnitConverter and UnitConverter.percentToPhysical then
-                        local physVal = UnitConverter.percentToPhysical(param, currentVal, machineType)
-                        local range = UnitConverter.getPhysicalRange(param, machineType)
+                    if RHM_UnitConverter and RHM_UnitConverter.percentToPhysical then
+                        local physVal = RHM_UnitConverter.percentToPhysical(param, currentVal, machineType)
+                        local range = RHM_UnitConverter.getPhysicalRange(param, machineType)
 
                         if range then
                             local stepValue = range.unit == "RPM" and 10 or 0.5
@@ -1143,7 +1143,7 @@ function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
                                 targetPhysVal = snapped + (stepValue * delta)
                             end
 
-                            local targetPercent = UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
+                            local targetPercent = RHM_UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
 
                             if math.abs(targetPercent - currentVal) < 0.5 then
                                 targetPercent = currentVal + (delta > 0 and 1 or -1)
@@ -1183,7 +1183,7 @@ end
 --     Applies adjustment to hoveredParameter if one is set. Shift=5x multiplier.
 -- UA: Обробник прокрутки колесом для дебаунсного опитування у draw().
 --     Застосовує регулювання до hoveredParameter якщо він встановлений. Shift=5x множник.
-function CombineCalibrationGUI:handleWheelScroll(direction, posX, posY)
+function RHMCombineCalibrationGUI:handleWheelScroll(direction, posX, posY)
     local delta = direction
     if Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift) then
         delta = delta * 5
@@ -1200,11 +1200,12 @@ end
 
 -- EN: Returns the name of the parameter currently hovered by the mouse.
 -- UA: Повертає назву параметра над яким зараз знаходиться миша.
-function CombineCalibrationGUI:getParameterAtMouse(x, y)
+function RHMCombineCalibrationGUI:getParameterAtMouse(x, y)
     if self.hoveredParameter then
         return self.hoveredParameter
     end
     return nil
 end
 
-RHM_Debug.log("UI", "[OK] CombineCalibrationGUI loaded")
+RHM_Debug.log("UI", "[OK] RHMCombineCalibrationGUI loaded")
+

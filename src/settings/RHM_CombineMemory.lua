@@ -1,18 +1,18 @@
 -- EN: Manages per-combine settings memory including current crop detection, operating mode (AUTO/MANUAL),
---     and per-parameter settings (fan, rotor, sieves, feeder). Interfaces with ProfileManager for
+--     and per-parameter settings (fan, rotor, sieves, feeder). Interfaces with RHM_ProfileManager for
 --     global persistent profiles, and sends network events when settings change in multiplayer.
 -- UA: Керує пам'яттю налаштувань для кожного комбайна: detectування поточної культури,
 --     режим роботи (AUTO/MANUAL), і налаштування параметрів (вентилятор, ротор, решета, подача).
---     Взаємодіє з ProfileManager для глобальних збережених профілів, і надсилає мережеві події
+--     Взаємодіє з RHM_ProfileManager для глобальних збережених профілів, і надсилає мережеві події
 --     при зміні налаштувань у мультиплеєрі.
-CombineMemory = {}
-local CombineMemory_mt = Class(CombineMemory)
+RHM_CombineMemory = {}
+local CombineMemory_mt = Class(RHM_CombineMemory)
 
--- EN: Creates a new CombineMemory instance tied to a specific combine vehicle.
+-- EN: Creates a new RHM_CombineMemory instance tied to a specific combine vehicle.
 --     Initializes all parameters to 50% and sets AUTO mode as default.
--- UA: Створює новий екземпляр CombineMemory, прив'язаний до конкретного комбайна.
+-- UA: Створює новий екземпляр RHM_CombineMemory, прив'язаний до конкретного комбайна.
 --     Ініціалізує всі параметри до 50% та встановлює AUTO як режим за замовчуванням.
-function CombineMemory.new(combine, machineType)
+function RHM_CombineMemory.new(combine, machineType)
     local self = setmetatable({}, CombineMemory_mt)
 
     self.combine = combine
@@ -21,12 +21,12 @@ function CombineMemory.new(combine, machineType)
     self.currentProfile = nil -- EN: Name of the currently active profile / UA: Назва поточного активного профілю
     self.currentCrop = nil    -- EN: Currently detected crop name / UA: Поточна визначена культура
 
-    self.debug = RHM_Debug and RHM_Debug.isEnabled("CombineMemory") or false
+    self.debug = RHM_Debug and RHM_Debug.isEnabled("RHM_CombineMemory") or false
 
     -- EN: Dynamically initialize only the parameters for this machine type (not all 5 for every type).
     -- UA: Динамічно ініціалізуємо тільки параметри для цього типу машини (не всі 5 для кожного типу).
     self.currentSettings = {}
-    local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
+    local activeParams = RHM_CombineSettingsDatabase:getParamsForMachineType(self.machineType)
     for _, paramName in ipairs(activeParams) do
         self.currentSettings[paramName] = 50
     end
@@ -41,21 +41,21 @@ function CombineMemory.new(combine, machineType)
     return self
 end
 
--- EN: Saves the current settings as a global profile for the given crop in ProfileManager.
+-- EN: Saves the current settings as a global profile for the given crop in RHM_ProfileManager.
 --     Profiles persist across sessions in the user's modSettings folder.
--- UA: Зберігає поточні налаштування як глобальний профіль для заданої культури в ProfileManager.
+-- UA: Зберігає поточні налаштування як глобальний профіль для заданої культури в RHM_ProfileManager.
 --     Профілі зберігаються між сесіями в папці modSettings користувача.
-function CombineMemory:saveCurrentProfile(cropName)
+function RHM_CombineMemory:saveCurrentProfile(cropName)
     local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
     if pm then
         pm:saveProfile(cropName, self.currentSettings)
         if self.debug then
-            RHM_Debug.log("CombineMemory", string.format("RHM: [OK] Profile saved globally: %s", cropName))
+            RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [OK] Profile saved globally: %s", cropName))
         end
         return true
     end
     if self.debug then
-        RHM_Debug.log("CombineMemory", "RHM: [!] Failed to save global profile: ProfileManager not found")
+        RHM_Debug.log("RHM_CombineMemory", "RHM: [!] Failed to save global profile: RHM_ProfileManager not found")
     end
     return false
 end
@@ -66,16 +66,16 @@ end
 -- UA: Застосовує автоматичні або стандартні налаштування для заданої культури.
 --     AUTO режим додає невелике випадкове відхилення від оптимальних значень (тільки на сервері).
 --     Режим RESET (forceOptimal=false) встановлює всі параметри на нейтральні 50%.
-function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
+function RHM_CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
     if not cropName then
-        if self.debug then RHM_Debug.log("CombineMemory", "RHM: [!] autoConfigureForCrop called with nil cropName, skipping") end
+        if self.debug then RHM_Debug.log("RHM_CombineMemory", "RHM: [!] autoConfigureForCrop called with nil cropName, skipping") end
         return false
     end
 
-    local optimalSettings = CombineSettingsDatabase:getSettingsForCrop(cropName)
+    local optimalSettings = RHM_CombineSettingsDatabase:getSettingsForCrop(cropName)
 
     if not optimalSettings then
-        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: [!] No settings found for crop: %s", cropName)) end
+        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [!] No settings found for crop: %s", cropName)) end
         -- EN: Crop is unknown but we still proceed with defaults.
         -- UA: Культура невідома, але продовжуємо зі значеннями за замовчуванням.
     end
@@ -83,7 +83,7 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
     if forceOptimal and optimalSettings then
         -- EN: AUTO mode: sets exactly the 100% optimal values (Opti-Harvest Level 4 exclusive).
         -- UA: AUTO режим: встановлює рівно 100% оптимальні значення (ексклюзив для пакету Opti-Harvest 4 рівня).
-        local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
+        local activeParams = RHM_CombineSettingsDatabase:getParamsForMachineType(self.machineType)
         for _, pName in ipairs(activeParams) do
             if optimalSettings[pName] then
                 self.currentSettings[pName] = optimalSettings[pName].optimal
@@ -93,17 +93,17 @@ function CombineMemory:autoConfigureForCrop(cropName, forceOptimal)
         end
 
         self.mode = "AUTO"
-        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: [OK] Auto settings applied for: %s (forceOptimal=%s)", cropName, tostring(forceOptimal))) end
+        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [OK] Auto settings applied for: %s (forceOptimal=%s)", cropName, tostring(forceOptimal))) end
     else
         -- EN: RESET mode: set all active params to the neutral 50% position.
         -- UA: Режим RESET: встановлюємо всі активні параметри на нейтральну позицію 50%.
-        local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
+        local activeParams = RHM_CombineSettingsDatabase:getParamsForMachineType(self.machineType)
         for _, pName in ipairs(activeParams) do
             self.currentSettings[pName] = 50
         end
 
         self.mode = "MANUAL"
-        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: [OK] Default settings (50%%) applied for: %s", cropName)) end
+        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [OK] Default settings (50%%) applied for: %s", cropName)) end
     end
 
     -- EN: Reset yield calibration when switching to a new crop without an existing profile.
@@ -121,43 +121,43 @@ end
 --     In singleplayer, processes the event locally.
 -- UA: Надсилає мережевий запит на сервер для застосування AUTO налаштувань для поточної культури.
 --     В однокористувацькій грі обробляє подію локально.
-function CombineMemory:requestAutoSettings()
+function RHM_CombineMemory:requestAutoSettings()
     if not self.currentCrop then return end
 
     if g_client and self.combine then
-        local event = CombineSettingsEvent.new(self.combine, "AUTO_SET", 1)
+        local event = RHM_CombineSettingsEvent.new(self.combine, "AUTO_SET", 1)
         if not g_server then
             g_client:getServerConnection():sendEvent(event)
         else
             event:run(nil) -- EN: Singleplayer: process locally / UA: Однокористувацька: обробляємо локально
         end
-        if self.debug then RHM_Debug.log("CombineMemory", "RHM: [Sync] Requested AUTO settings from server") end
+        if self.debug then RHM_Debug.log("RHM_CombineMemory", "RHM: [Sync] Requested AUTO settings from server") end
     end
 end
 
 -- EN: Sends a network request to the server to reset all settings to 50%.
 -- UA: Надсилає мережевий запит на сервер для скидання всіх налаштувань до 50%.
-function CombineMemory:requestResetSettings()
+function RHM_CombineMemory:requestResetSettings()
     if not self.currentCrop then return end
 
     if g_client and self.combine then
-        local event = CombineSettingsEvent.new(self.combine, "RESET_SET", 1)
+        local event = RHM_CombineSettingsEvent.new(self.combine, "RESET_SET", 1)
         if not g_server then
             g_client:getServerConnection():sendEvent(event)
         else
             event:run(nil)
         end
-        if self.debug then RHM_Debug.log("CombineMemory", "RHM: [Sync] Requested RESET settings from server") end
+        if self.debug then RHM_Debug.log("RHM_CombineMemory", "RHM: [Sync] Requested RESET settings from server") end
     end
 end
 
--- EN: Loads the global user-saved profile for the current crop from ProfileManager.
---     If in multiplayer (client), sends a CombineSettingsEvent with the full profile.
+-- EN: Loads the global user-saved profile for the current crop from RHM_ProfileManager.
+--     If in multiplayer (client), sends a RHM_CombineSettingsEvent with the full profile.
 --     Returns false if no profile exists.
--- UA: Завантажує глобально збережений профіль користувача для поточної культури з ProfileManager.
---     У мультиплеєрі (клієнт) надсилає CombineSettingsEvent з повним профілем.
+-- UA: Завантажує глобально збережений профіль користувача для поточної культури з RHM_ProfileManager.
+--     У мультиплеєрі (клієнт) надсилає RHM_CombineSettingsEvent з повним профілем.
 --     Повертає false якщо профіль відсутній.
-function CombineMemory:loadUserPreset()
+function RHM_CombineMemory:loadUserPreset()
     if not self.currentCrop then return false end
 
     local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
@@ -166,7 +166,7 @@ function CombineMemory:loadUserPreset()
     local profile = pm:getProfile(self.currentCrop)
     if profile then
         if g_client and self.combine then
-            local event = CombineSettingsEvent.new(self.combine, "", 0, true, profile)
+            local event = RHM_CombineSettingsEvent.new(self.combine, "", 0, true, profile)
             if not g_server then
                 g_client:getServerConnection():sendEvent(event)
             else
@@ -176,7 +176,7 @@ function CombineMemory:loadUserPreset()
         else
             -- EN: Direct application (single player without g_client). Dynamically apply all active params.
             -- UA: Пряме застосування (однокористувацька гра без g_client). Динамічно застосовуємо всі активні параметри.
-            local activeParams = CombineSettingsDatabase:getParamsForMachineType(self.machineType)
+            local activeParams = RHM_CombineSettingsDatabase:getParamsForMachineType(self.machineType)
             for _, paramName in ipairs(activeParams) do
                 if profile[paramName] ~= nil then
                     self.currentSettings[paramName] = profile[paramName]
@@ -186,10 +186,10 @@ function CombineMemory:loadUserPreset()
             self.mode = "MANUAL"
             self.autoSwitchEnabled = false
         end
-        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: [OK] Global profile applied for %s", self.currentCrop)) end
+        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [OK] Global profile applied for %s", self.currentCrop)) end
         return true
     else
-        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: No global user preset found for %s", self.currentCrop)) end
+        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: No global user preset found for %s", self.currentCrop)) end
         return false
     end
 end
@@ -200,8 +200,8 @@ end
 -- UA: Оцінює всі поточні налаштування відносно оптимальних значень бази даних для культури.
 --     Повертає окремо штрафи за ефективність (швидкість) і втрати врожаю, плюс таблицю попереджень.
 --     Подача/Ротор впливають на ефективність (пропускну здатність), Вентилятор/Решета — на втрати (якість очищення).
-function CombineMemory:checkSettingsForCrop(cropName)
-    local optimalSettings = CombineSettingsDatabase:getSettingsForCrop(cropName)
+function RHM_CombineMemory:checkSettingsForCrop(cropName)
+    local optimalSettings = RHM_CombineSettingsDatabase:getSettingsForCrop(cropName)
 
     if not optimalSettings then
         return 0, 0, {}
@@ -298,7 +298,7 @@ end
 
 -- EN: Sets a single parameter value (0-100) and switches to MANUAL mode.
 -- UA: Встановлює значення одного параметру (0-100) і перемикає в MANUAL режим.
-function CombineMemory:setParameter(paramName, value)
+function RHM_CombineMemory:setParameter(paramName, value)
     if self.currentSettings[paramName] ~= nil then
         if paramName == "targetEngineLoad" then
             self.currentSettings[paramName] = math.max(70, math.min(110, value))
@@ -319,7 +319,7 @@ end
 --     AUTO: застосовує оптимальні налаштування для культури якщо вона вже визначена.
 --           на виділеному сервері без культури — позначає очікуючий AUTO і чекає.
 --     MANUAL: вимикає автоконфігурацію.
-function CombineMemory:setMode(mode)
+function RHM_CombineMemory:setMode(mode)
     if mode == "AUTO" then
         if self.currentCrop then
             self:autoConfigureForCrop(self.currentCrop, true)
@@ -329,7 +329,7 @@ function CombineMemory:setMode(mode)
             self.mode = "AUTO"
             self.autoSwitchEnabled = true
             if self.debug then
-                RHM_Debug.log("CombineMemory", "RHM: [AUTO] currentCrop is nil on DS, pending AUTO mode set. Will apply when crop detected.")
+                RHM_Debug.log("RHM_CombineMemory", "RHM: [AUTO] currentCrop is nil on DS, pending AUTO mode set. Will apply when crop detected.")
             end
         end
     elseif mode == "MANUAL" then
@@ -341,13 +341,13 @@ end
 --     Returns cached count (not iterated per-call for performance).
 -- UA: Повертає кількість поточно доступних профілів.
 --     Повертає кешоване значення (не перебирає кожен виклик для продуктивності).
-function CombineMemory:getProfileCount()
+function RHM_CombineMemory:getProfileCount()
     return self.profileCount or 0
 end
 
 -- EN: Returns an alphabetically sorted list of all saved profile names.
 -- UA: Повертає алфавітно відсортований список всіх збережених назв профілів.
-function CombineMemory:getProfileNames()
+function RHM_CombineMemory:getProfileNames()
     local names = {}
     for profileName, _ in pairs(self.savedProfiles) do
         table.insert(names, profileName)
@@ -360,15 +360,15 @@ end
 --     Uses the crop's actual fill type density from g_fillTypeManager for accurate mass calculation.
 -- UA: Оновлює статистику збирання для поточного профілю: загальний збір і ковзаюче середнє втрат.
 --     Використовує реальну густину типу врожаю з g_fillTypeManager для точного розрахунку маси.
-function CombineMemory:updateStatistics(harvestedLiters, cropLoss, cropName)
+function RHM_CombineMemory:updateStatistics(harvestedLiters, cropLoss, cropName)
     if self.currentProfile and self.savedProfiles[self.currentProfile] then
         local profile = self.savedProfiles[self.currentProfile]
 
         -- EN: Get density from fill type manager, fallback to 0.75 kg/L if not available.
         -- UA: Отримуємо густину з менеджера типів врожаю, запасний варіант 0.75 кг/л.
         local density = 0.75
-        if cropName and g_fillTypeManager and CombineSettingsDatabase then
-            local cropData = CombineSettingsDatabase:getCropData(cropName)
+        if cropName and g_fillTypeManager and RHM_CombineSettingsDatabase then
+            local cropData = RHM_CombineSettingsDatabase:getCropData(cropName)
             if cropData and cropData.fillType then
                 local fillTypeObj = g_fillTypeManager:getFillTypeByIndex(cropData.fillType)
                 if fillTypeObj and fillTypeObj.massPerLiter and fillTypeObj.massPerLiter > 0 then
@@ -394,7 +394,7 @@ end
 --     then loads its profile or applies auto/default settings depending on mode.
 -- UA: Переключається на нову культуру: зберігає профіль поточної культури, встановлює нову,
 --     а потім завантажує її профіль або застосовує авто/стандартні налаштування залежно від режиму.
-function CombineMemory:switchCrop(newCropName)
+function RHM_CombineMemory:switchCrop(newCropName)
     if not newCropName or newCropName == self.currentCrop then
         return
     end
@@ -407,10 +407,10 @@ function CombineMemory:switchCrop(newCropName)
 
     local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
     if pm and pm:getProfile(newCropName) then
-        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: Switching to crop %s - Loading global profile", newCropName)) end
+        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: Switching to crop %s - Loading global profile", newCropName)) end
         self:loadUserPreset()
     else
-        if self.debug then RHM_Debug.log("CombineMemory", string.format("RHM: Switching to crop %s - No profile, applying defaults", newCropName)) end
+        if self.debug then RHM_Debug.log("RHM_CombineMemory", string.format("RHM: Switching to crop %s - No profile, applying defaults", newCropName)) end
         if self.autoSwitchEnabled then
             self:autoConfigureForCrop(newCropName, true)
         else
@@ -428,7 +428,7 @@ end
 --     Automatically switches to MANUAL mode and disables auto-switch.
 -- UA: Оновлює одне налаштування і надсилає мережеву подію серверу в мультиплеєрі.
 --     Автоматично переключається в MANUAL режим і вимикає автоперемикання.
-function CombineMemory:updateSetting(param, value)
+function RHM_CombineMemory:updateSetting(param, value)
     local success = self:setParameter(param, value)
     if success then
         if param ~= "targetEngineLoad" then
@@ -437,7 +437,7 @@ function CombineMemory:updateSetting(param, value)
         end
 
         if g_client and self.combine then
-            local event = CombineSettingsEvent.new(self.combine, param, self.currentSettings[param], false, nil)
+            local event = RHM_CombineSettingsEvent.new(self.combine, param, self.currentSettings[param], false, nil)
             if not g_server then
                 g_client:getServerConnection():sendEvent(event)
             else
@@ -453,15 +453,15 @@ end
 --     In singleplayer, applies locally and immediately configures for the current crop if switching to AUTO.
 -- UA: Перемикає прапорець режиму автоперемикання. У мультиплеєрі надсилає мережеву подію серверу.
 --     В однокористувацькій грі застосовує локально і негайно налаштовує для поточної культури при переключенні в AUTO.
-function CombineMemory:toggleAutoMode()
+function RHM_CombineMemory:toggleAutoMode()
     if g_client and self.combine and not g_server then
         -- EN: Multiplayer client: send request to server.
         -- UA: Клієнт мультиплеєру: надсилаємо запит на сервер.
         local targetMode = not self.autoSwitchEnabled
-        local event = CombineSettingsEvent.new(self.combine, "AUTO_MODE", targetMode and 1 or 0)
+        local event = RHM_CombineSettingsEvent.new(self.combine, "AUTO_MODE", targetMode and 1 or 0)
         g_client:getServerConnection():sendEvent(event)
         if self.debug then
-            RHM_Debug.log("CombineMemory", string.format("RHM: [Sync] Sent AUTO mode request to server: %s", targetMode and "ON" or "OFF"))
+            RHM_Debug.log("RHM_CombineMemory", string.format("RHM: [Sync] Sent AUTO mode request to server: %s", targetMode and "ON" or "OFF"))
         end
     else
         -- EN: Singleplayer or server: apply immediately.
@@ -477,15 +477,16 @@ function CombineMemory:toggleAutoMode()
             self.mode = "MANUAL"
         end
         if self.debug then
-            RHM_Debug.log("CombineMemory", string.format("RHM: Auto Switch %s", self.autoSwitchEnabled and "ENABLED" or "DISABLED"))
+            RHM_Debug.log("RHM_CombineMemory", string.format("RHM: Auto Switch %s", self.autoSwitchEnabled and "ENABLED" or "DISABLED"))
         end
     end
 end
 
 -- EN: Alias for saveCurrentProfile for backward compatibility with GUI code.
 -- UA: Псевдонім для saveCurrentProfile для зворотної сумісності з кодом GUI.
-function CombineMemory:saveProfile(cropName)
+function RHM_CombineMemory:saveProfile(cropName)
     return self:saveCurrentProfile(cropName)
 end
 
-RHM_Debug.log("CombineMemory", "[OK] CombineMemory class loaded")
+RHM_Debug.log("RHM_CombineMemory", "[OK] RHM_CombineMemory class loaded")
+
