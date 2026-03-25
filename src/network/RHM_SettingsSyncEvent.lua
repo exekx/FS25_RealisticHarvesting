@@ -2,22 +2,22 @@
 --     Sent by an admin client to the server, then the server rebroadcasts to all other clients.
 -- UA: Мережева подія для синхронізації серверних налаштувань (складність, перемикачі) між сервером і клієнтами.
 --     Надсилається клієнтом-адміністратором на сервер, після чого сервер ретранслює всім іншим клієнтам.
-SettingsSyncEvent = {}
-local SettingsSyncEvent_mt = Class(SettingsSyncEvent, Event)
+RHM_SettingsSyncEvent = {}
+local SettingsSyncEvent_mt = Class(RHM_SettingsSyncEvent, Event)
 
-InitEventClass(SettingsSyncEvent, "RHM_SettingsSyncEvent")
+InitEventClass(RHM_SettingsSyncEvent, "RHM_SettingsSyncEvent")
 
 -- EN: Creates an empty event instance used during network deserialization.
 -- UA: Створює порожній екземпляр події, який використовується при мережевій десеріалізації.
-function SettingsSyncEvent.emptyNew()
+function RHM_SettingsSyncEvent.emptyNew()
     local self = Event.new(SettingsSyncEvent_mt)
     return self
 end
 
 -- EN: Creates a new event with current server settings to be sent over the network.
 -- UA: Створює нову подію з поточними серверними налаштуваннями для передачі по мережі.
-function SettingsSyncEvent.new(settings)
-    local self = SettingsSyncEvent.emptyNew()
+function RHM_SettingsSyncEvent.new(settings)
+    local self = RHM_SettingsSyncEvent.emptyNew()
 
     -- EN: Copy the server-side settings that need to be synced (split difficulty fields used).
     -- UA: Копіюємо серверні налаштування, які потрібно синхронізувати (використовуються роздільні поля складності).
@@ -32,7 +32,7 @@ end
 
 -- EN: Serializes event data into the network stream (server → client direction).
 -- UA: Серіалізує дані події в мережевий потік (напрямок сервер → клієнт).
-function SettingsSyncEvent:writeStream(streamId, connection)
+function RHM_SettingsSyncEvent:writeStream(streamId, connection)
     streamWriteUInt8(streamId, self.difficultyMotor)
     streamWriteUInt8(streamId, self.difficultyLoss)
     streamWriteBool(streamId, self.enableSpeedLimit)
@@ -42,7 +42,7 @@ end
 
 -- EN: Deserializes event data from the network stream and immediately executes the event logic.
 -- UA: Десеріалізує дані події з мережевого потоку і негайно виконує логіку події.
-function SettingsSyncEvent:readStream(streamId, connection)
+function RHM_SettingsSyncEvent:readStream(streamId, connection)
     self.difficultyMotor = streamReadUInt8(streamId)
     self.difficultyLoss = streamReadUInt8(streamId)
     self.enableSpeedLimit = streamReadBool(streamId)
@@ -58,7 +58,7 @@ end
 -- UA: Виконує логіку події залежно від того, хто її отримав (сервер або клієнт).
 --     Випадок 1: Сервер отримує від клієнта-адміна → застосовує, зберігає і ретранслює всім.
 --     Випадок 2: Клієнт отримує від сервера → застосовує локально (тільки читання).
-function SettingsSyncEvent:run(connection)
+function RHM_SettingsSyncEvent:run(connection)
     -- EN: Case 1 — Server receives update from a client admin.
     -- UA: Випадок 1 — Сервер отримує оновлення від клієнта-адміністратора.
     if g_currentMission:getIsServer() then
@@ -68,10 +68,8 @@ function SettingsSyncEvent:run(connection)
 
         local settings = g_realisticHarvestManager.settings
         if settings then
-            if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                print(string.format("RHM: [Sync] Server APPLYING settings - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
+            rhm_log(string.format("RHM [Network]: RHM: [Sync] Server APPLYING settings - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
                     self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableIndependentLaunch)))
-            end
 
             -- EN: Apply the received split difficulty fields and feature flags.
             -- UA: Застосовуємо отримані розділені поля складності та прапорці функцій.
@@ -91,7 +89,7 @@ function SettingsSyncEvent:run(connection)
             -- UA: Ретранслюємо зміни всім іншим підключеним клієнтам.
             g_server:broadcastEvent(self, nil, connection, nil)
         else
-            print("RHM: [Sync] ERROR - g_realisticHarvestManager.settings is nil!")
+            rhm_log("RHM [Network]: RHM: [Sync] ERROR - g_realisticHarvestManager.settings is nil!")
         end
         return
     end
@@ -109,10 +107,10 @@ function SettingsSyncEvent:run(connection)
             settings.enableCropLoss = self.enableCropLoss
             settings.enableIndependentLaunch = self.enableIndependentLaunch
             
-            if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                print(string.format("RHM: [Sync] Client received update - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
+            rhm_log(string.format("RHM [Network]: RHM: [Sync] Client received update - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s",
                     self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableIndependentLaunch)))
            end
         end
     end
 end
+

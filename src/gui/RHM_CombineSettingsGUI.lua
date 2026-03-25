@@ -1,15 +1,15 @@
 -- EN: Legacy console-based settings interface for the combine. Allows the player to view
 --     combine settings status and control them through in-game console commands.
---     This is a secondary interface alongside the visual CombineCalibrationGUI.
+--     This is a secondary interface alongside the visual RHMCombineCalibrationGUI.
 -- UA: Консольний інтерфейс налаштувань комбайна (застарілий). Дозволяє гравцеві переглядати
 --     стан налаштувань комбайна та керувати ними через консольні команди в грі.
---     Це допоміжний інтерфейс поруч з візуальним CombineCalibrationGUI.
-CombineSettingsGUI = {}
-local CombineSettingsGUI_mt = Class(CombineSettingsGUI)
+--     Це допоміжний інтерфейс поруч з візуальним RHMCombineCalibrationGUI.
+RHMCombineSettingsGUI = {}
+local CombineSettingsGUI_mt = Class(RHMCombineSettingsGUI)
 
 -- EN: Creates a new GUI instance with no active vehicle or memory attached.
 -- UA: Створює новий екземпляр GUI без прив'язаного транспорту або пам'яті.
-function CombineSettingsGUI.new()
+function RHMCombineSettingsGUI.new()
     local self = setmetatable({}, CombineSettingsGUI_mt)
 
     self.isOpen = false
@@ -20,12 +20,12 @@ function CombineSettingsGUI.new()
 end
 
 -- EN: Opens the settings interface for a specific combine vehicle.
---     Validates that the vehicle has the rhm_Combine spec and a CombineMemory instance.
+--     Validates that the vehicle has the rhm_Combine spec and a RHM_CombineMemory instance.
 -- UA: Відкриває інтерфейс налаштувань для конкретного комбайна.
---     Перевіряє, що транспорт має специфікацію rhm_Combine та екземпляр CombineMemory.
-function CombineSettingsGUI:open(vehicle)
+--     Перевіряє, що транспорт має специфікацію rhm_Combine та екземпляр RHM_CombineMemory.
+function RHMCombineSettingsGUI:open(vehicle)
     if not vehicle then
-        print("RHM: Cannot open settings - not a valid combine")
+        rhm_log("RHM [UI]: " .. "RHM: Cannot open settings - not a valid combine")
         return false
     end
 
@@ -34,12 +34,12 @@ function CombineSettingsGUI:open(vehicle)
     local spec = vehicle.spec_rhm_Combine or vehicle["spec_FS25_RealisticHarvesting.rhm_Combine"]
 
     if not spec then
-        print("RHM: Cannot open settings - not a valid combine")
+        rhm_log("RHM [UI]: " .. "RHM: Cannot open settings - not a valid combine")
         return false
     end
 
     if not spec.combineMemory then
-        print("RHM: Cannot open settings - no memory system")
+        rhm_log("RHM [UI]: " .. "RHM: Cannot open settings - no memory system")
         return false
     end
 
@@ -56,7 +56,7 @@ end
 
 -- EN: Closes the settings interface and detaches from the current vehicle.
 -- UA: Закриває інтерфейс налаштувань та відключається від поточного транспорту.
-function CombineSettingsGUI:close()
+function RHMCombineSettingsGUI:close()
     self.isOpen = false
     self.combineMemory = nil
     self.currentVehicle = nil
@@ -66,47 +66,47 @@ end
 --     Shows mode, current crop, active settings values, any penalties, and available commands.
 -- UA: Виводить повний поточний стан налаштувань комбайна у внутрішньоігрову консоль.
 --     Показує режим, поточну культуру, значення налаштувань, штрафи та доступні команди.
-function CombineSettingsGUI:printStatus()
+function RHMCombineSettingsGUI:printStatus()
     if not self.combineMemory then
         return
     end
 
     local memory = self.combineMemory
 
-    print("======================================================")
-    print("[*] COMBINE SETTINGS MENU")
-    print("======================================================")
+    rhm_log("RHM [UI]: " .. "======================================================")
+    rhm_log("RHM [UI]: " .. "[*] COMBINE SETTINGS MENU")
+    rhm_log("RHM [UI]: " .. "======================================================")
 
     -- EN: Operating mode: AUTO or MANUAL.
     -- UA: Режим роботи: AUTO або MANUAL.
-    print(string.format("Mode: %s", memory.mode))
+    rhm_log("RHM [UI]: " .. string.format("Mode: %s", memory.mode))
 
     -- EN: Currently harvested crop.
     -- UA: Поточна культура, що збирається.
     if memory.currentCrop then
-        local cropData = CombineSettingsDatabase:getCropData(memory.currentCrop)
+        local cropData = RHM_CombineSettingsDatabase:getCropData(memory.currentCrop)
         local cropName = cropData and cropData.nameEN or memory.currentCrop
-        print(string.format("Current Crop: %s", cropName))
+        rhm_log("RHM [UI]: " .. string.format("Current Crop: %s", cropName))
     else
-        print("Current Crop: NONE (start harvesting to detect)")
+        rhm_log("RHM [UI]: " .. "Current Crop: NONE (start harvesting to detect)")
     end
 
     if memory.currentProfile then
-        print(string.format("Active Profile: %s", memory.currentProfile))
+        rhm_log("RHM [UI]: " .. string.format("Active Profile: %s", memory.currentProfile))
     else
-        print("Active Profile: NONE")
+        rhm_log("RHM [UI]: " .. "Active Profile: NONE")
     end
 
-    print("======================================================")
-    print("[CURRENT SETTINGS]")
-    print("======================================================")
+    rhm_log("RHM [UI]: " .. "======================================================")
+    rhm_log("RHM [UI]: " .. "[CURRENT SETTINGS]")
+    rhm_log("RHM [UI]: " .. "======================================================")
 
     local settings = memory.currentSettings
-    print(string.format("  Fan:         %3d%%", settings.fan))
-    print(string.format("  Upper Sieve: %3d%%", settings.upperSieve))
-    print(string.format("  Lower Sieve: %3d%%", settings.lowerSieve))
-    print(string.format("  Rotor:       %3d%%", settings.rotor))
-    print(string.format("  Feeder:      %3d%%", settings.feeder))
+    rhm_log("RHM [UI]: " .. string.format("  Fan:         %3d%%", settings.fan))
+    rhm_log("RHM [UI]: " .. string.format("  Upper Sieve: %3d%%", settings.upperSieve))
+    rhm_log("RHM [UI]: " .. string.format("  Lower Sieve: %3d%%", settings.lowerSieve))
+    rhm_log("RHM [UI]: " .. string.format("  Rotor:       %3d%%", settings.rotor))
+    rhm_log("RHM [UI]: " .. string.format("  Feeder:      %3d%%", settings.feeder))
 
     -- EN: Evaluate settings against the current crop and show any loss penalties.
     -- UA: Оцінюємо налаштування для поточної культури і показуємо будь-які штрафи.
@@ -114,162 +114,164 @@ function CombineSettingsGUI:printStatus()
         local penalty, warnings = memory:checkSettingsForCrop(memory.currentCrop)
 
         if penalty > 0 then
-            print("======================================================")
-            print(string.format("[!] CROP LOSS: %.1f%%", penalty))
-            print("======================================================")
+            rhm_log("RHM [UI]: " .. "======================================================")
+            rhm_log("RHM [UI]: " .. string.format("[!] CROP LOSS: %.1f%%", penalty))
+            rhm_log("RHM [UI]: " .. "======================================================")
             for _, warning in ipairs(warnings) do
-                print(string.format("  [!] %s: Current=%d%%, Optimal=%d%%, Penalty=%.1f%%",
+                rhm_log("RHM [UI]: " .. string.format("  [!] %s: Current=%d%%, Optimal=%d%%, Penalty=%.1f%%",
                     warning.param, warning.current, warning.optimal, warning.penalty))
             end
         else
-            print("======================================================")
-            print("[OK] SETTINGS OPTIMAL - No Crop Loss")
-            print("======================================================")
+            rhm_log("RHM [UI]: " .. "======================================================")
+            rhm_log("RHM [UI]: " .. "[OK] SETTINGS OPTIMAL - No Crop Loss")
+            rhm_log("RHM [UI]: " .. "======================================================")
         end
     end
 
     local profileCount = memory:getProfileCount()
     if profileCount > 0 then
-        print("======================================================")
-        print(string.format("[SAVED PROFILES: %d]", profileCount))
-        print("======================================================")
+        rhm_log("RHM [UI]: " .. "======================================================")
+        rhm_log("RHM [UI]: " .. string.format("[SAVED PROFILES: %d]", profileCount))
+        rhm_log("RHM [UI]: " .. "======================================================")
 
         for profileName, profileData in pairs(memory.savedProfiles) do
             local activeMarker = (profileName == memory.currentProfile) and " [ACTIVE]" or ""
-            print(string.format("  [#] %s%s - Used: %dx",
+            rhm_log("RHM [UI]: " .. string.format("  [#] %s%s - Used: %dx",
                 profileName, activeMarker, profileData.stats.timesUsed))
         end
     else
-        print("======================================================")
-        print("[PROFILES] No profiles saved yet")
-        print("======================================================")
+        rhm_log("RHM [UI]: " .. "======================================================")
+        rhm_log("RHM [UI]: " .. "[PROFILES] No profiles saved yet")
+        rhm_log("RHM [UI]: " .. "======================================================")
     end
 
     -- EN: Show available console commands for controlling the combine.
     -- UA: Показуємо доступні консольні команди для управління комбайном.
-    print("======================================================")
-    print("[CONSOLE COMMANDS]")
-    print("======================================================")
-    print("  rhm_auto              - Enable AUTO mode")
-    print("  rhm_manual            - Enable MANUAL mode")
-    print("  rhm_set <param> <val> - Set parameter (fan, rotor, etc)")
-    print("  rhm_load <profile>    - Load profile")
-    print("  rhm_save <name>       - Save current as  profile")
-    print("  rhm_status            - Show this menu again")
-    print("  rhm_profiles          - List all profiles")
-    print("======================================================")
+    rhm_log("RHM [UI]: " .. "======================================================")
+    rhm_log("RHM [UI]: " .. "[CONSOLE COMMANDS]")
+    rhm_log("RHM [UI]: " .. "======================================================")
+    rhm_log("RHM [UI]: " .. "  rhm_auto              - Enable AUTO mode")
+    rhm_log("RHM [UI]: " .. "  rhm_manual            - Enable MANUAL mode")
+    rhm_log("RHM [UI]: " .. "  rhm_set <param> <val> - Set parameter (fan, rotor, etc)")
+    rhm_log("RHM [UI]: " .. "  rhm_load <profile>    - Load profile")
+    rhm_log("RHM [UI]: " .. "  rhm_save <name>       - Save current as  profile")
+    rhm_log("RHM [UI]: " .. "  rhm_status            - Show this menu again")
+    rhm_log("RHM [UI]: " .. "  rhm_profiles          - List all profiles")
+    rhm_log("RHM [UI]: " .. "======================================================")
 end
 
 -- EN: Activates AUTO mode — sets optimal settings for the currently detected crop.
 -- UA: Активує режим AUTO — встановлює оптимальні налаштування для поточної визначеної культури.
-function CombineSettingsGUI:setModeAuto()
+function RHMCombineSettingsGUI:setModeAuto()
     if not self.combineMemory then
         return
     end
 
     if self.combineMemory.currentCrop then
         self.combineMemory:setMode("AUTO")
-        print("[OK] Mode set to AUTO")
+        rhm_log("RHM [UI]: " .. "[OK] Mode set to AUTO")
         self:printStatus()
     else
-        print("[!] Cannot set AUTO mode - no crop detected yet. Start harvesting first!")
+        rhm_log("RHM [UI]: " .. "[!] Cannot set AUTO mode - no crop detected yet. Start harvesting first!")
     end
 end
 
 -- EN: Activates MANUAL mode — allows the player to manually adjust all settings.
 -- UA: Активує режим MANUAL — дозволяє гравцеві вручну регулювати всі налаштування.
-function CombineSettingsGUI:setModeManual()
+function RHMCombineSettingsGUI:setModeManual()
     if not self.combineMemory then
         return
     end
 
     self.combineMemory:setMode("MANUAL")
-    print("[OK] Mode set to MANUAL - You can now adjust settings")
+    rhm_log("RHM [UI]: " .. "[OK] Mode set to MANUAL - You can now adjust settings")
     self:printStatus()
 end
 
 -- EN: Sets a single combine parameter to the specified value (0-100).
 -- UA: Встановлює один параметр комбайна на задане значення (0-100).
-function CombineSettingsGUI:setParameter(paramName, value)
+function RHMCombineSettingsGUI:setParameter(paramName, value)
     if not self.combineMemory then
         return
     end
 
     local numValue = tonumber(value)
     if not numValue then
-        print(string.format("[X] Invalid value: %s (must be a number)", tostring(value)))
+        rhm_log("RHM [UI]: " .. string.format("[X] Invalid value: %s (must be a number)", tostring(value)))
         return
     end
 
     if self.combineMemory:setParameter(paramName, numValue) then
-        print(string.format("[OK] %s set to %d%%", paramName, numValue))
+        rhm_log("RHM [UI]: " .. string.format("[OK] %s set to %d%%", paramName, numValue))
         self:printStatus()
     else
-        print(string.format("[X] Invalid parameter: %s", paramName))
-        print("Valid parameters: fan, upperSieve, lowerSieve, rotor, feeder")
+        rhm_log("RHM [UI]: " .. string.format("[X] Invalid parameter: %s", paramName))
+        rhm_log("RHM [UI]: " .. "Valid parameters: fan, upperSieve, lowerSieve, rotor, feeder")
     end
 end
 
--- EN: Loads a named profile from the combine memory (legacy method, profiles now in ProfileManager).
--- UA: Завантажує іменований профіль з пам'яті комбайна (застарілий метод, профілі тепер у ProfileManager).
-function CombineSettingsGUI:loadProfile(profileName)
+-- EN: Loads a named profile from the combine memory (legacy method, profiles now in RHM_ProfileManager).
+-- UA: Завантажує іменований профіль з пам'яті комбайна (застарілий метод, профілі тепер у RHM_ProfileManager).
+function RHMCombineSettingsGUI:loadProfile(profileName)
     if not self.combineMemory then
         return
     end
 
     if self.combineMemory:loadProfile(profileName) then
-        print(string.format("[OK] Profile loaded: %s", profileName))
+        rhm_log("RHM [UI]: " .. string.format("[OK] Profile loaded: %s", profileName))
         self:printStatus()
     else
-        print(string.format("[X] Profile not found: %s", profileName))
+        rhm_log("RHM [UI]: " .. string.format("[X] Profile not found: %s", profileName))
         self:listProfiles()
     end
 end
 
 -- EN: Saves the current settings as a named profile for the active crop.
 -- UA: Зберігає поточні налаштування як іменований профіль для активної культури.
-function CombineSettingsGUI:saveProfile(profileName)
+function RHMCombineSettingsGUI:saveProfile(profileName)
     if not self.combineMemory then
         return
     end
 
     if not self.combineMemory.currentCrop then
-        print("[X] Cannot save profile - no crop detected yet")
+        rhm_log("RHM [UI]: " .. "[X] Cannot save profile - no crop detected yet")
         return
     end
 
     self.combineMemory:saveCurrentProfile(self.combineMemory.currentCrop, profileName)
-    print(string.format("[OK] Profile saved: %s", profileName))
+    rhm_log("RHM [UI]: " .. string.format("[OK] Profile saved: %s", profileName))
     self:printStatus()
 end
 
 -- EN: Lists all saved profiles to the console.
 -- UA: Виводить список всіх збережених профілів у консоль.
-function CombineSettingsGUI:listProfiles()
+function RHMCombineSettingsGUI:listProfiles()
     if not self.combineMemory then
         return
     end
 
     local profileCount = self.combineMemory:getProfileCount()
 
-    print("======================================================")
-    print(string.format("[ALL PROFILES: %d]", profileCount))
-    print("======================================================")
+    rhm_log("RHM [UI]: " .. "======================================================")
+    rhm_log("RHM [UI]: " .. string.format("[ALL PROFILES: %d]", profileCount))
+    rhm_log("RHM [UI]: " .. "======================================================")
 
     if profileCount == 0 then
-        print("  No profiles saved")
+        rhm_log("RHM [UI]: " .. "  No profiles saved")
     else
         for profileName, profileData in pairs(self.combineMemory.savedProfiles) do
             local activeMarker = (profileName == self.combineMemory.currentProfile) and " [ACTIVE]" or ""
-            print(string.format("  [#] %s%s", profileName, activeMarker))
-            print(string.format("     Crop: %s, Used: %dx, Last: %s",
+            rhm_log("RHM [UI]: " .. string.format("  [#] %s%s", profileName, activeMarker))
+            rhm_log("RHM [UI]: " .. string.format("     Crop: %s, Used: %dx, Last: %s",
                 profileData.cropType,
                 profileData.stats.timesUsed,
                 profileData.stats.lastUsed or "Never"))
         end
     end
 
-    print("======================================================")
+    rhm_log("RHM [UI]: " .. "======================================================")
 end
 
-print("[OK] CombineSettingsGUI loaded")
+rhm_log("RHM [UI]: [OK] RHMCombineSettingsGUI loaded")
+
+

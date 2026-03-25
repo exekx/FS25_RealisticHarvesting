@@ -4,22 +4,22 @@
 -- UA: Мережева подія для синхронізації змін налаштувань комбайна (вентилятор, ротор, решета, подача)
 --     від GUI клієнта до сервера, і від сервера до всіх інших клієнтів.
 --     Підтримує два режими: оновлення одного параметру або застосування повного профілю.
-CombineSettingsEvent = {}
-local CombineSettingsEvent_mt = Class(CombineSettingsEvent, Event)
+RHM_CombineSettingsEvent = {}
+local CombineSettingsEvent_mt = Class(RHM_CombineSettingsEvent, Event)
 
-InitEventClass(CombineSettingsEvent, "CombineSettingsEvent")
+InitEventClass(RHM_CombineSettingsEvent, "RHM_CombineSettingsEvent")
 
 -- EN: Creates an empty event instance used during network deserialization.
 -- UA: Створює порожній екземпляр події для мережевої десеріалізації.
-function CombineSettingsEvent.emptyNew()
+function RHM_CombineSettingsEvent.emptyNew()
     local self = Event.new(CombineSettingsEvent_mt)
     return self
 end
 
 -- EN: Creates a new event targeting a specific vehicle and carrying setting change data.
 -- UA: Створює нову подію, що цілить на конкретний транспорт і несе дані зміни налаштувань.
-function CombineSettingsEvent.new(vehicle, parameter, value, isFullProfile, fullSettings)
-    local self = CombineSettingsEvent.emptyNew()
+function RHM_CombineSettingsEvent.new(vehicle, parameter, value, isFullProfile, fullSettings)
+    local self = RHM_CombineSettingsEvent.emptyNew()
     self.vehicle = vehicle
     self.parameter = parameter or ""
     self.value = value or 0
@@ -30,7 +30,7 @@ end
 
 -- EN: Deserializes event data from the network stream and immediately executes the event.
 -- UA: Десеріалізує дані події з мережевого потоку і негайно виконує її.
-function CombineSettingsEvent:readStream(streamId, connection)
+function RHM_CombineSettingsEvent:readStream(streamId, connection)
     self.vehicle = NetworkUtil.readNodeObject(streamId)
     self.isFullProfile = streamReadBool(streamId)
 
@@ -55,7 +55,7 @@ end
 
 -- EN: Serializes event data into the network stream.
 -- UA: Серіалізує дані події в мережевий потік.
-function CombineSettingsEvent:writeStream(streamId, connection)
+function RHM_CombineSettingsEvent:writeStream(streamId, connection)
     NetworkUtil.writeNodeObject(streamId, self.vehicle)
     streamWriteBool(streamId, self.isFullProfile)
 
@@ -76,11 +76,11 @@ function CombineSettingsEvent:writeStream(streamId, connection)
     end
 end
 
--- EN: Applies the event payload to the target combine's CombineMemory on the server.
+-- EN: Applies the event payload to the target combine's RHM_CombineMemory on the server.
 --     After applying, the server broadcasts the change to all other clients.
--- UA: Застосовує дані події до CombineMemory цільового комбайна на сервері.
+-- UA: Застосовує дані події до RHM_CombineMemory цільового комбайна на сервері.
 --     Після застосування сервер транслює зміну всім іншим клієнтам.
-function CombineSettingsEvent:run(connection)
+function RHM_CombineSettingsEvent:run(connection)
     if self.vehicle and self.vehicle:getIsSynchronized() and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.combineMemory then
         local mem = self.vehicle.spec_rhm_Combine.combineMemory
 
@@ -96,9 +96,7 @@ function CombineSettingsEvent:run(connection)
                 mem.currentSettings.targetEngineLoad = self.fullSettings.targetEngineLoad
                 mem.autoSwitchEnabled = false
                 mem.mode = "MANUAL"
-                if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                    print("RHM: [Sync] Received full user profile settings via network")
-                end
+                rhm_log("RHM [Network]: RHM: [Sync] Received full user profile settings via network")
             else
                 if self.parameter == "AUTO_SET" then
                     -- EN: Client requested AUTO mode — configure optimal settings for current crop.
@@ -107,9 +105,7 @@ function CombineSettingsEvent:run(connection)
                     mem.mode = "AUTO"
                     if mem.currentCrop then
                         mem:autoConfigureForCrop(mem.currentCrop, true)
-                        if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                            print(string.format("RHM: [Sync] Server applied AUTO mode for %s", mem.currentCrop))
-                        end
+                        rhm_log(string.format("RHM [Network]: RHM: [Sync] Server applied AUTO mode for %s", mem.currentCrop))
                     end
                 elseif self.parameter == "RESET_SET" then
                     -- EN: Client requested RESET — revert all settings to neutral 50%.
@@ -118,9 +114,7 @@ function CombineSettingsEvent:run(connection)
                     mem.mode = "MANUAL"
                     if mem.currentCrop then
                         mem:autoConfigureForCrop(mem.currentCrop, false)
-                        if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                            print(string.format("RHM: [Sync] Server applied RESET to 50%% for %s", mem.currentCrop))
-                        end
+                        rhm_log(string.format("RHM [Network]: RHM: [Sync] Server applied RESET to 50%% for %s", mem.currentCrop))
                     end
                 elseif self.parameter == "AUTO_MODE" then
                     -- EN: Toggle the auto-switch behavior flag (1 = enabled, 0 = disabled).
@@ -137,9 +131,7 @@ function CombineSettingsEvent:run(connection)
                             mem.autoSwitchEnabled = false
                             mem.mode = "MANUAL"
                         end
-                        if RHM_Debug and RHM_Debug.isEnabled("Network") then
-                            print(string.format("RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
-                        end
+                        rhm_log(string.format("RHM [Network]: RHM: [Sync] Received parameter update: %s = %d", self.parameter, self.value))
                     end
                 end
             end
@@ -153,7 +145,7 @@ function CombineSettingsEvent:run(connection)
                 feeder = mem.currentSettings.feeder,
                 targetEngineLoad = mem.currentSettings.targetEngineLoad
             }
-            g_server:broadcastEvent(CombineSettingsEvent.new(self.vehicle, "", 0, true, fullSettings), nil, connection, self.vehicle)
+            g_server:broadcastEvent(RHM_CombineSettingsEvent.new(self.vehicle, "", 0, true, fullSettings), nil, connection, self.vehicle)
             local spec = self.vehicle.spec_rhm_Combine
             if spec and spec.settingsDirtyFlag then
                 self.vehicle:raiseDirtyFlags(spec.settingsDirtyFlag)
@@ -187,3 +179,4 @@ function CombineSettingsEvent:run(connection)
         end
     end
 end
+

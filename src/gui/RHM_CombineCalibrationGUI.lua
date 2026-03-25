@@ -1,7 +1,7 @@
 -- EN: Interactive visual calibration GUI for combine harvester settings.
 --     Renders as an always-on overlay panel with [-]/[+] buttons and mouse wheel
 --     for each active parameter (fan, rotor, sieves, feeder) based on machine type.
---     Shows real-time color-coded loss and speed penalty preview from CombineSettingsDatabase.
+--     Shows real-time color-coded loss and speed penalty preview from RHM_CombineSettingsDatabase.
 --     Parameters grouped by function: SEPARATION / CLEANING / PERFORMANCE.
 --     Each parameter row shows: label | physical value | status hint | progress bar | [-][+] buttons.
 --     Supports NEXAT modular systems by searching the vehicle hierarchy for spec_rhm_Combine.
@@ -9,13 +9,13 @@
 -- UA: Інтерактивний візуальний GUI калібрування для налаштувань зернозбирального комбайна.
 --     Відображається як постійна накладка з кнопками [-]/[+] та колесом миші
 --     для кожного активного параметра (вентилятор, ротор, решета, подача) залежно від типу машини.
---     Показує попередній перегляд штрафів за втрати та швидкість у режимі реального часу з CombineSettingsDatabase.
+--     Показує попередній перегляд штрафів за втрати та швидкість у режимі реального часу з RHM_CombineSettingsDatabase.
 --     Параметри згруповані за функцією: SEPARATION / CLEANING / PERFORMANCE.
 --     Кожен рядок параметра показує: мітка | фізичне значення | статус | прогрес-бар | кнопки [-][+].
 --     Підтримує модульні системи NEXAT, шукаючи spec_rhm_Combine в ієрархії транспорту.
 --     Блокує обертання та масштабування камери при відкритті; відновлює при закритті.
-CombineCalibrationGUI = {}
-local CombineCalibrationGUI_mt = Class(CombineCalibrationGUI)
+RHMCombineCalibrationGUI = {}
+local CombineCalibrationGUI_mt = Class(RHMCombineCalibrationGUI)
 
 -- EN: Parameter section grouping — defines which parameters belong to which section label.
 --     Parameters not listed here that come from getParamsForMachineType fall through to a
@@ -51,12 +51,11 @@ local SECTIONS_ORDERED = {
 --     button registry, scroll debouncing, and the persistent overlay object.
 -- UA: Створює новий екземпляр GUI. Ініціалізує константи розмітки UI, кольорову палітру,
 --     реєстр кнопок, захист від дребезгу прокрутки та постійний об'єкт оверлею.
-function CombineCalibrationGUI.new(modDirectory)
+function RHMCombineCalibrationGUI.new(modDirectory)
     local self = setmetatable({}, CombineCalibrationGUI_mt)
     self.modDirectory = modDirectory
     self.isOpen = false
     self.isCursorActive = false
-    self.debug = true
 
     -- EN: UI layout — industrial dark theme with amber accents.
     -- UA: Розмітка UI — індустріальна темна тема з бурштиновими акцентами.
@@ -123,14 +122,14 @@ function CombineCalibrationGUI.new(modDirectory)
     return self
 end
 
-function CombineCalibrationGUI:delete()
+function RHMCombineCalibrationGUI:delete()
     if self.overlay then
         self.overlay:delete()
         self.overlay = nil
     end
 end
 
-function CombineCalibrationGUI:toggle(vehicle)
+function RHMCombineCalibrationGUI:toggle(vehicle)
     if self.isOpen then
         self:close()
     else
@@ -144,7 +143,7 @@ end
 -- UA: Відкриває GUI калібрування для транспортного засобу.
 --     Для модульних систем (NEXAT), шукає в усій ієрархії транспорту spec_rhm_Combine.
 --     Блокує обертання та масштабування камери для запобігання випадкового руху.
-function CombineCalibrationGUI:open(vehicle)
+function RHMCombineCalibrationGUI:open(vehicle)
     if self.isOpen then return end
 
     local combineVehicle = vehicle
@@ -174,9 +173,9 @@ function CombineCalibrationGUI:open(vehicle)
         local found = findCombine(vehicle.rootVehicle or vehicle, {})
         if found then
             combineVehicle = found
-            print(string.format("RHM: [GUI] NEXAT: found combine vehicle in hierarchy: %s", tostring(combineVehicle)))
+            rhm_log(string.format("RHM [UI]: RHM: [GUI] NEXAT: found combine vehicle in hierarchy: %s", tostring(combineVehicle)))
         else
-            print("RHM: [GUI] No combine with spec_rhm_Combine found in vehicle hierarchy — GUI will not open")
+            rhm_log("RHM [UI]: RHM: [GUI] No combine with spec_rhm_Combine found in vehicle hierarchy — GUI will not open")
             return
         end
     end
@@ -208,7 +207,7 @@ end
 
 -- EN: Closes the calibration GUI. Restores camera rotation and zoom.
 -- UA: Закриває GUI калібрування. Відновлює обертання та масштаб камери.
-function CombineCalibrationGUI:close()
+function RHMCombineCalibrationGUI:close()
     if not self.isOpen then return end
 
     self.isOpen = false
@@ -219,17 +218,14 @@ function CombineCalibrationGUI:close()
     local hudCursorActive = g_realisticHarvestManager and g_realisticHarvestManager.isCursorVisible
     g_inputBinding:setShowMouseCursor(hudCursorActive or false)
 
-    if vehicle and vehicle.spec_enterable then
-        for _, camera in pairs(vehicle.spec_enterable.cameras) do
-            local savedRotatable = self.savedCameraRotatableInfo[camera]
-            local savedZoom = self.savedCameraZoomInfo[camera]
-            camera.isRotatable = savedRotatable ~= nil and savedRotatable or true
-            camera.allowTranslation = savedZoom ~= nil and savedZoom or true
-            camera.allowZoom = savedZoom ~= nil and savedZoom or true
-        end
-        self.savedCameraRotatableInfo = {}
-        self.savedCameraZoomInfo = {}
+    for camera, savedRotatable in pairs(self.savedCameraRotatableInfo) do
+        local savedZoom = self.savedCameraZoomInfo[camera]
+        camera.isRotatable = savedRotatable ~= nil and savedRotatable or true
+        camera.allowTranslation = savedZoom ~= nil and savedZoom or true
+        camera.allowZoom = savedZoom ~= nil and savedZoom or true
     end
+    self.savedCameraRotatableInfo = {}
+    self.savedCameraZoomInfo = {}
 
     if hudCursorActive and vehicle and vehicle.spec_enterable then
         RHMInputUtil.setCameraRotation(vehicle, false, g_realisticHarvestManager.savedCameraRotatableInfo)
@@ -238,10 +234,10 @@ end
 
 -- EN: Cycles to the previous (-1) or next (+1) crop in the machine-type-filtered list.
 -- UA: Перемикає на попередню (-1) або наступну (+1) культуру у відфільтрованому списку.
-function CombineCalibrationGUI:cycleCrop(direction)
+function RHMCombineCalibrationGUI:cycleCrop(direction)
     local spec = self.activeVehicle.spec_rhm_Combine
     local machineType = spec.machineType or "grain"
-    local crops = CombineSettingsDatabase:getCropNamesForMachineType(machineType)
+    local crops = RHM_CombineSettingsDatabase:getCropNamesForMachineType(machineType)
     if #crops == 0 then return end
 
     local current = spec.combineMemory.currentCrop
@@ -266,7 +262,7 @@ end
 
 -- EN: Called every frame while open. Auto-closes if the player exits the vehicle.
 -- UA: Викликається кожен кадр поки відкритий. Автоматично закриває якщо гравець виходить з транспорту.
-function CombineCalibrationGUI:update(dt)
+function RHMCombineCalibrationGUI:update(dt)
     if not self.isOpen then return end
 
     if not self.activeVehicle then
@@ -303,7 +299,7 @@ function CombineCalibrationGUI:update(dt)
     end
 
     if not isEntered then
-        print("RHM: [GUI] Closing due to isEntered=false."
+        rhm_log("RHM [UI]: RHM: [GUI] Closing due to isEntered=false."
             .. " RHM_cv=" .. tostring(g_realisticHarvestManager and g_realisticHarvestManager:getControlledVehicle())
             .. " vToCheck=" .. tostring(vehicleToCheck)
             .. " (root=" .. tostring(vehicleToCheck and (vehicleToCheck.rootVehicle or vehicleToCheck)) .. ")")
@@ -327,10 +323,10 @@ end
 --         кожен рядок: мітка | значення | статус | прогрес-бар | [-] [+]
 --       Кнопки Save Profile | Reset Default
 --       Підказка закриття
-function CombineCalibrationGUI:draw()
+function RHMCombineCalibrationGUI:draw()
     if not self.isOpen then return end
     if not (g_currentMission and g_currentMission.hud) then
-        if self.debug then print("RHM: [GUI] draw() abort: no g_currentMission.hud") end
+        rhm_log("RHM [UI]: RHM: [GUI] draw() abort: no g_currentMission.hud")
         return
     end
 
@@ -346,7 +342,7 @@ function CombineCalibrationGUI:draw()
     --     заголовки секцій, рядки параметрів, кнопки дій, підказку закриття.
     if spec and spec.combineMemory then
         local machineType = spec.machineType or "grain"
-        local activeParams = CombineSettingsDatabase:getParamsForMachineType(machineType)
+        local activeParams = RHM_CombineSettingsDatabase:getParamsForMachineType(machineType)
         local numParams = #activeParams + 1  -- +1 for targetEngineLoad
 
         -- EN: Count how many sections will be shown (for height calculation).
@@ -362,15 +358,18 @@ function CombineCalibrationGUI:draw()
         end
         sectionsShown = sectionsShown + 1  -- +1 for PERFORMANCE section
 
+        -- EN: Only add statsHeight and its associated margin if packageLevel >= 3 (Yield Monitor).
+        -- UA: Додаємо statsHeight та відступ тільки якщо packageLevel >= 3.
+        local packageLevel = spec.packageLevel or 1
+        local actualStatsHeight = (packageLevel >= 3) and (ui.statsHeight + ui.margin * 0.4) or 0
+
         local dynamicH = ui.headerHeight
-                       + ui.statsHeight
+                       + actualStatsHeight
                        + ui.lineHeight        -- crop row
-                       + ui.margin * 0.5
                        + (sectionsShown * ui.sectionGap)
                        + (numParams * ui.lineHeight)
-                       + ui.lineHeight * 2.2  -- action buttons
-                       + ui.lineHeight * 0.8  -- close hint
-                       + ui.margin * 4
+                       + (ui.lineHeight * 2.0)  -- action buttons
+                       + ui.margin * 3.2      -- precise bottom padding
 
         local targetTop = 0.91
         ui.h = dynamicH
@@ -395,16 +394,27 @@ function CombineCalibrationGUI:draw()
     self:drawRect(x, headerY, w, 0.0015, ui.colors.headerAccent)
 
     setTextBold(true)
-    setTextAlignment(RenderText.ALIGN_CENTER)
+    setTextAlignment(RenderText.ALIGN_LEFT)
     setTextColor(unpack(ui.colors.accent))
-    renderText(x + w / 2, headerY + ui.headerHeight * 0.35, ui.titleSize, g_i18n:getText("rhm_gui_title"))
+    renderText(x + ui.margin, headerY + ui.headerHeight * 0.35, ui.titleSize, g_i18n:getText("rhm_gui_title"))
     setTextBold(false)
 
-    -- EN: Close shortcut right-aligned in header.
-    -- UA: Комбінація клавіш закриття по правому краю заголовку.
+    -- EN: Close hint right-aligned in header.
+    -- UA: Підказка закриття по правому краю заголовку.
+    local closeHintText = g_i18n:hasText("rhm_gui_close_hint") and g_i18n:getText("rhm_gui_close_hint") or "RShift+K to Close"
     setTextAlignment(RenderText.ALIGN_RIGHT)
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x + w - ui.margin, headerY + ui.headerHeight * 0.35, ui.fontSize * 0.80, g_i18n:getText("rhm_gui_close_hint"))
+    renderText(x + w - ui.margin - 0.025, headerY + ui.headerHeight * 0.35, ui.fontSize * 0.80, closeHintText)
+
+    -- EN: Close [X] button
+    -- UA: Кнопка закриття [X]
+    local closeBtnW = 0.018
+    local closeBtnH = ui.headerHeight * 0.7
+    local closeBtnX = x + w - ui.margin - closeBtnW + 0.005
+    local closeBtnY = headerY + (ui.headerHeight - closeBtnH) * 0.5
+    self:drawButton(closeBtnX, closeBtnY, closeBtnW, closeBtnH, "X", function()
+        self:close()
+    end, {0.6, 0.1, 0.1, 0.9})
 
     local cy = headerY - ui.margin * 0.5
 
@@ -430,62 +440,109 @@ function CombineCalibrationGUI:draw()
     local memory = spec.combineMemory
     local machineType = spec.machineType or "grain"
 
-    -- ── Stats bar ───────────────────────────────────────────────────────────
-    -- EN: Live stats: engine load | speed penalty preview | loss preview.
-    -- UA: Жива статистика: навантаження двигуна | попередній перегляд штрафу швидкості | попередній перегляд втрат.
-    cy = cy - ui.statsHeight
-    self:drawRect(x, cy, w, ui.statsHeight, ui.colors.statsBg)
+    local packageLevel = spec.packageLevel or 1
+    
+    if packageLevel >= 3 then
+        -- ── Stats bar (3 separate sections) ──────────────────────────────────────
+        -- EN: Live stats split into 3 distinct color-coded sections: Load | Speed | Loss.
+        --     Each section has its own background and individual color coding.
+        -- UA: Жива статистика розділена на 3 окремі секції з кольоровим кодуванням: Навантаження | Швидкість | Втрати.
+        --     Кожна секція має власний фон та індивідуальний колір.
+        cy = cy - ui.statsHeight
+        local sectionGap = 0.003  -- EN: Gap between sections / UA: Відступ між секціями
 
-    local load = (spec.loadCalculator and spec.loadCalculator.engineLoad or 0) * 100
-    local effPenalty = 0
-    local lossPenalty = 0
+        local load = (spec.loadCalculator and spec.loadCalculator.engineLoad or 0) * 100
+        local effPenalty = 0
+        local lossPenalty = 0
     if memory.currentCrop then
         effPenalty, lossPenalty, _ = memory:checkSettingsForCrop(memory.currentCrop)
     end
+    local isForage = (machineType == "forage")
 
-    -- EN: Engine load — colored by threshold.
-    -- UA: Навантаження двигуна — кольоровий за порогом.
+    -- EN: Calculate section widths: 3 equal columns with gaps.
+    -- UA: Розраховуємо ширину секцій: 3 рівні колонки з відступами.
+    local totalGaps = sectionGap * 2
+    local sectionW = (w - totalGaps) / 3
+    local sectionH = ui.statsHeight
+
+    -- EN: Darker background for each individual section panel.
+    -- UA: Темніший фон для кожної окремої секції.
+    local sectionBg = {0.08, 0.07, 0.05, 0.85}
+
+    -- ── Section 1: ENGINE LOAD ──
+    local sx1 = x
+    self:drawRect(sx1, cy, sectionW, sectionH, sectionBg)
+
     local loadColor = load > 95 and ui.colors.error or (load > 80 and ui.colors.warning or ui.colors.success)
     setTextBold(true)
-    setTextAlignment(RenderText.ALIGN_LEFT)
+    setTextAlignment(RenderText.ALIGN_CENTER)
+    local sx1Center = sx1 + sectionW * 0.5
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x + ui.margin, cy + 0.008, ui.statusSize, "Load")
+    renderText(sx1Center, cy + sectionH * 0.55, ui.statusSize * 0.85, g_i18n:hasText("rhm_ui_load") and g_i18n:getText("rhm_ui_load") or "Load")
     setTextColor(unpack(loadColor))
-    renderText(x + ui.margin + 0.028, cy + 0.008, ui.fontSize, string.format("%.0f%%", load))
+    renderText(sx1Center, cy + sectionH * 0.12, ui.fontSize, string.format("%.0f%%", load))
 
-    -- EN: Speed/loss preview — center of stats bar.
-    --     For forage harvesters: only show speed efficiency, no crop loss (choppers don't lose grain).
-    -- UA: Попередній перегляд швидкості/втрат — центр смуги статистики.
-    --     Для силосних комбайнів: тільки ефективність швидкості, без втрат врожаю.
-    local speedStr
+    -- ── Section 2: SPEED EFFICIENCY ──
+    local sx2 = sx1 + sectionW + sectionGap
+    self:drawRect(sx2, cy, sectionW, sectionH, sectionBg)
+
+    -- EN: effPenalty < 0 = bonus (green), 0 = neutral (green), 0..2 = mild penalty (yellow), >2 = bad (red).
+    -- UA: effPenalty < 0 = бонус (зелений), 0 = нейтральний (зелений), 0..2 = штраф (жовтий), >2 = поганий (червоний).
+    local speedVal
     if effPenalty < 0 then
-        speedStr = string.format("+%.1f%%", math.abs(effPenalty) * 5.0)
+        speedVal = math.abs(effPenalty) * 5.0
     else
-        speedStr = string.format("-%.1f%%", effPenalty)
+        speedVal = effPenalty
+    end
+    local speedColor
+    if effPenalty < 0 then
+        speedColor = ui.colors.success   -- EN: Bonus speed / UA: Бонус швидкості
+    elseif effPenalty <= 0.1 then
+        speedColor = ui.colors.success   -- EN: Perfect settings / UA: Ідеальні налаштування
+    elseif effPenalty <= 2.0 then
+        speedColor = ui.colors.warning   -- EN: Mild penalty / UA: Легкий штраф
+    else
+        speedColor = ui.colors.error     -- EN: Significant penalty / UA: Значний штраф
     end
 
-    local isForage = (machineType == "forage")
-    local lossStr
+    local sx2Center = sx2 + sectionW * 0.5
+    setTextColor(unpack(ui.colors.textDim))
+    renderText(sx2Center, cy + sectionH * 0.55, ui.statusSize * 0.85, g_i18n:hasText("rhm_ui_speed_eff") and g_i18n:getText("rhm_ui_speed_eff") or "Speed")
+    setTextColor(unpack(speedColor))
+    renderText(sx2Center, cy + sectionH * 0.12, ui.fontSize, string.format("%.1f%%", speedVal))
+
+    -- ── Section 3: CROP LOSS ──
+    local sx3 = sx2 + sectionW + sectionGap
+    self:drawRect(sx3, cy, sectionW, sectionH, sectionBg)
+
+    local sx3Center = sx3 + sectionW * 0.5
+    setTextColor(unpack(ui.colors.textDim))
+    renderText(sx3Center, cy + sectionH * 0.55, ui.statusSize * 0.85, g_i18n:hasText("rhm_ui_loss") and g_i18n:getText("rhm_ui_loss") or "Loss")
+
     if isForage then
-        lossStr = "N/A"
-    elseif lossPenalty <= 0 then
-        lossStr = "0.0%"
+        -- EN: Forage harvesters have no crop loss — show "N/A" dimmed.
+        -- UA: Силосні комбайни не мають втрат — показуємо "N/A" тьмяним.
+        setTextColor(unpack(ui.colors.textDim))
+        renderText(sx3Center, cy + sectionH * 0.12, ui.fontSize, "N/A")
     else
-        lossStr = string.format("+%.1f%%", lossPenalty)
+        -- EN: Loss penalty can be negative internally (bonus), but physically loss can't be negative. Clamp to 0.
+        -- UA: Штраф за втрати внутрішньо може бути від'ємним (бонус), але фізично втрати не можуть бути < 0.
+        local displayLoss = math.max(0, lossPenalty)
+        local lossColor
+        if displayLoss <= 0.1 then
+            lossColor = ui.colors.success    -- EN: No loss / UA: Без втрат
+        elseif displayLoss <= 2.0 then
+            lossColor = ui.colors.warning    -- EN: Mild loss / UA: Помірні втрати
+        else
+            lossColor = ui.colors.error      -- EN: Significant loss / UA: Значні втрати
+        end
+        setTextColor(unpack(lossColor))
+        renderText(sx3Center, cy + sectionH * 0.12, ui.fontSize, string.format("%.1f%%", displayLoss))
     end
 
-    local statsTextColor = ui.colors.text
-    if not isForage and (lossPenalty > 0.5 or effPenalty > 0.5) then
-        statsTextColor = ui.colors.error
-    elseif effPenalty < -0.1 and (isForage or lossPenalty <= 0.5) then
-        statsTextColor = ui.colors.success
+        setTextBold(false)
+        cy = cy - ui.margin * 0.4
     end
-
-    setTextAlignment(RenderText.ALIGN_RIGHT)
-    setTextColor(unpack(statsTextColor))
-    renderText(x + w - ui.margin, cy + 0.008, ui.fontSize, "Spd " .. speedStr .. "  Loss " .. lossStr)
-
-    cy = cy - ui.margin * 0.4
 
     -- ── Crop selector + AUTO button ─────────────────────────────────────────
     cy = cy - ui.lineHeight
@@ -529,19 +586,51 @@ function CombineCalibrationGUI:draw()
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(memory.currentCrop and ui.colors.text or ui.colors.textDim))
-    renderText(cropNavX + arrowW + 0.052, cy + 0.010, ui.fontSize, cropName)
+    
+    local cropNavW = 0.104 -- Total width for the crop name display area (between arrows)
+    local cropTextW = getTextWidth(ui.fontSize, cropName)
+    local maxCropW = cropNavW - 0.010 -- Allow some padding
+    local cropScale = 1.0
+    if cropTextW > maxCropW then
+        cropScale = maxCropW / cropTextW
+    end
+    renderText(cropNavX + arrowW + cropNavW / 2, cy + 0.010 + ui.fontSize * (1 - cropScale) * 0.5, ui.fontSize * cropScale, cropName)
+    setTextBold(false)
 
-    self:drawButton(cropNavX + arrowW + 0.104, cy + 0.004, arrowW, ui.buttonH, ">", function()
+    self:drawButton(cropNavX + arrowW + cropNavW, cy + 0.004, arrowW, ui.buttonH, ">", function()
         self:cycleCrop(1)
     end)
 
     -- EN: AUTO button — right-aligned in crop row. Sets optimal settings for current crop.
-    -- UA: Кнопка AUTO — по правому краю рядка культури. Встановлює оптимальні налаштування для поточної культури.
+    --     Disabled if packageLevel < 4.
+    -- UA: Кнопка AUTO — по правому краю. Встановлює оптимальні налаштування. 
+    --     Заблоковано, якщо packageLevel < 4.
     local autoBtnW = 0.065
     local autoBtnX = x + w - ui.margin - autoBtnW
-    self:drawButton(autoBtnX, cy + 0.003, autoBtnW, ui.buttonH + 0.003, g_i18n:getText("rhm_gui_btn_auto"), function()
-        memory:requestAutoSettings()
-    end, ui.colors.buttonAuto)
+    local packageLevel = spec.packageLevel or 1
+    
+    if packageLevel >= 4 then
+        self:drawButton(autoBtnX, cy + 0.003, autoBtnW, ui.buttonH + 0.003, g_i18n:getText("rhm_gui_btn_auto"), function()
+            memory:requestAutoSettings()
+        end, ui.colors.buttonAuto)
+    else
+        -- EN: Fully disabled visual state (no hover effect)
+        -- UA: Повністю неактивний візуальний стан (без ефекту наведення)
+        local btnH = ui.buttonH + 0.003
+        self:drawRect(autoBtnX, cy + 0.003, autoBtnW, btnH, {0.10, 0.10, 0.09, 0.85})
+        setTextAlignment(RenderText.ALIGN_CENTER)
+        setTextBold(true)
+        setTextColor(0.45, 0.42, 0.38, 1.0)
+        renderText(autoBtnX + autoBtnW / 2, cy + 0.003 + btnH / 2 - ui.fontSize / 2.5, ui.fontSize * 0.8, "AUTO (LOCKED)")
+        setTextBold(false)
+        
+        -- Add just the click hit-box to trigger the message
+        table.insert(self.buttons, {x=autoBtnX, y=cy + 0.003, w=autoBtnW, h=btnH, callback=function()
+            if g_currentMission and g_currentMission.hud then
+                g_currentMission.hud:showInGameMessage("RHM", g_i18n:hasText("rhm_msg_req_level_4") and g_i18n:getText("rhm_msg_req_level_4") or "Requires Opti-Harvest AI (Level 4)", -1)
+            end
+        end})
+    end
 
     -- EN: Thin separator under crop row.
     -- UA: Тонкий розділювач під рядком культури.
@@ -550,7 +639,7 @@ function CombineCalibrationGUI:draw()
     cy = cy - ui.margin * 0.3
 
     -- ── Parameter sections ──────────────────────────────────────────────────
-    local activeParams = CombineSettingsDatabase:getParamsForMachineType(machineType)
+    local activeParams = RHM_CombineSettingsDatabase:getParamsForMachineType(machineType)
     local drawnParams = {}
 
     for _, section in ipairs(SECTIONS_ORDERED) do
@@ -584,7 +673,7 @@ function CombineCalibrationGUI:draw()
             for _, p in ipairs(activeParams) do
                 if PARAM_SECTION_MAP[p] == section.key and not drawnParams[p] then
                     cy = cy - ui.lineHeight
-                    local labelKey = CombineSettingsDatabase:getParamLabel(machineType, p)
+                    local labelKey = RHM_CombineSettingsDatabase:getParamLabel(machineType, p)
                     local label = g_i18n:hasText(labelKey) and g_i18n:getText(labelKey) or p
                     self:drawParameterRow(x + ui.margin, cy, w - ui.margin * 2, p, label, memory, ui, machineType)
                     drawnParams[p] = true
@@ -610,7 +699,7 @@ function CombineCalibrationGUI:draw()
     for _, p in ipairs(activeParams) do
         if not drawnParams[p] then
             cy = cy - ui.lineHeight
-            local labelKey = CombineSettingsDatabase:getParamLabel(machineType, p)
+            local labelKey = RHM_CombineSettingsDatabase:getParamLabel(machineType, p)
             local label = g_i18n:hasText(labelKey) and g_i18n:getText(labelKey) or p
             self:drawParameterRow(x + ui.margin, cy, w - ui.margin * 2, p, label, memory, ui, machineType)
             drawnParams[p] = true
@@ -674,7 +763,7 @@ end
 --     з білим маркером в оптимальній позиції з бази даних.
 --     Підказка статусу показує "optimal" / "^ low" / "v high" з кольоровим кодуванням.
 --     Розумна логіка кроку розраховує фізичні кроки (10 об/хв / 0.5 мм) і конвертує назад у %.
-function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, ui, machineType)
+function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, ui, machineType)
     local val = memory.currentSettings[param] or 0
     local optimal = 0
     local tolerance = 5
@@ -690,8 +779,8 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
 
     -- EN: Fetch optimal value and tolerance from database.
     -- UA: Отримуємо оптимальне значення та допуск з бази даних.
-    if CombineSettingsDatabase and memory.currentCrop then
-        local settings = CombineSettingsDatabase:getSettingsForCrop(memory.currentCrop)
+    if RHM_CombineSettingsDatabase and memory.currentCrop then
+        local settings = RHM_CombineSettingsDatabase:getSettingsForCrop(memory.currentCrop)
         if settings and settings[param] then
             optimal = settings[param].optimal
             tolerance = settings[param].tolerance or 5
@@ -700,11 +789,11 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
         end
     end
 
-    -- EN: Format value with physical units (RPM, mm) via UnitConverter.
-    -- UA: Форматуємо значення у фізичних одиницях (об/хв, мм) через UnitConverter.
+    -- EN: Format value with physical units (RPM, mm) via RHM_UnitConverter.
+    -- UA: Форматуємо значення у фізичних одиницях (об/хв, мм) через RHM_UnitConverter.
     local displayStr = ""
-    if UnitConverter and UnitConverter.formatSetting then
-        displayStr = UnitConverter.formatSetting(param, val, machineType)
+    if RHM_UnitConverter and RHM_UnitConverter.formatSetting then
+        displayStr = RHM_UnitConverter.formatSetting(param, val, machineType)
     else
         displayStr = string.format("%d%%", val)
     end
@@ -751,6 +840,18 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
         statusText = (val < optimal) and "^ low" or "v high"
     end
 
+    -- EN: Package Level override: hide hints if packageLevel < 2 (Sensor Kit).
+    -- UA: Перевизначення рівня: приховуємо підказки та оптимальні кольори якщо рівень < 2.
+    if self.activeVehicle and self.activeVehicle.spec_rhm_Combine then
+        local packageLevel = self.activeVehicle.spec_rhm_Combine.packageLevel or 1
+        if packageLevel < 2 then
+            valColor = ui.colors.text
+            statusText = ""
+            statusColor = ui.colors.textDim
+            hasOptimal = false -- Disable optimal pin marker & green bar
+        end
+    end
+
     -- EN: Teal highlight when mouse is over the value area (scroll wheel target).
     -- UA: Бірюзове підсвічування коли миша над областю значення (ціль колеса прокрутки).
     local valBoxHovered = self:checkHover(valX, y - 0.005, valW, ui.lineHeight)
@@ -769,12 +870,25 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_LEFT)
     setTextColor(unpack(ui.colors.textDim))
-    renderText(x, y + 0.014, ui.fontSize, label)
+    local labelTextW = getTextWidth(ui.fontSize, label)
+    local maxLabelW = labelW - 0.010
+    local labelScale = 1.0
+    if labelTextW > maxLabelW then
+        labelScale = maxLabelW / labelTextW
+    end
+    renderText(x + 0.005, y + 0.014 + ui.fontSize * (1 - labelScale) * 0.5, ui.fontSize * labelScale, label)
 
     -- ── Value ──────────────────────────────────────────────────────────────
+    setTextBold(true)
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(valColor))
-    renderText(valX + valW / 2, y + 0.014, ui.fontSize, displayStr)
+    local valTextW = getTextWidth(ui.fontSize, displayStr)
+    local maxValW = valW - 0.005
+    local valScale = 1.0
+    if valTextW > maxValW then
+        valScale = maxValW / valTextW
+    end
+    renderText(valX + valW * 0.5, y + 0.014 + ui.fontSize * (1 - valScale) * 0.5, ui.fontSize * valScale, displayStr)
 
     -- ── Status hint ────────────────────────────────────────────────────────
     if statusText ~= "" and statusW > 0.008 then
@@ -814,18 +928,18 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
 
     -- ── Smart step logic ───────────────────────────────────────────────────
     -- EN: Calculates physical increment (10 RPM or 0.5 mm), snaps to grid,
-    --     converts back to %. Falls back to 1% steps if UnitConverter unavailable.
+    --     converts back to %. Falls back to 1% steps if RHM_UnitConverter unavailable.
     -- UA: Розраховує фізичний крок (10 об/хв або 0.5 мм), прив'язується до сітки,
-    --     конвертує назад у %. Відступає до кроків 1% якщо UnitConverter недоступний.
+    --     конвертує назад у %. Відступає до кроків 1% якщо RHM_UnitConverter недоступний.
     local function performSmartStep(direction)
         if param == "targetEngineLoad" then
             memory:updateSetting(param, val + (direction * 5))
             return
         end
 
-        if UnitConverter and UnitConverter.percentToPhysical then
-            local physVal = UnitConverter.percentToPhysical(param, val, machineType)
-            local range = UnitConverter.getPhysicalRange(param, machineType)
+        if RHM_UnitConverter and RHM_UnitConverter.percentToPhysical then
+            local physVal = RHM_UnitConverter.percentToPhysical(param, val, machineType)
+            local range = RHM_UnitConverter.getPhysicalRange(param, machineType)
 
             if range then
                 local stepValue = 1
@@ -861,7 +975,7 @@ function CombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, u
                     end
                 end
 
-                local targetPercent = UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
+                local targetPercent = RHM_UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
 
                 if math.abs(targetPercent - val) < 0.5 then
                     targetPercent = val + (direction * 1)
@@ -890,7 +1004,7 @@ end
 --     to give instant visual feedback on the direction of change.
 -- UA: Малює кольорову кнопку. Колір тексту та наведення відрізняються для кнопок [-] та [+],
 --     щоб дати миттєвий візуальний зворотній зв'язок про напрямок зміни.
-function CombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOverride)
+function RHMCombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOverride)
     local isHovered = self:checkHover(x, y, w, h)
 
     local bgColor
@@ -946,7 +1060,7 @@ end
 
 -- EN: Draws a solid-color rectangle using the persistent overlay object.
 -- UA: Малює суцільний кольоровий прямокутник використовуючи постійний об'єкт оверлею.
-function CombineCalibrationGUI:drawRect(x, y, w, h, color)
+function RHMCombineCalibrationGUI:drawRect(x, y, w, h, color)
     if not self.overlay then return end
     local r, g, b, a = unpack(color)
     self.overlay:setPosition(x, y)
@@ -957,7 +1071,7 @@ end
 
 -- EN: Resets text rendering state to engine defaults.
 -- UA: Скидає стан рендерингу тексту до значень рушія.
-function CombineCalibrationGUI:_resetTextState()
+function RHMCombineCalibrationGUI:_resetTextState()
     setTextBold(false)
     setTextColor(1, 1, 1, 1)
     setTextAlignment(RenderText.ALIGN_LEFT)
@@ -965,7 +1079,7 @@ end
 
 -- EN: Returns true if the current mouse position is inside the given rectangle.
 -- UA: Повертає true якщо поточна позиція миші знаходиться всередині заданого прямокутника.
-function CombineCalibrationGUI:checkHover(x, y, w, h)
+function RHMCombineCalibrationGUI:checkHover(x, y, w, h)
     local mx, my = self.mouseX, self.mouseY
     if not mx or not my then
         mx, my = g_inputBinding:getMousePosition()
@@ -977,7 +1091,7 @@ end
 --     dispatches scroll to smart parameter adjustment (Shift=5x), dispatches clicks to buttons.
 -- UA: Повний обробник подій миші. Відстежує позицію, поглинає події колеса всередині GUI,
 --     направляє прокрутку до розумного регулювання (Shift=5x), направляє кліки до кнопок.
-function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
+function RHMCombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.isOpen then return end
 
     self.mouseX = posX
@@ -1008,9 +1122,9 @@ function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
                         return true
                     end
 
-                    if UnitConverter and UnitConverter.percentToPhysical then
-                        local physVal = UnitConverter.percentToPhysical(param, currentVal, machineType)
-                        local range = UnitConverter.getPhysicalRange(param, machineType)
+                    if RHM_UnitConverter and RHM_UnitConverter.percentToPhysical then
+                        local physVal = RHM_UnitConverter.percentToPhysical(param, currentVal, machineType)
+                        local range = RHM_UnitConverter.getPhysicalRange(param, machineType)
 
                         if range then
                             local stepValue = range.unit == "RPM" and 10 or 0.5
@@ -1028,7 +1142,7 @@ function CombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
                                 targetPhysVal = snapped + (stepValue * delta)
                             end
 
-                            local targetPercent = UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
+                            local targetPercent = RHM_UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
 
                             if math.abs(targetPercent - currentVal) < 0.5 then
                                 targetPercent = currentVal + (delta > 0 and 1 or -1)
@@ -1068,7 +1182,7 @@ end
 --     Applies adjustment to hoveredParameter if one is set. Shift=5x multiplier.
 -- UA: Обробник прокрутки колесом для дебаунсного опитування у draw().
 --     Застосовує регулювання до hoveredParameter якщо він встановлений. Shift=5x множник.
-function CombineCalibrationGUI:handleWheelScroll(direction, posX, posY)
+function RHMCombineCalibrationGUI:handleWheelScroll(direction, posX, posY)
     local delta = direction
     if Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift) then
         delta = delta * 5
@@ -1085,11 +1199,12 @@ end
 
 -- EN: Returns the name of the parameter currently hovered by the mouse.
 -- UA: Повертає назву параметра над яким зараз знаходиться миша.
-function CombineCalibrationGUI:getParameterAtMouse(x, y)
+function RHMCombineCalibrationGUI:getParameterAtMouse(x, y)
     if self.hoveredParameter then
         return self.hoveredParameter
     end
     return nil
 end
 
-print("[OK] CombineCalibrationGUI loaded")
+rhm_log("RHM [UI]: [OK] RHMCombineCalibrationGUI loaded")
+

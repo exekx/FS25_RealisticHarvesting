@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="106">
+<modDesc descVersion="107">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
     <version>1.4.3.0</version>
@@ -18,7 +18,7 @@
         <hu>Realisztikus Betakarítás</hu>
     </title>
     <description>
-        <en><![CDATA[Adds realistic harvesting mechanics to your combines.
+<en><![CDATA[Adds realistic harvesting mechanics to your combines.
 
 Features:
 - Dynamic engine load calculation based on throughput (mass/sec)
@@ -32,122 +32,125 @@ Features:
 - Experimental NEXAT support
 - Combine Settings & Calibration System
 
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></en>
-        <de><![CDATA[Fügt realistische Erntemechanik zu Ihren Mähdreschern hinzu.
+GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></en>
+<de><![CDATA[Fügt realistische Erntemechanik zu Ihren Mähdreschern hinzu.
 
 Funktionen:
 - Dynamische Motorlastberechnung basierend auf Erntedichte und Schneidwerksbreite
 - Automatische Geschwindigkeitsbegrenzung zur Vermeidung von Überlastung
-- Ernteverlustanzeige (nur visuell - vollständige Simulation kommt bald)
+- Ernteverlustanzeige (nur visuell
+- vollständige Simulation kommt bald)
 - Anpassbares HUD mit Echtzeit-Metriken
 - Volle Multiplayer-Unterstützung mit serverseitigen Einstellungen
 - Unterstützung für Baumwollernter, Hackfruchternter und teilweise Feldhäcksler
 - Experimentelle NEXAT-Unterstützung
 
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></de>
-        <fr><![CDATA[Ajoute des mécaniques de récolte réalistes à vos moissonneuses-batteuses.
+GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></de>
+<fr><![CDATA[Ajoute des mécaniques de récolte réalistes à vos moissonneuses-batteuses.
 
 Fonctionnalités:
 - Calcul dynamique de la charge moteur basé sur la densité des cultures et la largeur de la coupe
 - Limitation automatique de la vitesse pour éviter la surcharge
-- Indicateur de perte de récolte (visuel uniquement - simulation complète à venir)
+- Indicateur de perte de récolte (visuel uniquement
+- simulation complète à venir)
 - HUD personnalisable avec métriques en temps réel
 - Support multijoueur complet avec paramètres côté serveur
 - Support pour moissonneuses à coton, récolteuses de racines et support partiel pour ensileuses
 - Support expérimental NEXAT
 
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></fr>
-        <pl><![CDATA[Dodaje realistyczną mechanikę żniw do kombajnów.
+GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
+<pl><![CDATA[Dodaje realistyczną mechanikę żniw do kombajnów.
 
 Funkcje:
 - Dynamiczne obliczanie obciążenia silnika w oparciu o gęstość plonów i szerokość hederów
 - Automatyczne ograniczanie prędkości, aby zapobiec przeciążeniu
-- Wskaźnik strat plonów (tylko wizualny - pełna symulacja wkrótce)
+- Wskaźnik strat plonów (tylko wizualny
+- pełna symulacja wkrótce)
 - Konfigurowalny HUD z metrykami w czasie rzeczywistym
 - Pełne wsparcie dla trybu wieloosobowego z ustawieniami po stronie serwera
 - Wsparcie dla kombajnów bawełnianych, kombajnów korzeniowych i częściowe wsparcie dla sieczkarni
 - Eksperymentalne wsparcie dla NEXAT
 
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></pl>
-        <es><![CDATA[Añade mecánicas de cosecha realistas a tus cosechadoras.
+GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></pl>
+<es><![CDATA[Añade mecánicas de cosecha realistas a tus cosechadoras.
 
 Características:
 - Cálculo dinámico de carga del motor basado en densidad de cultivos y ancho de cabezal
 - Limitación automática de velocidad para evitar sobrecarga
-- Indicador de pérdida de cosecha (solo visual - simulación completa próximamente)
+- Indicador de pérdida de cosecha (solo visual
+- simulación completa próximamente)
 - HUD personalizable con métricas en tiempo real
 - Soporte multijugador completo con configuración del servidor
 - Soporte para cosechadoras de algodón, cosechadoras de raíces y soporte parcial para picadoras
 - Soporte experimental para NEXAT
 
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></es>
-        <it><![CDATA[Aggiunge meccaniche di raccolta realistiche alle tue mietitrebbie.
+GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></es>
+<it><![CDATA[Aggiunge meccaniche di raccolta realistiche alle tue mietitrebbie.
 
 Caratteristiche:
 - Calcolo dinamico del carico motore basato su densità colture e larghezza testata
 - Limitazione automatica velocità per prevenire sovraccarico
-- Indicatore perdita raccolto (solo visivo - simulazione completa in arrivo)
+- Indicatore perdita raccolto (solo visivo
+- simulazione completa in arrivo)
 - HUD personalizzabile con metriche in tempo reale
 - Supporto multiplayer completo con impostazioni lato server
 - Supporto per raccoglitrici cotone, raccoglitrici radici e supporto parziale per trincia
 - Supporto sperimentale NEXAT
 
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></it>
-        <cz><![CDATA[Přidává realistickou mechaniku sklizně k vašim kombajnům.
+GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></it>
+<cz><![CDATA[Přidává realistickou mechaniku sklizně k vašim kombajnům.
 
 Funkce:
 - Dynamický výpočet zatížení motoru na základě hustoty plodin a šířky žacího ústrojí
 - Automatické omezení rychlosti pro zabránění přetížení
-- Indikátor ztráty úrody (pouze vizuální - plná simulace brzy)
+- Indikátor ztráty úrody (pouze vizuální
+- plná simulace brzy)
 - Přizpůsobitelný HUD s metrikami v reálném čase
 - Plná podpora multiplayeru s nastavením na straně serveru
 - Podpora pro sklízecí stroje na bavlnu, sklízecí stroje na kořenovou zeleninu a částečná podpora pro sklízecí řezačky
 - Experimentální podpora NEXAT
 
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></cz>
-        <br><![CDATA[Adiciona mecânicas de colheita realistas às suas colheitadeiras.
+GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></cz>
+<br><![CDATA[Adiciona mecânicas de colheita realistas às suas colheitadeiras.
 
 Recursos:
 - Cálculo dinâmico de carga do motor baseado em densidade de culturas e largura da plataforma
 - Limitação automática de velocidade para evitar sobrecarga
-- Indicador de perda de colheita (apenas visual - simulação completa em breve)
+- Indicador de perda de colheita (apenas visual
+- simulação completa em breve)
 - HUD personalizável com métricas em tempo real
 - Suporte completo para multijogador com configurações do servidor
 - Suporte para colheitadeiras de algodão, colheitadeiras de raízes e suporte parcial para forrageiras
 - Suporte experimental para NEXAT
 
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting
-    ]]></br>
-        <uk><![CDATA[Додає реалістичну механіку збору врожаю до ваших комбайнів.
+GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></br>
+<uk><![CDATA[Додає реалістичну механіку збирання врожаю для ваших комбайнів.
 
-Функції:
-- Динамічний розрахунок навантаження двигуна на основі щільності культур та ширини жатки
+Особливості:
+- Динамічний розрахунок навантаження двигуна залежно від маси та швидкості
 - Автоматичне обмеження швидкості для запобігання перевантаженню
-- Індикатор втрат врожаю (тільки візуально - повна симуляція незабаром)
+- Візуальний та фізичний індикатор втрат врожаю (НИЗЬКІ/СЕРЕДНІ/ВИСОКІ)
+- Монітор врожайності (т/га, бу/акр) з реалістичними коливаннями
 - Налаштовуваний HUD з метриками в реальному часі
-- Повна підтримка мультиплеєра з налаштуваннями на стороні сервера
-- Підтримка бавовняних комбайнів, коренезбиральних комбайнів та часткова підтримка кормозбиральних комбайнів
+- Повна підтримка мультиплеєра та налаштувань сервера
+- Підтримка всіх типів збирання (зернові, кормові, коренеплоди, бавовна)
+- Підтримка жаток-підбирачів (валкування)
 - Експериментальна підтримка NEXAT
-    ]]></uk>
-    <ru><![CDATA[Добавляет реалистичную механику уборки урожая к вашим комбайнам.
+- Система налаштувань та калібрування компонентів
+
+GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></uk>
+<ru><![CDATA[Добавляет реалистичную механику уборки урожая к вашим комбайнам.
 
 Функции:
 - Динамический расчет нагрузки двигателя на основе плотности культур и ширины жатки
 - Автоматическое ограничение скорости для предотвращения перегрузки
-- Индикатор потерь урожая (только визуально - полная симуляция скоро)
+- Индикатор потерь урожая (только визуально
+- полная симуляция скоро)
 - Настраиваемый HUD с метриками в реальном времени
 - Полная поддержка мультиплеера с настройками на стороне сервера
 - Поддержка хлопкоуборочных комбайнов, корнеуборочных комбайнов и частичная поддержка кормоуборочных комбайнов
-- Экспериментальная поддержка NEXAT
-    ]]></ru>
-    <hu><![CDATA[Valósághű betakarítási mechanikákat ad hozzá a kombájnjaidhoz.
+- Экспериментальная поддержка NEXAT]]></ru>
+<hu><![CDATA[Valósághű betakarítási mechanikákat ad hozzá a kombájnjaidhoz.
 
 Funkciók:
 - Dinamikus motor­terhelés-számítás a termény sűrűsége és a vágóasztal szélessége alapján
@@ -156,11 +159,9 @@ Funkciók:
 - Testreszabható HUD valós idejű adatokkal
 - Teljes többjátékos támogatás, szerveroldali beállításokkal
 - Támogatás gyapotbetakarítókhoz, gyökérnövény-betakarítókhoz, valamint részleges támogatás silózó betakarítókhoz
-- Kísérleti NEXAT támogatás
-    ]]></hu>
+- Kísérleti NEXAT támogatás]]></hu>
     </description>
     <iconFilename>icon_FS25_RealisticHarvesting.dds</iconFilename>
-    
     <multiplayer supported="true"/>
 
     <actions>
@@ -242,11 +243,19 @@ Funkciók:
         <text name="rhm_difficulty"><en>Difficulty</en><uk>Складність</uk><de>Schwierigkeit</de><fr>Difficulté</fr><pl>Trudność</pl><es>Dificultad</es><it>Difficoltà</it><cz>Obtížnost</cz><br>Dificuldade</br><ru>Сложность</ru><hu>Nehézség</hu></text>
         <text name="rhm_difficulty_motor"><en>Engine Power Limit</en><uk>Обмеження Потужності</uk><de>Motorleistung</de><fr>Puissance moteur</fr><pl>Moc silnika</pl><es>Potencia del motor</es><it>Potenza del motore</it><cz>Výkon motoru</cz><br>Potência do motor</br><ru>Мощность двигателя</ru><hu>Motorteljesítmény</hu></text>
         <text name="rhm_difficulty_motor_short"><en>Engine Limit</en><uk>Потужність</uk><de>Motor</de><fr>Moteur</fr><pl>Silnik</pl><es>Motor</es><it>Motore</it><cz>Motor</cz><br>Motor</br><ru>Мотор</ru><hu>Motor</hu></text>
-        <text name="rhm_difficulty_motor_long"><en>Determines how much extra power is available. Arcade = +100%, Normal = +20%, Realistic = 0%.</en><uk>Визначає додаткову потужність. Аркада = +100%, Норма = +20%, Реалізм = 0%.</uk><de>Bestimmt die verfügbare Zusatzleistung.</de><fr>Détermine la puissance supplémentaire disponible.</fr><pl>Określa dostępną dodatkową moc.</pl><es>Determina la potencia extra disponible.</es><it>Determina la potenza extra disponibile.</it><cz>Určuje dostupný výkon navíc.</cz><br>Determina a potência extra disponível.</br><ru>Определяет дополнительную мощность.</ru><hu>Meghatározza a többletteljesítményt.</hu></text>
+        <text name="rhm_difficulty_motor_long"><en>
+            <![CDATA[Determines how much extra power is available. Arcade = +100%, Normal = +20%, Realistic = 0%.]]>
+        </en><uk>
+            <![CDATA[Визначає додаткову потужність. Аркада = +100%, Норма = +20%, Реалізм = 0%.]]>
+        </uk><de>Bestimmt die verfügbare Zusatzleistung.</de><fr>Détermine la puissance supplémentaire disponible.</fr><pl>Określa dostępną dodatkową moc.</pl><es>Determina la potencia extra disponible.</es><it>Determina la potenza extra disponibile.</it><cz>Určuje dostupný výkon navíc.</cz><br>Determina a potência extra disponível.</br><ru>Определяет дополнительную мощность.</ru><hu>Meghatározza a többletteljesítményt.</hu></text>
         
         <text name="rhm_difficulty_loss"><en>Crop Loss Penalty</en><uk>Штраф за Втрати</uk><de>Ernteverlust</de><fr>Perte de récolte</fr><pl>Strata plonów</pl><es>Pérdida de cultivo</es><it>Perdita raccolto</it><cz>Ztráta úrody</cz><br>Perda de colheita</br><ru>Потеря урожая</ru><hu>Termésveszteség</hu></text>
         <text name="rhm_difficulty_loss_short"><en>Loss Penalty</en><uk>Втрати</uk><de>Verlust</de><fr>Perte</fr><pl>Strata</pl><es>Pérdida</es><it>Perdita</it><cz>Ztráta</cz><br>Perda</br><ru>Потеря</ru><hu>Veszteség</hu></text>
-        <text name="rhm_difficulty_loss_long"><en>Determines crop loss severity when overloaded. Realistic = High penalty.</en><uk>Визначає суворість втрат при перевантаженні. Реалізм = Високий штраф.</uk><de>Bestimmt die Schwere des Ernteverlusts.</de><fr>Détermine la sévérité de la perte.</fr><pl>Określa dotkliwość strat.</pl><es>Determina la severidad de la pérdida.</es><it>Determina la gravità della perdita.</it><cz>Určuje závažnost ztráty.</cz><br>Determina a gravidade da perda.</br><ru>Определяет строгость потерь.</ru><hu>Meghatározza a veszteség súlyosságát.</hu></text>
+        <text name="rhm_difficulty_loss_long"><en>
+            <![CDATA[Determines crop loss severity when overloaded. Realistic = High penalty.]]>
+        </en><uk>
+            <![CDATA[Визначає суворість втрат при перевантаженні. Реалізм = Високий штраф.]]>
+        </uk><de>Bestimmt die Schwere des Ernteverlusts.</de><fr>Détermine la sévérité de la perte.</fr><pl>Określa dotkliwość strat.</pl><es>Determina la severidad de la pérdida.</es><it>Determina la gravità della perdita.</it><cz>Určuje závažnost ztráty.</cz><br>Determina a gravidade da perda.</br><ru>Определяет строгость потерь.</ru><hu>Meghatározza a veszteség súlyosságát.</hu></text>
         
         <text name="rhm_diff_1">
             <en>Arcade</en>
@@ -263,17 +272,39 @@ Funkciók:
         </text>
         
         <text name="rhm_difficulty_long">
-            <en>Arcade: High limits (+100%). Normal: Moderate (+20%). Realistic: Strict (0%)</en>
-            <de>Arkade: Hohe Limits (+100%). Normal: Moderat (+20%). Realistisch: Strikt (0%)</de>
-            <fr>Arcade: Limites élevées (+100%). Normal: Modéré (+20%). Réaliste: Strict (0%)</fr>
-            <pl>Arkada: Wysokie limity (+100%). Normalna: Umiarkowane (+20%). Realistyczna: Ścisłe (0%)</pl>
-            <es>Arcade: Límites altos (+100%). Normal: Moderado (+20%). Realista: Estricto (0%)</es>
-            <it>Arcade: Limiti alti (+100%). Normale: Moderato (+20%). Realistica: Rigorosi (0%)</it>
-            <cz>Arkáda: Vysoké limity (+100%). Normální: Mírné (+20%). Realistická: Přísné (0%)</cz>
-            <br>Arcade: Limites altos (+100%). Normal: Moderado (+20%). Realista: Rigorosos (0%)</br>
-            <uk>Аркада: Високі ліміти (+100%). Нормальна: Помірні (+20%). Реалістична: Жорсткі (0%)</uk>
-            <ru>Аркада: Высокие лимиты (+100%). Обычная: Умеренные (+20%). Реалистичная: Строгие (0%)</ru>
-            <hu>Könnyű: Magas korlátok (+100%). Normál: Mérsékelt (+20%). Realisztikus: Szigorú (0%)</hu>
+            <en>
+            <![CDATA[Arcade: High limits (+100%). Normal: Moderate (+20%). Realistic: Strict (0%)]]>
+        </en>
+            <de>
+            <![CDATA[Arkade: Hohe Limits (+100%). Normal: Moderat (+20%). Realistisch: Strikt (0%)]]>
+        </de>
+            <fr>
+            <![CDATA[Arcade: Limites élevées (+100%). Normal: Modéré (+20%). Réaliste: Strict (0%)]]>
+        </fr>
+            <pl>
+            <![CDATA[Arkada: Wysokie limity (+100%). Normalna: Umiarkowane (+20%). Realistyczna: Ścisłe (0%)]]>
+        </pl>
+            <es>
+            <![CDATA[Arcade: Límites altos (+100%). Normal: Moderado (+20%). Realista: Estricto (0%)]]>
+        </es>
+            <it>
+            <![CDATA[Arcade: Limiti alti (+100%). Normale: Moderato (+20%). Realistica: Rigorosi (0%)]]>
+        </it>
+            <cz>
+            <![CDATA[Arkáda: Vysoké limity (+100%). Normální: Mírné (+20%). Realistická: Přísné (0%)]]>
+        </cz>
+            <br>
+            <![CDATA[Arcade: Limites altos (+100%). Normal: Moderado (+20%). Realista: Rigorosos (0%)]]>
+        </br>
+            <uk>
+            <![CDATA[Аркада: Високі ліміти (+100%). Нормальна: Помірні (+20%). Реалістична: Жорсткі (0%)]]>
+        </uk>
+            <ru>
+            <![CDATA[Аркада: Высокие лимиты (+100%). Обычная: Умеренные (+20%). Реалистичная: Строгие (0%)]]>
+        </ru>
+            <hu>
+            <![CDATA[Könnyű: Magas korlátok (+100%). Normál: Mérsékelt (+20%). Realisztikus: Szigorú (0%)]]>
+        </hu>
         </text>
         
 
@@ -337,14 +368,20 @@ Funkciók:
         <text name="rhm_show_yield_long">
             <en>Display real-time yield in HUD (t/ha or bu/ac)</en>
             <de>Echtzeit-Ertrag im HUD anzeigen (t/ha oder bu/ac)</de>
-            <fr>Afficher le rendement en temps réel dans le HUD (t/ha ou bu/ac)</fr>
+            <fr>
+            <![CDATA[Afficher le rendement en temps réel dans le HUD (t/ha ou bu/ac)]]>
+        </fr>
             <pl>Wyświetlaj plon w czasie rzeczywistym w HUD (t/ha lub bu/ac)</pl>
             <es>Mostrar rendimiento en tiempo real en HUD (t/ha o bu/ac)</es>
             <it>Mostra resa in tempo reale nell'HUD (t/ha o bu/ac)</it>
             <cz>Zobrazit výnos v reálném čase v HUD (t/ha nebo bu/ac)</cz>
             <br>Exibir rendimento em tempo real no HUD (t/ha ou bu/ac)</br>
-            <uk>Відображати врожайність у реальному часі в HUD (т/га або бу/акр)</uk>
-            <ru>Отображать урожайность в реальном времени в HUD (т/га або бу/акр)</ru>
+            <uk>
+            <![CDATA[Відображати врожайність у реальному часі в HUD (т/га або бу/акр)]]>
+        </uk>
+            <ru>
+            <![CDATA[Отображать урожайность в реальном времени в HUD (т/га або бу/акр)]]>
+        </ru>
             <hu>Valós idejű hozam megjelenítése a HUD-on (t/ha vagy bu/ac)</hu>
         </text>
         
@@ -405,17 +442,39 @@ Funkciók:
         </text>
         
         <text name="rhm_speedlimit_long">
-            <en>Automatically limit combine speed based on engine load</en>
-            <de>Mähdrescher-Geschwindigkeit automatisch basierend auf Motorlast begrenzen</de>
-            <fr>Limiter automatiquement la vitesse de la moissonneuse en fonction de la charge du moteur</fr>
-            <pl>Automatycznie ogranicz prędkość kombajnu w zależności od obciążenia silnika</pl>
-            <es>Limitar automáticamente la velocidad de la cosechadora según la carga del motor</es>
-            <it>Limita automaticamente la velocità della mietitrice in base al carico del motore</it>
-            <cz>Automaticky omezit rychlost kombajnu podle zatížení motoru</cz>
-            <br>Limitar automaticamente a velocidade da colheitadeira com base na carga do motor</br>
-            <uk>Автоматично обмежувати швидкість комбайна залежно від навантаження</uk>
-            <ru>Автоматически ограничивать скорость комбайна в зависимости от нагрузки</ru>
-            <hu>A kombájn sebességének automatikus korlátozása a motor terhelése alapján</hu>
+            <en>
+            <![CDATA[Automatically limit combine speed based on engine load]]>
+            </en>
+            <de>
+            <![CDATA[Mähdrescher-Geschwindigkeit automatisch basierend auf Motorlast begrenzen]]>
+        </de>
+            <fr>
+            <![CDATA[Limiter automatiquement la vitesse de la moissonneuse en fonction de la charge du moteur]]>
+        </fr>
+            <pl>
+            <![CDATA[Automatycznie ogranicz prędkość kombajnu w zależności od obciążenia silnika]]>
+        </pl>
+            <es>
+            <![CDATA[Limitar automáticamente la velocidad de la cosechadora según la carga del motor]]>
+        </es>
+            <it>
+            <![CDATA[Limita automaticamente la velocità della mietitrice in base al carico del motore]]>
+        </it>
+            <cz>
+            <![CDATA[Automaticky omezit rychlost kombajnu podle zatížení motoru]]>
+        </cz>
+            <br>
+            <![CDATA[Limitar automaticamente a velocidade da colheitadeira com base na carga do motor]]>
+        </br>
+            <uk>
+            <![CDATA[Автоматично обмежувати швидкість комбайна залежно від навантаження]]>
+        </uk>
+            <ru>
+            <![CDATA[Автоматически ограничивать скорость комбайна в зависимости от нагрузки]]>
+        </ru>
+            <hu>
+            <![CDATA[A kombájn sebességének automatikus korlátozása a motor terhelése alapján]]>
+        </hu>
         </text>
         
         <text name="rhm_croploss_short">
@@ -530,17 +589,6 @@ Funkciók:
             <hu>Átbocsátás (t/h) megjelenítése a HUD-on</hu>
         </text>
         
-        <text name="rhm_moisture_enable">
-            <en>Moisture Influence</en>
-            <de>Feuchtigkeitseinfluss</de>
-            <uk>Вплив вологості</uk>
-        </text>
-        <text name="rhm_show_moisture">
-            <en>Show Grain Moisture</en>
-            <de>Kornfeuchtigkeit anzeigen</de>
-            <uk>Показувати вологість зерна</uk>
-        </text>
-        
         <text name="rhm_show_croploss_short">
             <en>Show Crop Loss</en>
             <de>Verlust anzeigen</de>
@@ -563,11 +611,11 @@ Funkciók:
         <text name="rhm_ui_load"><en>Engine Load</en><de>Motorlast</de><fr>Charge Moteur</fr><pl>Obciążenie Silnika</pl><es>Carga Motor</es><it>Carico Motore</it><cz>Zatížení Motoru</cz><br>Carga do Motor</br><uk>Навантаження</uk><ru>Нагрузка</ru><hu>Motor Terhelés</hu></text>
         <text name="rhm_ui_loss"><en>Loss</en><de>Verlust</de><fr>Perte</fr><pl>Strata</pl><es>Pérdida</es><it>Perdita</it><cz>Ztráta</cz><br>Perda</br><uk>Втрати</uk><ru>Потери</ru><hu>Veszteség</hu></text>
         
-        <text name="rhm_ui_fan_speed"><en>Cleaning Fan</en><de>Gebläse</de><fr>Ventilateur</fr><pl>Wentylator</pl><es>Ventilador</es><it>Ventola</it><cz>Ventilátor</cz><br>Ventoinha</br><uk>Вентилятор очистки</uk><ru>Вентилятор очистки</ru><hu>Ventilátor</hu></text>
-        <text name="rhm_ui_rotor_speed"><en>Rotor / Drum</en><de>Rotor/Trommel</de><fr>Rotor/Tambour</fr><pl>Rotor/Bęben</pl><es>Rotor/Tambor</es><it>Rotore/Tamburo</it><cz>Rotor/Buben</cz><br>Rotor/Tambor</br><uk>Ротор / Барабан</uk><ru>Ротор / Барабан</ru><hu>Rotor/Dob</hu></text>
-        <text name="rhm_ui_upper_sieve"><en>Top Sieve</en><de>Obersieb</de><fr>Grille sup.</fr><pl>Sito górne</pl><es>Criba sup.</es><it>Crivello sup.</it><cz>Horní síto</cz><br>Peneira sup.</br><uk>Верхнє решето</uk><ru>Верхнее решето</ru><hu>Felső rosta</hu></text>
-        <text name="rhm_ui_lower_sieve"><en>Bottom Sieve</en><de>Untersieb</de><fr>Grille inf.</fr><pl>Sito dolne</pl><es>Criba inf.</es><it>Crivello inf.</it><cz>Spodní síto</cz><br>Peneira inf.</br><uk>Нижнє решето</uk><ru>Нижнее решето</ru><hu>Alsó rosta</hu></text>
-        <text name="rhm_ui_feeder_speed"><en>Feeder House</en><de>Schrägförderer</de><fr>Convoyeur</fr><pl>Przenośник</pl><es>Alimentador</es><it>Canale Elevatore</it><cz>Šikmý dopravník</cz><br>Alimentador</br><uk>Похила камера</uk><ru>Наклонная камера</ru><hu>Ferde felhordó</hu></text>
+        <text name="rhm_ui_fan_speed"><en>Fan Speed</en><de>Gebläsedrehzahl</de><fr>Vitesse Ventilateur</fr><pl>Obroty Wentylatora</pl><es>Velocidad Ventilador</es><it>Velocità Ventola</it><cz>Otáčky Ventilátoru</cz><br>Velocidade Ventoinha</br><uk>Оберти Вентилятора</uk><ru>Обороты Вентилятора</ru><hu>Ventilátor Fordulat</hu></text>
+        <text name="rhm_ui_rotor_speed"><en>Rotor Speed</en><de>Rotordrehzahl</de><fr>Vitesse Rotor</fr><pl>Obroty Rotora</pl><es>Velocidad Rotor</es><it>Velocità Rotore</it><cz>Otáčky Rotoru</cz><br>Velocidade Rotor</br><uk>Оберти Ротора</uk><ru>Обороты Ротора</ru><hu>Rotor Fordulat</hu></text>
+        <text name="rhm_ui_upper_sieve"><en>Upper Sieve</en><de>Obersieb</de><fr>Grille Supérieure</fr><pl>Sito Górne</pl><es>Criba Superior</es><it>Crivello Superiore</it><cz>Horní Síto</cz><br>Peneira Superior</br><uk>Верхнє Решето</uk><ru>Верхнее Решето</ru><hu>Felső Rosta</hu></text>
+        <text name="rhm_ui_lower_sieve"><en>Lower Sieve</en><de>Untersieb</de><fr>Grille Inférieure</fr><pl>Sito Dolne</pl><es>Criba Inferior</es><it>Crivello Inferiore</it><cz>Spodní Síto</cz><br>Peneira Inferior</br><uk>Нижнє Решето</uk><ru>Нижнее Решето</ru><hu>Alsó Rosta</hu></text>
+        <text name="rhm_ui_feeder_speed"><en>Feeder House</en><de>Schrägförderer</de><fr>Convoyeur</fr><pl>Przenośnik Pochyły</pl><es>Alimentador</es><it>Canale Elevatore</it><cz>Šikmý Dopravník</cz><br>Alimentador</br><uk>Похила Камера</uk><ru>Наклонная Камера</ru><hu>Ferde Felhordó</hu></text>
         
         <text name="rhm_ui_mode_auto"><en>AUTO</en><de>AUTO</de><fr>AUTO</fr><pl>AUTO</pl><es>AUTO</es><it>AUTO</it><cz>AUTO</cz><br>AUTO</br><uk>АВТО</uk><ru>АВТО</ru><hu>AUTO</hu></text>
         <text name="rhm_ui_mode_manual"><en>MANUAL</en><de>MANUELL</de><fr>MANUEL</fr><pl>RĘCZNY</pl><es>MANUAL</es><it>MANUALE</it><cz>MANUÁLNÍ</cz><br>MANUAL</br><uk>РУЧНИЙ</uk><ru>РУЧНОЙ</ru><hu>KÉZI</hu></text>
@@ -616,16 +664,36 @@ Funkciók:
         </text>
 
         <text name="rhm_show_load_warn_long">
-            <en>Display blinking warnings when combine is overloaded (High/Critical)</en>
-            <de>Blinkende Warnungen bei Überlastung anzeigen (Hoch/Kritisch)</de>
-            <fr>Afficher des avertissements clignotants en cas de surcharge (Élevée/Critique)</fr>
-            <pl>Wyświetlaj migające ostrzeżenia o przeciążeniu (Wysokim/Krytycznym)</pl>
-            <es>Mostrar avisos intermitentes en caso de sobrecarga (Alta/Crítica)</es>
-            <it>Mostra avvisi lampeggianti in caso de sovraccarico (Alto/Critico)</it>
-            <cz>Zobrazit blikající varování při přetížení (Vysoké/Kritické)</cz>
-            <uk>Відображати блимаючі попередження при перевантаженні (Високе/Критичне)</uk>
-            <ru>Отображать мигающие предупреждения при перегрузке (Высокая/Критическая)</ru>
-            <hu>Villogó figyelmeztetések megjelenítése túlterhelés esetén (Magas/Kritikus)</hu>
+            <en>
+            <![CDATA[Display blinking warnings when combine is overloaded (High/Critical)]]>
+        </en>
+            <de>
+            <![CDATA[Blinkende Warnungen bei Überlastung anzeigen (Hoch/Kritisch)]]>
+        </de>
+            <fr>
+            <![CDATA[Afficher des avertissements clignotants en cas de surcharge (Élevée/Critique)]]>
+        </fr>
+            <pl>
+            <![CDATA[Wyświetlaj migające ostrzeżenia o przeciążeniu (Wysokim/Krytycznym)]]>
+        </pl>
+            <es>
+            <![CDATA[Mostrar avisos intermitentes en caso de sobrecarga (Alta/Crítica)]]>
+        </es>
+            <it>
+            <![CDATA[Mostra avvisi lampeggianti in caso de sovraccarico (Alto/Critico)]]>
+        </it>
+            <cz>
+            <![CDATA[Zobrazit blikající varování při přetížení (Vysoké/Kritické)]]>
+        </cz>
+            <uk>
+            <![CDATA[Відображати блимаючі попередження при перевантаженні (Високе/Критичне)]]>
+        </uk>
+            <ru>
+            <![CDATA[Отображать мигающие предупреждения при перегрузке (Высокая/Критическая)]]>
+        </ru>
+            <hu>
+            <![CDATA[Villogó figyelmeztetések megjelenítése túlterhelés esetén (Magas/Kritikus)]]>
+        </hu>
         </text>
         
         <!-- ============================= -->
@@ -637,7 +705,7 @@ Funkciók:
             <cz>Cílové zatížení</cz><br>Carga Alvo</br><uk>Цільове Навантаження</uk><ru>Целевая Нагрузка</ru><hu>Cél Motorterhelés</hu>
         </text>
         <text name="rhm_gui_title"><en>Combine Settings</en><de>Mähdreschereinstellungen</de><fr>Paramètres Moissonneuse</fr><pl>Ustawienia Kombajnu</pl><es>Ajustes Cosechadora</es><it>Impostazioni Mietitrebbia</it><cz>Nastavení Kombajnu</cz><uk>Налаштування Комбайна</uk><ru>Настройки Комбайна</ru><hu>Kombájn Beállítások</hu></text>
-        <text name="rhm_gui_crop"><en>Crop</en><de>Kultur</de><fr>Culture</fr><pl>Kultura</pl><es>Cultivo</es><it>Coltura</it><cz>Plodina</cz><uk>Культура</uk><ru>Культура</ru><hu>Növény</hu></text>
+        <text name="rhm_gui_crop"><en>Crop:</en><de>Kultur:</de><fr>Culture:</fr><pl>Kultura:</pl><es>Cultivo:</es><it>Coltura:</it><cz>Plodina:</cz><uk>Культура:</uk><ru>Культура:</ru><hu>Növény:</hu></text>
         <text name="rhm_gui_none"><en>NONE</en><de>KEINE</de><fr>AUCUN</fr><pl>BRAK</pl><es>NINGUNO</es><it>NESSUNO</it><cz>ŽÁDNÁ</cz><uk>НЕМАЄ</uk><ru>НЕТ</ru><hu>NINCS</hu></text>
         <text name="rhm_gui_btn_auto"><en>AUTO</en><de>AUTO</de><fr>AUTO</fr><pl>AUTO</pl><es>AUTO</es><it>AUTO</it><cz>AUTO</cz><uk>АВТО</uk><ru>АВТО</ru><hu>AUTO</hu></text>
         <text name="rhm_gui_btn_load_preset"><en>Load Preset</en><de>Profil laden</de><fr>Charger profil</fr><pl>Wczytaj profil</pl><es>Cargar perfil</es><it>Carica profilo</it><cz>Načíst profil</cz><uk>Завантажити профіль</uk><ru>Загрузить профиль</ru><hu>Profil betöltése</hu></text>
@@ -649,16 +717,6 @@ Funkciók:
         <text name="rhm_gui_close_hint"><en>RShift+K to Close</en><de>RShift+K zum Schließen</de><fr>RShift+K pour fermer</fr><pl>RShift+K aby zamknąć</pl><es>RShift+K para cerrar</es><it>RShift+K per chiudere</it><cz>RShift+K pro zavření</cz><uk>RShift+K щоб закрити</uk><ru>RShift+K чтобы закрыть</ru><hu>RShift+K a bezáráshoz</hu></text>
         <text name="rhm_gui_no_combine"><en>No Combine Selected</en><de>Kein Mähdrescher gewählt</de><fr>Aucune moissonneuse</fr><pl>Brak kombajnu</pl><es>Sin cosechadora</es><it>Nessuna mietitrebbia</it><cz>Žádný kombajn</cz><uk>Комбайн не обрано</uk><ru>Комбайн не выбран</ru><hu>Nincs kombájn kiválasztva</hu></text>
         <text name="rhm_gui_not_init"><en>Combine Not Initialized</en><de>Kombajn nicht initialisiert</de><fr>Moissonneuse non initialisée</fr><pl>Kombajn nie zainicjowany</pl><es>Cosechadora no inicializada</es><it>Mietitrebbia non inizializzata</it><cz>Kombajn neinicializován</cz><uk>Комбайн не ініціалізовано</uk><ru>Комбайн не инициализирован</ru><hu>Kombájn nincs inicializálva</hu></text>
-
-        <text name="rhm_ui_section_separation">
-            <en>Separation</en><uk>Сепарація</uk><de>Abscheidung</de><fr>Séparation</fr><pl>Separacja</pl>
-        </text>
-        <text name="rhm_ui_section_cleaning">
-            <en>Cleaning</en><uk>Очистка</uk><de>Reinigung</de><fr>Nettoyage</fr><pl>Czyszczenie</pl>
-        </text>
-        <text name="rhm_ui_section_performance">
-            <en>Performance</en><uk>Ефективність</uk><de>Leistung</de><fr>Performance</fr><pl>Efektywność</pl>
-        </text>
 
         <!-- ============================= -->
         <!-- MACHINE-TYPE PARAMETER LABELS -->
@@ -707,191 +765,6 @@ Funkciók:
             <en>Elevator Web</en><de>Siebband</de><fr>Tapis cribleur</fr>
             <pl>Taśma odsiewająca</pl><es>Cinta de criba</es><it>Nastro elevatore</it>
             <cz>Prosévací pás</cz><uk>Транспортер</uk><ru>Транспортер</ru><hu>Felhordószalag</hu>
-        </text>
-        <!-- ============================= -->
-        <!-- NEW PARAM LABELS (v1.5)       -->
-        <!-- ============================= -->
-        <!-- GRAIN: Concave Clearance -->
-        <text name="rhm_ui_concave">
-            <en>Concave Clearance</en>
-            <de>Dreschkorb-Abstand</de>
-            <fr>Jeu du contre-batteur</fr>
-            <pl>Prześwit klejonicy</pl>
-            <es>Separación del cóncavo</es>
-            <it>Distanza concavo</it>
-            <cz>Vůle mlátičky</cz>
-            <br>Folga do côncavo</br>
-            <uk>Зазор підбарабання</uk>
-            <ru>Зазор подбарабанья</ru>
-            <hu>Kosárrés</hu>
-        </text>
-
-        <!-- FORAGE: Chop Length -->
-        <text name="rhm_ui_chop_length">
-            <en>Chop Length</en>
-            <de>Häcksellänge</de>
-            <fr>Longueur de coupe</fr>
-            <pl>Długość sieczki</pl>
-            <es>Longitud de corte</es>
-            <it>Lunghezza del taglio</it>
-            <cz>Délka řezu</cz>
-            <br>Comprimento do corte</br>
-            <uk>Довжина різки</uk>
-            <ru>Длина резки</ru>
-            <hu>Vágáshossz</hu>
-        </text>
-
-        <!-- FORAGE: Kernel Processor Gap -->
-        <text name="rhm_ui_kernel_processor">
-            <en>Kernel Processor</en>
-            <de>Körnerprozessor</de>
-            <fr>Processeur de grains</fr>
-            <pl>Procesor ziarna</pl>
-            <es>Procesador de grano</es>
-            <it>Processore grani</it>
-            <cz>Zpracovač zrna</cz>
-            <br>Processador de grãos</br>
-            <uk>Процесор зерна</uk>
-            <ru>Процессор зерна</ru>
-            <hu>Szemfeldolgozó</hu>
-        </text>
-
-        <!-- FORAGE: Discharge Blower Gap -->
-        <text name="rhm_ui_blower_gap">
-            <en>Blower Gap</en>
-            <de>Gebläse-Spalt</de>
-            <fr>Jeu du souffleur</fr>
-            <pl>Szczelina dmuchawy</pl>
-            <es>Huelgo del soplador</es>
-            <it>Gioco del ventilatore</it>
-            <cz>Mezera dmychadla</cz>
-            <br>Folga do soprador</br>
-            <uk>Зазор вентилятора викиду</uk>
-            <ru>Зазор вентилятора выброса</ru>
-            <hu>Fúvórés</hu>
-        </text>
-
-        <!-- ROOT: Shaking Intensity -->
-        <text name="rhm_ui_shaking_intensity">
-            <en>Shaking Intensity</en>
-            <de>Schüttelintensität</de>
-            <fr>Intensité de vibration</fr>
-            <pl>Intensywność wibracji</pl>
-            <es>Intensidad de vibración</es>
-            <it>Intensità di vibrazione</it>
-            <cz>Intenzita třepání</cz>
-            <br>Intensidade de vibração</br>
-            <uk>Інтенсивність струшування</uk>
-            <ru>Интенсивность встряхивания</ru>
-            <hu>Rázásintenzitás</hu>
-        </text>
-
-        <!-- SECTION: Discharge (for Forage Harvesters) -->
-        <text name="rhm_ui_section_discharge">
-            <en>Discharge</en>
-            <de>Auswurf</de>
-            <fr>Déchargement</fr>
-            <pl>Wyrzut</pl>
-            <es>Descarga</es>
-            <it>Scarico</it>
-            <cz>Výhoz</cz>
-            <br>Descarga</br>
-            <uk>Викид</uk>
-            <ru>Выброс</ru>
-            <hu>Kiadás</hu>
-        </text>
-
-        <!-- ============================= -->
-        <!-- NEW PARAM LABELS (v1.5)       -->
-        <!-- ============================= -->
-        <!-- GRAIN: Concave Clearance -->
-        <text name="rhm_ui_concave">
-            <en>Concave Clearance</en>
-            <de>Dreschkorb-Abstand</de>
-            <fr>Jeu du contre-batteur</fr>
-            <pl>Prześwit klejonicy</pl>
-            <es>Separación del cóncavo</es>
-            <it>Distanza concavo</it>
-            <cz>Vůle mlátičky</cz>
-            <br>Folga do côncavo</br>
-            <uk>Зазор підбарабання</uk>
-            <ru>Зазор подбарабанья</ru>
-            <hu>Kosárrés</hu>
-        </text>
-
-        <!-- FORAGE: Chop Length -->
-        <text name="rhm_ui_chop_length">
-            <en>Chop Length</en>
-            <de>Häcksellänge</de>
-            <fr>Longueur de coupe</fr>
-            <pl>Długość sieczki</pl>
-            <es>Longitud de corte</es>
-            <it>Lunghezza del taglio</it>
-            <cz>Délka řezu</cz>
-            <br>Comprimento do corte</br>
-            <uk>Довжина різки</uk>
-            <ru>Длина резки</ru>
-            <hu>Vágáshossz</hu>
-        </text>
-
-        <!-- FORAGE: Kernel Processor Gap -->
-        <text name="rhm_ui_kernel_processor">
-            <en>Kernel Processor</en>
-            <de>Körnerprozessor</de>
-            <fr>Processeur de grains</fr>
-            <pl>Procesor ziarna</pl>
-            <es>Procesador de grano</es>
-            <it>Processore grani</it>
-            <cz>Zpracovač zrna</cz>
-            <br>Processador de grãos</br>
-            <uk>Процесор зерна</uk>
-            <ru>Процессор зерна</ru>
-            <hu>Szemfeldolgozó</hu>
-        </text>
-
-        <!-- FORAGE: Discharge Blower Gap -->
-        <text name="rhm_ui_blower_gap">
-            <en>Blower Gap</en>
-            <de>Gebläse-Spalt</de>
-            <fr>Jeu du souffleur</fr>
-            <pl>Szczelina dmuchawy</pl>
-            <es>Huelgo del soplador</es>
-            <it>Gioco del ventilatore</it>
-            <cz>Mezera dmychadla</cz>
-            <br>Folga do soprador</br>
-            <uk>Зазор вентилятора викиду</uk>
-            <ru>Зазор вентилятора выброса</ru>
-            <hu>Fúvórés</hu>
-        </text>
-
-        <!-- ROOT: Shaking Intensity -->
-        <text name="rhm_ui_shaking_intensity">
-            <en>Shaking Intensity</en>
-            <de>Schüttelintensität</de>
-            <fr>Intensité de vibration</fr>
-            <pl>Intensywność wibracji</pl>
-            <es>Intensidad de vibración</es>
-            <it>Intensità di vibrazione</it>
-            <cz>Intenzita třepání</cz>
-            <br>Intensidade de vibração</br>
-            <uk>Інтенсивність струшування</uk>
-            <ru>Интенсивность встряхивания</ru>
-            <hu>Rázásintenzitás</hu>
-        </text>
-
-        <!-- SECTION: Discharge (for Forage Harvesters) -->
-        <text name="rhm_ui_section_discharge">
-            <en>Discharge</en>
-            <de>Auswurf</de>
-            <fr>Déchargement</fr>
-            <pl>Wyrzut</pl>
-            <es>Descarga</es>
-            <it>Scarico</it>
-            <cz>Výhoz</cz>
-            <br>Descarga</br>
-            <uk>Викид</uk>
-            <ru>Выброс</ru>
-            <hu>Kiadás</hu>
         </text>
 
         <text name="rhm_units_short">
@@ -1071,5 +944,3048 @@ Funkciók:
             <ru>КОМБАЙН КРИТИЧЕСКИ ПЕРЕГРУЖЕН! Серьёзные потери урожая!</ru>
             <hu>A KOMBÁJN KRITIKUSAN TÚLTERHELT! Súlyos termésveszteség!</hu>
         </text>
-    </l10n>
+
+        <text name="rhm_configuration_title">
+            <en>RHM Electronics</en>
+            <de>RHM Elektronik</de>
+            <fr>RHM Électronique</fr>
+            <pl>RHM Elektronika</pl>
+            <es>Electrónica RHM</es>
+            <it>Elettronica RHM</it>
+            <cz>RHM Elektronika</cz>
+            <br>Eletrônica RHM</br>
+            <uk>Інтелектуальні Системи RHM</uk>
+            <ru>Электроника RHM</ru>
+            <hu>RHM Elektronika</hu>
+        </text>
+
+        <text name="rhm_package_standard">
+            <en>Standard</en>
+            <de>Standard</de>
+            <fr>Standard</fr>
+            <pl>Standard</pl>
+            <es>Estándar</es>
+            <it>Standard</it>
+            <cz>Standard</cz>
+            <br>Standard</br>
+            <uk>Базовий</uk>
+            <ru>Базовый</ru>
+            <hu>Standard</hu>
+        </text>
+
+        <text name="rhm_package_sensor">
+            <en>Sensor Kit</en>
+            <de>Sensor Kit</de>
+            <fr>Kit Capteurs</fr>
+            <pl>Zestaw Czujników</pl>
+            <es>Kit de Sensores</es>
+            <it>Kit Sensori</it>
+            <cz>Sada Senzorů</cz>
+            <br>Kit de Sensores</br>
+            <uk>Набір Датчиків</uk>
+            <ru>Набор Датчиков</ru>
+            <hu>Sensor Kit</hu>
+        </text>
+
+        <text name="rhm_package_yield">
+            <en>Yield &amp; Loss Monitor</en>
+            <de>Ertrags- &amp; Verlustmonitor</de>
+            <fr>Moniteur Rendement &amp; Pertes</fr>
+            <pl>Monitor Plonu i Strat</pl>
+            <es>Monitor de Rendto. y Pérdidas</es>
+            <it>Monitor Resa e Perdite</it>
+            <cz>Monitor Výnosu a Ztrát</cz>
+            <br>Monitor de Rendto. e Perdas</br>
+            <uk>Монітор Врожаю та Втрат</uk>
+            <ru>Монитор Урожая и Потерь</ru>
+            <hu>Hozam és Veszteség Monitor</hu>
+        </text>
+
+        <text name="rhm_package_opti">
+            <en>Opti-Harvest AI</en>
+            <de>Opti-Harvest AI</de>
+            <fr>Opti-Harvest AI</fr>
+            <pl>Opti-Harvest AI</pl>
+            <es>Opti-Harvest AI</es>
+            <it>Opti-Harvest AI</it>
+            <cz>Opti-Harvest AI</cz>
+            <br>Opti-Harvest AI</br>
+            <uk>Система Опті-Гарвест AI</uk>
+            <ru>Система Опти-Гарвест AI</ru>
+            <hu>Opti-Harvest AI</hu>
+        </text>
+
+        <text name="rhm_msg_req_level_4">
+            <en>Requires Opti-Harvest AI package (Level 4).</en>
+            <de>Benötigt Opti-Harvest AI Paket (Level 4).</de>
+            <fr>Nécessite le pack Opti-Harvest AI (Niveau 4).</fr>
+            <pl>Wymaga pakietu Opti-Harvest AI (Poziom 4).</pl>
+            <es>Requiere paquete Opti-Harvest AI (Nivel 4).</es>
+            <it>Richiede pacchetto Opti-Harvest AI (Livello 4).</it>
+            <cz>Vyžaduje balíček Opti-Harvest AI (Úroveň 4).</cz>
+            <br>Requer pacote Opti-Harvest AI (Nível 4).</br>
+            <uk>Потребує пакету Опті-Гарвест AI (Рівень 4) в магазині.</uk>
+            <ru>Требуется пакет Опти-Гарвест AI (Уровень 4) в магазине.</ru>
+            <hu>Opti-Harvest AI csomag szükséges (4. szint).</hu>
+        </text>
+        <text name="rhm_help_title">
+            <en>
+            <![CDATA[Realistic Harvesting Guide]]>
+        </en>
+            <de>
+            <![CDATA[Leitfaden für realistisches Ernten]]>
+        </de>
+            <fr>
+            <![CDATA[Guide de Récolte Réaliste]]>
+        </fr>
+            <it>
+            <![CDATA[Guida al Raccolto Realistico]]>
+        </it>
+            <es>
+            <![CDATA[Guía de Cosecha Realista]]>
+        </es>
+            <br>
+            <![CDATA[Guia de Colheita Realista]]>
+        </br>
+            <pl>
+            <![CDATA[Poradnik Realistycznych Zbiorów]]>
+        </pl>
+            <ru>
+            <![CDATA[Руководство по реалистичной уборке]]>
+        </ru>
+            <hu>
+            <![CDATA[Realisztikus Betakarítási Útmutató]]>
+        </hu>
+            <cz>
+            <![CDATA[Průvodce realistickou sklizní]]>
+        </cz>
+            <uk>
+            <![CDATA[Посібник з реалістичного збирання]]>
+        </uk>
+        </text>
+        <text name="rhm_help_overview_title">
+            <en>
+            <![CDATA[1. Processing Physics Overview]]>
+        </en>
+            <de>
+            <![CDATA[1. Übersicht der Erntephysik]]>
+        </de>
+            <fr>
+            <![CDATA[1. Aperçu de la physique du traitement]]>
+        </fr>
+            <it>
+            <![CDATA[1. Panoramica della fisica di lavorazione]]>
+        </it>
+            <es>
+            <![CDATA[1. Vista general de la física de procesamiento]]>
+        </es>
+            <br>
+            <![CDATA[1. Visão geral da física de processamento]]>
+        </br>
+            <pl>
+            <![CDATA[1. Przegląd fizyki przetwarzania]]>
+        </pl>
+            <ru>
+            <![CDATA[1. Обзор физики обработки зерна]]>
+        </ru>
+            <hu>
+            <![CDATA[1. Feldolgozási fizika áttekintése]]>
+        </hu>
+            <cz>
+            <![CDATA[1. Přehled fyziky zpracování]]>
+        </cz>
+            <uk>
+            <![CDATA[1. Фізика обробки: Огляд]]>
+        </uk>
+
+        </text>
+        <text name="rhm_help_category">
+            <en>
+            <![CDATA[Realistic Harvesting]]>
+        </en>
+            <de>
+            <![CDATA[Realistic Harvesting]]>
+        </de>
+            <fr>
+            <![CDATA[Realistic Harvesting]]>
+        </fr>
+            <it>
+            <![CDATA[Realistic Harvesting]]>
+        </it>
+            <es>
+            <![CDATA[Realistic Harvesting]]>
+        </es>
+            <br>
+            <![CDATA[Realistic Harvesting]]>
+        </br>
+            <pl>
+            <![CDATA[Realistic Harvesting]]>
+        </pl>
+            <ru>
+            <![CDATA[Realistic Harvesting]]>
+        </ru>
+            <hu>
+            <![CDATA[Realistic Harvesting]]>
+        </hu>
+            <cz>
+            <![CDATA[Realistic Harvesting]]>
+        </cz>
+            <uk>
+            <![CDATA[Realistic Harvesting]]>
+        </uk>
+        </text>
+        <text name="rhm_help_overview_1">
+            <en>
+            <![CDATA[The Realistic Harvesting mod introduces a complex grain processing physics model.
+Unlike the base game, your combine's performance now depends on the actual volume of crop (mass flow) passing through its internal components.
+Each crop type has its own resistance, weight, and processing complexity.]]>
+        </en>
+            <de>
+            <![CDATA[Die Realistic Harvesting Mod führt ein komplexes physikalisches Modell für die Getreideverarbeitung ein.
+Die Leistung Ihres Mähdreschers hängt nun vom tatsächlichen Erntevolumen (Massestrom) ab.
+Jede Fruchtart hat ihren eigenen Widerstand und ihr eigenes Gewicht.]]>
+        </de>
+            <fr>
+            <![CDATA[Le mod Realistic Harvesting introduit un modèle physique complexe.
+Contrairement au jeu de base, les performances dépendent désormais du volume réel de récolte (flux massique).
+Chaque culture a sa propre résistance et son propre poids.]]>
+        </fr>
+            <pl>
+            <![CDATA[Mod Realistic Harvesting wprowadza złożony model fizyki przetwarzania ziarna.
+Wydajność kombajnu zależy teraz od rzeczywistej objętości uprawy (przepływu masy).
+Każdy rodzaj uprawy ma własną wagę i złożoność.]]>
+        </pl>
+            <es>
+            <![CDATA[El mod Realistic Harvesting introduce un modelo físico complejo.
+El rendimiento de su cosechadora ahora depende del volumen real de cultivo (flujo de masa).
+Cada cultivo tiene su propia resistencia y peso.]]>
+        </es>
+            <it>
+            <![CDATA[Il mod Realistic Harvesting introduce un modello fisico complesso. 
+Le prestazioni della mietitrebbia ora dipendono dal volume effettivo del prodotto (flusso di massa).
+Ogni coltura ha la propria resistenza e peso.]]>
+        </it>
+            <cz>
+            <![CDATA[Mod Realistic Harvesting zavádí komplexní model fyziky zpracování zrna.
+Výkon vašeho kombajnu nyní závisí na skutečném objemu plodiny (hmotnostním toku).
+Každá plodina má svou vlastní hmotnost.]]>
+        </cz>
+            <br>
+            <![CDATA[O mod Realistic Harvesting apresenta um modelo de física complexo. 
+O desempenho da sua colheitadeira depende agora do volume real da cultura (fluxo de massa).
+Cada tipo de cultura tem a sua própria resistência e peso.]]>
+        </br>
+            <ru>
+            <![CDATA[Мод Realistic Harvesting вводит сложную физическую модель обработки зерна.
+На производительность вашего комбайна теперь влияет фактический объем урожая.
+Каждая культура имеет свое сопротивление и вес.]]>
+        </ru>
+            <hu>
+            <![CDATA[A Realistic Harvesting mod összetett fizikai modellt vezet be.
+A kombájn teljesítménye mostantól a tényleges termésmennyiségtől (tömegáram) függ.
+Minden terménytípusnak saját ellenállása és súlya van.]]>
+        </hu>
+            <uk>
+            <![CDATA[Мод Realistic Harvesting впроваджує складну фізичну модель обробки врожаю.
+На відміну від стандартної гри, продуктивність вашого комбайна тепер залежить від фактичного об'єму маси, що проходить крізь його внутрішні вузли. Кожна культура має свій унікальний опір, вагу та складність обробки.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_overview_2">
+            <en>
+            <![CDATA[To achieve maximum efficiency, maintain your engine load between 95% and 100%.
+
+If you drive too fast, the machine will overload, resulting in significant grain loss and potential damage.
+
+If you drive too slow, you are wasting fuel and time.
+
+Adjust your speed according to crop density and header width.]]>
+        </en>
+            <de>
+            <![CDATA[Um maximale Effizienz zu erreichen, halten Sie Ihre Motorlast zwischen 95% und 100%.
+
+Wenn Sie zu schnell fahren, überlastet die Maschine, was zu erheblichen Getreideverlusten führt.
+
+Wenn Sie zu langsam fahren, verschwenden Sie Kraftstoff und Zeit.
+
+Passen Sie die Geschwindigkeit an die Fruchtdichte an.]]>
+        </de>
+            <fr>
+            <![CDATA[Pour une efficacité maximale, maintenez la charge moteur entre 95% et 100%.
+
+Si vous roulez trop vite, la machine surchargera, entraînant des pertes de grain importantes.
+
+Si vous roulez trop lentement, vous perdez du temps.
+
+Ajustez votre vitesse selon la densité de la culture.]]>
+        </fr>
+            <it>
+            <![CDATA[Per la massima efficienza, mantieni il carico motore tra 95% e 100%.
+
+Se guidi troppo veloce, la macchina si sovraccaricherà, causando perdite di granella.
+
+Se guidi troppo piano, sprechi carburante e tempo.
+
+Regola la velocità in base alla densità del prodotto.]]>
+        </it>
+            <es>
+            <![CDATA[Para lograr la máxima eficiencia, mantenga la carga del motor entre 95% y 100%.
+
+Si conduce demasiado rápido, la máquina se sobrecargará, lo que provocará pérdidas de grano.
+
+Si conduce demasiado lento, desperdiciará combustible.
+
+Ajuste su velocidad según la densidad del cultivo.]]>
+        </es>
+            <br>
+            <![CDATA[Para obter a máxima eficiência, mantenha a carga do motor entre 95% e 100%.
+
+Se dirigir muito rápido, a máquina ficará sobrecarregada, resultando em perdas de grãos.
+
+Se dirigir muito devagar, desperdiçará combustível.
+
+Ajuste sua velocidade de acordo com a densidade da cultura.]]>
+        </br>
+            <pl>
+            <![CDATA[Aby osiągnąć maksymalną wydajność, utrzymuj obciążenie silnika w granicach 95-100%.
+
+Zbyt szybka jazda przeciąży maszynę, co spowoduje straty ziarna.
+
+Zbyt wolna jazda to strata paliwa i czasu.
+
+Dostosuj prędkość do gęstości uprawy i szerokości hederu.]]>
+        </pl>
+            <ru>
+            <![CDATA[Для максимальной эффективности держите нагрузку двигателя в пределах 95-100%.
+
+Слишком быстрая езда перегрузит машину, что приведет к потерям зерна.
+
+Слишком медленная езда — это потеря времени.
+
+Регулируйте скорость в зависимости от плотности посева.]]>
+        </ru>
+            <hu>
+            <![CDATA[A maximális hatékonyság érdekében tartsd a motorterhelést 95% és 100% között.
+
+Ha túl gyorsan mész, a gép túlterhelődik, ami komoly szemveszteséget okoz.
+
+Ha túl lassan mész, üzemanyagot és időt pazarolsz.
+
+Állítsd be a sebességet a termény sűrűségének megfelelően.]]>
+        </hu>
+            <cz>
+            <![CDATA[Pro dosažení maximální efektivity udržujte zatížení motoru mezi 95 % a 100 %.
+
+Pokud pojedete příliš rychle, stroj se přetíží, což povede k výrazným ztrátám zrna.
+
+Pokud pojedete příliš pomalu, plýtváte palivem a časem.
+
+Rychlost přizpůsobte hustotě plodiny.]]>
+        </cz>
+            <uk>
+            <![CDATA[Для досягнення максимальної ефективності підтримуйте навантаження двигуна в межах 95-100%.
+
+Якщо ви їдете занадто швидко — машина перевантажиться, що призведе до значних втрат зерна та можливих пошкоджень.
+
+Якщо занадто повільно — ви марно витрачаєте паливо та час.
+
+Коригуйте швидкість відповідно до густоти врожаю та ширини жатки.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_calibration_title">
+            <en>
+            <![CDATA[3. Mastering Calibration]]>
+        </en>
+            <de>
+            <![CDATA[3. Meistern der Kalibrierung]]>
+        </de>
+            <fr>
+            <![CDATA[3. Maîtriser le calibrage]]>
+        </fr>
+            <it>
+            <![CDATA[3. Padroneggiare la calibrazione]]>
+        </it>
+            <es>
+            <![CDATA[3. Dominar la calibración]]>
+        </es>
+            <br>
+            <![CDATA[3. Dominar a calibração]]>
+        </br>
+            <pl>
+            <![CDATA[3. Opanowanie kalibracji]]>
+        </pl>
+            <ru>
+            <![CDATA[3. Мастерство калибровки]]>
+        </ru>
+            <hu>
+            <![CDATA[3. A kalibrálás elsajátítása]]>
+        </hu>
+            <cz>
+            <![CDATA[3. Ovládnutí kalibrace]]>
+        </cz>
+            <uk>
+            <![CDATA[3. Калібрування компонентів]]>
+        </uk>
+        </text>
+        <text name="rhm_help_calibration_1">
+            <en>
+            <![CDATA[Access the Calibration Menu (RShift + K) to fine-tune your machine.
+
+ROTOR separates grain from straw (high speed for small seeds, low for corn).
+
+FAN blows out chaff but must keep the grain.
+
+SIEVES filter impurities
+- finding the "Sweet Spot" between a clean sample and zero tailings is key for profitability.]]>
+        </en>
+            <de>
+            <![CDATA[Öffnen Sie das Kalibrierungsmenü (RShift + K), um die Maschine abzustimmen.
+
+Der ROTOR trennt das Getreide vom Stroh.
+
+Das GEBLÄSE bläst Spreu aus, muss aber das Getreide halten.
+
+SIEBE filtern Verunreinigungen
+- den "Sweet Spot" zwischen sauberem Getreide und null Verlusten zu finden, ist entscheidend.]]>
+        </de>
+            <fr>
+            <![CDATA[Accédez au menu de calibrage (RShift + K) pour affiner la machine. le ROTOR sépare le grain de la paille.
+
+Le VENTILATEUR évacue la balle.
+
+Les GRILLES filtrent les impuretés.
+
+Trouver le point optimal entre un grain propre et une perte nulle est la clé de la rentabilité.]]>
+        </fr>
+            <it>
+            <![CDATA[Accedi al menu di calibrazione (RShift + K) per mettere a punto la macchina.
+
+Il ROTORE separa la granella dalla paglia.
+
+La VENTOLA soffia via la crusca.
+
+I CRIVELLI filtrano le impurità.
+
+Trovare l'equilibrio tra un campione pulito e perdite zero è fondamentale.]]>
+        </it>
+            <es>
+            <![CDATA[Acceda al menú de calibración (RShift + K) para ajustar su máquina. el ROTOR separa el grano de la paja.
+
+El VENTILADOR expulsa el tamo.
+
+Las CRIBAS filtran las impurezas.
+
+Encontrar el punto óptimo entre una muestra limpia y cero pérdidas es clave.]]>
+        </es>
+            <br>
+            <![CDATA[Acesse o Menu de Calibração (RShift + K) para ajustar sua máquina. o ROTOR separa o grão da palha.
+
+A VENTOINHA sopra a palha miúda.
+
+As PENEIRAS filtram impurezas.
+
+Encontrar o ponto ideal entre uma amostra limpa e perda zero é a chave.]]>
+        </br>
+            <pl>
+            <![CDATA[Dostęp do menu kalibracji (RShift + K) pozwala dostroić maszynę.
+
+ROTOR oddziela ziarno od słomy.
+
+WENTYLATOR wydmuchuje plewy.
+
+SITA filtrują zanieczyszczenia
+- znalezienie idealnego balansu między czystym ziarnem a zerowymi stratami jest kluczem do zysku.]]>
+        </pl>
+            <ru>
+            <![CDATA[Меню калибровки (RShift + K) позволяет тонко настроить машину.
+
+РОТОР отделяет зерно от соломы.
+
+ВЕНТИЛЯТОР выдувает полову.
+
+РЕШЕТА фильтруют примеси — поиск баланса между чистым бункером и отсутствием потерь невероятно важен.]]>
+        </ru>
+            <hu>
+            <![CDATA[Nyisd meg a kalibrálási menüt (RShift + K) a gép finomhangolásához.
+
+A ROTOR elválasztja a szemet a szalmától.
+
+A VENTILÁTOR kifújja a pelyvát.
+
+A ROSTÁK kiszűrik a szennyeződéseket
+- a tiszta minta és a nulla veszteség közötti egyensúly megtalálása a kulcs.]]>
+        </hu>
+            <cz>
+            <![CDATA[Vstupte do menu kalibrace (RShift + K) a doladte svůj stroj.
+
+ROTOR odděluje zrno od slámy.
+
+VENTILÁTOR vyfukuje plevy.
+
+SÍTA filtrují nečistoty – nalezení „Sweet Spot“ mezi čistým vzorkem a nulovými ztrátami je klíčem k zisku.]]>
+        </cz>
+            <uk>
+            <![CDATA[Використовуйте меню калібрування (RShift + K) для тонкого налаштування машини.
+
+РОТОР відокремлює зерно від соломи (високі оберти для дрібного насіння, низькі для кукурудзи).
+
+ВЕНТИЛЯТОР видуває полову, але має утримувати зерно всередині.
+
+РЕШЕТА фільтрують нечистоти. Пошук «золотої середини» між чистотою в бункері та нульовими втратами є ключем до прибутковості.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_calibration_2">
+            <en>
+            <![CDATA[Each crop has its own optimal ranges.
+
+Use the color-coded status indicators (Sensor Kit required) to guide your adjustments during the harvest.
+
+High quality harvest report will be generated after finishing the field, showing how your calibration affected the final results and potential income.]]>
+        </en>
+            <de>
+            <![CDATA[Jede Frucht hat optimale Bereiche.
+
+Nutzen Sie Farbstatusanzeigen (Sensor Kit benötigt), um Anpassungen vorzunehmen.
+
+Ein Erntebericht wird nach Beendigung des Feldes erstellt, der zeigt, wie die Kalibrierung die Ergebnisse und das Einkommen beeinflusst hat.]]>
+        </de>
+            <fr>
+            <![CDATA[Chaque culture a des plages optimales.
+
+Utilisez les indicateurs de couleur (Kit Capteurs requis) pour vous guider.
+
+Un rapport de récolte sera généré après le champ, montrant comment le calibrage a affecté vos revenus potentiels.]]>
+        </fr>
+            <it>
+            <![CDATA[Ogni coltura ha intervalli ottimali.
+
+Usa gli indicatori colorati (richiesto Kit Sensori) per guidare le regolazioni.
+
+Verrà generato un report ad ogni fine campo che mostrerà come la calibrazione ha influito sui guadagni.]]>
+        </it>
+            <es>
+            <![CDATA[Cada cultivo tiene rangos óptimos.
+
+Use los indicadores de estado (requiere Kit de Sensores) para guiarse.
+
+Se generará un informe de cosecha detallado que mostrará cómo afectó su calibración a los ingresos finales.]]>
+        </es>
+            <br>
+            <![CDATA[Cada cultura tem as suas faixas ideais.
+
+Use os indicadores coloridos (requer Kit de Sensores) para guiar os seus ajustes.
+
+Um relatório de colheita detalhado será gerado após o campo, mostrando como sua calibração afetou a renda final.]]>
+        </br>
+            <pl>
+            <![CDATA[Każda uprawa ma optymalne zakresy.
+
+Użyj kolorowych wskaźników (wymagany Zestaw Czujników), aby ułatwić regulację.
+
+Po żniwach zostanie wygenerowany raport, pokazujący jak kalibracja wpłynęła na plon i zyski.]]>
+        </pl>
+            <ru>
+            <![CDATA[Для каждой культуры есть свои оптимальные диапазоны.
+
+Используйте цветовые индикаторы для настройки точно в цель.
+
+После уборки поля будет сформирован отчет, показывающий влияние ваших настроек на итоговый доход.]]>
+        </ru>
+            <hu>
+            <![CDATA[Minden terménynek megvannak az optimális tartományai.
+
+Használd a színkódolt állapotjelzőket (Szenzor Kit szükséges) a beállításhoz.
+
+A betakarítás után jelentés készül, amely megmutatja, hogyan befolyásolták a beállítások a bevételt.]]>
+        </hu>
+            <cz>
+            <![CDATA[Každá plodina má své optimální rozsahy.
+
+Použijte barevné indikátory stavu (vyžadován senzorový balíček) jako vodítko.
+
+Po dokončení pole bude vygenerován protokol o sklizni, který ukáže, jak kalibrace ovlivnila výsledky.]]>
+        </cz>
+            <uk>
+            <![CDATA[Кожна культура має свої оптимальні діапазони налаштувань.
+
+Використовуйте кольорові індикатори стану (потрібен «Набір датчиків»), щоб коригувати параметри під час збирання.
+
+Після завершення роботи на полі буде створено детальний звіт, який покаже, як ваше калібрування вплинуло на фінальний результат та прибуток.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_upgrades_title">
+            <en>
+            <![CDATA[7. Professional Upgrades]]>
+        </en>
+            <de>
+            <![CDATA[7. Professionelle Upgrades]]>
+        </de>
+            <fr>
+            <![CDATA[7. Améliorations Professionnels]]>
+        </fr>
+            <it>
+            <![CDATA[7. Potenziamenti Professionali]]>
+        </it>
+            <es>
+            <![CDATA[7. Mejoras Profesionales]]>
+        </es>
+            <br>
+            <![CDATA[7. Melhorias Profissionais]]>
+        </br>
+            <pl>
+            <![CDATA[7. Profesjonalne ulepszenia]]>
+        </pl>
+            <ru>
+            <![CDATA[7. Профессиональные улучшения]]>
+        </ru>
+            <hu>
+            <![CDATA[7. Professzionális fejlesztések]]>
+        </hu>
+            <cz>
+            <![CDATA[7. Profesionální upgrady]]>
+        </cz>
+            <uk>
+            <![CDATA[7. Прогресія та Покращення]]>
+        </uk>
+        </text>
+        <text name="rhm_help_upgrades_1">
+            <en>
+            <![CDATA[Base harvesting electronics. Standard factory equipment providing essential HUD data such as Engine Load and Productivity.]]>
+        </en>
+            <de>
+            <![CDATA[Standard-Erne-Elektronik. Bietet wichtige HUD-Daten wie Motorlast und Produktivität.]]>
+        </de>
+            <fr>
+            <![CDATA[Électronique de base. Fournit les données HUD essentielles comme la charge moteur et la productivité.]]>
+        </fr>
+            <it>
+            <![CDATA[Elettronica standard. Fornisce dati HUD essenziali come carico motore e produttività.]]>
+        </it>
+            <es>
+            <![CDATA[Electrónica básica. Proporciona datos esenciales del HUD como carga del motor y productividad.]]>
+        </es>
+            <br>
+            <![CDATA[Eletrônica básica de colheita. Fornece dados essenciais do HUD, como carga do motor e produtividade.]]>
+        </br>
+            <pl>
+            <![CDATA[Podstawowa elektronika. Zapewnia kluczowe dane HUD, takie jak obciążenie silnika i wydajność.]]>
+        </pl>
+            <ru>
+            <![CDATA[Стандартное заводское оборудование. Обеспечивает основные данные HUD, такие как нагрузка и производительность.]]>
+        </ru>
+            <hu>
+            <![CDATA[Alapvető betakarítási elektronika. Kulcsfontosságú HUD adatokat szolgáltat: motorterhelés és termelékenység.]]>
+        </hu>
+            <cz>
+            <![CDATA[Základní elektronika sklizně. Poskytuje základní údaje HUD, jako je zatížení motoru a produktivita.]]>
+        </cz>
+            <uk>
+            <![CDATA[Стандартна заводська електроніка. Забезпечує основні дані HUD, такі як навантаження двигуна та продуктивність.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_upgrades_2">
+            <en>
+            <![CDATA[Adds professional loss sensors. Unlocks real-time color-coded indicators (Green/Yellow/Red) to help you identify grain loss before it becomes a problem.]]>
+        </en>
+            <de>
+            <![CDATA[Fügt professionelle Verlustsensoren hinzu. Schaltet farbcodierte Echtzeitanzeigen (Grün/Gelb/Rot) frei.]]>
+        </de>
+            <fr>
+            <![CDATA[Ajoute des capteurs de perte professionnels. Débloque les indicateurs de couleur en temps réel (Vert/Jaune/Rouge).]]>
+        </fr>
+            <it>
+            <![CDATA[Aggiunge sensori di perdita professionali. Sblocca gli indicatori colorati in tempo reale (Verde/Giallo/Rosso).]]>
+        </it>
+            <es>
+            <![CDATA[Añade sensores de pérdida profesionales. Desbloquea indicadores de color en tiempo real (Verde/Amarillo/Rojo).]]>
+        </es>
+            <br>
+            <![CDATA[Adiciona sensores de perda profissionais. Libera indicadores coloridos em tempo real (Verde/Amarelo/Vermelho).]]>
+        </br>
+            <pl>
+            <![CDATA[Dodaje profesjonalne czujniki strat. Odblokowuje kolorowe wskaźniki strat w czasie rzeczywistym.]]>
+        </pl>
+            <ru>
+            <![CDATA[Добавляет профессиональные датчики потерь. Открывает цветовые индикаторы (Зелёный/Жёлтый/Красный).]]>
+        </ru>
+            <hu>
+            <![CDATA[Professzionális veszteségérzékelők. Valós idejű, színkódolt jelzőket (Zöld/Sárga/Piros) biztosít.]]>
+        </hu>
+            <cz>
+            <![CDATA[Přidává profesionální senzory ztrát. Odemkne barevné indikátory v reálném čase (Zelená/Žlutá/Červená).]]>
+        </cz>
+            <uk>
+            <![CDATA[Додає професійні датчики втрат. Відкриває кольорові індикатори в реальному часі (Зелений/Жовтий/Червоний).]]>
+        </uk>
+        </text>
+        <text name="rhm_help_upgrades_3">
+            <en>
+            <![CDATA[Advanced telemetry for professional harvesters. Unlocks live performance impact and efficiency metrics inside the Calibration Menu (RShift + K).]]>
+        </en>
+            <de>
+            <![CDATA[Erweiterte Telemetrie. Schaltet Live-Leistungs- und Effizienzkennzahlen im Kalibrierungsmenü (RShift + K) frei.]]>
+        </de>
+            <fr>
+            <![CDATA[Télémétrie avancée. Débloque les mesures d'impact et d'efficacité en direct dans le menu de calibrage (RShift + K).]]>
+        </fr>
+            <it>
+            <![CDATA[Telemetria avanzata. Sblocca le metriche di efficienza e impatto nel menu calibrazione (RShift + K).]]>
+        </it>
+            <es>
+            <![CDATA[Telemetría avanzada. Desbloquea métricas de impacto y eficiencia en vivo en el menú de calibración (RShift + K).]]>
+        </es>
+            <br>
+            <![CDATA[Telemetria avançada. Libera métricas de impacto e eficiência ao vivo no menu de calibração (RShift + K).]]>
+        </br>
+            <pl>
+            <![CDATA[Zaawansowana telemetria. Odblokowuje statystyki wydajności i efektywności w menu kalibracji (RShift + K).]]>
+        </pl>
+            <ru>
+            <![CDATA[Продвинутая телеметрия. Показывает влияние настроек и эффективность в меню калибровки (RShift + K).]]>
+        </ru>
+            <hu>
+            <![CDATA[Fejlett telemetria. Élő teljesítmény- és hatékonysági mutatókat jelenít meg a kalibrálási menüben (RShift + K).]]>
+        </hu>
+            <cz>
+            <![CDATA[Pokročilá telemetrie. Odemkne živé statistiky výkonu a účinnosti v menu kalibrace (RShift + K).]]>
+        </cz>
+            <uk>
+            <![CDATA[Професійна телеметрія. Показує вплив налаштувань на продуктивність та ефективність у меню калібрування (RShift + K).]]>
+        </uk>
+        </text>
+        <text name="rhm_help_upgrades_4">
+            <en>
+            <![CDATA[The ultimate upgrade. Fully automated header height and ground speed control based on real-time mass flow. Minimizes human error and maximizes efficiency.]]>
+        </en>
+            <de>
+            <![CDATA[Das ultimative Upgrade. Vollautomatische Schneidwerkshöhen- und Geschwindigkeitssteuerung basierend auf dem Massestrom.]]>
+        </de>
+            <fr>
+            <![CDATA[L'ultime amélioration. Contrôle entièrement automatisé de la hauteur de coupe et de la vitesse basé sur le flux de masse.]]>
+        </fr>
+            <it>
+            <![CDATA[Il potenziamento definitivo. Controllo automatico dell'altezza testata e della velocità basato sul flusso del prodotto.]]>
+        </it>
+            <es>
+            <![CDATA[La mejora definitiva. Control totalmente automatizado de altura del cabezal y velocidad basado en el flujo de masa.]]>
+        </es>
+            <br>
+            <![CDATA[A melhoria definitiva. Controle totalmente automatizado da altura da plataforma e velocidade baseado no fluxo de massa.]]>
+        </br>
+            <pl>
+            <![CDATA[Najwyższe ulepszenie. W pełni automatyczne sterowanie wysokością hederu i prędkością na podstawie przepływu masy.]]>
+        </pl>
+            <ru>
+            <![CDATA[Лучшее улучшение. Полностью автоматическое управление высотой жатки и скоростью на основе потока массы.]]>
+        </ru>
+            <hu>
+            <![CDATA[A végső fejlesztés. Teljesen automatizált vágóasztal-magasság és sebességszabályozás a tömegáram alapján.]]>
+        </hu>
+            <cz>
+            <![CDATA[Špičkový upgrade. Plně automatizované ovládání výšky žací lišty a rychlosti pojezdu na základě hmotnostního toku.]]>
+        </cz>
+            <uk>
+            <![CDATA[Найкраще покращення. Повністю автоматичне керування висотою жатки та швидкістю на основі масового потоку зерна.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_hud_2_1">
+            <en>
+            <![CDATA[Right-click to enable the cursor and drag the HUD panel anywhere on screen.]]>
+        </en>
+            <de>
+            <![CDATA[Rechtsklick aktiviert den Cursor — ziehen Sie das HUD überall hin.]]>
+        </de>
+            <fr>
+            <![CDATA[Clic droit pour activer le curseur et déplacer le HUD.]]>
+        </fr>
+            <it>
+            <![CDATA[Clic destro per attivare il cursore e trascinare l'HUD ovunque.]]>
+        </it>
+            <es>
+            <![CDATA[Clic derecho para activar el cursor y arrastrar el HUD.]]>
+        </es>
+            <br>
+            <![CDATA[Clique direito para ativar o cursor e arrastar o HUD.]]>
+        </br>
+            <pl>
+            <![CDATA[Kliknij prawym przyciskiem, aby włączyć kursor i przeciągnij HUD.]]>
+        </pl>
+            <ru>
+            <![CDATA[Правый клик включает курсор — перетащите панель куда угодно.]]>
+        </ru>
+            <hu>
+            <![CDATA[Jobb klikkel aktiváld a kurzort és húzd a HUD-ot bárhová.]]>
+        </hu>
+            <cz>
+            <![CDATA[Pravým kliknutím aktivujte kurzor a přetáhněte HUD.]]>
+        </cz>
+
+            <uk>
+            <![CDATA[Натисніть праву кнопку миші, щоб активувати курсор і перетягнути панель HUD у будь-яке місце на екрані.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_hud_2_2">
+            <en>
+            <![CDATA[Each metric can be shown or hidden individually via ESC > Settings > Realistic Harvesting.]]>
+        </en>
+            <de>
+            <![CDATA[Jeder Messwert kann über ESC > Einstellungen > Realistic Harvesting ein-/ausgeblendet werden.]]>
+        </de>
+            <fr>
+            <![CDATA[Chaque mesure peut être masquée via ESC > Paramètres > Realistic Harvesting.]]>
+        </fr>
+            <it>
+            <![CDATA[Ogni metrica può essere mostrata/nascosta tramite ESC
+- Impostazioni.]]>
+        </it>
+            <es>
+            <![CDATA[Cada métrica puede mostrarse u ocultarse desde ESC > Ajustes.]]>
+        </es>
+            <br>
+            <![CDATA[Cada métrica pode ser mostrada/ocultada em ESC > Configurações.]]>
+        </br>
+            <pl>
+            <![CDATA[Każdy wskaźnik można ukryć w ESC > Ustawienia > Realistic Harvesting.]]>
+        </pl>
+            <ru>
+            <![CDATA[Каждую метрику можно скрыть через ESC > Настройки > Realistic Harvesting.]]>
+        </ru>
+            <hu>
+            <![CDATA[Minden mutató elrejthető az ESC
+- Beállítások menüben.]]>
+        </hu>
+            <cz>
+            <![CDATA[Každou metriku lze skrýt v ESC
+- Nastavení.]]>
+        </cz>
+            <uk>
+            <![CDATA[Кожну метрику можна приховати окремо через ESC > Налаштування > Realistic Harvesting.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_hud_2_3">
+            <en>
+            <![CDATA[You can switch between measurement systems:
+- Metric (t/ha, km/h)
+- Imperial (bu/ac, mph)
+- Bushel units]]>
+        </en>
+            <de>
+            <![CDATA[Sie können zwischen Messsystemen umschalten:
+- Metrisch (t/ha)
+- Imperial (bu/ac)
+- Scheffel-System]]>
+        </de>
+            <fr>
+            <![CDATA[Vous pouvez basculer entre les systèmes de mesure :
+- Métrique (t/ha)
+- Impérial (bu/ac)
+- Boisseaux]]>
+        </fr>
+            <it>
+            <![CDATA[Puoi passare tra i sistemi di misurazione:
+- Metrico (t/ha)
+- Imperiale (bu/ac)
+- Staia]]>
+        </it>
+            <es>
+            <![CDATA[Puede cambiar entre sistemas de medición:
+- Métrico (t/ha)
+- Imperial (bu/ac)
+- Fanegas]]>
+        </es>
+            <br>
+            <![CDATA[Você pode alternar entre os sistemas de medição:
+- Métrico (t/ha)
+- Imperial (bu/ac)
+- Alqueires]]>
+        </br>
+            <pl>
+            <![CDATA[Możesz przełączać się między systemami pomiarowymi:
+- Metrycznym (t/ha)
+- Imperialnym (bu/ac)
+- Buszele]]>
+        </pl>
+            <ru>
+            <![CDATA[Вы можете переключаться между единицами измерения:
+- Метрические (т/га, км/ч)
+- Имперские (бу/акр, миль/ч)
+- Бушельные системы]]>
+        </ru>
+            <hu>
+            <![CDATA[Váltani lehet a mérési rendszerek között:
+- Metrikus (t/ha)
+- Angolszász (bu/ac)
+- Véka rendszer]]>
+        </hu>
+            <cz>
+            <![CDATA[Můžete přepínat mezi měrnými systémy:
+- Metrické (t/ha)
+- Imperiální (bu/ac)
+- Bušl]]>
+        </cz>
+            <uk>
+            <![CDATA[Ви можете перемикатися між системами вимірювання:
+- Метричні (т/га, км/год)
+- Імперські (бу/акр, миль/год)
+- Бушельні системи]]>
+        </uk>
+        </text>
+        <text name="rhm_help_hud_2_4">
+            <en>
+            <![CDATA[Your HUD position and visibility settings are saved per-player and persist across sessions.]]>
+        </en>
+            <de>
+            <![CDATA[Position und Einstellungen werden pro Spieler gespeichert.]]>
+        </de>
+            <fr>
+            <![CDATA[La position est sauvegardée par joueur.]]>
+        </fr>
+            <it>
+            <![CDATA[La posizione viene salvata per giocatore.]]>
+        </it>
+            <es>
+            <![CDATA[La posición se guarda por jugador.]]>
+        </es>
+            <br>
+            <![CDATA[A posição é salva por jogador.]]>
+        </br>
+            <pl>
+            <![CDATA[Pozycja jest zapisywana dla każdego gracza.]]>
+        </pl>
+            <ru>
+            <![CDATA[Позиция сохраняется для каждого игрока.]]>
+        </ru>
+            <hu>
+            <![CDATA[A pozíció játékosonként mentődik.]]>
+        </hu>
+            <cz>
+            <![CDATA[Pozice se ukládá pro každého hráče.]]>
+        </cz>
+            <uk>
+            <![CDATA[Позиція та видимість панелі зберігаються для кожного гравця та зберігаються між сесіями.]]>
+        </uk>
+        </text>
+
+        <!-- ===== PAGE 2: HUD ===== -->
+        <text name="rhm_help_hud_title">
+            <en>
+            <![CDATA[2. HUD — On-Screen Display]]>
+        </en>
+            <de>
+            <![CDATA[2. HUD — Bildschirmanzeige]]>
+        </de>
+            <fr>
+            <![CDATA[2. HUD — Affichage à l'écran]]>
+        </fr>
+            <it>
+            <![CDATA[2. HUD — Visualizzazione su schermo]]>
+        </it>
+            <es>
+            <![CDATA[2. HUD — Pantalla en vivo]]>
+        </es>
+            <br>
+            <![CDATA[2. HUD — Exibição na tela]]>
+        </br>
+            <pl>
+            <![CDATA[2. HUD — Wyświetlacz na ekranie]]>
+        </pl>
+            <ru>
+            <![CDATA[2. HUD — Экранные показатели]]>
+        </ru>
+            <hu>
+            <![CDATA[2. HUD — Képernyőkijelző]]>
+        </hu>
+            <cz>
+            <![CDATA[2. HUD — Zobrazení na obrazovce]]>
+        </cz>
+            <uk>
+            <![CDATA[2. HUD — Показники на екрані]]>
+        </uk>
+        </text>
+        <text name="rhm_help_hud_1_1">
+            <en>
+            <![CDATA[The HUD panel appears automatically when you enter a combine.]]>
+        </en>
+            <de>
+            <![CDATA[Das HUD-Panel erscheint automatisch beim Einsteigen.]]>
+        </de>
+            <fr>
+            <![CDATA[Le panneau HUD apparaît automatiquement.]]>
+        </fr>
+            <it>
+            <![CDATA[Il pannello HUD appare automaticamente.]]>
+        </it>
+            <es>
+            <![CDATA[El panel HUD aparece automáticamente.]]>
+        </es>
+            <br>
+            <![CDATA[O painel HUD aparece automaticamente.]]>
+        </br>
+            <pl>
+            <![CDATA[Panel HUD pojawia się automatycznie.]]>
+        </pl>
+            <ru>
+            <![CDATA[Панель HUD появляется автоматически при входе в комбайн.]]>
+        </ru>
+            <hu>
+            <![CDATA[A HUD panel automatikusan megjelenik.]]>
+        </hu>
+            <cz>
+            <![CDATA[Panel HUD se zobrazí automaticky.]]>
+        </cz>
+            <uk>
+            <![CDATA[Панель HUD з'являється автоматично при вході в комбайн.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_hud_1_2">
+            <en>
+            <![CDATA[It shows 5 live metrics:
+- Engine Load (%) — how hard your machine works
+- Productivity (t/h or L/h) — your harvesting speed
+- Yield (t/ha) — crop density on the field
+- Speed and Recommended Speed — your current vs safe speed
+- Crop Loss (LOW/MED/HIGH) — real-time grain waste indicator.]]>
+        </en>
+            <de>
+            <![CDATA[Es zeigt 5 Live-Messwerte:
+- Motorlast (%)
+- Produktivität (t/h)
+- Ertrag (t/ha), aktuelle und empfohlene Geschwindigkeit, Ernteverluste (NIEDRIG/MITTEL/HOCH).]]>
+        </de>
+            <fr>
+            <![CDATA[Il affiche 5 mesures en direct :
+- Charge moteur (%)
+- Productivité (t/h)
+- Rendement (t/ha)
+- Vitesse actuelle et recommandée, Pertes (BAS/MOY/HAUT).]]>
+        </fr>
+            <it>
+            <![CDATA[Mostra 5 metriche live:
+- Carico motore (%)
+- Produttività (t/h)
+- Resa (t/ha)
+- Velocità attuale e raccomandata, Perdite (BASSE/MEDIE/ALTE).]]>
+        </it>
+            <es>
+            <![CDATA[Muestra 5 métricas en vivo:
+- Carga del motor (%)
+- Productividad (t/h)
+- Rendimiento (t/ha)
+- Velocidad actual y recomendada, Pérdidas (BAJO/MEDIO/ALTO).]]>
+        </es>
+            <br>
+            <![CDATA[Exibe 5 métricas ao vivo:
+- Carga do motor (%)
+- Produtividade (t/h)
+- Rendimento (t/ha)
+- Velocidade atual e recomendada, Perdas (BAIXO/MÉDIO/ALTO).]]>
+        </br>
+            <pl>
+            <![CDATA[Pokazuje 5 wskaźników na żywo:
+- Obciążenie silnika (%)
+- Produktywność (t/h)
+- Plon (t/ha)
+- Prędkość aktualna i zalecana, Straty (NISKIE/ŚREDNIE/WYSOKIE).]]>
+        </pl>
+            <ru>
+            <![CDATA[Показывает 5 метрик в реальном времени:
+- Нагрузка двигателя (%) — интенсивность работы
+- Производительность (т/ч или л/ч) — скорость уборки
+- Урожайность (т/га) — густота культуры на поле
+- Скорость и Рекомендуемая скорость
+- Потери урожая (НИЗКИЕ/СРЕДНИЕ/ВЫСОКИЕ)]]>
+        </ru>
+            <hu>
+            <![CDATA[5 élő mutatót jelenít meg:
+- Motorterhelés (%)
+- Termelékenység (t/h)
+- Hozam (t/ha)
+- Aktuális és ajánlott sebesség, Veszteség (ALACSONY/KÖZEPES/MAGAS).]]>
+        </hu>
+            <cz>
+            <![CDATA[Ukazuje 5 živých metrik:
+- Zatížení motoru (%)
+- Produktivita (t/h)
+- Výnos (t/ha)
+- Aktuální a doporučená rychlost, Ztráty (NÍZKÉ/STŘEDNÍ/VYSOKÉ).]]>
+        </cz>
+            <uk>
+            <![CDATA[Панель показує 5 основних показників:
+- Навантаження двигуна (%) — наскільки важко працює машина
+- Продуктивність (т/год або л/год) — швидкість збирання
+- Врожайність (т/га) — густота культури на полі
+- Поточна та рекомендована швидкість
+- Втрати врожаю (НИЗЬКІ/СЕРЕДНІ/ВИСОКІ)]]>
+        </uk>
+        </text>
+        <text name="rhm_help_hud_1">
+            <en>
+            <![CDATA[The HUD panel appears automatically when you enter a combine. It shows 5 live metrics:
+- Engine Load (%)
+- Productivity (t/h)
+- Yield (t/ha)
+- Speed
+- Crop Loss (LOW/MED/HIGH)
+
+Green = safe
+Yellow = caution
+Red = losing grain.]]>
+        </en>
+            <de>
+            <![CDATA[Das HUD erscheint automatisch beim Einsteigen. Es zeigt 5 Live-Messwerte:
+- Motorlast (%)
+- Produktivität (t/h)
+- Ertrag (t/ha)
+- Geschwindigkeit
+- Ernteverluste (NIEDRIG/MITTEL/HOCH)
+
+Grün = sicher
+Gelb = Vorsicht
+Rot = Verluste.]]>
+        </de>
+            <fr>
+            <![CDATA[Le panneau HUD apparaît automatiquement. Il affiche 5 mesures :
+- Charge moteur (%)
+- Productivité (t/h)
+- Rendement (t/ha)
+- Vitesse
+- Pertes (BAS/MOY/HAUT)
+
+Vert = OK
+Jaune = attention
+Rouge = pertes.]]>
+        </fr>
+            <it>
+            <![CDATA[Il pannello HUD appare automaticamente. Mostra 5 metriche live:
+- Carico motore (%)
+- Produttività (t/h)
+- Resa (t/ha)
+- Velocità
+- Perdite (BASSE/MEDIE/ALTE)
+
+Verde = OK
+Giallo = attenzione
+Rosso = perdite.]]>
+        </it>
+            <es>
+            <![CDATA[El panel HUD aparece automáticamente. Muestra 5 métricas :
+- Carga del motor (%)
+- Productividad (t/h)
+- Rendimiento (t/ha)
+- Velocidad
+- Pérdidas (BAJO/MEDIO/ALTO)
+
+Verde = bien
+Amarillo = precaución
+Red = pérdidas.]]>
+        </es>
+            <br>
+            <![CDATA[O painel HUD aparece automaticamente. Exibe 5 métricas :
+- Carga do motor (%)
+- Produtividade (t/h)
+- Rendimento (t/ha)
+- Velocidade
+- Perdas (BAIXO/MÉDIO/ALTO)
+
+Verde = OK
+Amarelo = atenção
+Vermelho = perdas.]]>
+        </br>
+            <pl>
+            <![CDATA[Panel HUD pojawia się automatycznie. Pokazuje 5 wskaźników :
+- Obciążenie silnika (%)
+- Produktywność (t/h)
+- Plon (t/ha)
+- Prędkość
+- Straty (NISKIE/ŚREDNIE/WYSOKIE)
+
+Zielony = OK
+Żółty = uwaga
+Czerwony = straty.]]>
+        </pl>
+            <ru>
+            <![CDATA[Панель HUD появляется автоматически при входе в комбайн.
+Она отображает 5 основных показателей:
+- Нагрузка двигателя (%)
+- Производительность (т/ч)
+- Урожайность (т/га)
+- Скорость
+- Потери (НИЗКИЕ/СРЕДНИЕ/ВЫСОКИЕ)
+
+Зелёный = норма
+Жёлтый = внимание
+Красный = потери зерна.]]>
+        </ru>
+            <hu>
+            <![CDATA[A HUD automatikusan megjelenik. 5 mutatót jelenít meg :
+- Motorterhelés (%)
+- Termelékenység (t/h)
+- Hozam (t/ha)
+- Sebesség
+- Veszteség (ALACSONY/KÖZEPES/MAGAS)
+
+Zöld = OK
+Sárga = figyelem
+Piros = veszteség.]]>
+        </hu>
+            <cz>
+            <![CDATA[Panel HUD se zobrazí automaticky. Ukazuje 5 metrik :
+- Zatížení motoru (%)
+- Produktivita (t/h)
+- Výnos (t/ha)
+- Rychlost
+- Ztráty (NÍZKÉ/STŘEDNÍ/VYSOKÉ)
+
+Zelená = OK
+Žlutá = pozor
+Červená = ztráty.]]>
+        </cz>
+            <uk>
+            <![CDATA[Панель HUD з'являється автоматично при вході в комбайн.
+Вона відображає 5 основних показників:
+- Навантаження двигуна (%)
+- Продуктивність (т/год)
+- Врожайність (т/га)
+- Швидкість
+- Втрати (НИЗЬКІ/СЕРЕДНІ/ВИСОКІ)
+
+Зелений = норма
+Жовтий = обережно
+Червоний = втрати зерна.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_hud_1_3">
+            <en>
+            <![CDATA[Green = safe
+Yellow = caution
+Red = losing grain.]]>
+        </en>
+            <de>
+            <![CDATA[Grün = sicher,
+Gelb = Vorsicht,
+Rot = Verluste.]]>
+        </de>
+            <fr>
+            <![CDATA[Vert = OK,
+Jaune = attention,
+Rouge = pertes.]]>
+        </fr>
+            <it>
+            <![CDATA[Verde = OK,
+Giallo = attenzione,
+Rosso = perdite.]]>
+        </it>
+            <es>
+            <![CDATA[Verde = bien,
+Amarillo = precaución,
+Rojo = pérdidas.]]>
+        </es>
+            <br>
+            <![CDATA[Verde = OK,
+Amarelo = atenção,
+Vermelho = perdas.]]>
+        </br>
+            <pl>
+            <![CDATA[Zielony = OK,
+Żółty = uwaga,
+Czerwony = straty.]]>
+        </pl>
+            <ru>
+            <![CDATA[Зелёный = норма
+
+Жёлтый = внимание
+
+Красный = потери зерна.]]>
+        </ru>
+            <hu>
+            <![CDATA[Zöld = OK
+Sárga = figyelem
+Piros = veszteség.]]>
+        </hu>
+            <cz>
+            <![CDATA[Zelená = OK,
+Žlutá = pozor,
+Červená = ztráty.]]>
+        </cz>
+            <uk>
+            <![CDATA[Зелений = норма
+
+Жовтий = обережно
+
+Червоний = втрати зерна.]]>
+        </uk>
+        </text>
+        
+        <text name="rhm_help_hud_2">
+            <en>
+            <![CDATA[Right-click to enable the cursor and drag the HUD panel anywhere on screen.
+
+Each metric can be shown or hidden individually via ESC > Settings > Realistic Harvesting.
+
+You can switch between systems:
+- Metric (t/ha)
+- Imperial (bu/ac)
+- Bushel system
+
+Your HUD position and visibility settings are saved per-player and persist across sessions.]]>
+        </en>
+            <de>
+            <![CDATA[Rechtsklick aktiviert den Cursor — ziehen Sie das HUD überall hin.
+
+Jeder Messwert kann über ESC > Einstellungen > Realistic Harvesting ein-/ausgeblendet werden.
+
+Wählen Sie Ihr System:
+- Metrisch (t/ha)
+- Imperial (bu/ac)
+- Scheffel (Bushels)
+
+Position und Einstellungen werden pro Spieler gespeichert.]]>
+        </de>
+            <fr>
+            <![CDATA[Clic droit pour activer le curseur et déplacer le HUD.
+
+Chaque mesure peut être masquée via ESC > Paramètres > Realistic Harvesting.
+
+Choisissez votre système :
+- Métrique (t/ha)
+- Impérial (bu/ac)
+- Boisseaux
+
+La position est sauvegardée par joueur.]]>
+        </fr>
+            <it>
+            <![CDATA[Clic destro per attivare il cursore e trascinare l'HUD ovunque.
+
+Ogni metrica può essere mostrata/nascosta tramite ESC
+- Impostazioni.
+
+Scegli il tuo sistema:
+- Metrico (t/ha)
+- Imperiale (bu/ac)
+- Staia (Bushel)
+
+La posizione viene salvata per giocatore.]]>
+        </it>
+            <es>
+            <![CDATA[Clic derecho para activar el cursor y arrastrar el HUD.
+
+Cada métrica puede mostrarse u ocultarse desde ESC > Ajustes.
+
+Elija su sistema:
+- Métrico (t/ha)
+- Imperial (bu/ac)
+- Fanegas (Bushels)
+
+La posición se guarda por jugador.]]>
+        </es>
+            <br>
+            <![CDATA[Clique direito para ativar o cursor e arrastar o HUD.
+
+Cada métrica pode ser mostrada/ocultada em ESC > Configurações.
+
+Escolha seu sistema:
+- Métrico (t/ha)
+- Imperial (bu/ac)
+- Alqueires (Bushels)
+
+A posição é salva por jogador.]]>
+        </br>
+            <pl>
+            <![CDATA[Kliknij prawym przyciskiem, aby włączyć kursor i przeciągnij HUD.
+
+Każdy wskaźnik można ukryć w ESC > Ustawienia > Realistic Harvesting.
+
+Wybierz system:
+- Metryczny (t/ha)
+- Imperialny (bu/ac)
+- Buszele
+
+Pozycja jest zapisywana dla każdego gracza.]]>
+        </pl>
+            <ru>
+            <![CDATA[Правый клик включает курсор — перетащите панель куда угодно.
+
+Каждую метрику можно скрыть через ESC > Настройки > Realistic Harvesting.
+
+Выбор системы измерения:
+- Метрическая (т/га)
+- Имперская (бу/акр)
+- Бушельная система
+
+Позиция сохраняется для каждого игрока.]]>
+        </ru>
+            <hu>
+            <![CDATA[Jobb klikkel aktiváld a kurzort és húzd a HUD-ot bárhová.
+
+Minden mutató elrejthető az ESC
+- Beállítások menüben.
+
+Választható rendszerek:
+- Metrikus (t/ha)
+- Angolszász (bu/ac)
+- Véka (Bushel)
+
+A pozíció játékosonként mentődik.]]>
+        </hu>
+            <cz>
+            <![CDATA[Pravým kliknutím aktivujte kurzor a přetáhněte HUD.
+
+Každou metriku lze skrýt v ESC
+- Nastavení.
+
+Změna jednotek:
+- Metrické (t/ha)
+- Imperiální (bu/ac)
+- Bušl (Bushel)
+
+Pozice se ukládá pro každého hráče.]]>
+        </cz>
+            <uk>
+            <![CDATA[Клацніть правою кнопкою миші для увімкнення курсора та перетягніть панель HUD куди завгодно.
+
+Кожну метрику можна приховати окремо через ESC > Налаштування > Realistic Harvesting.
+
+Вибір системи вимірювання:
+- Метрична (т/га)
+- Імперська (бу/акр)
+- Бушельна система
+
+Позиція та видимість панелі зберігаються для кожного гравця та зберігаються між сесіями.]]>
+        </uk>
+        </text>
+
+        <!-- ===== PAGE 4: SPECIAL COMBINES ===== -->
+        <text name="rhm_help_special_title">
+            <en>
+            <![CDATA[4. Special Machines]]>
+        </en>
+            <de>
+            <![CDATA[4. Spezialmaschinen]]>
+        </de>
+            <fr>
+            <![CDATA[4. Machines spéciales]]>
+        </fr>
+            <it>
+            <![CDATA[4. Macchine speciali]]>
+        </it>
+            <es>
+            <![CDATA[4. Máquinas especiales]]>
+        </es>
+            <br>
+            <![CDATA[4. Máquinas especiais]]>
+        </br>
+            <pl>
+            <![CDATA[4. Maszyny specjalne]]>
+        </pl>
+            <ru>
+            <![CDATA[4. Спецтехника]]>
+        </ru>
+            <hu>
+            <![CDATA[4. Speciális gépek]]>
+        </hu>
+            <cz>
+            <![CDATA[4. Speciální stroje]]>
+        </cz>
+            <uk>
+            <![CDATA[4. Спецтехніка]]>
+        </uk>
+        </text>
+        <text name="rhm_help_special_1">
+            <en>
+            <![CDATA[FORAGE HARVESTERS have 3 parameters:
+- Blower Speed (accelerator)
+- Chopping Drum (cutting cylinder speed)
+- and Feed Rolls (intake roller speed).
+
+They process grass, dry grass, alfalfa, clover
+- and corn silage.
+
+Corn silage requires the highest drum speed and fan airflow due to thick stalks.
+
+Grass and hay are more delicate — reduce drum speed to avoid shredding.]]>
+        </en>
+            <de>
+            <![CDATA[FELDHÄCKSLER haben 3 Parameter:
+- Beschleuniger (Blower Speed)
+- Häckseltrommel (Chopping Drum)
+- und Einzugswalzen (Feed Rolls).
+
+Sie verarbeiten Gras, Heu, Luzerne, Klee und Maissilage.
+
+Maissilage braucht die höchste Trommel
+- und Gebläseleistung.
+
+Gras ist empfindlicher — reduzieren Sie die Trommelgeschwindigkeit.]]>
+        </de>
+            <fr>
+            <![CDATA[Les ENSILEUSES ont 3 paramètres :
+- Accélérateur (Blower Speed)
+- Tambour hacheur (Chopping Drum)
+- et Rouleaux d alimentation (Feed Rolls).
+
+Elles traitent herbe, foin, luzerne, trèfle et ensilage de maïs.
+
+L'ensilage de maïs nécessite la vitesse maximale.
+
+L'herbe est plus fragile — réduisez la vitesse du tambour.]]>
+        </fr>
+            <it>
+            <![CDATA[Le TRINCIATRICI hanno 3 parametri:
+- Acceleratore (Blower Speed)
+- Tamburo trinciante (Chopping Drum)
+- e Rulli di alimentazione (Feed Rolls).
+
+Trattano erba, fieno, erba medica, trifoglio e insilato di mais.
+
+L'insilato di mais richiede la velocità massima.
+
+L'erba è più delicata — riduci la velocità del tamburo.]]>
+        </it>
+            <es>
+            <![CDATA[Las COSECHADORAS DE FORRAJE tienen 3 parámetros:
+- Acelerador (Blower Speed)
+- Tambor picador (Chopping Drum)
+- y Rodillos de alimentación (Feed Rolls).
+
+Procesan hierba, heno, alfalfa, trébol y ensilaje de maíz.
+
+El ensilaje requiere la velocidad máxima.
+
+La hierba es más delicada — reduzca la velocidad del tambor.]]>
+        </es>
+            <br>
+            <![CDATA[As COLHEITADEIRAS DE FORRAGEM têm 3 parâmetros:
+- Acelerador (Blower Speed)
+- Tambor triturador (Chopping Drum)
+- e Rolos de alimentação (Feed Rolls).
+
+Processam grama, feno, alfafa, trevo e silagem de milho.
+
+A silagem exige velocidade máxima.
+
+A grama é mais delicada — reduza a velocidade do tambor.]]>
+        </br>
+            <pl>
+            <![CDATA[SIECZKARNIE mają 3 parametry:
+- Przyspieszacz (Blower Speed)
+- Bęben tnący (Chopping Drum)
+- i Walce wciągające (Feed Rolls).
+
+Przetwarzają trawę, siano, lucernę, koniczynę i kiszonkę z kukurydzy.
+
+Kiszonka wymaga najwyższej prędkości.
+
+Trawa jest delikatniejsza — zmniejsz prędkość bębna.]]>
+        </pl>
+            <ru>
+            <![CDATA[КОРМОУБОРОЧНЫЕ КОМБАЙНЫ имеют 3 параметра:
+- Ускоритель (Blower Speed)
+- Измельчающий барабан (Chopping Drum)
+- Питающие вальцы (Feed Rolls).
+
+Они обрабатывают траву, сено, люцерну, клевер и кукурузный силос.
+
+Силос из кукурузы требует максимальной скорости барабана.
+
+Трава нежнее — снижайте обороты.]]>
+        </ru>
+            <hu>
+            <![CDATA[A SZECSKÁZÓK 3 paraméterrel rendelkeznek:
+- Gyorsító (Blower Speed)
+- Szecskázó dob (Chopping Drum)
+- és Behúzóhengerek (Feed Rolls).
+
+Feldolgozzák a füvet, szénát, lucernát, lóherét és kukoricaszilázst.
+
+A kukoricaszilázs maximális sebességet igényel.
+
+A fű kényesebb — csökkentsd a dob sebességét.]]>
+        </hu>
+            <cz>
+            <![CDATA[ŘEZAČKY mají 3 parametry:
+- Urychlovač (Blower Speed)
+- Řezací buben (Chopping Drum)
+- Vkládací válce (Feed Rolls).
+
+Zpracovávají trávu, seno, vojtěšku, jetel a kukuřičnou siláž.
+
+Kukuřičná siláž vyžaduje nejvyšší rychlost.
+
+Tráva je jemnější — snižte rychlost bubnu.]]>
+        </cz>
+            <uk>
+            <![CDATA[КОРМОЗБИРАЛЬНІ КОМБАЙНИ мають 3 параметри:
+- Оберти прискорювача (Blower Speed)
+- Подрібнюючий барабан (Chopping Drum)
+- та Живильні вальці (Feed Rolls).
+
+Вони підтримують траву, сіно, люцерну, конюшину та кукурудзяний силос.
+
+Кукурудзяний силос потребує найвищих обертів барабана та вентилятора через товсті стебла.
+
+Трава та сіно делікатніші — зменшуйте оберти барабана, щоб не пошкодити масу.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_special_2">
+            <en>
+            <![CDATA[ROOT HARVESTERS (potato, sugarbeet, onion, carrot, spinach):
+- Fan Speed (separation blower)
+- Cleaning Rollers (dirt removal speed)
+- Elevator Web (transport chain speed)
+
+Each root crop has UNIQUE optimal values!
+
+Potatoes need gentle rollers (they bruise easily).
+
+Onions need strong airflow (to separate skins).
+
+Spinach needs minimum air (leaves fly away).
+
+COTTON PICKERS:
+- Fan Speed
+- Picker Speed (spindle RPM)
+- Feeder Speed
+- cotton is extremely light, so precise calibration of the picker drum is critical.]]>
+        </en>
+            <de>
+            <![CDATA[RÜBENRODER (Картофель, Свекла и др.):
+- Gebläse (Fan Speed)
+- Reinigungswalzen (Cleaning Rollers)
+- Siebband (Elevator Web)
+
+Jede Hackfrucht hat EINZIGARTIGE Werte!
+
+Kartoffeln brauchen sanfte Walzen.
+
+Zwiebeln brauchen starken Luftstrom.
+
+Spinat braucht minimale Luft.
+
+BAUMWOLLPFLÜCKER:
+- Gebläse (Fan Speed)
+- Pflückergeschwindigkeit (Picker Speed)
+- Zuführung (Feeder Speed) — Baumwolle ist extrem leicht, präzise Kalibrierung ist entscheidend.]]>
+        </de>
+            <fr>
+            <![CDATA[Les ARRACHEUSES (pomme de terre, betterave, oignon, carotte, épinard) ont Ventilateur, Rouleau et Chaîne d'alimentation.
+
+Chaque racine a des valeurs UNIQUES !
+
+Les pommes de terre nécessitent des rouleaux doux.
+
+Les oignons un fort flux d'air.
+
+Les épinards un minimum d'air.
+
+Les CUEILLEUSES DE COTON ont Ventilateur (Fan Speed)
+- Vitesse du cueilleur (Picker Speed)
+- et Alimentation (Feeder Speed) — le coton est extrêmement léger.]]>
+        </fr>
+            <it>
+            <![CDATA[Le RACCOGLITRICI (Radici):
+- Ventola (Fan Speed)
+- Rulli di pulizia (Cleaning Rollers)
+- Nastro elevatore (Elevator Web)
+
+Ogni radice ha valori UNICI!
+
+Le patate richiedono rulli delicati.
+
+Le cipolle un forte flusso d'aria.
+
+Gli spinaci aria minima.
+
+Le RACCOGLITRICI DI COTONE hanno Ventola (Fan Speed)
+- Velocità raccoglitore (Picker Speed)
+- e Alimentatore (Feeder Speed) — il cotone è estremamente leggero.]]>
+        </it>
+            <es>
+            <![CDATA[Las COSECHADORAS DE RAÍCES:
+- Ventilador (Fan Speed)
+- Rodillos de limpieza (Cleaning Rollers)
+- Cinta de criba (Elevator Web).
+
+Cada raíz tiene valores ÚNICOS.
+
+Las patatas necesitan rodillos suaves.
+
+Las cebollas necesitan fuerte flujo de aire.
+
+La espinaca necesita aire mínimo.
+
+Las COSECHADORAS DE ALGODÓN tienen Ventilador (Fan Speed)
+- Velocidad del recolector (Picker Speed)
+- y Alimentador (Feeder Speed) — el algodón es extremadamente ligero.]]>
+        </es>
+            <br>
+            <![CDATA[As COLHEITADEIRAS DE RAÍZES:
+- Ventilador (Fan Speed)
+- Rolos de limpeza (Cleaning Rollers)
+- Correia elevadora (Elevator Web).
+
+Cada raiz tem valores ÚNICOS!
+
+Batatas precisam de rolos suaves.
+
+Cebolas precisam de forte fluxo de ar.
+
+Espinafre precisa de ar mínimo.
+
+As COLHEITADEIRAS DE ALGODÃO têm Ventilador (Fan Speed)
+- Velocidade do colhedor (Picker Speed)
+- e Alimentador (Feeder Speed) — o algodão é extremamente leve.]]>
+        </br>
+            <pl>
+            <![CDATA[KOMBAJNY KORZENIOWE:
+- Wentylator (Fan Speed)
+- Rolki czyszczące (Cleaning Rollers)
+- Taśma odsiewająca (Elevator Web)
+
+Każda roślina ma UNIKALNE optymalne wartości!
+
+Ziemniaki wymagają delikatnych walców.
+
+Cebula wymaga silnego strumienia powietrza.
+
+Szpinak wymaga minimum dmuchania.
+
+ZBIERAKI BAWEŁNY mają Wentylator (Fan Speed)
+- Prędkość zbieracza (Picker Speed)
+- i Podajnik (Feeder Speed) — bawełna jest niezwykle lekka.]]>
+        </pl>
+            <ru>
+            <![CDATA[КОРНЕУБОРОЧНЫЕ МАШИНЫ (картофель, свекла, лук, морковь, шпинат):
+- Fan Speed (обороты вентилятора)
+- Cleaning Rollers (очистные вальцы)
+- Elevator Web (транспортер)
+
+У каждой культуры УНИКАЛЬНЫЕ оптимальные значения:
+- Картофель требует нежных вальцов (легко повреждается).
+- Лук — сильного обдува (для отделения кожуры).
+- Шпинат — минимум воздуха (листья разлетаются).
+
+ХЛОПКОУБОРОЧНЫЕ МАШИНЫ:
+- Шпиндели (Picker Speed)
+- Подача (Feeder Speed)
+- Хлопок чрезвычайно легкий, поэтому точная калибровка критична.]]>
+        </ru>
+            <hu>
+            <![CDATA[GYÖKÉRZÖLDSÉG-BETAKARÍTÓK:
+- Ventilátor (Fan Speed)
+- Tisztítóhengerek (Cleaning Rollers)
+- Felhordószalag (Elevator Web)
+
+Minden gyökérzöldségnek EGYEDI optimális értékei vannak!
+
+A burgonya kíméletes görgőket igényel.
+
+A hagyma erős légáramot.
+
+A spenót minimális levegőt.
+
+GYAPOTBETAKARÍTÓK:
+- Ventilátor (Fan Speed)
+- Felszedő sebessége (Picker Speed)
+- Adagoló (Feeder Speed) — a gyapot rendkívül könnyű.]]>
+        </hu>
+            <cz>
+            <![CDATA[SKLÍZEČE OKOPANIN (brambory, cukrová řepa, cibule, mrkev, špenát) mají Ventilátor (Fan Speed), Čisticí válce (Cleaning Rollers)
+- a Prosévací pás (Elevator Web).
+
+Každá plodina má JEDINEČNÉ optimální hodnoty!
+
+Brambory potřebují jemné válce.
+
+Cibule silný proud vzduchu. Špenát minimální vzduch.
+
+SBĚRAČE BAVLNY mají Ventilátor (Fan Speed)
+- Rychlost sběrače (Picker Speed)
+- a Podavač (Feeder Speed) — bavlna je extrémně lehká.]]>
+        </cz>
+            <uk>
+            <![CDATA[КОРЕНЕЗБИРАЛЬНІ МАШИНИ (картопля, буряк, цибуля, морква, шпинат) мають:
+- Fan Speed (оберти вентилятора)
+- Cleaning Rollers (очисні вальці)
+- Elevator Web (транспортер)
+
+У кожної культури УНІКАЛЬНІ оптимальні значення:
+- Картопля потребує ніжних вальців (легко пошкоджується).
+- Цибуля — сильного обдуву (для відокремлення шкірки).
+- Шпинат — мінімуму повітря (листя розлітається).
+
+БАВОВНОЗБИРАЛЬНІ МАШИНИ:
+- Шпинделі (Picker Speed)
+- та подача (Feeder Speed).
+- Бавовна надзвичайно легка, тому точне калібрування є критичним.]]>
+        </uk>
+        </text>
+
+        <!-- ===== PAGE 5: CROP LOSS ===== -->
+        <text name="rhm_help_loss_title">
+            <en>
+            <![CDATA[5. Crop Loss — Causes and Prevention]]>
+        </en>
+            <de>
+            <![CDATA[5. Ernteverluste — Ursachen und Vorbeugung]]>
+        </de>
+            <fr>
+            <![CDATA[5. Pertes de récolte — Causes et prévention]]>
+        </fr>
+            <it>
+            <![CDATA[5. Perdite di raccolto — Cause e prevenzione]]>
+        </it>
+            <es>
+            <![CDATA[5. Pérdidas de cultivo — Causas y prevención]]>
+        </es>
+            <br>
+            <![CDATA[5. Perdas de colheita — Causas e prevenção]]>
+        </br>
+            <pl>
+            <![CDATA[5. Straty plonów — Przyczyny i zapobieganie]]>
+        </pl>
+            <ru>
+            <![CDATA[5. Потери урожая — Причины и профилактика]]>
+        </ru>
+            <hu>
+            <![CDATA[5. Termésveszteség — Okok és megelőzés]]>
+        </hu>
+            <cz>
+            <![CDATA[5. Ztráty sklizně — Příčiny a prevence]]>
+        </cz>
+            <uk>
+            <![CDATA[5. Втрати врожаю — Причини та запобігання]]>
+        </uk>
+        </text>
+        <text name="rhm_help_loss_sub1">
+            <en><![CDATA[Source 1: Overload & Speed]]></en>
+            <de><![CDATA[Quelle 1: Überlastung & Geschwindigkeit]]></de>
+            <fr><![CDATA[Source 1 : Surcharge et vitesse]]></fr>
+            <it><![CDATA[Fonte 1: Sovraccarico e velocità]]></it>
+            <es><![CDATA[Fuente 1: Sobrecarga y velocidad]]></es>
+            <br><![CDATA[Fonte 1: Sobrecarga e velocidade]]></br>
+            <pl><![CDATA[Źródło 1: Przeciążenie i prędkość]]></pl>
+            <ru><![CDATA[Источник 1: Перегрузка и скорость]]></ru>
+            <hu><![CDATA[1. forrás: Túlterhelés és sebesség]]></hu>
+            <cz><![CDATA[Zdroj 1: Přetížení a rychlost]]></cz>
+            <uk><![CDATA[Джерело 1: Перевантаження та швидкість]]></uk>
+        </text>
+        <text name="rhm_help_loss_1">
+            <en>
+            <![CDATA[Crop losses come from TWO independent sources.
+
+SOURCE 1 — OVERLOAD (Speed):
+- When engine load exceeds 95%, grain losses begin.
+
+The faster you push past the limit, the more grain falls on the ground.
+
+Solution:
+- slow down, use a narrower header, or choose a more powerful combine.
+
+SOURCE 2 — POOR CALIBRATION (Settings):
+- If your fan, rotor, or sieves are wrong for the current crop, you get a calibration penalty on top of speed losses.
+
+Use the Preview Loss feature in the Calibration Menu (RShift+K) to check your penalty even when not harvesting.]]>
+        </en>
+            <de>
+            <![CDATA[Ernteverluste kommen aus ZWEI unabhängigen Quellen.
+
+QUELLE 1 — ÜBERLASTUNG (Geschwindigkeit):
+- Ab 95% Motorlast beginnen Verluste.
+
+Je schneller, desto mehr.
+
+Lösung:
+- langsamer fahren, schmaleres Schneidwerk nutzen.
+
+QUELLE 2 — FALSCHE KALIBRIERUNG:
+- Falsche Einstellungen von Gebläse, Rotor oder Sieben verursachen einen Zusatzstrafwert.
+
+Nutzen Sie die Verlustvorschau im Kalibrierungsmenü (RShift+K).]]>
+        </de>
+            <fr>
+            <![CDATA[Les pertes viennent de DEUX sources indépendantes.
+
+SOURCE 1 — SURCHARGE (Vitesse) :
+- Au-delà de 95% de charge moteur, les pertes commencent.
+
+Plus vous poussez, plus vous perdez.
+
+Solution :
+- ralentir.
+
+SOURCE 2 — MAUVAIS CALIBRAGE :
+- Si le ventilateur, rotor ou grilles sont mal réglés, une pénalité s'ajoute.
+
+Utilisez l'Aperçu des Pertes dans le menu de calibrage (RShift+K).]]>
+        </fr>
+            <it>
+            <![CDATA[Le perdite vengono da DUE fonti indipendenti.
+
+FONTE 1 — SOVRACCARICO (Velocità):
+- Oltre il 95% di carico, le perdite iniziano.
+
+Più vai veloce, più perdi.
+
+Soluzione:
+- rallenta.
+
+FONTE 2 — CATTIVA CALIBRAZIONE:
+- Ventola, rotore o crivelli errati aggiungono una penalità.
+
+Usa l'Anteprima Perdite nel menu calibrazione (RShift+K).]]>
+        </it>
+            <es>
+            <![CDATA[Las pérdidas vienen de DOS fuentes independientes.
+
+FUENTE 1 — SOBRECARGA (Velocidad):
+- Sobre el 95% de carga, las pérdidas comienzan.
+
+Cuanto más rápido, más pierde.
+
+Solución:
+- reduzca velocidad.
+
+FUENTE 2 — MALA CALIBRACIÓN:
+- Ventilador, rotor o cribas incorrectos añaden una penalización.
+
+Use la Vista Previa de Pérdidas en el menú (RShift+K).]]>
+        </es>
+            <br>
+            <![CDATA[As perdas vêm de DUAS fontes independentes.
+
+FONTE 1 — SOBRECARGA (Velocidade):
+- Acima de 95% de carga, as perdas começam.
+
+Quanto mais rápido, mais perde.
+
+Solução:
+- reduza velocidade.
+
+FONTE 2 — MÁ CALIBRAÇÃO:
+- Ventilador, rotor ou peneiras incorretos adicionam penalidade.
+
+Use a Prévia de Perdas no menu (RShift+K).]]>
+        </br>
+            <pl>
+            <![CDATA[Straty pochodzą z DWÓCH niezależnych źródeł.
+
+ŹRÓDŁO 1 — PRZECIĄŻENIE (Prędkość):
+- Powyżej 95% obciążenia silnika straty się zaczynają.
+
+Im szybciej jedziesz, tym więcej tracisz.
+
+Rozwiązanie:
+- zwolnij.
+
+ŹRÓDŁO 2 — ZŁA KALIBRACJA:
+- Złe ustawienia wentylatora, rotora lub sit dodają karę.
+
+Użyj Podglądu Strat w menu (RShift+K).]]>
+        </pl>
+            <ru>
+            <![CDATA[Потери идут из ДВУХ независимых источников.
+
+ИСТОЧНИК 1 — ПЕРЕГРУЗКА (Скорость):
+- Когда нагрузка превышает 95%, зерно начинает теряться.
+
+Чем быстрее — тем больше потери.
+
+Решение:
+- замедлиться, использовать узкую жатку или мощнее комбайн.
+
+ИСТОЧНИК 2 — ПЛОХАЯ КАЛИБРОВКА (Настройки):
+- Неправильные вентилятор, ротор или решёта дают штрафные потери сверху.
+
+Используйте «Предпросмотр потерь» в меню (RShift+K).]]>
+        </ru>
+            <hu>
+            <![CDATA[A veszteségek KÉT független forrásból származnak.
+
+FORRÁS 1 — TÚLTERHELÉS (Sebesség):
+- 95% fölötti motorterhelésnél a veszteségek megkezdődnek.
+
+Megoldás:
+- lassíts.
+
+FORRÁS 2 — ROSSZ KALIBRÁLÁS:
+- Rossz ventilátor, rotor vagy rosta beállítások büntetést adnak.
+
+Használd a Veszteség Előnézetet a menüben (RShift+K).]]>
+        </hu>
+            <cz>
+            <![CDATA[Ztráty pocházejí ze DVOU nezávislých zdrojů.
+
+ZDROJ 1 — PŘETÍŽENÍ (Rychlost):
+- Nad 95% zatížení motoru začínají ztráty. Čím rychleji, tím více. Řešení:
+- zpomalte.
+
+ZDROJ 2 — ŠPATNÁ KALIBRACE:
+- Špatný ventilátor, rotor nebo síta přidávají penalizaci.
+
+Použijte Náhled Ztrát v menu (RShift+K).]]>
+        </cz>
+            <uk>
+            <![CDATA[Втрати врожаю виникають із ДВОХ незалежних джерел.
+
+ДЖЕРЕЛО 1 — ПЕРЕВАНТАЖЕННЯ (Швидкість):
+- Коли навантаження двигуна перевищує 95%, починаються втрати зерна. Чим швидше ви їдете понад ліміт, тим більше зерна падає на землю.
+
+Рішення: знизьте швидкість, використовуйте вужчу жатку або потужніший комбайн.
+
+ДЖЕРЕЛО 2 — ПОГАНЕ КАЛІБРУВАННЯ (Налаштування):
+- Якщо вентилятор, ротор або решета налаштовані неправильно, ви отримаєте додатковий штраф до втрат.
+
+Використовуйте функцію «Прогноз втрат» у меню калібрування (RShift+K), щоб перевірити налаштування навіть без збирання.]]>
+        </uk>
+        </text>
+        <text name="rhm_help_loss_sub2">
+            <en><![CDATA[Source 2: Poor Calibration Settings]]></en>
+            <de><![CDATA[Quelle 2: Falsche Kalibrierung]]></de>
+            <fr><![CDATA[Source 2 : Mauvais réglages de calibrage]]></fr>
+            <it><![CDATA[Fonte 2: Impostazioni di calibrazione errate]]></it>
+            <es><![CDATA[Fuente 2: Ajustes de calibración incorrectos]]></es>
+            <br><![CDATA[Fonte 2: Ajustes de calibração incorretos]]></br>
+            <pl><![CDATA[Źródło 2: Złe ustawienia kalibracji]]></pl>
+            <ru><![CDATA[Источник 2: Плохая калибровка]]></ru>
+            <hu><![CDATA[2. forrás: Rossz kalibrálási beállítások]]></hu>
+            <cz><![CDATA[Zdroj 2: Špatné nastavení kalibrace]]></cz>
+            <uk><![CDATA[Джерело 2: Погані налаштування калібрування]]></uk>
+        </text>
+        <text name="rhm_help_loss_2">
+            <en>
+            <![CDATA[Calibration physics are split into two mechanics.
+
+EFFICIENCY components (Rotor and Feeder House) affect throughput speed — if poorly configured, the engine struggles, and cruise control forces you to drive slower.
+
+Perfect settings grant up to +5% Speed Bonus.
+
+CLEANING components (Fan and Sieves) affect grain separation — if the fan is too strong or sieves poorly adjusted, clean grain gets blown out the back.
+
+Perfect settings ensure 0% Added Crop Loss.
+
+BONUS:
+- Perfect speed settings also grant an Overload Shield that absorbs minor crop density spikes.]]>
+        </en>
+            <de>
+            <![CDATA[Die Kalibrierungsphysik teilt sich in zwei Mechaniken.
+
+EFFIZIENZ-Komponenten (Rotor, Zuführwerk) beeinflussen die Durchsatzgeschwindigkeit.
+
+Perfekte Einstellungen gewähren bis zu +5% Geschwindigkeitsbonus.
+
+REINIGUNGS-Komponenten (Gebläse, Siebe) beeinflussen die Korntrennung.
+
+Perfekte Einstellungen garantieren 0% Zusatzstrafwert.
+
+BONUS:
+- Perfekte Einstellungen gewähren einen Überlastungsschutz.]]>
+        </de>
+            <fr>
+            <![CDATA[La physique de calibrage se divise en deux mécaniques.
+
+Les composants D'EFFICACITÉ (Rotor, Alimentation) affectent le débit.
+
+Des réglages parfaits donnent +5% de Bonus Vitesse.
+
+Les composants DE NETTOYAGE (Ventilateur, Grilles) affectent la séparation.
+
+Des réglages parfaits garantissent 0% de Perte Ajoutée.
+
+BONUS :
+- La perfection donne un Bouclier Anti-Surcharge.]]>
+        </fr>
+            <it>
+            <![CDATA[La fisica della calibrazione si divide in due meccaniche.
+
+I componenti di EFFICIENZA (Rotore, Alimentatore) influenzano la velocità.
+
+Impostazioni perfette danno +5% di Bonus Velocità.
+
+I componenti di PULITURA (Ventola, Crivelli) influenzano la separazione.
+
+Impostazioni perfette garantiscono 0% di Perdita Aggiunta.
+
+BONUS:
+- La perfezione dà uno Scudo Anti-Sovraccarico.]]>
+        </it>
+            <es>
+            <![CDATA[La física de calibración se divide en dos mecánicas.
+
+Los componentes de EFICIENCIA (Rotor, Alimentador) afectan el rendimiento.
+
+Ajustes perfectos dan +5% de Bonus de Velocidad.
+
+Los componentes de LIMPIEZA (Ventilador, Cribas) afectan la separación.
+
+Ajustes perfectos garantizan 0% de Pérdida Añadida.
+
+BONUS:
+- La perfección otorga un Escudo Anti-Sobrecarga.]]>
+        </es>
+            <br>
+            <![CDATA[A física da calibração se divide em duas mecânicas.
+
+Os componentes de EFICIÊNCIA (Rotor, Alimentador) afetam a velocidade.
+
+Ajustes perfeitos dão +5% de Bônus de Velocidade.
+
+Os componentes de LIMPEZA (Ventilador, Peneiras) afetam a separação.
+
+Ajustes perfeitos garantem 0% de Perda Adicional.
+
+BÔNUS:
+- A perfeição dá um Escudo Anti-Sobrecarga.]]>
+        </br>
+            <pl>
+            <![CDATA[Fizyka kalibracji dzieli się na dwie mechaniki.
+
+Komponenty WYDAJNOŚCI (Rotor, Podajnik) wpływają na przepustowość.
+
+Idealne ustawienia dają +5% Bonusu Prędkości.
+
+Komponenty CZYSZCZENIA (Wentylator, Sita) wpływają na separację.
+
+Idealne ustawienia gwarantują 0% Dodatkowych Strat.
+
+BONUS:
+- Perfekcja daje Tarczę Antyobciążeniową chroniącą przed skokami gęstości.]]>
+        </pl>
+            <ru>
+            <![CDATA[Физика калибровки делится на две механики.
+
+Компоненты ЭФФЕКТИВНОСТИ (Ротор, Подача) влияют на скорость обработки — при плохих настройках двигатель перегружается, круиз-контроль замедляет.
+
+Идеальная настройка даёт +5% Бонуса к Скорости.
+
+Компоненты ОЧИСТКИ (Вентилятор, Решёта) влияют на сепарацию зерна — слишком сильный воздух выдувает зерно.
+
+Идеал = 0% Добавленных Потерь.
+
+БОНУС:
+- Идеал эффективности даёт Щит от Перегрузки.]]>
+        </ru>
+            <hu>
+            <![CDATA[A kalibrálás fizikája két mechanikára oszlik.
+
+A HATÉKONYSÁGI komponensek (Rotor, Adagoló) a sebességet befolyásolják.
+
+Tökéletes beállítások +5% Sebesség Bónuszt adnak.
+
+A TISZTÍTÁSI komponensek (Ventilátor, Rosták) a szeparálást befolyásolják.
+
+Tökéletes beállítások 0% Hozzáadott Veszteséget garantálnak.
+
+BÓNUSZ:
+- A tökéletesség Túlterhelés Pajzsot ad.]]>
+        </hu>
+            <cz>
+            <![CDATA[Fyzika kalibrace se dělí na dvě mechaniky.
+
+Komponenty ÚČINNOSTI (Rotor, Podavač) ovlivňují rychlost.
+
+Dokonalé nastavení dává +5% Bonus Rychlosti.
+
+Komponenty ČIŠTĚNÍ (Ventilátor, Síta) ovlivňují separaci.
+
+Dokonalé nastavení zaručuje 0% Přidané Ztráty.
+
+BONUS:
+- Dokonalost dává Štít Proti Přetížení.]]>
+        </cz>
+            <uk>
+            <![CDATA[Фізика калібрування розділена на дві механіки.
+
+Компоненти ЕФЕКТИВНОСТІ (Ротор та Похила камера) впливають на швидкість обробки — при поганих налаштуваннях двигун перевантажується, а круїз-контроль змушує вас їхати повільніше.
+
+Ідеальні налаштування дають до +5% бонусу до швидкості.
+
+Компоненти ОЧИЩЕННЯ (Вентилятор та Решета) впливають на сепарацію зерна — якщо вентилятор занадто потужний або решета налаштовані погано, чисте зерно вилітає позаду комбайна.
+
+Ідеальні налаштування гарантують 0% додаткових втрат.
+
+БОНУС: ідеальні налаштування також дають «Захист від перевантаження», який поглинає незначні стрибки густоти врожаю.]]>
+        </uk>
+        </text>
+
+        <!-- ===== PAGE 6: DIFFICULTY ===== -->
+        <text name="rhm_help_difficulty_title">
+            <en>
+            <![CDATA[6. Difficulty Settings and Configuration]]>
+        </en>
+            <de>
+            <![CDATA[6. Schwierigkeitseinstellungen und Konfiguration]]>
+        </de>
+            <fr>
+            <![CDATA[6. Paramètres de difficulté et configuration]]>
+        </fr>
+            <it>
+            <![CDATA[6. Impostazioni di difficoltà e configurazione]]>
+        </it>
+            <es>
+            <![CDATA[6. Ajustes de dificultad y configuración]]>
+        </es>
+            <br>
+            <![CDATA[6. Configurações de dificuldade]]>
+        </br>
+            <pl>
+            <![CDATA[6. Ustawienia trudności i konfiguracja]]>
+        </pl>
+            <ru>
+            <![CDATA[6. Настройки сложности и конфигурация]]>
+        </ru>
+            <hu>
+            <![CDATA[6. Nehézségi beállítások és konfiguráció]]>
+        </hu>
+            <cz>
+            <![CDATA[6. Nastavení obtížnosti a konfigurace]]>
+        </cz>
+            <uk>
+            <![CDATA[6. Рівні складності та конфігурація]]>
+        </uk>
+        </text>
+        <text name="rhm_help_difficulty_1">
+            <en>
+            <![CDATA[Open ESC > Settings > Realistic Harvesting.
+
+ENGINE POWER controls combine capacity:
+- Arcade (200% — very forgiving, almost impossible to overload)
+- Normal (120% — slight boost)
+- Realistic (100% — real machine specs, requires skill).
+
+CROP LOSS SEVERITY controls penalty intensity:
+- Arcade (50% penalty)
+- Normal (standard)
+- Realistic (200% — very strict, even minor overload causes heavy losses).]]>
+        </en>
+            <de>
+            <![CDATA[ESC > Einstellungen > Realistic Harvesting.
+
+MOTORLEISTUNG steuert die Kapazität:
+- Arcade (200%)
+- Normal (120%)
+- Realistisch (100%).
+
+ERNTEVERLUST-SCHWERE steuert die Strafintensität:
+- Arcade (50%)
+- Normal (Standard)
+- Realistisch (200%).]]>
+        </de>
+            <fr>
+            <![CDATA[ESC > Paramètres > Realistic Harvesting.
+
+PUISSANCE MOTEUR contrôle la capacité :
+- Arcade (200%)
+- Normal (120%)
+- Réaliste (100%).
+
+SÉVÉRITÉ DES PERTES contrôle l'intensité :
+- Arcade (50%)
+- Normal (standard)
+- Réaliste (200%).]]>
+        </fr>
+            <it>
+            <![CDATA[ESC
+- Impostazioni
+- Realistic Harvesting.
+
+POTENZA MOTORE controlla la capacità:
+- Arcade (200%)
+- Normale (120%)
+- Realistico (100%).
+
+GRAVITÀ PERDITE controlla l'intensità della penalità:
+- Arcade (50%)
+- Normale (standard)
+- Realistico (200%).]]>
+        </it>
+            <es>
+            <![CDATA[ESC > Ajustes > Realistic Harvesting.
+
+POTENCIA DEL MOTOR controla la capacidad:
+- Arcade (200%)
+- Normal (120%)
+- Realista (100%).
+
+SEVERIDAD DE PÉRDIDAS controla la intensidad:
+- Arcade (50%)
+- Normal (estándar)
+- Realista (200%).]]>
+        </es>
+            <br>
+            <![CDATA[ESC > Configurações > Realistic Harvesting.
+
+POTÊNCIA DO MOTOR controla a capacidade:
+- Arcade (200%)
+- Normal (120%)
+- Realista (100%).
+
+SEVERIDADE DAS PERDAS controla a intensidade:
+- Arcade (50%)
+- Normal (padrão)
+- Realista (200%).]]>
+        </br>
+            <pl>
+            <![CDATA[ESC > Ustawienia > Realistic Harvesting.
+
+MOC SILNIKA kontroluje wydajność:
+- Arcade (200%)
+- Normal (120%)
+- Realistyczny (100%).
+
+INTENSYWNOŚĆ STRAT kontroluje karę:
+- Arcade (50%)
+- Normal (standard)
+- Realistyczny (200%).]]>
+        </pl>
+            <ru>
+            <![CDATA[ESC > Настройки > Realistic Harvesting.
+
+МОЩНОСТЬ ДВИГАТЕЛЯ управляет вместимостью:
+- Аркада (200% — почти невозможно перегрузить)
+- Нормальный (120%)
+- Реалистичный (100% — реальные характеристики).
+
+ЖЁСТКОСТЬ ПОТЕРЬ управляет штрафами:
+- Аркада (50%)
+- Нормальный (стандарт)
+- Реалистичный (200% — очень строго).]]>
+        </ru>
+            <hu>
+            <![CDATA[ESC
+- Beállítások
+- Realistic Harvesting.
+
+MOTORTELJESÍTMÉNY szabályozza a kapacitást:
+- Arcade (200%)
+- Normál (120%)
+- Realisztikus (100%).
+
+VESZTESÉG SÚLYOSSÁGA szabályozza a büntetés intenzitását:
+- Arcade (50%)
+- Normál (standard)
+- Realisztikus (200%).]]>
+        </hu>
+            <cz>
+            <![CDATA[ESC
+- Nastavení
+- Realistic Harvesting.
+
+VÝKON MOTORU řídí kapacitu:
+- Arkáda (200%)
+- Normální (120%)
+- Realistický (100%).
+
+ZÁVAŽNOST ZTRÁT řídí intenzitu penalizace:
+- Arkáda (50%)
+- Normální (standard)
+- Realistický (200%).]]>
+        </cz>
+            <uk>
+            <![CDATA[Меню:
+- ESC > Налаштування > Realistic Harvesting.
+
+ПОТУЖНІСТЬ ДВИГУНА контролює продуктивність комбайна:
+- Аркадний (200% — дуже поблажливий, практично неможливо перевантажити)
+- Нормальний (120% — невелике підвищення)
+- Реалістичний (100% — реальні характеристики машини, потребує майстерності).
+
+СУВОРІСТЬ ВТРАТ контролює інтенсивність штрафів:
+- Аркадний (50% штрафу)
+- Нормальний (стандарт)
+- Реалістичний (200% — дуже строго, навіть невелике перевантаження спричиняє великі втрати).]]>
+        </uk>
+        </text>
+        <text name="rhm_help_difficulty_2">
+            <en>
+            <![CDATA[Additional toggles:
+- Speed Limiter (ON/OFF) — automaticaly reduces your speed when engine load is too high
+- Crop Loss System (ON/OFF) — enables or disables grain loss simulation entirely
+- Independent Launch — allows starting thresher without lowering the header first.
+
+In MULTIPLAYER, server settings (difficulty, speed limit, crop loss) are shared for all players and can only be changed by the admin.
+
+Client settings (HUD, units, position) are personal per-player.
+
+All settings persist across save games.]]>
+        </en>
+            <de>
+            <![CDATA[Weitere Optionen:
+- Geschwindigkeitsbegrenzung (EIN/AUS)
+- Ernteverlust-System (EIN/AUS)
+- Unabhängiger Start.
+
+Im MEHRSPIELER sind Servereinstellungen (Schwierigkeit) für alle gleich und nur vom Admin änderbar.
+
+Clienteinstellungen (HUD, Einheiten) sind pro Spieler.
+
+Alle Einstellungen bleiben gespeichert.]]>
+        </de>
+            <fr>
+            <![CDATA[Options supplémentaires :
+- Limiteur de Vitesse (ON/OFF)
+- Système de Pertes (ON/OFF)
+- Lancement Indépendant.
+
+En MULTIJOUEUR, les paramètres serveur sont partagés (admin uniquement).
+
+Les paramètres client (HUD, unités) sont personnels.
+
+Tout est sauvegardé.]]>
+        </fr>
+            <it>
+            <![CDATA[Opzioni aggiuntive:
+- Limitatore Velocità (ON/OFF)
+- Sistema Perdite (ON/OFF)
+- Avvio Indipendente.
+
+In MULTIGIOCATORE, le impostazioni server sono condivise (solo admin).
+
+Le impostazioni client (HUD, unità) sono personali.
+
+Tutto viene salvato.]]>
+        </it>
+            <es>
+            <![CDATA[Opciones adicionales:
+- Limitador de Velocidad (ON/OFF)
+- Sistema de Pérdidas (ON/OFF)
+- Arranque Independiente.
+
+En MULTIJUGADOR, los ajustes del servidor son compartidos (solo admin).
+
+Los ajustes del cliente (HUD, unidades) son personales.
+
+Todo se guarda.]]>
+        </es>
+            <br>
+            <![CDATA[Opções adicionais:
+- Limitador de Velocidade (ON/OFF)
+- Sistema de Perdas (ON/OFF)
+- Início Independente.
+
+No MULTIJOGADOR, as configurações do servidor são compartilhadas (apenas admin).
+
+As configurações do cliente (HUD, unidades) são pessoais.
+
+Tudo é salvo.]]>
+        </br>
+            <pl>
+            <![CDATA[Dodatkowe opcje:
+- Ogranicznik Prędkości (WŁ/WYŁ)
+- System Strat (WŁ/WYŁ)
+- Niezależny Rozruch.
+
+W MULTIPLAYERZE ustawienia serwera (trudność) są wspólne i zmienia je tylko admin.
+
+Ustawienia klienta (HUD, jednostki) są indywidualne.
+
+Wszystko jest zapisywane.]]>
+        </pl>
+            <ru>
+            <![CDATA[Дополнительные переключатели:
+- Ограничитель скорости (ВКЛ/ВЫКЛ) — автоматически снижает скорость при перегрузке
+- Система потерь (ВКЛ/ВЫКЛ) — полностью включает/отключает симуляцию потерь
+- Независимый запуск — позволяет включить молотилку без опускания жатки.
+
+В МУЛЬТИПЛЕЕРЕ серверные настройки (сложность) общие для всех, изменяет только админ.
+
+Клиентские (HUD, единицы) — индивидуальные.
+
+Всё сохраняется между сессиями.]]>
+        </ru>
+            <hu>
+            <![CDATA[További kapcsolók:
+- Sebességkorlátozó (BE/KI)
+- Veszteségrendszer (BE/KI)
+- Független Indítás.
+
+TÖBBJÁTÉKOS módban a szerver beállítások (nehézség) közösek és csak admin változtathatja.
+
+A kliens beállítások (HUD, mértékegységek) személyesek.
+
+Minden mentődik.]]>
+        </hu>
+            <cz>
+            <![CDATA[Další přepínače:
+- Omezovač Rychlosti (ZAP/VYP)
+- Systém Ztrát (ZAP/VYP)
+- Nezávislý Start.
+
+V MULTIPLAYERU jsou serverová nastavení (obtížnost) sdílená a mění je pouze admin.
+
+Klientská nastavení (HUD, jednotky) jsou osobní.
+
+Vše se ukládá.]]>
+        </cz>
+            <uk>
+            <![CDATA[Додаткові перемикачі:
+- Обмежувач швидкості (УВМК/ВИМК) — автоматично знижує швидкість при перевантаженні
+- Система втрат (УВМК/ВИМК) — повністю вмикає або вимикає симуляцію втрат зерна
+- Незалежний запуск — дозволяє увімкнути молотарку без попереднього опускання жатки.
+
+У МУЛЬТИПЛЕЄРІ серверні налаштування (складність, ліміт швидкості, втрати) спільні для всіх і може змінювати тільки адміністратор.
+
+Клієнтські (HUD, одиниці, позиція) — персональні для кожного гравця.
+
+Всі налаштування зберігаються між сесіями.]]>
+        </uk>
+        </text>
+    
+        <text name="rhm_help_overview_sub1">
+            <en>
+            <![CDATA[Core Mechanics]]>
+        </en> <de>
+            <![CDATA[Kernmechanik]]>
+        </de> <fr>
+            <![CDATA[Mécanique de base]]>
+        </fr> <it>
+            <![CDATA[Meccanica di base]]>
+        </it> <es>
+            <![CDATA[Mecánica central]]>
+        </es> <br>
+            <![CDATA[Mecânica central]]>
+        </br> <pl>
+            <![CDATA[Główna mechanika]]>
+        </pl> <ru>
+            <![CDATA[Основная механика]]>
+        </ru> <hu>
+            <![CDATA[Alapvető mechanika]]>
+        </hu> <cz>
+            <![CDATA[Základní mechanika]]>
+        </cz> <uk>
+            <![CDATA[Основна механіка]]>
+        </uk>
+        </text>
+        <text name="rhm_help_overview_sub2">
+            <en>
+            <![CDATA[Efficiency &amp; Engine Load]]>
+        </en> <de>
+            <![CDATA[Effizienz &amp; Motorlast]]>
+        </de> <fr>
+            <![CDATA[Efficacité et Charge]]>
+        </fr> <it>
+            <![CDATA[Efficienza e Carico]]>
+        </it> <es>
+            <![CDATA[Eficiencia y Carga]]>
+        </es> <br>
+            <![CDATA[Eficiência e Carga]]>
+        </br> <pl>
+            <![CDATA[Wydajność i Obciążenie]]>
+        </pl> <ru>
+            <![CDATA[Эффективность и Нагрузка]]>
+        </ru> <hu>
+            <![CDATA[Hatékonyság és Terhelés]]>
+        </hu> <cz>
+            <![CDATA[Účinnost a Zatížení]]>
+        </cz> <uk>
+            <![CDATA[Ефективність та Навантаження]]>
+        </uk>
+        </text>
+        <text name="rhm_help_hud_sub1">
+            <en>
+            <![CDATA[Live Metrics]]>
+        </en> <de>
+            <![CDATA[Live-Metriken]]>
+        </de> <fr>
+            <![CDATA[Mesures en Direct]]>
+        </fr> <it>
+            <![CDATA[Metriche Live]]>
+        </it> <es>
+            <![CDATA[Métricas en Vivo]]>
+        </es> <br>
+            <![CDATA[Métricas ao Vivo]]>
+        </br> <pl>
+            <![CDATA[Pomiary na Żywo]]>
+        </pl> <ru>
+            <![CDATA[Текущие показатели]]>
+        </ru> <hu>
+            <![CDATA[Élő Mutatók]]>
+        </hu> <cz>
+            <![CDATA[Živé Metriky]]>
+        </cz> <uk>
+            <![CDATA[Показники в реальному часі]]>
+        </uk>
+        </text>
+        <text name="rhm_help_hud_sub2">
+            <en>
+            <![CDATA[Customization]]>
+        </en> <de>
+            <![CDATA[Anpassung]]>
+        </de> <fr>
+            <![CDATA[Personnalisation]]>
+        </fr> <it>
+            <![CDATA[Personalizzazione]]>
+        </it> <es>
+            <![CDATA[Personalización]]>
+        </es> <br>
+            <![CDATA[Personalização]]>
+        </br> <pl>
+            <![CDATA[Personalizacja]]>
+        </pl> <ru>
+            <![CDATA[Настройки интерфейса]]>
+        </ru> <hu>
+            <![CDATA[Testreszabás]]>
+        </hu> <cz>
+            <![CDATA[Přizpůsobení]]>
+        </cz> <uk>
+            <![CDATA[Налаштування інтерфейсу]]>
+        </uk>
+        </text>
+        <text name="rhm_help_calibration_sub1">
+            <en>
+            <![CDATA[Internal Components]]>
+        </en> <de>
+            <![CDATA[Interne Komponenten]]>
+        </de> <fr>
+            <![CDATA[Composants Internes]]>
+        </fr> <it>
+            <![CDATA[Componenti Interni]]>
+        </it> <es>
+            <![CDATA[Componentes Internos]]>
+        </es> <br>
+            <![CDATA[Componentes Internos]]>
+        </br> <pl>
+            <![CDATA[Elementy Wewnętrzne]]>
+        </pl> <ru>
+            <![CDATA[Внутренние узлы]]>
+        </ru> <hu>
+            <![CDATA[Belső Alkatrészek]]>
+        </hu> <cz>
+            <![CDATA[Vnitřní Komponenty]]>
+        </cz> <uk>
+            <![CDATA[Внутрішні вузли]]>
+        </uk>
+        </text>
+        <text name="rhm_help_calibration_sub2">
+            <en>
+            <![CDATA[Harvest Report]]>
+        </en> <de>
+            <![CDATA[Erntebericht]]>
+        </de> <fr>
+            <![CDATA[Rapport de Récolte]]>
+        </fr> <it>
+            <![CDATA[Rapporto di Raccolta]]>
+        </it> <es>
+            <![CDATA[Informe de Cosecha]]>
+        </es> <br>
+            <![CDATA[Relatório de Colheita]]>
+        </br> <pl>
+            <![CDATA[Raport ze Zbiorów]]>
+        </pl> <ru>
+            <![CDATA[Отчет об уборке]]>
+        </ru> <hu>
+            <![CDATA[Betakarítási Jelentés]]>
+        </hu> <cz>
+            <![CDATA[Zpráva o Sklizni]]>
+        </cz> <uk>
+            <![CDATA[Звіт про врожай]]>
+        </uk>
+        </text>
+        <text name="rhm_help_special_sub1">
+            <en>
+            <![CDATA[Forage Harvesters]]>
+        </en> <de>
+            <![CDATA[Feldhäcksler]]>
+        </de> <fr>
+            <![CDATA[Ensileuses]]>
+        </fr> <it>
+            <![CDATA[Trinciatrici]]>
+        </it> <es>
+            <![CDATA[Cosechadoras de Forraje]]>
+        </es> <br>
+            <![CDATA[Colheitadeiras de Forragem]]>
+        </br> <pl>
+            <![CDATA[Sieczkarnie]]>
+        </pl> <ru>
+            <![CDATA[Кормоуборочные комбайны]]>
+        </ru> <hu>
+            <![CDATA[Szecskázók]]>
+        </hu> <cz>
+            <![CDATA[Řezačky]]>
+        </cz> <uk>
+            <![CDATA[Кормозбиральні комбайни]]>
+        </uk>
+        </text>
+        <text name="rhm_help_special_sub2">
+            <en>
+            <![CDATA[Root Crop &amp; Cotton]]>
+        </en> <de>
+            <![CDATA[Hackfrucht &amp; Baumwolle]]>
+        </de> <fr>
+            <![CDATA[Racines &amp; Coton]]>
+        </fr> <it>
+            <![CDATA[Radici &amp; Cotone]]>
+        </it> <es>
+            <![CDATA[Raíces &amp; Algodón]]>
+        </es> <br>
+            <![CDATA[Raízes &amp; Algodão]]>
+        </br> <pl>
+            <![CDATA[Okopowe i Bawełna]]>
+        </pl> <ru>
+            <![CDATA[Корнеплоды и Хлопок]]>
+        </ru> <hu>
+            <![CDATA[Gyökérzöldség és Gyapot]]>
+        </hu> <cz>
+            <![CDATA[Okopaniny a Bavlna]]>
+        </cz> <uk>
+            <![CDATA[Коренеплоди та Бавовна]]>
+        </uk>
+        </text>
+        <text name="rhm_help_croploss_sub1">
+            <en>
+            <![CDATA[Sources of Loss]]>
+        </en> <de>
+            <![CDATA[Verlustquellen]]>
+        </de> <fr>
+            <![CDATA[Sources de Perte]]>
+        </fr> <it>
+            <![CDATA[Fonti di Perdita]]>
+        </it> <es>
+            <![CDATA[Fuentes de Pérdida]]>
+        </es> <br>
+            <![CDATA[Fontes de Perda]]>
+        </br> <pl>
+            <![CDATA[Źródła Strat]]>
+        </pl> <ru>
+            <![CDATA[Источники потерь]]>
+        </ru> <hu>
+            <![CDATA[Veszteség Forrásai]]>
+        </hu> <cz>
+            <![CDATA[Zdroje Ztrát]]>
+        </cz> <uk>
+            <![CDATA[Джерела втрат]]>
+        </uk>
+        </text>
+        <text name="rhm_help_croploss_sub2">
+            <en>
+            <![CDATA[Calibration Penalties]]>
+        </en> <de>
+            <![CDATA[Kalibrierungsstrafen]]>
+        </de> <fr>
+            <![CDATA[Pénalités de Calibrage]]>
+        </fr> <it>
+            <![CDATA[Penalità di Calibrazione]]>
+        </it> <es>
+            <![CDATA[Penalizaciones de Calibración]]>
+        </es> <br>
+            <![CDATA[Penalidades de Calibração]]>
+        </br> <pl>
+            <![CDATA[Kary za Kalibrację]]>
+        </pl> <ru>
+            <![CDATA[Штрафы за калибровку]]>
+        </ru> <hu>
+            <![CDATA[Kalibrálási Büntetések]]>
+        </hu> <cz>
+            <![CDATA[Penále za Kalibraci]]>
+        </cz> <uk>
+            <![CDATA[Штрафи за калібрування]]>
+        </uk>
+        </text>
+        <text name="rhm_help_difficulty_sub1">
+            <en>
+            <![CDATA[Game Difficulty]]>
+        </en> <de>
+            <![CDATA[Spielschwierigkeit]]>
+        </de> <fr>
+            <![CDATA[Difficulté du Jeu]]>
+        </fr> <it>
+            <![CDATA[Difficoltà di Gioco]]>
+        </it> <es>
+            <![CDATA[Dificultad del Juego]]>
+        </es> <br>
+            <![CDATA[Dificuldade do Jogo]]>
+        </br> <pl>
+            <![CDATA[Poziom Trudności]]>
+        </pl> <ru>
+            <![CDATA[Сложность игры]]>
+        </ru> <hu>
+            <![CDATA[Játék Nehézsége]]>
+        </hu> <cz>
+            <![CDATA[Obtížnost Hry]]>
+        </cz> <uk>
+            <![CDATA[Складність гри]]>
+        </uk>
+        </text>
+        <text name="rhm_help_difficulty_sub2">
+            <en>
+            <![CDATA[Additional Settings]]>
+        </en> <de>
+            <![CDATA[Zusätzliche Einstellungen]]>
+        </de> <fr>
+            <![CDATA[Paramètres Supplémentaires]]>
+        </fr> <it>
+            <![CDATA[Impostazioni Aggiuntive]]>
+        </it> <es>
+            <![CDATA[Ajustes Adicionales]]>
+        </es> <br>
+            <![CDATA[Configurações Adicionais]]>
+        </br> <pl>
+            <![CDATA[Dodatkowe Ustawienia]]>
+        </pl> <ru>
+            <![CDATA[Активные модули]]>
+        </ru> <hu>
+            <![CDATA[További Beállítások]]>
+        </hu> <cz>
+            <![CDATA[Další Nastavení]]>
+        </cz> <uk>
+            <![CDATA[Активні модулі]]>
+        </uk>
+        </text>
+        <text name="rhm_help_upgrades_sub1">
+            <en>
+            <![CDATA[Level 1: Standard Equipment]]>
+        </en>
+            <de>
+            <![CDATA[Level 1: Basisausstattung]]>
+        </de>
+            <fr>
+            <![CDATA[Niveau 1 : Équipement Standard]]>
+        </fr>
+            <it>
+            <![CDATA[Livello 1: Equipaggiamento Base]]>
+        </it>
+            <es>
+            <![CDATA[Nivel 1: Equipo Estándar]]>
+        </es>
+            <br>
+            <![CDATA[Nível 1: Equipamento Padrão]]>
+        </br>
+            <pl>
+            <![CDATA[Poziom 1: Wyposażenie standardowe]]>
+        </pl>
+            <ru>
+            <![CDATA[Уровень 1: Базовая электроника]]>
+        </ru>
+            <hu>
+            <![CDATA[1. szint: Alapfelszereltség]]>
+        </hu>
+            <cz>
+            <![CDATA[Úroveň 1: Standardní vybavení]]>
+        </cz>
+            <uk>
+            <![CDATA[Рівень 1: Базове обладнання]]>
+        </uk>
+        </text>
+        <text name="rhm_help_upgrades_sub2">
+            <en>
+            <![CDATA[Level 2: Sensor Kit]]>
+        </en>
+            <de>
+            <![CDATA[Level 2: Sensor-Kit]]>
+        </de>
+            <fr>
+            <![CDATA[Niveau 2 : Kit de Capteurs]]>
+        </fr>
+            <it>
+            <![CDATA[Livello 2: Kit Sensori]]>
+        </it>
+            <es>
+            <![CDATA[Nivel 2: Kit de Sensores]]>
+        </es>
+            <br>
+            <![CDATA[Nível 2: Kit de Sensores]]>
+        </br>
+            <pl>
+            <![CDATA[Poziom 2: Zestaw czujników]]>
+        </pl>
+            <ru>
+            <![CDATA[Уровень 2: Набор датчиков]]>
+        </ru>
+            <hu>
+            <![CDATA[2. szint: Szenzor-készlet]]>
+        </hu>
+            <cz>
+            <![CDATA[Úroveň 2: Senzorový balíček]]>
+        </cz>
+            <uk>
+            <![CDATA[Рівень 2: Набір датчиків]]>
+        </uk>
+        </text>
+        <text name="rhm_help_upgrades_sub3">
+            <en>
+            <![CDATA[Level 3: Yield Monitor]]>
+        </en>
+            <de>
+            <![CDATA[Level 3: Ertragsmonitor]]>
+        </de>
+            <fr>
+            <![CDATA[Niveau 3 : Moniteur de Rendement]]>
+        </fr>
+            <it>
+            <![CDATA[Livello 3: Monitor di Resa]]>
+        </it>
+            <es>
+            <![CDATA[Nivel 3: Monitor de Rendimiento]]>
+        </es>
+            <br>
+            <![CDATA[Nível 3: Monitor de Rendimento]]>
+        </br>
+            <pl>
+            <![CDATA[Poziom 3: Monitor plonu]]>
+        </pl>
+            <ru>
+            <![CDATA[Уровень 3: Монитор урожайности]]>
+        </ru>
+            <hu>
+            <![CDATA[3. szint: Hozammonitor]]>
+        </hu>
+            <cz>
+            <![CDATA[Úroveň 3: Monitor výnosu]]>
+        </cz>
+            <uk>
+            <![CDATA[Рівень 3: Монітор врожайності]]>
+        </uk>
+        </text>
+        <text name="rhm_help_upgrades_sub4">
+            <en>
+            <![CDATA[Level 4: Opti-Harvest AI]]>
+        </en>
+            <de>
+            <![CDATA[Level 4: Opti-Harvest KI]]>
+        </de>
+            <fr>
+            <![CDATA[Niveau 4 : IA Opti-Harvest]]>
+        </fr>
+            <it>
+            <![CDATA[Livello 4: IA Opti-Harvest]]>
+        </it>
+            <es>
+            <![CDATA[Nivel 4: IA Opti-Harvest]]>
+        </es>
+            <br>
+            <![CDATA[IA Opti-Harvest]]>
+        </br>
+            <pl>
+            <![CDATA[Poziom 4: Opti-Harvest AI]]>
+        </pl>
+            <ru>
+            <![CDATA[Уровень 4: Opti-Harvest AI]]>
+        </ru>
+            <hu>
+            <![CDATA[4. szint: Opti-Harvest AI]]>
+        </hu>
+            <cz>
+            <![CDATA[Úroveň 4: Umělá Inteligence Opti-Harvest]]>
+        </cz>
+            <uk>
+            <![CDATA[Рівень 4: Система Opti-Harvest AI]]>
+        </uk>
+        </text>
+</l10n>
+
+    <helpLines>
+        <!-- Title category for GUI -->
+        <category title="$l10n_rhm_help_category">
+            <page title="$l10n_rhm_help_overview_title">
+                <!--paragraph>
+                    <image filename="textures/help_overview.dds" aspectRatio="1" displaySize="512px 512px"/>
+                </paragraph-->
+                <paragraph>
+                    <title text="$l10n_rhm_help_overview_sub1"/>
+                    <text text="$l10n_rhm_help_overview_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_overview_sub2"/>
+                    <text text="$l10n_rhm_help_overview_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 2: HUD ===== -->
+            <page title="$l10n_rhm_help_hud_title">
+                <!--paragraph>
+                    <image filename="textures/help_hud.dds" aspectRatio="1" displaySize="512px 512px"/>
+                </paragraph-->
+                <paragraph>
+                    <title text="$l10n_rhm_help_hud_sub1"/>
+                    <text text="$l10n_rhm_help_hud_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_hud_sub2"/>
+                    <text text="$l10n_rhm_help_hud_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 3: CALIBRATION ===== -->
+            <page title="$l10n_rhm_help_calibration_title">
+                <!--paragraph>
+                    <image filename="textures/help_calibration.dds" aspectRatio="1" displaySize="512px 512px"/>
+                </paragraph-->
+                <paragraph>
+                    <title text="$l10n_rhm_help_calibration_sub1"/>
+                    <text text="$l10n_rhm_help_calibration_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_calibration_sub2"/>
+                    <text text="$l10n_rhm_help_calibration_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 4: SPECIAL COMBINES ===== -->
+            <page title="$l10n_rhm_help_special_title">
+                <!--paragraph>
+                    <image filename="textures/help_special.dds" aspectRatio="1" displaySize="512px 512px"/>
+                </paragraph-->
+                <paragraph>
+                    <title text="$l10n_rhm_help_special_sub1"/>
+                    <text text="$l10n_rhm_help_special_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_special_sub2"/>
+                    <text text="$l10n_rhm_help_special_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 5: CROP LOST ===== -->
+            <page title="$l10n_rhm_help_loss_title">
+                <!--paragraph>
+                    <image filename="textures/help_croploss.dds" aspectRatio="1" displaySize="512px 512px"/>
+                </paragraph-->
+                <paragraph>
+                    <title text="$l10n_rhm_help_loss_sub1"/>
+                    <text text="$l10n_rhm_help_loss_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_loss_sub2"/>
+                    <text text="$l10n_rhm_help_loss_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 6: DIFFICULTY ===== -->
+            <page title="$l10n_rhm_help_difficulty_title">
+                <!--paragraph>
+                    <image filename="textures/help_difficulty.dds" aspectRatio="1" displaySize="512px 512px"/>
+                </paragraph-->
+                <paragraph>
+                    <title text="$l10n_rhm_help_difficulty_sub1"/>
+                    <text text="$l10n_rhm_help_difficulty_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_difficulty_sub2"/>
+                    <text text="$l10n_rhm_help_difficulty_2"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 7: UPGRADES ===== -->
+            <page title="$l10n_rhm_help_upgrades_title">
+                <!--paragraph>
+                   <image filename="textures/help_upgrades.dds" aspectRatio="1" displaySize="512px 512px"/>
+                </paragraph-->
+                <paragraph>
+                    <title text="$l10n_rhm_help_upgrades_sub1"/>
+                    <text text="$l10n_rhm_help_upgrades_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_upgrades_sub2"/>
+                    <text text="$l10n_rhm_help_upgrades_2"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_upgrades_sub3"/>
+                    <text text="$l10n_rhm_help_upgrades_3"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_upgrades_sub4"/>
+                    <text text="$l10n_rhm_help_upgrades_4"/>
+                </paragraph>
+            </page>
+        </category>
+    </helpLines>
+
 </modDesc>

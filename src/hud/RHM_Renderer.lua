@@ -1,16 +1,16 @@
 -- EN: Low-level HUD rendering utility. Provides helper functions for drawing
 --     text with specific colors, alignment, and font settings, and for measuring
---     text width. Used internally by DraggableHUD and other HUD components.
+--     text width. Used internally by RHMDraggableHUD and other HUD components.
 -- UA: Низькорівнева утиліта відтворення HUD. Надає допоміжні функції для малювання
 --     тексту з певними кольорами, вирівнюванням і налаштуваннями шрифту,
---     а також для вимірювання ширини тексту. Використовується DraggableHUD та іншими HUD-компонентами.
-HUDRenderer = {}
+--     а також для вимірювання ширини тексту. Використовується RHMDraggableHUD та іншими HUD-компонентами.
+RHM_HUDRenderer = {}
 
 -- EN: Predefined color constants — industrial dark theme with amber accents.
 --     Dark olive background, warm white text, amber highlights.
 -- UA: Заздалегідь визначені константи кольорів — індустріальна темна тема з бурштиновими акцентами.
 --     Темно-оливковий фон, тепло-білий текст, бурштинові підсвічування.
-HUDRenderer.COLORS = {
+RHM_HUDRenderer.COLORS = {
     BACKGROUND      = {0.04, 0.05, 0.03, 0.95},
     HEADER          = {0.09, 0.07, 0.03, 1.00},
     SURFACE         = {1.00, 1.00, 1.00, 0.04},
@@ -36,13 +36,13 @@ HUDRenderer.COLORS = {
     BTN_SAVE        = {0.06, 0.12, 0.04, 1.00},
 }
 
-HUDRenderer.SIZES = {
+RHM_HUDRenderer.SIZES = {
     PADDING      = 0.005,
     BORDER_WIDTH = 0.001,
     LINE_HEIGHT  = 0.015
 }
 
-function HUDRenderer.drawText(text, x, y, size, color, align)
+function RHM_HUDRenderer.drawText(text, x, y, size, color, align)
     align = align or "left"
     if not text or text == "" then return end
     setTextColor(color[1], color[2], color[3], color[4])
@@ -54,9 +54,10 @@ function HUDRenderer.drawText(text, x, y, size, color, align)
     setTextColor(1, 1, 1, 1)
 end
 
-function HUDRenderer.getTextWidth(text, size)
+function RHM_HUDRenderer.getTextWidth(text, size)
     setTextBold(true)
     local width = getTextWidth(size, text)
     setTextBold(false)
     return width
 end
+

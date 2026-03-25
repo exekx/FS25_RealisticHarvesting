@@ -6,10 +6,10 @@
 --     Відстежує площу зрізу та масу врожаю кожен тік для розрахунку: навантаження (%),
 --     динамічного ліміту швидкості, продуктивності (т/год, л/год), врожайності (т/га)
 --     та втрат врожаю (%) від відхилення налаштувань. Підтримує зернові, форажні, коренеплоди, бавовну.
-LoadCalculator = {}
-local LoadCalculator_mt = Class(LoadCalculator)
+RHM_LoadCalculator = {}
+local LoadCalculator_mt = Class(RHM_LoadCalculator)
 
-function LoadCalculator.new(modDirectory)
+function RHM_LoadCalculator.new(modDirectory)
     local self = setmetatable({}, LoadCalculator_mt)
     
     self.modDirectory = modDirectory or g_currentModDirectory
@@ -54,20 +54,18 @@ function LoadCalculator.new(modDirectory)
     -- EN: Load accumulator / UA: Накопичувач навантаження
     self.loadAccumulatedMass = 0 -- kg
     
-    -- Combine Settings System
+    -- Combine RHMSettings System
     self.combineMemory = nil  -- EN: Will be set by rhm_Combine / UA: Буде встановлено з rhm_Combine
     self.currentCrop = nil    -- EN: Current crop for loss calc / UA: Поточна культура для розрахунку втрат
     
-    self.debug = RHM_Debug and RHM_Debug.isEnabled("LoadCalculator") or false
-    if self.debug then
-        print("RHM: LoadCalculator initialized")
-    end
+    self.debug = false  -- EN: Kept for compatibility, unused / UA: Залишено для сумісності, не використовується
+    rhm_log("RHM [RHM_LoadCalculator]: RHM: RHM_LoadCalculator initialized")
     
     return self
 end
 
 ---EN: Loads default crop difficulty factors / UA: Завантажує стандартні коефіцієнти складності культур
-function LoadCalculator:loadDefaultCropFactors()
+function RHM_LoadCalculator:loadDefaultCropFactors()
     -- EN: Target load factors for crops / UA: Цільові фактори навантаження для культур
     -- EN: Lower factor = lighter crop = faster drive / UA: Менший фактор = легша культура = комбайн їде швидше
     local factorMap = {
@@ -167,17 +165,15 @@ function LoadCalculator:loadDefaultCropFactors()
 end
 
 ---EN: Sets base performance mass / UA: Встановлює базову продуктивність (маса)
-function LoadCalculator:setBasePerformance(basePerfMass)
+function RHM_LoadCalculator:setBasePerformance(basePerfMass)
     self.basePerfMass = basePerfMass
     
-    if rhm_Combine and rhm_Combine.debug then
-        print(string.format("RHM: Base performance set to %.2f kg/s (%.1f t/h)", 
-            self.basePerfMass, self.basePerfMass * 3.6))
-    end
+    rhm_log(string.format("RHM [RHM_LoadCalculator]: RHM: Base performance set to %.2f kg/s (%.1f t/h)", 
+        self.basePerfMass, self.basePerfMass * 3.6))
 end
 
 ---EN: Gets base performance from engine power / UA: Отримує базову продуктивність з потужності двигуна
-function LoadCalculator:getBasePerformanceFromPower(vehicle)
+function RHM_LoadCalculator:getBasePerformanceFromPower(vehicle)
     -- NEW LOGIC: Calculate throughput based on Horsepower
     -- Approximation: 1 HP ~= 0.035 kg/s throughput for Grain
     
@@ -240,7 +236,7 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
         end
         
         if isVegetable then
-            coef = 0.060 -- EN: Standardized vegetable coefficient / UA: Стандартизований коефіцієнт для овочів
+            coef = 0.080 -- EN: Standardized vegetable coefficient (increased for downhill capacity) / UA: Стандартизований коефіцієнт для овочів
         end
     end
     
@@ -287,10 +283,8 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
     
     if power and tonumber(power) > 0 then
         local basePerf = tonumber(power) * coef
-        if rhm_Combine and rhm_Combine.debug then
-            print(string.format("RHM DEBUG: BasePerf Mass computed for %s (cat: %s, coef: %.3f): %d hp -> %.2f kg/s (%.1f t/h)", 
-                vehicle:getFullName(), category or "unknown", coef, power, basePerf, basePerf * 3.6))
-        end
+        rhm_log(string.format("RHM [RHM_LoadCalculator]: RHM DEBUG: BasePerf Mass computed for %s (cat: %s, coef: %.3f): %d hp -> %.2f kg/s (%.1f t/h)", 
+            vehicle:getFullName(), category or "unknown", coef, power, basePerf, basePerf * 3.6))
         return basePerf
     end
     
@@ -304,7 +298,7 @@ function LoadCalculator:getBasePerformanceFromPower(vehicle)
 end
 
 ---EN: Updates load calculation variables / UA: Оновлює дані для розрахунку навантаження
-function LoadCalculator:update(vehicle, dt, mass)
+function RHM_LoadCalculator:update(vehicle, dt, mass)
     self.totalDistance = self.totalDistance + vehicle.lastMovedDistance
     self.loadAccumulatedMass = (self.loadAccumulatedMass or 0) + mass
     
@@ -330,7 +324,7 @@ function LoadCalculator:update(vehicle, dt, mass)
 end
 
 ---EN: Calculates Engine Load / UA: Розраховує навантаження на двигун
-function LoadCalculator:calculateEngineLoad(vehicle)
+function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     if self.currentTime <= 0 then
         return
     end
@@ -459,40 +453,22 @@ function LoadCalculator:calculateEngineLoad(vehicle)
                          or currentFruitTypeName:find("GREENBEAN")
                          
         if not isRootOrVeg then
-            cropFactor = cropFactor * 0.75  -- EN: Standard windrows (Wheat, Barley, etc.)
+            cropFactor = cropFactor * 0.25  -- EN: Standard windrows (Wheat, Barley, etc.)
         end
     elseif isForageCutter then
-        cropFactor = cropFactor * 0.80  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
+        cropFactor = cropFactor * 0.75  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
     end
 
-    -- --- [RHM DEBUG: INFO LOG] ---
-    if rhm_Combine and rhm_Combine.debug and self.lastCropType ~= spec_combine.lastValidInputFruitType then
+    if self.lastCropType ~= spec_combine.lastValidInputFruitType then
         self.lastCropType = spec_combine.lastValidInputFruitType
         local mode = isPickup and "PICKUP" or (isForageCutter and "FORAGE_CUTTER" or "DIRECT_CUT")
-        print(string.format("RHM DEBUG: [INPUT] %s (%s). Final Factor: %.3f", mode, currentFruitTypeName, cropFactor))
+        rhm_log(string.format("RHM [RHM_LoadCalculator]: RHM DEBUG: [INPUT] %s (%s). Final Factor: %.3f", mode, currentFruitTypeName, cropFactor))
     end
     
     -- EN: Calculate RAW average mass intake per second / UA: Розраховуємо RAW середню масу за секунду (кг/с)
     -- EN: Uses accumulatedMass over the target distance/time / UA: Використовуємо accumulatedMass
     local safeTime = math.max(100, self.currentTime) -- Protect against division by zero
-    
-    -- MOISTURE FACTOR: Optimal is 14%. Every 1% above adds 2% difficulty.
-    local moistureFactor = 1.0
-    local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
-    
-    if settings and settings.enableMoisture and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.data and vehicle.spec_rhm_Combine.data.moisture then
-        local m = vehicle.spec_rhm_Combine.data.moisture / 100 -- 0.0 to 1.0 (already a percentage in spec.data)
-        if m > 0 then
-            local diff = m - 0.14
-            if diff > 0 then
-                moistureFactor = 1.0 + (diff * 2.0)
-            else
-                moistureFactor = math.max(0.9, 1.0 + (diff * 0.5))
-            end
-        end
-    end
-
-    local rawAvgMass = (self.loadAccumulatedMass or 0) * (1000 / safeTime) * cropFactor * moistureFactor
+    local rawAvgMass = (self.loadAccumulatedMass or 0) * (1000 / safeTime) * cropFactor
     
     -- ADAPTIVE SMOOTHING
     local loadRatio = self.currentAvgMass / math.max(0.01, self.basePerfMass)
@@ -524,10 +500,10 @@ function LoadCalculator:calculateEngineLoad(vehicle)
 end
 
 ---EN: Calculates Vehicle Speed Limit / UA: Розраховує обмеження швидкості
-function LoadCalculator:calculateSpeedLimit(vehicle)
+function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     if self.currentAvgMass == 0 then
         -- EN: If not harvesting, return to vanilla working speed / UA: Якщо не збираємо, повертаємось до ванільної робочої швидкості
-        local target = self.vanillaWorkingSpeed or 10.0
+        local target = self.genuineSpeedLimit > 0 and self.genuineSpeedLimit or 10.0
         if self.speedLimit > target then
             self.speedLimit = math.max(target, self.speedLimit - 0.5)
         elseif self.speedLimit < target then
@@ -536,88 +512,62 @@ function LoadCalculator:calculateSpeedLimit(vehicle)
         return
     end
     
-    local currentSpeed = vehicle.lastSpeedReal * 3600 
-    local speedKmh = math.max(1.0, currentSpeed)
-    if currentSpeed < 1.0 and self.currentAvgMass > (self.basePerfMass * 0.1) then
-        speedKmh = math.max(2.0, self.speedLimit)
+    local powerBoost = 0
+    local targetLoad = 0.95
+    if self.combineMemory and self.combineMemory.currentSettings and self.combineMemory.currentSettings.targetEngineLoad then
+        targetLoad = self.combineMemory.currentSettings.targetEngineLoad / 100.0
     end
     
-    local powerBoost = 0
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         powerBoost = g_realisticHarvestManager.settings:getPowerBoost()
     end
+    
     local maxAvgMass = (1 + 0.01 * powerBoost) * self.basePerfMass * (self.settingsEfficiency or 1.0)
     if maxAvgMass <= 0.01 then return end
     
     local loadRatio = self.currentAvgMass / maxAvgMass
-    local rawLoadRatio = (self.rawAvgMass or self.currentAvgMass) / maxAvgMass
+
+    -- EN: Calculate error between target and current load
+    -- UA: Розраховуємо різницю між цільовим і реальним навантаженням
+    local difference = targetLoad - loadRatio
     
-    local targetLoad = 0.85
-    local idealSpeed = self.genuineSpeedLimit
-    
-    if loadRatio > 0.05 then 
-        idealSpeed = speedKmh * (targetLoad / loadRatio)
-    end
-    idealSpeed = math.min(self.genuineSpeedLimit, math.max(2.0, idealSpeed))
-    
-    local alpha = 0.1 
-    local controlZone = "NORMAL"
-    
-    if rawLoadRatio > 1.25 then
-        alpha = 1.0 -- PANIC
-        controlZone = "PANIC"
-        local emergencyIdeal = math.min(speedKmh, self.speedLimit) * (targetLoad / rawLoadRatio)
-        idealSpeed = math.min(idealSpeed, math.max(2.0, emergencyIdeal))
-    elseif rawLoadRatio > 1.10 then
-        alpha = 0.6 -- HARD BRAKE
-        controlZone = "HARD_BRAKE"
-        local hardbrakeIdeal = math.min(speedKmh, self.speedLimit) * (targetLoad / rawLoadRatio)
-        idealSpeed = math.min(idealSpeed, math.max(2.0, hardbrakeIdeal))
-    elseif loadRatio >= 0.85 and loadRatio <= 0.95 then
-        alpha = 0.02 -- DEADBAND
-        controlZone = "LOCKED"
-    elseif loadRatio < 0.85 then
-        if loadRatio < 0.50 then
-            alpha = self.isPickup and 0.15 or 0.40 -- EN: Slow down pickup accel / UA: Повільне прискорення підбирача
-            controlZone = "ACCEL_FAST"
-        elseif loadRatio < 0.75 then
-            alpha = self.isPickup and 0.10 or 0.25 
-            controlZone = "ACCEL_MED"
-        else
-            alpha = self.isPickup and 0.05 or 0.15 
-            controlZone = "ACCEL_SLOW"
-        end
+    -- EN: Proportional adjustment: hard brake on overload, smooth acceleration on underload
+    -- UA: Пропорційне регулювання: швидке гальмування при перевантаженні, плавний розгін
+    local step = difference * 2.0
+    if difference < 0 then
+        step = difference * 5.0 -- EN: Panic brake / UA: Екстренне скидання швидкості при забиванні
     end
     
-    local diff = idealSpeed - self.speedLimit
-    local maxStep = 1.0
-    if controlZone == "PANIC" then maxStep = 10.0 end
-    if controlZone == "HARD_BRAKE" then maxStep = 5.0 end
+    -- EN: Limit speed jump to avoid jittering
+    -- UA: Обмежуємо максимальний стрибок швидкості за один тік, щоб уникнути ривків
+    step = math.max(-3.0, math.min(1.0, step))
     
-    local step = diff * alpha
-    step = math.clamp(step, -maxStep, maxStep)
     self.speedLimit = self.speedLimit + step
+
+    -- EN: Clamp speed within safe bounds
+    -- UA: Обмеження швидкості: не менше 4 км/год і не більше оригінального ліміту гри
+    self.speedLimit = math.max(math.min(self.genuineSpeedLimit, 4.0), math.min(self.genuineSpeedLimit, self.speedLimit))
 end
 
 ---EN: Returns current engine load factor / UA: Повертає поточне навантаження двигуна
-function LoadCalculator:getEngineLoad()
+function RHM_LoadCalculator:getEngineLoad()
     return self.engineLoad * 100
 end
 
 ---EN: Returns calculated speed limit target / UA: Повертає остаточний ліміт швидкості
-function LoadCalculator:getSpeedLimit()
+function RHM_LoadCalculator:getSpeedLimit()
     return self.speedLimit or 0
 end
 
 ---EN: Caches base limit speed boundary / UA: Встановлює оригінальні межі ліміту
-function LoadCalculator:setGenuineSpeedLimit(limit, maxCap)
+function RHM_LoadCalculator:setGenuineSpeedLimit(limit, maxCap)
     self.vanillaWorkingSpeed = limit
     self.genuineSpeedLimit = maxCap or limit
     self.speedLimit = limit
 end
 
 ---EN: Fully resets accumulated internal data variables / UA: Повністю очищує змінні бази даних
-function LoadCalculator:reset()
+function RHM_LoadCalculator:reset()
     self.totalDistance = 0
     self.totalArea = 0
     self.currentTime = 0
@@ -645,26 +595,30 @@ function LoadCalculator:reset()
 end
 
 ---EN: Calculates settings-related quality losses / UA: Розраховує втрати врожаю
-function LoadCalculator:calculateCropLoss()
+function RHM_LoadCalculator:calculateCropLoss()
     if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then return 0 end
     if not g_realisticHarvestManager.settings.enableCropLoss then return 0 end
     
-    local activeEfficiency = self.settingsEfficiency or 1.0
-    local shieldBonus = math.max(0, activeEfficiency - 1.0)
-    local lossThreshold = 0.95 + shieldBonus
+    local lossMultiplier = g_realisticHarvestManager.settings:getLossMultiplier()
     
-    if self.engineLoad > lossThreshold then
-        local overload = self.engineLoad - lossThreshold
-        local lossMultiplier = g_realisticHarvestManager.settings:getLossMultiplier()
-        local loss = 0
-        if overload <= 0.10 then
-            loss = overload * 40 * lossMultiplier
-        elseif overload <= 0.20 then
-            loss = (4.0 + (overload - 0.10) * 80) * lossMultiplier
-        else
-            loss = (12.0 + (overload - 0.20) * 150) * lossMultiplier
+    -- EN: Losses start smoothly from 80% engine load
+    -- UA: Втрати починаються плавно з 80% завантаження
+    if self.engineLoad > 0.80 then
+        local overload = self.engineLoad - 0.80
+        -- UA: Прогресивна крива (експонента): 
+        -- При 80% (overload=0) -> 0% втрат
+        -- При 90% (overload=0.1) -> 0.5% (мізерні втрати)
+        -- При 100% (overload=0.2) -> 2.0% (допустимі втрати)
+        -- При 110% (overload=0.3) -> 4.5% (пік продуктивності)
+        -- При 130% (overload=0.5) -> 12.5% (величезні втрати)
+        local rawLoss = (overload * overload) * 50
+        
+        -- UA: Різке зростання, якщо завантаження перевищило 110% (забита молотарка)
+        if self.engineLoad > 1.10 then
+            rawLoss = rawLoss + ((self.engineLoad - 1.10) * 100)
         end
-        self.cropLoss = math.min(loss, 50) 
+        
+        self.cropLoss = math.min(rawLoss * lossMultiplier, 50) 
     else
         self.cropLoss = 0
     end
@@ -672,7 +626,7 @@ function LoadCalculator:calculateCropLoss()
 end
 
 ---EN: Calculates losses from inaccurate player threshing settings / UA: Розраховує втрати від неправильних налаштувань гравцем
-function LoadCalculator:updateSettingsImpact()
+function RHM_LoadCalculator:updateSettingsImpact()
     self.settingsEfficiency = 1.0
     self.settingsLoss = 0
     if not self.combineMemory or not self.currentCrop then return end
@@ -696,8 +650,8 @@ function LoadCalculator:updateSettingsImpact()
     end
 end
 
-function LoadCalculator:calculateTotalCropLoss()
-	-- EN: Forage harvesters never have crop loss — bypass all calculations.
+function RHM_LoadCalculator:calculateTotalCropLoss()
+    -- EN: Forage harvesters never have crop loss — bypass all calculations.
     -- UA: Силосні комбайни ніколи не мають втрат врожаю — пропускаємо всі розрахунки.
     if self.combineMemory and self.combineMemory.machineType == "forage" then
         self.cropLoss = 0
@@ -712,17 +666,17 @@ function LoadCalculator:calculateTotalCropLoss()
 end
 
 ---EN: Returns instantaneous processed metric tonnes per clock hour / UA: Перерахунок в тонни на годину
-function LoadCalculator:getTonPerHour()
+function RHM_LoadCalculator:getTonPerHour()
     return self.tonPerHour
 end
 
 ---EN: Returns yield in L/h / UA: Розрахунок літрів на годину
-function LoadCalculator:getLitersPerHour()
+function RHM_LoadCalculator:getLitersPerHour()
     return self.litersPerHour or 0
 end
 
 ---EN: Updates sliding window rolling averages for metric evaluations / UA: Оновлює ковзні середні продуктивності
-function LoadCalculator:updateProductivity(mass, liters, dt)
+function RHM_LoadCalculator:updateProductivity(mass, liters, dt)
     self.totalOutputMass = self.totalOutputMass + mass
     
     self.prodBuffer = self.prodBuffer or {}
@@ -764,7 +718,7 @@ function LoadCalculator:updateProductivity(mass, liters, dt)
 end
 
 ---EN: Processes complete physical output block calculations / UA: Виконує розрахунки врожайності
-function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
+function RHM_LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
     self:updateProductivity(mass, liters, dt)
     if area <= 0.0001 and mass <= 0.001 then
         self.currentYield = self.currentYield or 0
@@ -799,7 +753,7 @@ function LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
     end
 end
 
-function LoadCalculator:setRealTimeYield(yieldTha)
+function RHM_LoadCalculator:setRealTimeYield(yieldTha)
     self.yieldBuffer = self.yieldBuffer or {}
     self.yieldStartIndex = self.yieldStartIndex or 1
     self.yieldEndIndex = self.yieldEndIndex or 0
@@ -821,7 +775,7 @@ function LoadCalculator:setRealTimeYield(yieldTha)
 end
 
 ---EN: Returns formatted yield string / UA: Отримує форматований рядок врожайності
-function LoadCalculator:getYieldText(unitSystem)
+function RHM_LoadCalculator:getYieldText(unitSystem)
     local yield = self.currentYield or 0
     if yield < 0.1 then return "0.0", "t/ha" end
     
@@ -833,3 +787,5 @@ function LoadCalculator:getYieldText(unitSystem)
         return string.format("%.1f", yield), "t/ha"
     end
 end
+
+

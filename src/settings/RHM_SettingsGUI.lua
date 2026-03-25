@@ -4,10 +4,10 @@
 -- UA: Надає консольні команди в грі для керування налаштуваннями мода Realistic Harvesting.
 --     Включає команди для складності, перемикачів функцій, позиціонування HUD і налаштувань комбайна.
 --     Серверні (тільки адмін) налаштування захищені перевіркою прав доступу.
-SettingsGUI = {}
-local SettingsGUI_mt = Class(SettingsGUI)
+RHMSettingsGUI = {}
+local SettingsGUI_mt = Class(RHMSettingsGUI)
 
-function SettingsGUI.new()
+function RHMSettingsGUI.new()
     local self = setmetatable({}, SettingsGUI_mt)
     return self
 end
@@ -16,7 +16,7 @@ end
 --     Called once during initialization. Commands appear in the FS25 console.
 -- UA: Реєструє всі консольні команди для налаштувань мода і керування комбайном.
 --     Викликається один раз під час ініціалізації. Команди з'являються в консолі FS25.
-function SettingsGUI:registerConsoleCommands()
+function RHMSettingsGUI:registerConsoleCommands()
     -- EN: Deprecated joint difficulty setter — kept for backward compatibility.
     -- UA: Застарілий спільний параметр складності — збережено для зворотної сумісності.
     addConsoleCommand("rhmSetDifficulty", "[Deprecated] Set both difficulties (1=Arcade, 2=Normal, 3=Realistic). Use rhmSetDifficultyMotor and rhmSetDifficultyLoss instead.", "consoleCommandSetDifficulty", self)
@@ -55,7 +55,7 @@ end
 --     Players should use rhmSetDifficultyMotor / rhmSetDifficultyLoss separately.
 -- UA: [Застаріло] Встановлює складність двигуна та втрат на одне значення.
 --     Гравцям слід використовувати rhmSetDifficultyMotor / rhmSetDifficultyLoss окремо.
-function SettingsGUI:consoleCommandSetDifficulty(difficulty)
+function RHMSettingsGUI:consoleCommandSetDifficulty(difficulty)
     if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
         return "Error: RHM not initialized"
     end
@@ -79,7 +79,7 @@ end
 
 -- EN: Sets engine load (motor) difficulty independently. Admin only.
 -- UA: Встановлює складність навантаження двигуна незалежно. Тільки для адміністратора.
-function SettingsGUI:consoleCommandSetDifficultyMotor(difficulty)
+function RHMSettingsGUI:consoleCommandSetDifficultyMotor(difficulty)
     if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
         return "Error: RHM not initialized"
     end
@@ -99,7 +99,7 @@ end
 
 -- EN: Sets crop loss difficulty independently. Admin only.
 -- UA: Встановлює складність втрат врожаю незалежно. Тільки для адміністратора.
-function SettingsGUI:consoleCommandSetDifficultyLoss(difficulty)
+function RHMSettingsGUI:consoleCommandSetDifficultyLoss(difficulty)
     if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
         return "Error: RHM not initialized"
     end
@@ -119,7 +119,7 @@ end
 
 -- EN: Toggles the speed limiting feature on/off. Admin only (server-side setting).
 -- UA: Перемикає функцію обмеження швидкості вкл/викл. Тільки адмін (серверне налаштування).
-function SettingsGUI:consoleCommandToggleSpeedLimit()
+function RHMSettingsGUI:consoleCommandToggleSpeedLimit()
     if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
         return "Error: RHM not initialized"
     end
@@ -137,7 +137,7 @@ end
 
 -- EN: Toggles crop loss simulation on/off. Admin only (server-side setting).
 -- UA: Перемикає симуляцію втрат врожаю вкл/викл. Тільки адмін (серверне налаштування).
-function SettingsGUI:consoleCommandToggleCropLoss()
+function RHMSettingsGUI:consoleCommandToggleCropLoss()
     if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
         return "Error: RHM not initialized"
     end
@@ -155,7 +155,7 @@ end
 
 -- EN: Toggles HUD visibility on/off. Client-side setting, doesn't need admin.
 -- UA: Перемикає видимість HUD вкл/викл. Клієнтське налаштування, не потребує прав адміна.
-function SettingsGUI:consoleCommandToggleHUD()
+function RHMSettingsGUI:consoleCommandToggleHUD()
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         local settings = g_realisticHarvestManager.settings
         settings.showHUD = not settings.showHUD
@@ -168,7 +168,7 @@ end
 
 -- EN: Prints a full summary of all current settings to the console.
 -- UA: Виводить повний огляд всіх поточних налаштувань у консоль.
-function SettingsGUI:consoleCommandShowSettings()
+function RHMSettingsGUI:consoleCommandShowSettings()
     if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
         return "Error: RHM not initialized"
     end
@@ -177,14 +177,14 @@ function SettingsGUI:consoleCommandShowSettings()
     local userRole = settings:isAdmin() and "Administrator" or "User"
 
     local info = string.format(
-        "=== RHM Settings ===\n" ..
+        "=== RHM RHMSettings ===\n" ..
         "Role: %s\n" ..
-        "\n[Server Settings]\n" ..
+        "\n[Server RHMSettings]\n" ..
         "Difficulty Motor: %s\n" ..
         "Difficulty Loss: %s\n" ..
         "Speed Limiting: %s\n" ..
         "Crop Loss: %s\n" ..
-        "\n[Personal Settings]\n" ..
+        "\n[Personal RHMSettings]\n" ..
         "Show HUD: %s\n" ..
         "HUD Offset X: %d\n" ..
         "HUD Offset Y: %d\n" ..
@@ -199,27 +199,26 @@ function SettingsGUI:consoleCommandShowSettings()
         settings.hudOffsetY or 0,
         settings.unitSystem == 1 and "Metric" or (settings.unitSystem == 2 and "Imperial" or "Bushels")
     )
-    print(info)
     return info
 end
 
 -- EN: [Deprecated] HUD offset commands replaced by drag-and-drop.
 -- UA: [Застаріло] Команди зміщення HUD замінені перетягуванням.
-function SettingsGUI:consoleCommandSetHUDOffset(offset)
+function RHMSettingsGUI:consoleCommandSetHUDOffset(offset)
     return "WARNING: This command is deprecated. Please use Right Click to drag the HUD, or use rhmResetHUD to reset position."
 end
 
-function SettingsGUI:consoleCommandMoveHUDLeft()
+function RHMSettingsGUI:consoleCommandMoveHUDLeft()
     return "WARNING: This command is deprecated. Please use Right Click to drag the HUD."
 end
 
-function SettingsGUI:consoleCommandMoveHUDRight()
+function RHMSettingsGUI:consoleCommandMoveHUDRight()
     return "WARNING: This command is deprecated. Please use Right Click to drag the HUD."
 end
 
 -- EN: Resets all settings to factory defaults and refreshes the UI and HUD position.
 -- UA: Скидає всі налаштування до заводських значень та оновлює UI і позицію HUD.
-function SettingsGUI:consoleCommandResetSettings()
+function RHMSettingsGUI:consoleCommandResetSettings()
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         g_realisticHarvestManager.settings:resetToDefaults()
 
@@ -232,7 +231,7 @@ function SettingsGUI:consoleCommandResetSettings()
             g_realisticHarvestManager.hud:setPosition(x, y)
         end
 
-        return "RHM: Settings reset to defaults! UI refreshed. HUD position reset."
+        return "RHM: RHMSettings reset to defaults! UI refreshed. HUD position reset."
     end
 
     return "Error: RHM not initialized"
@@ -240,7 +239,7 @@ end
 
 -- EN: Resets the HUD position to its default auto-calculated position.
 -- UA: Скидає позицію HUD до її автоматично розрахованої позиції за замовчуванням.
-function SettingsGUI:consoleCommandResetHUD()
+function RHMSettingsGUI:consoleCommandResetHUD()
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
         local settings = g_realisticHarvestManager.settings
         settings.hudPosX = nil -- EN: nil = automatic placement / UA: nil = автоматичне позиціонування
@@ -264,7 +263,7 @@ end
 
 -- EN: Returns the current combine vehicle the player is seated in, or nil.
 -- UA: Повертає поточний комбайн, в якому сидить гравець, або nil.
-function SettingsGUI:getCurrentCombine()
+function RHMSettingsGUI:getCurrentCombine()
     local vehicle = nil
 
     if g_currentMission and g_currentMission.controlledVehicle then
@@ -294,7 +293,7 @@ end
 
 -- EN: Prints combine settings status to the console without opening any GUI.
 -- UA: Виводить стан налаштувань комбайна у консоль без відкриття GUI.
-function SettingsGUI:consoleCommandCombineStatus()
+function RHMSettingsGUI:consoleCommandCombineStatus()
     local vehicle = self:getCurrentCombine()
     if not vehicle then
         return "[X] You must be in a combine to use this command"
@@ -328,20 +327,19 @@ function SettingsGUI:consoleCommandCombineStatus()
         mem:getProfileCount()
     )
 
-    print(info)
     return info
 end
 
 -- EN: Activates AUTO mode for the current combine via the combine memory system.
 -- UA: Активує AUTO режим для поточного комбайна через систему пам'яті комбайна.
-function SettingsGUI:consoleCommandCombineAuto()
+function RHMSettingsGUI:consoleCommandCombineAuto()
     local vehicle = self:getCurrentCombine()
     if not vehicle then
         return "[X] You must be in a combine to use this command"
     end
 
     if not g_realisticHarvestManager or not g_realisticHarvestManager.combineSettingsGUI then
-        return "[X] Combine Settings GUI not initialized"
+        return "[X] Combine RHMSettings GUI not initialized"
     end
 
     local spec = vehicle.spec_rhm_Combine
@@ -355,7 +353,7 @@ end
 
 -- EN: Activates MANUAL mode for the current combine.
 -- UA: Активує MANUAL режим для поточного комбайна.
-function SettingsGUI:consoleCommandCombineManual()
+function RHMSettingsGUI:consoleCommandCombineManual()
     local vehicle = self:getCurrentCombine()
     if not vehicle then
         return "[X] You must be in a combine to use this command"
@@ -372,7 +370,7 @@ end
 
 -- EN: Sets a single combine parameter to the given value via console.
 -- UA: Встановлює один параметр комбайна на задане значення через консоль.
-function SettingsGUI:consoleCommandCombineSet(param, value)
+function RHMSettingsGUI:consoleCommandCombineSet(param, value)
     local vehicle = self:getCurrentCombine()
     if not vehicle then
         return "[X] You must be in a combine to use this command"
@@ -402,7 +400,7 @@ end
 
 -- EN: Loads a saved profile by name into the current combine memory.
 -- UA: Завантажує збережений профіль за назвою до пам'яті поточного комбайна.
-function SettingsGUI:consoleCommandCombineLoad(profileName)
+function RHMSettingsGUI:consoleCommandCombineLoad(profileName)
     local vehicle = self:getCurrentCombine()
     if not vehicle then
         return "[X] You must be in a combine to use this command"
@@ -427,7 +425,7 @@ end
 
 -- EN: Saves the current combine settings as a named profile for the active crop.
 -- UA: Зберігає поточні налаштування комбайна як іменований профіль для активної культури.
-function SettingsGUI:consoleCommandCombineSave(profileName)
+function RHMSettingsGUI:consoleCommandCombineSave(profileName)
     local vehicle = self:getCurrentCombine()
     if not vehicle then
         return "[X] You must be in a combine to use this command"
@@ -454,7 +452,7 @@ end
 
 -- EN: Lists all saved profiles for the current combine to the console.
 -- UA: Виводить список всіх збережених профілів для поточного комбайна у консоль.
-function SettingsGUI:consoleCommandCombineProfiles()
+function RHMSettingsGUI:consoleCommandCombineProfiles()
     local vehicle = self:getCurrentCombine()
     if not vehicle then
         return "[X] You must be in a combine to use this command"
@@ -475,6 +473,6 @@ function SettingsGUI:consoleCommandCombineProfiles()
         end
     end
 
-    print(info)
     return info
 end
+

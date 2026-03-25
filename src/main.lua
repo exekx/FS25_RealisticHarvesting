@@ -10,33 +10,43 @@
 local modDirectory = g_currentModDirectory
 local modName = g_currentModName
 
+-- EN: Custom logging function that respects FS25 development warnings setting.
+-- UA: Кастомна функція логування, яка поважає налаштування development warnings FS25.
+function rhm_log(...)
+    -- EN: Only print if -devWarnings is passed to the game or the game is explicitly a development build.
+    -- UA: Логуємо тільки якщо грі передано -devWarnings або гра у режимі розробника.
+    if g_showDevelopmentWarnings or g_isDevelopmentVersion then
+        print(...)
+    end
+end
+
 -- EN: Load all subsystem scripts in dependency order.
 -- UA: Завантажуємо всі підсистемні скрипти у порядку залежностей.
 source(modDirectory .. "src/utils/RHM_Debug.lua")
-source(modDirectory .. "src/settings/SettingsManager.lua")
-source(modDirectory .. "src/settings/Settings.lua")
-source(modDirectory .. "src/settings/SettingsGUI.lua")
-source(modDirectory .. "src/network/SettingsSyncEvent.lua")
-source(modDirectory .. "src/network/SettingsSync.lua")
-source(modDirectory .. "src/utils/RHMInputUtil.lua")
-source(modDirectory .. "src/utils/UIHelper.lua")
-source(modDirectory .. "src/utils/UnitConverter.lua")
-source(modDirectory .. "src/settings/SettingsUI.lua")
-source(modDirectory .. "src/hud/HUDRenderer.lua")
-source(modDirectory .. "src/hud/DraggableHUD.lua")
-source(modDirectory .. "src/gui/CombineSettingsGUI.lua")
-source(modDirectory .. "src/gui/CombineCalibrationGUI.lua")
-source(modDirectory .. "src/data/CombineSettingsDatabase.lua")
-source(modDirectory .. "src/settings/ProfileManager.lua")
-source(modDirectory .. "src/settings/CombineMemory.lua")
-source(modDirectory .. "src/network/CombineSettingsEvent.lua")
-source(modDirectory .. "src/logic/LoadCalculator.lua")
-source(modDirectory .. "src/logic/CombineSettingsManager.lua")
-source(modDirectory .. "src/rhm_Combine.lua")
+source(modDirectory .. "src/settings/RHM_Configuration.lua")
+source(modDirectory .. "src/settings/RHM_SettingsManager.lua")
+source(modDirectory .. "src/settings/RHM_Settings.lua")
+source(modDirectory .. "src/settings/RHM_SettingsGUI.lua")
+source(modDirectory .. "src/network/RHM_SettingsSyncEvent.lua")
+source(modDirectory .. "src/network/RHM_SettingsSync.lua")
+source(modDirectory .. "src/utils/RHM_InputUtil.lua")
+source(modDirectory .. "src/utils/RHM_UIHelper.lua")
+source(modDirectory .. "src/utils/RHM_UnitConverter.lua")
+source(modDirectory .. "src/settings/RHM_SettingsUI.lua")
+source(modDirectory .. "src/hud/RHM_Renderer.lua")
+source(modDirectory .. "src/hud/RHM_DraggableHUD.lua")
+source(modDirectory .. "src/gui/RHM_CombineSettingsGUI.lua")
+source(modDirectory .. "src/gui/RHM_CombineCalibrationGUI.lua")
+source(modDirectory .. "src/data/RHM_CombineSettingsDatabase.lua")
+source(modDirectory .. "src/settings/RHM_ProfileManager.lua")
+source(modDirectory .. "src/settings/RHM_CombineMemory.lua")
+source(modDirectory .. "src/network/RHM_CombineSettingsEvent.lua")
+source(modDirectory .. "src/logic/RHM_LoadCalculator.lua")
+source(modDirectory .. "src/RHM_Combine.lua")
 -- EN: CRITICAL: rhm_Cutter must be loaded AFTER rhm_Combine for independent header launch to work.
 -- UA: КРИТИЧНО: rhm_Cutter має бути завантажений ПІСЛЯ rhm_Combine, щоб роздільний запуск жатки працював.
-source(modDirectory .. "src/rhm_Cutter.lua")
-source(modDirectory .. "src/RealisticHarvestManager.lua")
+source(modDirectory .. "src/RHM_Cutter.lua")
+source(modDirectory .. "src/RHM_RealisticHarvestManager.lua")
 
 -- EN: Global reference to the main mod manager instance (nil = disabled/not loaded).
 -- UA: Глобальне посилання на головний екземпляр менеджера мода (nil = вимкнено/не завантажено).
@@ -62,28 +72,28 @@ local function loadedMission(mission, node)
     if mission.cancelLoading then
         return
     end
-
+    
     -- EN: Initialize bushel coefficients safely (FruitType is only available after mission load).
     -- UA: Безпечно ініціалізуємо коефіцієнти бушелів (FruitType доступний тільки після завантаження місії).
-    if UnitConverter and UnitConverter.initBushelCoefficients then
-        UnitConverter.initBushelCoefficients()
+    if RHM_UnitConverter and RHM_UnitConverter.initBushelCoefficients then
+        RHM_UnitConverter.initBushelCoefficients()
     end
 
     rhm:onMissionLoaded()
 end
 
 -- EN: Called when the mission starts loading.
---     Creates the main manager instance and initializes the ProfileManager.
+--     Creates the main manager instance and initializes the RHM_ProfileManager.
 -- UA: Викликається при початку завантаження місії.
---     Створює головний екземпляр менеджера та ініціалізує ProfileManager.
+--     Створює головний екземпляр менеджера та ініціалізує RHM_ProfileManager.
 local function load(mission)
     if rhm == nil then
-        rhm = RealisticHarvestManager.new(mission, modDirectory, modName)
+        rhm = RHM_RealisticHarvestManager.new(mission, modDirectory, modName)
         -- EN: Expose manager globally so other scripts can access it via g_realisticHarvestManager.
         -- UA: Робимо менеджер глобально доступним, щоб інші скрипти могли звертатись через g_realisticHarvestManager.
         getfenv(0)["g_realisticHarvestManager"] = rhm
 
-        rhm.profileManager = ProfileManager.new()
+        rhm.profileManager = RHM_ProfileManager.new()
         rhm.profileManager:loadProfiles()
     end
 end
@@ -110,18 +120,12 @@ local function validateTypes(manager)
     if manager.typeName == "vehicle" then
         -- EN: Register the specialization class itself.
         -- UA: Реєструємо сам клас спеціалізації.
-        g_specializationManager:addSpecialization("rhm_Combine", "rhm_Combine", modDirectory .. "src/rhm_Combine.lua", nil)
+        g_specializationManager:addSpecialization("rhm_Combine", "rhm_Combine", modDirectory .. "src/RHM_Combine.lua", nil)
 
-        -- EN: Add the specialization to every vehicle type that can harvest.
-        -- UA: Додаємо спеціалізацію до кожного типу транспорту, який може збирати врожай.
+        -- EN: Add the specialization to every vehicle type that has a Combine spec.
+        -- UA: Додаємо спеціалізацію до кожного типу транспорту, який має спеціалізацію Combine.
         for typeName, typeEntry in pairs(g_vehicleTypeManager:getTypes()) do
-            local hasAnyHarvesterSpec = 
-                SpecializationUtil.hasSpecialization(Combine, typeEntry.specializations) or
-                SpecializationUtil.hasSpecialization(ForageHarvester, typeEntry.specializations) or
-                SpecializationUtil.hasSpecialization(RootHarvester, typeEntry.specializations) or
-                SpecializationUtil.hasSpecialization(CottonPicker, typeEntry.specializations)
-
-            if hasAnyHarvesterSpec then
+            if SpecializationUtil.hasSpecialization(Combine, typeEntry.specializations) then
                 g_vehicleTypeManager:addSpecialization(typeName, modName .. ".rhm_Combine")
             end
         end
@@ -170,3 +174,5 @@ end)
 -- EN: Register the specialization before vehicle types are validated.
 -- UA: Реєструємо спеціалізацію до валідації типів транспортних засобів.
 TypeManager.validateTypes = Utils.prependedFunction(TypeManager.validateTypes, validateTypes)
+
+
