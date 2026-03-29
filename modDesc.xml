@@ -164,6 +164,10 @@ Funkciók:
     <iconFilename>icon_FS25_RealisticHarvesting.dds</iconFilename>
     <multiplayer supported="true"/>
 
+    <specializations>
+        <specialization name="rhm_Combine" className="rhm_Combine" filename="src/RHM_Combine.lua" />
+    </specializations>
+
     <actions>
         <action name="RHM_TOGGLE_CURSOR" category="VEHICLE" />
         <action name="RHM_OPEN_MENU" category="VEHICLE" />
