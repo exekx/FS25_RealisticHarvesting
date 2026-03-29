@@ -2,7 +2,7 @@
 <modDesc descVersion="107">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.4.3.0</version>
+    <version>1.4.3.1</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -163,6 +163,10 @@ Funkciók:
     </description>
     <iconFilename>icon_FS25_RealisticHarvesting.dds</iconFilename>
     <multiplayer supported="true"/>
+
+    <specializations>
+        <specialization name="rhm_Combine" className="rhm_Combine" filename="src/RHM_Combine.lua" />
+    </specializations>
 
     <actions>
         <action name="RHM_TOGGLE_CURSOR" category="VEHICLE" />

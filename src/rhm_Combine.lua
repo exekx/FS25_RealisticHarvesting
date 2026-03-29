@@ -38,6 +38,23 @@ function rhm_Combine.prerequisitesPresent(specializations)
     return hasCombine
 end
 
+-- EN: Natively called by the engine during specialization registration.
+--     Safely hooks the global savegame XML schema while it is fully accessible.
+--     Fixes the "Path not registered" errors for dynamically added specs.
+-- UA: Викликається рушієм нативно під час реєстрації спеціалізації.
+--     Безпечно хукає глобальну XML схему збереження поки вона повністю доступна.
+function rhm_Combine.initSpecialization()
+    local schema = Vehicle.xmlSchemaSavegame
+    if schema ~= nil then
+        local modName = g_currentModName or "FS25_RealisticHarvesting"
+        local basePath = string.format("vehicles.vehicle(?).%s.rhm_Combine", modName)
+        rhm_Combine.registerSavegameXMLPaths(schema, basePath)
+        if type(schema.compile) == "function" then
+            schema:compile()
+        end
+    end
+end
+
 -- EN: Registers rhm_Combine's overwritten (proxied) functions before event listeners.
 --     These intercept combine core behaviors to inject our load and speed logic.
 -- UA: Реєструє перевизначені (proxy) функції rhm_Combine до подій-прислухачів.
@@ -103,20 +120,6 @@ function rhm_Combine.registerEventListeners(vehicleType)
     
     -- INPUT: Реєструємо події введення
     SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", rhm_Combine)
-    
-    -- CRITICAL FIX: явна реєстрація схеми savegame_vehicles для програмно доданих спеціалізацій
-    if Vehicle and Vehicle.xmlSchemaSavegame then
-        local modName = g_currentModName 
-            or (g_realisticHarvestManager and g_realisticHarvestManager.modName)
-            or "FS25_RealisticHarvesting"
-        
-        -- EN: Registration path must match the game's internal structure: vehicles.vehicle(?).MODNAME.rhm_Combine
-        -- UA: Шлях реєстрації має відповідати структурі гри: vehicles.vehicle(?).MODNAME.rhm_Combine
-        local basePath = string.format("vehicles.vehicle(?).%s.rhm_Combine", modName)
-        rhm_Combine.registerXMLPaths(Vehicle.xmlSchemaSavegame, basePath)
-        
-        rhm_log(string.format("RHM [Combine]: RHM: Registered savegame XML schema paths via Vehicle.xmlSchemaSavegame (basePath: %s)", basePath))
-    end
 end
 
 -- EN: Global hook for non-combine vehicles in a modular system (e.g. NEXAT main tractor).

@@ -118,10 +118,6 @@ end
 --     які вже мають базову спеціалізацію Combine.
 local function validateTypes(manager)
     if manager.typeName == "vehicle" then
-        -- EN: Register the specialization class itself.
-        -- UA: Реєструємо сам клас спеціалізації.
-        g_specializationManager:addSpecialization("rhm_Combine", "rhm_Combine", modDirectory .. "src/RHM_Combine.lua", nil)
-
         -- EN: Add the specialization to every vehicle type that has a Combine spec.
         -- UA: Додаємо спеціалізацію до кожного типу транспорту, який має спеціалізацію Combine.
         for typeName, typeEntry in pairs(g_vehicleTypeManager:getTypes()) do
