@@ -41,6 +41,7 @@ source(modDirectory .. "src/data/RHM_CombineSettingsDatabase.lua")
 source(modDirectory .. "src/settings/RHM_ProfileManager.lua")
 source(modDirectory .. "src/settings/RHM_CombineMemory.lua")
 source(modDirectory .. "src/network/RHM_CombineSettingsEvent.lua")
+source(modDirectory .. "src/integration/RHM_MoistureAdapter.lua")
 source(modDirectory .. "src/logic/RHM_LoadCalculator.lua")
 source(modDirectory .. "src/RHM_Combine.lua")
 -- EN: CRITICAL: rhm_Cutter must be loaded AFTER rhm_Combine for independent header launch to work.
@@ -77,6 +78,10 @@ local function loadedMission(mission, node)
     -- UA: Безпечно ініціалізуємо коефіцієнти бушелів (FruitType доступний тільки після завантаження місії).
     if RHM_UnitConverter and RHM_UnitConverter.initBushelCoefficients then
         RHM_UnitConverter.initBushelCoefficients()
+    end
+
+    if RHM_MoistureAdapter and RHM_MoistureAdapter.initialize then
+        RHM_MoistureAdapter.initialize()
     end
 
     rhm:onMissionLoaded()

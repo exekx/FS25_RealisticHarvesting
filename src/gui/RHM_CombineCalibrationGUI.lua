@@ -816,11 +816,15 @@ function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory
     -- UA: Визначаємо колір значення та текст статусу на основі оптимальності.
     local valColor, statusText, statusColor
 
-    if memory.autoSwitchEnabled then
+    if memory.autoSwitchEnabled and param ~= "targetEngineLoad" then
         valColor    = ui.colors.textDim
         statusText  = "auto"
         statusColor = ui.colors.textDim
-    elseif not hasOptimal then
+    elseif not hasOptimal and param ~= "targetEngineLoad" then
+        valColor    = ui.colors.text
+        statusText  = ""
+        statusColor = ui.colors.textDim
+    elseif param == "targetEngineLoad" then
         valColor    = ui.colors.text
         statusText  = ""
         statusColor = ui.colors.textDim
@@ -844,7 +848,7 @@ function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory
     -- UA: Перевизначення рівня: приховуємо підказки та оптимальні кольори якщо рівень < 2.
     if self.activeVehicle and self.activeVehicle.spec_rhm_Combine then
         local packageLevel = self.activeVehicle.spec_rhm_Combine.packageLevel or 1
-        if packageLevel < 2 then
+        if packageLevel < 2 and param ~= "targetEngineLoad" then
             valColor = ui.colors.text
             statusText = ""
             statusColor = ui.colors.textDim
@@ -903,7 +907,7 @@ function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory
     --     White marker pin at the optimal % position.
     -- UA: Бар від початку колонки значень до кнопок. Показує позицію поточного % значення.
     --     Білий маркер на позиції оптимального % значення.
-    if hasOptimal then
+    if hasOptimal or param == "targetEngineLoad" then
         local barX = valX
         local barW = btnStartX - valX - 0.004
         local barY = y + 0.005
@@ -916,11 +920,21 @@ function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory
         -- EN: Bar fill (current value).
         -- UA: Заповнення бару (поточне значення).
         local fillPct = math.max(0, math.min(val / 100.0, 1.0))
-        local fillColor = isOptimal and ui.colors.success
+        local fillColor = ui.colors.success
+        
+        if param == "targetEngineLoad" then
+            fillPct = math.max(0, math.min((val - 70) / 40.0, 1.0)) -- 70 -> 0%, 110 -> 100%
+            fillColor = ui.colors.warning
+            if val > 100 then fillColor = ui.colors.error end
+            if val <= 95 then fillColor = ui.colors.success end
+        else
+            fillColor = isOptimal and ui.colors.success
                         or (val < optimal - tolerance and ui.colors.warning or ui.colors.warning)
-        if math.abs(val - optimal) - tolerance > 20 then
-            fillColor = ui.colors.error
+            if math.abs(val - optimal) - tolerance > 20 then
+                fillColor = ui.colors.error
+            end
         end
+        
         self:drawRect(barX, barY, fillPct * barW, barH, fillColor)
 
         -- The optimal pin marker has been removed based on user feedback.

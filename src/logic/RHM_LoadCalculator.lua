@@ -465,10 +465,38 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
         rhm_log(string.format("RHM [RHM_LoadCalculator]: RHM DEBUG: [INPUT] %s (%s). Final Factor: %.3f", mode, currentFruitTypeName, cropFactor))
     end
     
+    -- EN: MOISTURE FACTOR / UA: КОЕФІЦІЄНТ ВОЛОГОСТІ
+    local moistureFactor = 1.0
+    local rhmSpec = vehicle.spec_rhm_Combine
+    if rhmSpec and rhmSpec.data and rhmSpec.data.moisture and rhmSpec.data.moisture > 0 then
+        local currentMoisture = rhmSpec.data.moisture
+        local moistureLimit = 14 -- Default general limit
+        
+        if RHM_CombineSettingsDatabase and self.currentCrop and RHM_CombineSettingsDatabase.crops[self.currentCrop] then
+            local tName = RHM_CombineSettingsDatabase.crops[self.currentCrop].template
+            if RHM_CombineSettingsDatabase.templates and RHM_CombineSettingsDatabase.templates[tName] and RHM_CombineSettingsDatabase.templates[tName].moistureLimit then
+                moistureLimit = RHM_CombineSettingsDatabase.templates[tName].moistureLimit
+            end
+        end
+        
+        local machineType = self.combineMemory and self.combineMemory.machineType or "grain"
+        if machineType ~= "forage" and machineType ~= "root" then
+            if currentMoisture > moistureLimit then
+                local diff = currentMoisture - moistureLimit
+                local penaltyPerPercent = 0.02 -- EN: 2% difficulty per 1% moisture over limit
+                if rhmSpec.packageLevel and rhmSpec.packageLevel >= 4 then
+                    penaltyPerPercent = 0.01 -- EN: Opti-Harvest reduces penalty by 50%
+                end
+                
+                moistureFactor = 1.0 + (diff * penaltyPerPercent)
+            end
+        end
+    end
+
     -- EN: Calculate RAW average mass intake per second / UA: Розраховуємо RAW середню масу за секунду (кг/с)
     -- EN: Uses accumulatedMass over the target distance/time / UA: Використовуємо accumulatedMass
     local safeTime = math.max(100, self.currentTime) -- Protect against division by zero
-    local rawAvgMass = (self.loadAccumulatedMass or 0) * (1000 / safeTime) * cropFactor
+    local rawAvgMass = (self.loadAccumulatedMass or 0) * (1000 / safeTime) * cropFactor * moistureFactor
     
     -- ADAPTIVE SMOOTHING
     local loadRatio = self.currentAvgMass / math.max(0.01, self.basePerfMass)
@@ -531,16 +559,22 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     -- UA: Розраховуємо різницю між цільовим і реальним навантаженням
     local difference = targetLoad - loadRatio
     
+    -- EN: Deadzone of +/- 2% to prevent micro-oscillations and jitter around the target
+    -- UA: Мертва зона +/- 2% щоб запобігти мікроколиванням навколо цілі
+    if math.abs(difference) < 0.02 then
+        difference = 0
+    end
+    
     -- EN: Proportional adjustment: hard brake on overload, smooth acceleration on underload
     -- UA: Пропорційне регулювання: швидке гальмування при перевантаженні, плавний розгін
-    local step = difference * 2.0
+    local step = difference * 1.5
     if difference < 0 then
-        step = difference * 5.0 -- EN: Panic brake / UA: Екстренне скидання швидкості при забиванні
+        step = difference * 4.0 -- EN: Panic brake / UA: Екстренне скидання швидкості при забиванні
     end
     
     -- EN: Limit speed jump to avoid jittering
     -- UA: Обмежуємо максимальний стрибок швидкості за один тік, щоб уникнути ривків
-    step = math.max(-3.0, math.min(1.0, step))
+    step = math.max(-2.5, math.min(0.8, step))
     
     self.speedLimit = self.speedLimit + step
 

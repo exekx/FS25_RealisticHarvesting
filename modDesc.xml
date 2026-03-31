@@ -2,7 +2,7 @@
 <modDesc descVersion="107">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.4.3.1</version>
+    <version>1.5.0.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -605,6 +605,84 @@ Funkciók:
             <uk>Показувати втрати</uk>
             <ru>Показывать потери</ru>
             <hu>Veszteség megjelenítése</hu>
+        </text>
+
+        <text name="rhm_show_moisture_short">
+            <en>Show Moisture</en>
+            <uk>Показувати вологість</uk>
+            <de>Feuchtigkeit anzeigen</de>
+            <fr>Afficher l'humidité</fr>
+            <pl>Pokaż wilgotność</pl>
+            <es>Mostrar humedad</es>
+            <it>Mostra umidità</it>
+            <cz>Zobrazit vlhkost</cz>
+            <br>Mostrar umidade</br>
+            <ru>Показывать влажность</ru>
+            <hu>Nedvesség mutatása</hu>
+        </text>
+
+        <text name="rhm_show_moisture_long">
+            <en>Display crop moisture percentage in HUD</en>
+            <uk>Відображати відсоток вологості культури в HUD</uk>
+            <de>Erntefeuchtigkeits-Prozentsatz im HUD anzeigen</de>
+            <fr>Afficher le pourcentage d'humidité dans le HUD</fr>
+            <pl>Wyświetlaj procent wilgotności plonów w HUD</pl>
+            <es>Mostrar porcentaje de humedad del cultivo en HUD</es>
+            <it>Mostra la percentuale di umidità del raccolto nell'HUD</it>
+            <cz>Zobrazit procento vlhkosti plodin na HUDu</cz>
+            <br>Mostrar porcentagem de umidade no HUD</br>
+            <ru>Отображать процент влажности культуры в HUD</ru>
+            <hu>Termés nedvességtartalmának megjelenítése a HUD-on</hu>
+        </text>
+
+        <text name="rhm_moisture_enable_short">
+            <en>Moisture Penalty</en>
+            <uk>Штраф Вологості</uk>
+            <de>Feuchtigkeits-Strafe</de>
+            <fr>Pénalité d'humidité</fr>
+            <pl>Kara za wilgotność</pl>
+            <es>Penalización por humedad</es>
+            <it>Penalità umidità</it>
+            <cz>Postih za vlhkost</cz>
+            <br>Penalidade de umidade</br>
+            <ru>Штраф влажности</ru>
+            <hu>Nedvesség büntetés</hu>
+        </text>
+
+        <text name="rhm_moisture_enable_long">
+            <en>
+            <![CDATA[Apply load penalty based on crop moisture (Requires Moisture System mod)]]>
+            </en>
+            <uk>
+            <![CDATA[Застосовувати штраф навантаження залежно від вологості (Потрібен мод Moisture System)]]>
+            </uk>
+            <de>
+            <![CDATA[Laststrafe basierend auf Erntefeuchtigkeit anwenden (Erfordert Moisture System Mod)]]>
+            </de>
+            <fr>
+            <![CDATA[Appliquer une pénalité de charge selon l'humidité (Nécessite Moisture System)]]>
+            </fr>
+            <pl>
+            <![CDATA[Zastosuj karę obciążenia w zależności od wilgotności (Wymaga Moisture System)]]>
+            </pl>
+            <es>
+            <![CDATA[Aplicar penalización de carga basada en humedad (Requiere Moisture System)]]>
+            </es>
+            <it>
+            <![CDATA[Applica penalità di carico in base all'umidità (Richiede Moisture System)]]>
+            </it>
+            <cz>
+            <![CDATA[Aplikovat postih zatížení podle vlhkosti plodin (Vyžaduje Moisture System)]]>
+            </cz>
+            <br>
+            <![CDATA[Aplicar penalidade de carga com base na umidade (Requer Moisture System Mod)]]>
+            </br>
+            <ru>
+            <![CDATA[Применять штраф нагрузки в зависимости от влажности (Требует Moisture System)]]>
+            </ru>
+            <hu>
+            <![CDATA[Terhelés-büntetés alkalmazása a nedvesség alapján (Moisture System szükséges)]]>
+            </hu>
         </text>
         <text name="rhm_ui_title_main"><en>Combine Calibration</en><de>Mähdrescher-Kalibrierung</de><fr>Calibrage Moissonneuse</fr><pl>Kalibracja Kombajnu</pl><es>Calibración Cosechadora</es><it>Calibrazione Mietitrebbia</it><cz>Kalibrace Kombajnu</cz><br>Calibração Colheitadeira</br><uk>Калібрування Комбайна</uk><ru>Калибровка Комбайна</ru><hu>Kombájn Kalibrálás</hu></text>
         

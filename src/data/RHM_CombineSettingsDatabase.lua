@@ -21,6 +21,7 @@ local templates = {
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 56, min = 45, max = 70, tolerance = 6},
         feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        moistureLimit = 14,
     },
 
     -- Barley - Drum speed 640-900 (Avg 770 = 63%), Fan 800 (56%), Upper 14mm (47%), Lower 8mm (32%)
@@ -30,6 +31,7 @@ local templates = {
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 63, min = 50, max = 75, tolerance = 6},
         feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        moistureLimit = 14,
     },
 
     -- Oat - Drum speed 640-800 = 720 = 58%, Fan 700 = 44%, Upper 10mm = 33%, Lower 6mm = 24%
@@ -39,6 +41,7 @@ local templates = {
         lowerSieve = {optimal = 24, min = 15, max = 40, tolerance = 6},
         rotor = {optimal = 58, min = 45, max = 75, tolerance = 6},
         feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        moistureLimit = 14,
     },
     
     -- Легкі зернові (овес)
@@ -49,6 +52,7 @@ local templates = {
         lowerSieve = {optimal = 25, min = 15, max = 40, tolerance = 4},
         rotor = {optimal = 33, min = 20, max = 45, tolerance = 6},
         feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        moistureLimit = 10,
     },
     
     -- Легкі олійні (ріпак)
@@ -59,6 +63,7 @@ local templates = {
         lowerSieve = {optimal = 40, min = 25, max = 55, tolerance = 6},
         rotor = {optimal = 39, min = 25, max = 55, tolerance = 6},
         feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        moistureLimit = 14,
     },
     
     -- Важкі олійні (соняшник)
@@ -69,6 +74,7 @@ local templates = {
         lowerSieve = {optimal = 45, min = 30, max = 60, tolerance = 6},
         rotor = {optimal = 13, min = 5, max = 25, tolerance = 5},
         feeder = {optimal = 60, min = 45, max = 75, tolerance = 10},
+        moistureLimit = 10,
     },
 
     -- Sorghum - Drum speed 640 = 49%, Fan 700-800 = 750 = 50%, Upper 10mm = 33%, Lower 8mm = 32%
@@ -78,6 +84,7 @@ local templates = {
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 49, min = 35, max = 65, tolerance = 6},
         feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        moistureLimit = 14,
     },
     
     -- Кукурудза
@@ -88,6 +95,7 @@ local templates = {
         lowerSieve = {optimal = 48, min = 35, max = 65, tolerance = 6},
         rotor = {optimal = 18, min = 5, max = 30, tolerance = 5},
         feeder = {optimal = 70, min = 55, max = 85, tolerance = 10},
+        moistureLimit = 16,
     },
     
     -- Бобові (Beans/Peas) - Drum speed 320-360 = 340 = 16%, Fan 800-950 = 875 = 64%, Upper 15mm = 50%, Lower 10mm = 40%
@@ -97,6 +105,7 @@ local templates = {
         lowerSieve = {optimal = 40, min = 25, max = 55, tolerance = 6},
         rotor = {optimal = 16, min = 5, max = 30, tolerance = 5},
         feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        moistureLimit = 14,
     },
     
     -- Rice - Drum speed 450-650 = 550 = 39%, Fan 700-850 = 775 = 53%, Upper 14mm = 47%, Lower 8mm = 32%
@@ -106,6 +115,7 @@ local templates = {
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 39, min = 25, max = 55, tolerance = 6},
         feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        moistureLimit = 20,
     },
     
     -- Коренеплоди важкі (Картопля, Буряк)
@@ -234,6 +244,7 @@ local templates = {
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 4},
         rotor = {optimal = 22, min = 10, max = 35, tolerance = 5},
         feeder = {optimal = 70, min = 55, max = 85, tolerance = 8},
+        moistureLimit = 14,
     },
 
     -- Lentil (Lentejas) - Rotor 300-500 = 400 = 22%, Fan 700-850 = 775 = 53%, Upper 10-15 = 12.5mm = 42%, Lower 4-7 = 5.5mm = 22%
@@ -243,6 +254,7 @@ local templates = {
         lowerSieve = {optimal = 22, min = 10, max = 35, tolerance = 6},
         rotor = {optimal = 22, min = 10, max = 35, tolerance = 5},
         feeder = {optimal = 70, min = 55, max = 85, tolerance = 8},
+        moistureLimit = 14,
     },
 
     -- Flax / Linseed - Drum speed 640-800 = 720 = 58%, Fan 600 = 33%, Upper 10mm = 33%, Lower 4mm = 16%
@@ -252,6 +264,7 @@ local templates = {
         lowerSieve = {optimal = 16, min = 5, max = 30, tolerance = 5},
         rotor = {optimal = 58, min = 45, max = 70, tolerance = 6},
         feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        moistureLimit = 10,
     },
 
     -- Mustard / Buckwheat - Drum speed 480-520 = 500 = 33%, Fan 550 = 28%, Upper 10-25 = 17mm = 57%, Lower 8mm = 32%
@@ -261,6 +274,7 @@ local templates = {
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 5},
         rotor = {optimal = 33, min = 20, max = 50, tolerance = 6},
         feeder = {optimal = 40, min = 25, max = 55, tolerance = 8},
+        moistureLimit = 10,
     },
 
     -- Clover - MAXIMUM Drum speed 1100 = 100%, MAX fan 1200 = 100%, Upper 3-5mm = 4mm = 13%, Lower 2mm = 8%
@@ -270,6 +284,7 @@ local templates = {
         lowerSieve = {optimal = 8, min = 0, max = 20, tolerance = 5},
         rotor = {optimal = 100, min = 85, max = 100, tolerance = 5},
         feeder = {optimal = 50, min = 35, max = 65, tolerance = 8},
+        moistureLimit = 14,
     },
 
     -- Grass Seed - MAX Drum (Fine) 920 = 80%, Fan 650 = 39%, Upper 5mm = 17%, Lower 3mm = 12%
@@ -279,6 +294,7 @@ local templates = {
         lowerSieve = {optimal = 12, min = 0, max = 25, tolerance = 5},
         rotor = {optimal = 80, min = 65, max = 95, tolerance = 6},
         feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        moistureLimit = 14,
     },
 
     -- ============================
@@ -288,6 +304,7 @@ local templates = {
         fan = {optimal = 80, min = 60, max = 100, tolerance = 10},
         rotor = {optimal = 70, min = 50, max = 90, tolerance = 10},
         feeder = {optimal = 60, min = 40, max = 80, tolerance = 10},
+        moistureLimit = 12,
     },
 }
 -- EN: Active parameters per machine type. Defines which parameter sliders appear in the calibration GUI.

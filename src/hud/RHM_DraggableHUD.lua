@@ -26,7 +26,8 @@ function RHMDraggableHUD.new(modDirectory, settings)
         cropLoss = 0,
         tonPerHour = 0,
         litersPerHour = 0,
-        recommendedSpeed = 0
+        recommendedSpeed = 0,
+        moisture = 0
     }
 
     self.width = 0.11
@@ -92,7 +93,8 @@ function RHMDraggableHUD:loadIcons(uiScale)
         yield        = "icon_yield",
         speed        = "icon_speed",
         loss         = "icon_loss",
-        productivity = "icon_productivity"
+        productivity = "icon_productivity",
+        moisture     = "icon_moisture"
     }
 
     for name, filename in pairs(iconNames) do
@@ -107,6 +109,7 @@ function RHMDraggableHUD:loadIcons(uiScale)
     if self.settings.showSpeed == nil then self.settings.showSpeed = true end
     if self.settings.showCropLoss == nil then self.settings.showCropLoss = true end
     if self.settings.showProductivity == nil then self.settings.showProductivity = true end
+    if self.settings.showMoisture == nil then self.settings.showMoisture = true end
 end
 
 function RHMDraggableHUD:getPosition()
@@ -168,6 +171,7 @@ function RHMDraggableHUD:update(dt)
     self.data.tonPerHour       = spec.data.tonPerHour or 0
     self.data.litersPerHour    = spec.data.litersPerHour or 0
     self.data.recommendedSpeed = spec.data.recommendedSpeed or 0
+    self.data.moisture         = spec.data.moisture or 0
     self.data.speed            = vehicle:getLastSpeed() or 0
 
     if self.dragging then
@@ -309,6 +313,29 @@ function RHMDraggableHUD:drawContent()
         textY = textY - lineHeight
     end
 
+    -- EN: Row 3.5 — Moisture.
+    -- UA: Рядок 3.5 — Вологість (лише для Рівня Пакету 3+).
+    local packageLevel = 1
+    if self.vehicle and self.vehicle.spec_rhm_Combine then
+        packageLevel = self.vehicle.spec_rhm_Combine.packageLevel or 1
+    end
+    
+    if self.settings.showMoisture and RHM_MoistureAdapter and RHM_MoistureAdapter.isActive and packageLevel >= 3 then
+        local mVal = self.data.moisture or 0
+        local moistureStr = string.format("%.1f%%", mVal)
+        if mVal <= 0.1 then moistureStr = "N/A" end
+        
+        local r, g, b = 0.91, 0.87, 0.78
+        -- EN: Dark blue if optimal, yellow if damp, red if wet
+        if mVal > 20 then       r, g, b = 0.89, 0.29, 0.29
+        elseif mVal > 14 then   r, g, b = 0.91, 0.78, 0.25
+        elseif mVal > 0.1 then  r, g, b = 0.44, 0.72, 0.90
+        end
+
+        self:drawRow(iconX, textX, textY, iconWidth, iconHeight, textSize, "moisture", moistureStr, mVal, r, g, b)
+        textY = textY - lineHeight
+    end
+
     -- EN: Row 4 — Crop Loss. Skipped entirely for forage harvesters (no grain losses on choppers).
     -- UA: Рядок 4 — Втрати зерна. Пропускається для силосних комбайнів (немає втрат).
     local machineType = nil
@@ -387,6 +414,11 @@ function RHMDraggableHUD:updateSize()
     if self.settings.showLoad then rowCount = rowCount + 1 end
     if self.settings.showYield then rowCount = rowCount + 1 end
     if self.settings.showProductivity then rowCount = rowCount + 1 end
+    
+    if self.settings.showMoisture and RHM_MoistureAdapter and RHM_MoistureAdapter.isActive and packageLevel >= 3 then 
+        rowCount = rowCount + 1 
+    end
+    
     -- EN: Crop Loss row is not shown for forage harvesters / Low packages.
     -- UA: Рядок втрат не відображається для силосних та базових пакетів.
     if self.settings.showCropLoss and machineType ~= "forage" and packageLevel >= 2 then rowCount = rowCount + 1 end

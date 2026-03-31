@@ -2,6 +2,15 @@
 
 ## Language: EN
 
+Changelog 1.5.0.0:
+- NEW: "Moisture System" Mod Integration! Added dynamic engine load penalties and increased crop losses when harvesting in damp conditions.
+- NEW: Real-time moisture percentage readout integrated into the draggable HUD.
+- NEW: Added a new setting to toggle Moisture System integration on/off.
+- IMPROVED: "Target Engine Load" Auto-Pilot: Implemented a 2% deadzone to prevent micro-oscillations and deliver a much smoother cruise-control experience across varying crop densities.
+- IMPROVED: Calibration GUI: "Target Engine Load" now features a dynamic color-coded progress bar (Green/Yellow/Red) for better visual feedback instead of plain text.
+- FIXED: Moisture HUD indicator freezing at its last value instead of resetting to 0% when the combine stops harvesting or reverses.
+- FIXED: "Target Engine Load" incorrectly showing as "auto" in the calibration menu.
+
 Changelog 1.4.3.0:
 - NEW: Purchasing System! Added functionality to purchase advanced combine calibration settings, adding a new layer of career progression.
 - NEW: Completely redesigned the interactive Combine Calibration GUI with new culture selection, interaction improvements, and additional information tabs.
@@ -132,6 +141,15 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: DE
+
+Changelog 1.5.0.0:
+- NEU: "Moisture System"-Mod-Integration! Dynamische Motorlaststrafen und erhöhte Ernteverluste bei der Ernte unter feuchten Bedingungen hinzugefügt.
+- NEU: Echtzeit-Feuchtigkeitsanzeige in Prozent in das verschiebbare HUD integriert.
+- NEU: Neue Einstellung zum Ein-/Ausschalten der Feuchtigkeitssystem-Integration hinzugefügt.
+- VERBESSERT: "Ziel-Motorlast"-Autopilot: 2% Totzone implementiert, um Mikroschwingungen zu vermeiden und ein viel sanfteres Tempomat-Erlebnis bei unterschiedlichen Erntedichten zu bieten.
+- VERBESSERT: Kalibrierungs-GUI: "Ziel-Motorlast" verfügt nun über einen dynamischen farbcodierten Fortschrittsbalken (Grün/Gelb/Rot) für besseres visuelles Feedback anstelle von einfachem Text.
+- BEHOBEN: Feuchtigkeits-HUD-Anzeige fror auf ihrem letzten Wert ein, anstatt auf 0% zurückgesetzt zu werden, wenn der Mähdrescher die Ernte stoppt oder rückwärts fährt.
+- BEHOBEN: "Ziel-Motorlast" wurde im Kalibrierungsmenü fälschlicherweise als "auto" angezeigt.
 
 Changelog 1.4.3.0:
 - NEU: Kaufsystem! Funktion zum Kauf erweiterter Kalibriereinstellungen für Mähdrescher hinzugefügt, was eine neue Ebene des Karrierefortschritts bietet.
@@ -270,6 +288,15 @@ Changelog 1.1.0.0:
 
 ## Language: FR
 
+Changelog 1.5.0.0:
+- NOUVEAU : Intégration du mod "Moisture System" ! Ajout de pénalités de charge du moteur dynamiques et de pertes de récolte accrues lors de la récolte dans des conditions humides.
+- NOUVEAU : Affichage du pourcentage d'humidité en temps réel intégré au HUD déplaçable.
+- NOUVEAU : Ajout d'un nouveau paramètre pour activer/désactiver l'intégration du système d'humidité.
+- AMÉLIORÉ : Pilote automatique "Charge Cible du Moteur" : Implémentation d'une zone morte de 2 % pour éviter les micro-oscillations et offrir une expérience de régulateur de vitesse beaucoup plus fluide.
+- AMÉLIORÉ : Interface de calibrage : "Charge Cible du Moteur" dispose désormais d'une barre de progression dynamique à code couleur (Vert/Jaune/Rouge) pour un meilleur retour visuel au lieu du texte.
+- CORRIGÉ : L'indicateur HUD d'humidité restait bloqué à sa dernière valeur au lieu de se réinitialiser à 0 % lorsque la moissonneuse s'arrête ou recule.
+- CORRIGÉ : "Charge Cible du Moteur" s'affichait incorrectement comme "auto" dans le menu de calibrage.
+
 Changelog 1.4.3.0:
 - NOUVEAU : Système d'Achat ! Ajout de la fonctionnalité permettant d'acheter des paramètres de calibrage avancés pour moissonneuse, ajoutant un nouveau niveau de progression en carrière.
 - NOUVEAU : Interface graphique (GUI) de calibrage de moissonneuse entièrement repensée avec une nouvelle sélection de cultures, des améliorations d'interaction et des onglets d'informations supplémentaires.
@@ -403,6 +430,15 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: PL
+
+Changelog 1.5.0.0:
+- NOWOŚĆ: Integracja z modyfikacją "Moisture System"! Dodano dynamiczne kary do obciążenia silnika oraz zwiększone straty plonów podczas zbiorów w wilgotnych warunkach.
+- NOWOŚĆ: Odczyt procentowy wilgotności w czasie rzeczywistym zintegrowany z przenośnym HUD-em.
+- NOWOŚĆ: Dodano nowe ustawienie do włączania/wyłączania integracji systemu wilgotności.
+- ULEPSZONO: Autopilot "Docelowe Obciążenie Silnika": Wprowadzono 2% martwą strefę, aby zapobiec mikroskokom prędkości i zapewnić płynniejsze działanie tempomatu przy zmiennej gęstości plonów.
+- ULEPSZONO: GUI Kalibracji: "Docelowe Obciążenie Silnika" zawiera teraz dynamiczny, kolorowy pasek postępu (Zielony/Żółty/Czerwony) zamiast zwykłego tekstu, co zapewnia lepszą informację zwrotną.
+- NAPRAWIONO: Wskaźnik wilgotności HUD zamrażał się na ostatniej wartości zamiast resetować się do 0%, gdy kombajn przerywał zbiór lub cofał.
+- NAPRAWIONO: "Docelowe Obciążenie Silnika" błędnie wyświetlało się jako "auto" w menu kalibracji.
 
 Changelog 1.4.3.0:
 - NOWOŚĆ: System Zakupów! Dodano funkcjonalność zakupu zaawansowanych ustawień kalibracji kombajnu, wprowadzając nowy poziom progresji kariery.
@@ -539,6 +575,15 @@ Changelog 1.1.0.0:
 
 ## Language: ES
 
+Changelog 1.5.0.0:
+- NUEVO: ¡Integración del Mod "Moisture System"! Se agregaron penalizaciones dinámicos de carga del motor y mayores pérdidas de cosecha al cosechar en condiciones húmedas.
+- NUEVO: Lectura del porcentaje de humedad en tiempo real integrada en el HUD desplazable.
+- NUEVO: Se agregó una nueva configuración para activar/desactivar la integración del sistema de humedad.
+- MEJORADO: Piloto automático de "Carga de Motor Objetivo": Se implementó una zona muerta del 2% para evitar micro-oscilaciones y ofrecer una experiencia de control de crucero mucho más suave a través de densidades de cultivo variables.
+- MEJORADO: GUI de calibración: "Carga de Motor Objetivo" ahora cuenta con una barra de progreso dinámica codificada por colores (Verde/Amarillo/Rojo) para una mejor respuesta visual en lugar de texto simple.
+- CORREGIDO: El indicador HUD de humedad se congelaba en su último valor en lugar de restablecerse a 0% cuando la cosechadora detiene la cosecha o retrocede.
+- CORREGIDO: "Carga de Motor Objetivo" se mostraba incorrectamente como "auto" en el menú de calibración.
+
 Changelog 1.4.3.0:
 - NUEVO: ¡Sistema de Compras! Se agregó la funcionalidad para comprar ajustes de calibración avanzados de la cosechadora, añadiendo una nueva capa de progresión en el modo carrera.
 - NUEVO: Se rediseñó completamente la interfaz gráfica (GUI) de calibración de la cosechadora con nueva selección de cultivos, mejoras de interacción y pestañas de información adicionales.
@@ -673,6 +718,15 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: IT
+
+Changelog 1.5.0.0:
+- NOVITÀ: Integrazione della mod "Moisture System"! Aggiunte penalità dinamiche al carico del motore e maggiori perdite di raccolto in condizioni di umidità.
+- NOVITÀ: Lettura della percentuale di umidità in tempo reale integrata nell'HUD trascinabile.
+- NOVITÀ: Aggiunta una nuova impostazione per attivare/disattivare l'integrazione del sistema di umidità.
+- MIGLIORATO: Pilota automatico "Carico Motore Target": Implementata una zona morta del 2% per prevenire micro-oscillazioni e offrire un'esperienza di controllo della velocità molto più fluida a seconda della densità del raccolto.
+- MIGLIORATO: GUI di calibrazione: "Carico Motore Target" ora presenta una barra di avanzamento dinamica a colori (Verde/Giallo/Rosso) per un miglior feedback visivo rispetto al testo normale.
+- CORRETTO: L'indicatore HUD dell'umidità si bloccava sull'ultimo valore invece di azzerarsi allo 0% quando la mietitrebbia interrompe il raccolto o va in retromarcia.
+- CORRETTO: "Carico Motore Target" mostrava erroneamente "auto" nel menu di calibrazione.
 
 Changelog 1.4.3.0:
 - NOVITÀ: Sistema di Acquisto! Aggiunta la funzionalità per acquistare impostazioni di calibrazione avanzate della mietitrebbia, introducendo un nuovo livello di progressione della carriera.
@@ -810,6 +864,15 @@ Changelog 1.1.0.0:
 
 ## Language: CZ
 
+Changelog 1.5.0.0:
+- NOVINKA: Integrace modifikace "Moisture System"! Přidány dynamické pokuty pro zatížení motoru a zvýšené ztráty plodin při sklizni ve vlhkých podmínkách.
+- NOVINKA: Zobrazení procenta vlhkosti v reálném čase integrováno do přetahovatelného uživatelského rozhraní HUD.
+- NOVINKA: Přidáno nové nastavení pro zapnutí/vypnutí integrace systému vlhkosti.
+- VYLEPŠENO: Autopilot "Cílové zatížení motoru": Zavedena 2% mrtvá zóna, aby se zabránilo mikrooscilacím a zajistil se mnohem plynulejší zážitek z tempomatu při různorodé hustotě plodin.
+- VYLEPŠENO: Kalibrační GUI: "Cílové zatížení motoru" má nyní dynamický barevný indikátor průběhu (zelená/žlutá/červená) namísto prostého textu pro lepší vizuální zpětnou vazbu.
+- OPRAVENO: Indikátor vlhkosti v HUD zamrzal na své poslední hodnotě, místo aby se po zastavení sklizně nebo couvání kombajnu resetoval na 0 %.
+- OPRAVENO: "Cílové zatížení motoru" se v nabídce kalibrace nesprávně zobrazovalo jako "auto".
+
 Changelog 1.4.3.0:
 - NOVINKA: Nákupní Systém! Přidána funkce pro nákup pokročilých nastavení kalibrace kombajnu, což přidává novou vrstvu postupu kariéry.
 - NOVINKA: Zcela přepracované interaktivní grafické uživatelské rozhraní (GUI) kalibrace kombajnu s novým výběrem plodin, vylepšeními interakce a dalšími informačními kartami.
@@ -943,6 +1006,15 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: BR
+
+Changelog 1.5.0.0:
+- NOVO: Integração do Mod "Moisture System"! Adicionadas penalidades dinâmicas de carga do motor e aumento nas perdas de colheita ao colher em condições úmidas.
+- NOVO: Leitura em tempo real da porcentagem de umidade integrada ao HUD arrastável.
+- NOVO: Adicionada uma nova configuração para ativar/desativar a integração do sistema de umidade.
+- MELHORADO: Piloto automático "Carga de Motor Alvo": Implementado uma zona morta de 2% para evitar micro-oscilações e entregar uma experiência de controle de cruzeiro muito mais suave em diversas densidades de cultura.
+- MELHORADO: GUI da calibração: "Carga de Motor Alvo" agora possui uma barra de progresso colorida dinâmica (Verde/Amarelo/Vermelho) para melhor feedback visual em vez de apenas texto simples.
+- CORRIGIDO: O indicador HUD de umidade congelava no seu último valor em vez de redefinir para 0% quando a colheitadeira parava de colher ou dava ré.
+- CORRIGIDO: "Carga de Motor Alvo" sendo exibida incorretamente como "auto" no menu de calibração.
 
 Changelog 1.4.3.0:
 - NOVO: Sistema de Compras! Adicionada funcionalidade para comprar configurações avançadas de calibração da colheitadeira, adicionando uma nova camada de progressão de carreira.
@@ -1078,6 +1150,15 @@ Changelog 1.1.0.0:
 
 ## Language: UK
 
+Зміни 1.5.0.0:
+- НОВЕ: Інтеграція моду "Moisture System"! Додано динамічні штрафи до навантаження на двигун та підвищені втрати врожаю при збиранні у вологих умовах.
+- НОВЕ: Відсоток вологості в реальному часі інтегровано у перетягуваний HUD.
+- НОВЕ: Додано нове налаштування для ввімкнення/вимкнення інтеграції системи вологості.
+- ПОКРАЩЕНО: Автопілот "Цільового навантаження на двигун": Додано "мертву зону" у 2%, щоб уникнути мікроколивань та зробити роботу круїз-контролю набагато плавнішою на полях з різною щільністю.
+- ПОКРАЩЕНО: GUI калібрування: Параметр "Цільове навантаження на двигун" тепер має динамічну кольорову смугу прогресу (Зелений/Жовтий/Червоний) для кращої візуалізації замість звичайного тексту.
+- ВИПРАВЛЕНО: Індикатор HUD вологості зависав на останньому значенні замість того, щоб скидатися до 0%, коли комбайн зупиняв збір врожаю або здавав назад.
+- ВИПРАВЛЕНО: Рядок "Цільове навантаження на двигун" некоректно відображав текст "auto" в меню калібрування.
+
 Зміни 1.4.3.0:
 - НОВЕ: Система купівлі! Додано можливість купувати розширені налаштування калібрування комбайна, що додає новий рівень розвитку кар'єри.
 - НОВЕ: Повністю перероблено інтерактивний графічний інтерфейс калібрування (GUI) з новим вибором культури, покращенням взаємодії та додатковими інформаційними вкладками.
@@ -1197,6 +1278,15 @@ Changelog 1.1.0.0:
 
 ## Language: RU
 
+Изменения 1.5.0.0:
+- НОВОЕ: Интеграция мода "Moisture System"! Добавлены динамические штрафы к нагрузке на двигатель и повышенные потери урожая при уборке во влажных условиях.
+- НОВОЕ: Процент влажности в реальном времени теперь интегрирован в перемещаемый HUD.
+- НОВОЕ: Добавлена новая настройка для включения/выключения интеграции системы влажности.
+- УЛУЧШЕНО: Автопилот "Целевой нагрузки на двигатель": Введена "мертвая зона" в 2%, чтобы избежать микроколебаний и сделать работу круиз-контроля гораздо более плавной при различной плотности урожая.
+- УЛУЧШЕНО: GUI калибровки: Параметр "Целевая нагрузка на двигатель" теперь имеет динамическую цветовую полосу прогресса (Зеленый/Желтый/Красный) для лучшей визуализации вместо обычного текста.
+- ИСПРАВЛЕНО: Индикатор HUD влажности зависал на последнем значении, вместо того чтобы сбрасываться на 0%, когда комбайн останавливал уборку или сдавал назад.
+- ИСПРАВЛЕНО: Строка "Целевая нагрузка на двигатель" некорректно отображала текст "auto" в меню калибровки.
+
 Изменения 1.4.3.0:
 - НОВОЕ: Система покупок! Добавлен функционал покупки расширенных настроек калибровки комбайна, что вносит новый слой прогрессии в режиме карьеры.
 - НОВОЕ: Полностью переработан интерактивный графический интерфейс (GUI) калибровки комбайна: новый выбор культур, улучшения взаимодействия и дополнительные вкладки с информацией.
@@ -1315,6 +1405,15 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: HU
+
+Változások 1.5.0.0:
+- ÚJ: "Moisture System" Mod Integráció! Hozzáadva a dinamikus motorterhelési büntetések és a megnövekedett termésveszteségek nedves körülmények közötti betakarításkor.
+- ÚJ: Valós idejű nedvességszázalék kijelző integrálva a mozgatható HUD-ba.
+- ÚJ: Új beállítás hozzáadva a Nedvességrendszer integrációjának be- és kikapcsolására.
+- FEJLESZTVE: "Cél Motorterhelés" Autópilóta: 2%-os holttér bevezetése a mikrooszcillációk megelőzése és a sokkal simább sebességtartó élmény biztosítása érdekében a különböző terménysűrűségek esetén.
+- FEJLESZTVE: Kalibrációs GUI: A "Cél Motorterhelés" mostantól dinamikus színkódolt folyamatjelző sávval (Zöld/Sárga/Piros) rendelkezik a jobb vizuális visszajelzés érdekében az egyszerű szöveg helyett.
+- JAVÍTVA: A nedvesség HUD indikátor az utolsó értékén fagyott be ahelyett, hogy 0%-ra állt volna vissza, amikor a kombájn leállítja a betakarítást vagy tolat.
+- JAVÍTVA: A "Cél Motorterhelés" helytelenül "auto"-ként jelent meg a kalibrációs menüben.
 
 Változások 1.4.3.0:
 - ÚJ: Vásárlási Rendszer! Hozzáadva egy funkció a fejlett kombájn kalibrációs beállítások megvásárlásához, ami a karrierépítés új szintjét jelenti.

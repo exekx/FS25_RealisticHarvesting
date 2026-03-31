@@ -193,6 +193,20 @@ function RHMSettingsUI.inject(settings)
     if cropLossOpt and cropLossOpt.setDisabled then cropLossOpt:setDisabled(not isAdmin) end
     RHMSettingsUI.cropLossOption = cropLossOpt
 
+    if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive then
+        local moistureEnableOpt = addBinaryRow(settingsPage, "moisture_enable", "rhm_moisture_enable_short", "rhm_moisture_enable_long",
+            settings.enableMoisture,
+            function(val)
+                if not settings:canChangeServerSettings() then return end
+                settings.enableMoisture = val; settings:save()
+                if g_currentMission.missionDynamicInfo.isMultiplayer and RHM_SettingsSync then
+                    RHM_SettingsSync:sendToClients(settings)
+                end
+            end)
+        if moistureEnableOpt and moistureEnableOpt.setDisabled then moistureEnableOpt:setDisabled(not isAdmin) end
+        RHMSettingsUI.moistureEnableOption = moistureEnableOpt
+    end
+
     -- === SECTION: Visuals / HUD ===
     addSection(settingsPage, "rhm_section_visuals")
 
@@ -213,6 +227,11 @@ function RHMSettingsUI.inject(settings)
 
     RHMSettingsUI.cropLossVisOption = addBinaryRow(settingsPage, "show_croploss", "rhm_show_croploss_short", "rhm_show_croploss_long",
         settings.showCropLoss, function(val) settings.showCropLoss = val; settings:save() end)
+
+    if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive then
+        RHMSettingsUI.moistureVisOption = addBinaryRow(settingsPage, "show_moisture", "rhm_show_moisture_short", "rhm_show_moisture_long",
+            settings.showMoisture, function(val) settings.showMoisture = val; settings:save() end)
+    end
 
     RHMSettingsUI.loadWarnOption = addBinaryRow(settingsPage, "show_loadwarn", "rhm_show_load_warn_short", "rhm_show_load_warn_long",
         settings.showLoadWarnings, function(val) settings.showLoadWarnings = val; settings:save() end)
@@ -251,6 +270,7 @@ function RHMSettingsUI.refreshUI(settings)
     setOpt(RHMSettingsUI.difficultyLossOption,  settings.difficultyLoss,  not isAdmin)
     setOpt(RHMSettingsUI.speedLimitOption,      settings.enableSpeedLimit and 2 or 1, not isAdmin)
     setOpt(RHMSettingsUI.cropLossOption,        settings.enableCropLoss   and 2 or 1, not isAdmin)
+    setOpt(RHMSettingsUI.moistureEnableOption,  settings.enableMoisture   and 2 or 1, not isAdmin)
 
     setOpt(RHMSettingsUI.hudOption,         settings.showHUD           and 2 or 1, false)
     setOpt(RHMSettingsUI.yieldOption,       settings.showYield         and 2 or 1, false)
@@ -258,6 +278,7 @@ function RHMSettingsUI.refreshUI(settings)
     setOpt(RHMSettingsUI.speedDisplayOption,settings.showSpeed         and 2 or 1, false)
     setOpt(RHMSettingsUI.prodOption,        settings.showProductivity  and 2 or 1, false)
     setOpt(RHMSettingsUI.cropLossVisOption, settings.showCropLoss      and 2 or 1, false)
+    setOpt(RHMSettingsUI.moistureVisOption, settings.showMoisture      and 2 or 1, false)
     setOpt(RHMSettingsUI.loadWarnOption,    settings.showLoadWarnings  and 2 or 1, false)
     setOpt(RHMSettingsUI.unitOption,        settings.unitSystem,                    false)
 end

@@ -348,7 +348,8 @@ function rhm_Combine:onLoad(savegame)
         litersPerHour = 0,
         yield = 0,
         recommendedSpeed = 0,  -- EN: Updated by server tick, synced to clients / UA: Оновлюється сервером, синхронізується на клієнти
-        overloadLevel = 0      -- EN: 0=normal, 1=HIGH (120%+), 2=CRITICAL (150%+) — synced for warning display / UA: 0=норма, 1=ВИСОКЕ (120%+), 2=КРИТИЧНЕ (150%+)
+        overloadLevel = 0,     -- EN: 0=normal, 1=HIGH (120%+), 2=CRITICAL (150%+) — synced for warning display / UA: 0=норма, 1=ВИСОКЕ (120%+), 2=КРИТИЧНЕ (150%+)
+        moisture = 0           -- EN: Grain moisture (%) / UA: Вологість зерна (%)
     }
     
     -- Лічильник для збереження площі з addCutterArea
@@ -920,8 +921,15 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec.loadCalculator:reset()
         if spec.data then
             spec.data.load = 0
+            spec.data.cropLoss = 0
+            spec.data.tonPerHour = 0
+            spec.data.litersPerHour = 0
+            spec.data.yield = 0
+            spec.data.moisture = 0
+            spec.data.recommendedSpeed = 0
         end
         spec.isSpeedLimitActive = false
+        self:raiseDirtyFlags(spec.dataDirtyFlag)
         return
     end
     
@@ -954,7 +962,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             spec.data.tonPerHour = 0
             spec.data.litersPerHour = 0
             spec.data.yield = 0
-        spec.data.recommendedSpeed = 0 -- EN: Hide "/ X.X" from speed display / UA: Приховуємо "/ X.X" з відображення швидкості
+            spec.data.moisture = 0
+            spec.data.recommendedSpeed = 0 -- EN: Hide "/ X.X" from speed display / UA: Приховуємо "/ X.X" з відображення швидкості
         end
         spec.isSpeedLimitActive = false
         
@@ -1056,9 +1065,25 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     spec.lastLiters = 0
     spec._fallbackLiters = 0
     
+    -- MOISTURE: Отримуємо дані з Moisture Adapter
+    local moisture = 0
+    if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive and g_realisticHarvestManager.settings.enableMoisture then
+        if cutterIsTurnedOn then
+            local fillType = spec.lastFillType or FillType.UNKNOWN
+            if fillType ~= FillType.UNKNOWN then
+                moisture = RHM_MoistureAdapter.getObjectMoisture(self.components[1].node, fillType)
+            end
+            if moisture == 0 or moisture == nil then
+                local mx, _, mz = getWorldTranslation(self.components[1].node)
+                moisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz)
+            end
+        end
+    end
+
     -- EN: Update HUD live data table from RHM_LoadCalculator outputs.
     -- UA: Оновлюємо таблицю живих даних HUD з виводів RHM_LoadCalculator.
     if spec.data then
+        spec.data.moisture = moisture or 0
         spec.data.load = spec.loadCalculator:getEngineLoad()
         spec.data.cropLoss = spec.loadCalculator:calculateTotalCropLoss()
         spec.data.tonPerHour = spec.loadCalculator:getTonPerHour()
@@ -1164,6 +1189,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                 elseif math.abs((data.recommendedSpeed or 0) - (last.recommendedSpeed or 0)) > 0.2 then hasSignificantChange = true
                 elseif math.abs((data.yield or 0) - (last.yield or 0)) > 0.1 then hasSignificantChange = true
                 elseif data.overloadLevel ~= last.overloadLevel then hasSignificantChange = true
+                elseif math.abs((data.moisture or 0) - (last.moisture or 0)) > 0.5 then hasSignificantChange = true
                 end
             end
             
@@ -1175,6 +1201,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                 spec.lastSyncedData.recommendedSpeed = data.recommendedSpeed
                 spec.lastSyncedData.yield = data.yield
                 spec.lastSyncedData.overloadLevel = data.overloadLevel
+                spec.lastSyncedData.moisture = data.moisture
                 
                 self:raiseDirtyFlags(spec.dataDirtyFlag)
             end
@@ -1264,6 +1291,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteFloat32(streamId, 0)
         streamWriteFloat32(streamId, 0) -- yield
         streamWriteUInt8(streamId, 0)   -- overloadLevel
+        streamWriteFloat32(streamId, 0) -- moisture
         -- RHM_CombineMemory: write defaults
         streamWriteUInt8(streamId, 50)  -- fan
         streamWriteUInt8(streamId, 50)  -- rotor
@@ -1283,6 +1311,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
     streamWriteFloat32(streamId, spec.data.recommendedSpeed or 0)
     streamWriteFloat32(streamId, spec.data.yield or 0)
     streamWriteUInt8(streamId, spec.data.overloadLevel or 0)
+    streamWriteFloat32(streamId, spec.data.moisture or 0)
     
     -- RHM_CombineMemory settings (FIX 4: sync on initial connect)
     local mem = spec.combineMemory
@@ -1317,6 +1346,7 @@ function rhm_Combine:onReadStream(streamId, connection)
         streamReadFloat32(streamId)
         streamReadFloat32(streamId) -- yield
         streamReadUInt8(streamId)   -- overloadLevel
+        streamReadFloat32(streamId) -- moisture
         -- RHM_CombineMemory defaults (skip)
         streamReadUInt8(streamId)
         streamReadUInt8(streamId)
@@ -1340,6 +1370,7 @@ function rhm_Combine:onReadStream(streamId, connection)
     spec.data.recommendedSpeed = streamReadFloat32(streamId)
     spec.data.yield = streamReadFloat32(streamId)
     spec.data.overloadLevel = streamReadUInt8(streamId)
+    spec.data.moisture = streamReadFloat32(streamId)
     
     -- RHM_CombineMemory settings
     local fan = streamReadUInt8(streamId)
@@ -1387,6 +1418,7 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
             spec.data.recommendedSpeed = streamReadFloat32(streamId)
             spec.data.yield = streamReadFloat32(streamId)
             spec.data.overloadLevel = streamReadUInt8(streamId)
+            spec.data.moisture = streamReadFloat32(streamId)
         end
 
         if hasSettingsUpdate then
@@ -1438,6 +1470,7 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
             streamWriteFloat32(streamId, data.recommendedSpeed or 0)
             streamWriteFloat32(streamId, data.yield or 0)
             streamWriteUInt8(streamId, data.overloadLevel or 0)
+            streamWriteFloat32(streamId, data.moisture or 0)
         end
 
         if hasSettingsUpdate then
