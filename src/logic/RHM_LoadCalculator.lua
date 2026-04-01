@@ -162,6 +162,47 @@ function RHM_LoadCalculator:loadDefaultCropFactors()
             end
         end
     end
+
+    -- EN: String-based exact crop factors (highest priority in calculateEngineLoad)
+    -- UA: Строкові точні фактори культур (найвищий пріоритет у розрахунку навантаження)
+    self.CROP_FACTORS_BY_NAME = {
+        ["WHEAT"] = 0.814,
+        ["BARLEY"] = 0.869,
+        ["OAT"] = 1.164,
+        ["CORN"] = 0.650,           -- Grain corn (slightly harder)
+        ["MAIZE_FORAGE"] = 0.300,   -- Silage corn (much lighter so 800+ HP choppers go fast)
+        ["SOYBEAN"] = 1.788,
+        ["SUNFLOWER"] = 2.324,
+        ["CANOLA"] = 1.738,
+        ["SORGHUM"] = 0.801,
+        ["RICE"] = 1.303,
+        ["RICE_LONG_GRAIN"] = 1.303,
+        
+        -- Legumes
+        ["PEA"] = 1.152,
+        ["LENTIL"] = 1.152,
+        ["CHICKPEA"] = 1.152,
+        ["GREENBEAN"] = 2.240,
+        
+        -- Roots
+        ["POTATO"] = 0.600,
+        ["SUGARBEET"] = 0.920,
+        ["BEETROOT"] = 1.050,
+        ["CARROT"] = 0.323,
+        ["PARSNIP"] = 0.400,
+        ["ONION"] = 0.600,
+        ["SPINACH"] = 2.880,
+        
+        -- Forage
+        ["GRASS"] = 1.000,
+        ["DRYGRASS"] = 0.900,
+        ["GRASS_WINDROW"] = 0.380,
+        ["DRYGRASS_WINDROW"] = 0.500,
+        
+        -- Other
+        ["COTTON"] = 4.782,
+        ["SUGARCANE"] = 0.654,
+    }
 end
 
 ---EN: Sets base performance mass / UA: Встановлює базову продуктивність (маса)
@@ -330,11 +371,19 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     end
     
     -- EN: BASE CROP FACTOR / UA: БАЗОВИЙ КОЕФІЦІЄНТ КУЛЬТУРИ
-    -- EN: Priority: 1. FruitType (Direct Cut), 2. FillType (Pickup/Windrow), 3. Wheat fallback
+    -- EN: Priority: 1. Exact Name, 2. FruitType, 3. FillType, 4. Wheat fallback
     local spec_combine = vehicle.spec_combine
     local rhmSpec = vehicle.spec_rhm_Combine
     
-    local cropFactor = self.CROP_FACTORS[spec_combine.lastValidInputFruitType]
+    local cropFactor = nil
+    
+    if self.currentCrop and self.CROP_FACTORS_BY_NAME and self.CROP_FACTORS_BY_NAME[self.currentCrop] then
+        cropFactor = self.CROP_FACTORS_BY_NAME[self.currentCrop]
+    end
+    
+    if not cropFactor then
+        cropFactor = self.CROP_FACTORS[spec_combine.lastValidInputFruitType]
+    end
     
     -- Fallback to FillType (especially for Pickups/Root Crops)
     if not cropFactor and rhmSpec and rhmSpec.lastFillType then
@@ -344,6 +393,20 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     -- Final fallback to Wheat
     if not cropFactor then
         cropFactor = self.CROP_FACTORS[FruitType.WHEAT] or 0.814
+    end
+    
+    -- EN: UNIVERSAL FORAGE SAFETY NET
+    -- UA: УНІВЕРСАЛЬНИЙ ЗАХИСТ ДЛЯ СИЛОСНИХ КОМБАЙНІВ
+    -- Якщо силосний комбайн косить нетипову культуру (наприклад, пшеницю мод-карти), яка не була розпізнана як MAIZE_FORAGE,
+    -- ми примусово знижуємо її жорсткість, бо різати на силос завжди легше, ніж молотити зерно.
+    local machineType = (rhmSpec and rhmSpec.combineMemory) and rhmSpec.combineMemory.machineType or "grain"
+    if machineType == "forage" then
+        if self.currentCrop ~= "MAIZE_FORAGE" and self.currentCrop ~= "GRASS" and self.currentCrop ~= "GRASS_WINDROW" 
+           and self.currentCrop ~= "DRYGRASS" and self.currentCrop ~= "DRYGRASS_WINDROW" then
+            
+            -- Знижуємо коефіцієнт (робимо в ~2 рази легше)
+            cropFactor = cropFactor * 0.45
+        end
     end
     
     -- EN: INPUT DETECTION (PICKUP / CUTTER / FORAGE)
@@ -441,23 +504,28 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     -- EN: APPLY MULTIPLIERS / UA: ЗАСТОСУВАННЯ МНОЖНИКІВ
     self.isPickup = isPickup
     if isPickup then
-        -- EN: Root crops & Vegetables should NOT be easier when picked up (already high volume)
-        -- UA: Коренеплоди та овочі не повинні бути легшими при підбиранні
-        local isRootOrVeg = currentFruitTypeName:find("ONION") 
-                         or currentFruitTypeName:find("POTATO") 
-                         or currentFruitTypeName:find("CARROT")
-                         or currentFruitTypeName:find("PARSNIP")
-                         or currentFruitTypeName:find("BEETROOT")
-                         or currentFruitTypeName:find("SUGARBEET")
-                         or currentFruitTypeName:find("SPINACH")
-                         or currentFruitTypeName:find("GREENBEAN")
-                         
-        if not isRootOrVeg then
-            cropFactor = cropFactor * 0.25  -- EN: Standard windrows (Wheat, Barley, etc.)
+        local machineType = (rhmSpec and rhmSpec.combineMemory) and rhmSpec.combineMemory.machineType or "grain"
+        
+        -- EN: Pickups on Forage harvesters don't get artificial reduction! (They use GRASS_WINDROW base factor perfectly)
+        --     Only standard grain combines lifting swathes get a resistance reduction.
+        if machineType ~= "forage" then
+            -- EN: Root crops & Vegetables should NOT be easier when picked up (already high volume)
+            -- UA: Коренеплоди та овочі не повинні бути легшими при підбиранні
+            local isRootOrVeg = currentFruitTypeName:find("ONION") 
+                             or currentFruitTypeName:find("POTATO") 
+                             or currentFruitTypeName:find("CARROT")
+                             or currentFruitTypeName:find("PARSNIP")
+                             or currentFruitTypeName:find("BEETROOT")
+                             or currentFruitTypeName:find("SUGARBEET")
+                             or currentFruitTypeName:find("SPINACH")
+                             or currentFruitTypeName:find("GREENBEAN")
+                             
+            if not isRootOrVeg then
+                cropFactor = cropFactor * 0.45  -- EN: Standard windrows (Wheat, Barley, etc.) harder than before
+            end
         end
-    elseif isForageCutter then
-        cropFactor = cropFactor * 0.75  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
     end
+    -- EN: Forage cutter logic removed because MAIZE_FORAGE is now tuned explicitly in CROP_FACTORS_BY_NAME
 
     if self.lastCropType ~= spec_combine.lastValidInputFruitType then
         self.lastCropType = spec_combine.lastValidInputFruitType
