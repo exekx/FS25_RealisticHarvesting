@@ -1,0 +1,9 @@
+<texture>
+  <meta>
+    <filename>overview.png</filename>
+    <size width="256" height="256"/>
+  </meta>
+  <slices>
+    <slice id="tab" uvs="0px 0px 256px 256px"/>
+  </slices>
+</texture>

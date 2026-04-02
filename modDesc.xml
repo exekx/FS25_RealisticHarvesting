@@ -3951,17 +3951,133 @@ Vše se ukládá.]]>
             <![CDATA[Рівень 4: Система Opti-Harvest AI]]>
         </uk>
         </text>
+        <text name="rhm_help_upgrades_1">
+            <en><![CDATA[The factory standard combine. No advanced sensors installed. You will have to rely on sounds and visual cues to avoid overloading.]]></en>
+            <de><![CDATA[Der Mähdrescher in Werkseinstellung. Keine fortschrittlichen Sensoren. Sie müssen sich auf Geräusche und visuelle Hinweise verlassen, um Überlastungen zu vermeiden.]]></de>
+            <fr><![CDATA[La moissonneuse au standard d'usine. Aucun capteur avancé installé. Fiez-vous aux sons et aux indices visuels pour éviter la surcharge.]]></fr>
+            <it><![CDATA[La mietitrebbia standard di fabbrica. Nessun sensore avanzato installato. Affidati ai suoni e agli indizi visivi per evitare il sovraccarico.]]></it>
+            <es><![CDATA[La cosechadora estándar de fábrica. Sin sensores avanzados. Confíe en los sonidos y pistas visuales para evitar la sobrecarga.]]></es>
+            <br><![CDATA[A colheitadeira padrão de fábrica. Sem sensores avançados. Confie nos sons e pistas visuais para evitar a sobrecarga.]]></br>
+            <pl><![CDATA[Kombajn w standardzie fabrycznym. Brak zaawansowanych czujników. Aby uniknąć przeciążenia, musisz polegać na dźwiękach i wskazówkach wizualnych.]]></pl>
+            <ru><![CDATA[Заводской стандарт комбайна. Без продвинутых датчиков. Для предотвращения перегрузки вам придется полагаться на слух и визуальные подсказки.]]></ru>
+            <hu><![CDATA[A gyári alapfelszereltségű kombájn. Nincsenek fejlett érzékelők. Hangokra és vizuális jelekre kell hagyatkoznod a túlterhelés elkerüléséhez.]]></hu>
+            <cz><![CDATA[Tovární standard kombajnu. Bez pokročilých senzorů. K zabránění přetížení se musíte spoléhat na zvuky a vizuální podněty.]]></cz>
+            <uk><![CDATA[Заводський стандарт комбайна. Без просунутих датчиків. Щоб уникнути перевантаження, вам доведеться покладатися на звук та візуальні підказки.]]></uk>
+        </text>
+        <text name="rhm_help_upgrades_2">
+            <en><![CDATA[Installs basic load sensors, unlocking the HUD to monitor Engine Load, Speed, and Crop Loss. Calibration of the thresher must be done manually.]]></en>
+            <de><![CDATA[Installiert grundlegende Lastsensoren und schaltet das HUD frei, um Motorlast, Geschwindigkeit und Kornverluste zu überwachen. Die Kalibrierung muss manuell erfolgen.]]></de>
+            <fr><![CDATA[Installe des capteurs de charge de base, débloquant le HUD pour surveiller la charge moteur, la vitesse et la perte de récolte. Le calibrage est manuel.]]></fr>
+            <it><![CDATA[Installa sensori di carico di base, sbloccando l'HUD per monitorare Carico Motore, Velocità e Perdita di Raccolto. La calibrazione deve essere manuale.]]></it>
+            <es><![CDATA[Instala sensores de carga básicos, desbloqueando el HUD para monitorizar la Carga del Motor, Velocidad y Pérdidas. La calibración debe ser manual.]]></es>
+            <br><![CDATA[Instala sensores de carga básicos, desbloqueando o HUD para monitorar Carga do Motor, Velocidade e Perdas. A calibração deve ser manual.]]></br>
+            <pl><![CDATA[Instaluje podstawowe czujniki obciążenia, odblokowując HUD do monitorowania Obciążenia Silnika, Prędkości i Strat. Kalibrację należy wykonać ręcznie.]]></pl>
+            <ru><![CDATA[Устанавливает базовые датчики нагрузки, разблокируя HUD для мониторинга Нагрузки Двигателя, Скорости и Потерь. Калибровка выполняется вручную.]]></ru>
+            <hu><![CDATA[Alapvető terhelésérzékelőket telepít, feloldva a HUD-ot a Motor Terhelés, Sebesség és Veszteségek figyeléséhez. A kalibrálást kézzel kell elvégezni.]]></hu>
+            <cz><![CDATA[Nainstaluje základní senzory zatížení, čímž odemkne HUD pro sledování Zatížení Motoru, Rýchlosti a Ztrát. Kalibrace musí být prováděna manuálně.]]></cz>
+            <uk><![CDATA[Встановлює базові датчики навантаження, розблоковуючи HUD для моніторингу Навантаження Двигуна, Швидкості та Втрат врожаю. Калібрування потрібно виконувати вручну.]]></uk>
+        </text>
+        <text name="rhm_help_upgrades_3">
+            <en><![CDATA[Adds precise mass flow sensors. Unlocks the Yield (t/ha) and Productivity (t/h) metrics in the HUD for deeper performance monitoring.]]></en>
+            <de><![CDATA[Fügt präzise Massenstromsensoren hinzu. Schaltet Ertrags- (t/ha) und Produktivitätsmetriken (t/h) im HUD für eine tiefere Leistungsüberwachung frei.]]></de>
+            <fr><![CDATA[Ajoute des capteurs de débit massique précis. Débloque le rendement (t/ha) et la productivité (t/h) dans le HUD pour surveiller les performances.]]></fr>
+            <it><![CDATA[Aggiunge sensori di flusso di massa precisi. Sblocca la Resa (t/ha) e la Produttività (t/h) nell'HUD per un monitoraggio più profondo.]]></it>
+            <es><![CDATA[Añade sensores de flujo de masa precisos. Desbloquea el Rendimiento (t/ha) y Productividad (t/h) en el HUD para un mayor control.]]></es>
+            <br><![CDATA[Adiciona sensores precisos de fluxo de massa. Desbloqueia o Rendimento (t/ha) e Produtividade (t/h) no HUD para maior controle.]]></br>
+            <pl><![CDATA[Dodaje precyzyjne czujniki przepływu masy. Odblokowuje Plon (t/ha) i Produktywność (t/h) w HUD dla głębszego monitorowania wydajności.]]></pl>
+            <ru><![CDATA[Добавляет точные датчики массового расхода. Включает метрики Урожайности (т/га) и Производительности (т/ч) в HUD для более точного контроля.]]></ru>
+            <hu><![CDATA[Precíz tömegáram-érzékelőket ad hozzá. Feloldja a Hozam (t/ha) és Termelékenység (t/h) mutatókat a HUD-on a mélyebb teljesítménykövetéshez.]]></hu>
+            <cz><![CDATA[Přidává přesné senzory hmotnostního průtoku. Odemyká metriky Výnos (t/ha) a Produktivita (t/h) na HUD pro hlubší sledování výkonu.]]></cz>
+            <uk><![CDATA[Додає точні датчики масової витрати. Розблоковує показники Врожайності (т/га) та Продуктивності (т/год) у HUD для глибшого контролю.]]></uk>
+        </text>
+        <text name="rhm_help_upgrades_4">
+            <en><![CDATA[Equips the combine with a smart AI that automatically adjusts internal components (fan, rotor, sieves). Unlocks the "AUTO" mode in the Calibration Menu for optimal efficiency.]]></en>
+            <de><![CDATA[Rüstet den Mähdrescher mit einer KI aus, die interne Komponenten (Gebläse, Rotor, Siebe) automatisch anpasst. Schaltet den "AUTO"-Modus für optimale Effizienz frei.]]></de>
+            <fr><![CDATA[Équipe la moissonneuse d'une IA intelligente qui ajuste automatiquement les composants (ventilateur, rotor, grilles). Débloque le mode "AUTO" pour une efficacité optimale.]]></fr>
+            <it><![CDATA[Equipaggia la mietitrebbia con un'IA che regola automaticamente i componenti interni (ventola, rotore, crivelli). Sblocca la modalità "AUTO" per un'efficienza ottimale.]]></it>
+            <es><![CDATA[Equipa la cosechadora con una IA inteligente que ajusta automáticamente los componentes (ventilador, rotor, cribas). Desbloquea el modo "AUTO" para máxima eficiencia.]]></es>
+            <br><![CDATA[Equipa a colheitadeira com uma IA inteligente que ajusta automaticamente os componentes (ventilador, rotor, peneiras). Desbloqueia o modo "AUTO" para máxima eficiência.]]></br>
+            <pl><![CDATA[Wyposaża kombajn w inteligentną sztuczną inteligencję, która automatycznie dostosowuje podzespoły (wentylator, rotor, sita). Odblokowuje tryb "AUTO" dla optymalnej wydajności.]]></pl>
+            <ru><![CDATA[Оснащает комбайн умным ИИ, который автоматически настраивает внутренние узлы (вентилятор, ротор, решета). Разблокирует режим "АВТО" для максимальной эффективности.]]></ru>
+            <hu><![CDATA[Egy intelligens MI-vel szereli fel a kombájnt, amely automatikusan beállítja a belső alkatrészeket (ventilátor, rotor, rosták). Feloldja az "AUTO" módot az optimális hatékonyságért.]]></hu>
+            <cz><![CDATA[Vybaví kombajn chytrou AI, která automaticky nastavuje vnitřní komponenty (ventilátor, rotor, síta). Odemyká režim "AUTO" pro optimální účinnost.]]></cz>
+            <uk><![CDATA[Оснащує комбайн розумним ШІ, який автоматично налаштовує внутрішні вузли (вентилятор, ротор, решета). Розблоковує режим "АВТО" у меню калібрування для ідеальної ефективності.]]></uk>
+        </text>
+        
+        <text name="rhm_help_moisture_title">
+            <en>8. Moisture System</en>
+            <de>8. Feuchtigkeitssystem</de>
+            <fr>8. Système d'Humidité</fr>
+            <it>8. Sistema di Umidità</it>
+            <es>8. Sistema de Humedad</es>
+            <br>8. Sistema de Umidade</br>
+            <pl>8. System Wilgotności</pl>
+            <ru>8. Система Влажности</ru>
+            <hu>8. Nedvesség Rendszer</hu>
+            <cz>8. Systém Vlhkosti</cz>
+            <uk>8. Система Вологості</uk>
+        </text>
+        <text name="rhm_help_moisture_sub1">
+            <en>Integration</en>
+            <de>Integration</de>
+            <fr>Intégration</fr>
+            <it>Integrazione</it>
+            <es>Integración</es>
+            <br>Integração</br>
+            <pl>Integracja</pl>
+            <ru>Интеграция</ru>
+            <hu>Integráció</hu>
+            <cz>Integrace</cz>
+            <uk>Інтеграція</uk>
+        </text>
+        <text name="rhm_help_moisture_1">
+            <en>Realistic Harvesting supports the Moisture System mod. Crop moisture dynamically affects engine load and harvesting speed.</en>
+            <de>Realistic Harvesting unterstützt die Moisture System Mod. Erntefeuchtigkeit beeinflusst dynamisch Motorlast und Erntegeschwindigkeit.</de>
+            <fr>Realistic Harvesting prend en charge le mod Moisture System. L'humidité affecte dynamiquement la charge moteur et la vitesse.</fr>
+            <it>Realistic Harvesting supporta la mod Moisture System. L'umidità influisce dinamicamente sul carico motore e sulla velocità.</it>
+            <es>Realistic Harvesting soporta el mod Moisture System. La humedad afecta dinámicamente la carga del motor y la velocidad.</es>
+            <br>Realistic Harvesting suporta o mod Moisture System. A umidade afeta dinamicamente a carga do motor e a velocidade.</br>
+            <pl>Realistic Harvesting obsługuje mod Moisture System. Wilgotność upraw dynamicznie wpływa na obciążenie silnika i prędkość.</pl>
+            <ru>Realistic Harvesting поддерживает мод Moisture System. Влажность культуры динамически влияет на нагрузку двигателя и скорость.</ru>
+            <hu>A Realistic Harvesting támogatja a Moisture System modot. A termés nedvességtartalma dinamikusan befolyásolja a motor terhelését és a sebességet.</hu>
+            <cz>Realistic Harvesting podporuje mód Moisture System. Vlhkost plodin dynamicky ovlivňuje zatížení motoru a rychlost.</cz>
+            <uk>Realistic Harvesting підтримує мод Moisture System. Вологість культури динамічно впливає на навантаження двигуна та швидкість.</uk>
+        </text>
+        <text name="rhm_help_moisture_sub2">
+            <en>Harvesting Wet Crops</en>
+            <de>Feuchte Ernte</de>
+            <fr>Récolte Humide</fr>
+            <it>Raccolto Umido</it>
+            <es>Cosecha Húmeda</es>
+            <br>Colheita Úmida</br>
+            <pl>Mokre Zbiorów</pl>
+            <ru>Влажные Культуры</ru>
+            <hu>Nedves Termés</hu>
+            <cz>Vlhká Sklizeň</cz>
+            <uk>Вологі Культури</uk>
+        </text>
+        <text name="rhm_help_moisture_2">
+            <en>Harvesting wet crops significantly increases the strain on your combine. Moisture levels are visible on the HUD along with other metrics.</en>
+            <de>Das Ernten feuchter Nutzpflanzen erhöht die Belastung des Mähdreschers erheblich. Feuchtigkeitswerte sind im HUD sichtbar.</de>
+            <fr>Récolter des cultures humides augmente considérablement la charge sur votre moissonneuse. L'humidité est visible dans le HUD.</fr>
+            <it>Raccogliere colture umide aumenta la pressione sulla mietitrebbia. L'umidità è visibile nell'HUD.</it>
+            <es>Cosechar cultivos húmedos aumenta la tensión en su cosechadora. Los niveles de humedad son visibles en el HUD.</es>
+            <br>A colheita de culturas úmidas aumenta a pressão na colheitadeira. Os níveis de umidade são visíveis no HUD.</br>
+            <pl>Zbiór mokrych upraw znacznie zwiększa obciążenie kombajnu. Poziomy wilgotności są widoczne w HUD.</pl>
+            <ru>Уборка влажных культур значительно увеличивает нагрузку на комбайн. Уровень влажности отображается в HUD.</ru>
+            <hu>A nedves termések betakarítása jelentősen megnöveli a kombájn terhelését. A nedvességszint a HUD-on látható.</hu>
+            <cz>Sklizeň vlhkých plodin výrazně zvyšuje zátěž kombajnu. Úrovně vlhkosti jsou viditelné na HUDu.</cz>
+            <uk>Збирання вологих культур значно збільшує навантаження на комбайн. Рівень вологості відображається в HUD.</uk>
+        </text>
 </l10n>
 
     <helpLines>
         <!-- Title category for GUI -->
         <category title="$l10n_rhm_help_category">
-            <page title="$l10n_rhm_help_overview_title">
-                <!--paragraph>
-                    <image filename="textures/help_overview.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_overview_title" iconSliceId="rhmHelp_overview.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_overview_sub1"/>
+                    <image filename="textures/help_overview.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_overview_1"/>
                 </paragraph>
                 <paragraph>
@@ -3971,12 +4087,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 2: HUD ===== -->
-            <page title="$l10n_rhm_help_hud_title">
-                <!--paragraph>
-                    <image filename="textures/help_hud.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_hud_title" iconSliceId="rhmHelp_hud.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_hud_sub1"/>
+                    <image filename="textures/help_hud.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_hud_1"/>
                 </paragraph>
                 <paragraph>
@@ -3986,12 +4100,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 3: CALIBRATION ===== -->
-            <page title="$l10n_rhm_help_calibration_title">
-                <!--paragraph>
-                    <image filename="textures/help_calibration.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_calibration_title" iconSliceId="rhmHelp_calibration.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_calibration_sub1"/>
+                    <image filename="textures/help_calibration.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_calibration_1"/>
                 </paragraph>
                 <paragraph>
@@ -4001,12 +4113,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 4: SPECIAL COMBINES ===== -->
-            <page title="$l10n_rhm_help_special_title">
-                <!--paragraph>
-                    <image filename="textures/help_special.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_special_title" iconSliceId="rhmHelp_special.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_special_sub1"/>
+                    <image filename="textures/help_special.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_special_1"/>
                 </paragraph>
                 <paragraph>
@@ -4016,12 +4126,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 5: CROP LOST ===== -->
-            <page title="$l10n_rhm_help_loss_title">
-                <!--paragraph>
-                    <image filename="textures/help_croploss.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_loss_title" iconSliceId="rhmHelp_croploss.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_loss_sub1"/>
+                    <image filename="textures/help_croploss.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_loss_1"/>
                 </paragraph>
                 <paragraph>
@@ -4031,12 +4139,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 6: DIFFICULTY ===== -->
-            <page title="$l10n_rhm_help_difficulty_title">
-                <!--paragraph>
-                    <image filename="textures/help_difficulty.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_difficulty_title" iconSliceId="rhmHelp_difficulty.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_difficulty_sub1"/>
+                    <image filename="textures/help_difficulty.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_difficulty_1"/>
                 </paragraph>
                 <paragraph>
@@ -4046,25 +4152,39 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 7: UPGRADES ===== -->
-            <page title="$l10n_rhm_help_upgrades_title">
-                <!--paragraph>
-                   <image filename="textures/help_upgrades.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_upgrades_title" iconSliceId="rhmHelp_upgrades.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub1"/>
+                    <image filename="textures/help_upgrades_1.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_upgrades_1"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub2"/>
+                    <image filename="textures/help_upgrades_2.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_upgrades_2"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub3"/>
+                    <image filename="textures/help_upgrades_3.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_upgrades_3"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub4"/>
+                    <image filename="textures/help_upgrades_4.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_upgrades_4"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 8: MOISTURE SYSTEM ===== -->
+            <page title="$l10n_rhm_help_moisture_title" iconSliceId="rhmHelp_moisture.tab">
+                <paragraph>
+                    <title text="$l10n_rhm_help_moisture_sub1"/>
+                    <image filename="textures/help_moisture.dds" aspectRatio="1" displaySize="256px 256px"/>
+                    <text text="$l10n_rhm_help_moisture_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_moisture_sub2"/>
+                    <text text="$l10n_rhm_help_moisture_2"/>
                 </paragraph>
             </page>
         </category>

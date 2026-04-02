@@ -85,6 +85,13 @@ local function loadedMission(mission, node)
         RHM_MoistureAdapter.initialize()
     end
 
+    -- EN: Register custom help menu tab icons
+    -- UA: Реєструємо власні іконки для вкладок меню довідки
+    local tabs = {"overview", "hud", "calibration", "special", "croploss", "difficulty", "upgrades", "moisture"}
+    for _, tab in ipairs(tabs) do
+        g_overlayManager:addTextureConfigFile(modDirectory .. "textures/tab_icons/" .. tab .. ".xml", "rhmHelp_" .. tab)
+    end
+
     rhm:onMissionLoaded()
 end
 
