@@ -407,6 +407,78 @@ function rhm_Combine:addFillUnitFillLevel(superFunc, ...)
     return r1, r2, r3, r4, r5, r6
 end
 
+-- EN: Windrow pickup vs direct rotary/forage cutter — FS often reports GRASS_WINDROW fruit/fill even when
+--     using a direct-cut header, which broke load factors (windrow is tuned separately from standing grass).
+-- UA: Підбирач валка vs прямий рез — гра може давати GRASS_WINDROW і для стоячої трави.
+function rhm_Combine.getForageFeedMode(vehicle)
+    if not vehicle or not vehicle.getAttachedImplements then
+        return "unknown"
+    end
+    local hasPickup = false
+    local hasForageCutter = false
+    for _, implement in pairs(vehicle:getAttachedImplements()) do
+        local o = implement.object
+        if o then
+            local storeItem = g_storeManager:getItemByXMLFilename(o.configFileName)
+            local cat = storeItem and storeItem.categoryName or ""
+            if o.spec_forageHarvesterCutter ~= nil or o.spec_forageCutter ~= nil or cat == "forageHarvesterCutters" then
+                hasForageCutter = true
+            end
+            if o.spec_pickup ~= nil or cat == "pickups" or cat == "slasher" then
+                local isVegetableHarvester = false
+                if cat == "vegetableVehicles" or cat == "onionHarvesters" or cat == "rootCropHarvesters" then
+                    isVegetableHarvester = true
+                end
+                if not isVegetableHarvester and o.spec_fillUnit then
+                    for _, fillUnit in ipairs(o.spec_fillUnit.fillUnits or {}) do
+                        if fillUnit.supportedFillTypes then
+                            for fillTypeIndex, _ in pairs(fillUnit.supportedFillTypes) do
+                                local ft = g_fillTypeManager and g_fillTypeManager:getFillTypeByIndex(fillTypeIndex)
+                                if ft and ft.name then
+                                    local ftName = string.upper(ft.name)
+                                    if ftName == "ONION" or ftName == "ONION_DIRTY" or ftName == "CARROT" or ftName == "BEETROOT"
+                                        or ftName == "PARSNIP" or ftName == "POTATO" then
+                                        isVegetableHarvester = true
+                                        break
+                                    end
+                                end
+                            end
+                        end
+                        if isVegetableHarvester then break end
+                    end
+                end
+                if not isVegetableHarvester then
+                    local xml = string.lower(o.configFileName or "")
+                    if xml:find("onion") or xml:find("carrot") or xml:find("beetroot") or xml:find("parsnip")
+                        or xml:find("ur_") or xml:find("umr_") or xml:find("keiler") then
+                        isVegetableHarvester = true
+                    end
+                end
+                if not isVegetableHarvester then
+                    hasPickup = true
+                end
+            end
+        end
+    end
+    if hasPickup then
+        return "pickup"
+    end
+    if hasForageCutter then
+        return "direct"
+    end
+    -- EN: Some mod/vanilla headers only expose spec_cutter (no spec_forageHarvesterCutter).
+    if vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.combineMemory
+        and vehicle.spec_rhm_Combine.combineMemory.machineType == "forage" then
+        for _, implement in pairs(vehicle:getAttachedImplements()) do
+            local o = implement.object
+            if o and o.spec_cutter and not o.spec_pickup then
+                return "direct"
+            end
+        end
+    end
+    return "unknown"
+end
+
 -- EN: Override for addCutterArea — intercepts the raw (pixel-count) cutting area per tick.
 --     Converts pixels to square meters using g_currentMission:getFruitPixelsToSqm().
 --     Also captures fallback liters from the return value for forage harvesters without hoppers.
@@ -434,9 +506,17 @@ function rhm_Combine:addCutterArea(superFunc, ...)
     --     This reliable formula works independently of map scale and Precision Farming bonuses.
     -- UA: Конвертуємо 'area' (кількість пікселів) у реальні квадратні метри використовуючи коефіцієнт місії.
     --     Ця надійна формула працює незалежно від масштабу карти і бонусів Precision Farming.
+    -- EN: Pixel→m² factor is constant per mission; avoid calling native every harvest slice.
+    -- UA: Коефіцієнт піксель→м² сталий для місії; не тягнемо натив на кожен зріз.
     local sqmMultiplier = 1.0
-    if g_currentMission and type(g_currentMission.getFruitPixelsToSqm) == "function" then
-        sqmMultiplier = g_currentMission:getFruitPixelsToSqm()
+    local mission = g_currentMission
+    if mission and type(mission.getFruitPixelsToSqm) == "function" then
+        local cached = mission._rhmFruitPixelsToSqm
+        if cached == nil then
+            cached = mission:getFruitPixelsToSqm()
+            mission._rhmFruitPixelsToSqm = cached
+        end
+        sqmMultiplier = cached or 1.0
     end
     
     local areaForYield = area * sqmMultiplier
@@ -475,6 +555,38 @@ function rhm_Combine:addCutterArea(superFunc, ...)
         -- UA: Визначаємо назву культури через RHM_CombineSettingsDatabase — повна таблиця включаючи
         --     зернові, коренеплоди (POTATO/ONION/CARROT), овочі (SPINACH/GREENBEAN) та форажні виводи.
         local cropName = RHM_CombineSettingsDatabase:getCropNameFromFillType(outputFillType)
+
+        -- EN: CHAFF and SILAGE map to MAIZE_FORAGE in the DB — correct for corn silage but WRONG for
+        --     direct grass/meadow silage (same output fill types in FS). That used factor ~0.30 and felt like
+        --     unlimited speed (~15 km/h). Disambiguate using the combine's INPUT fruit from the cutter.
+        -- UA: CHAFF/SILAGE у БД → MAIZE_FORAGE (кукурудза), але пряме косіння трави теж дає CHAFF — інакше фактор 0.3 і «літак».
+        if cropName == "MAIZE_FORAGE" and inputFruitType and inputFruitType ~= FillType.UNKNOWN and inputFruitType ~= 0 then
+            local inName = nil
+            if g_fruitTypeManager then
+                local fDesc = g_fruitTypeManager:getFruitTypeByIndex(inputFruitType)
+                if fDesc and fDesc.name then
+                    inName = string.upper(fDesc.name)
+                end
+            end
+            if inName then
+                if inName == "DRYGRASS" then
+                    cropName = "DRYGRASS"
+                elseif inName:find("WINDROW") then
+                    if inName:find("DRY") then
+                        cropName = "DRYGRASS_WINDROW"
+                    else
+                        cropName = "GRASS_WINDROW"
+                    end
+                elseif inName == "GRASS" or inName == "MEADOW" or inName == "TALLGRASS" or inName == "ALFALFA" or inName == "CLOVER" then
+                    cropName = "GRASS"
+                end
+            else
+                local alt = RHM_CombineSettingsDatabase:getCropNameFromFillType(inputFruitType)
+                if alt == "GRASS" or alt == "DRYGRASS" or alt == "GRASS_WINDROW" or alt == "DRYGRASS_WINDROW" then
+                    cropName = alt
+                end
+            end
+        end
         
         -- EN: Fallback for forage harvesters: they output CHAFF but inputFruitType=MAIZE.
         --     getCropNameFromFillType(CHAFF) returns "MAIZE_FORAGE" usually, but try inputFruitType if not.
@@ -482,6 +594,39 @@ function rhm_Combine:addCutterArea(superFunc, ...)
         --     getCropNameFromFillType(CHAFF) зазвичай повертає "MAIZE_FORAGE", але спробуємо inputFruitType якщо ні.
         if not cropName and inputFruitType and inputFruitType ~= FillType.UNKNOWN then
             cropName = RHM_CombineSettingsDatabase:getCropNameFromFillType(inputFruitType)
+        end
+
+        -- EN: Forage harvester feed mode disambiguation.
+        --     FS25 reports outputFillType=GRASS_WINDROW for BOTH direct-cut grass AND pickup windrows.
+        --     The key difference: direct-cut always has inputFruitType (e.g. GRASS), pickups have inputFruitType=nil.
+        --     getForageFeedMode() can fail when pickup lacks spec_pickup, so we use inputFruitType as primary signal.
+        -- UA: Визначення режиму подачі форажного комбайна.
+        --     FS25 дає outputFillType=GRASS_WINDROW і для прямого різу трави, і для підбору валків.
+        --     Ключова різниця: прямий різ завжди має inputFruitType (напр. GRASS), підбирач має inputFruitType=nil.
+        --     getForageFeedMode() може помилитись коли підбирач не має spec_pickup, тому inputFruitType — головний сигнал.
+        if cropName and spec.combineMemory and spec.combineMemory.machineType == "forage" then
+            -- EN: PRIMARY DETECTION: inputFruitType is the most reliable signal.
+            --     nil/0 = pickup (FS25 never provides input fruit for windrow pickups)
+            --     valid value = direct cut (always has input fruit type)
+            -- UA: ОСНОВНА ДЕТЕКЦІЯ: inputFruitType — найнадійніший сигнал.
+            --     nil/0 = підбирач (FS25 ніколи не дає input fruit для підбору валків)
+            --     валідне значення = прямий різ (завжди має input fruit type)
+            local isPickupMode = (inputFruitType == nil or inputFruitType == 0)
+            
+            if not isPickupMode then
+                -- EN: Direct cut: force WINDROW → standing crop name so the heavier factor applies.
+                --     FS25 often tags output as GRASS_WINDROW even for standing grass.
+                -- UA: Прямий різ: примусово WINDROW → стояча культура для важчого коефіцієнта.
+                if cropName == "GRASS_WINDROW" then
+                    cropName = "GRASS"
+                elseif cropName == "DRYGRASS_WINDROW" then
+                    cropName = "DRYGRASS"
+                end
+            end
+            -- EN: Pickup mode: cropName from getCropNameFromFillType(GRASS_WINDROW) is already correct
+            --     ("GRASS_WINDROW" with factor 0.380). Do NOT override it.
+            -- UA: Підбирач: cropName з getCropNameFromFillType(GRASS_WINDROW) вже правильний
+            --     ("GRASS_WINDROW" з фактором 0.380). НЕ перезаписуємо.
         end
         
         if cropName then
@@ -593,19 +738,24 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
     --     Та ж перевірка що й у onUpdateTick: isTurnedOn + speed > 0.5 + опущена (або allowCuttingWhileRaised).
     local spec_combine = self.spec_combine
     local cutterIsWorking = false
-    
+    local firstAttachedCutter = nil
+    -- EN: Single pass: working check + first attached (for header-change detection).
+    -- UA: Один прохід: перевірка роботи + перша жатка (для зміни хедера).
     if spec_combine and spec_combine.attachedCutters then
+        local speedOk = self:getLastSpeed() > 0.5
         for cutter, _ in pairs(spec_combine.attachedCutters) do
+            if firstAttachedCutter == nil then
+                firstAttachedCutter = cutter
+            end
             if cutter.spec_cutter then
                 local spec_cutter = cutter.spec_cutter
                 -- FIX: Use same check as onUpdateTick - do NOT check movingDirection,
                 -- as Courseplay can set it differently. Only check isTurnedOn + speed + isLowered.
-                cutterIsWorking = cutter:getIsTurnedOn()
-                    and self:getLastSpeed() > 0.5
-                    and (spec_cutter.allowCuttingWhileRaised or cutter:getIsLowered(true))
-                
-                if cutterIsWorking then
-                    break -- Знайшли працюючу жатку
+                if cutter:getIsTurnedOn()
+                    and speedOk
+                    and (spec_cutter.allowCuttingWhileRaised or cutter:getIsLowered(true)) then
+                    cutterIsWorking = true
+                    break
                 end
             end
         end
@@ -635,18 +785,9 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
     
     -- EN: If the cutter changed, reset genuineSpeedLimit to recalibrate for the new header's speed range.
     -- UA: Якщо жатка змінилась, скидаємо genuineSpeedLimit для рекалібрування під новий діапазон швидкостей.
-    if spec_combine and spec_combine.attachedCutters then
-        local currentCutter = nil
-        for cutter, _ in pairs(spec_combine.attachedCutters) do
-            currentCutter = cutter
-            break -- Беремо першу жатку
-        end
-        
-        -- Якщо жатка змінилася, скидаємо genuineSpeedLimit
-        if currentCutter ~= spec.currentCutter and currentCutter ~= nil then
-            spec.currentCutter = currentCutter
-            spec.loadCalculator.genuineSpeedLimit = -1 -- EN: Reset to initial value / UA: Скидаємо до початкового значення
-        end
+    if firstAttachedCutter ~= spec.currentCutter and firstAttachedCutter ~= nil then
+        spec.currentCutter = firstAttachedCutter
+        spec.loadCalculator.genuineSpeedLimit = -1 -- EN: Reset to initial value / UA: Скидаємо до початкового значення
     end
     
     -- EN: Set genuineSpeedLimit ONCE from the game's max speed cap (1.5x game limit, min 18 km/h).
@@ -918,6 +1059,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     if not self:getIsTurnedOn() or self.movingDirection == -1 then
         -- EN: Thresher off or reversing — reset load calculation.
         -- UA: Молотарка вимкнена або рухається назад — скидаємо розрахунок навантаження.
+        spec._rhmLastMotorSpeedLimit = nil
         spec.loadCalculator:reset()
         if spec.data then
             spec.data.load = 0
@@ -955,6 +1097,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     if not cutterIsTurnedOn then
         -- EN: Cutter not working — reset indicators so they don't stay visible.
         -- UA: Жатка не працює — скидаємо індикатори щоб вони не висіли.
+        spec._rhmLastMotorSpeedLimit = nil
         spec.loadCalculator:reset() 
         if spec.data then
             spec.data.load = 0 
@@ -1023,10 +1166,12 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     --     This makes crop loss visible as a real reduction in tank fill level.
     -- UA: Застосовуємо фізичні втрати врожаю: видаляємо втрачене зерно з fill unit на сервері.
     --     Це робить втрати врожаю видимими як реальне зменшення рівня наповнення бункера.
+    local totalCropLossThisTick = spec.loadCalculator:calculateTotalCropLoss()
+
     if liters > 0 and self.isServer then
         -- EN: Calculate total crop loss including settings deviation penalty.
         -- UA: Розраховуємо загальні втрати врожаю включаючи штраф за відхилення налаштувань.
-        local cropLoss = spec.loadCalculator:calculateTotalCropLoss()
+        local cropLoss = totalCropLossThisTick
         spec.combineMemory:updateStatistics(liters, cropLoss, spec.combineMemory.currentCrop)
         
         if cropLoss > 0 and g_realisticHarvestManager and g_realisticHarvestManager.settings then
@@ -1085,7 +1230,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     if spec.data then
         spec.data.moisture = moisture or 0
         spec.data.load = spec.loadCalculator:getEngineLoad()
-        spec.data.cropLoss = spec.loadCalculator:calculateTotalCropLoss()
+        spec.data.cropLoss = totalCropLossThisTick
         spec.data.tonPerHour = spec.loadCalculator:getTonPerHour()
         spec.data.litersPerHour = spec.loadCalculator:getLitersPerHour() -- NEW: Volume flow
         spec.data.recommendedSpeed = spec.loadCalculator:getSpeedLimit()
@@ -1125,7 +1270,13 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                 end
 
                 if currentLimit and currentLimit > 0 then
-                    motor:setSpeedLimit(currentLimit)
+                    -- EN: Skip redundant motor updates when limit barely changes (getSpeedLimit/onTick fire often).
+                    -- UA: Не шлемо в мотор той самий ліміт щотік — getSpeedLimit/onTick дуже часті.
+                    local prev = spec._rhmLastMotorSpeedLimit
+                    if prev == nil or math.abs(prev - currentLimit) >= 0.05 then
+                        spec._rhmLastMotorSpeedLimit = currentLimit
+                        motor:setSpeedLimit(currentLimit)
+                    end
                 end
             end
         end

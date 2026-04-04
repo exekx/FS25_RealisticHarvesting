@@ -72,6 +72,11 @@ function RHM_RealisticHarvestManager.new(mission, modDirectory, modName)
         self.calibrationGUI = RHMCombineCalibrationGUI.new(modDirectory)
     end
 
+    if mission:getIsClient() and RHM_CropFactorTuning and RHM_CropFactorTuning.isEnabled and RHM_CropFactorTuning.isEnabled() then
+        self.cropFactorTuneGUI = RHM_CropFactorTuningGui.new(modDirectory)
+        RHM_CropFactorTuning.registerConsoleCommand()
+    end
+
     return self
 end
 
@@ -143,9 +148,18 @@ function RHM_RealisticHarvestManager:getControlledVehicle()
         return g_localPlayer:getCurrentVehicle()
     end
 
+    -- EN: Avoid scanning all vehicles every frame; cache last entered vehicle until it is no longer entered.
+    -- UA: Не обходимо всі транспорти щокадру; кешуємо останній «увійшов» поки гравець у ньому.
+    local cached = self._rhmEnteredVehicleCache
+    if cached and cached.getIsEntered and cached:getIsEntered() then
+        return cached
+    end
+
+    self._rhmEnteredVehicleCache = nil
     if g_currentMission.vehicles then
         for _, v in pairs(g_currentMission.vehicles) do
             if v.getIsEntered and v:getIsEntered() then
+                self._rhmEnteredVehicleCache = v
                 return v
             end
         end
@@ -165,6 +179,10 @@ function RHM_RealisticHarvestManager:update(dt)
         self.calibrationGUI:update(dt)
     end
 
+    if self.cropFactorTuneGUI then
+        self.cropFactorTuneGUI:update(dt)
+    end
+
     if self.hud then
         local vehicle = self:getControlledVehicle()
         local combineVehicle = nil
@@ -173,7 +191,20 @@ function RHM_RealisticHarvestManager:update(dt)
             -- EN: For modular systems (Nexat), search from the root vehicle of the train.
             -- UA: Для модульних систем (Nexat), шукаємо від кореневого транспортного засобу.
             local searchRoot = vehicle.rootVehicle or vehicle
-            combineVehicle = findCombineInHierarchy(searchRoot)
+            local now = g_time
+            local throttleMs = 250
+            if vehicle == self._rhmHudVehicleRef and searchRoot == self._rhmHudSearchRootRef
+                and self.lastActiveCombine and (now - (self._rhmHudHierarchySearchTime or 0)) < throttleMs then
+                combineVehicle = self.lastActiveCombine
+            else
+                combineVehicle = findCombineInHierarchy(searchRoot)
+                self._rhmHudHierarchySearchTime = now
+                self._rhmHudVehicleRef = vehicle
+                self._rhmHudSearchRootRef = searchRoot
+            end
+        else
+            self._rhmHudVehicleRef = nil
+            self._rhmHudSearchRootRef = nil
         end
 
         self.lastActiveCombine = combineVehicle
@@ -198,6 +229,10 @@ function RHM_RealisticHarvestManager:draw()
     -- UA: Пропускаємо все малювання коли відкритий будь-який GUI екран FS25 (меню ESC, карта, налаштування).
     if g_gui:getIsGuiVisible() then
         return
+    end
+
+    if self.cropFactorTuneGUI then
+        self.cropFactorTuneGUI:draw()
     end
 
     -- EN: Calibration GUI is drawn above the HUD independently.
@@ -235,6 +270,10 @@ function RHM_RealisticHarvestManager:delete()
         self.hud:delete()
         self.hud = nil
     end
+    if self.cropFactorTuneGUI then
+        self.cropFactorTuneGUI:delete()
+        self.cropFactorTuneGUI = nil
+    end
     if self.calibrationGUI then
         self.calibrationGUI:delete()
     end
@@ -247,6 +286,10 @@ end
 function RHM_RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.mission:getIsClient() then
         return
+    end
+
+    if self.cropFactorTuneGUI and self.cropFactorTuneGUI:mouseEvent(posX, posY, isDown, isUp, button) then
+        return true
     end
 
     if self.calibrationGUI and self.calibrationGUI:mouseEvent(posX, posY, isDown, isUp, button) then

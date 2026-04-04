@@ -71,41 +71,44 @@ function RHM_LoadCalculator:loadDefaultCropFactors()
     local factorMap = {
         ["WHEAT"] = 0.814,
         ["BARLEY"] = 0.869,
-        ["OAT"] = 1.164,        -- EN: +25% / UA: +25%
+        -- EN: Was 1.164 (heavier than wheat) but playtests: oats runs ~10 km/h ~60% load on ~507 hp / 10.8 m
+        --     while wheat ~5 km/h on ~547 hp / 10.7 m — oats must be LIGHTER than wheat in this model.
+        -- UA: Раніше 1.164 (важче пшениці), але за відчуттям у грі овес легший — знижено відносно пшениці.
+        ["OAT"] = 2.000,
         ["MAIZE"] = 0.572,      -- EN: -50% / UA: -50%
-        ["CORN"] = 0.572,
-        ["MAIZE_FORAGE"] = 0.572,
+        ["CORN"] = 0.450,
+        ["MAIZE_FORAGE"] = 0.300,
         ["MAIZE_SILAGE"] = 0.572,
-        ["SOYBEAN"] = 1.788,    -- EN: -20% / UA: -20%
+        ["SOYBEAN"] = 1.188,    -- EN: -20% / UA: -20%
         ["SUNFLOWER"] = 2.324,
-        ["CANOLA"] = 1.738,
-        ["SORGHUM"] = 0.801,    -- EN: -20% / UA: -20%
+        ["CANOLA"] = 1.438,
+        ["SORGHUM"] = 0.501,    -- EN: -20% / UA: -20%
         
         -- EN: Rice is a heavy crop / UA: Рис важка культура
         ["RICE"] = 1.303,
-        ["RICE_LONG_GRAIN"] = 1.303,
+        ["RICE_LONG_GRAIN"] = 0.723,
         
         -- EN: Legumes / UA: Бобові
-        ["PEA"] = 1.152,        -- EN: -20% / UA: -20%
+        ["PEA"] = 1.312,        -- EN: -20% / UA: -20%
         ["LENTIL"] = 1.152,
         ["CHICKPEA"] = 1.152,
-        ["GREENBEAN"] = 2.240,  -- EN: -20% / UA: -20%
+        ["GREENBEAN"] = 3.500,  -- EN: -20% / UA: -20%
         
         -- EN: Root crops / UA: Коренеплоди
         ["POTATO"] = 0.600,     -- EN: Lighter / UA: Полегшено
         ["SUGARBEET"] = 0.920,  -- EN: +15% / UA: +15%
-        ["BEETROOT"] = 1.050,   -- EN: +15% / UA: +15%
+        ["BEETROOT"] = 1.650,   -- EN: +15% / UA: +15%
         ["CARROT"] = 0.323,     -- EN: -15% / UA: -15%
         ["PARSNIP"] = 0.400,    -- EN: Lighter / UA: Полегшено
         ["ONION"] = 0.600,      
         ["SPINACH"] = 2.880,    
         
         -- EN: Grass & Silage / UA: Трава та силос
-        ["GRASS"] = 1.221,      -- EN: 1.5x Wheat / UA: 1.5x Пшениці
-        ["DRYGRASS"] = 1.100,
-        ["ALFALFA"] = 1.100,
-        ["CLOVER"] = 1.100,
-        ["MEADOW"] = 1.221,
+        ["GRASS"] = 0.700,      -- EN: 1.5x Wheat / UA: 1.5x Пшениці
+        ["DRYGRASS"] = 0.700,
+        ["ALFALFA"] = 0.700,
+        ["CLOVER"] = 0.700,
+        ["MEADOW"] = 0.700,
         ["ONION_DIRTY"] = 0.700, -- EN: Dirty onions (Root crop) / UA: Брудна цибуля
         
         -- EN: Other / Mod crops / UA: Інші культури
@@ -168,34 +171,34 @@ function RHM_LoadCalculator:loadDefaultCropFactors()
     self.CROP_FACTORS_BY_NAME = {
         ["WHEAT"] = 0.814,
         ["BARLEY"] = 0.869,
-        ["OAT"] = 1.164,
-        ["CORN"] = 0.650,           -- Grain corn (slightly harder)
+        ["OAT"] = 2.000,
+        ["CORN"] = 0.450,           -- Grain corn (slightly harder)
         ["MAIZE_FORAGE"] = 0.300,   -- Silage corn (much lighter so 800+ HP choppers go fast)
-        ["SOYBEAN"] = 1.788,
+        ["SOYBEAN"] = 1.188,
         ["SUNFLOWER"] = 2.324,
-        ["CANOLA"] = 1.738,
-        ["SORGHUM"] = 0.801,
+        ["CANOLA"] = 1.438,
+        ["SORGHUM"] = 0.501,
         ["RICE"] = 1.303,
-        ["RICE_LONG_GRAIN"] = 1.303,
+        ["RICE_LONG_GRAIN"] = 0.723,
         
         -- Legumes
-        ["PEA"] = 1.152,
+        ["PEA"] = 1.312,
         ["LENTIL"] = 1.152,
         ["CHICKPEA"] = 1.152,
-        ["GREENBEAN"] = 2.240,
+        ["GREENBEAN"] = 3.500,
         
         -- Roots
         ["POTATO"] = 0.600,
         ["SUGARBEET"] = 0.920,
-        ["BEETROOT"] = 1.050,
+        ["BEETROOT"] = 1.650,
         ["CARROT"] = 0.323,
         ["PARSNIP"] = 0.400,
         ["ONION"] = 0.600,
-        ["SPINACH"] = 2.880,
+        ["SPINACH"] = 4.000,
         
         -- Forage
-        ["GRASS"] = 1.000,
-        ["DRYGRASS"] = 0.900,
+        ["GRASS"] = 1.221,
+        ["DRYGRASS"] = 1.100,
         ["GRASS_WINDROW"] = 0.380,
         ["DRYGRASS_WINDROW"] = 0.500,
         
@@ -394,6 +397,15 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     if not cropFactor then
         cropFactor = self.CROP_FACTORS[FruitType.WHEAT] or 0.814
     end
+
+    -- EN: --- RHM_CropFactorTuning hook (DEV) — remove with dev/RHM_CropFactorTuning.lua ---
+    -- UA: --- хук RHM_CropFactorTuning (DEV) ---
+    if RHM_CropFactorTuning and RHM_CropFactorTuning.isEnabled and RHM_CropFactorTuning.isEnabled() then
+        local tun = RHM_CropFactorTuning.getFactorOverride(self.currentCrop)
+        if tun ~= nil then
+            cropFactor = tun
+        end
+    end
     
     -- EN: UNIVERSAL FORAGE SAFETY NET
     -- UA: УНІВЕРСАЛЬНИЙ ЗАХИСТ ДЛЯ СИЛОСНИХ КОМБАЙНІВ
@@ -525,6 +537,17 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
             end
         end
     end
+
+    -- EN: Forage harvester + direct-cut grass (rotary header), NOT pickup: FS often reports high t/h at 12–15 km/h
+    --     but engine load stays ~50–60% and the vehicle sits on the speed ceiling. Dense windrow pickup at ~7 km/h
+    --     reaches ~80% load — same crop, different intake geometry. Bump resistance only for this mode so limits engage.
+    -- UA: Силосник прямим резом по траві: на 15 км/год низьке навантаження vs підбирання валка ~80% — множник лише тут.
+    if machineType == "forage" and isForageCutter and not isPickup then
+        if self.currentCrop == "GRASS" or self.currentCrop == "DRYGRASS" then
+            cropFactor = cropFactor * 2.25
+        end
+    end
+
     -- EN: Forage cutter logic removed because MAIZE_FORAGE is now tuned explicitly in CROP_FACTORS_BY_NAME
 
     if self.lastCropType ~= spec_combine.lastValidInputFruitType then

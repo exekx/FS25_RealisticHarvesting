@@ -44,6 +44,9 @@ source(modDirectory .. "src/settings/RHM_CombineMemory.lua")
 source(modDirectory .. "src/network/RHM_CombineSettingsEvent.lua")
 source(modDirectory .. "src/integration/RHM_MoistureAdapter.lua")
 source(modDirectory .. "src/logic/RHM_LoadCalculator.lua")
+-- EN: DEV — crop factor editor (see src/dev/RHM_CropFactorTuning.lua header for removal).
+-- UA: DEV — редактор коефіцієнтів (інструкція з видалення на початку файлу).
+source(modDirectory .. "src/dev/RHM_CropFactorTuning.lua")
 source(modDirectory .. "src/RHM_Combine.lua")
 -- EN: CRITICAL: rhm_Cutter must be loaded AFTER rhm_Combine for independent header launch to work.
 -- UA: КРИТИЧНО: rhm_Cutter має бути завантажений ПІСЛЯ rhm_Combine, щоб роздільний запуск жатки працював.
@@ -93,6 +96,10 @@ local function loadedMission(mission, node)
     end
 
     rhm:onMissionLoaded()
+
+    if RHM_CropFactorTuning and RHM_CropFactorTuning.loadFromDisk then
+        RHM_CropFactorTuning.loadFromDisk()
+    end
 end
 
 -- EN: Called when the mission starts loading.

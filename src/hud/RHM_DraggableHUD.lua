@@ -114,6 +114,13 @@ function RHMDraggableHUD:loadIcons(uiScale)
         self.icons[name] = icon
     end
 
+    -- EN: Reused each frame for the settings button background (avoid Overlay.new/delete per draw).
+    -- UA: Перевикористовується щокадру для фону кнопки налаштувань (без Overlay.new/delete на кожен draw).
+    self.settingsButtonBgOverlay = Overlay.new(atlasPath, 0, 0, 0.014 * self.uiScale, self.headerHeight)
+    if self.bgUVs then
+        self.settingsButtonBgOverlay:setUVs(self.bgUVs)
+    end
+
     if self.settings.showLoad == nil then self.settings.showLoad = true end
     if self.settings.showYield == nil then self.settings.showYield = true end
     if self.settings.showSpeed == nil then self.settings.showSpeed = true end
@@ -235,16 +242,15 @@ function RHMDraggableHUD:draw()
     local isHovered = mx >= settingsButtonArea.x and mx <= settingsButtonArea.x + settingsButtonArea.w and
                       my >= settingsButtonArea.y and my <= settingsButtonArea.y + settingsButtonArea.h
 
-    if self.backgroundOverlay then
-        local rect = Overlay.new(self.iconAtlasPath, btnX, btnY, btnW, btnH)
-        if self.bgUVs then rect:setUVs(self.bgUVs) end
+    if self.settingsButtonBgOverlay then
+        self.settingsButtonBgOverlay:setPosition(btnX, btnY)
+        self.settingsButtonBgOverlay:setDimension(btnW, btnH)
         if isHovered then
-            rect:setColor(1.0, 1.0, 1.0, 0.22)
+            self.settingsButtonBgOverlay:setColor(1.0, 1.0, 1.0, 0.22)
         else
-            rect:setColor(0.00, 0.00, 0.00, 0.35)
+            self.settingsButtonBgOverlay:setColor(0.00, 0.00, 0.00, 0.35)
         end
-        rect:render()
-        rect:delete()
+        self.settingsButtonBgOverlay:render()
     end
 
     local iconSettings = self.icons.settings
@@ -537,6 +543,10 @@ end
 function RHMDraggableHUD:delete()
     if self.backgroundOverlay then self.backgroundOverlay:delete() end
     if self.headerOverlay then self.headerOverlay:delete() end
+    if self.settingsButtonBgOverlay then
+        self.settingsButtonBgOverlay:delete()
+        self.settingsButtonBgOverlay = nil
+    end
 
     for _, icon in pairs(self.icons) do
         if icon then icon:delete() end
