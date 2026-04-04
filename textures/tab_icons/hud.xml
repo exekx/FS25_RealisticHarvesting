@@ -1,6 +1,6 @@
 <texture>
   <meta>
-    <filename>hud.png</filename>
+    <filename>hud.dds</filename>
     <size width="256" height="256"/>
   </meta>
   <slices>

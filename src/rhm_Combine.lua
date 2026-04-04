@@ -1093,28 +1093,41 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec.data.yield = spec.loadCalculator.currentYield or 0
     end
     
-    -- === AI / COURSEPLAY WORKAROUND (Server Side) ===
-    -- Courseplay uses its own speed controller that bypasses getSpeedLimit().
-    -- We must enforce the requested speed limit directly on the motor.
-    -- FIX: Only apply if the cutter is actually working (cutterIsTurnedOn from above)
-    if self.isServer and self:getIsAIActive() and cutterIsTurnedOn then
-        if self.spec_motorized and self.spec_motorized.motor then
-            local motor = self.spec_motorized.motor
-            local currentLimit = spec.loadCalculator:getSpeedLimit()
-            
-            -- EN: ALWAYS apply the calculated limit (both up and down).
-            --     Previously we only called setSpeedLimit when lowering, so after a heavy windrow
-            --     the motor limit stayed at 1-2 km/h permanently (Courseplay speed-lock bug).
-            --     Cap at genuineSpeedLimit so we never restore above the original ceiling.
-            -- UA: ЗАВЖДИ застосовуємо розрахований ліміт (і вниз, і вгору).
-            --     Раніше ми викликали setSpeedLimit лише при зниженні, тому після важких рядків
-            --     ліміт мотора назавжди залишався на 1-2 км/год (баг блокування швидкості Courseplay).
-            --     Обмежуємо genuineSpeedLimit щоб не перевищити оригінальну стелю.
-            local ceiling = spec.loadCalculator.genuineSpeedLimit
-            if ceiling and ceiling > 0 then
-                currentLimit = math.min(currentLimit, ceiling)
+    -- === SPEED LIMIT ENFORCEMENT (Server Side) ===
+    -- Courseplay (and some cruise control implementations) can bypass `getSpeedLimit()`.
+    -- Enforce the dynamic cap directly on the motor for both:
+    --  - AI vehicles
+    --  - player-controlled vehicles (so in-cab cruise reacts to load)
+    if self.isServer and cutterIsTurnedOn then
+        local isAI = self:getIsAIActive()
+        local isPlayerControlled = type(self.getIsControlled) == "function" and self:getIsControlled()
+
+        if isAI or isPlayerControlled then
+            if self.spec_motorized and self.spec_motorized.motor then
+                local motor = self.spec_motorized.motor
+                local currentLimit = spec.loadCalculator:getSpeedLimit()
+
+                local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+                local speedLimitEnabled = settings and settings.enableSpeedLimit
+                local isArcade = settings and settings.difficultyMotor == 1 -- DIFFICULTY_ARCADE
+
+                local ceiling = spec.loadCalculator.genuineSpeedLimit
+                if (not speedLimitEnabled) or isArcade then
+                    -- If speed limiting is disabled (or Arcade), restore the original ceiling if known.
+                    if ceiling and ceiling > 0 then
+                        currentLimit = ceiling
+                    end
+                else
+                    -- Otherwise cap at the original ceiling so we never exceed the game's max working speed.
+                    if ceiling and ceiling > 0 then
+                        currentLimit = math.min(currentLimit, ceiling)
+                    end
+                end
+
+                if currentLimit and currentLimit > 0 then
+                    motor:setSpeedLimit(currentLimit)
+                end
             end
-            motor:setSpeedLimit(currentLimit)
         end
     end
     

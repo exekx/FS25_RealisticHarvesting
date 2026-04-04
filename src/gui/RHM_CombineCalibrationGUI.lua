@@ -77,28 +77,28 @@ function RHMCombineCalibrationGUI.new(modDirectory)
         -- EN: Industrial dark color palette.
         -- UA: Індустріальна темна кольорова палітра.
         colors = {
-            bg            = {0.04, 0.05, 0.03, 0.96},
-            header        = {0.09, 0.07, 0.03, 1.00},
-            headerAccent  = {0.83, 0.54, 0.04, 1.00},  -- EN: Amber accent line / UA: Бурштинова акцентна лінія
-            statsBg       = {0.00, 0.00, 0.00, 0.30},
-            sectionLine   = {1.00, 1.00, 1.00, 0.08},
-            separator     = {1.00, 1.00, 1.00, 0.06},
-            paramRowHover = {1.00, 1.00, 1.00, 0.03},
-            barBg         = {1.00, 1.00, 1.00, 0.07},
-            barOptimal    = {1.00, 1.00, 1.00, 0.42},
-            text          = {0.91, 0.87, 0.78, 1.00},
-            textDim       = {0.70, 0.68, 0.65, 1.00},
-            accent        = {0.83, 0.54, 0.04, 1.00},
-            accentDim     = {0.83, 0.54, 0.04, 0.14},
-            success       = {0.24, 0.72, 0.47, 1.00},
-            warning       = {0.91, 0.78, 0.25, 1.00},
-            error         = {0.89, 0.29, 0.29, 1.00},
-            teal          = {0.60, 1.00, 0.80, 1.00},
-            button        = {0.15, 0.15, 0.13, 0.95},
-            buttonHover   = {0.22, 0.22, 0.20, 1.00},
-            buttonAuto    = {0.05, 0.18, 0.09, 1.00},
-            buttonReset   = {0.20, 0.08, 0.03, 1.00},
-            buttonSave    = {0.06, 0.12, 0.04, 1.00},
+            bg             = {0.0, 0.0, 0.0, 0.80},       -- Matches CP DARK_BACKGROUND_COLOR
+            header         = {0.223, 0.407, 0.004, 1.0},  -- Exact Courseplay Green
+            headerAccent   = {0.223, 0.407, 0.004, 1.0},  
+            statsBg        = {0.00, 0.00, 0.00, 0.30},
+            sectionLine    = {1.00, 1.00, 1.00, 0.08},
+            separator      = {1.00, 1.00, 1.00, 0.06},
+            paramRowHover  = {1.00, 1.00, 1.00, 0.03},
+            barBg          = {1.00, 1.00, 1.00, 0.07},
+            barOptimal     = {1.00, 1.00, 1.00, 0.42},
+            text           = {1.00, 1.00, 1.00, 1.00},    -- Plain white
+            textDim        = {0.85, 0.85, 0.85, 1.00},    -- Plain light grey
+            accent         = {0.83, 0.54, 0.04, 1.00},    -- Kept as is for SEPARATION/CLEANING/PERFORMANCE
+            accentDim      = {0.83, 0.54, 0.04, 0.14},
+            success        = {0.223, 0.407, 0.004, 1.0},  -- Use CP Green for success/optimal
+            warning        = {0.91, 0.78, 0.25, 1.00},
+            error          = {0.89, 0.29, 0.29, 1.00},
+            teal           = {0.60, 1.00, 0.80, 1.00},
+            button         = {0.05, 0.05, 0.05, 0.95},    -- Black but distinct
+            buttonHover    = {0.20, 0.20, 0.20, 1.00},
+            buttonAuto     = {0.223, 0.407, 0.004, 1.0},
+            buttonReset    = {1.00, 0.44, 0.00, 1.00},    -- #ffaf00 (Linear approx)
+            buttonLoadSave = {0.223, 0.407, 0.004, 1.0},  -- #86b500 for Load/Save
         }
     }
 
@@ -116,8 +116,13 @@ function RHMCombineCalibrationGUI.new(modDirectory)
 
     self.buttons = {}
 
-    local bgTexture = self.modDirectory .. "textures/hud_background.dds"
+    local bgTexture = self.modDirectory .. "textures/hud_icons.dds"
     self.overlay = Overlay.new(bgTexture, 0, 0, 1, 1)
+    if GuiUtils and GuiUtils.getUVs then
+        self.overlay:setUVs(GuiUtils.getUVs({388, 4, 56, 56}, {512, 64}))
+    else
+        self.overlay:setUVs({0.758, 0.062, 0.758, 0.937, 0.867, 0.062, 0.867, 0.937})
+    end
 
     return self
 end
@@ -395,7 +400,7 @@ function RHMCombineCalibrationGUI:draw()
 
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_LEFT)
-    setTextColor(unpack(ui.colors.accent))
+    setTextColor(1, 1, 1, 1.0) -- White title
     renderText(x + ui.margin, headerY + ui.headerHeight * 0.35, ui.titleSize, g_i18n:getText("rhm_gui_title"))
     setTextBold(false)
 
@@ -459,18 +464,16 @@ function RHMCombineCalibrationGUI:draw()
     end
     local isForage = (machineType == "forage")
 
-    -- EN: Calculate section widths: 3 equal columns with gaps.
-    -- UA: Розраховуємо ширину секцій: 3 рівні колонки з відступами.
-    local totalGaps = sectionGap * 2
-    local sectionW = (w - totalGaps) / 3
+    -- EN: Darker background for each individual section panel, matching the theme.
+    -- UA: Темніший фон для кожної окремої секції, що відповідає темі.
+    local sectionBg = ui.colors.statsBg
+    local innerW = w - ui.margin * 2
+    local sectionW = (innerW - sectionGap * 2) / 3
     local sectionH = ui.statsHeight
-
-    -- EN: Darker background for each individual section panel.
-    -- UA: Темніший фон для кожної окремої секції.
-    local sectionBg = {0.08, 0.07, 0.05, 0.85}
+    local startX = x + ui.margin
 
     -- ── Section 1: ENGINE LOAD ──
-    local sx1 = x
+    local sx1 = startX
     self:drawRect(sx1, cy, sectionW, sectionH, sectionBg)
 
     local loadColor = load > 95 and ui.colors.error or (load > 80 and ui.colors.warning or ui.colors.success)
@@ -617,11 +620,11 @@ function RHMCombineCalibrationGUI:draw()
         -- EN: Fully disabled visual state (no hover effect)
         -- UA: Повністю неактивний візуальний стан (без ефекту наведення)
         local btnH = ui.buttonH + 0.003
-        self:drawRect(autoBtnX, cy + 0.003, autoBtnW, btnH, {0.10, 0.10, 0.09, 0.85})
+        self:drawRect(autoBtnX, cy + 0.003, autoBtnW, btnH, {0.03, 0.03, 0.03, 0.60})
         setTextAlignment(RenderText.ALIGN_CENTER)
         setTextBold(true)
-        setTextColor(0.45, 0.42, 0.38, 1.0)
-        renderText(autoBtnX + autoBtnW / 2, cy + 0.003 + btnH / 2 - ui.fontSize / 2.5, ui.fontSize * 0.8, "AUTO (LOCKED)")
+        setTextColor(0.35, 0.35, 0.35, 1.0)
+        renderText(autoBtnX + autoBtnW / 2, cy + 0.003 + btnH / 2 - ui.fontSize / 2.5, ui.fontSize * 0.75, "AUTO (LOCKED)")
         setTextBold(false)
         
         -- Add just the click hit-box to trigger the message
@@ -723,11 +726,11 @@ function RHMCombineCalibrationGUI:draw()
 
     self:drawButton(x + ui.margin, cy, btnWidth, 0.026, g_i18n:getText("rhm_gui_btn_load_preset"), function()
         memory:loadUserPreset()
-    end, ui.colors.button)
+    end, ui.colors.buttonLoadSave)
 
     self:drawButton(x + w - ui.margin - btnWidth, cy, btnWidth, 0.026, g_i18n:getText("rhm_gui_btn_save"), function()
         memory:saveCurrentProfile(memory.currentCrop)
-    end, ui.colors.buttonSave)
+    end, ui.colors.buttonLoadSave)
 
     -- Row 2: Reset Default
     cy = cy - ui.lineHeight * 1.0
@@ -819,7 +822,7 @@ function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory
     if memory.autoSwitchEnabled and param ~= "targetEngineLoad" then
         valColor    = ui.colors.textDim
         statusText  = "auto"
-        statusColor = ui.colors.textDim
+        statusColor = ui.colors.success -- Change 'auto' to green theme
     elseif not hasOptimal and param ~= "targetEngineLoad" then
         valColor    = ui.colors.text
         statusText  = ""
@@ -902,43 +905,7 @@ function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory
         renderText(valEndX + 0.002, y + 0.014, ui.statusSize, statusText)
     end
 
-    -- ── Progress bar ───────────────────────────────────────────────────────
-    -- EN: Bar spans from value column start to button area. Shows current % position.
-    --     White marker pin at the optimal % position.
-    -- UA: Бар від початку колонки значень до кнопок. Показує позицію поточного % значення.
-    --     Білий маркер на позиції оптимального % значення.
-    if hasOptimal or param == "targetEngineLoad" then
-        local barX = valX
-        local barW = btnStartX - valX - 0.004
-        local barY = y + 0.005
-        local barH = 0.003
-
-        -- EN: Bar track.
-        -- UA: Трек бару.
-        self:drawRect(barX, barY, barW, barH, ui.colors.barBg)
-
-        -- EN: Bar fill (current value).
-        -- UA: Заповнення бару (поточне значення).
-        local fillPct = math.max(0, math.min(val / 100.0, 1.0))
-        local fillColor = ui.colors.success
-        
-        if param == "targetEngineLoad" then
-            fillPct = math.max(0, math.min((val - 70) / 40.0, 1.0)) -- 70 -> 0%, 110 -> 100%
-            fillColor = ui.colors.warning
-            if val > 100 then fillColor = ui.colors.error end
-            if val <= 95 then fillColor = ui.colors.success end
-        else
-            fillColor = isOptimal and ui.colors.success
-                        or (val < optimal - tolerance and ui.colors.warning or ui.colors.warning)
-            if math.abs(val - optimal) - tolerance > 20 then
-                fillColor = ui.colors.error
-            end
-        end
-        
-        self:drawRect(barX, barY, fillPct * barW, barH, fillColor)
-
-        -- The optimal pin marker has been removed based on user feedback.
-    end
+    -- Progress bar removed as requested.
 
     -- ── Smart step logic ───────────────────────────────────────────────────
     -- EN: Calculates physical increment (10 RPM or 0.5 mm), snaps to grid,
@@ -1052,7 +1019,7 @@ function RHMCombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOv
         elseif text == "-" then
             setTextColor(1.00, 0.40, 0.40, 1.0)   -- EN: Bright red / UA: Яскраво-червоний
         else
-            setTextColor(unpack(self.ui.colors.accent))  -- EN: Amber for action buttons / UA: Бурштин для кнопок дій
+            setTextColor(1.0, 1.0, 1.0, 1.0)  -- EN: White for action buttons / UA: Білий для кнопок дій
         end
     else
         if text == "+" then

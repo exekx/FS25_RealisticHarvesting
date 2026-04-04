@@ -56,26 +56,29 @@ function RHMDraggableHUD:load()
         self.uiScale = g_gameSettings:getValue("uiScale") or 1.0
     end
 
-    self.width = 0.09 * self.uiScale
-    self.height = 0.155 * self.uiScale
-    self.headerHeight = 0.030 * self.uiScale
+    self.width = 0.10 * self.uiScale
+    self.height = 0.165 * self.uiScale
+    self.headerHeight = 0.022 * self.uiScale
 
     self.x, self.y = self:getPosition()
 
-    local bgTexture = self.modDirectory .. "textures/hud_background.dds"
+    self.iconAtlasPath = self.modDirectory .. "textures/hud_icons.dds"
+    self.bgUVs = GuiUtils.getUVs({388, 4, 56, 56}, {512, 64})
 
     -- EN: Dark amber-tinted header strip replacing the old green one.
     -- UA: Темна бурштинова смуга заголовку замість старої зеленої.
-    self.headerOverlay = Overlay.new(bgTexture, self.x, self.y + self.height, self.width, self.headerHeight)
-    self.headerOverlay:setColor(0.09, 0.07, 0.03, 1.0)
+    self.headerOverlay = Overlay.new(self.iconAtlasPath, self.x, self.y + self.height, self.width, self.headerHeight)
+    self.headerOverlay:setUVs(self.bgUVs)
+    self.headerOverlay:setColor(0.223, 0.407, 0.004, 1.0) -- Exact Courseplay Green
 
     -- Removed the thin amber accent line at the top of the header as requested.
     self.accentLineOverlay = nil
 
-    -- EN: Dark olive background panel, more opaque for better readability.
-    -- UA: Темно-оливкова фонова панель, більш непрозора для кращої читабельності.
-    self.backgroundOverlay = Overlay.new(bgTexture, self.x, self.y, self.width, self.height)
-    self.backgroundOverlay:setColor(0.04, 0.05, 0.03, 0.92)
+    -- EN: Dark transparent background panel, as previously requested.
+    -- UA: Темна прозора фонова панель, як було запитано раніше.
+    self.backgroundOverlay = Overlay.new(self.iconAtlasPath, self.x, self.y, self.width, self.height)
+    self.backgroundOverlay:setUVs(self.bgUVs)
+    self.backgroundOverlay:setColor(0.0, 0.0, 0.0, 0.80)
 
     self:loadIcons(self.uiScale)
 
@@ -83,23 +86,30 @@ function RHMDraggableHUD:load()
 end
 
 function RHMDraggableHUD:loadIcons(uiScale)
-    local iconHeight = 0.024 * self.uiScale
+    local iconHeight = 0.028 * self.uiScale
     local iconWidth = iconHeight / g_screenAspectRatio
 
-    local iconsPath = self.modDirectory .. "textures/"
+    -- EN: Single texture atlas with all HUD icons and background.
+    --     Atlas layout: 448x64, each icon 64x64. Background is the last one.
+    -- UA: Єдиний текстурний атлас з усіма HUD-іконками та фоном.
+    --     Розкладка: 448x64, кожна іконка 64x64. Фон - останній.
+    local atlasPath = self.iconAtlasPath or (self.modDirectory .. "textures/hud_icons.dds")
+    local atlasSize = {512, 64}
+    local iconPx = 64
 
-    local iconNames = {
-        load         = "icon_load",
-        yield        = "icon_yield",
-        speed        = "icon_speed",
-        loss         = "icon_loss",
-        productivity = "icon_productivity",
-        moisture     = "icon_moisture"
+    local iconDefs = {
+        load         = {0,     0, iconPx, iconPx},
+        yield        = {64,    0, iconPx, iconPx},
+        productivity = {128,   0, iconPx, iconPx},
+        moisture     = {192,   0, iconPx, iconPx},
+        loss         = {256,   0, iconPx, iconPx},
+        speed        = {320,   0, iconPx, iconPx},
+        settings     = {448,   0, iconPx, iconPx}
     }
 
-    for name, filename in pairs(iconNames) do
-        local iconPath = iconsPath .. filename .. ".dds"
-        local icon = Overlay.new(iconPath, 0, 0, iconWidth, iconHeight)
+    for name, uvRect in pairs(iconDefs) do
+        local icon = Overlay.new(atlasPath, 0, 0, iconWidth, iconHeight)
+        icon:setUVs(GuiUtils.getUVs(uvRect, atlasSize))
         icon:setColor(1, 1, 1, 0.80)
         self.icons[name] = icon
     end
@@ -201,24 +211,24 @@ function RHMDraggableHUD:draw()
 
 
 
-    -- EN: Amber title text in header.
-    -- UA: Бурштиновий заголовок.
+    -- EN: White title text in header.
+    -- UA: Білий заголовок.
     setTextBold(true)
-    setTextAlignment(RenderText.ALIGN_CENTER)
-    setTextColor(0.83, 0.54, 0.04, 1.0)
+    setTextAlignment(RenderText.ALIGN_LEFT)
+    setTextColor(1.0, 1.0, 1.0, 1.0)
     local titleTextSize = 0.012 * self.uiScale
-    local headerTextX = self.x + self.width / 2
-    local titleTextY = self.y + self.height + self.headerHeight * 0.65
+    local headerTextX = self.x + 0.005
+    local titleTextY = self.y + self.height + self.headerHeight * 0.35
     renderText(headerTextX, titleTextY, titleTextSize, "Realistic Harvesting")
 
     setTextBold(false)
     setTextAlignment(RenderText.ALIGN_CENTER)
 
-    local settingsTextSize = 0.009 * self.uiScale
-    local btnW = 0.040 * self.uiScale
-    local btnH = self.headerHeight * 0.40
-    local btnX = self.x + (self.width - btnW) / 2
-    local btnY = self.y + self.height + self.headerHeight * 0.06
+    local settingsTextSize = 0.013 * self.uiScale
+    local btnW = 0.014 * self.uiScale
+    local btnH = self.headerHeight
+    local btnX = self.x + self.width - btnW
+    local btnY = self.y + self.height
 
     local settingsButtonArea = { x = btnX, y = btnY, w = btnW, h = btnH }
     local mx, my = g_inputBinding:getMousePosition()
@@ -226,25 +236,32 @@ function RHMDraggableHUD:draw()
                       my >= settingsButtonArea.y and my <= settingsButtonArea.y + settingsButtonArea.h
 
     if self.backgroundOverlay then
-        local btnBgTex = self.modDirectory .. "textures/hud_background.dds"
-        local rect = Overlay.new(btnBgTex, btnX, btnY, btnW, btnH)
+        local rect = Overlay.new(self.iconAtlasPath, btnX, btnY, btnW, btnH)
+        if self.bgUVs then rect:setUVs(self.bgUVs) end
         if isHovered then
-            rect:setColor(0.83, 0.54, 0.04, 0.22)
+            rect:setColor(1.0, 1.0, 1.0, 0.22)
         else
-            rect:setColor(0.00, 0.00, 0.00, 0.28)
+            rect:setColor(0.00, 0.00, 0.00, 0.35)
         end
         rect:render()
         rect:delete()
     end
 
-    if isHovered then
-        setTextColor(0.83, 0.54, 0.04, 1.0)
-    else
-        setTextColor(0.38, 0.36, 0.32, 1.0)
+    local iconSettings = self.icons.settings
+    if iconSettings then
+        local iconHeight = 0.013 * self.uiScale
+        local iconWidth  = iconHeight / g_screenAspectRatio
+        local iconX = btnX + (btnW - iconWidth) / 2
+        local iconY = btnY + (btnH - iconHeight) / 2
+        iconSettings:setPosition(iconX, iconY)
+        iconSettings:setDimension(iconWidth, iconHeight)
+        if isHovered then
+            iconSettings:setColor(1.0, 1.0, 1.0, 1.0)
+        else
+            iconSettings:setColor(0.85, 0.85, 0.85, 0.85)
+        end
+        iconSettings:render()
     end
-
-    local textYOffset = btnY + (btnH - settingsTextSize) / 2 + 0.002
-    renderText(headerTextX, textYOffset, settingsTextSize, "RHMSettings")
     setTextBold(false)
 
     self.menuButtonArea = settingsButtonArea
@@ -254,9 +271,9 @@ function RHMDraggableHUD:draw()
 end
 
 function RHMDraggableHUD:drawContent()
-    local textSize   = 0.015 * self.uiScale
-    local lineHeight = 0.028 * self.uiScale
-    local iconHeight = 0.024 * self.uiScale
+    local textSize   = 0.016 * self.uiScale
+    local lineHeight = 0.030 * self.uiScale
+    local iconHeight = 0.022 * self.uiScale
     local iconWidth  = iconHeight / g_screenAspectRatio
     local padding    = 0.005 * self.uiScale
 
@@ -441,32 +458,23 @@ function RHMDraggableHUD:drawRow(iconX, textX, textY, iconWidth, iconHeight, tex
     if icon then
         local iconY = textY + textSize / 2 - iconHeight / 2
         icon:setPosition(iconX, iconY)
-        icon:setColor(0.91, 0.87, 0.78, 0.60)
+        icon:setColor(1.0, 1.0, 1.0, 0.92)
         icon:render()
     end
 
     if r and g and b then
         setTextColor(r, g, b, 0.95)
     else
-        setTextColor(0.91, 0.87, 0.78, 0.95)
+        setTextColor(1.0, 1.0, 1.0, 0.95)
     end
     renderText(textX, textY, textSize, text)
-
-    if self.backgroundOverlay then
-        local lineY = textY - 0.004
-        local lineTex = self.modDirectory .. "textures/hud_background.dds"
-        local line = Overlay.new(lineTex, self.x + 0.005, lineY, self.width - 0.010, 0.0007)
-        line:setColor(1, 1, 1, 0.07)
-        line:render()
-        line:delete()
-    end
 end
 
 -- EN: Engine load → color: warm white < 60%, amber-yellow 60-85%, red > 85%.
 -- UA: Навантаження двигуна → колір: тепло-білий < 60%, бурштиново-жовтий 60-85%, червоний > 85%.
 function RHMDraggableHUD:getLoadColor(load)
     if load < 60 then
-        return {0.91, 0.87, 0.78}
+        return {1.0, 1.0, 1.0}
     elseif load < 85 then
         return {0.91, 0.78, 0.25}
     else

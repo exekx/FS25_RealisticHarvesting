@@ -647,8 +647,16 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     self.speedLimit = self.speedLimit + step
 
     -- EN: Clamp speed within safe bounds
-    -- UA: Обмеження швидкості: не менше 4 км/год і не більше оригінального ліміту гри
-    self.speedLimit = math.max(math.min(self.genuineSpeedLimit, 4.0), math.min(self.genuineSpeedLimit, self.speedLimit))
+    -- UA: Обмеження швидкості: не менше 4 км/год і не більше оригінального ліміту гри.
+    --     ВАЖЛИВО: `genuineSpeedLimit` може залишатися -1, якщо гравець/круїзконтроль
+    --     не викликав `getSpeedLimit()` до моменту оновлення. Не допускаємо від’ємних лімітів.
+    local genuine = self.genuineSpeedLimit
+    if genuine and genuine > 0 then
+        self.speedLimit = math.max(math.min(genuine, 4.0), math.min(genuine, self.speedLimit))
+    else
+        -- Upper bound unknown yet; at least prevent going negative / zero.
+        self.speedLimit = math.max(self.speedLimit, 4.0)
+    end
 end
 
 ---EN: Returns current engine load factor / UA: Повертає поточне навантаження двигуна
