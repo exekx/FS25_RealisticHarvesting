@@ -20,7 +20,7 @@ local templates = {
         upperSieve = {optimal = 47, min = 35, max = 60, tolerance = 6},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 56, min = 45, max = 70, tolerance = 6},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        feeder = {optimal = 12, min = 8, max = 16, tolerance = 4},
         moistureLimit = 14,
     },
 
@@ -30,7 +30,7 @@ local templates = {
         upperSieve = {optimal = 47, min = 35, max = 60, tolerance = 6},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 63, min = 50, max = 75, tolerance = 6},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        feeder = {optimal = 12, min = 8, max = 16, tolerance = 4},
         moistureLimit = 14,
     },
 
@@ -40,7 +40,7 @@ local templates = {
         upperSieve = {optimal = 33, min = 20, max = 50, tolerance = 6},
         lowerSieve = {optimal = 24, min = 15, max = 40, tolerance = 6},
         rotor = {optimal = 58, min = 45, max = 75, tolerance = 6},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        feeder = {optimal = 14, min = 10, max = 18, tolerance = 4},
         moistureLimit = 14,
     },
     
@@ -51,7 +51,7 @@ local templates = {
         upperSieve = {optimal = 40, min = 25, max = 55, tolerance = 4},
         lowerSieve = {optimal = 25, min = 15, max = 40, tolerance = 4},
         rotor = {optimal = 33, min = 20, max = 45, tolerance = 6},
-        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        feeder = {optimal = 40, min = 36, max = 44, tolerance = 4},
         moistureLimit = 10,
     },
     
@@ -62,7 +62,7 @@ local templates = {
         upperSieve = {optimal = 50, min = 35, max = 65, tolerance = 6},
         lowerSieve = {optimal = 40, min = 25, max = 55, tolerance = 6},
         rotor = {optimal = 39, min = 25, max = 55, tolerance = 6},
-        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        feeder = {optimal = 36, min = 30, max = 42, tolerance = 4},
         moistureLimit = 14,
     },
     
@@ -73,7 +73,7 @@ local templates = {
         upperSieve = {optimal = 60, min = 45, max = 75, tolerance = 6},
         lowerSieve = {optimal = 45, min = 30, max = 60, tolerance = 6},
         rotor = {optimal = 13, min = 5, max = 25, tolerance = 5},
-        feeder = {optimal = 60, min = 45, max = 75, tolerance = 10},
+        feeder = {optimal = 60, min = 50, max = 70, tolerance = 6},
         moistureLimit = 10,
     },
 
@@ -83,7 +83,7 @@ local templates = {
         upperSieve = {optimal = 33, min = 20, max = 45, tolerance = 6},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 49, min = 35, max = 65, tolerance = 6},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        feeder = {optimal = 12, min = 8, max = 16, tolerance = 4},
         moistureLimit = 14,
     },
     
@@ -94,7 +94,7 @@ local templates = {
         upperSieve = {optimal = 60, min = 45, max = 75, tolerance = 6},
         lowerSieve = {optimal = 48, min = 35, max = 65, tolerance = 6},
         rotor = {optimal = 18, min = 5, max = 30, tolerance = 5},
-        feeder = {optimal = 70, min = 55, max = 85, tolerance = 10},
+        feeder = {optimal = 60, min = 50, max = 70, tolerance = 6},
         moistureLimit = 16,
     },
     
@@ -104,7 +104,7 @@ local templates = {
         upperSieve = {optimal = 50, min = 35, max = 65, tolerance = 6},
         lowerSieve = {optimal = 40, min = 25, max = 55, tolerance = 6},
         rotor = {optimal = 16, min = 5, max = 30, tolerance = 5},
-        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        feeder = {optimal = 36, min = 30, max = 42, tolerance = 4},
         moistureLimit = 14,
     },
     
@@ -114,7 +114,7 @@ local templates = {
         upperSieve = {optimal = 47, min = 35, max = 60, tolerance = 6},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 6},
         rotor = {optimal = 39, min = 25, max = 55, tolerance = 6},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 10},
+        feeder = {optimal = 12, min = 8, max = 16, tolerance = 4},
         moistureLimit = 20,
     },
     
@@ -243,7 +243,7 @@ local templates = {
         upperSieve = {optimal = 47, min = 35, max = 60, tolerance = 5},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 4},
         rotor = {optimal = 22, min = 10, max = 35, tolerance = 5},
-        feeder = {optimal = 70, min = 55, max = 85, tolerance = 8},
+        feeder = {optimal = 36, min = 30, max = 42, tolerance = 4},
         moistureLimit = 14,
     },
 
@@ -253,7 +253,7 @@ local templates = {
         upperSieve = {optimal = 42, min = 30, max = 55, tolerance = 6},
         lowerSieve = {optimal = 22, min = 10, max = 35, tolerance = 6},
         rotor = {optimal = 22, min = 10, max = 35, tolerance = 5},
-        feeder = {optimal = 70, min = 55, max = 85, tolerance = 8},
+        feeder = {optimal = 36, min = 30, max = 42, tolerance = 4},
         moistureLimit = 14,
     },
 
@@ -263,7 +263,7 @@ local templates = {
         upperSieve = {optimal = 33, min = 20, max = 50, tolerance = 5},
         lowerSieve = {optimal = 16, min = 5, max = 30, tolerance = 5},
         rotor = {optimal = 58, min = 45, max = 70, tolerance = 6},
-        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        feeder = {optimal = 10, min = 5, max = 15, tolerance = 4},
         moistureLimit = 10,
     },
 
@@ -273,7 +273,7 @@ local templates = {
         upperSieve = {optimal = 57, min = 40, max = 75, tolerance = 5},
         lowerSieve = {optimal = 32, min = 20, max = 45, tolerance = 5},
         rotor = {optimal = 33, min = 20, max = 50, tolerance = 6},
-        feeder = {optimal = 40, min = 25, max = 55, tolerance = 8},
+        feeder = {optimal = 16, min = 10, max = 22, tolerance = 4},
         moistureLimit = 10,
     },
 
@@ -283,7 +283,7 @@ local templates = {
         upperSieve = {optimal = 13, min = 5, max = 25, tolerance = 5},
         lowerSieve = {optimal = 8, min = 0, max = 20, tolerance = 5},
         rotor = {optimal = 100, min = 85, max = 100, tolerance = 5},
-        feeder = {optimal = 50, min = 35, max = 65, tolerance = 8},
+        feeder = {optimal = 8, min = 4, max = 12, tolerance = 4},
         moistureLimit = 14,
     },
 
@@ -293,7 +293,7 @@ local templates = {
         upperSieve = {optimal = 17, min = 5, max = 30, tolerance = 5},
         lowerSieve = {optimal = 12, min = 0, max = 25, tolerance = 5},
         rotor = {optimal = 80, min = 65, max = 95, tolerance = 6},
-        feeder = {optimal = 45, min = 30, max = 60, tolerance = 8},
+        feeder = {optimal = 6, min = 2, max = 10, tolerance = 4},
         moistureLimit = 14,
     },
 
