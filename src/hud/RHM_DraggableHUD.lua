@@ -367,7 +367,7 @@ function RHMDraggableHUD:drawContent()
         machineType = self.vehicle.spec_rhm_Combine.machineType
         packageLevel = self.vehicle.spec_rhm_Combine.packageLevel or 1
     end
-    if self.settings.showCropLoss and machineType ~= "forage" and packageLevel >= 2 then
+    if self.settings.showCropLoss and machineType ~= "forage" and machineType ~= "cotton" and packageLevel >= 2 then
         local lossVal = self.data.cropLoss or 0
         local lossStr
         if lossVal > 0.1 then
@@ -444,7 +444,7 @@ function RHMDraggableHUD:updateSize()
     
     -- EN: Crop Loss row is not shown for forage harvesters / Low packages.
     -- UA: Рядок втрат не відображається для силосних та базових пакетів.
-    if self.settings.showCropLoss and machineType ~= "forage" and packageLevel >= 2 then rowCount = rowCount + 1 end
+    if self.settings.showCropLoss and machineType ~= "forage" and machineType ~= "cotton" and packageLevel >= 2 then rowCount = rowCount + 1 end
     if self.settings.showSpeed then rowCount = rowCount + 1 end
 
     local lineHeight  = 0.028 * self.uiScale

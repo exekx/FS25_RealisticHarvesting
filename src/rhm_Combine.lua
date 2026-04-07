@@ -395,11 +395,20 @@ function rhm_Combine:addFillUnitFillLevel(superFunc, ...)
     if spec and actualAdded and type(actualAdded) == "number" and actualAdded > 0 then
         -- Рахуємо тільки якщо ми активно косимо (lastRawArea > 0)
         if spec.lastRawArea and spec.lastRawArea > 0 then
-            spec.lastLiters = (spec.lastLiters or 0) + actualAdded
+            -- EN: Cotton Harvester fix: Ignore massive instant internal transfers (e.g. spool unloading)
+            -- UA: Фікс бавовняних комбайнів: ігноруємо масивні миттєві внутрішні переміщення (напр. розвантаження котушки)
+            local isMassiveTransfer = false
+            if actualAdded > 500 and spec.combineMemory and spec.combineMemory.machineType == "cotton" then
+                isMassiveTransfer = true
+            end
             
-            local farmId, fillUnitIndex, fillLevelDelta, fillTypeIndex, toolType, fillPositionData = ...
-            if fillTypeIndex and fillTypeIndex ~= FillType.UNKNOWN then
-                 spec.lastFillType = fillTypeIndex
+            if not isMassiveTransfer then
+                spec.lastLiters = (spec.lastLiters or 0) + actualAdded
+                
+                local farmId, fillUnitIndex, fillLevelDelta, fillTypeIndex, toolType, fillPositionData = ...
+                if fillTypeIndex and fillTypeIndex ~= FillType.UNKNOWN then
+                     spec.lastFillType = fillTypeIndex
+                end
             end
         end
     end
@@ -1128,8 +1137,13 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     local liters = spec.lastLiters or 0
     
     -- EN: Fall back to liters captured by addCutterArea for forage harvesters (no hopper).
+    --     ALSO DO THIS FOR COTTON HARVESTERS to bypass massive internal chamber volume transfers!
     -- UA: Використовуємо запасні літри з addCutterArea для форажних комбайнів (без бункера).
-    if liters <= 0 and (spec._fallbackLiters or 0) > 0 then
+    --     ТАКОЖ ДЛЯ БАВОВНЯНИХ щоб обійти масивні внутрішні переміщення об'єму!
+    local machineType = (spec.combineMemory and spec.combineMemory.machineType) or "grain"
+    if machineType == "forage" or machineType == "cotton" then
+        liters = spec._fallbackLiters or 0
+    elseif liters <= 0 and (spec._fallbackLiters or 0) > 0 then
         liters = spec._fallbackLiters
     end
     

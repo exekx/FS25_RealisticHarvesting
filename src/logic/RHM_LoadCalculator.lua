@@ -784,9 +784,9 @@ function RHM_LoadCalculator:updateSettingsImpact()
 end
 
 function RHM_LoadCalculator:calculateTotalCropLoss()
-    -- EN: Forage harvesters never have crop loss — bypass all calculations.
-    -- UA: Силосні комбайни ніколи не мають втрат врожаю — пропускаємо всі розрахунки.
-    if self.combineMemory and self.combineMemory.machineType == "forage" then
+    -- EN: Forage and Cotton harvesters never have crop loss — bypass all calculations.
+    -- UA: Силосні та бавовняні комбайни ніколи не мають втрат врожаю — пропускаємо всі розрахунки.
+    if self.combineMemory and (self.combineMemory.machineType == "forage" or self.combineMemory.machineType == "cotton") then
         self.cropLoss = 0
         return 0
     end
