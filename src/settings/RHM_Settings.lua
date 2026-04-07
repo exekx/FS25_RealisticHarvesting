@@ -44,6 +44,7 @@ function RHMSettings.new(manager)
     -- UA: Прапорці перемикання функцій (серверні, глобальні для всіх гравців).
     self.enableSpeedLimit = true
     self.enableCropLoss = true
+    self.enableMoisture = true
     self.showHUD = true
     self.showYield = true
     self.showSpeedometer = true
@@ -55,6 +56,7 @@ function RHMSettings.new(manager)
     self.showProductivity = true
     self.showCropLoss = true
     self.showSpeed = true
+    self.showMoisture = true
     self.showLoadWarnings = true
 
     -- EN: HUD position (client-side). nil = automatic positioning.
@@ -205,12 +207,14 @@ function RHMSettings:resetToDefaults()
     self.difficultyMotor = RHMSettings.DIFFICULTY_NORMAL
     self.enableSpeedLimit = true
     self.enableCropLoss = true
+    self.enableMoisture = true
     self.showHUD = true
     self.showYield = true
     self.showLoad = true
     self.showProductivity = true
     self.showCropLoss = true
     self.showSpeed = true
+    self.showMoisture = true
     self.showSpeedometer = true
     self.showLoadWarnings = true
     self.enableIndependentLaunch = true

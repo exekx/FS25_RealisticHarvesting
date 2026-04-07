@@ -2,7 +2,7 @@
 <modDesc descVersion="107">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.4.3.1</version>
+    <version>1.5.0.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -606,6 +606,84 @@ Funkciók:
             <ru>Показывать потери</ru>
             <hu>Veszteség megjelenítése</hu>
         </text>
+
+        <text name="rhm_show_moisture_short">
+            <en>Show Moisture</en>
+            <uk>Показувати вологість</uk>
+            <de>Feuchtigkeit anzeigen</de>
+            <fr>Afficher l'humidité</fr>
+            <pl>Pokaż wilgotność</pl>
+            <es>Mostrar humedad</es>
+            <it>Mostra umidità</it>
+            <cz>Zobrazit vlhkost</cz>
+            <br>Mostrar umidade</br>
+            <ru>Показывать влажность</ru>
+            <hu>Nedvesség mutatása</hu>
+        </text>
+
+        <text name="rhm_show_moisture_long">
+            <en>Display crop moisture percentage in HUD</en>
+            <uk>Відображати відсоток вологості культури в HUD</uk>
+            <de>Erntefeuchtigkeits-Prozentsatz im HUD anzeigen</de>
+            <fr>Afficher le pourcentage d'humidité dans le HUD</fr>
+            <pl>Wyświetlaj procent wilgotności plonów w HUD</pl>
+            <es>Mostrar porcentaje de humedad del cultivo en HUD</es>
+            <it>Mostra la percentuale di umidità del raccolto nell'HUD</it>
+            <cz>Zobrazit procento vlhkosti plodin na HUDu</cz>
+            <br>Mostrar porcentagem de umidade no HUD</br>
+            <ru>Отображать процент влажности культуры в HUD</ru>
+            <hu>Termés nedvességtartalmának megjelenítése a HUD-on</hu>
+        </text>
+
+        <text name="rhm_moisture_enable_short">
+            <en>Moisture Penalty</en>
+            <uk>Штраф Вологості</uk>
+            <de>Feuchtigkeits-Strafe</de>
+            <fr>Pénalité d'humidité</fr>
+            <pl>Kara za wilgotność</pl>
+            <es>Penalización por humedad</es>
+            <it>Penalità umidità</it>
+            <cz>Postih za vlhkost</cz>
+            <br>Penalidade de umidade</br>
+            <ru>Штраф влажности</ru>
+            <hu>Nedvesség büntetés</hu>
+        </text>
+
+        <text name="rhm_moisture_enable_long">
+            <en>
+            <![CDATA[Apply load penalty based on crop moisture (Requires Moisture System mod)]]>
+            </en>
+            <uk>
+            <![CDATA[Застосовувати штраф навантаження залежно від вологості (Потрібен мод Moisture System)]]>
+            </uk>
+            <de>
+            <![CDATA[Laststrafe basierend auf Erntefeuchtigkeit anwenden (Erfordert Moisture System Mod)]]>
+            </de>
+            <fr>
+            <![CDATA[Appliquer une pénalité de charge selon l'humidité (Nécessite Moisture System)]]>
+            </fr>
+            <pl>
+            <![CDATA[Zastosuj karę obciążenia w zależności od wilgotności (Wymaga Moisture System)]]>
+            </pl>
+            <es>
+            <![CDATA[Aplicar penalización de carga basada en humedad (Requiere Moisture System)]]>
+            </es>
+            <it>
+            <![CDATA[Applica penalità di carico in base all'umidità (Richiede Moisture System)]]>
+            </it>
+            <cz>
+            <![CDATA[Aplikovat postih zatížení podle vlhkosti plodin (Vyžaduje Moisture System)]]>
+            </cz>
+            <br>
+            <![CDATA[Aplicar penalidade de carga com base na umidade (Requer Moisture System Mod)]]>
+            </br>
+            <ru>
+            <![CDATA[Применять штраф нагрузки в зависимости от влажности (Требует Moisture System)]]>
+            </ru>
+            <hu>
+            <![CDATA[Terhelés-büntetés alkalmazása a nedvesség alapján (Moisture System szükséges)]]>
+            </hu>
+        </text>
         <text name="rhm_ui_title_main"><en>Combine Calibration</en><de>Mähdrescher-Kalibrierung</de><fr>Calibrage Moissonneuse</fr><pl>Kalibracja Kombajnu</pl><es>Calibración Cosechadora</es><it>Calibrazione Mietitrebbia</it><cz>Kalibrace Kombajnu</cz><br>Calibração Colheitadeira</br><uk>Калібрування Комбайна</uk><ru>Калибровка Комбайна</ru><hu>Kombájn Kalibrálás</hu></text>
         
         <text name="rhm_ui_page_settings"><en>Settings</en><de>Einstellungen</de><fr>Paramètres</fr><pl>Ustawienia</pl><es>Ajustes</es><it>Impostazioni</it><cz>Nastavení</cz><br>Configurações</br><uk>Налаштування</uk><ru>Настройки</ru><hu>Beállítások</hu></text>
@@ -619,7 +697,7 @@ Funkciók:
         <text name="rhm_ui_rotor_speed"><en>Rotor Speed</en><de>Rotordrehzahl</de><fr>Vitesse Rotor</fr><pl>Obroty Rotora</pl><es>Velocidad Rotor</es><it>Velocità Rotore</it><cz>Otáčky Rotoru</cz><br>Velocidade Rotor</br><uk>Оберти Ротора</uk><ru>Обороты Ротора</ru><hu>Rotor Fordulat</hu></text>
         <text name="rhm_ui_upper_sieve"><en>Upper Sieve</en><de>Obersieb</de><fr>Grille Supérieure</fr><pl>Sito Górne</pl><es>Criba Superior</es><it>Crivello Superiore</it><cz>Horní Síto</cz><br>Peneira Superior</br><uk>Верхнє Решето</uk><ru>Верхнее Решето</ru><hu>Felső Rosta</hu></text>
         <text name="rhm_ui_lower_sieve"><en>Lower Sieve</en><de>Untersieb</de><fr>Grille Inférieure</fr><pl>Sito Dolne</pl><es>Criba Inferior</es><it>Crivello Inferiore</it><cz>Spodní Síto</cz><br>Peneira Inferior</br><uk>Нижнє Решето</uk><ru>Нижнее Решето</ru><hu>Alsó Rosta</hu></text>
-        <text name="rhm_ui_feeder_speed"><en>Feeder House</en><de>Schrägförderer</de><fr>Convoyeur</fr><pl>Przenośnik Pochyły</pl><es>Alimentador</es><it>Canale Elevatore</it><cz>Šikmý Dopravník</cz><br>Alimentador</br><uk>Похила Камера</uk><ru>Наклонная Камера</ru><hu>Ferde Felhordó</hu></text>
+        <text name="rhm_ui_feeder_speed"><en>Concave Clearance</en><de>Dreschkorbabstand</de><fr>Écartement du contre-batteur</fr><pl>Szczelina klepiska</pl><es>Holgura del cóncavo</es><it>Distanza controbattitore</it><cz>Mezera mláticího koše</cz><br>Folga do côncavo</br><uk>Зазор підбарабання</uk><ru>Зазор подбарабанья</ru><hu>Dobkosár hézag</hu></text>
         
         <text name="rhm_ui_mode_auto"><en>AUTO</en><de>AUTO</de><fr>AUTO</fr><pl>AUTO</pl><es>AUTO</es><it>AUTO</it><cz>AUTO</cz><br>AUTO</br><uk>АВТО</uk><ru>АВТО</ru><hu>AUTO</hu></text>
         <text name="rhm_ui_mode_manual"><en>MANUAL</en><de>MANUELL</de><fr>MANUEL</fr><pl>RĘCZNY</pl><es>MANUAL</es><it>MANUALE</it><cz>MANUÁLNÍ</cz><br>MANUAL</br><uk>РУЧНИЙ</uk><ru>РУЧНОЙ</ru><hu>KÉZI</hu></text>
@@ -1140,9 +1218,13 @@ Funkciók:
         </text>
         <text name="rhm_help_overview_1">
             <en>
-            <![CDATA[The Realistic Harvesting mod introduces a complex grain processing physics model.
-Unlike the base game, your combine's performance now depends on the actual volume of crop (mass flow) passing through its internal components.
-Each crop type has its own resistance, weight, and processing complexity.]]>
+            <![CDATA[Realistic Harvesting turns harvest into throughput physics.
+Instead of "speed only", your combine performance depends on mass flow passing through its internal components (cut area x crop density x header width).
+
+Each crop behaves differently: resistance, density, and processing complexity change how easy/hard it is to process.
+
+Rule of thumb: keep engine load near your target using the HUD.
+If crop losses climb, either slow down (reduce load) or re-calibrate the machine (Fan/Sieves/Rotors).]]>
         </en>
             <de>
             <![CDATA[Die Realistic Harvesting Mod führt ein komplexes physikalisches Modell für die Getreideverarbeitung ein.
@@ -1190,19 +1272,27 @@ A kombájn teljesítménye mostantól a tényleges termésmennyiségtől (tömeg
 Minden terménytípusnak saját ellenállása és súlya van.]]>
         </hu>
             <uk>
-            <![CDATA[Мод Realistic Harvesting впроваджує складну фізичну модель обробки врожаю.
-На відміну від стандартної гри, продуктивність вашого комбайна тепер залежить від фактичного об'єму маси, що проходить крізь його внутрішні вузли. Кожна культура має свій унікальний опір, вагу та складність обробки.]]>
+            <![CDATA[Realistic Harvesting перетворює збирання на фізику пропускної здатності.
+Замість "лише швидкість" продуктивність комбайна залежить від масового потоку через внутрішні вузли (площа зрізу x густота культури x ширина жатки).
+
+Кожна культура поводиться по-своєму: різний опір/густота/складність обробки змінює легкість сепарації.
+
+Правило: тримайте навантаження двигуна біля цілі за HUD.
+Якщо втрати ростуть - або сповільніться (зменшіть навантаження), або перейдіть у калібрування та підкрутіть Fan/Sieves/Rotors для цієї культури.]]>
         </uk>
         </text>
         <text name="rhm_help_overview_2">
             <en>
-            <![CDATA[To achieve maximum efficiency, maintain your engine load between 95% and 100%.
+            <![CDATA[Best efficiency happens when engine load stays around 95-100%.
 
-If you drive too fast, the machine will overload, resulting in significant grain loss and potential damage.
+If you drive too fast, the engine overloads: crop loss increases and the combine may suffer under stress.
+If you drive too slow, you waste fuel and time.
 
-If you drive too slow, you are wasting fuel and time.
-
-Adjust your speed according to crop density and header width.]]>
+Practical workflow:
+1) Start harvesting with a reasonable header width for the crop density.
+2) Watch the HUD: recommended speed is computed from your current target load.
+3) If losses turn RED: slow down (or narrow the header).
+4) If load is GREEN but losses are RED: open Calibration Menu (RShift + K) and fix Fan/Sieves for this crop.]]>
         </en>
             <de>
             <![CDATA[Um maximale Effizienz zu erreichen, halten Sie Ihre Motorlast zwischen 95% und 100%.
@@ -1286,13 +1376,16 @@ Pokud pojedete příliš pomalu, plýtváte palivem a časem.
 Rychlost přizpůsobte hustotě plodiny.]]>
         </cz>
             <uk>
-            <![CDATA[Для досягнення максимальної ефективності підтримуйте навантаження двигуна в межах 95-100%.
+            <![CDATA[Найкраща ефективність досягається, коли навантаження двигуна тримається приблизно 95-100%.
 
-Якщо ви їдете занадто швидко — машина перевантажиться, що призведе до значних втрат зерна та можливих пошкоджень.
+Якщо їхати занадто швидко - двигун перевантажується: ростуть втрати і комбайн починає працювати "на межі".
+Якщо їхати занадто повільно - ви марнуєте паливо та час.
 
-Якщо занадто повільно — ви марно витрачаєте паливо та час.
-
-Коригуйте швидкість відповідно до густоти врожаю та ширини жатки.]]>
+Практичний алгоритм:
+1) Почніть з адекватної ширини жатки під густоту культури.
+2) Слідкуйте за HUD: рекомендована швидкість рахується від вашої цілі по навантаженню.
+3) Якщо втрати стають ЧЕРВОНИМИ - сповільніться (або звузьте жатку).
+4) Якщо навантаження ЗЕЛЕНЕ, але втрати ЧЕРВОНІ - відкрийте калібрування (RShift + K) і виправте Fan/Sieves під цю культуру.]]>
         </uk>
         </text>
         <text name="rhm_help_calibration_title">
@@ -2023,16 +2116,19 @@ Po dokončení pole bude vygenerován protokol o sklizni, který ukáže, jak ka
         </text>
         <text name="rhm_help_hud_1">
             <en>
-            <![CDATA[The HUD panel appears automatically when you enter a combine. It shows 5 live metrics:
+            <![CDATA[The HUD panel appears automatically when you enter a combine.
+It shows 5 live metrics:
 - Engine Load (%)
 - Productivity (t/h)
 - Yield (t/ha)
-- Speed
+- Current speed & Recommended speed
 - Crop Loss (LOW/MED/HIGH)
 
-Green = safe
-Yellow = caution
-Red = losing grain.]]>
+Green = safe, Yellow = caution, Red = losing grain.
+
+Quick diagnosis:
+- RED Engine Load -> you are feeding too much (slow down / narrow header).
+- RED Crop Loss but GREEN Engine Load -> separation settings are off (Fan/Sieves need calibration).]]>
         </en>
             <de>
             <![CDATA[Das HUD erscheint automatisch beim Einsteigen. Es zeigt 5 Live-Messwerte:
@@ -2149,12 +2245,14 @@ Zelená = OK
 - Навантаження двигуна (%)
 - Продуктивність (т/год)
 - Врожайність (т/га)
-- Швидкість
-- Втрати (НИЗЬКІ/СЕРЕДНІ/ВИСОКІ)
+- Поточна швидкість та Рекомендована
+- Втрати врожаю (НИЗЬКІ/СЕРЕДНІ/ВИСОКІ)
 
-Зелений = норма
-Жовтий = обережно
-Червоний = втрати зерна.]]>
+Зелений = норма, Жовтий = обережно, Червоний = втрати зерна.
+
+Швидка діагностика:
+- ЧЕРВОНИЙ Engine Load -> ви подаєте забагато (сповільніться / звузьте жатку).
+- ЧЕРВОНИЙ Loss при ЗЕЛЕНОМУ Engine Load -> проблема з сепарацією (потрібна калібровка Fan/Sieves для цієї культури).]]>
         </uk>
         </text>
         <text name="rhm_help_hud_1_3">
@@ -2229,6 +2327,8 @@ You can switch between systems:
 - Metric (t/ha)
 - Imperial (bu/ac)
 - Bushel system
+
+Tip: the Recommended speed is dynamic and will change with crop density and your calibration.
 
 Your HUD position and visibility settings are saved per-player and persist across sessions.]]>
         </en>
@@ -2353,6 +2453,8 @@ Pozice se ukládá pro každého hráče.]]>
 - Імперська (бу/акр)
 - Бушельна система
 
+Порада: рекомендована швидкість динамічна — вона змінюється від густоти культури та ваших калібрувальних налаштувань.
+
 Позиція та видимість панелі зберігаються для кожного гравця та зберігаються між сесіями.]]>
         </uk>
         </text>
@@ -2405,7 +2507,9 @@ They process grass, dry grass, alfalfa, clover
 
 Corn silage requires the highest drum speed and fan airflow due to thick stalks.
 
-Grass and hay are more delicate — reduce drum speed to avoid shredding.]]>
+Grass and hay are more delicate — reduce drum speed to avoid shredding.
+
+Practical tip: if HUD Engine Load turns RED, slow down or reduce feed (effective pickup/header width) before you change settings.]]>
         </en>
             <de>
             <![CDATA[FELDHÄCKSLER haben 3 Parameter:
@@ -2526,7 +2630,9 @@ Tráva je jemnější — snižte rychlost bubnu.]]>
 
 Кукурудзяний силос потребує найвищих обертів барабана та вентилятора через товсті стебла.
 
-Трава та сіно делікатніші — зменшуйте оберти барабана, щоб не пошкодити масу.]]>
+Трава та сіно делікатніші — зменшуйте оберти барабана, щоб не пошкодити масу.
+
+Практична порада: якщо на HUD навантаження двигуна стає ЧЕРВОНИМ — сповільніться або зменшіть подачу (ефективну ширину захвату), а вже потім змінюйте налаштування.]]>
         </uk>
         </text>
         <text name="rhm_help_special_2">
@@ -2548,7 +2654,9 @@ COTTON PICKERS:
 - Fan Speed
 - Picker Speed (spindle RPM)
 - Feeder Speed
-- cotton is extremely light, so precise calibration of the picker drum is critical.]]>
+- cotton is extremely light, so precise calibration of the picker drum is critical.
+
+Rule: use the Calibration Menu presets for the crop you selected, then fine-tune until HUD losses stay LOW.]]>
         </en>
             <de>
             <![CDATA[RÜBENRODER (Картофель, Свекла и др.):
@@ -2719,7 +2827,9 @@ SBĚRAČE BAVLNY mají Ventilátor (Fan Speed)
 БАВОВНОЗБИРАЛЬНІ МАШИНИ:
 - Шпинделі (Picker Speed)
 - та подача (Feeder Speed).
-- Бавовна надзвичайно легка, тому точне калібрування є критичним.]]>
+- Бавовна надзвичайно легка, тому точне калібрування є критичним.
+
+Правило: відкрийте меню калібрування, використайте пресети під вибрану культуру, а потім доробляйте до моменту, коли HUD показує НИЗЬКІ втрати.]]>
         </uk>
         </text>
 
@@ -2774,20 +2884,23 @@ SBĚRAČE BAVLNY mají Ventilátor (Fan Speed)
         </text>
         <text name="rhm_help_loss_1">
             <en>
-            <![CDATA[Crop losses come from TWO independent sources.
+            <![CDATA[Crop losses come from TWO independent sources: overload (speed) and calibration (settings).
 
 SOURCE 1 — OVERLOAD (Speed):
-- When engine load exceeds 95%, grain losses begin.
-
-The faster you push past the limit, the more grain falls on the ground.
-
-Solution:
-- slow down, use a narrower header, or choose a more powerful combine.
+- When engine load exceeds ~95%, grain losses begin.
+- The faster you push past the limit, the more grain ends up on the ground.
+- Solution: slow down, use a narrower header, or choose a more powerful combine.
 
 SOURCE 2 — POOR CALIBRATION (Settings):
-- If your fan, rotor, or sieves are wrong for the current crop, you get a calibration penalty on top of speed losses.
+- Rotor/Feeder affect efficiency (throughput).
+- Fan/Sieves affect separation quality.
+- If they are wrong for the current crop, you get a calibration penalty on top of speed losses.
 
-Use the Preview Loss feature in the Calibration Menu (RShift+K) to check your penalty even when not harvesting.]]>
+Use Preview Loss in the Calibration Menu (RShift+K) to check penalties even when you are not harvesting.
+
+HUD guide:
+- RED Engine Load → reduce speed/feed.
+- RED Crop Loss but GREEN Engine Load → Fan/Sieves need calibration for this crop.]]>
         </en>
             <de>
             <![CDATA[Ernteverluste kommen aus ZWEI unabhängigen Quellen.
@@ -2928,17 +3041,23 @@ ZDROJ 2 — ŠPATNÁ KALIBRACE:
 Použijte Náhled Ztrát v menu (RShift+K).]]>
         </cz>
             <uk>
-            <![CDATA[Втрати врожаю виникають із ДВОХ незалежних джерел.
+            <![CDATA[Втрати врожаю виникають із ДВОХ незалежних джерел: перевантаження (швидкість) та калібрування (налаштування).
 
 ДЖЕРЕЛО 1 — ПЕРЕВАНТАЖЕННЯ (Швидкість):
-- Коли навантаження двигуна перевищує 95%, починаються втрати зерна. Чим швидше ви їдете понад ліміт, тим більше зерна падає на землю.
-
-Рішення: знизьте швидкість, використовуйте вужчу жатку або потужніший комбайн.
+- Коли навантаження двигуна перевищує ~95%, починаються втрати зерна.
+- Чим швидше ви “перестрибуєте” ліміт, тим більше зерна опиняється на землі.
+- Рішення: знизьте швидкість, використайте вужчу жатку або потужніший комбайн.
 
 ДЖЕРЕЛО 2 — ПОГАНЕ КАЛІБРУВАННЯ (Налаштування):
-- Якщо вентилятор, ротор або решета налаштовані неправильно, ви отримаєте додатковий штраф до втрат.
+- Rotor/Похила камера впливають на ефективність (пропускну здатність).
+- Вентилятор/решета впливають на якість сепарації.
+- Якщо вони не підходять для поточної культури, ви отримуєте штраф до втрат поверх втрат від швидкості.
 
-Використовуйте функцію «Прогноз втрат» у меню калібрування (RShift+K), щоб перевірити налаштування навіть без збирання.]]>
+Використовуйте Preview Loss у меню калібрування (RShift+K), щоб перевірити штрафи навіть без збирання.
+
+Підказка по HUD:
+- ЧЕРВОНИЙ Engine Load → зменште швидкість/подачу.
+- ЧЕРВОНІ втрати при ЗЕЛЕНОМУ Engine Load → потрібно відкалібрувати Fan/Sieves під цю культуру.]]>
         </uk>
         </text>
         <text name="rhm_help_loss_sub2">
@@ -2958,16 +3077,16 @@ Použijte Náhled Ztrát v menu (RShift+K).]]>
             <en>
             <![CDATA[Calibration physics are split into two mechanics.
 
-EFFICIENCY components (Rotor and Feeder House) affect throughput speed — if poorly configured, the engine struggles, and cruise control forces you to drive slower.
+1) EFFICIENCY (Rotor + Feeder House)
+Controls throughput speed. If configured poorly, the engine struggles and your speed needs to drop.
+Perfect efficiency settings can grant up to +5% Speed Bonus.
 
-Perfect settings grant up to +5% Speed Bonus.
-
-CLEANING components (Fan and Sieves) affect grain separation — if the fan is too strong or sieves poorly adjusted, clean grain gets blown out the back.
-
-Perfect settings ensure 0% Added Crop Loss.
+2) CLEANING (Fan + Sieves)
+Controls separation quality. If airflow is too strong or sieves are restrictive, clean grain can get blown out the back.
+Perfect cleaning settings ensure 0% Added Crop Loss.
 
 BONUS:
-- Perfect speed settings also grant an Overload Shield that absorbs minor crop density spikes.]]>
+- Perfect efficiency also grants an Overload Shield that absorbs minor crop density spikes (a brief RED overload does not instantly turn into grain loss).]]>
         </en>
             <de>
             <![CDATA[Die Kalibrierungsphysik teilt sich in zwei Mechaniken.
@@ -3098,15 +3217,16 @@ BONUS:
             <uk>
             <![CDATA[Фізика калібрування розділена на дві механіки.
 
-Компоненти ЕФЕКТИВНОСТІ (Ротор та Похила камера) впливають на швидкість обробки — при поганих налаштуваннях двигун перевантажується, а круїз-контроль змушує вас їхати повільніше.
+1) ЕФЕКТИВНІСТЬ (Ротор + Похила камера)
+Керує пропускною здатністю. Якщо налаштовано погано, двигун не витримує і швидкість доводиться зменшувати.
+Ідеальні налаштування можуть давати до +5% бонусу до швидкості.
 
-Ідеальні налаштування дають до +5% бонусу до швидкості.
-
-Компоненти ОЧИЩЕННЯ (Вентилятор та Решета) впливають на сепарацію зерна — якщо вентилятор занадто потужний або решета налаштовані погано, чисте зерно вилітає позаду комбайна.
-
+2) ОЧИЩЕННЯ (Вентилятор + решета)
+Керує якістю сепарації. Якщо повітря занадто сильне або решета “затискають”, чисте зерно може вилітати позаду комбайна.
 Ідеальні налаштування гарантують 0% додаткових втрат.
 
-БОНУС: ідеальні налаштування також дають «Захист від перевантаження», який поглинає незначні стрибки густоти врожаю.]]>
+БОНУС:
+Ідеальна ефективність також дає «Захист від перевантаження», який поглинає незначні стрибки густоти (короткочасний RED не завжди одразу перетворюється у зернові втрати).]]>
         </uk>
         </text>
 
@@ -3158,7 +3278,9 @@ ENGINE POWER controls combine capacity:
 CROP LOSS SEVERITY controls penalty intensity:
 - Arcade (50% penalty)
 - Normal (standard)
-- Realistic (200% — very strict, even minor overload causes heavy losses).]]>
+- Realistic (200% — very strict, even minor overload causes heavy losses).
+
+Recommended start: Normal. Realistic makes overloads and calibration mistakes much more punishing.]]>
         </en>
             <de>
             <![CDATA[ESC > Einstellungen > Realistic Harvesting.
@@ -3295,15 +3417,17 @@ ZÁVAŽNOST ZTRÁT řídí intenzitu penalizace:
 СУВОРІСТЬ ВТРАТ контролює інтенсивність штрафів:
 - Аркадний (50% штрафу)
 - Нормальний (стандарт)
-- Реалістичний (200% — дуже строго, навіть невелике перевантаження спричиняє великі втрати).]]>
+- Реалістичний (200% — дуже строго, навіть невелике перевантаження спричиняє великі втрати).
+
+Рекомендований старт: Normal. Realistic робить і перевантаження, і помилки калібрування значно “болючішими”.]]>
         </uk>
         </text>
         <text name="rhm_help_difficulty_2">
             <en>
             <![CDATA[Additional toggles:
-- Speed Limiter (ON/OFF) — automaticaly reduces your speed when engine load is too high
-- Crop Loss System (ON/OFF) — enables or disables grain loss simulation entirely
-- Independent Launch — allows starting thresher without lowering the header first.
+- Speed Limiter (ON/OFF) — automatically caps your speed when engine load is too high
+- Crop Loss System (ON/OFF) — enables or disables crop loss simulation entirely
+- Independent Launch — allows starting the thresher without lowering the header first.
 
 In MULTIPLAYER, server settings (difficulty, speed limit, crop loss) are shared for all players and can only be changed by the admin.
 
@@ -3421,8 +3545,8 @@ Vše se ukládá.]]>
         </cz>
             <uk>
             <![CDATA[Додаткові перемикачі:
-- Обмежувач швидкості (УВМК/ВИМК) — автоматично знижує швидкість при перевантаженні
-- Система втрат (УВМК/ВИМК) — повністю вмикає або вимикає симуляцію втрат зерна
+- Обмежувач швидкості (УВМК/ВИМК) — автоматично зменшує швидкість, коли навантаження двигуна занадто високе
+- Система втрат (УВМК/ВИМК) — вмикає або вимикає симуляцію втрат врожаю
 - Незалежний запуск — дозволяє увімкнути молотарку без попереднього опускання жатки.
 
 У МУЛЬТИПЛЕЄРІ серверні налаштування (складність, ліміт швидкості, втрати) спільні для всіх і може змінювати тільки адміністратор.
@@ -3873,17 +3997,857 @@ Vše se ukládá.]]>
             <![CDATA[Рівень 4: Система Opti-Harvest AI]]>
         </uk>
         </text>
+        <text name="rhm_help_upgrades_1">
+            <en><![CDATA[The factory standard combine. No advanced sensors installed. You will have to rely on sounds and visual cues to avoid overloading.]]></en>
+            <de><![CDATA[Der Mähdrescher in Werkseinstellung. Keine fortschrittlichen Sensoren. Sie müssen sich auf Geräusche und visuelle Hinweise verlassen, um Überlastungen zu vermeiden.]]></de>
+            <fr><![CDATA[La moissonneuse au standard d'usine. Aucun capteur avancé installé. Fiez-vous aux sons et aux indices visuels pour éviter la surcharge.]]></fr>
+            <it><![CDATA[La mietitrebbia standard di fabbrica. Nessun sensore avanzato installato. Affidati ai suoni e agli indizi visivi per evitare il sovraccarico.]]></it>
+            <es><![CDATA[La cosechadora estándar de fábrica. Sin sensores avanzados. Confíe en los sonidos y pistas visuales para evitar la sobrecarga.]]></es>
+            <br><![CDATA[A colheitadeira padrão de fábrica. Sem sensores avançados. Confie nos sons e pistas visuais para evitar a sobrecarga.]]></br>
+            <pl><![CDATA[Kombajn w standardzie fabrycznym. Brak zaawansowanych czujników. Aby uniknąć przeciążenia, musisz polegać na dźwiękach i wskazówkach wizualnych.]]></pl>
+            <ru><![CDATA[Заводской стандарт комбайна. Без продвинутых датчиков. Для предотвращения перегрузки вам придется полагаться на слух и визуальные подсказки.]]></ru>
+            <hu><![CDATA[A gyári alapfelszereltségű kombájn. Nincsenek fejlett érzékelők. Hangokra és vizuális jelekre kell hagyatkoznod a túlterhelés elkerüléséhez.]]></hu>
+            <cz><![CDATA[Tovární standard kombajnu. Bez pokročilých senzorů. K zabránění přetížení se musíte spoléhat na zvuky a vizuální podněty.]]></cz>
+            <uk><![CDATA[Заводський стандарт комбайна. Без просунутих датчиків. Щоб уникнути перевантаження, вам доведеться покладатися на звук та візуальні підказки.]]></uk>
+        </text>
+        <text name="rhm_help_upgrades_2">
+            <en><![CDATA[Installs basic load sensors, unlocking the HUD to monitor Engine Load, Speed, and Crop Loss. Calibration of the thresher must be done manually.]]></en>
+            <de><![CDATA[Installiert grundlegende Lastsensoren und schaltet das HUD frei, um Motorlast, Geschwindigkeit und Kornverluste zu überwachen. Die Kalibrierung muss manuell erfolgen.]]></de>
+            <fr><![CDATA[Installe des capteurs de charge de base, débloquant le HUD pour surveiller la charge moteur, la vitesse et la perte de récolte. Le calibrage est manuel.]]></fr>
+            <it><![CDATA[Installa sensori di carico di base, sbloccando l'HUD per monitorare Carico Motore, Velocità e Perdita di Raccolto. La calibrazione deve essere manuale.]]></it>
+            <es><![CDATA[Instala sensores de carga básicos, desbloqueando el HUD para monitorizar la Carga del Motor, Velocidad y Pérdidas. La calibración debe ser manual.]]></es>
+            <br><![CDATA[Instala sensores de carga básicos, desbloqueando o HUD para monitorar Carga do Motor, Velocidade e Perdas. A calibração deve ser manual.]]></br>
+            <pl><![CDATA[Instaluje podstawowe czujniki obciążenia, odblokowując HUD do monitorowania Obciążenia Silnika, Prędkości i Strat. Kalibrację należy wykonać ręcznie.]]></pl>
+            <ru><![CDATA[Устанавливает базовые датчики нагрузки, разблокируя HUD для мониторинга Нагрузки Двигателя, Скорости и Потерь. Калибровка выполняется вручную.]]></ru>
+            <hu><![CDATA[Alapvető terhelésérzékelőket telepít, feloldva a HUD-ot a Motor Terhelés, Sebesség és Veszteségek figyeléséhez. A kalibrálást kézzel kell elvégezni.]]></hu>
+            <cz><![CDATA[Nainstaluje základní senzory zatížení, čímž odemkne HUD pro sledování Zatížení Motoru, Rýchlosti a Ztrát. Kalibrace musí být prováděna manuálně.]]></cz>
+            <uk><![CDATA[Встановлює базові датчики навантаження, розблоковуючи HUD для моніторингу Навантаження Двигуна, Швидкості та Втрат врожаю. Калібрування потрібно виконувати вручну.]]></uk>
+        </text>
+        <text name="rhm_help_upgrades_3">
+            <en><![CDATA[Adds precise mass flow sensors. Unlocks the Yield (t/ha) and Productivity (t/h) metrics in the HUD for deeper performance monitoring.]]></en>
+            <de><![CDATA[Fügt präzise Massenstromsensoren hinzu. Schaltet Ertrags- (t/ha) und Produktivitätsmetriken (t/h) im HUD für eine tiefere Leistungsüberwachung frei.]]></de>
+            <fr><![CDATA[Ajoute des capteurs de débit massique précis. Débloque le rendement (t/ha) et la productivité (t/h) dans le HUD pour surveiller les performances.]]></fr>
+            <it><![CDATA[Aggiunge sensori di flusso di massa precisi. Sblocca la Resa (t/ha) e la Produttività (t/h) nell'HUD per un monitoraggio più profondo.]]></it>
+            <es><![CDATA[Añade sensores de flujo de masa precisos. Desbloquea el Rendimiento (t/ha) y Productividad (t/h) en el HUD para un mayor control.]]></es>
+            <br><![CDATA[Adiciona sensores precisos de fluxo de massa. Desbloqueia o Rendimento (t/ha) e Produtividade (t/h) no HUD para maior controle.]]></br>
+            <pl><![CDATA[Dodaje precyzyjne czujniki przepływu masy. Odblokowuje Plon (t/ha) i Produktywność (t/h) w HUD dla głębszego monitorowania wydajności.]]></pl>
+            <ru><![CDATA[Добавляет точные датчики массового расхода. Включает метрики Урожайности (т/га) и Производительности (т/ч) в HUD для более точного контроля.]]></ru>
+            <hu><![CDATA[Precíz tömegáram-érzékelőket ad hozzá. Feloldja a Hozam (t/ha) és Termelékenység (t/h) mutatókat a HUD-on a mélyebb teljesítménykövetéshez.]]></hu>
+            <cz><![CDATA[Přidává přesné senzory hmotnostního průtoku. Odemyká metriky Výnos (t/ha) a Produktivita (t/h) na HUD pro hlubší sledování výkonu.]]></cz>
+            <uk><![CDATA[Додає точні датчики масової витрати. Розблоковує показники Врожайності (т/га) та Продуктивності (т/год) у HUD для глибшого контролю.]]></uk>
+        </text>
+        <text name="rhm_help_upgrades_4">
+            <en><![CDATA[Equips the combine with a smart AI that automatically adjusts internal components (fan, rotor, sieves). Unlocks the "AUTO" mode in the Calibration Menu for optimal efficiency. Note: Automated speed management requires Cruise Control to be active.]]></en>
+            <de><![CDATA[Rüstet den Mähdrescher mit einer KI aus, die interne Komponenten (Gebläse, Rotor, Siebe) automatisch anpasst. Schaltet den "AUTO"-Modus frei. Hinweis: Die automatische Geschwindigkeitsanpassung erfordert einen aktiven Tempomaten.]]></de>
+            <fr><![CDATA[Équipe la moissonneuse d'une IA intelligente qui ajuste automatiquement les composants (ventilateur, rotor, grilles). Débloque le mode "AUTO" pour une efficacité optimale.]]></fr>
+            <it><![CDATA[Equipaggia la mietitrebbia con un'IA che regola automaticamente i componenti interni (ventola, rotore, crivelli). Sblocca la modalità "AUTO" per un'efficienza ottimale.]]></it>
+            <es><![CDATA[Equipa la cosechadora con una IA inteligente que ajusta automáticamente los componentes (ventilador, rotor, cribas). Desbloquea el modo "AUTO" para máxima eficiencia.]]></es>
+            <br><![CDATA[Equipa a colheitadeira com uma IA inteligente que ajusta automaticamente os componentes (ventilador, rotor, peneiras). Desbloqueia o modo "AUTO" para máxima eficiência.]]></br>
+            <pl><![CDATA[Wyposaża kombajn w inteligentną sztuczną inteligencję, która automatycznie dostosowuje podzespoły (wentylator, rotor, sita). Odblokowuje tryb "AUTO" dla optymalnej wydajności.]]></pl>
+            <ru><![CDATA[Оснащает комбайн умным ИИ, который автоматически настраивает внутренние узлы (вентилятор, ротор, решета). Разблокирует режим "АВТО" для максимальной эффективности. Примечание: Система автоматического подбора скорости требует включенного круиз-контроля.]]></ru>
+            <hu><![CDATA[Egy intelligens MI-vel szereli fel a kombájnt, amely automatikusan beállítja a belső alkatrészeket (ventilátor, rotor, rosták). Feloldja az "AUTO" módot az optimális hatékonyságért.]]></hu>
+            <cz><![CDATA[Vybaví kombajn chytrou AI, která automaticky nastavuje vnitřní komponenty (ventilátor, rotor, síta). Odemyká režim "AUTO" pro optimální účinnost.]]></cz>
+            <uk><![CDATA[Оснащує комбайн розумним ШІ, який автоматично налаштовує внутрішні вузли (вентилятор, ротор, решета). Розблоковує режим "АВТО" у меню калібрування для ідеальної ефективності. Примітка: Система автоматичного підбору швидкості вимагає увімкненого круїз-контролю.]]></uk>
+        </text>
+        
+        <text name="rhm_help_moisture_title">
+            <en>8. Moisture System</en>
+            <de>8. Feuchtigkeitssystem</de>
+            <fr>8. Système d'Humidité</fr>
+            <it>8. Sistema di Umidità</it>
+            <es>8. Sistema de Humedad</es>
+            <br>8. Sistema de Umidade</br>
+            <pl>8. System Wilgotności</pl>
+            <ru>8. Система Влажности</ru>
+            <hu>8. Nedvesség Rendszer</hu>
+            <cz>8. Systém Vlhkosti</cz>
+            <uk>8. Система Вологості</uk>
+        </text>
+        <text name="rhm_help_moisture_sub1">
+            <en>Integration</en>
+            <de>Integration</de>
+            <fr>Intégration</fr>
+            <it>Integrazione</it>
+            <es>Integración</es>
+            <br>Integração</br>
+            <pl>Integracja</pl>
+            <ru>Интеграция</ru>
+            <hu>Integráció</hu>
+            <cz>Integrace</cz>
+            <uk>Інтеграція</uk>
+        </text>
+        <text name="rhm_help_moisture_1">
+            <en>Realistic Harvesting supports the Moisture System mod. Crop moisture dynamically affects engine load and harvesting speed.</en>
+            <de>Realistic Harvesting unterstützt die Moisture System Mod. Erntefeuchtigkeit beeinflusst dynamisch Motorlast und Erntegeschwindigkeit.</de>
+            <fr>Realistic Harvesting prend en charge le mod Moisture System. L'humidité affecte dynamiquement la charge moteur et la vitesse.</fr>
+            <it>Realistic Harvesting supporta la mod Moisture System. L'umidità influisce dinamicamente sul carico motore e sulla velocità.</it>
+            <es>Realistic Harvesting soporta el mod Moisture System. La humedad afecta dinámicamente la carga del motor y la velocidad.</es>
+            <br>Realistic Harvesting suporta o mod Moisture System. A umidade afeta dinamicamente a carga do motor e a velocidade.</br>
+            <pl>Realistic Harvesting obsługuje mod Moisture System. Wilgotność upraw dynamicznie wpływa na obciążenie silnika i prędkość.</pl>
+            <ru>Realistic Harvesting поддерживает мод Moisture System. Влажность культуры динамически влияет на нагрузку двигателя и скорость.</ru>
+            <hu>A Realistic Harvesting támogatja a Moisture System modot. A termés nedvességtartalma dinamikusan befolyásolja a motor terhelését és a sebességet.</hu>
+            <cz>Realistic Harvesting podporuje mód Moisture System. Vlhkost plodin dynamicky ovlivňuje zatížení motoru a rychlost.</cz>
+            <uk>Realistic Harvesting підтримує мод Moisture System. Вологість культури динамічно впливає на навантаження двигуна та швидкість.</uk>
+        </text>
+        <text name="rhm_help_moisture_sub2">
+            <en>Harvesting Wet Crops</en>
+            <de>Feuchte Ernte</de>
+            <fr>Récolte Humide</fr>
+            <it>Raccolto Umido</it>
+            <es>Cosecha Húmeda</es>
+            <br>Colheita Úmida</br>
+            <pl>Mokre Zbiorów</pl>
+            <ru>Влажные Культуры</ru>
+            <hu>Nedves Termés</hu>
+            <cz>Vlhká Sklizeň</cz>
+            <uk>Вологі Культури</uk>
+        </text>
+        <text name="rhm_help_moisture_2">
+            <en>Harvesting wet crops significantly increases the strain on your combine. Moisture levels are visible on the HUD along with other metrics.</en>
+            <de>Das Ernten feuchter Nutzpflanzen erhöht die Belastung des Mähdreschers erheblich. Feuchtigkeitswerte sind im HUD sichtbar.</de>
+            <fr>Récolter des cultures humides augmente considérablement la charge sur votre moissonneuse. L'humidité est visible dans le HUD.</fr>
+            <it>Raccogliere colture umide aumenta la pressione sulla mietitrebbia. L'umidità è visibile nell'HUD.</it>
+            <es>Cosechar cultivos húmedos aumenta la tensión en su cosechadora. Los niveles de humedad son visibles en el HUD.</es>
+            <br>A colheita de culturas úmidas aumenta a pressão na colheitadeira. Os níveis de umidade são visíveis no HUD.</br>
+            <pl>Zbiór mokrych upraw znacznie zwiększa obciążenie kombajnu. Poziomy wilgotności są widoczne w HUD.</pl>
+            <ru>Уборка влажных культур значительно увеличивает нагрузку на комбайн. Уровень влажности отображается в HUD.</ru>
+            <hu>A nedves termések betakarítása jelentősen megnöveli a kombájn terhelését. A nedvességszint a HUD-on látható.</hu>
+            <cz>Sklizeň vlhkých plodin výrazně zvyšuje zátěž kombajnu. Úrovně vlhkosti jsou viditelné na HUDu.</cz>
+            <uk>Збирання вологих культур значно збільшує навантаження на комбайн. Рівень вологості відображається в HUD.</uk>
+        </text>
+        <text name="rhm_help_calibration_main_sub">
+            <en><![CDATA[General Concept]]></en>
+            <de><![CDATA[Allgemeines Konzept]]></de>
+            <fr><![CDATA[Concept Général]]></fr>
+            <it><![CDATA[Concetto Generale]]></it>
+            <es><![CDATA[Concepto General]]></es>
+            <br><![CDATA[Conceito Geral]]></br>
+            <pl><![CDATA[Ogólna Koncepcja]]></pl>
+            <ru><![CDATA[Общий принцип]]></ru>
+            <hu><![CDATA[Általános Koncepció]]></hu>
+            <cz><![CDATA[Obecný Koncept]]></cz>
+            <uk><![CDATA[Загальний принцип]]></uk>
+        </text>
+        <text name="rhm_help_calibration_main_text">
+            <en><![CDATA[Combine performance depends heavily on proper calibration.
+Open the Calibration Menu anytime with (RShift + K).
+
+For every crop there is an optimal target. The game estimates how much material is being processed and converts it into engine load. If your calibration is off, you get extra crop loss on top of overload.
+
+Calibration splits into two mechanics:
+- Efficiency parts (Rotor + Feeder House) affect throughput speed.
+- Cleaning parts (Fan + Sieves) affect separation quality (where most "extra" crop loss comes from).
+
+Use Preview Loss when you change crop/header or when you see RED losses on the HUD.
+Aim for GREEN engine load near your target and LOW crop losses.]]></en>
+            <de><![CDATA[Die Mähdrescherleistung hängt stark von der richtigen Kalibrierung ab. Öffne das Menü mit (RShift + K). Jede Frucht hat einen optimalen Zielwert. Je weiter der Regler vom Ziel entfernt ist, desto mehr Verlust entsteht (max. 25% Strafe).]]></de>
+            <fr><![CDATA[Les performances dépendent d'un calibrage correct. Ouvrez le menu avec (RShift + K). Chaque culture a une valeur cible optimale. Plus le curseur s'en éloigne, plus les pertes augmentent (jusqu'à 25%).]]></fr>
+            <it><![CDATA[Le prestazioni dipendono dalla calibrazione. Apri il menu con (RShift + K). Ogni coltura ha un valore target ottimale. Più il cursore si allontana dal target, più aumentano le perdite (fino al 25%).]]></it>
+            <es><![CDATA[El rendimiento depende de una calibración correcta. Abra el menú con (RShift + K). Cada cultivo tiene un valor objetivo óptimo. Cuanto más lejos esté el control deslizante, mayores serán las pérdidas (hasta 25%).]]></es>
+            <br><![CDATA[O desempenho depende da calibração. Abra o menu com (RShift + K). Cada cultura tem um valor alvo ideal. Quanto mais longe o controle estiver do alvo, mais perdas ocorrerão (até 25%).]]></br>
+            <pl><![CDATA[Wydajność zależy od kalibracji. Otwórz menu przez (RShift + K). Każda uprawa ma optymalną wartość docelową. Im dalej suwak od celu, tym większe straty (max. 25%).]]></pl>
+            <ru><![CDATA[Эффективность зависит от калибровки. Откройте меню через (RShift + K). Каждая культура имеет оптимальное целевое значение. Чем дальше ползунок от цели — тем больше потери (до 25%).]]></ru>
+            <hu><![CDATA[A teljesítmény a kalibrálástól függ. Nyisd meg a menüt (RShift + K) billentyűkkel. Minden terménynek van optimális célértéke. Minél messzebb a csúszka, annál nagyobb a veszteség (max 25%).]]></hu>
+            <cz><![CDATA[Výkon závisí na kalibraci. Otevřete menu přes (RShift + K). Každá plodina má optimální cílovou hodnotu. Čím dál je posuvník od cíle, tím větší jsou ztráty (max. 25%).]]></cz>
+            <uk><![CDATA[Ефективність комбайна напряму залежить від правильного калібрування.
+Відкрийте меню калібрування (RShift + K) у будь-який момент.
+
+Для кожної культури є своя оптимальна ціль. Гра оцінює, скільки матеріалу проходить через систему, і переводить це в навантаження двигуна. Якщо калібрування не влучає в ціль, ви отримуєте додаткові втрати поверх перевантаження.
+
+Калібрування працює через дві механіки:
+- Компоненти ефективності (Ротор + Похила камера) впливають на пропускну здатність.
+- Компоненти очищення (Вентилятор + решета) впливають на якість сепарації (саме звідти йде більшість “додаткових” втрат).
+
+Використовуйте Preview Loss, коли міняєте культуру/жатку або коли бачите ЧЕРВОНИЙ рівень втрат на HUD.
+Ціль: ЗЕЛЕНЕ навантаження двигуна біля вашої цілі та НИЗЬКІ втрати.]]></uk>
+        </text>
+        <text name="rhm_help_calibration_rotor_sub">
+            <en><![CDATA[Grain Combine]]></en>
+            <de><![CDATA[Mähdrescher]]></de>
+            <fr><![CDATA[Moissonneuse-batteuse]]></fr>
+            <it><![CDATA[Mietitrebbia]]></it>
+            <es><![CDATA[Cosechadora]]></es>
+            <br><![CDATA[Colheitadeira]]></br>
+            <pl><![CDATA[Kombajn zbożowy]]></pl>
+            <ru><![CDATA[Зерновой комбайн]]></ru>
+            <hu><![CDATA[Gabonakombinát]]></hu>
+            <cz><![CDATA[Zbytkový kombajn]]></cz>
+            <uk><![CDATA[Зерновий комбайн]]></uk>
+        </text>
+        <text name="rhm_help_calibration_rotor_text">
+            <en><![CDATA[Optimal starting point (grain crops, e.g. Wheat):
+Rotor Speed: ~710 RPM.
+Feeder House: ~550 RPM.
+Fan Speed: ~810 RPM.
+Upper Sieve: ~14 mm.
+Lower Sieve: ~8 mm.
+
+If you see HIGH Engine Load:
+- reduce feed by slowing down and/or narrowing the header,
+- then fine-tune Rotor/Feeder closer to the crop optimal range.
+
+If Engine Load is OK but Crop Loss is RED:
+- the separator is wrong,
+- tune Fan/Sieves for this crop.
+
+Corn note: Corn typically needs ~360 RPM Rotor and ~18 mm Upper sieve.]]></en>
+            <de><![CDATA[Optimale Einstellungen (Weizen):
+Rotordrehzahl: ~710 RPM.
+Schrägförderer: ~550 RPM.
+Lüfterdrehzahl: ~810 RPM.
+Obersieb: ~14 mm.
+Untersieb: ~8 mm.
+Hinweis: Mais benötigt ~360 RPM Rotor und ~18 mm Obersieb.]]></de>
+            <fr><![CDATA[Réglages optimaux (Blé):
+Régime Rotor: ~710 RPM.
+Convoyeur: ~550 RPM.
+Régime Ventilateur: ~810 RPM.
+Grille supérieure: ~14 mm.
+Grille inférieure: ~8 mm.
+Note: Le maïs nécessite ~360 RPM Rotor et ~18 mm Grille sup.]]></fr>
+            <it><![CDATA[Impostazioni ottimali (Grano):
+Giri Rotore: ~710 RPM.
+Elevatore: ~550 RPM.
+Giri Ventola: ~810 RPM.
+Crivello sup.: ~14 mm.
+Crivello inf.: ~8 mm.
+Nota: Il mais richiede ~360 RPM Rotore e ~18 mm Crivello sup.]]></it>
+            <es><![CDATA[Ajustes óptimos (Trigo):
+RPM Rotor: ~710 RPM.
+Embocadura: ~550 RPM.
+RPM Ventilador: ~810 RPM.
+Criba superior: ~14 mm.
+Criba inferior: ~8 mm.
+Nota: El maíz necesita ~360 RPM Rotor y ~18 mm Criba sup.]]></es>
+            <br><![CDATA[Ajustes ideais (Trigo):
+RPM do Rotor: ~710 RPM.
+Alimentador: ~550 RPM.
+Vel. do Ventilador: ~810 RPM.
+Peneira superior: ~14 mm.
+Peneira inferior: ~8 mm.
+Nota: Milho precisa de ~360 RPM Rotor e ~18 mm Peneira sup.]]></br>
+            <pl><![CDATA[Optymalne ustawienia (Pszenica):
+Obroty rotora: ~710 RPM.
+Przenośnik: ~550 RPM.
+Obroty wentylatora: ~810 RPM.
+Sito górne: ~14 mm.
+Sito dolne: ~8 mm.
+Uwaga: Kukurydza wymaga ~360 RPM rotora i ~18 mm sita górnego.]]></pl>
+            <ru><![CDATA[Оптимальные настройки (Пшеница):
+Обороты ротора: ~710 RPM.
+Наклонная камера: ~550 RPM.
+Обороты вентилятора: ~810 RPM.
+Верхнее решето: ~14 mm.
+Нижнее решето: ~8 mm.
+Прим.: Кукурудзе нужно ~360 RPM ротора и ~18 mm решета.]]></ru>
+            <hu><![CDATA[Optimális beállítások (Búza):
+Rotor fordulatszám: ~710 RPM.
+Ferdefelhordó: ~550 RPM.
+Ventilátor fordulatszám: ~810 RPM.
+Felső rosta: ~14 mm.
+Alsó rosta: ~8 mm.
+Megjegyzés: Kukoricához ~360 RPM Rotor és ~18 mm felső rosta kell.]]></hu>
+            <cz><![CDATA[Optimální nastavení (Pšenice):
+Otáčky rotoru: ~710 RPM.
+Šikmý dopravník: ~550 RPM.
+Rychlost ventilátoru: ~810 RPM.
+Horní síto: ~14 mm.
+Dolní síto: ~8 mm.
+Poznámka: Kukuřice vyžaduje ~360 RPM rotoru a ~18 mm horního síta.]]></cz>
+            <uk><![CDATA[Оптимальна стартова точка для зернових (напр. пшениця):
+Оберти ротора: ~710 RPM.
+Похила камера: ~550 RPM.
+Оберти вентилятора: ~810 RPM.
+Верхнє решето: ~14 mm.
+Нижнє решето: ~8 mm.
+
+Якщо бачите ВИСОКЕ навантаження двигуна:
+- зменште подачу (сповільніться і/або звужуйте жатку),
+- і потім точніше виставте Rotor/Похилу камеру в оптимальному діапазоні культури.
+
+Якщо навантаження нормальне, але “Loss” ЧЕРВОНИЙ:
+- проблема в сепарації,
+- підкрутіть Fan/Sieves під цю культуру.
+
+Примітка про кукурудзу: кукурудзі зазвичай потрібні ~360 RPM ротор і ~18 mm верхнє решето.]]></uk>
+        </text>
+        <text name="rhm_help_calibration_rotor_long">
+            <en><![CDATA[Rotor controls threshing intensity.
+
+Optimal rotor speeds:
+Wheat: ~700 RPM.
+Barley: ~770 RPM.
+Oats: ~720 RPM.
+Rice: ~550 RPM.
+Canola: ~500 RPM.
+Soy: ~550 RPM.
+Maize: ~360 RPM.
+Sunflower: ~320 RPM.
+Peas: ~340 RPM.
+
+Rule: Maize and legumes work best with LOW RPM.
+If Engine Load is too high even when driving slowly, check Feeder/throughput first (you may be overfeeding).
+
+Upper / Lower sieve openings by crop (Grain Combine):
+Wheat / Barley / Rice: 14 mm / 8 mm.
+Oats: 10 mm / 6 mm.
+Canola: 12 mm / 6 mm.
+Soy / Peas: 15 mm / 10 mm.
+Maize / Sunflower: 18 mm / 11-12 mm.
+
+Incorrect clearance blocks the sieves and creates large losses (up to ~25%).
+
+Symptom guide:
+- RED losses with GREEN engine load → sieves are usually too restrictive (open them slightly).
+- If engine load is already RED → first reduce speed/feed, then fine-tune sieves.]]></en>
+            <de><![CDATA[Bestimmt die Dreschintensität. Optimale Drehzahlen:
+Weizen: ~700 RPM.
+Gerste: ~770 RPM.
+Hafer: ~720 RPM.
+Reis: ~550 RPM.
+Raps: ~500 RPM.
+Soja: ~550 RPM.
+Mais: ~360 RPM.
+Sonnenblume: ~320 RPM.
+Erbsen: ~340 RPM.
+Mais und Hülsenfrüchte benötigen NIEDRIGE Drehzahl.]]></de>
+            <fr><![CDATA[Contrôle l'intensité du battage. Vitesses optimales:
+Blé: ~700 RPM.
+Orge: ~770 RPM.
+Avoine: ~720 RPM.
+Riz: ~550 RPM.
+Colza: ~500 RPM.
+Soja: ~550 RPM.
+Maïs: ~360 RPM.
+Tournesol: ~320 RPM.
+Pois: ~340 RPM.
+Le maïs et les légumineuses nécessitent un régime BAS.]]></fr>
+            <it><![CDATA[Controlla l'intensità di trebbiatura. Velocità ottimali:
+Grano: ~700 RPM.
+Orzo: ~770 RPM.
+Avena: ~720 RPM.
+Riso: ~550 RPM.
+Colza: ~500 RPM.
+Soia: ~550 RPM.
+Mais: ~360 RPM.
+Girasole: ~320 RPM.
+Piselli: ~340 RPM.
+Mais e legumi richiedono giri BASSI.]]></it>
+            <es><![CDATA[Controla la intensidad de la trilla. Velocidades óptimas:
+Trigo: ~700 RPM.
+Cebada: ~770 RPM.
+Avena: ~720 RPM.
+Arroz: ~550 RPM.
+Colza: ~500 RPM.
+Soja: ~550 RPM.
+Maíz: ~360 RPM.
+Girasol: ~320 RPM.
+Guisantes: ~340 RPM.
+Maíz y legumbres necesitan RPM BAJAS.]]></es>
+            <br><![CDATA[Controla a intensidade de debulha. Velocidades ideais:
+Trigo: ~700 RPM.
+Cevada: ~770 RPM.
+Aveia: ~720 RPM.
+Arroz: ~550 RPM.
+Canola: ~500 RPM.
+Soja: ~550 RPM.
+Milho: ~360 RPM.
+Girassol: ~320 RPM.
+Ervilhas: ~340 RPM.
+Milho e legumes precisam de RPM BAIXA.]]></br>
+            <pl><![CDATA[Kontroluje intensywność młócenia. Prędkości optymalne:
+Pszenica: ~700 RPM.
+Jęczmień: ~770 RPM.
+Owies: ~720 RPM.
+Ryż: ~550 RPM.
+Rzepak: ~500 RPM.
+Soja: ~550 RPM.
+Kukurydza: ~360 RPM.
+Słonecznik: ~320 RPM.
+Groch: ~340 RPM.
+Kukurydza wymaga NISKICH obrotów.]]></pl>
+            <ru><![CDATA[Управляет обмолотом. Оптимальные обороты:
+Пшеница: ~700 RPM.
+Ячмень: ~770 RPM.
+Овёс: ~720 RPM.
+Рис: ~550 RPM.
+Рапс: ~500 RPM.
+Соя: ~550 RPM.
+Кукуруза: ~360 RPM.
+Подсолнух: ~320 RPM.
+Горох: ~340 RPM.
+Кукурузе нужны НИЗКИЕ обороты — иначе зерно трескается.]]></ru>
+            <hu><![CDATA[Szabályozza a cséplés intenzitását. Optimális fordulatszámok:
+Búza: ~700 RPM.
+Árpa: ~770 RPM.
+Zab: ~720 RPM.
+Rizs: ~550 RPM.
+Repce: ~500 RPM.
+Szója: ~550 RPM.
+Kukorica: ~360 RPM.
+Napraforgó: ~320 RPM.
+Borsó: ~340 RPM.
+Kukoricához ALACSONY fordulat kell.]]></hu>
+            <cz><![CDATA[Ovládá intenzitu výmlatu. Optimální otáčky:
+Pšenice: ~700 RPM.
+Ječmen: ~770 RPM.
+Oves: ~720 RPM.
+Rýže: ~550 RPM.
+Řepka: ~500 RPM.
+Sója: ~550 RPM.
+Kukuřice: ~360 RPM.
+Slunečnice: ~320 RPM.
+Hrách: ~340 RPM.
+Kukuřice potřebuje NÍZKÉ otáčky.]]></cz>
+            <uk><![CDATA[Ротор керує інтенсивністю обмолоту.
+
+Оптимальні оберти ротора:
+Пшениця: ~700 RPM.
+Ячмінь: ~770 RPM.
+Овес: ~720 RPM.
+Рис: ~550 RPM.
+Ріпак: ~500 RPM.
+Соя: ~550 RPM.
+Кукурудза: ~360 RPM.
+Соняшник: ~320 RPM.
+Горох: ~340 RPM.
+
+Правило: кукурудза та бобові працюють краще з НИЗЬКИМИ обертами.
+Якщо навантаження двигуна ВИСОКЕ навіть на невеликій швидкості — перевірте спочатку подачу/пропускну здатність (може бути перегодовування).
+
+Зазори верхнього / нижнього решета по культурах (зерновий комбайн):
+Пшениця / Ячмінь / Рис: 14 мм / 8 мм.
+Овес: 10 мм / 6 мм.
+Ріпак: 12 мм / 6 мм.
+Соя / Горох: 15 мм / 10 мм.
+Кукурудза / Соняшник: 18 мм / 11-12 мм.
+
+Неправильний зазор “задушує” решета і дає великі втрати (до ~25%).
+
+Підказка по симптомах:
+- ЧЕРВОНИЙ Loss при ЗЕЛЕНОМУ load → решета зазвичай занадто закриті (трохи відкрийте).
+- Якщо навантаження двигуна вже ЧЕРВОНЕ → спочатку зменшіть швидкість/подачу, а потім підкрутіть решета.]]></uk>
+        </text>
+        <text name="rhm_help_calibration_fan_sub">
+            <en><![CDATA[Selection Fan / Airflow]]></en>
+            <de><![CDATA[Reinigungsgebläse]]></de>
+            <fr><![CDATA[Ventilateur de Triage]]></fr>
+            <it><![CDATA[Ventola di Pulizia]]></it>
+            <es><![CDATA[Ventilador de Limpieza]]></es>
+            <br><![CDATA[Ventilador de Seleção]]></br>
+            <pl><![CDATA[Wentylator Czyszczący]]></pl>
+            <ru><![CDATA[Вентилятор очистки]]></ru>
+            <hu><![CDATA[Tisztító ventilátor]]></hu>
+            <cz><![CDATA[Čisticí ventilátor]]></cz>
+            <uk><![CDATA[Вентилятор Очистки / Обдув]]></uk>
+        </text>
+        <text name="rhm_help_calibration_fan_text">
+            <en><![CDATA[The fan creates airflow to separate light chaff from the heavy grain.
+An incorrect balance between fan speed and sieve opening is a major cause of crop loss.]]></en>
+            <de><![CDATA[Das Gebläse trennt die leichte Spreu vom schweren Korn.]]></de>
+            <fr><![CDATA[Le ventilateur sépare la menue paille du grain.]]></fr>
+            <it><![CDATA[Il ventilatore separa la pula dal grano.]]></it>
+            <es><![CDATA[El ventilador separa la paja ligera del grano.]]></es>
+            <br><![CDATA[O ventilador separa a palha leve do grão.]]></br>
+            <pl><![CDATA[Wentylator oddziela plewy od ziarna.]]></pl>
+            <ru><![CDATA[Вентилятор отделяет легкую полову от тяжелого зерна. 
+Неверный баланс — основная причина потерь.]]></ru>
+            <hu><![CDATA[A ventilátor elválasztja a pelyvát a magtól.]]></hu>
+            <cz><![CDATA[Ventilátor odděluje plevy od zrna.]]></cz>
+            <uk><![CDATA[Вентилятор створює потік повітря для відокремлення полови від важкого зерна.
+Неправильний баланс між швидкістю обдуву та відкриттям решіт є основною причиною втрат.]]></uk>
+        </text>
+        <text name="rhm_help_calibration_fan_long">
+            <en><![CDATA[Light seeds blow away if the fan is too high — keep it LOW.
+Heavy crops can handle high airflow to blow out the trash.
+
+Rule: If Crop Loss is RED while Engine Load is GREEN, fan airflow is usually too strong. Try reducing the fan and/or opening sieves slightly.
+(See Crop Settings Guide for exact speeds).]]></en>
+            <de><![CDATA[Bläst Spreu nach hinten. Optimale Lüfterdrehzahlen:
+Mais: ~900 RPM.
+Soja/Erbsen: ~850-875 RPM.
+Weizen/Gerste: ~800 RPM.
+Reis: ~775 RPM.
+Hafer/Sonnenblume: ~700 RPM.
+Raps: ~650 RPM.
+Leichte Samen (Raps, Hafer) fliegen bei hohen Werten weg — NIEDRIG halten.]]></de>
+            <fr><![CDATA[Souffle les menues pailles. Vitesses optimales du ventilateur:
+Maïs: ~900 RPM.
+Soja/Pois: ~850-875 RPM.
+Blé/Orge: ~800 RPM.
+Riz: ~775 RPM.
+Avoine/Tournesol: ~700 RPM.
+Colza: ~650 RPM.
+Les graines légères s'envolent à haute vitesse — garder BAS.]]></fr>
+            <it><![CDATA[Soffia la pula. Velocità ottimali del ventilatore:
+Mais: ~900 RPM.
+Soia/Piselli: ~850-875 RPM.
+Grano/Orzo: ~800 RPM.
+Riso: ~775 RPM.
+Avena/Girasole: ~700 RPM.
+Colza: ~650 RPM.
+Semi leggeri volano via ad alta velocità — tenerlo BASSO.]]></it>
+            <es><![CDATA[Expulsa la paja. Velocidades óptimas del ventilador:
+Maíz: ~900 RPM.
+Soja/Guisantes: ~850-875 RPM.
+Trigo/Cebada: ~800 RPM.
+Arroz: ~775 RPM.
+Avena/Girasol: ~700 RPM.
+Colza: ~650 RPM.
+Semillas ligeras salen a alta velocidad — mantener BAJO.]]></es>
+            <br><![CDATA[Sopra a palha. Velocidades ideais do ventilador:
+Milho: ~900 RPM.
+Soja/Ervilha: ~850-875 RPM.
+Trigo/Cevada: ~800 RPM.
+Arroz: ~775 RPM.
+Aveia/Girassol: ~700 RPM.
+Canola: ~650 RPM.
+Sementes leves voam em alta velocidade — manter BAIXO.]]></br>
+            <pl><![CDATA[Wydmuchuje plewy. Optymalne prędkości wentylatora:
+Kukurydza: ~900 RPM.
+Soja/Groch: ~850-875 RPM.
+Pszenica/Jęczmień: ~800 RPM.
+Ryż: ~775 RPM.
+Owies/Słonecznik: ~700 RPM.
+Rzepak: ~650 RPM.
+Lekkie ziarna wylatują przy wysokich wartościach — trzymać NISKO.]]></pl>
+            <ru><![CDATA[Выдувает полову. Оптимальные обороты вентилятора:
+Кукуруза: ~900 RPM.
+Соя/Горох: ~850-875 RPM.
+Пшеница/Ячмень: ~800 RPM.
+Рис: ~775 RPM.
+Овёс/Подсолнух: ~700 RPM.
+Рапс: ~650 RPM.
+Мелкие семена (рапс, овёс) вылетают на высоких оборотах — держать НИЗКО.]]></ru>
+            <hu><![CDATA[Kifújja a pelyvát. Optimális ventilátor-fordulatszámok:
+Kukorica: ~900 RPM.
+Szója/Borsó: ~850-875 RPM.
+Búza/Árpa: ~800 RPM.
+Rizs: ~775 RPM.
+Zab/Napraforgó: ~700 RPM.
+Repce: ~650 RPM.
+Könnyű magvak kiszállnak magas értéknél — tartsd ALACSONYAN.]]></hu>
+            <cz><![CDATA[Vyfukuje plevy. Optimální otáčky ventilátoru:
+Kukuřice: ~900 RPM.
+Sója/Hrách: ~850-875 RPM.
+Pšenice/Ječmen: ~800 RPM.
+Rýže: ~775 RPM.
+Oves/Slunečnice: ~700 RPM.
+Řepka: ~650 RPM.
+Lehká semena odlétají při vysokých otáčkách — udržovat NÍZKÉ.]]></cz>
+            <uk><![CDATA[Легке насіння (ріпак, овес) швидко видувається — тримайте оберти НИЗЬКИМИ.
+Важкі культури витримують сильний потік повітря для очищення від сміття.
+
+Правило: якщо "Loss" ЧЕРВОНИЙ при ЗЕЛЕНОМУ "Load", найчастіше проблема в надто сильному обдуві. Спробуйте зменшити вентилятор і перевірити решета.
+(Див. "Довідник Налаштувань Культур" для точних цифр).]]></uk>
+        </text>
+        <text name="rhm_help_calibration_sieve_sub">
+            <en><![CDATA[Sieve Clearances]]></en>
+            <de><![CDATA[Siebabstände]]></de>
+            <fr><![CDATA[Ouverture des grilles]]></fr>
+            <it><![CDATA[Spazio Crivelli]]></it>
+            <es><![CDATA[Apertura de Cribas]]></es>
+            <br><![CDATA[Espaço das Peneiras]]></br>
+            <pl><![CDATA[Szczeliny Sit]]></pl>
+            <ru><![CDATA[Зазоры решет]]></ru>
+            <hu><![CDATA[Rosta távolság]]></hu>
+            <cz><![CDATA[Mezera sít]]></cz>
+            <uk><![CDATA[Зазори Решіт]]></uk>
+        </text>
+        <text name="rhm_help_calibration_sieve_text">
+            <en><![CDATA[Sieves filter out debris before it reaches the grain tank.
+If sieves are too restrictive (tight clearance), the combine will choke, leading to massive losses.]]></en>
+            <de><![CDATA[Siebe filtern Schmutz heraus. Zu enge Siebe führen zu massiven Verlusten.]]></de>
+            <fr><![CDATA[Les grilles filtrent les débris. Des grilles trop fermées causent des pertes.]]></fr>
+            <it><![CDATA[I crivelli filtrano i detriti. Crivelli troppo stretti causano enormi perdite.]]></it>
+            <es><![CDATA[Las cribas filtran los restos. Cribas muy cerradas causan pérdidas.]]></es>
+            <br><![CDATA[Peneiras muito fechadas causam perdas enormes.]]></br>
+            <pl><![CDATA[Zbyt wąskie szczeliny powodują ogromne straty.]]></pl>
+            <ru><![CDATA[Сильно зажатые решета задушат комбайн и вызовут колоссальные потери.]]></ru>
+            <hu><![CDATA[A túl szoros rosták hatalmas veszteségeket okoznak.]]></hu>
+            <cz><![CDATA[Příliš těsná síta způsobují masivní ztráty.]]></cz>
+            <uk><![CDATA[Решета відфільтровують сміття перед потраплянням у бункер.
+Якщо решета занадто "закриті" (малий зазор), комбайн захлинеться, що призведе до величезних втрат.]]></uk>
+        </text>
+        <text name="rhm_help_calibration_sieve_long">
+            <en><![CDATA[Large grains (Corn, Sunflowers) need wide openings.
+Medium grains (Wheat, Barley) need medium openings.
+Small seeds (Canola, Oats) need tight openings.
+
+Incorrect clearances will clog the sieves resulting in massive crop loss!
+(See Crop Settings Guide for exact sizes).]]></en>
+            <de><![CDATA[Oberes / Unteres Sieb nach Frucht:
+Weizen / Gerste / Reis: 14 mm / 8 mm.
+Hafer: 10 mm / 6 mm.
+Raps: 12 mm / 6 mm.
+Soja / Erbsen: 15 mm / 10 mm.
+Mais / Sonnenblume: 18 mm / 11-12 mm.
+Falsches Spaltmaß blockiert das Sieb — bis 25% Verlust.]]></de>
+            <fr><![CDATA[Ouverture des grilles supérieure / inférieure par culture:
+Blé / Orge / Riz: 14 mm / 8 mm.
+Avoine: 10 mm / 6 mm.
+Colza: 12 mm / 6 mm.
+Soja / Pois: 15 mm / 10 mm.
+Maïs / Tournesol: 18 mm / 11-12 mm.
+Une ouverture incorrecte bloque les grilles — jusqu'à 25% de perte.]]></fr>
+            <it><![CDATA[Apertura crivelli superiore / inferiore per coltura:
+Grano / Orzo / Riso: 14 mm / 8 mm.
+Avena: 10 mm / 6 mm.
+Colza: 12 mm / 6 mm.
+Soia / Piselli: 15 mm / 10 mm.
+Mais / Girasole: 18 mm / 11-12 mm.
+Apertura errata ostruisce i crivelli — fino al 25% di perdite.]]></it>
+            <es><![CDATA[Holgura de cribas sup. / inf. por cultivo:
+Trigo / Cebada / Arroz: 14 mm / 8 mm.
+Avena: 10 mm / 6 mm.
+Colza: 12 mm / 6 mm.
+Soja / Guisantes: 15 mm / 10 mm.
+Maíz / Girasol: 18 mm / 11-12 mm.
+Holgura incorrecta bloquea las cribas — hasta 25% de pérdida.]]></es>
+            <br><![CDATA[Folga das peneiras sup. / inf. por cultura:
+Trigo / Cevada / Arroz: 14 mm / 8 mm.
+Aveia: 10 mm / 6 mm.
+Canola: 12 mm / 6 mm.
+Soja / Ervilha: 15 mm / 10 mm.
+Milho / Girassol: 18 mm / 11-12 mm.
+Folga incorreta entope as peneiras — até 25% de perda.]]></br>
+            <pl><![CDATA[Szczelina sit górnych / dolnych wg uprawy:
+Pszenica / Jęczmień / Ryż: 14 mm / 8 mm.
+Owies: 10 mm / 6 mm.
+Rzepak: 12 mm / 6 mm.
+Soja / Groch: 15 mm / 10 mm.
+Kukurydza / Słonecznik: 18 mm / 11-12 mm.
+Zły rozmiar zatyka sita — do 25% straty.]]></pl>
+            <ru><![CDATA[Зазоры верхнего / нижнего решета по культурам:
+Пшеница / Ячмень / Рис: 14 мм / 8 мм.
+Овёс: 10 мм / 6 мм.
+Рапс: 12 мм / 6 мм.
+Соя / Горох: 15 мм / 10 мм.
+Кукуруза / Подсолнух: 18 мм / 11-12 мм.
+Неверный зазор «задушит» решёта — до 25% потерь.]]></ru>
+            <hu><![CDATA[Felső / alsó rosta hézag terményenként:
+Búza / Árpa / Rizs: 14 mm / 8 mm.
+Zab: 10 mm / 6 mm.
+Repce: 12 mm / 6 mm.
+Szója / Borsó: 15 mm / 10 mm.
+Kukorica / Napraforgó: 18 mm / 11-12 mm.
+Rossz hézag eltömíti a rostát — akár 25% veszteség.]]></hu>
+            <cz><![CDATA[Mezera horního / dolního síta dle plodiny:
+Pšenice / Ječmen / Rýže: 14 mm / 8 mm.
+Oves: 10 mm / 6 mm.
+Řepka: 12 mm / 6 mm.
+Sója / Hrách: 15 mm / 10 mm.
+Kukuřice / Slunečnice: 18 mm / 11-12 mm.
+Špatná mezera ucpává síta — až 25% ztráty.]]></cz>
+            <uk><![CDATA[Велике насіння (Кукурудза, Соняшник) вимагає широких зазорів.
+Середнє насіння (Пшениця, Ячмінь) — середніх.
+Дрібне насіння (Ріпак, Овес) — вузьких.
+
+Неправильні зазори "задушують" решета і дають величезні втрати (до 25%)!
+(Див. "Довідник Налаштувань Культур" для точних цифр).]]></uk>
+        </text>
+        <text name="rhm_help_cropsettings_title">
+            <en>Crop Settings Guide</en>
+            <uk>Довідник Налаштувань Культур</uk>
+        </text>
+
+        <text name="rhm_help_cropsettings_grain_sub">
+            <en>Grain Combines</en>
+            <uk>Зернозбиральні Комбайни</uk>
+        </text>
+
+        <text name="rhm_help_cropsettings_grain_text">
+            <en><![CDATA[Optimal target ranges for grain combines:
+• Cereals (Wheat, Barley, Rice): Rotor 600-850 RPM, Fan 700-850 RPM, Sieves 14mm / 8mm.
+• Oilseeds (Canola, Sunflower): Rotor 300-500 RPM, Fan 600-700 RPM, Sieves 12mm / 6mm. (Careful: light seeds blow away)
+• Corn: Rotor 300-400 RPM, Fan 850-950 RPM, Sieves 18mm / 12mm. (Slow rotor, high airflow)
+• Legumes: Rotor 300-500 RPM, Fan 800-950 RPM, Sieves 15mm / 10mm. (Gentle threshing)]]></en>
+            <uk><![CDATA[Оптимальні діапазони для зернозбиральних комбайнів:
+• Зернові (Пшениця, Ячмінь): Ротор 600-850 RPM, Вентил. 700-850 RPM, Решета 14mm / 8mm.
+• Олійні (Ріпак, Соняшник): Ротор 300-500 RPM, Вентил. 600-700 RPM, Решета 12mm / 6mm. (Легке насіння видувається)
+• Кукурудза: Ротор 300-400 RPM, Вентил. 850-950 RPM, Решета 18mm / 12mm. (Мінімум обертів, сильний обдув)
+• Бобові: Ротор 300-500 RPM, Вентил. 800-950 RPM, Решета 15mm / 10mm. (Делікатний обмолот)]]></uk>
+        </text>
+
+        <text name="rhm_help_cropsettings_forage_sub">
+            <en>Forage Harvesters</en>
+            <uk>Кормозбиральні Комбайни (Силос)</uk>
+        </text>
+
+        <text name="rhm_help_cropsettings_forage_text">
+            <en><![CDATA[• Corn Silage: Drum 1100-1160 RPM, Fan 1150-1290 RPM, Feeder 400-480 RPM.
+• Grass / Hay: Drum 700-900 RPM, Fan 800-1000 RPM, Feeder 300-450 RPM.
+* Tip: If Loss is RED but Engine Load is stable, the airflow (Fan) is blowing crops out. Reduce Fan speed.]]></en>
+            <uk><![CDATA[• Кукурудзяний Силос: Барабан 1100-1160 RPM, Вентил. 1150-1290 RPM, Подача 400-480 RPM.
+• Трава / Сіно: Барабан 700-900 RPM, Вентил. 800-1000 RPM, Подача 300-450 RPM.
+* Підказка: Барабан - інтенсивність різання, Подача - об'єм. Якщо "Loss" червоний при стабільному Load, зменшіть Вентилятор.]]></uk>
+        </text>
+
+        <text name="rhm_help_cropsettings_root_sub">
+            <en>Root &amp; Vegetable Harvesters</en>
+            <uk>Коренезбиральні Комбайни (Копачки)</uk>
+        </text>
+
+        <text name="rhm_help_cropsettings_root_text">
+            <en><![CDATA[• Heavy (Potato, Beet): Roller ~400 RPM, Fan ~400-500 RPM, Elevator ~800 RPM.
+• Light (Carrot, Parsnip): Roller ~250 RPM, Fan ~300 RPM, Elevator ~900 RPM.
+• Onion: Roller ~300 RPM, Fan ~900-1100 RPM, Elevator ~600 RPM.
+• Spinach: Roller ~150 RPM, Fan ~100-200 RPM, Elevator ~700 RPM.
+* Tip: Rollers wash crops (bruise Potatoes if too fast). Fan blows off tops (keep max for Onions, min for Spinach). Elevator controls intake speed.]]></en>
+            <uk><![CDATA[• Важкі (Картопля, Буряк): Ролики ~400 RPM, Вентил. ~400-500 RPM, Елеватор ~800 RPM.
+• Легкі (Морква, Пастернак): Ролики ~250 RPM, Вентил. ~300 RPM, Елеватор ~900 RPM.
+• Цибуля: Ролики ~300 RPM, Вентил. ~900-1100 RPM, Елеватор ~600 RPM.
+• Шпинат: Ролики ~150 RPM, Вентил. ~100-200 RPM, Елеватор ~700 RPM.
+* Підказка: Ролики виконують очищення (не ставте високі для картоплі!). Вентилятор відриває гичку (максимум для цибулі, мінімум для шпинату). Елеватор керує швидкістю втягування в бункер.]]></uk>
+        </text>
+
+        <text name="rhm_help_calibration_forage_intro_text">
+            <en><![CDATA[Forage harvesters are sensitive to overfeeding.
+- Thick corn silage needs high drum speed and strong airflow.
+- Grass/hay are delicate — keep feed running smoothly to avoid engine strain.
+
+If Engine Load goes RED on the HUD, you are overfeeding (slow down / narrow your header width).
+
+What each lever does:
+- Chopping Drum: Intensity of chopping (higher = more power used).
+- Feed Rolls: Throughput limit (main driver of Engine Load).
+- Intake Blower: Airflow for separation (too high = blow out crops).]]></en>
+            <uk><![CDATA[Форажні комбайни надзвичайно чутливі до перегодовування.
+- Кукурудзяний силос вимагає великих обертів барабана та сильного потоку повітря.
+- Трава та сіно делікатніші — подача має бути плавною.
+
+Якщо навантаження стає ЧЕРВОНИМ — вас перегодовують (сповільніться).
+
+Як працюють важелі:
+- Барабан подрібнення: інтенсивність різання маси.
+- Живильні вальці: кількість маси (впливає на Engine Load).
+- Прискорювач (Вентилятор): повітря для викиду (надто сильний може видувати врожай).]]></uk>
+        </text>
+
+        <text name="rhm_help_calibration_root_intro_text">
+            <en><![CDATA[Root crops have unique challenges in dirt separation.
+- Potatoes: Bruise easily! Keep cleaning rollers RPM low.
+- Onions: Require maximum airflow to separate the papery skins.
+- Spinach: Very delicate leaves, reduce airflow so they don't fly out!
+
+If you see RED crop losses even when engine load is stable, adjust your fan speeds.
+
+What each lever does:
+- Cleaning Rollers: Control dirt removal without damaging the crop.
+- Elevator Belt: Controls the transport rate (throughput).
+- Selection Fan: Controls separation airflow.]]></en>
+            <uk><![CDATA[У коренеплодів свої унікальні правила очищення:
+- Картопля: дуже легко б'ється! Очисні ролики мають бути повільними.
+- Цибуля: потребує найсильнішого обдуву, щоб відривати сухе лушпиння.
+- Шпинат: ультра-делікатне листя. Повітря на мінімум, щоб не розлетілося!
+
+Якщо втрати ЧЕРВОНІ при нормальному навантаженні двигуна, перевірте обдув.
+
+Як працюють важелі:
+- Очисні ролики: очищають від бруду (без пошкоджень продукту).
+- Стрічка елеватора: швидкість завантаження в бункер (пропускна здатність).
+- Вентилятор: потік повітря для сепарації бадилля.]]></uk>
+        </text>
+        <text name="rhm_help_hud_sub3">
+            <en>HUD Indicators</en>
+            <de>HUD-Anzeigen</de>
+            <fr>Indicateurs HUD</fr>
+            <it>Indicatori HUD</it>
+            <es>Indicadores HUD</es>
+            <br>Indicadores HUD</br>
+            <pl>Wskaźniki HUD</pl>
+            <ru>Индикаторы HUD</ru>
+            <hu>HUD Mutatók</hu>
+            <cz>Indikátory HUD</cz>
+            <uk>Індикатори HUD</uk>
+        </text>
+        <text name="rhm_help_hud_3_load">
+            <en>Engine Load (how hard the harvesting components are working)</en>
+            <de>Motorlast (wie stark die Erntekomponenten arbeiten)</de>
+            <fr>Charge Moteur (effort des composants de récolte)</fr>
+            <it>Carico Motore (sforzo dei componenti di raccolta)</it>
+            <es>Carga del Motor (esfuerzo de los componentes de cosecha)</es>
+            <br>Carga do Motor (esforço dos componentes de colheita)</br>
+            <pl>Obciążenie Silnika (jak ciężko pracują komponenty)</pl>
+            <ru>Нагрузка двигателя (как тяжело работают компоненты)</ru>
+            <hu>Motorterhelés (mennyire dolgoznak a betakarító elemek)</hu>
+            <cz>Zatížení motoru (jak těžce pracují sklízecí komponenty)</cz>
+            <uk>Навантаження двигуна (як сильно працюють компоненти комбайна)</uk>
+        </text>
+        <text name="rhm_help_hud_3_yield">
+            <en>Yield (crop density in the current field area)</en>
+            <de>Ertrag (Pflanzendichte im aktuellen Feldbereich)</de>
+            <fr>Rendement (densité de culture dans la zone actuelle)</fr>
+            <it>Resa (densità del raccolto nell'area corrente)</it>
+            <es>Rendimiento (densidad de cultivo en el área actual)</es>
+            <br>Rendimento (densidade de cultura na área atual)</br>
+            <pl>Plon (gęstość upraw na danym obszarze)</pl>
+            <ru>Урожайность (густота культуры на текущем участке)</ru>
+            <hu>Hozam (terméssűrűség az adott területen)</hu>
+            <cz>Výnos (hustota plodin v aktuální oblasti)</cz>
+            <uk>Врожайність (густота культури на поточній ділянці поля)</uk>
+        </text>
+        <text name="rhm_help_hud_3_productivity">
+            <en>Productivity (how much crop volume is processed per hour)</en>
+            <de>Produktivität (verarbeitetes Volumen pro Stunde)</de>
+            <fr>Productivité (volume de récolte traité par heure)</fr>
+            <it>Produttività (volume di raccolto elaborato all'ora)</it>
+            <es>Productividad (volumen de cultivo procesado por hora)</es>
+            <br>Produtividade (volume de colheita processado por hora)</br>
+            <pl>Wydajność (objętość przetworzona na godzinę)</pl>
+            <ru>Производительность (объем урожая в час)</ru>
+            <hu>Termelékenység (óránként feldolgozott termésmennyiség)</hu>
+            <cz>Produktivita (objem zpracované plodiny za hodinu)</cz>
+            <uk>Продуктивність (об'єм врожаю, що збирається за годину)</uk>
+        </text>
+        <text name="rhm_help_hud_3_moisture">
+            <en>Moisture level (only active with Moisture System mod)</en>
+            <de>Feuchtigkeit (nur aktiv mit Moisture System Mod)</de>
+            <fr>Humidité (actif uniquement avec le mod Moisture System)</fr>
+            <it>Umidità (attivo solo con la mod Moisture System)</it>
+            <es>Humedad (solo activo con el mod Moisture System)</es>
+            <br>Umidade (ativo apenas com o mod Moisture System)</br>
+            <pl>Wilgotność (aktywne tylko z modyfikacją Moisture System)</pl>
+            <ru>Влажность (активно только с модом Moisture System)</ru>
+            <hu>Nedvességszint (csak a Moisture System móddal aktív)</hu>
+            <cz>Úroveň vlhkosti (aktivní pouze s módem Moisture System)</cz>
+            <uk>Рівень вологості культури (якщо система вологості активна)</uk>
+        </text>
+        <text name="rhm_help_hud_3_loss">
+            <en>Crop Loss indicator (amount of grain thrown out the back)</en>
+            <de>Ernteverlust (Menge des hinten ausgeworfenen Korns)</de>
+            <fr>Pertes de récolte (quantité de grain rejetée)</fr>
+            <it>Perdite di raccolto (quantità di grano scartata)</it>
+            <es>Pérdidas de cosecha (cantidad de grano rechazado)</es>
+            <br>Perdas de Colheita (quantidade de grãos jogados fora)</br>
+            <pl>Straty plonów (ilość wyrzucanego ziarna)</pl>
+            <ru>Потери урожая (количество выбрасываемого зерна)</ru>
+            <hu>Termésveszteség (a gép által kidobott mag mennyisége)</hu>
+            <cz>Ztráty (množství zrna vyhozeného ze stroje)</cz>
+            <uk>Індикатор втрат врожаю (кількість зерна, яка видувається)</uk>
+        </text>
+        <text name="rhm_help_hud_3_speed">
+            <en>Current and Recommended forward speed</en>
+            <de>Aktuelle und Empfohlene Fahrgeschwindigkeit</de>
+            <fr>Vitesse Actuelle et Recommandée</fr>
+            <it>Velocità Attuale e Raccomandata</it>
+            <es>Velocidad Actual y Recomendada</es>
+            <br>Velocidade Atual e Recomendada</br>
+            <pl>Aktualna i Zalecana prędkość</pl>
+            <ru>Текущая и Рекомендованная скорость</ru>
+            <hu>Jelenlegi és Ajánlott sebesség</hu>
+            <cz>Aktuální a Doporučená rychlost</cz>
+            <uk>Поточна та рекомендована швидкість руху</uk>
+        </text>
 </l10n>
 
     <helpLines>
         <!-- Title category for GUI -->
         <category title="$l10n_rhm_help_category">
-            <page title="$l10n_rhm_help_overview_title">
-                <!--paragraph>
-                    <image filename="textures/help_overview.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_overview_title" iconSliceId="rhmHelp_overview.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_overview_sub1"/>
+                    <image filename="textures/help_pages/help_overview.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_overview_1"/>
                 </paragraph>
                 <paragraph>
@@ -3893,42 +4857,87 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 2: HUD ===== -->
-            <page title="$l10n_rhm_help_hud_title">
-                <!--paragraph>
-                    <image filename="textures/help_hud.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_hud_title" iconSliceId="rhmHelp_hud.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_hud_sub1"/>
+                    <image filename="textures/help_pages/help_hud.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_hud_1"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_hud_sub2"/>
                     <text text="$l10n_rhm_help_hud_2"/>
                 </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_hud_sub3"/>
+                </paragraph>
+                <paragraph>
+                    <image filename="textures/hud_icons.dds" uvs="0px 0px 64px 64px" size="512 64" aspectRatio="1" displaySize="40px 40px"/>
+                    <text text="$l10n_rhm_help_hud_3_load" alignToImage="true"/>
+                </paragraph>
+                <paragraph>
+                    <image filename="textures/hud_icons.dds" uvs="64px 0px 64px 64px" size="512 64" aspectRatio="1" displaySize="40px 40px"/>
+                    <text text="$l10n_rhm_help_hud_3_yield" alignToImage="true"/>
+                </paragraph>
+                <paragraph>
+                    <image filename="textures/hud_icons.dds" uvs="128px 0px 64px 64px" size="512 64" aspectRatio="1" displaySize="40px 40px"/>
+                    <text text="$l10n_rhm_help_hud_3_productivity" alignToImage="true"/>
+                </paragraph>
+                <paragraph>
+                    <image filename="textures/hud_icons.dds" uvs="192px 0px 64px 64px" size="512 64" aspectRatio="1" displaySize="40px 40px"/>
+                    <text text="$l10n_rhm_help_hud_3_moisture" alignToImage="true"/>
+                </paragraph>
+                <paragraph>
+                    <image filename="textures/hud_icons.dds" uvs="256px 0px 64px 64px" size="512 64" aspectRatio="1" displaySize="40px 40px"/>
+                    <text text="$l10n_rhm_help_hud_3_loss" alignToImage="true"/>
+                </paragraph>
+                <paragraph>
+                    <image filename="textures/hud_icons.dds" uvs="320px 0px 64px 64px" size="512 64" aspectRatio="1" displaySize="40px 40px"/>
+                    <text text="$l10n_rhm_help_hud_3_speed" alignToImage="true"/>
+                </paragraph>
             </page>
 
             <!-- ===== PAGE 3: CALIBRATION ===== -->
-            <page title="$l10n_rhm_help_calibration_title">
-                <!--paragraph>
-                    <image filename="textures/help_calibration.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_calibration_title" iconSliceId="rhmHelp_calibration.tab">
                 <paragraph>
-                    <title text="$l10n_rhm_help_calibration_sub1"/>
-                    <text text="$l10n_rhm_help_calibration_1"/>
+                    <title text="$l10n_rhm_help_calibration_main_sub"/>
+                    <text text="$l10n_rhm_help_calibration_main_text"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_calibration_sub2"/>
-                    <text text="$l10n_rhm_help_calibration_2"/>
+                    <title text="$l10n_rhm_help_calibration_rotor_sub"/>
+                    <text text="$l10n_rhm_help_calibration_rotor_text"/>
+                </paragraph>
+                <paragraph>
+                    <text text="$l10n_rhm_help_calibration_rotor_long"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_calibration_fan_sub"/>
+                    <text text="$l10n_rhm_help_calibration_fan_text"/>
+                </paragraph>
+                <paragraph>
+                    <text text="$l10n_rhm_help_calibration_fan_long"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_calibration_sieve_sub"/>
+                    <text text="$l10n_rhm_help_calibration_sieve_text"/>
+                </paragraph>
+                <paragraph>
+                    <text text="$l10n_rhm_help_calibration_sieve_long"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_cropsettings_forage_sub"/>
+                    <text text="$l10n_rhm_help_calibration_forage_intro_text"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_cropsettings_root_sub"/>
+                    <text text="$l10n_rhm_help_calibration_root_intro_text"/>
                 </paragraph>
             </page>
 
             <!-- ===== PAGE 4: SPECIAL COMBINES ===== -->
-            <page title="$l10n_rhm_help_special_title">
-                <!--paragraph>
-                    <image filename="textures/help_special.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_special_title" iconSliceId="rhmHelp_special.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_special_sub1"/>
+                    <image filename="textures/help_pages/help_special.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_special_1"/>
                 </paragraph>
                 <paragraph>
@@ -3938,12 +4947,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 5: CROP LOST ===== -->
-            <page title="$l10n_rhm_help_loss_title">
-                <!--paragraph>
-                    <image filename="textures/help_croploss.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_loss_title" iconSliceId="rhmHelp_croploss.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_loss_sub1"/>
+                    <image filename="textures/help_pages/help_croploss.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_loss_1"/>
                 </paragraph>
                 <paragraph>
@@ -3953,12 +4960,10 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 6: DIFFICULTY ===== -->
-            <page title="$l10n_rhm_help_difficulty_title">
-                <!--paragraph>
-                    <image filename="textures/help_difficulty.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_difficulty_title" iconSliceId="rhmHelp_difficulty.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_difficulty_sub1"/>
+                    <image filename="textures/help_pages/help_difficulty.dds" aspectRatio="1" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_difficulty_1"/>
                 </paragraph>
                 <paragraph>
@@ -3968,25 +4973,54 @@ Vše se ukládá.]]>
             </page>
 
             <!-- ===== PAGE 7: UPGRADES ===== -->
-            <page title="$l10n_rhm_help_upgrades_title">
-                <!--paragraph>
-                   <image filename="textures/help_upgrades.dds" aspectRatio="1" displaySize="512px 512px"/>
-                </paragraph-->
+            <page title="$l10n_rhm_help_upgrades_title" iconSliceId="rhmHelp_upgrades.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub1"/>
+                    <image filename="textures/help_pages/help_upgrades_1.dds" aspectRatio="2" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_upgrades_1"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub2"/>
+                    <image filename="textures/help_pages/help_upgrades_2.dds" aspectRatio="2" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_upgrades_2"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub3"/>
+                    <image filename="textures/help_pages/help_upgrades_3.dds" aspectRatio="2" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_upgrades_3"/>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub4"/>
+                    <image filename="textures/help_pages/help_upgrades_4.dds" aspectRatio="2" displaySize="256px 256px"/>
                     <text text="$l10n_rhm_help_upgrades_4"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 8: MOISTURE SYSTEM ===== -->
+            <page title="$l10n_rhm_help_moisture_title" iconSliceId="rhmHelp_moisture.tab">
+                <paragraph>
+                    <title text="$l10n_rhm_help_moisture_sub1"/>
+                    <image filename="textures/help_pages/help_moisture.dds" aspectRatio="1" displaySize="256px 256px"/>
+                    <text text="$l10n_rhm_help_moisture_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_moisture_sub2"/>
+                    <text text="$l10n_rhm_help_moisture_2"/>
+                </paragraph>
+            </page>
+            <!-- ===== PAGE 9: CROP SETTINGS GUIDE ===== -->
+            <page title="$l10n_rhm_help_cropsettings_title" iconSliceId="rhmHelp_overview.tab">
+                <paragraph>
+                    <title text="$l10n_rhm_help_cropsettings_grain_sub"/>
+                    <text text="$l10n_rhm_help_cropsettings_grain_text"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_cropsettings_forage_sub"/>
+                    <text text="$l10n_rhm_help_cropsettings_forage_text"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_cropsettings_root_sub"/>
+                    <text text="$l10n_rhm_help_cropsettings_root_text"/>
                 </paragraph>
             </page>
         </category>

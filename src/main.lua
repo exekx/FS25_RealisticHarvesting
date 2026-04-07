@@ -29,6 +29,7 @@ source(modDirectory .. "src/settings/RHM_Settings.lua")
 source(modDirectory .. "src/settings/RHM_SettingsGUI.lua")
 source(modDirectory .. "src/network/RHM_SettingsSyncEvent.lua")
 source(modDirectory .. "src/network/RHM_SettingsSync.lua")
+source(modDirectory .. "src/utils/RHM_DiagnosticTool.lua")
 source(modDirectory .. "src/utils/RHM_InputUtil.lua")
 source(modDirectory .. "src/utils/RHM_UIHelper.lua")
 source(modDirectory .. "src/utils/RHM_UnitConverter.lua")
@@ -41,7 +42,11 @@ source(modDirectory .. "src/data/RHM_CombineSettingsDatabase.lua")
 source(modDirectory .. "src/settings/RHM_ProfileManager.lua")
 source(modDirectory .. "src/settings/RHM_CombineMemory.lua")
 source(modDirectory .. "src/network/RHM_CombineSettingsEvent.lua")
+source(modDirectory .. "src/integration/RHM_MoistureAdapter.lua")
 source(modDirectory .. "src/logic/RHM_LoadCalculator.lua")
+-- EN: DEV — crop factor editor (see src/dev/RHM_CropFactorTuning.lua header for removal).
+-- UA: DEV — редактор коефіцієнтів (інструкція з видалення на початку файлу).
+source(modDirectory .. "src/dev/RHM_CropFactorTuning.lua")
 source(modDirectory .. "src/RHM_Combine.lua")
 -- EN: CRITICAL: rhm_Cutter must be loaded AFTER rhm_Combine for independent header launch to work.
 -- UA: КРИТИЧНО: rhm_Cutter має бути завантажений ПІСЛЯ rhm_Combine, щоб роздільний запуск жатки працював.
@@ -79,7 +84,22 @@ local function loadedMission(mission, node)
         RHM_UnitConverter.initBushelCoefficients()
     end
 
+    if RHM_MoistureAdapter and RHM_MoistureAdapter.initialize then
+        RHM_MoistureAdapter.initialize()
+    end
+
+    -- EN: Register custom help menu tab icons
+    -- UA: Реєструємо власні іконки для вкладок меню довідки
+    local tabs = {"overview", "hud", "calibration", "special", "croploss", "difficulty", "upgrades", "moisture"}
+    for _, tab in ipairs(tabs) do
+        g_overlayManager:addTextureConfigFile(modDirectory .. "textures/tab_icons/" .. tab .. ".xml", "rhmHelp_" .. tab)
+    end
+
     rhm:onMissionLoaded()
+
+    if RHM_CropFactorTuning and RHM_CropFactorTuning.loadFromDisk then
+        RHM_CropFactorTuning.loadFromDisk()
+    end
 end
 
 -- EN: Called when the mission starts loading.

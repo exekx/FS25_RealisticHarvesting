@@ -71,41 +71,44 @@ function RHM_LoadCalculator:loadDefaultCropFactors()
     local factorMap = {
         ["WHEAT"] = 0.814,
         ["BARLEY"] = 0.869,
-        ["OAT"] = 1.164,        -- EN: +25% / UA: +25%
+        -- EN: Was 1.164 (heavier than wheat) but playtests: oats runs ~10 km/h ~60% load on ~507 hp / 10.8 m
+        --     while wheat ~5 km/h on ~547 hp / 10.7 m — oats must be LIGHTER than wheat in this model.
+        -- UA: Раніше 1.164 (важче пшениці), але за відчуттям у грі овес легший — знижено відносно пшениці.
+        ["OAT"] = 2.000,
         ["MAIZE"] = 0.572,      -- EN: -50% / UA: -50%
-        ["CORN"] = 0.572,
-        ["MAIZE_FORAGE"] = 0.572,
+        ["CORN"] = 0.450,
+        ["MAIZE_FORAGE"] = 0.300,
         ["MAIZE_SILAGE"] = 0.572,
-        ["SOYBEAN"] = 1.788,    -- EN: -20% / UA: -20%
+        ["SOYBEAN"] = 1.188,    -- EN: -20% / UA: -20%
         ["SUNFLOWER"] = 2.324,
-        ["CANOLA"] = 1.738,
-        ["SORGHUM"] = 0.801,    -- EN: -20% / UA: -20%
+        ["CANOLA"] = 1.438,
+        ["SORGHUM"] = 0.501,    -- EN: -20% / UA: -20%
         
         -- EN: Rice is a heavy crop / UA: Рис важка культура
         ["RICE"] = 1.303,
-        ["RICE_LONG_GRAIN"] = 1.303,
+        ["RICE_LONG_GRAIN"] = 0.723,
         
         -- EN: Legumes / UA: Бобові
-        ["PEA"] = 1.152,        -- EN: -20% / UA: -20%
+        ["PEA"] = 1.312,        -- EN: -20% / UA: -20%
         ["LENTIL"] = 1.152,
         ["CHICKPEA"] = 1.152,
-        ["GREENBEAN"] = 2.240,  -- EN: -20% / UA: -20%
+        ["GREENBEAN"] = 3.500,  -- EN: -20% / UA: -20%
         
         -- EN: Root crops / UA: Коренеплоди
         ["POTATO"] = 0.600,     -- EN: Lighter / UA: Полегшено
         ["SUGARBEET"] = 0.920,  -- EN: +15% / UA: +15%
-        ["BEETROOT"] = 1.050,   -- EN: +15% / UA: +15%
+        ["BEETROOT"] = 1.650,   -- EN: +15% / UA: +15%
         ["CARROT"] = 0.323,     -- EN: -15% / UA: -15%
         ["PARSNIP"] = 0.400,    -- EN: Lighter / UA: Полегшено
         ["ONION"] = 0.600,      
         ["SPINACH"] = 2.880,    
         
         -- EN: Grass & Silage / UA: Трава та силос
-        ["GRASS"] = 1.221,      -- EN: 1.5x Wheat / UA: 1.5x Пшениці
-        ["DRYGRASS"] = 1.100,
-        ["ALFALFA"] = 1.100,
-        ["CLOVER"] = 1.100,
-        ["MEADOW"] = 1.221,
+        ["GRASS"] = 0.700,      -- EN: 1.5x Wheat / UA: 1.5x Пшениці
+        ["DRYGRASS"] = 0.700,
+        ["ALFALFA"] = 0.700,
+        ["CLOVER"] = 0.700,
+        ["MEADOW"] = 0.700,
         ["ONION_DIRTY"] = 0.700, -- EN: Dirty onions (Root crop) / UA: Брудна цибуля
         
         -- EN: Other / Mod crops / UA: Інші культури
@@ -162,6 +165,47 @@ function RHM_LoadCalculator:loadDefaultCropFactors()
             end
         end
     end
+
+    -- EN: String-based exact crop factors (highest priority in calculateEngineLoad)
+    -- UA: Строкові точні фактори культур (найвищий пріоритет у розрахунку навантаження)
+    self.CROP_FACTORS_BY_NAME = {
+        ["WHEAT"] = 0.814,
+        ["BARLEY"] = 0.869,
+        ["OAT"] = 2.000,
+        ["CORN"] = 0.450,           -- Grain corn (slightly harder)
+        ["MAIZE_FORAGE"] = 0.300,   -- Silage corn (much lighter so 800+ HP choppers go fast)
+        ["SOYBEAN"] = 1.188,
+        ["SUNFLOWER"] = 2.324,
+        ["CANOLA"] = 1.438,
+        ["SORGHUM"] = 0.501,
+        ["RICE"] = 1.303,
+        ["RICE_LONG_GRAIN"] = 0.723,
+        
+        -- Legumes
+        ["PEA"] = 1.312,
+        ["LENTIL"] = 1.152,
+        ["CHICKPEA"] = 1.152,
+        ["GREENBEAN"] = 3.500,
+        
+        -- Roots
+        ["POTATO"] = 0.600,
+        ["SUGARBEET"] = 0.920,
+        ["BEETROOT"] = 1.650,
+        ["CARROT"] = 0.323,
+        ["PARSNIP"] = 0.400,
+        ["ONION"] = 0.600,
+        ["SPINACH"] = 4.000,
+        
+        -- Forage
+        ["GRASS"] = 1.221,
+        ["DRYGRASS"] = 1.100,
+        ["GRASS_WINDROW"] = 0.380,
+        ["DRYGRASS_WINDROW"] = 0.500,
+        
+        -- Other
+        ["COTTON"] = 4.782,
+        ["SUGARCANE"] = 0.654,
+    }
 end
 
 ---EN: Sets base performance mass / UA: Встановлює базову продуктивність (маса)
@@ -330,11 +374,19 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     end
     
     -- EN: BASE CROP FACTOR / UA: БАЗОВИЙ КОЕФІЦІЄНТ КУЛЬТУРИ
-    -- EN: Priority: 1. FruitType (Direct Cut), 2. FillType (Pickup/Windrow), 3. Wheat fallback
+    -- EN: Priority: 1. Exact Name, 2. FruitType, 3. FillType, 4. Wheat fallback
     local spec_combine = vehicle.spec_combine
     local rhmSpec = vehicle.spec_rhm_Combine
     
-    local cropFactor = self.CROP_FACTORS[spec_combine.lastValidInputFruitType]
+    local cropFactor = nil
+    
+    if self.currentCrop and self.CROP_FACTORS_BY_NAME and self.CROP_FACTORS_BY_NAME[self.currentCrop] then
+        cropFactor = self.CROP_FACTORS_BY_NAME[self.currentCrop]
+    end
+    
+    if not cropFactor then
+        cropFactor = self.CROP_FACTORS[spec_combine.lastValidInputFruitType]
+    end
     
     -- Fallback to FillType (especially for Pickups/Root Crops)
     if not cropFactor and rhmSpec and rhmSpec.lastFillType then
@@ -344,6 +396,29 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     -- Final fallback to Wheat
     if not cropFactor then
         cropFactor = self.CROP_FACTORS[FruitType.WHEAT] or 0.814
+    end
+
+    -- EN: --- RHM_CropFactorTuning hook (DEV) — remove with dev/RHM_CropFactorTuning.lua ---
+    -- UA: --- хук RHM_CropFactorTuning (DEV) ---
+    if RHM_CropFactorTuning and RHM_CropFactorTuning.isEnabled and RHM_CropFactorTuning.isEnabled() then
+        local tun = RHM_CropFactorTuning.getFactorOverride(self.currentCrop)
+        if tun ~= nil then
+            cropFactor = tun
+        end
+    end
+    
+    -- EN: UNIVERSAL FORAGE SAFETY NET
+    -- UA: УНІВЕРСАЛЬНИЙ ЗАХИСТ ДЛЯ СИЛОСНИХ КОМБАЙНІВ
+    -- Якщо силосний комбайн косить нетипову культуру (наприклад, пшеницю мод-карти), яка не була розпізнана як MAIZE_FORAGE,
+    -- ми примусово знижуємо її жорсткість, бо різати на силос завжди легше, ніж молотити зерно.
+    local machineType = (rhmSpec and rhmSpec.combineMemory) and rhmSpec.combineMemory.machineType or "grain"
+    if machineType == "forage" then
+        if self.currentCrop ~= "MAIZE_FORAGE" and self.currentCrop ~= "GRASS" and self.currentCrop ~= "GRASS_WINDROW" 
+           and self.currentCrop ~= "DRYGRASS" and self.currentCrop ~= "DRYGRASS_WINDROW" then
+            
+            -- Знижуємо коефіцієнт (робимо в ~2 рази легше)
+            cropFactor = cropFactor * 0.45
+        end
     end
     
     -- EN: INPUT DETECTION (PICKUP / CUTTER / FORAGE)
@@ -441,23 +516,39 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     -- EN: APPLY MULTIPLIERS / UA: ЗАСТОСУВАННЯ МНОЖНИКІВ
     self.isPickup = isPickup
     if isPickup then
-        -- EN: Root crops & Vegetables should NOT be easier when picked up (already high volume)
-        -- UA: Коренеплоди та овочі не повинні бути легшими при підбиранні
-        local isRootOrVeg = currentFruitTypeName:find("ONION") 
-                         or currentFruitTypeName:find("POTATO") 
-                         or currentFruitTypeName:find("CARROT")
-                         or currentFruitTypeName:find("PARSNIP")
-                         or currentFruitTypeName:find("BEETROOT")
-                         or currentFruitTypeName:find("SUGARBEET")
-                         or currentFruitTypeName:find("SPINACH")
-                         or currentFruitTypeName:find("GREENBEAN")
-                         
-        if not isRootOrVeg then
-            cropFactor = cropFactor * 0.25  -- EN: Standard windrows (Wheat, Barley, etc.)
+        local machineType = (rhmSpec and rhmSpec.combineMemory) and rhmSpec.combineMemory.machineType or "grain"
+        
+        -- EN: Pickups on Forage harvesters don't get artificial reduction! (They use GRASS_WINDROW base factor perfectly)
+        --     Only standard grain combines lifting swathes get a resistance reduction.
+        if machineType ~= "forage" then
+            -- EN: Root crops & Vegetables should NOT be easier when picked up (already high volume)
+            -- UA: Коренеплоди та овочі не повинні бути легшими при підбиранні
+            local isRootOrVeg = currentFruitTypeName:find("ONION") 
+                             or currentFruitTypeName:find("POTATO") 
+                             or currentFruitTypeName:find("CARROT")
+                             or currentFruitTypeName:find("PARSNIP")
+                             or currentFruitTypeName:find("BEETROOT")
+                             or currentFruitTypeName:find("SUGARBEET")
+                             or currentFruitTypeName:find("SPINACH")
+                             or currentFruitTypeName:find("GREENBEAN")
+                             
+            if not isRootOrVeg then
+                cropFactor = cropFactor * 0.45  -- EN: Standard windrows (Wheat, Barley, etc.) harder than before
+            end
         end
-    elseif isForageCutter then
-        cropFactor = cropFactor * 0.75  -- EN: Forage harvesters (silage/direct cut) / UA: Кормозбиральні комбайни (силос/пряме косіння)
     end
+
+    -- EN: Forage harvester + direct-cut grass (rotary header), NOT pickup: FS often reports high t/h at 12–15 km/h
+    --     but engine load stays ~50–60% and the vehicle sits on the speed ceiling. Dense windrow pickup at ~7 km/h
+    --     reaches ~80% load — same crop, different intake geometry. Bump resistance only for this mode so limits engage.
+    -- UA: Силосник прямим резом по траві: на 15 км/год низьке навантаження vs підбирання валка ~80% — множник лише тут.
+    if machineType == "forage" and isForageCutter and not isPickup then
+        if self.currentCrop == "GRASS" or self.currentCrop == "DRYGRASS" then
+            cropFactor = cropFactor * 2.25
+        end
+    end
+
+    -- EN: Forage cutter logic removed because MAIZE_FORAGE is now tuned explicitly in CROP_FACTORS_BY_NAME
 
     if self.lastCropType ~= spec_combine.lastValidInputFruitType then
         self.lastCropType = spec_combine.lastValidInputFruitType
@@ -465,10 +556,38 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
         rhm_log(string.format("RHM [RHM_LoadCalculator]: RHM DEBUG: [INPUT] %s (%s). Final Factor: %.3f", mode, currentFruitTypeName, cropFactor))
     end
     
+    -- EN: MOISTURE FACTOR / UA: КОЕФІЦІЄНТ ВОЛОГОСТІ
+    local moistureFactor = 1.0
+    local rhmSpec = vehicle.spec_rhm_Combine
+    if rhmSpec and rhmSpec.data and rhmSpec.data.moisture and rhmSpec.data.moisture > 0 then
+        local currentMoisture = rhmSpec.data.moisture
+        local moistureLimit = 14 -- Default general limit
+        
+        if RHM_CombineSettingsDatabase and self.currentCrop and RHM_CombineSettingsDatabase.crops[self.currentCrop] then
+            local tName = RHM_CombineSettingsDatabase.crops[self.currentCrop].template
+            if RHM_CombineSettingsDatabase.templates and RHM_CombineSettingsDatabase.templates[tName] and RHM_CombineSettingsDatabase.templates[tName].moistureLimit then
+                moistureLimit = RHM_CombineSettingsDatabase.templates[tName].moistureLimit
+            end
+        end
+        
+        local machineType = self.combineMemory and self.combineMemory.machineType or "grain"
+        if machineType ~= "forage" and machineType ~= "root" then
+            if currentMoisture > moistureLimit then
+                local diff = currentMoisture - moistureLimit
+                local penaltyPerPercent = 0.02 -- EN: 2% difficulty per 1% moisture over limit
+                if rhmSpec.packageLevel and rhmSpec.packageLevel >= 4 then
+                    penaltyPerPercent = 0.01 -- EN: Opti-Harvest reduces penalty by 50%
+                end
+                
+                moistureFactor = 1.0 + (diff * penaltyPerPercent)
+            end
+        end
+    end
+
     -- EN: Calculate RAW average mass intake per second / UA: Розраховуємо RAW середню масу за секунду (кг/с)
     -- EN: Uses accumulatedMass over the target distance/time / UA: Використовуємо accumulatedMass
     local safeTime = math.max(100, self.currentTime) -- Protect against division by zero
-    local rawAvgMass = (self.loadAccumulatedMass or 0) * (1000 / safeTime) * cropFactor
+    local rawAvgMass = (self.loadAccumulatedMass or 0) * (1000 / safeTime) * cropFactor * moistureFactor
     
     -- ADAPTIVE SMOOTHING
     local loadRatio = self.currentAvgMass / math.max(0.01, self.basePerfMass)
@@ -531,22 +650,36 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     -- UA: Розраховуємо різницю між цільовим і реальним навантаженням
     local difference = targetLoad - loadRatio
     
+    -- EN: Deadzone of +/- 2% to prevent micro-oscillations and jitter around the target
+    -- UA: Мертва зона +/- 2% щоб запобігти мікроколиванням навколо цілі
+    if math.abs(difference) < 0.02 then
+        difference = 0
+    end
+    
     -- EN: Proportional adjustment: hard brake on overload, smooth acceleration on underload
     -- UA: Пропорційне регулювання: швидке гальмування при перевантаженні, плавний розгін
-    local step = difference * 2.0
+    local step = difference * 1.5
     if difference < 0 then
-        step = difference * 5.0 -- EN: Panic brake / UA: Екстренне скидання швидкості при забиванні
+        step = difference * 4.0 -- EN: Panic brake / UA: Екстренне скидання швидкості при забиванні
     end
     
     -- EN: Limit speed jump to avoid jittering
     -- UA: Обмежуємо максимальний стрибок швидкості за один тік, щоб уникнути ривків
-    step = math.max(-3.0, math.min(1.0, step))
+    step = math.max(-2.5, math.min(0.8, step))
     
     self.speedLimit = self.speedLimit + step
 
     -- EN: Clamp speed within safe bounds
-    -- UA: Обмеження швидкості: не менше 4 км/год і не більше оригінального ліміту гри
-    self.speedLimit = math.max(math.min(self.genuineSpeedLimit, 4.0), math.min(self.genuineSpeedLimit, self.speedLimit))
+    -- UA: Обмеження швидкості: не менше 4 км/год і не більше оригінального ліміту гри.
+    --     ВАЖЛИВО: `genuineSpeedLimit` може залишатися -1, якщо гравець/круїзконтроль
+    --     не викликав `getSpeedLimit()` до моменту оновлення. Не допускаємо від’ємних лімітів.
+    local genuine = self.genuineSpeedLimit
+    if genuine and genuine > 0 then
+        self.speedLimit = math.max(math.min(genuine, 4.0), math.min(genuine, self.speedLimit))
+    else
+        -- Upper bound unknown yet; at least prevent going negative / zero.
+        self.speedLimit = math.max(self.speedLimit, 4.0)
+    end
 end
 
 ---EN: Returns current engine load factor / UA: Повертає поточне навантаження двигуна
@@ -651,9 +784,9 @@ function RHM_LoadCalculator:updateSettingsImpact()
 end
 
 function RHM_LoadCalculator:calculateTotalCropLoss()
-    -- EN: Forage harvesters never have crop loss — bypass all calculations.
-    -- UA: Силосні комбайни ніколи не мають втрат врожаю — пропускаємо всі розрахунки.
-    if self.combineMemory and self.combineMemory.machineType == "forage" then
+    -- EN: Forage and Cotton harvesters never have crop loss — bypass all calculations.
+    -- UA: Силосні та бавовняні комбайни ніколи не мають втрат врожаю — пропускаємо всі розрахунки.
+    if self.combineMemory and (self.combineMemory.machineType == "forage" or self.combineMemory.machineType == "cotton") then
         self.cropLoss = 0
         return 0
     end

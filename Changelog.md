@@ -2,6 +2,22 @@
 
 ## Language: EN
 
+Changelog 1.5.0.0:
+- NEW: "Moisture System" Mod Integration! Added dynamic engine load penalties and increased crop losses when harvesting in damp conditions.
+- NEW: Real-time moisture percentage readout integrated into the draggable HUD.
+- NEW: Added a new setting to toggle Moisture System integration on/off.
+- IMPROVED: "Target Engine Load" Auto-Pilot: Implemented a 2% deadzone to prevent micro-oscillations and deliver a much smoother cruise-control experience across varying crop densities.
+- IMPROVED: Calibration GUI: "Target Engine Load" now features a dynamic color-coded progress bar (Green/Yellow/Red) for better visual feedback instead of plain text.
+- FIXED: Moisture HUD indicator freezing at its last value instead of resetting to 0% when the combine stops harvesting or reverses.
+- FIXED: "Target Engine Load" incorrectly showing as "auto" in the calibration menu.
+- NEW: Added diagnostic console command `rhm_inspect` to view real-time harvester performance data in the console and log.txt.
+- IMPROVED: Complete overhaul of crop coefficients using a name-based lookup system for higher precision.
+- IMPROVED: Distinct separation between Grain Corn and Silage Corn coefficients for realistic harvesting speeds.
+- IMPROVED: Balanced Grass and Hay harvesting coefficients for both direct cut and pickup methods.
+- IMPROVED: Refined Pickup load multiplier (from 0.25 to 0.45) for grain windrows to provide more realistic engine resistance.
+- NEW: Universal "Forage Safety Net" to ensure realistic loads for non-standard or modded crops processed by forage harvesters.
+- FIXED: Resolved an issue where forage harvester cutters were not detected correctly due to case-sensitivity in category names.
+
 Changelog 1.4.3.0:
 - NEW: Purchasing System! Added functionality to purchase advanced combine calibration settings, adding a new layer of career progression.
 - NEW: Completely redesigned the interactive Combine Calibration GUI with new culture selection, interaction improvements, and additional information tabs.
@@ -132,6 +148,22 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: DE
+
+Changelog 1.5.0.0:
+- NEU: "Moisture System"-Mod-Integration! Dynamische Motorlaststrafen und erhöhte Ernteverluste bei der Ernte unter feuchten Bedingungen hinzugefügt.
+- NEU: Echtzeit-Feuchtigkeitsanzeige in Prozent in das verschiebbare HUD integriert.
+- NEU: Neue Einstellung zum Ein-/Ausschalten der Feuchtigkeitssystem-Integration hinzugefügt.
+- VERBESSERT: "Ziel-Motorlast"-Autopilot: 2% Totzone implementiert, um Mikroschwingungen zu vermeiden und ein viel sanfteres Tempomat-Erlebnis bei unterschiedlichen Erntedichten zu bieten.
+- VERBESSERT: Kalibrierungs-GUI: "Ziel-Motorlast" verfügt nun über einen dynamischen farbcodierten Fortschrittsbalken (Grün/Gelb/Rot) für besseres visuelles Feedback anstelle von einfachem Text.
+- BEHOBEN: Feuchtigkeits-HUD-Anzeige fror auf ihrem letzten Wert ein, anstatt auf 0% zurückgesetzt zu werden, wenn der Mähdrescher die Ernte stoppt oder rückwärts fährt.
+- BEHOBEN: "Ziel-Motorlast" wurde im Kalibrierungsmenü fälschlicherweise als "auto" angezeigt.
+- NEU: Konsolenbefehl `rhm_inspect` zur Diagnose von Erntedaten in Echtzeit hinzugefügt.
+- VERBESSERT: Komplette Überarbeitung der Fruchtkoeffizienten durch ein namensbasiertes Suchsystem für höhere Präzision.
+- VERBESSERT: Klare Trennung zwischen Körnermais- und Silomais-Koeffizienten für realistische Erntegeschwindigkeiten.
+- VERBESSERT: Ausgewogene Koeffizienten für Gras- und Heuernte (Direktschnitt und Pickup).
+- VERBESSERT: Pickup-Lastmultiplikator für Getreideschwaden verfeinert (von 0,25 auf 0,45) für realistischen Motorwiderstand.
+- NEU: Universelles „Forage Safety Net“ für realistische Lasten bei untypischen oder gemoddeten Früchten für Feldhäcksler.
+- BEHOBEN: Problem gelöst, bei dem Feldhäcksler-Schneidwerke aufgrund der Groß-/Kleinschreibung in Kategorienamen nicht korrekt erkannt wurden.
 
 Changelog 1.4.3.0:
 - NEU: Kaufsystem! Funktion zum Kauf erweiterter Kalibriereinstellungen für Mähdrescher hinzugefügt, was eine neue Ebene des Karrierefortschritts bietet.
@@ -270,6 +302,22 @@ Changelog 1.1.0.0:
 
 ## Language: FR
 
+Changelog 1.5.0.0:
+- NOUVEAU : Intégration du mod "Moisture System" ! Ajout de pénalités de charge du moteur dynamiques et de pertes de récolte accrues lors de la récolte dans des conditions humides.
+- NOUVEAU : Affichage du pourcentage d'humidité en temps réel intégré au HUD déplaçable.
+- NOUVEAU : Ajout d'un nouveau paramètre pour activer/désactiver l'intégration du système d'humidité.
+- AMÉLIORÉ : Pilote automatique "Charge Cible du Moteur" : Implémentation d'une zone morte de 2 % pour éviter les micro-oscillations et offrir une expérience de régulateur de vitesse beaucoup plus fluide.
+- AMÉLIORÉ : Interface de calibrage : "Charge Cible du Moteur" dispose désormais d'une barre de progression dynamique à code couleur (Vert/Jaune/Rouge) pour un meilleur retour visuel au lieu du texte.
+- CORRIGÉ : L'indicateur HUD d'humidité restait bloqué à sa dernière valeur au lieu de se réinitialiser à 0 % lorsque la moissonneuse s'arrête ou recule.
+- CORRIGÉ : "Charge Cible du Moteur" s'affichait incorrectement comme "auto" dans le menu de calibrage.
+- NOUVEAU : Ajout de la commande console de diagnostic `rhm_inspect` pour visualiser les performances en temps réel.
+- AMÉLIORÉ : Refonte complète des coefficients de culture utilisant un système de recherche par nom pour une plus grande précision.
+- AMÉLIORÉ : Séparation distincte des coefficients pour le Maïs Grain et le Maïs Ensilage pour des vitesses de récolte réalistes.
+- AMÉLIORÉ : Coefficients équilibrés pour la récolte de l'herbe et du foin (coupe directe et ramassage).
+- AMÉLIORÉ : Multiplicateur de charge du ramasseur affiné (de 0,25 à 0,45) pour les andains de céréales afin de fournir une résistance moteur réaliste.
+- NOUVEAU : "Filet de sécurité forage" universel pour garantir des charges réalistes pour les cultures non standard ou modifiées.
+- CORRIGÉ : Résolution d'un problème où les barres de coupe d'ensileuse n'étaient pas détectées correctement à cause de la casse des noms de catégories.
+
 Changelog 1.4.3.0:
 - NOUVEAU : Système d'Achat ! Ajout de la fonctionnalité permettant d'acheter des paramètres de calibrage avancés pour moissonneuse, ajoutant un nouveau niveau de progression en carrière.
 - NOUVEAU : Interface graphique (GUI) de calibrage de moissonneuse entièrement repensée avec une nouvelle sélection de cultures, des améliorations d'interaction et des onglets d'informations supplémentaires.
@@ -403,6 +451,22 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: PL
+
+Changelog 1.5.0.0:
+- NOWOŚĆ: Integracja z modyfikacją "Moisture System"! Dodano dynamiczne kary do obciążenia silnika oraz zwiększone straty plonów podczas zbiorów w wilgotnych warunkach.
+- NOWOŚĆ: Odczyt procentowy wilgotności w czasie rzeczywistym zintegrowany z przenośnym HUD-em.
+- NOWOŚĆ: Dodano nowe ustawienie do włączania/wyłączania integracji systemu wilgotności.
+- ULEPSZONO: Autopilot "Docelowe Obciążenie Silnika": Wprowadzono 2% martwą strefę, aby zapobiec mikroskokom prędkości i zapewnić płynniejsze działanie tempomatu przy zmiennej gęstości plonów.
+- ULEPSZONO: GUI Kalibracji: "Docelowe Obciążenie Silnika" zawiera teraz dynamiczny, kolorowy pasek postępu (Zielony/Żółty/Czerwony) zamiast zwykłego tekstu, co zapewnia lepszą informację zwrotną.
+- NAPRAWIONO: Wskaźnik wilgotności HUD zamrażał się na ostatniej wartości zamiast resetować się do 0%, gdy kombajn przerywał zbiór lub cofał.
+- NAPRAWIONO: "Docelowe Obciążenie Silnika" błędnie wyświetlało się jako "auto" w menu kalibracji.
+- NOWOŚĆ: Dodano komendę konsoli `rhm_inspect` do diagnostyki danych wydajności kombajnu w czasie rzeczywistym.
+- ULEPSZONO: Całkowita przebudowa współczynników upraw przy użyciu systemu wyszukiwania po nazwie dla większej precyzji.
+- ULEPSZONO: Wyraźny podział współczynników dla Kukurydzy na Ziarno i Kukurydzy na Kiszonkę dla realistycznych prędkości zbioru.
+- ULEPSZONO: Zbalansowane współczynniki dla zbioru trawy i siana (cięcie bezpośrednie i podbieracz).
+- ULEPSZONO: Dopracowano mnożnik obciążenia podbieracza (z 0,25 na 0,45) dla pokosów zboża, aby zapewnić realistyczny opór silnika.
+- NOWOŚĆ: Uniwersalny „Forage Safety Net” zapewniający realistyczne obciążenia dla niestandardowych lub modowanych upraw przetwarzanych przez sieczkarnie.
+- NAPRAWIONO: Rozwiązano problem, w którym hedery sieczkarni nie były wykrywane poprawnie z powodu wielkości liter w nazwach kategorii.
 
 Changelog 1.4.3.0:
 - NOWOŚĆ: System Zakupów! Dodano funkcjonalność zakupu zaawansowanych ustawień kalibracji kombajnu, wprowadzając nowy poziom progresji kariery.
@@ -539,6 +603,22 @@ Changelog 1.1.0.0:
 
 ## Language: ES
 
+Changelog 1.5.0.0:
+- NUEVO: ¡Integración del Mod "Moisture System"! Se agregaron penalizaciones dinámicos de carga del motor y mayores pérdidas de cosecha al cosechar en condiciones húmedas.
+- NUEVO: Lectura del porcentaje de humedad en tiempo real integrada en el HUD desplazable.
+- NUEVO: Se agregó una nueva configuración para activar/desactivar la integración del sistema de humedad.
+- MEJORADO: Piloto automático de "Carga de Motor Objetivo": Se implementó una zona muerta del 2% para evitar micro-oscilaciones y ofrecer una experiencia de control de crucero mucho más suave a través de densidades de cultivo variables.
+- MEJORADO: GUI de calibración: "Carga de Motor Objetivo" ahora cuenta con una barra de progreso dinámica codificada por colores (Verde/Amarillo/Rojo) para una mejor respuesta visual en lugar de texto simple.
+- CORREGIDO: El indicador HUD de humedad se congelaba en su último valor en lugar de restablecerse a 0% cuando la cosechadora detiene la cosecha o retrocede.
+- CORREGIDO: "Carga de Motor Objetivo" se mostraba incorrectamente como "auto" en el menú de calibración.
+- NUEVO: Se agregó el comando de consola de diagnóstico `rhm_inspect` para ver datos de rendimiento en tiempo real.
+- MEJORADO: Revisión completa de los coeficientes de cultivo utilizando un sistema de búsqueda basado en nombres para mayor precisión.
+- MEJORADO: Separación clara entre los coeficientes de Maíz Grano y Maíz Silo para velocidades de cosecha realistas.
+- MEJORADO: Coeficientes equilibrados para la cosecha de Hierba y Heno (corte directo y recolector).
+- MEJORADO: Se ajustó el multiplicador de carga del recolector (de 0.25 a 0.45) para hileras de grano para proporcionar una resistencia del motor realista.
+- NUEVO: "Red de seguridad de forraje" universal para garantizar cargas realistas para cultivos no estándar o modificados.
+- CORREGIDO: Se resolvió un problema por el cual los cabezales de picadoras de forraje no se detectaban correctamente debido a la distinción entre mayúsculas y minúsculas en los nombres de las categorías.
+
 Changelog 1.4.3.0:
 - NUEVO: ¡Sistema de Compras! Se agregó la funcionalidad para comprar ajustes de calibración avanzados de la cosechadora, añadiendo una nueva capa de progresión en el modo carrera.
 - NUEVO: Se rediseñó completamente la interfaz gráfica (GUI) de calibración de la cosechadora con nueva selección de cultivos, mejoras de interacción y pestañas de información adicionales.
@@ -673,6 +753,22 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: IT
+
+Changelog 1.5.0.0:
+- NOVITÀ: Integrazione della mod "Moisture System"! Aggiunte penalità dinamiche al carico del motore e maggiori perdite di raccolto in condizioni di umidità.
+- NOVITÀ: Lettura della percentuale di umidità in tempo reale integrata nell'HUD trascinabile.
+- NOVITÀ: Aggiunta una nuova impostazione per attivare/disattivare l'integrazione del sistema di umidità.
+- MIGLIORATO: Pilota automatico "Carico Motore Target": Implementata una zona morta del 2% per prevenire micro-oscillazioni e offrire un'esperienza di controllo della velocità molto più fluida a seconda della densità del raccolto.
+- MIGLIORATO: GUI di calibrazione: "Carico Motore Target" ora presenta una barra di avanzamento dinamica a colori (Verde/Giallo/Rosso) per un miglior feedback visivo rispetto al testo normale.
+- CORRETTO: L'indicatore HUD dell'umidità si bloccava sull'ultimo valore invece di azzerarsi allo 0% quando la mietitrebbia interrompe il raccolto o va in retromarcia.
+- CORRETTO: "Carico Motore Target" mostrava erroneamente "auto" nel menu di calibrazione.
+- NOVITÀ: Aggiunto il comando console di diagnostica `rhm_inspect` per visualizzare i dati sulle prestazioni in tempo reale.
+- MIGLIORATO: Revisione completa dei coefficienti delle colture utilizzando un sistema di ricerca basato sul nome per una maggiore precisione.
+- MIGLIORATO: Separazione netta tra i coefficienti del Mais da Granella e del Mais da Insilato per velocità di raccolta realistiche.
+- MIGLIORATO: Coefficienti bilanciati per la raccolta di Erba e Fieno (taglio diretto e pick-up).
+- MIGLIORATO: Affinato il moltiplicatore di carico del pick-up (da 0,25 a 0,45) per le andane di cereali per fornire una resistenza del motore realistica.
+- NOVITÀ: "Forage Safety Net" universale per garantire carichi realistici per colture non standard o modificate lavorate dalle trincia-insilatrici.
+- CORRETTO: Risolto un problema per cui le testate delle trincia-insilatrici non venivano rilevate correttamente a causa della distinzione tra maiuscole e minuscole nei nomi delle categorie.
 
 Changelog 1.4.3.0:
 - NOVITÀ: Sistema di Acquisto! Aggiunta la funzionalità per acquistare impostazioni di calibrazione avanzate della mietitrebbia, introducendo un nuovo livello di progressione della carriera.
@@ -810,6 +906,22 @@ Changelog 1.1.0.0:
 
 ## Language: CZ
 
+Changelog 1.5.0.0:
+- NOVINKA: Integrace modifikace "Moisture System"! Přidány dynamické pokuty pro zatížení motoru a zvýšené ztráty plodin při sklizni ve vlhkých podmínkách.
+- NOVINKA: Zobrazení procenta vlhkosti v reálném čase integrováno do přetahovatelného uživatelského rozhraní HUD.
+- NOVINKA: Přidáno nové nastavení pro zapnutí/vypnutí integrace systému vlhkosti.
+- VYLEPŠENO: Autopilot "Cílové zatížení motoru": Zavedena 2% mrtvá zóna, aby se zabránilo mikrooscilacím a zajistil se mnohem plynulejší zážitek z tempomatu při různorodé hustotě plodin.
+- VYLEPŠENO: Kalibrační GUI: "Cílové zatížení motoru" má nyní dynamický barevný indikátor průběhu (zelená/žlutá/červená) namísto prostého textu pro lepší vizuální zpětnou vazbu.
+- OPRAVENO: Indikátor vlhkosti v HUD zamrzal na své poslední hodnotě, místo aby se po zastavení sklizně nebo couvání kombajnu resetoval na 0 %.
+- OPRAVENO: "Cílové zatížení motoru" se v nabídce kalibrace nesprávně zobrazovalo jako "auto".
+- NOVINKA: Přidán diagnostický příkaz konzole `rhm_inspect` pro zobrazení údajů o výkonu sklízeče v reálném čase.
+- VYLEPŠENO: Kompletní přepracování koeficientů plodin pomocí systému vyhledávání podle názvu pro vyšší přesnost.
+- VYLEPŠENO: Jasné oddělení koeficientů pro kukuřici na zrno a kukuřici na siláž pro realistické rychlosti sklizně.
+- VYLEPŠENO: Vyvážené koeficienty pro sklizeň trávy a sena (přímé sečení i sběr z řádků).
+- VYLEPŠENO: Vylepšen multiplikátor zatížení sběrače (z 0,25 na 0,45) pro řádky obilí pro zajištění realistického odporu motoru.
+- NOVINKA: Univerzální „Forage Safety Net“ pro zajištění realistického zatížení u nestandardních nebo modifikovaných plodin zpracovávaných řezačkami.
+- OPRAVENO: Vyřešen problém, kdy adaptéry pro řezačky nebyly správně detekovány kvůli velikosti písmen v názvech kategorií.
+
 Changelog 1.4.3.0:
 - NOVINKA: Nákupní Systém! Přidána funkce pro nákup pokročilých nastavení kalibrace kombajnu, což přidává novou vrstvu postupu kariéry.
 - NOVINKA: Zcela přepracované interaktivní grafické uživatelské rozhraní (GUI) kalibrace kombajnu s novým výběrem plodin, vylepšeními interakce a dalšími informačními kartami.
@@ -943,6 +1055,22 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: BR
+
+Changelog 1.5.0.0:
+- NOVO: Integração do Mod "Moisture System"! Adicionadas penalidades dinâmicas de carga do motor e aumento nas perdas de colheita ao colher em condições úmidas.
+- NOVO: Leitura em tempo real da porcentagem de umidade integrada ao HUD arrastável.
+- NOVO: Adicionada uma nova configuração para ativar/desativar a integração do sistema de umidade.
+- MELHORADO: Piloto automático "Carga de Motor Alvo": Implementado uma zona morta de 2% para evitar micro-oscilações e entregar uma experiência de controle de cruzeiro muito mais suave em diversas densidades de cultura.
+- MELHORADO: GUI da calibração: "Carga de Motor Alvo" agora possui uma barra de progresso colorida dinâmica (Verde/Amarelo/Vermelho) para melhor feedback visual em vez de apenas texto simples.
+- CORRIGIDO: O indicador HUD de umidade congelava no seu último valor em vez de redefinir para 0% quando a colheitadeira parava de colher ou dava ré.
+- CORRIGIDO: "Carga de Motor Alvo" sendo exibida incorretamente como "auto" no menu de calibração.
+- NOVO: Adicionado comando de console de diagnóstico `rhm_inspect` para visualizar dados de desempenho em tempo real.
+- MELHORADO: Revisão completa dos coeficientes de cultura usando um sistema de busca baseado em nome para maior precisão.
+- MELHORADO: Separação clara entre os coeficientes de Milho Grão e Milho Silagem para velocidades de colheita realistas.
+- MELHORADO: Coeficientes equilibrados para a colheita de Grama e Feno (corte direto e recolhedor).
+- MELHORADO: Refinado o multiplicador de carga do recolhedor (de 0,25 para 0,45) para leiras de grãos para fornecer uma resistência do motor realista.
+- NOVO: "Rede de Segurança de Forragem" universal para garantir cargas realistas para culturas não padronizadas ou modificadas processadas por forrageiras.
+- CORRIGIDO: Resolvido um problema onde os cabeçais de forrageiras não eram detectados corretamente devido à distinção entre maiúsculas e minúsculas nos nomes das categorias.
 
 Changelog 1.4.3.0:
 - NOVO: Sistema de Compras! Adicionada funcionalidade para comprar configurações avançadas de calibração da colheitadeira, adicionando uma nova camada de progressão de carreira.
@@ -1078,6 +1206,22 @@ Changelog 1.1.0.0:
 
 ## Language: UK
 
+Зміни 1.5.0.0:
+- НОВЕ: Інтеграція моду "Moisture System"! Додано динамічні штрафи до навантаження на двигун та підвищені втрати врожаю при збиранні у вологих умовах.
+- НОВЕ: Відсоток вологості в реальному часі інтегровано у перетягуваний HUD.
+- НОВЕ: Додано нове налаштування для ввімкнення/вимкнення інтеграції системи вологості.
+- ПОКРАЩЕНО: Автопілот "Цільового навантаження на двигун": Додано "мертву зону" у 2%, щоб уникнути мікроколивань та зробити роботу круїз-контролю набагато плавнішою на полях з різною щільністю.
+- ПОКРАЩЕНО: GUI калібрування: Параметр "Цільове навантаження на двигун" тепер має динамічну кольорову смугу прогресу (Зелений/Жовтий/Червоний) для кращої візуалізації замість звичайного тексту.
+- ВИПРАВЛЕНО: Індикатор HUD вологості зависав на останньому значенні замість того, щоб скидатися до 0%, коли комбайн зупиняв збір врожаю або здавав назад.
+- ВИПРАВЛЕНО: Рядок "Цільове навантаження на двигун" некоректно відображав текст "auto" в меню калібрування.
+- НОВЕ: Додано консольну команду діагностики `rhm_inspect` для перегляду даних продуктивності та навантаження в реальному часі.
+- ПОКРАЩЕНО: Повна переробка коефіцієнтів культур з використанням системи пошуку за назвою для вищої точності.
+- ПОКРАЩЕНО: Чіткий поділ коефіцієнтів для кукурудзи на зерно та на силос для забезпечення реалістичної швидкості збирання.
+- ПОКРАЩЕНО: Збалансовано коефіцієнти для трави та сіна як для прямого косіння, так і для підбирання з валків.
+- ПОКРАЩЕНО: Оновлено множник навантаження підбирача (з 0.25 до 0.45) для зернових валків для створення реалістичного опору двигуна.
+- НОВЕ: Універсальний "Захист для силосних комбайнів" (Forage Safety Net) для забезпечення реалістичного навантаження при роботі з нетиповими або модифікованими культурами.
+- ВИПРАВЛЕНО: Вирішено проблему, коли жатки для силосозбиральних комбайнів розпізнавалися некоректно через регістр назв категорій.
+
 Зміни 1.4.3.0:
 - НОВЕ: Система купівлі! Додано можливість купувати розширені налаштування калібрування комбайна, що додає новий рівень розвитку кар'єри.
 - НОВЕ: Повністю перероблено інтерактивний графічний інтерфейс калібрування (GUI) з новим вибором культури, покращенням взаємодії та додатковими інформаційними вкладками.
@@ -1197,6 +1341,22 @@ Changelog 1.1.0.0:
 
 ## Language: RU
 
+Изменения 1.5.0.0:
+- НОВОЕ: Интеграция мода "Moisture System"! Добавлены динамические штрафы к нагрузке на двигатель и повышенные потери урожая при уборке во влажных условиях.
+- НОВОЕ: Процент влажности в реальном времени теперь интегрирован в перемещаемый HUD.
+- НОВОЕ: Добавлена новая настройка для включения/выключения интеграции системы влажности.
+- УЛУЧШЕНО: Автопилот "Целевой нагрузки на двигатель": Введена "мертвая зона" в 2%, чтобы избежать микроколебаний и сделать работу круиз-контроля гораздо более плавной при различной плотности урожая.
+- УЛУЧШЕНО: GUI калибровки: Параметр "Целевая нагрузка на двигатель" теперь имеет динамическую цветовую полосу прогресса (Зеленый/Желтый/Красный) для лучшей визуализации вместо обычного текста.
+- ИСПРАВЛЕНО: Индикатор HUD влажности зависал на последнем значении, вместо того чтобы сбрасываться на 0%, когда комбайн останавливал уборку или сдавал назад.
+- ИСПРАВЛЕНО: Строка "Целевая нагрузка на двигатель" некорректно отображала текст "auto" в меню калибровки.
+- НОВОЕ: Добавлена консольная команда диагностики `rhm_inspect` для просмотра данных производительности и нагрузки в реальном времени.
+- УЛУЧШЕНО: Полная переработка коэффициентов культур с использованием системы поиска по названию для более высокой точности.
+- УЛУЧШЕНО: Четкое разделение коэффициентов для кукурузы на зерно и на силос для обеспечения реалистичной скорости уборки.
+- УЛУЧШЕНО: Сбалансированы коэффициенты для травы и сена как для прямого кошения, так и для подбора из валков.
+- УЛУЧШЕНО: Обновлен множитель нагрузки подборщика (с 0.25 до 0.45) для зерновых валков для создания реалистичного сопротивления двигателя.
+- НОВОЕ: Универсальная "Защита для силосных комбайнов" (Forage Safety Net) для обеспечения реалистичной нагрузки при работе с нетипичными или модифицированными культурами.
+- ИСПРАВЛЕНО: Решена проблема, когда жатки для силосоуборочных комбайнов распознавались некорректно из-за регистра имен категорий.
+
 Изменения 1.4.3.0:
 - НОВОЕ: Система покупок! Добавлен функционал покупки расширенных настроек калибровки комбайна, что вносит новый слой прогрессии в режиме карьеры.
 - НОВОЕ: Полностью переработан интерактивный графический интерфейс (GUI) калибровки комбайна: новый выбор культур, улучшения взаимодействия и дополнительные вкладки с информацией.
@@ -1315,6 +1475,23 @@ Changelog 1.1.0.0:
 ---
 
 ## Language: HU
+
+
+Változások 1.5.0.0:
+- ÚJ: "Moisture System" Mod Integráció! Hozzáadva a dinamikus motorterhelési büntetések és a megnövekedett termésveszteségek nedves körülmények közötti betakarításkor.
+- ÚJ: Valós idejű nedvességszázalék kijelző integrálva a mozgatható HUD-ba.
+- ÚJ: Új beállítás hozzáadva a Nedvességrendszer integrációjának be- és kikapcsolására.
+- FEJLESZTVE: "Cél Motorterhelés" Autópilóta: 2%-os holttér bevezetése a mikrooszcillációk megelőzése és a sokkal simább sebességtartó élmény biztosítása érdekében a különböző terménysűrűségek esetén.
+- FEJLESZTVE: Kalibrációs GUI: A "Cél Motorterhelés" mostantól dinamikus színkódolt folyamatjelző sávval (Zöld/Sárga/Piros) rendelkezik a jobb vizuális visszajelzés érdekében az egyszerű szöveg helyett.
+- JAVÍTVA: A nedvesség HUD indikátor az utolsó értékén fagyott be ahelyett, hogy 0%-ra állt volna vissza, amikor a kombájn leállítja a betakarítást vagy tolat.
+- JAVÍTVA: A "Cél Motorterhelés" helytelenül "auto"-ként jelent meg a kalibrációs menüben.
+- ÚJ: Diagnosztikai konzolparancs hozzáadva (`rhm_inspect`) a betakarítógép teljesítményadatainak valós idejű megtekintéséhez.
+- FEJLESZTVE: A terménytényezők teljes felülvizsgálata név alapú keresőrendszerrel a nagyobb pontosság érdekében.
+- FEJLESZTVE: Éles elkülönítés a Szemes Kukorica és a Silókukorica együtthatói között a reális betakarítási sebesség érdekében.
+- FEJLESZTVE: Kiegyensúlyozott fű- és szénabetakarítási együtthatók (közvetlen vágás és rendfelszedés).
+- FEJLESZTVE: Finomított rendfelszedő terhelési szorzó (0,25-ről 0,45-re) gabonarendeknél a reálisabb motorellenállás érdekében.
+- ÚJ: Univerzális „Forage Safety Net” a reális terhelés biztosítására a silózók által feldolgozott nem szabványos vagy módosított terményeknél.
+- JAVÍTVA: Megoldódott egy hiba, amely miatt a silózó vágószerkezetek nem lettek megfelelően felismerve a kategórianevek kis- és nagybetűérzékenysége miatt.
 
 Változások 1.4.3.0:
 - ÚJ: Vásárlási Rendszer! Hozzáadva egy funkció a fejlett kombájn kalibrációs beállítások megvásárlásához, ami a karrierépítés új szintjét jelenti.

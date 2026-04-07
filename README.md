@@ -178,25 +178,25 @@ Press **Right Shift + K** while in a combine to open the Calibration Menu.
 ## Supported Machine Types
 
 ### 🌾 Grain Combines — 5 Parameters
-*(Fan Speed · Rotor Speed · Upper Sieve · Lower Sieve · Feeder House)*
+*(Fan Speed · Rotor Speed · Upper Sieve · Lower Sieve · Concave Clearance)*
 
 Organized into sections:
 - **SEPARATION** (Rotor, Concave) — affects throughput efficiency  
 - **CLEANING** (Fan, Upper Sieve, Lower Sieve) — affects grain loss
-- **PERFORMANCE** (Feeder House) — affects overall speed
+- **PERFORMANCE** (Concave Clearance) — affects overall speed
 
-| Crop | Fan Speed (RPM) | Rotor Speed (RPM) | Upper Sieve (mm) | Lower Sieve (mm) | Feeder House (RPM) |
+| Crop | Fan Speed (RPM) | Rotor Speed (RPM) | Upper Sieve (mm) | Lower Sieve (mm) | Concave Clearance (mm) |
 |:---|:---:|:---:|:---:|:---:|:---:|
-| **Wheat / Barley** | 940–1070 | 870–970 | 15–18 | 10–13 | 500–600 |
-| **Oat** | 940–1070 | 820–930 | 18–21 | 12–15 | 530–630 |
-| **Corn (Maize)** | 1070–1180 | 470–560 | 21–24 | 15–18 | 600–700 |
-| **Soybean / Pea / Legumes** | 910–1040 | 640–750 | 15–18 | 10–13 | 490–570 |
-| **Canola (Rapeseed)** | 880–980 | 600–700 | 14–16 | 9–11 | 490–570 |
-| **Sunflower** | 870–990 | 440–530 | 19–23 | 14–17 | 550–650 |
-| **Rice** | 960–1080 | 910–1020 | 19–23 | 16–19 | 540–660 |
-| **Sorghum** | 940–1070 | 720–830 | 15–18 | 11–14 | 500–600 |
-| **Lentil** | 960–1080 | 520–610 | 18–21 | 12–15 | 610–690 |
-| **Chickpea** | 1080–1230 | 520–610 | 21–24 | 14–16 | 610–690 |
+| **Wheat / Barley** | 940–1070 | 870–970 | 15–18 | 10–13 | 4–8 |
+| **Oat** | 940–1070 | 820–930 | 18–21 | 12–15 | 5–9 |
+| **Corn (Maize)** | 1070–1180 | 470–560 | 21–24 | 15–18 | 25–35 |
+| **Soybean / Pea / Legumes** | 910–1040 | 640–750 | 15–18 | 10–13 | 15–21 |
+| **Canola (Rapeseed)** | 880–980 | 600–700 | 14–16 | 9–11 | 18–22 |
+| **Sunflower** | 870–990 | 440–530 | 19–23 | 14–17 | 25–35 |
+| **Rice** | 960–1080 | 910–1020 | 19–23 | 16–19 | 4–8 |
+| **Sorghum** | 940–1070 | 720–830 | 15–18 | 11–14 | 4–8 |
+| **Lentil** | 960–1080 | 520–610 | 18–21 | 12–15 | 15–21 |
+| **Chickpea** | 1080–1230 | 520–610 | 21–24 | 14–16 | 15–21 |
 
 ---
 

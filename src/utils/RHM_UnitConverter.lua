@@ -202,7 +202,7 @@ RHM_UnitConverter.PHYSICAL_RANGES = {
         rotor      = { min = 200,  max = 1100, unit = "RPM", decimals = 0, step = 10 },
         upperSieve = { min = 0,    max = 30,   unit = "mm",  decimals = 0, step = 1  },
         lowerSieve = { min = 0,    max = 25,   unit = "mm",  decimals = 0, step = 1  },
-        feeder     = { min = 300,  max = 800,  unit = "RPM", decimals = 0, step = 10 },
+        feeder     = { min = 0,    max = 50,   unit = "mm",  decimals = 0, step = 1  },
     },
     forage = {
         fan    = { min = 800,  max = 1500, unit = "RPM", decimals = 0, step = 10 }, -- EN: Intake blower / UA: Вентилятор подачі

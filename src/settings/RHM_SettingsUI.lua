@@ -27,14 +27,20 @@ end
 
 -- EN: Creates a multi-option row cloned from multiVolumeVoiceBox.
 -- UA: Створює рядок multi-option клонований з multiVolumeVoiceBox.
-local function addMultiRow(settingsPage, id, titleKey, tooltipKey, options, state, onChangeFn)
+local function addMultiRow(settingsPage, targetLayout, id, titleKey, tooltipKey, options, state, onChangeFn)
     local originalBox = settingsPage.multiVolumeVoiceBox
     if not originalBox then
         Logging.warning("RHM: multiVolumeVoiceBox not found, skipping: " .. id)
         return nil
     end
 
-    local box = originalBox:clone(settingsPage.gameSettingsLayout)
+    targetLayout = targetLayout or settingsPage.gameSettingsLayout
+    if not targetLayout then
+        Logging.error("RHM: targetLayout not found for setting: " .. tostring(id))
+        return nil
+    end
+
+    local box = originalBox:clone(targetLayout)
     box.id = "rhm_" .. id .. "_box"
 
     local opt = box.elements and box.elements[1]
@@ -74,11 +80,11 @@ end
 
 -- EN: Creates a binary (on/off) option row. Internally uses a multi-option with 2 values.
 -- UA: Створює бінарний (вкл/викл) рядок. Всередині використовує multi-option з 2 значеннями.
-local function addBinaryRow(settingsPage, id, titleKey, tooltipKey, currentState, onChangeFn)
+local function addBinaryRow(settingsPage, targetLayout, id, titleKey, tooltipKey, currentState, onChangeFn)
     local offText = g_i18n:hasText("ui_off") and g_i18n:getText("ui_off") or "Off"
     local onText  = g_i18n:hasText("ui_on")  and g_i18n:getText("ui_on")  or "On"
     local state = currentState and 2 or 1
-    local opt = addMultiRow(settingsPage, id, titleKey, tooltipKey, {offText, onText}, state, function(s)
+    local opt = addMultiRow(settingsPage, targetLayout, id, titleKey, tooltipKey, {offText, onText}, state, function(s)
         if onChangeFn then onChangeFn(s == 2) end
     end)
     return opt
@@ -87,8 +93,8 @@ end
 -- EN: Creates a section header in the gameSettingsLayout, cloning an existing sectionHeader element.
 --     Falls back to creating a TextElement with the correct profile if none is found.
 -- UA: Створює заголовок секції в gameSettingsLayout, клонуючи існуючий sectionHeader.
-local function addSection(settingsPage, titleKey)
-    local layout = settingsPage.gameSettingsLayout
+local function addSection(settingsPage, titleKey, targetLayout)
+    local layout = targetLayout or settingsPage.gameSettingsLayout
     local sectionTitle = nil
 
     for _, elem in ipairs(layout.elements) do
@@ -136,8 +142,17 @@ function RHMSettingsUI.inject(settings)
 
     local isAdmin = settings:canChangeServerSettings()
 
+    -- EN: Target layouts (where options are injected in FS25 settings UI).
+    -- UA: куди саме вставляти наші рядки в UI налаштувань.
+    local gameLayout = settingsPage.gameSettingsLayout
+    local generalLayout = settingsPage.generalSettingsLayout or settingsPage.generalLayout or gameLayout
+    if not generalLayout then
+        Logging.warning("RHM: generalSettingsLayout not found; using gameSettingsLayout as fallback.")
+        generalLayout = gameLayout
+    end
+
     -- === SECTION: Simulation ===
-    addSection(settingsPage, "rhm_section_simulation")
+    addSection(settingsPage, "rhm_section_simulation", gameLayout)
 
     local diffOptions = {
         g_i18n:hasText("rhm_diff_1") and g_i18n:getText("rhm_diff_1") or "1",
@@ -145,7 +160,7 @@ function RHMSettingsUI.inject(settings)
         g_i18n:hasText("rhm_diff_3") and g_i18n:getText("rhm_diff_3") or "3",
     }
 
-    local motorOpt = addMultiRow(settingsPage, "diff_motor", "rhm_difficulty_motor", "rhm_difficulty_motor_long",
+    local motorOpt = addMultiRow(settingsPage, gameLayout, "diff_motor", "rhm_difficulty_motor", "rhm_difficulty_motor_long",
         diffOptions, settings.difficultyMotor,
         function(val)
             if not settings:canChangeServerSettings() then return end
@@ -157,7 +172,7 @@ function RHMSettingsUI.inject(settings)
     if motorOpt and motorOpt.setDisabled then motorOpt:setDisabled(not isAdmin) end
     RHMSettingsUI.difficultyMotorOption = motorOpt
 
-    local lossOpt = addMultiRow(settingsPage, "diff_loss", "rhm_difficulty_loss", "rhm_difficulty_loss_long",
+    local lossOpt = addMultiRow(settingsPage, gameLayout, "diff_loss", "rhm_difficulty_loss", "rhm_difficulty_loss_long",
         diffOptions, settings.difficultyLoss,
         function(val)
             if not settings:canChangeServerSettings() then return end
@@ -169,7 +184,7 @@ function RHMSettingsUI.inject(settings)
     if lossOpt and lossOpt.setDisabled then lossOpt:setDisabled(not isAdmin) end
     RHMSettingsUI.difficultyLossOption = lossOpt
 
-    local speedOpt = addBinaryRow(settingsPage, "speedlimit", "rhm_speedlimit_short", "rhm_speedlimit_long",
+    local speedOpt = addBinaryRow(settingsPage, gameLayout, "speedlimit", "rhm_speedlimit_short", "rhm_speedlimit_long",
         settings.enableSpeedLimit,
         function(val)
             if not settings:canChangeServerSettings() then return end
@@ -181,7 +196,7 @@ function RHMSettingsUI.inject(settings)
     if speedOpt and speedOpt.setDisabled then speedOpt:setDisabled(not isAdmin) end
     RHMSettingsUI.speedLimitOption = speedOpt
 
-    local cropLossOpt = addBinaryRow(settingsPage, "croploss", "rhm_croploss_short", "rhm_croploss_long",
+    local cropLossOpt = addBinaryRow(settingsPage, gameLayout, "croploss", "rhm_croploss_short", "rhm_croploss_long",
         settings.enableCropLoss,
         function(val)
             if not settings:canChangeServerSettings() then return end
@@ -193,28 +208,47 @@ function RHMSettingsUI.inject(settings)
     if cropLossOpt and cropLossOpt.setDisabled then cropLossOpt:setDisabled(not isAdmin) end
     RHMSettingsUI.cropLossOption = cropLossOpt
 
-    -- === SECTION: Visuals / HUD ===
-    addSection(settingsPage, "rhm_section_visuals")
+    if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive then
+        local moistureEnableOpt = addBinaryRow(settingsPage, gameLayout, "moisture_enable", "rhm_moisture_enable_short", "rhm_moisture_enable_long",
+            settings.enableMoisture,
+            function(val)
+                if not settings:canChangeServerSettings() then return end
+                settings.enableMoisture = val; settings:save()
+                if g_currentMission.missionDynamicInfo.isMultiplayer and RHM_SettingsSync then
+                    RHM_SettingsSync:sendToClients(settings)
+                end
+            end)
+        if moistureEnableOpt and moistureEnableOpt.setDisabled then moistureEnableOpt:setDisabled(not isAdmin) end
+        RHMSettingsUI.moistureEnableOption = moistureEnableOpt
+    end
 
-    RHMSettingsUI.hudOption = addBinaryRow(settingsPage, "show_hud", "rhm_hud_short", "rhm_hud_long",
+    -- === SECTION: Visuals / HUD ===
+    addSection(settingsPage, "rhm_section_visuals", generalLayout)
+
+    RHMSettingsUI.hudOption = addBinaryRow(settingsPage, generalLayout, "show_hud", "rhm_hud_short", "rhm_hud_long",
         settings.showHUD, function(val) settings.showHUD = val; settings:save() end)
 
-    RHMSettingsUI.yieldOption = addBinaryRow(settingsPage, "show_yield", "rhm_show_yield_short", "rhm_show_yield_long",
+    RHMSettingsUI.yieldOption = addBinaryRow(settingsPage, generalLayout, "show_yield", "rhm_show_yield_short", "rhm_show_yield_long",
         settings.showYield, function(val) settings.showYield = val; settings:save() end)
 
-    RHMSettingsUI.loadOption = addBinaryRow(settingsPage, "show_load", "rhm_show_load_short", "rhm_show_load_long",
+    RHMSettingsUI.loadOption = addBinaryRow(settingsPage, generalLayout, "show_load", "rhm_show_load_short", "rhm_show_load_long",
         settings.showLoad, function(val) settings.showLoad = val; settings:save() end)
 
-    RHMSettingsUI.speedDisplayOption = addBinaryRow(settingsPage, "show_speed", "rhm_show_speed_short", "rhm_show_speed_long",
+    RHMSettingsUI.speedDisplayOption = addBinaryRow(settingsPage, generalLayout, "show_speed", "rhm_show_speed_short", "rhm_show_speed_long",
         settings.showSpeed, function(val) settings.showSpeed = val; settings:save() end)
 
-    RHMSettingsUI.prodOption = addBinaryRow(settingsPage, "show_prod", "rhm_show_productivity_short", "rhm_show_productivity_long",
+    RHMSettingsUI.prodOption = addBinaryRow(settingsPage, generalLayout, "show_prod", "rhm_show_productivity_short", "rhm_show_productivity_long",
         settings.showProductivity, function(val) settings.showProductivity = val; settings:save() end)
 
-    RHMSettingsUI.cropLossVisOption = addBinaryRow(settingsPage, "show_croploss", "rhm_show_croploss_short", "rhm_show_croploss_long",
+    RHMSettingsUI.cropLossVisOption = addBinaryRow(settingsPage, generalLayout, "show_croploss", "rhm_show_croploss_short", "rhm_show_croploss_long",
         settings.showCropLoss, function(val) settings.showCropLoss = val; settings:save() end)
 
-    RHMSettingsUI.loadWarnOption = addBinaryRow(settingsPage, "show_loadwarn", "rhm_show_load_warn_short", "rhm_show_load_warn_long",
+    if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive then
+        RHMSettingsUI.moistureVisOption = addBinaryRow(settingsPage, generalLayout, "show_moisture", "rhm_show_moisture_short", "rhm_show_moisture_long",
+            settings.showMoisture, function(val) settings.showMoisture = val; settings:save() end)
+    end
+
+    RHMSettingsUI.loadWarnOption = addBinaryRow(settingsPage, generalLayout, "show_loadwarn", "rhm_show_load_warn_short", "rhm_show_load_warn_long",
         settings.showLoadWarnings, function(val) settings.showLoadWarnings = val; settings:save() end)
 
     local unitOptions = {
@@ -222,11 +256,16 @@ function RHMSettingsUI.inject(settings)
         g_i18n:hasText("rhm_unit_imperial") and g_i18n:getText("rhm_unit_imperial") or "Imperial",
         g_i18n:hasText("rhm_unit_bushels")  and g_i18n:getText("rhm_unit_bushels")  or "Bushels",
     }
-    RHMSettingsUI.unitOption = addMultiRow(settingsPage, "units", "rhm_units_short", "rhm_units_long",
+    RHMSettingsUI.unitOption = addMultiRow(settingsPage, generalLayout, "units", "rhm_units_short", "rhm_units_long",
         unitOptions, settings.unitSystem,
         function(val) settings.unitSystem = val; settings:save() end)
 
-    settingsPage.gameSettingsLayout:invalidateLayout()
+    if settingsPage.gameSettingsLayout then
+        settingsPage.gameSettingsLayout:invalidateLayout()
+    end
+    if generalLayout and generalLayout ~= settingsPage.gameSettingsLayout and generalLayout.invalidateLayout then
+        generalLayout:invalidateLayout()
+    end
     RHMSettingsUI.injected = true
     RHMSettingsUI._settings = settings
 
@@ -251,6 +290,7 @@ function RHMSettingsUI.refreshUI(settings)
     setOpt(RHMSettingsUI.difficultyLossOption,  settings.difficultyLoss,  not isAdmin)
     setOpt(RHMSettingsUI.speedLimitOption,      settings.enableSpeedLimit and 2 or 1, not isAdmin)
     setOpt(RHMSettingsUI.cropLossOption,        settings.enableCropLoss   and 2 or 1, not isAdmin)
+    setOpt(RHMSettingsUI.moistureEnableOption,  settings.enableMoisture   and 2 or 1, not isAdmin)
 
     setOpt(RHMSettingsUI.hudOption,         settings.showHUD           and 2 or 1, false)
     setOpt(RHMSettingsUI.yieldOption,       settings.showYield         and 2 or 1, false)
@@ -258,6 +298,7 @@ function RHMSettingsUI.refreshUI(settings)
     setOpt(RHMSettingsUI.speedDisplayOption,settings.showSpeed         and 2 or 1, false)
     setOpt(RHMSettingsUI.prodOption,        settings.showProductivity  and 2 or 1, false)
     setOpt(RHMSettingsUI.cropLossVisOption, settings.showCropLoss      and 2 or 1, false)
+    setOpt(RHMSettingsUI.moistureVisOption, settings.showMoisture      and 2 or 1, false)
     setOpt(RHMSettingsUI.loadWarnOption,    settings.showLoadWarnings  and 2 or 1, false)
     setOpt(RHMSettingsUI.unitOption,        settings.unitSystem,                    false)
 end
