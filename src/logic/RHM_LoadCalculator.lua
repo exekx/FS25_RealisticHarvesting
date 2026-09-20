@@ -65,6 +65,11 @@ function RHM_LoadCalculator.new(modDirectory)
     self.lastHarvestingSpeed = nil -- EN: Remembered stable harvesting speed / UA: Запам'ятована швидкість збирання
     self.cropHarvestingSpeeds = {} -- EN: Per-crop remembered harvesting speeds / UA: Запам'ятовані швидкості по культурах
     self.isActivelyHarvesting = false
+    self.isStrawChopperActive = false -- EN: Whether straw chopper is actively engaging straw / UA: Чи активний подрібнювач соломи
+    self.lastPowerChopper = 0     -- EN: Current straw chopper power consumption (HP) / UA: Споживання подрібнювача (к.с.)
+    self.lastPowerForageFeed = 0   -- EN: Forage harvester feed rolls power (HP) / UA: Потужність живильних вальців (к.с.)
+    self.lastPowerForageDrum = 0   -- EN: Forage cutterhead drum power (HP) / UA: Потужність подрібнювального барабана (к.с.)
+    self.lastPowerForageBlower = 0 -- EN: Forage discharge accelerator power (HP) / UA: Потужність прискорювача викиду (к.с.)
     
     -- EN: Pre-allocated circular ring buffers for rolling metrics (zero runtime table allocations)
     -- UA: Попередньо виділені кільцеві буфери для ковзних метрик (без виділення пам'яті в рантаймі)
@@ -625,19 +630,19 @@ function RHM_LoadCalculator:getCropSpecificEnergy(fruitTypeIndex, fillTypeIndex,
     -- 1. FORAGE HARVESTERS (Chopping whole plant: corn silage, grass, poplar, etc.)
     if machineType == "forage" or isForageCutter then
         if cropName:find("POPLAR") or cropName:find("WOOD") then
-            baseESpec = 10.0 -- Poplar wood chipping: high-resistance wood cutting drum
+            baseESpec = 9.5 -- Poplar wood chipping: high-resistance wood cutting drum
         elseif cropName:find("MAIZE") or cropName:find("CORN") or cropName:find("SILAGE") or cropName:find("CHAFF") or cropName:find("GPS") then
             baseESpec = 2.10 -- Whole corn silage: heavy biomass + corn cracker roller mills (ASABE EP496)
         elseif cropName:find("GRASS") or cropName:find("MEADOW") or cropName:find("ALFALFA") or cropName:find("LUCERNE") or cropName:find("CLOVER") then
             if isPickup then
-                baseESpec = 1.8 -- Swath pickup: pre-mowed windrow, low cutter resistance
+                baseESpec = 1.75 -- Swath pickup: pre-wilted windrow, low cutter resistance
             else
-                baseESpec = 3.4 -- Direct-cut standing fresh grass: tough elastic fibers + disc mower power
+                baseESpec = 3.20 -- Direct-cut standing fresh grass: tough elastic fibers + disc mower power
             end
         elseif cropName:find("STRAW") or cropName:find("HAY") or cropName:find("DRYGRASS") then
-            baseESpec = 1.8 -- Dry windrow pickup: ~1.8 HP per t/h
+            baseESpec = 1.60 -- Dry windrow pickup: ~1.60 HP per t/h
         else
-            baseESpec = isPickup and 1.8 or 2.8 -- Universal forage fallback
+            baseESpec = isPickup and 1.75 or 2.60 -- Universal forage fallback
         end
 
     -- 2. ROOT & SPECIALIZED VEGETABLE HARVESTERS (Lifting, cleaning, pod stripping, stalk cutting)
@@ -696,66 +701,66 @@ function RHM_LoadCalculator:getCropSpecificEnergy(fruitTypeIndex, fillTypeIndex,
         if isPickup then
             baseESpec = 2.2 -- Windrow pickup for grain combine
         elseif cropName:find("CORN") or cropName:find("MAIZE") then
-            -- Corn for grain: cobs snapped on header, threshed in rotor
-            baseESpec = 4.4
+            -- Corn for grain: cobs snapped on header, threshed in rotor with minimal MOG
+            baseESpec = 3.8
         elseif cropName:find("ONION") or cropName:find("GARLIC") then
             baseESpec = 2.20 -- Trailed onion lifters running on tractor/grain spec
         elseif cropName:find("SUNFLOWER") then
             -- Sunflower: low density (0.35), massive head volume, stalk cutting
-            baseESpec = 19.0
+            baseESpec = 14.5
         elseif cropName:find("CANOLA") or cropName:find("RAPESEED") then
-            baseESpec = 11.0
+            baseESpec = 9.2
         elseif cropName:find("SOYBEAN") then
-            baseESpec = 11.5
+            baseESpec = 8.8
         elseif cropName:find("OAT") or cropName:find("OATS") then
             -- Oat: light seeds (0.50 kg/L) with heavy tough fibrous straw
-            baseESpec = 12.5
+            baseESpec = 9.5
         elseif cropName:find("POPPY") then
-            baseESpec = 17.5
+            baseESpec = 14.0
         elseif cropName:find("LINSEED") or cropName:find("FLAX") then
-            baseESpec = 13.0
+            baseESpec = 10.5
         elseif cropName:find("MUSTARD") then
-            baseESpec = 12.2
+            baseESpec = 10.0
         elseif cropName:find("HEMP") then
-            baseESpec = 11.2
+            baseESpec = 9.5
         elseif cropName:find("LENTIL") then
-            baseESpec = 10.2
+            baseESpec = 8.5
         elseif cropName:find("CHICKPEA") then
-            baseESpec = 9.8
+            baseESpec = 8.0
         elseif cropName:find("BUCKWHEAT") then
-            baseESpec = 9.8
+            baseESpec = 8.0
         elseif cropName:find("SPELT") then
-            baseESpec = 7.8
+            baseESpec = 5.4
         elseif cropName:find("MILLET") then
-            baseESpec = 7.8
+            baseESpec = 6.2
         elseif cropName:find("RICE") then
             if cropName:find("LONG") then
-                baseESpec = 6.0 -- Rice Long Grain (US)
+                baseESpec = 5.2 -- Rice Long Grain (US)
             else
-                baseESpec = 7.5 -- Asian Rice (higher silica straw resistance)
+                baseESpec = 6.5 -- Asian Rice (higher silica straw resistance)
             end
         elseif cropName:find("RYE") then
-            baseESpec = 6.3
+            baseESpec = 5.2
         elseif cropName:find("TRITICALE") then
-            baseESpec = 6.4
+            baseESpec = 5.2
         elseif cropName:find("BARLEY") then
-            baseESpec = 6.2
+            baseESpec = 5.0
         elseif cropName:find("PEA") then
-            baseESpec = 6.0
+            baseESpec = 5.2
         elseif cropName:find("SORGHUM") then
-            baseESpec = 6.0
+            baseESpec = 5.0
         elseif cropName:find("WHEAT") then
-            baseESpec = 6.0
+            baseESpec = 4.8
         elseif hasStraw then
-            baseESpec = 6.0 -- Standard straw cereals
+            baseESpec = 5.0 -- Standard straw cereals
         else
             -- Universal dynamic fallback for custom or unclassified crops based on physical density
             if density < 0.50 then
-                baseESpec = 14.0 -- Very light seed with high biomass
+                baseESpec = 12.0 -- Very light seed with high biomass
             elseif density < 0.70 then
-                baseESpec = 11.0 -- Medium density oilseeds/legumes
+                baseESpec = 9.0  -- Medium density oilseeds/legumes
             else
-                baseESpec = 6.0  -- Dense grain
+                baseESpec = 5.0  -- Dense grain
             end
         end
     end
@@ -1025,10 +1030,14 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     end
     local effectiveEngineHp = engineHp * (1 + 0.01 * powerBoost)
 
-    -- 6. POWER BREAKDOWN (P_base, P_header, P_process, P_soil)
+    -- 6. POWER BREAKDOWN (P_base, P_header, P_process, P_chopper, P_forage, P_soil)
     local pBase = 0
     local pHeader = 0
     local pProcess = 0
+    local pChopper = 0
+    local pForageFeed = 0
+    local pForageDrum = 0
+    local pForageBlower = 0
     local pSoil = 0
 
     local isActivelyHarvesting = (avgTph > 0.05) or (rawTph > 0.05)
@@ -1054,10 +1063,73 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
         end
     end
 
+    -- Straw chopper power consumption (grain combines with straw residue)
+    -- When swath (windrow) is ACTIVE, straw bypasses chopper -> 0 HP.
+    -- When swath is INACTIVE, chopper blades shred straw and spread it across working width.
+    -- Calibrated to agricultural engineering test standards (DLG / ASABE EP496): ~1.10 - 1.40 HP per (t/h grain).
+    local isStrawChopperActive = false
+    if machineType == "grain" and spec_combine then
+        local hasChopper = false
+        if spec_combine.chopper ~= nil and spec_combine.chopper.isAvailable == true then
+            hasChopper = true
+        elseif spec_combine.strawChopperNode ~= nil or spec_combine.strawChopperEffect ~= nil or spec_combine.strawChopperAnim ~= nil then
+            hasChopper = true
+        elseif spec_combine.strawEffects ~= nil and #spec_combine.strawEffects > 0 then
+            hasChopper = true
+        end
+
+        if hasChopper and spec_combine.isSwathActive == false then
+            isStrawChopperActive = true
+        end
+
+        if isStrawChopperActive then
+            if isActivelyHarvesting then
+                local chopperSpecHp = 1.25
+                local cropUpper = (self.currentCrop and string.upper(self.currentCrop)) or ""
+                if cropUpper:find("OAT") or cropUpper:find("RYE") then
+                    chopperSpecHp = 1.40
+                elseif cropUpper:find("CANOLA") or cropUpper:find("SOYBEAN") then
+                    chopperSpecHp = 0.90
+                elseif cropUpper:find("CORN") or cropUpper:find("MAIZE") then
+                    chopperSpecHp = 0.0 -- Corn stalk residue handled by header shredder
+                end
+                pChopper = avgTph * chopperSpecHp * moistureFactor
+            elseif isCutterActive then
+                -- Idle aerodynamic drag and drive friction of high-speed chopper rotor (~2500-3500 RPM)
+                pChopper = math.max(1.5, effectiveEngineHp * 0.015)
+            end
+        end
+    end
+    self.isStrawChopperActive = isStrawChopperActive
+    self.lastPowerChopper = pChopper
+
     if isActivelyHarvesting then
         -- Crop processing power: Threshing/chopping/cleaning scaled by settings efficiency
         local eff = math.max(0.25, self.settingsEfficiency or 1.0)
         pProcess = (avgTph * eSpec * moistureFactor) / eff
+
+        -- Forage harvester stage power decomposition (ASABE S497 / EP496):
+        -- 1. Feed rolls (intake compression): ~18%
+        -- 2. Chopping drum / cutterhead (shearing): ~62%
+        -- 3. Discharge blower / accelerator (kinetic ejection): ~20%
+        if machineType == "forage" or isForageCutter then
+            pForageFeed = pProcess * 0.18
+            pForageDrum = pProcess * 0.62
+            pForageBlower = pProcess * 0.20
+
+            -- Swath pickup mechanical bottleneck / choking detection:
+            -- In heavy swaths, pickup auger & feed rolls have an intake capacity limit.
+            -- When fresh mass exceeds nominal feed capacity, intake resistance rises sharply.
+            if isPickup then
+                local pickupIntakeLimitTph = (effectiveEngineHp * 0.25) + 60.0
+                if avgTph > pickupIntakeLimitTph then
+                    local surgeRatio = (avgTph - pickupIntakeLimitTph) / pickupIntakeLimitTph
+                    local feedChokePenalty = pForageFeed * math.min(1.5, surgeRatio * 2.0)
+                    pForageFeed = pForageFeed + feedChokePenalty
+                    pProcess = pProcess + feedChokePenalty
+                end
+            end
+        end
 
         -- Root harvesters: subsurface share soil cutting resistance (ножі-лемеші під землею)
         -- Only for subterranean root crops (carrots, parsnips, potatoes, sugar beets, onions).
@@ -1099,10 +1171,10 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
 
     local pTotal = 0
     if isActivelyHarvesting then
-        pTotal = pBase + pHeader + pProcess + pSoil
+        pTotal = pBase + pHeader + pProcess + pChopper + pSoil
     elseif isCutterActive then
         -- Running empty (cutter spinning, no crop intake)
-        pTotal = pBase + (pHeader * 0.25)
+        pTotal = pBase + (pHeader * 0.25) + pChopper
     else
         pTotal = 0
     end
@@ -1137,6 +1209,10 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     self.lastPowerBase = pBase
     self.lastPowerHeader = pHeader
     self.lastPowerProcess = pProcess
+    self.lastPowerChopper = pChopper
+    self.lastPowerForageFeed = pForageFeed
+    self.lastPowerForageDrum = pForageDrum
+    self.lastPowerForageBlower = pForageBlower
     self.lastPowerSoil = pSoil
     self.lastPowerTotal = pTotal
     self.lastEffectiveHp = effectiveEngineHp
@@ -1179,6 +1255,9 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     end
 
     local minSpeed = 3.5
+    if (self.combineMemory and self.combineMemory.machineType == "forage") or self.isForageCutter then
+        minSpeed = 2.5
+    end
 
     local dtSec = math.min(1.0, math.max(0.05, (self.lastUpdateInterval or 300) / 1000.0))
 
@@ -1233,9 +1312,10 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         -- Header dynamic slope: HP per (km/h)
         local kHeader = ((self.headerHp or headerHp or 0) * 0.80) / math.max(1.0, maxWorkingSpeed)
 
-        -- Crop processing power slope: HP per (km/h)
+        -- Crop processing & straw chopper power slope: HP per (km/h)
         local pProcess = self.lastPowerProcess or 0
-        local kCrop = pProcess / currentSpeed
+        local pChopper = self.lastPowerChopper or 0
+        local kCrop = (pProcess + pChopper) / currentSpeed
         if kCrop < 0.1 then
             kCrop = 0.1
         end
@@ -1251,6 +1331,9 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     -- Check if we are in the initial entry phase of a new pass (< 2.8s)
     local isEntry = (self.harvestActiveTime or 0) < 2800
     local isSurge = not isEntry and (self.rawAvgMass or 0) > ((self.currentAvgMass or 0) * 1.15) and (self.rawAvgMass or 0) > 0.5
+    if self.isPickup and not isEntry and (self.rawAvgMass or 0) > ((self.currentAvgMass or 0) * 1.10) and (self.rawAvgMass or 0) > 0.4 then
+        isSurge = true
+    end
 
     local currentLimit = self.speedLimit or maxAllowedSpeed
 
@@ -1452,6 +1535,11 @@ function RHM_LoadCalculator:reset()
     self.harvestActiveTime = 0
     self.underloadTimer = 0
     self.idleHarvestTime = 0
+    self.isStrawChopperActive = false
+    self.lastPowerChopper = 0
+    self.lastPowerForageFeed = 0
+    self.lastPowerForageDrum = 0
+    self.lastPowerForageBlower = 0
 end
 
 ---EN: Calculates engine load based crop losses / UA: Розраховує втрати врожаю від перевантаження
@@ -1459,23 +1547,32 @@ function RHM_LoadCalculator:calculateCropLoss()
     if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then return 0 end
     if not g_realisticHarvestManager.settings.enableCropLoss then return 0 end
     
+    -- EN: Forage harvesters collect whole biomass with zero grain loss.
+    -- UA: Кормозбиральні комбайни подрібнюють всю біомасу, втрати зерна відсутні.
+    local machineType = (self.combineMemory and self.combineMemory.machineType) or ""
+    if machineType == "forage" or self.isForageCutter then
+        self.cropLoss = 0
+        return 0
+    end
+    
     local lossMultiplier = g_realisticHarvestManager.settings:getLossMultiplier()
     
     -- EN: Losses start smoothly from 80% engine load
-    -- UA: Втрати починаються плавно з 80% завантаження
+    -- UA: Втрати починаються плавно з 80% завантаження за стандартами ISO 8210 / DIN 11390
     if self.engineLoad > 0.80 then
         local overload = self.engineLoad - 0.80
-        -- UA: Прогресивна крива (експонента): 
+        -- UA: Прогресивна крива втрат (ISO 8210 / DIN 11390): 
         -- При 80% (overload=0) -> 0% втрат
-        -- При 90% (overload=0.1) -> 0.5% (мізерні втрати)
-        -- При 100% (overload=0.2) -> 2.0% (допустимі втрати)
-        -- При 110% (overload=0.3) -> 4.5% (пік продуктивності)
-        -- При 130% (overload=0.5) -> 12.5% (величезні втрати)
-        local rawLoss = (overload * overload) * 50
+        -- При 88% (overload=0.08) -> ~0.29% (номінальна робоча зона комбайна)
+        -- При 95% (overload=0.15) -> ~1.01% (стандартний 1% поріг втрат DLG/ISO 8210)
+        -- При 100% (overload=0.20) -> ~1.80% (номінальна межа потужності)
+        -- При 110% (overload=0.30) -> ~4.05% (перевантаження сепаратора)
+        -- При >110% -> лавиноподібне зростання втрат через забивання решіт
+        local rawLoss = (overload * overload) * 45
         
         -- UA: Різке зростання, якщо завантаження перевищило 110% (забита молотарка)
         if self.engineLoad > 1.10 then
-            rawLoss = rawLoss + ((self.engineLoad - 1.10) * 100)
+            rawLoss = rawLoss + ((self.engineLoad - 1.10) * 120)
         end
         
         -- FIELD ENTRY LOSS DAMPENER:

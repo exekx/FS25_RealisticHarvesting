@@ -17,6 +17,7 @@ rhm_Combine.debug = false
 --     Повертає true для всіх машин, включаючи модульні системи на кшталт NEXAT.
 function rhm_Combine.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(Combine, specializations)
+        or (ForageHarvester ~= nil and SpecializationUtil.hasSpecialization(ForageHarvester, specializations))
 end
 
 -- EN: Natively called by the engine during specialization registration.
@@ -1256,6 +1257,9 @@ end
 --     не готова (напр. складена жатка що не розкладена). Повертається до ванільної логіки без жаток.
 function rhm_Combine:getCanBeTurnedOn(superFunc)
     local spec_combine = self.spec_combine
+    if not spec_combine then
+        return superFunc(self)
+    end
     
     -- EN: Check Independent Launch setting from manager.
     -- UA: Перевіряємо налаштування Незалежного Запуску.
@@ -1299,15 +1303,10 @@ end
 --     Якщо Незалежний Запуск вимкнений: жатки завжди запускаються автоматично (класична ванільна поведінка).
 --     Завжди відтворює анімації та звуки молотарки незалежно від логіки запуску жатки.
 function rhm_Combine:startThreshing(superFunc)
-    -- EN: INTENTIONAL OMISSION OF superFunc(self)
-    --     We DO NOT call superFunc(self) here. The game's vanilla startThreshing method automatically
-    --     forces all attached cutters to turn on (and lowers them) for the player.
-    --     By omitting it and replicating the animations/sounds manually, we enable the "Independent Launch"
-    --     feature which allows players to control the thresher and cutter separately.
-    -- UA: СВІДОМИЙ ПРОПУСК superFunc(self)
-    --     Ми НЕ викликаємо superFunc(self). Ванільний метод автоматично запускає і опускає всі жатки гравця.
-    --     Пропускаючи його і відтворюючи анімації вручну, ми робимо можливим "Незалежний запуск".
     local spec_combine = self.spec_combine
+    if not spec_combine then
+        return superFunc(self)
+    end
     
     -- EN: Read Independent Launch setting from manager.
     -- UA: Читаємо налаштування Незалежного Запуску з менеджера.
@@ -1361,13 +1360,10 @@ end
 -- UA: Перевизначення stopThreshing. Зупиняє звуки/анімації молотарки та вимикає режим наповнення.
 --     НЕ вимикає жатки автоматично (гравець керує ними незалежно через Незалежний Запуск).
 function rhm_Combine:stopThreshing(superFunc)
-    -- EN: INTENTIONAL OMISSION OF superFunc(self)
-    --     Like startThreshing, we DO NOT call superFunc(self) here to prevent the base game from 
-    --     automatically turning off the attached cutters when the thresher stops.
-    -- UA: СВІДОМИЙ ПРОПУСК superFunc(self)
-    --     Як і в startThreshing, ми НЕ викликаємо superFunc(self) щоб завадити базовій грі
-    --     автоматично вимикати жатки при зупинці молотарки.
     local spec_combine = self.spec_combine
+    if not spec_combine then
+        return superFunc(self)
+    end
     
     if self.isClient then
         g_soundManager:stopSample(spec_combine.samples.start)
@@ -1430,6 +1426,9 @@ function rhm_Combine:updateWarnings(dt)
 
     local isCombineOn = self:getIsTurnedOn()
     local spec_combine = self.spec_combine
+    if not spec_combine then
+        return
+    end
     
     -- Iterate attached cutters
     if spec_combine.attachedCutters then
@@ -1908,6 +1907,15 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
         -- NEW: Yield Monitor Data
         spec.data.yield = spec.loadCalculator.currentYield or 0
+        -- NEW: Straw Chopper Telemetry
+        spec.data.isStrawChopperActive = (spec.loadCalculator and spec.loadCalculator.isStrawChopperActive) or false
+        spec.data.chopperPowerHp = (spec.loadCalculator and spec.loadCalculator.lastPowerChopper) or 0
+        -- NEW: Forage Harvester & Swath Pickup Telemetry
+        spec.data.isForageHarvester = (machineType == "forage")
+        spec.data.isPickup = (spec.loadCalculator and spec.loadCalculator.isPickup) or false
+        spec.data.forageFeedPowerHp = (spec.loadCalculator and spec.loadCalculator.lastPowerForageFeed) or 0
+        spec.data.forageDrumPowerHp = (spec.loadCalculator and spec.loadCalculator.lastPowerForageDrum) or 0
+        spec.data.forageBlowerPowerHp = (spec.loadCalculator and spec.loadCalculator.lastPowerForageBlower) or 0
     end
 
     -- EN: Auto-trim active settings in background when Opti-Harvest AI (Level 4) is active in AUTO mode.

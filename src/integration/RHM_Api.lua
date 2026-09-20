@@ -13,7 +13,7 @@
 -- ============================================================================
 
 RHM_Api = {}
-RHM_Api.VERSION = "1.6.0.0"
+RHM_Api.VERSION = "1.6.0.1"
 RHM_Api.listeners = {}
 
 -- ============================================================================
@@ -193,7 +193,7 @@ end
 ---EN: Returns physical power distribution table in Horsepower (HP):
 ---    { pTotal, effectiveHp, pBase, pHeader, pProcess, pSoil }.
 ---UA: Повертає розкладку потужностей у кінських силах (к.с.):
----    { pTotal, effectiveHp, pBase, pHeader, pProcess, pSoil }.
+---    { pTotal, effectiveHp, pBase, pHeader, pProcess, pChopper, pSoil }.
 ---@param vehicle table|nil
 ---@return table|nil
 function RHM_Api.getPowerBreakdown(vehicle)
@@ -206,10 +206,93 @@ function RHM_Api.getPowerBreakdown(vehicle)
             pBase       = calc.lastPowerBase or 0.0,
             pHeader     = calc.lastPowerHeader or 0.0,
             pProcess    = calc.lastPowerProcess or 0.0,
+            pChopper    = calc.lastPowerChopper or 0.0,
             pSoil       = calc.lastPowerSoil or 0.0
         }
     end
     return nil
+end
+
+---EN: Returns true if straw chopper is actively engaging and shredding crop residue.
+---UA: Повертає true, якщо подрібнювач соломи активно подрібнює та розкидає солому.
+---@param vehicle table|nil
+---@return boolean
+function RHM_Api.isStrawChopperActive(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.loadCalculator then
+        return combine.spec_rhm_Combine.loadCalculator.isStrawChopperActive or false
+    end
+    return false
+end
+
+---EN: Returns instantaneous straw chopper power consumption in horsepower (HP).
+---UA: Повертає поточну потужність подрібнювача соломи в кінських силах (к.с.).
+---@param vehicle table|nil
+---@return number chopperHp
+function RHM_Api.getChopperPowerHp(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.loadCalculator then
+        return combine.spec_rhm_Combine.loadCalculator.lastPowerChopper or 0.0
+    end
+    return 0.0
+end
+
+---EN: Returns true if the vehicle is a self-propelled or trailed forage harvester (silage chopper).
+---UA: Повертає true, якщо транспортний засіб є кормозбиральним комбайном (силосорізкою).
+---@param vehicle table|nil
+---@return boolean
+function RHM_Api.isForageHarvester(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine then
+        local spec = combine.spec_rhm_Combine
+        local mType = (spec.combineMemory and spec.combineMemory.machineType) or spec.machineType or ""
+        return mType == "forage"
+    end
+    return false
+end
+
+---EN: Returns true if the attached harvesting tool is a grass/swath pickup header.
+---UA: Повертає true, якщо підключене робоче знаряддя є підбирачем валків з землі.
+---@param vehicle table|nil
+---@return boolean
+function RHM_Api.isPickupActive(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.loadCalculator then
+        return combine.spec_rhm_Combine.loadCalculator.isPickup or false
+    end
+    return false
+end
+
+---EN: Returns internal power distribution table for forage harvester stages in Horsepower (HP):
+---    { feedPower, drumPower, blowerPower, totalProcessPower }.
+---UA: Повертає розкладку потужностей механічних вузлів кормозбирального комбайна (к.с.):
+---    { feedPower, drumPower, blowerPower, totalProcessPower }.
+---@param vehicle table|nil
+---@return table|nil
+function RHM_Api.getForagePowerBreakdown(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.loadCalculator then
+        local calc = combine.spec_rhm_Combine.loadCalculator
+        return {
+            feedPower         = calc.lastPowerForageFeed or 0.0,
+            drumPower         = calc.lastPowerForageDrum or 0.0,
+            blowerPower       = calc.lastPowerForageBlower or 0.0,
+            totalProcessPower = calc.lastPowerProcess or 0.0
+        }
+    end
+    return nil
+end
+
+---EN: Returns instantaneous harvested fresh matter throughput in metric tonnes per hour (t/h).
+---UA: Повертає поточну продуктивність збирання свіжої маси в тоннах за годину (т/год).
+---@param vehicle table|nil
+---@return number freshMatterTph
+function RHM_Api.getFreshMatterThroughput(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.loadCalculator then
+        return combine.spec_rhm_Combine.loadCalculator:getTonPerHour() or 0.0
+    end
+    return 0.0
 end
 
 ---EN: Returns rated engine horsepower (HP) of the combine or motorized carrier (e.g. NEXAT).

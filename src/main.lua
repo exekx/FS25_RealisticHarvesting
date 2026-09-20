@@ -152,7 +152,9 @@ local function validateTypes(manager)
         -- EN: Add the specialization to every vehicle type that has a Combine spec.
         -- UA: Додаємо спеціалізацію до кожного типу транспорту, який має спеціалізацію Combine.
         for typeName, typeEntry in pairs(g_vehicleTypeManager:getTypes()) do
-            if SpecializationUtil.hasSpecialization(Combine, typeEntry.specializations) then
+            local hasCombine = SpecializationUtil.hasSpecialization(Combine, typeEntry.specializations)
+            local hasForage = (ForageHarvester ~= nil and SpecializationUtil.hasSpecialization(ForageHarvester, typeEntry.specializations))
+            if hasCombine or hasForage then
                 g_vehicleTypeManager:addSpecialization(typeName, modName .. ".rhm_Combine")
             end
         end
