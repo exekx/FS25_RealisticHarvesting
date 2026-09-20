@@ -639,7 +639,7 @@ function RHM_NotificationManager:draw()
     local closeGlyphHeight = notification.closeGlyphHeight or self:scalePixelToScreenHeight(16)
     local closeGlyphWidth = self:scalePixelToScreenWidth(16)
 
-    -- 1. Draw authentic 3-part Precision Farming rounded dark glass background (matching HUD capsule)
+    -- 1. Draw authentic 3-part rounded dark glass background (matching HUD capsule)
     self:drawPanelBackground(panelX, panelY, panelWidth, dynamicHeight, COLOR_BG)
 
     local centerX = panelX + panelWidth * 0.5

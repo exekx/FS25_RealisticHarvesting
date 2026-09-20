@@ -1,10 +1,9 @@
 -- ============================================================================
 -- RHM_ModCompatibility.lua
--- Realistic Harvesting Mod - Third-Party Mod Compatibility Layer (FS25)
+-- Realistic Harvesting Mod - External Input & Overlay Compatibility Layer (FS25)
 -- ============================================================================
--- Handles runtime compatibility and event mediation with:
--- 1. FS25_interactiveControl (Interactive Control / IC by VertexDezign)
--- 2. FS25_headTrackICextension (Headtracking MouseControl for IC by DerElky)
+-- Handles runtime compatibility and event mediation with auxiliary vehicle
+-- interaction managers and mouse cursor overlays to ensure seamless UI priority.
 -- ============================================================================
 
 RHM_ModCompatibility = {}
@@ -24,7 +23,7 @@ function RHM_ModCompatibility.init()
     rhm_log("RHM [Compat]: Compatibility layer initialized.")
 end
 
---- Hook Interactive Control (FS25_interactiveControl)
+--- Hook interactive vehicle controller systems
 function RHM_ModCompatibility.hookInteractiveControl()
     if RHM_ModCompatibility.isICHooked then
         return
@@ -80,7 +79,7 @@ function RHM_ModCompatibility.hookInteractiveControl()
         end
 
         RHM_ModCompatibility.isICHooked = true
-        rhm_log("RHM [Compat]: Successfully hooked FS25_interactiveControl.")
+        rhm_log("RHM [Compat]: Successfully hooked interactive vehicle controller.")
     end
 
     if InteractiveControlManager ~= nil and type(InteractiveControlManager.onActionEventExecute) == "function" then
@@ -96,7 +95,7 @@ function RHM_ModCompatibility.hookInteractiveControl()
     end
 end
 
---- Hook Headtracking MouseControl for IC (FS25_headTrackICextension)
+--- Hook vehicle mouse cursor overlay
 function RHM_ModCompatibility.hookVehicleMouseCursor()
     if RHM_ModCompatibility.isVMCHooked then
         return
@@ -140,13 +139,13 @@ function RHM_ModCompatibility.hookVehicleMouseCursor()
         end
 
         RHM_ModCompatibility.isVMCHooked = true
-        rhm_log("RHM [Compat]: Successfully hooked FS25_headTrackICextension (VMC_CursorOverlayGui).")
+        rhm_log("RHM [Compat]: Successfully hooked vehicle mouse cursor overlay.")
     end
 end
 
 --- Called immediately when RHM Calibration GUI opens
 function RHM_ModCompatibility.onCalibrationGUIOpened()
-    -- Ensure hooks are in place (in case third-party mods loaded late)
+    -- Ensure hooks are in place (in case auxiliary scripts loaded late)
     RHM_ModCompatibility.hookInteractiveControl()
     RHM_ModCompatibility.hookVehicleMouseCursor()
 

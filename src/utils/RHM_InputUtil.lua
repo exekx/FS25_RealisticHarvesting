@@ -4,10 +4,10 @@ RHMInputUtil = {}
 
 -- EN: Enable or disable camera rotation for all cameras on a vehicle.
 --     Saves original isRotatable states and restores them cleanly.
---     Does NOT destroy camera.rotSpeed so it never conflicts with Courseplay or AutoDrive.
+--     Does NOT destroy camera.rotSpeed, preserving third-party automated driver control states.
 -- UA: Вмикає або вимикає обертання камери для всіх камер транспортного засобу.
 --     Зберігає оригінальні стани isRotatable та чисто їх відновлює.
---     НЕ обнуляє camera.rotSpeed, завдяки чому не конфліктує з Courseplay або AutoDrive.
+--     НЕ обнуляє camera.rotSpeed, зберігаючи коректний стан зовнішніх систем керування.
 function RHMInputUtil.setCameraRotation(vehicle, enableRotation, savedRotatableInfo)
     if not vehicle or not vehicle.spec_enterable or not vehicle.spec_enterable.cameras then
         return

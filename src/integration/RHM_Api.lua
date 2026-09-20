@@ -1,14 +1,13 @@
 -- ============================================================================
 -- RHM_Api.lua
 -- Realistic Harvesting Mod - Official Public Integration API (FS25)
--- Author: exekx
 -- ============================================================================
--- EN: Dedicated, zero-friction public API providing third-party mods (e.g.,
---     Advanced Damage System (ADS), Courseplay, AutoDrive, EnhancedVehicle,
---     telemetry dashboards, in-cab displays) direct, read-only access to
---     combine telemetry, load models, moisture, settings, and hardware tiers.
--- UA: Офіційний публічний API для легкої інтеграції сторонніх модів (ADS,
---     Courseplay, AutoDrive, EnhancedVehicle, телеметрія, кастомні дисплеї).
+-- EN: Dedicated, zero-friction public API providing third-party integration
+--     (telemetry dashboards, auxiliary wear systems, automated drivers, in-cab displays)
+--     direct, read-only access to combine telemetry, load models, moisture,
+--     settings, and hardware tiers.
+-- UA: Офіційний публічний API для легкої інтеграції сторонніх скриптів
+--     (телеметрія, системи зносу, автопілоти, кастомні дисплеї).
 --     Надає безпечний доступ тільки для читання (read-only) до телеметрії,
 --     навантаження двигуна, вологості, налаштувань та рівнів електроніки.
 -- ============================================================================
@@ -22,7 +21,7 @@ RHM_Api.listeners = {}
 -- ============================================================================
 
 ---EN: Recursively resolves a combine harvester instance from any passed vehicle,
----    tractor (with trailed harvester e.g. Grimme Rootster), or attached implement.
+---    tractor (with trailed root crop harvester), or attached implement.
 ---    Falls back to current controlled vehicle if vehicle is nil.
 ---UA: Безпечно знаходить екземпляр комбайна з будь-якого переданого транспорту,
 ---    трактора (з причіпним комбайном) або жатки. Якщо nil — бере керовану техніку.
@@ -148,7 +147,7 @@ function RHM_Api.getPackageLevel(vehicle)
 end
 
 -- ============================================================================
--- 3. ENGINE LOAD & POWER BREAKDOWN (FOR ADS & WEAR MODS)
+-- 3. ENGINE LOAD & POWER BREAKDOWN (FOR WEAR & TELEMETRY)
 -- ============================================================================
 
 ---EN: Returns real physical engine load percentage (0.0 to 150.0+ %).
@@ -165,10 +164,10 @@ function RHM_Api.getEngineLoad(vehicle)
 end
 
 ---EN: Returns normalized engine load factor strictly clamped between 0.0 and 1.0.
----    ESSENTIAL FOR ADS (Advanced Damage System), FS25_EnhancedVehicle, and standard
----    vehicle wear mods that expect standard GIANTS 0.0..1.0 load domain.
+---    Essential for external damage, telemetry, and wear monitoring systems
+---    that expect standard GIANTS 0.0..1.0 load domain.
 ---UA: Повертає нормалізоване навантаження суворо від 0.0 до 1.0 (0% .. 100%).
----    ІДЕАЛЬНО ДЛЯ ADS (модів зносу та пошкоджень), які очікують ванільний формат.
+---    Призначено для систем зносу та пошкоджень, які очікують стандартний діапазон 0..1.
 ---@param vehicle table|nil
 ---@return number normalizedLoad (0.0 .. 1.0)
 function RHM_Api.getNormalizedEngineLoad(vehicle)
@@ -555,8 +554,8 @@ end
 -- 9. AI & AUTOMATION INTEGRATION
 -- ============================================================================
 
----EN: Returns true if the combine is actively driven by Giants AI, Courseplay, or AutoDrive.
----UA: Повертає true, якщо комбайн керується ШІ (Giants AI, Courseplay або AutoDrive).
+---EN: Returns true if the combine is actively driven by an automated worker or navigation system.
+---UA: Повертає true, якщо комбайн керується наймитом або системою автопілота.
 ---@param vehicle table|nil
 ---@return boolean
 function RHM_Api.isAiWorkerActive(vehicle)

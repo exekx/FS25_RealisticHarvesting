@@ -59,9 +59,6 @@ function RHMSettings.new(manager)
     self.enableCropLoss = true
     self.enableWearLoss = true
     self.enableMoisture = true
-    self.showHUD = true
-    self.showYield = true
-    self.showSpeedometer = true
     self.enableIndependentLaunch = true -- EN: Separate header start enabled by default / UA: Окремий запуск жатки увімкнено за замовчуванням
     self.alarmMode = RHMSettings.ALARM_MODE_SMART -- EN: Alarm mode (1=Smart, 2=Continuous, 3=Off) / UA: Режим зумера
     self.enableAlarmSound = true        -- EN: Cabin overload buzzer alarm / UA: Кабінний зумер перевантаження
@@ -70,17 +67,15 @@ function RHMSettings.new(manager)
 
     -- EN: HUD visibility toggles (client-side, per-player).
     -- UA: Перемикачі видимості HUD (клієнтські, для кожного гравця).
+    self.showHUD = true
     self.showLoad = true
     self.showProductivity = true
     self.showCropLoss = true
     self.showSpeed = true
     self.showMoisture = true
-    self.showLoadWarnings = true
 
     -- EN: HUD position (client-side). nil = automatic positioning.
     -- UA: Позиція HUD (клієнтська). nil = автоматичне позиціонування.
-    self.hudOffsetX = 0
-    self.hudOffsetY = 350
     self.hudPosX = nil
     self.hudPosY = nil
 
@@ -145,12 +140,7 @@ function RHMSettings:setDifficultyMotor(difficulty)
     end
 end
 
--- EN: Legacy method kept for backward compatibility. Sets both loss and motor difficulty.
--- UA: Застарілий метод для зворотної сумісності. Встановлює одночасно складність втрат і двигуна.
-function RHMSettings:setDifficulty(difficulty)
-    self:setDifficultyLoss(difficulty)
-    self:setDifficultyMotor(difficulty)
-end
+
 
 -- EN: Returns a human-readable string showing the current difficulty settings (for console output).
 -- UA: Повертає зрозумілий рядок з поточними налаштуваннями складності (для виводу в консоль).
@@ -229,21 +219,16 @@ function RHMSettings:resetToDefaults()
     self.enableWearLoss = true
     self.enableMoisture = true
     self.showHUD = true
-    self.showYield = true
     self.showLoad = true
     self.showProductivity = true
     self.showCropLoss = true
     self.showSpeed = true
     self.showMoisture = true
-    self.showSpeedometer = true
-    self.showLoadWarnings = true
     self.enableIndependentLaunch = true
     self.enableTutorials = true
     self.alarmMode = RHMSettings.ALARM_MODE_SMART
     self.enableAlarmSound = true
     self.soundVolume = 1.0
-    self.hudOffsetX = 0
-    self.hudOffsetY = 350
     self.hudPosX = nil -- EN: Reset to automatic HUD positioning / UA: Скидаємо на автоматичну позицію HUD
     self.hudPosY = nil
 

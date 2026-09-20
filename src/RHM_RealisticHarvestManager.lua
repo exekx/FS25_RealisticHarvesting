@@ -29,8 +29,8 @@ function RHM_RealisticHarvestManager.new(mission, modDirectory, modName)
 
     self.savedCameraRotatableInfo = {} -- EN: Stores camera rotatability before cursor mode / UA: Зберігає стан камери до режиму курсора
 
-    -- EN: Multi-layer settings hooking to guarantee injection even with mods like FS25_ScandinavianCurrencies.
-    -- UA: Багаторівневі хуки налаштувань для гарантованої ін'єкції навіть при наявності модів на кшталт FS25_ScandinavianCurrencies.
+    -- EN: Multi-layer settings hooking to guarantee reliable injection into the game settings menu.
+    -- UA: Багаторівневе підключення до налаштувань для надійної ін'єкції в меню гри.
     self:setupSettingsHooks()
 
     -- EN: Console commands are always registered (server and client need them).
@@ -424,13 +424,7 @@ function RHM_RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button
     return false
 end
 
--- EN: Legacy cursor toggle stub — camera and cursor are now exclusively managed
---     by the calibration GUI (Shift+K) to prevent conflicts with Courseplay and AutoDrive RMB.
--- UA: Застарілий стаб перемикача курсора — камера та курсор тепер керуються виключно
---     через GUI калібрування (Shift+K) для усунення конфліктів з правою кнопкою миші Courseplay та AutoDrive.
-function RHM_RealisticHarvestManager:toggleCursor()
-    -- No-op: Cursor and camera are cleanly managed by Shift+K calibration GUI
-end
+
 
 -- EN: Key event handler. Allows pressing ESC to cleanly close calibration GUI.
 -- UA: Обробник подій клавіатури. Дозволяє клавішею ESC чисто закривати GUI калібрування.
@@ -470,8 +464,8 @@ function RHM_RealisticHarvestManager:getEngineLoad(vehicle)
     return 0.0
 end
 
----EN: Returns normalized engine load factor strictly clamped between 0.0 and 1.0 (for ADS / wear mods).
----UA: Повертає нормалізоване навантаження двигуна строго від 0.0 до 1.0 (для модів зносу ADS).
+---EN: Returns normalized engine load factor strictly clamped between 0.0 and 1.0 (for telemetry and wear integration).
+---UA: Повертає нормалізоване навантаження двигуна від 0.0 до 1.0 (для інтеграції телеметрії та зносу).
 ---@param vehicle table|nil
 ---@return number normalizedLoad (0.0 .. 1.0)
 function RHM_RealisticHarvestManager:getNormalizedEngineLoad(vehicle)

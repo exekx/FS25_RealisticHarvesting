@@ -217,7 +217,7 @@ function RHM_LoadCalculator:getEnginePowerHp(vehicle)
         end
     end
 
-    -- 5. Inspect vehicle XML via XMLFile for unencrypted mod/basegame files
+    -- 5. Inspect vehicle XML configuration for engine power rating
     if not resolvedHp and motorObj.configFileName then
         local xmlFile = nil
         local schema = (Vehicle and Vehicle.xmlSchema) or nil
@@ -383,8 +383,8 @@ function RHM_LoadCalculator:getAttachedHeaderInfo(vehicle)
         local isCutter = (obj.spec_cutter ~= nil or obj.spec_forageHarvesterCutter ~= nil 
                        or obj.spec_forageCutter ~= nil or obj.spec_pickup ~= nil)
 
-        -- In trailed setups (e.g. Grimme Rootster on a tractor), a separate harvester implement consumes PTO power.
-        -- Must NOT be the vehicle running RHM itself (e.g. NEXCO modular harvester).
+        -- In trailed setups, a separate harvester implement consumes PTO power.
+        -- Must NOT be the vehicle running RHM itself.
         local isTrailedHarvester = (obj ~= motorCarrier and obj ~= vehicle and obj.spec_combine ~= nil)
         local isGrapeOrOliveMachine = (obj == vehicle and self.combineMemory and (self.combineMemory.machineType == "grape" or self.combineMemory.machineType == "olive"))
 
@@ -494,9 +494,9 @@ function RHM_LoadCalculator:getAttachedHeaderInfo(vehicle)
                 width = 6.0
             end
 
-            local minHpPerM = 7.5 -- Standard grain/draper cutter (7.5 HP/m - matches GIANTS neededMaxPtoPower)
+            local minHpPerM = 7.5 -- Standard grain/draper cutter (7.5 HP/m - matches base engine PTO specifications)
             if isForageCutter then
-                minHpPerM = 20.0 -- High-speed rotary forage cutter (Kemper/XCollect: ~18-20 HP/m)
+                minHpPerM = 20.0 -- High-speed rotary forage cutter (~18-20 HP/m)
             elseif isPickup then
                 minHpPerM = 15.0 -- Windrow pickup reel
             elseif isTrailedHarvester then
@@ -749,7 +749,7 @@ function RHM_LoadCalculator:getCropSpecificEnergy(fruitTypeIndex, fillTypeIndex,
         elseif hasStraw then
             baseESpec = 6.0 -- Standard straw cereals
         else
-            -- Universal dynamic fallback for unknown / modded crops based on physical density
+            -- Universal dynamic fallback for custom or unclassified crops based on physical density
             if density < 0.50 then
                 baseESpec = 14.0 -- Very light seed with high biomass
             elseif density < 0.70 then
@@ -802,11 +802,7 @@ function RHM_LoadCalculator:getCropSpecificEnergy(fruitTypeIndex, fillTypeIndex,
     return baseESpec * yieldFactor
 end
 
----EN: Backward compatibility stub for getCropFactor.
----UA: Заглушка зворотної сумісності для getCropFactor.
-function RHM_LoadCalculator:getCropFactor(fruitTypeIndex, fillTypeIndex, machineType, isPickup, isForageCutter)
-    return 1.0
-end
+
 
 ---EN: Sets base performance mass / UA: Встановлює базову продуктивність (маса)
 function RHM_LoadCalculator:setBasePerformance(basePerfMass)
@@ -1041,7 +1037,7 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     if isCutterActive or isActivelyHarvesting then
         -- Base mechanical & driveline losses:
         -- Modern grain / forage combines: ~8% (efficient hydrostatic & variable transmissions)
-        -- Heavy hydrostatic root harvesters (Dewulf, Grimme, Ropa, Holmer): ~10%
+        -- Heavy hydrostatic root crop harvesters: ~10%
         if machineType == "root" then
             pBase = effectiveEngineHp * 0.10
         else

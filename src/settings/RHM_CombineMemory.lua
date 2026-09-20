@@ -157,9 +157,9 @@ function RHM_CombineMemory:autoConfigureForCrop(cropName, forceOptimal, context)
     return true
 end
 
----EN: Automatically tunes the combine settings for an active AI Worker or Courseplay helper
+---EN: Automatically tunes the combine settings for an active automated worker
 ---    based on the machine's installed electronics package level (Tiers 1–4).
----UA: Автоматично налаштовує комбайн для наймита або Courseplay відповідно до встановленого
+---UA: Автоматично налаштовує комбайн для наймита або автопілота відповідно до встановленого
 ---    рівня електроніки (Тір 1–4).
 function RHM_CombineMemory:applyAiWorkerTuning(cropName, context)
     if not cropName or cropName == "" then

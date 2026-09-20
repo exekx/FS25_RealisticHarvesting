@@ -62,13 +62,5 @@ function RHM_SettingsSync:sendToServer(settings)
     rhm_log(string.format("RHM [Network]: RHM: [Sync] Event sent (Motor: %d, Loss: %d)", tostring(settings.difficultyMotor or 2), tostring(settings.difficultyLoss or 2)))
 end
 
--- EN: Placeholder method called when the client receives settings from the server.
---     Actual application of values happens in RHM_SettingsSyncEvent:run().
--- UA: Метод-заглушка, що викликається коли клієнт отримує налаштування від сервера.
---     Фактичне застосування значень відбувається в RHM_SettingsSyncEvent:run().
-function RHM_SettingsSync:receiveFromServer(eventData)
-    if g_currentMission:getIsServer() then
-        return
-    end
-end
+
 

@@ -16,26 +16,7 @@ rhm_Combine.debug = false
 -- UA: Перевіряє чи транспортний засіб має базову спеціалізацію Combine.
 --     Повертає true для всіх машин, включаючи модульні системи на кшталт NEXAT.
 function rhm_Combine.prerequisitesPresent(specializations)
-    -- EN: Print all specialization class names for diagnostic logging.
-    -- UA: Виводимо всі назви класів спеціалізацій для діагностичного логування.
-    rhm_log("RHM [Combine]: RHM: Checking prerequisites for vehicle")
-    rhm_log("RHM [Combine]: Available specializations:")
-    for specName, specTable in pairs(specializations) do
-        if type(specTable) == "table" and specTable.className then
-            rhm_log("RHM [Combine]:   - " .. specTable.className)
-        end
-    end
-    
-    -- Перевіряємо базову specialization Combine
-    local hasCombine = SpecializationUtil.hasSpecialization(Combine, specializations)
-    rhm_log("RHM [Combine]: Has Combine: " .. tostring(hasCombine))
-    
-    -- Для Nexat: тимчасово спрощуємо перевірку
-    -- Повертаємо true якщо просто є Combine
-    rhm_log("RHM [Combine]: Result: " .. tostring(hasCombine))
-    rhm_log("RHM [Combine]: =======================================")
-    
-    return hasCombine
+    return SpecializationUtil.hasSpecialization(Combine, specializations)
 end
 
 -- EN: Natively called by the engine during specialization registration.
@@ -152,7 +133,7 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
         return
     end
     
-    -- Only register if the player is actively in this vehicle (even if AI/Courseplay is driving)
+    -- Only register if the player is actively in this vehicle (even if an automated driver is active)
     local canRegister = isActiveForInputIgnoreSelection
         or vehicle.isActiveForInputIgnoreSelectionIgnoreAI
         or (vehicle.getIsEntered and vehicle:getIsEntered())
@@ -691,9 +672,9 @@ function rhm_Combine:addCutterArea(superFunc, ...)
     local multiplier = 1.0
     
     -- EN: Convert 'area' (pixel-count) to real square metres using the mission's pixel-to-sqm ratio.
-    --     This reliable formula works independently of map scale and Precision Farming bonuses.
+    --     Calculates physical cut area independently of environmental display scaling.
     -- UA: Конвертуємо 'area' (кількість пікселів) у реальні квадратні метри використовуючи коефіцієнт місії.
-    --     Ця надійна формула працює незалежно від масштабу карти і бонусів Precision Farming.
+    --     Розраховує фізичну площу зрізу незалежно від масштабування інтерфейсу карти.
     -- EN: Pixel→m² factor is constant per mission; avoid calling native every harvest slice.
     -- UA: Коефіцієнт піксель→м² сталий для місії; не тягнемо натив на кожен зріз.
     local sqmMultiplier = 1.0
@@ -927,9 +908,8 @@ end
 -- EN: Called when the detected crop type changes. Delegates to RHM_CombineMemory:switchCrop which
 --     updates the active crop and triggers network sync without altering physical settings.
 --     Does NOT set currentCrop directly — switchCrop handles all state transitions.
----EN: Checks if the vehicle is currently operated by an AI helper or Courseplay.
----EN: Resolves the motorized carrier (self or root/attacher tractor) for modular systems like NEXAT.
----UA: Визначає тяговий засіб (себе або кореневий/причіпний тягач) для модульних систем на кшталт NEXAT.
+---EN: Resolves the motorized carrier (self or root/attacher tractor) for modular machinery setups.
+---UA: Визначає тяговий засіб (себе або кореневий/причіпний тягач) для модульних систем техніки.
 function rhm_Combine.getMotorizedCarrier(vehicle)
     if not vehicle then return nil end
     if vehicle.spec_motorized and vehicle.spec_motorized.motor then
@@ -946,8 +926,8 @@ function rhm_Combine.getMotorizedCarrier(vehicle)
     return vehicle
 end
 
----EN: Checks if combine is currently driven by an AI worker or Courseplay.
----UA: Перевіряє чи комбайном зараз керує наймит або Courseplay.
+---EN: Checks if combine is currently driven by an automated worker or helper.
+---UA: Перевіряє чи комбайном зараз керує наймит або автоматичний помічник.
 function rhm_Combine.isAiWorkerActive(vehicle)
     if not vehicle then return false end
     if vehicle.getIsAIActive and vehicle:getIsAIActive() then
@@ -1015,8 +995,8 @@ function rhm_Combine:onCropTypeChanged(newCropName)
         end
     end
 
-    -- EN: If an AI worker or Courseplay helper is driving, auto-tune settings for this crop by tier
-    -- UA: Якщо керує наймит або Courseplay, автоматично калібруємо налаштування за рівнем електроніки
+    -- EN: If an automated worker or helper is driving, auto-tune settings for this crop by tier
+    -- UA: Якщо керує наймит або автоматичний помічник, автоматично калібруємо налаштування за рівнем обладнання
     if self.isServer and rhm_Combine.isAiWorkerActive(self) then
         spec._lastAiTunedCrop = newCropName
         spec.combineMemory:applyAiWorkerTuning(newCropName)
@@ -1252,9 +1232,9 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
     end
     
     -- EN: ALWAYS apply the calculated limit, BUT NEVER exceed vanilla game limits (ModHub requirement).
-    --     This ensures root harvesters (like Dewulf) don't run at 11km/h when their base workspeed is 8km/h.
+    --     This ensures specialized harvesters don't exceed their base operating speed.
     -- UA: ЗАВЖДИ застосовуємо розрахований ліміт, АЛЕ НІКОЛИ не перевищуємо ванільні ліміти гри (вимога ModHub).
-    --     Це гарантує, що коренезбиральні комбайни (як Dewulf) не їдуть 11 км/год, коли їх базова робоча швидкість 8 км/год.
+    --     Це гарантує, що спеціалізовані комбайни не перевищують свою базову робочу швидкість.
     spec.isSpeedLimitActive = true
     
     -- MODHUB FIX: Cap speed to the game's actual base limit
@@ -1697,12 +1677,12 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         return
     end
     
-    -- EN: Check if the cutter is working. Uses same logic as getSpeedLimit:
+    -- EN: Check if the cutter is working. Evaluates:
     --     isTurnedOn AND speed > 0.5 AND lowered (or allowCuttingWhileRaised).
-    --     Avoids movingDirection check that Courseplay can break.
-    -- UA: Перевіряємо чи жатка працює. Використовує ту ж логіку що й getSpeedLimit:
+    --     Avoids directional flags that can become indeterminate during automated path following.
+    -- UA: Перевіряємо чи жатка працює. Оцінює:
     --     isTurnedOn І speed > 0.5 І опущена (або allowCuttingWhileRaised).
-    --     Уникає перевірки movingDirection яку Courseplay може порушити.
+    --     Уникає прапорців напрямку, які можуть бути невизначеними під час руху по траєкторії.
     local cutterIsTurnedOn = false
     for cutter, _ in pairs(spec_combine.attachedCutters) do
         if cutter.spec_cutter then
@@ -1936,9 +1916,9 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec.combineMemory:updateAutoTrim(dt)
     end
 
-    -- EN: Auto-tune settings when AI worker / Courseplay operates the combine.
+    -- EN: Auto-tune settings when an automated worker operates the combine.
     --     Applies once upon starting or switching crop, preserving manual control when player drives.
-    -- UA: Автоналаштування коли керує наймит або Courseplay.
+    -- UA: Автоналаштування коли технікою керує автоматичний помічник.
     --     Застосовується один раз при старті або зміні культури, зберігаючи повністю ручне керування для гравця.
     if self.isServer and cutterIsTurnedOn then
         -- EN: Hopper sanity check: if the hopper contains grain of a different crop type than currentCrop,
@@ -1988,9 +1968,9 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
     end
 
-    -- EN: Dedicated Server AI Profile Sync: If Courseplay / AI helper is harvesting on a dedicated server,
+    -- EN: Dedicated Server Profile Sync: If an automated worker is harvesting on a dedicated server,
     --     the client owning/controlling this combine automatically sends their locally saved crop preset (if any).
-    -- UA: Синхронізація профілю для виділеного сервера: якщо наймит/Courseplay збирає врожай на виділеному сервері,
+    -- UA: Синхронізація профілю для виділеного сервера: якщо автоматичний помічник збирає врожай на виділеному сервері,
     --     клієнт що володіє/керує цим комбайном автоматично надсилає свій локально збережений пресет культури (якщо є).
     if not self.isServer and self.isClient and cutterIsTurnedOn then
         local isAi = rhm_Combine.isAiWorkerActive(self)
@@ -2021,14 +2001,9 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
     end
 
-    -- EN: Diagnostic test auto-sampling (if rhm_auto_record is enabled)
-    -- UA: Автоматичний збір телеметрії (якщо увімкнено rhm_auto_record)
-    if RHM_DiagnosticTool and RHM_DiagnosticTool.autoRecordEnabled and cutterIsTurnedOn then
-        RHM_DiagnosticTool:checkAutoRecord(self, dt)
-    end
     
     -- === SPEED LIMIT ENFORCEMENT (Server Side) ===
-    -- Courseplay (and some cruise control implementations) can bypass `getSpeedLimit()`.
+    -- Certain automated drivers and auxiliary controllers can bypass `getSpeedLimit()`.
     -- Enforce the dynamic cap directly on the motor for both:
     --  - AI vehicles
     --  - player-controlled vehicles (so in-cab cruise reacts to load)
@@ -2653,8 +2628,8 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
         local spec = self.spec_rhm_Combine
         self:clearActionEventsTable(spec.actionEvents)
         
-        -- EN: Allow registration when player is inside the combine, even while AI / Courseplay is operating it.
-        -- UA: Дозволяємо реєстрацію коли гравець у комбайні, навіть якщо ним керує ШІ / Courseplay.
+        -- EN: Allow registration when player is inside the combine, even while an automated worker is operating it.
+        -- UA: Дозволяємо реєстрацію коли гравець у комбайні, навіть якщо ним керує автоматичний водій.
         local canRegister = isActiveForInputIgnoreSelection
             or self.isActiveForInputIgnoreSelectionIgnoreAI
             or (self.getIsEntered and self:getIsEntered())

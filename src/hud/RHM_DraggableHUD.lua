@@ -1,13 +1,13 @@
--- EN: Precision Farming (PF) style minimalist on-screen HUD for Realistic Harvesting.
---     Uses the authentic Precision Farming background texture (ui_elements.dds) with 3-part rounded capsule slices.
+-- EN: Minimalist on-screen telemetry HUD for Realistic Harvesting.
+--     Uses the authentic rounded capsule slices (ui_elements.dds) with 3-part border rendering.
 --     Correctly tinted with dark obsidian glass color (0.028, 0.030, 0.036, 0.88).
---     Docks directly beneath the Precision Farming shortcut box or F1 ControlsHelp menu.
+--     Docks dynamically beneath the auxiliary combine telemetry bar or F1 ControlsHelp menu.
 --     Dynamically tracks the F1 help menu toggle via g_gameSettings showHelpMenu.
 --     Supports interactive click-to-cycle metrics (t/h <-> ha/h, Loss <-> Speed, Moisture <-> Yield).
--- UA: Мінімалістичний HUD у стилістиці Precision Farming (PF) для Realistic Harvesting.
---     Використовує автентичну текстуру фону PF (ui_elements.dds) з 3-компонентними заокругленими кутами.
---     Тонований у глибокий колір темного скла (0.028, 0.030, 0.036, 0.88), ідентичний до PF.
---     Приліпає безпосередньо під смугу Precision Farming або меню довідки F1 (ControlsHelp).
+-- UA: Мінімалістичний телеметричний HUD для Realistic Harvesting.
+--     Використовує текстуру капсули (ui_elements.dds) з 3-компонентними заокругленими кутами.
+--     Тонований у глибокий колір темного скла (0.028, 0.030, 0.036, 0.88).
+--     Приліпає динамічно під смугу додаткової телеметрії комбайна або меню довідки F1 (ControlsHelp).
 --     Динамічно відстежує відкриття/закриття F1 через g_gameSettings showHelpMenu.
 --     Підтримує інтерактивне перемикання показників кліком (т/ч <-> га/ч, Втрати <-> Швидкість, Волога <-> Урожайність).
 
@@ -182,7 +182,7 @@ local function rhm_initHudHooks()
         FSBaseMission.draw = Utils.prependedFunction(FSBaseMission.draw, rhm_onPreDraw)
     end
 
-    -- Hook Precision Farming combine HUD extension
+    -- Hook auxiliary combine telemetry HUD extension for dynamic docking
     if ExtendedCombineHUDExtension and ExtendedCombineHUDExtension.draw then
         ExtendedCombineHUDExtension.draw = Utils.overwrittenFunction(ExtendedCombineHUDExtension.draw, function(self, superFunc, inputHelpDisplay, posX, posY)
             local ret = superFunc(self, inputHelpDisplay, posX, posY)
@@ -349,8 +349,8 @@ local function rhm_getInputHelpDisplay()
     return nil
 end
 
----EN: Computes the docked position directly beneath the Precision Farming shortcut box or F1 ControlsHelp menu.
----UA: Обчислює позицію стикування безпосередньо під смугою Precision Farming або меню довідки F1 (ControlsHelp).
+---EN: Computes the docked position directly beneath the auxiliary combine telemetry bar or F1 ControlsHelp menu.
+---UA: Обчислює позицію стикування під смугою додаткової телеметрії комбайна або меню довідки F1 (ControlsHelp).
 function RHMDraggableHUD:getDockedPosition()
     rhm_initHudHooks()
 
@@ -382,7 +382,7 @@ function RHMDraggableHUD:getDockedPosition()
     local chX = (ch and ch.lineBg and ch.lineBg.x) or (ch and ch.getX and ch:getX()) or (ch and ch.x) or defaultX
     local chW = (ch and ch.lineBg and ch.lineBg.width) or (ch and ch.getWidth and ch:getWidth()) or (ch and ch.width) or defaultW
 
-    -- Lazy hook PF if it was loaded into the global scope after initialization
+    -- Lazy hook auxiliary combine telemetry HUD extension if loaded dynamically
     if not RHMDraggableHUD.pfHooked and ExtendedCombineHUDExtension and ExtendedCombineHUDExtension.draw then
         RHMDraggableHUD.pfHooked = true
         ExtendedCombineHUDExtension.draw = Utils.overwrittenFunction(ExtendedCombineHUDExtension.draw, function(extSelf, superFunc, inputHelpDisplay, posX, posY)
@@ -405,7 +405,7 @@ function RHMDraggableHUD:getDockedPosition()
         isF1Open = isF1Open and ch:getVisible()
     end
 
-    -- 1. Check Precision Farming HUD Extension on the active combine
+    -- 1. Check auxiliary combine HUD extension on the active combine
     local pfExt = getPfHudExtension(currentVeh)
     if pfExt then
         local pfX = nil
@@ -454,7 +454,7 @@ function RHMDraggableHUD:getDockedPosition()
         end
     end
 
-    -- 2. Precision Farming is not active/drawing: Check F1 Help Menu elements
+    -- 2. Auxiliary combine telemetry extension is not active: Check F1 Help Menu elements
 
     if isF1Open and ch then
         -- F1 Help Menu is OPEN:
@@ -806,9 +806,9 @@ function RHMDraggableHUD:buildActiveCells()
         packageLevel = self.vehicle.spec_rhm_Combine.packageLevel or 1
     end
 
-    local hasPF = false
+    local hasAuxTelemetry = false
     if self.vehicle and (self.vehicle.spec_precisionFarmingStatistic ~= nil or self.vehicle.spec_extendedCombine ~= nil) then
-        hasPF = true
+        hasAuxTelemetry = true
     end
 
     local function getL10n(key, fallback)
@@ -1015,11 +1015,11 @@ function RHMDraggableHUD:handleCellClick(clickedCol)
     elseif clickedCol == 3 then
         -- Toggle between moisture (%) and yield (t/ha) (Moisture requires Tier >= 3)
         local pkgLevel = (self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.packageLevel) or 1
-        local hasPF = false
+        local hasAuxTelemetry = false
         if self.vehicle and (self.vehicle.spec_precisionFarmingStatistic ~= nil or self.vehicle.spec_extendedCombine ~= nil) then
-            hasPF = true
+            hasAuxTelemetry = true
         end
-        local canShowMoisture = (pkgLevel >= 3) and (hasPF or (RHM_MoistureAdapter and RHM_MoistureAdapter.isActive))
+        local canShowMoisture = (pkgLevel >= 3) and (hasAuxTelemetry or (RHM_MoistureAdapter and RHM_MoistureAdapter.isActive))
         if canShowMoisture then
             if self.displayModes.cell3 == "moisture" then
                 self.displayModes.cell3 = "yield"

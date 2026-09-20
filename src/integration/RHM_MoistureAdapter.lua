@@ -1,19 +1,19 @@
--- EN: Soft Dependency Bridge for the external 'Moisture System' mod.
---     Safely safely fetches moisture data if the mod is present, returns 0 if missing.
--- UA: Безпечний місток (Адаптер) для зовнішнього моду 'Moisture System'.
---     Безпечно отримує дані про вологість, якщо мод встановлено, інакше повертає 0.
+-- EN: Soft Dependency Bridge for environmental crop moisture data.
+--     Safely fetches moisture data if a provider is present, returns 0 if missing.
+-- UA: Безпечний місток (адаптер) для даних вологості врожаю.
+--     Безпечно отримує дані про вологість, якщо постачальник доступний, інакше повертає 0.
 
 RHM_MoistureAdapter = {}
 RHM_MoistureAdapter.isActive = false
 
----Checks if the MoistureSystem mod is loaded and active in the current mission.
+---Checks if an environmental moisture provider is loaded and active in the current mission.
 function RHM_MoistureAdapter.initialize()
     if g_currentMission ~= nil and g_currentMission.MoistureSystem ~= nil then
         RHM_MoistureAdapter.isActive = true
-        rhm_log("[OK] RHM_MoistureAdapter: External 'Moisture System' mod detected.")
+        rhm_log("[OK] RHM_MoistureAdapter: Environmental moisture provider detected.")
     else
         RHM_MoistureAdapter.isActive = false
-        rhm_log("[OK] RHM_MoistureAdapter: External 'Moisture System' mod not found. Moisture features disabled.")
+        rhm_log("[OK] RHM_MoistureAdapter: Environmental moisture provider not found. Moisture features disabled.")
     end
 end
 

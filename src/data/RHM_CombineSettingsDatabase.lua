@@ -90,8 +90,8 @@ local function safeFillType(ft)
     return (ft ~= nil and ft ~= 0) and ft or nil
 end
 
--- EN: Canonical internal crop keys mapping table. Maps synonyms, aliases, and mod variants to one authoritative key.
--- UA: Таблиця канонічних внутрішніх назв культур. Зводить синоніми, аліаси та варіанти модів до одного ключа.
+-- EN: Canonical internal crop keys mapping table. Maps synonyms, aliases, and custom map variants to standard keys.
+-- UA: Таблиця канонічних внутрішніх назв культур. Зводить синоніми та альтернативні назви до єдиного ключа.
 RHM_CombineSettingsDatabase.canonicalCropNames = {
     ["PEAS"]            = "PEA",
     ["PEA"]             = "PEA",

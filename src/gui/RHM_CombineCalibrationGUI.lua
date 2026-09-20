@@ -327,18 +327,18 @@ function RHMCombineCalibrationGUI:close()
     local camTarget = (vehicle and vehicle.spec_enterable and vehicle)
                    or (self.activeVehicle and self.activeVehicle.spec_enterable and self.activeVehicle)
 
-    local otherModOwnsCursor = false
+    local otherSystemOwnsCursor = false
     if CpHud and CpHud.isHudActive then
-        otherModOwnsCursor = true
+        otherSystemOwnsCursor = true
     end
     if AutoDrive and AutoDrive.isEditorModeEnabled and AutoDrive:isEditorModeEnabled() then
-        otherModOwnsCursor = true
+        otherSystemOwnsCursor = true
     end
     if VehicleMouseCursor and VehicleMouseCursor._cursorOwned then
-        otherModOwnsCursor = true
+        otherSystemOwnsCursor = true
     end
 
-    if not otherModOwnsCursor then
+    if not otherSystemOwnsCursor then
         g_inputBinding:setShowMouseCursor(false)
     end
 
