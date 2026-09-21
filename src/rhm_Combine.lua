@@ -298,7 +298,9 @@ function rhm_Combine:onLoad(savegame)
     -- UA: 1. Перевіряємо категорію магазину (головний авторитет для класифікації техніки)
     local storeItem = g_storeManager:getItemByXMLFilename(self.configFileName)
     local category = storeItem and storeItem.categoryName or ""
+    local catLower = category:lower()
     local fullName = (self.getFullName and self:getFullName()) or ""
+    local typeName = (self.typeName or (self.type and self.type.name) or ""):lower()
 
     if fullName:upper():find("NEXCO") or (self.configFileName and self.configFileName:lower():find("nexco")) then
         -- NEXAT NEXCO combine module is a grain combine harvester
@@ -306,7 +308,7 @@ function rhm_Combine:onLoad(savegame)
     elseif category == "combines" or category == "combineVehicles" or category == "harvesters" then
         -- Grain combine harvesters: always grain, regardless of custom hopper fill types
         machineType = "grain"
-    elseif category == "forageHarvesters" or category == "forageHarvesting" then
+    elseif category == "forageHarvesters" or category == "forageHarvesterVehicles" or category == "forageHarvesting" or catLower:find("forage") ~= nil or typeName:find("forage") ~= nil then
         machineType = "forage"
     elseif category == "cottonVehicles" or category == "cottonHarvesting" then
         machineType = "cotton"
@@ -327,7 +329,7 @@ function rhm_Combine:onLoad(savegame)
         -- EN: 2. Fallback for unclassified / mod vehicles without standard store category
         -- UA: 2. Запасна перевірка для модової техніки без стандартної категорії магазину
         local hasGrainStraw = sc and sc.strawEffects and #sc.strawEffects > 0
-        local isForageSpec = SpecializationUtil.hasSpecialization(ForageHarvester, self.specializations) or self.spec_forageHarvester ~= nil
+        local isForageSpec = SpecializationUtil.hasSpecialization(ForageHarvester, self.specializations) or self.spec_forageHarvester ~= nil or typeName:find("forage") ~= nil
         local isFruitPrep = self.spec_fruitPreparer ~= nil
 
         if isForageSpec then
@@ -491,7 +493,7 @@ function rhm_Combine:onLoad(savegame)
         local xmlSoundFile = loadXMLFile("rhmSounds", soundXmlPath)
         if xmlSoundFile ~= nil and xmlSoundFile ~= 0 then
             local soundManager = g_soundManager
-            local audioGroup = AudioGroup.GUI or AudioGroup.VEHICLE
+            local audioGroup = AudioGroup.VEHICLE
 
             -- 1. Overload alarm buzzer (audible in both 1st and 3rd person)
             if soundManager.loadSample2DFromXML then
@@ -1476,21 +1478,23 @@ function rhm_Combine.playAlarmSample(vehicle, spec, soundVolMultiplier)
     -- UA: Стабільний рівень гучності зумера, масштабований налаштуванням гравця (0.0 до 1.0)
     local alarmVol = math.min(1.0, math.max(0.0, 0.85 * soundVolMultiplier))
 
-    -- EN: Update sample volume properties directly
-    -- UA: Безпосередньо оновлюємо параметри гучності в таблиці семпла
+    -- EN: Update all sample volume properties directly to prevent SoundManager resets
+    -- UA: Безпосередньо оновлюємо всі параметри гучності в таблиці семпла, щоб уникнути скидання
     alarmSample.volume = alarmVol
-    if alarmSample.volumeIndoor ~= nil then
-        alarmSample.volumeIndoor = alarmVol
-    end
-    if alarmSample.volumeOutdoor ~= nil then
-        alarmSample.volumeOutdoor = alarmVol
-    end
+    alarmSample.originalVolume = alarmVol
+    alarmSample.volumeIndoor = alarmVol
+    alarmSample.originalVolumeIndoor = alarmVol
+    alarmSample.volumeOutdoor = alarmVol
+    alarmSample.originalVolumeOutdoor = alarmVol
+    alarmSample.volumeScale = soundVolMultiplier
+    alarmSample.currentVolume = alarmVol
+    alarmSample.targetVolume = alarmVol
 
     if g_soundManager and g_soundManager.setSampleVolume then
         pcall(function() g_soundManager:setSampleVolume(alarmSample, alarmVol) end)
     end
-    if alarmSample.soundSample and type(setSampleVolume) == "function" then
-        pcall(function() setSampleVolume(alarmSample.soundSample, alarmVol) end)
+    if alarmSample.soundSample and type(setAudioSourceVolume) == "function" then
+        pcall(function() setAudioSourceVolume(alarmSample.soundSample, alarmVol) end)
     end
 
     if g_soundManager and g_soundManager.stopSample then
@@ -1499,10 +1503,10 @@ function rhm_Combine.playAlarmSample(vehicle, spec, soundVolMultiplier)
 
     pcall(function() g_soundManager:playSample(alarmSample) end)
 
-    -- EN: Enforce channel volume after playSample triggers
-    -- UA: Закріплюємо гучність аудіоканалу відразу після старту playSample
-    if alarmSample.soundSample and type(setSampleVolume) == "function" then
-        pcall(function() setSampleVolume(alarmSample.soundSample, alarmVol) end)
+    -- EN: Enforce channel volume directly on C++ audio source after playSample triggers
+    -- UA: Закріплюємо гучність аудіоканалу прямо на рівні C++ аудіоджерела відразу після playSample
+    if alarmSample.soundSample and type(setAudioSourceVolume) == "function" then
+        pcall(function() setAudioSourceVolume(alarmSample.soundSample, alarmVol) end)
     end
     if g_soundManager and g_soundManager.setSampleVolume then
         pcall(function() g_soundManager:setSampleVolume(alarmSample, alarmVol) end)
@@ -1514,6 +1518,11 @@ function rhm_Combine:updateSounds(dt)
     if not spec or not spec.samples then
         return
     end
+
+    -- EN: Check if in full-screen GUI (Map, Shop, Settings, ESC menu, Calibration GUI) or paused
+    -- UA: Перевіряємо чи відкрите повноекранне меню (Карта, Магазин, Налаштування, ESC, GUI калібрування) або пауза
+    local isGuiVisible = (g_gui ~= nil and g_gui.getIsGuiVisible ~= nil and g_gui:getIsGuiVisible())
+    local isPaused = (g_currentMission ~= nil and g_currentMission.isPaused)
 
     -- Check user settings
     local alarmMode = 1 -- 1 = Smart (3 beeps), 2 = Continuous, 3 = Off
@@ -1549,10 +1558,13 @@ function rhm_Combine:updateSounds(dt)
         isTurnedOn = self.rootVehicle:getIsTurnedOn()
     end
 
-    -- If alarm disabled, muted (0%), player not in vehicle, or combine turned off: stop active sounds
-    if alarmMode == 3 or soundVolMultiplier <= 0.01 or not isPlayerEntered or not isTurnedOn then
+    -- If alarm disabled, muted (0%), player not in vehicle, combine turned off, game paused, or in any GUI/menu: stop active sounds
+    if alarmMode == 3 or soundVolMultiplier <= 0.01 or not isPlayerEntered or not isTurnedOn or isGuiVisible or isPaused then
         if spec.samples.overloadAlarm then
             pcall(function() g_soundManager:stopSample(spec.samples.overloadAlarm) end)
+            if spec.samples.overloadAlarm.soundSample and type(stopAudioSource) == "function" then
+                pcall(function() stopAudioSource(spec.samples.overloadAlarm.soundSample) end)
+            end
         end
         spec._rhmAlarmTimer = 1500
         spec._rhmAlarmBurstCount = 0

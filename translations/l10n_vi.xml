@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<l10n>
+  <texts>
+    <text name="rhm_section_simulation" text="Realistic Harvesting - Mô phỏng" />
+    <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Hiển thị" />
+    <text name="input_RHM_OPEN_MENU" text="Menu cài đặt máy gặt" />
+    <text name="input_RHM_TOGGLE_HUD" text="Bật/Tắt HUD thu hoạch" />
+    <text name="input_RHM_CLOSE_NOTIFICATION" text="Đóng thông báo" />
+    <text name="rhm_hud_load" text="TẢI" />
+    <text name="rhm_hud_loss" text="THẤT THOÁT" />
+    <text name="rhm_hud_moist" text="ĐỘ ẨM" />
+    <text name="rhm_ai_settings_retained" text="Giữ cài đặt thủ công" />
+    <text name="rhm_ai_auto_tuned" text="Tự động hiệu chuẩn" />
+    <text name="rhm_difficulty" text="Độ khó" />
+    <text name="rhm_difficulty_motor" text="Giới hạn công suất động cơ" />
+    <text name="rhm_difficulty_motor_short" text="Giới hạn động cơ" />
+    <text name="rhm_difficulty_motor_long" text="Xác định vật lý tải động cơ. Arcade = Tắt (không quá tải), Normal = +35% dự trữ công suất, Realistic = 100% vật lý thực tế." />
+    <text name="rhm_difficulty_loss" text="Phạt thất thoát mùa màng" />
+    <text name="rhm_difficulty_loss_short" text="Phạt thất thoát" />
+    <text name="rhm_difficulty_loss_long" text="Xác định tỷ lệ thất thoát. Arcade = 0% (không hao hụt), Normal = hao hụt chuẩn, Realistic = hao hụt tăng cao (200%)." />
+    <text name="rhm_diff_1" text="Arcade" />
+    <text name="rhm_difficulty_long" text="Arcade: Không quá tải hoặc thất thoát. Normal: Vật lý cân bằng (+35%). Realistic: Mô phỏng thuần túy (0%)." />
+    <text name="rhm_diff_2" text="Normal" />
+    <text name="rhm_diff_3" text="Realistic" />
+    <text name="rhm_show_yield" text="Hiện màn hình năng suất" />
+    <text name="rhm_show_yield_short" text="Hiện năng suất" />
+    <text name="rhm_show_yield_long" text="Hiển thị năng suất thời gian thực trên HUD (t/ha hoặc bu/ac)" />
+    <text name="rhm_yield_label" text="Năng suất" />
+    <text name="rhm_hud_short" text="Hiện HUD" />
+    <text name="rhm_hud_long" text="Hiển thị thông tin thu hoạch trên màn hình" />
+    <text name="rhm_speedlimit_short" text="Hạn chế tốc độ" />
+    <text name="rhm_speedlimit_long" text="Tự động giới hạn tốc độ máy gặt dựa trên tải động cơ" />
+    <text name="rhm_croploss_short" text="Bật thất thoát mùa màng" />
+    <text name="rhm_croploss_long" text="Tính toán hao hụt nông sản khi máy gặt quá tải" />
+    <text name="rhm_show_speed_short" text="Hiện tốc độ" />
+    <text name="rhm_show_speed_long" text="Hiển thị tốc độ hiện tại và tốc độ đề xuất trên HUD" />
+    <text name="rhm_show_load_short" text="Hiện tải động cơ" />
+    <text name="rhm_show_load_long" text="Hiển thị phần trăm tải động cơ trên HUD" />
+    <text name="rhm_show_productivity_short" text="Hiện năng suất xử lý" />
+    <text name="rhm_show_productivity_long" text="Hiển thị lưu lượng xử lý (t/h) trên HUD" />
+    <text name="rhm_show_croploss_short" text="Hiện thất thoát" />
+    <text name="rhm_show_moisture_short" text="Hiện độ ẩm" />
+    <text name="rhm_show_moisture_long" text="Hiển thị phần trăm độ ẩm cây trồng trên HUD" />
+    <text name="rhm_moisture_enable_short" text="Lực cản độ ẩm" />
+    <text name="rhm_moisture_enable_long" text="Áp dụng tải phụ dựa trên độ ẩm nông sản (yêu cầu mod Moisture System)" />
+    <text name="rhm_ui_title_main" text="BẢNG ĐIỀU KHIỂN HIỆU CHUẨN MÁY GẶT" />
+    <text name="rhm_ui_page_settings" text="Cài đặt" />
+    <text name="rhm_ui_page_profiles" text="Cấu hình" />
+    <text name="rhm_ui_current_crop" text="Cây trồng hiện tại:" />
+    <text name="rhm_ui_load" text="Tải động cơ:" />
+    <text name="rhm_ui_loss" text="Thất thoát:" />
+    <text name="rhm_ui_fan_speed" text="Tốc độ quạt gió" />
+    <text name="rhm_ui_rotor_speed" text="Tốc độ rotor" />
+    <text name="rhm_ui_upper_sieve" text="SÀNG TRÊN" />
+    <text name="rhm_ui_lower_sieve" text="SÀNG DƯỚI" />
+    <text name="rhm_ui_feeder_speed" text="Khe hở máng đập" />
+    <text name="rhm_ui_mode_auto" text="TỰ ĐỘNG" />
+    <text name="rhm_ui_mode_manual" text="THỦ CÔNG" />
+    <text name="rhm_ui_btn_reset" text="ĐẶT LẠI MẶC ĐỊNH" />
+    <text name="rhm_ui_profile_create" text="CẤU HÌNH MỚI" />
+    <text name="rhm_ui_profile_save" text="Lưu" />
+    <text name="rhm_ui_profile_load" text="TẢI" />
+    <text name="rhm_ui_profile_delete" text="Xóa" />
+    <text name="rhm_ui_profile_name_placeholder" text="Tên cấu hình..." />
+    <text name="rhm_hud_yield_label" text="NĂNG SUẤT" />
+    <text name="rhm_hud_load_label" text="TẢI" />
+    <text name="rhm_hud_loss_label" text="THẤT THOÁT" />
+    <text name="rhm_loss_level_low" text="THẤP" />
+    <text name="rhm_loss_level_med" text="TRUNG" />
+    <text name="rhm_loss_level_high" text="CAO" />
+    <text name="rhm_show_croploss_long" text="Hiển thị phần trăm thất thoát trên HUD" />
+    <text name="rhm_show_load_warn_short" text="Cảnh báo quá tải" />
+    <text name="rhm_show_load_warn_long" text="Hiển thị cảnh báo nhấp nháy khi máy gặt bị quá tải" />
+    <text name="rhm_overload_sounds_short" text="Âm thanh quá tải" />
+    <text name="rhm_overload_sounds_long" text="Phát chuông cảnh báo cabin và âm thanh rung cơ học khi máy gặt quá tải hoặc hao hụt vượt mức" />
+    <text name="rhm_section_audio" text="Realistic Harvesting - Âm thanh" />
+    <text name="rhm_alarm_sounds_short" text="Còi báo quá tải" />
+    <text name="rhm_alarm_sounds_long" text="Chế độ còi báo cabin khi tải động cơ quá mức nghiêm trọng (105%+) hoặc hao hụt vượt 5%." />
+    <text name="rhm_alarm_mode_smart" text="Thông minh (3 tiếng bíp)" />
+    <text name="rhm_alarm_mode_continuous" text="Liên tục" />
+    <text name="rhm_alarm_mode_off" text="Tắt" />
+    <text name="rhm_sound_volume_short" text="Âm lượng" />
+    <text name="rhm_sound_volume_long" text="Điều chỉnh âm lượng còi báo quá tải trong cabin." />
+    <text name="rhm_target_load" text="Tải động cơ mục tiêu" />
+    <text name="rhm_gui_title" text="Cài đặt máy gặt" />
+    <text name="rhm_gui_crop" text="Cây trồng:" />
+    <text name="rhm_gui_none" text="KHÔNG CÓ" />
+    <text name="rhm_gui_btn_auto" text="TỰ ĐỘNG" />
+    <text name="rhm_gui_btn_load_preset" text="Tải thiết lập sẵn" />
+    <text name="rhm_gui_btn_save" text="Lưu cấu hình" />
+    <text name="rhm_gui_btn_reset" text="Đặt lại mặc định" />
+    <text name="rhm_gui_engine_load" text="Tải động cơ: %.0f%%" />
+    <text name="rhm_gui_loss" text="Hao hụt: %.1f%%" />
+    <text name="rhm_gui_preview_loss" text="Dự kiến hao hụt: %.1f%%" />
+    <text name="rhm_gui_close_hint" text="Shift Phải+K để đóng" />
+    <text name="rhm_gui_no_combine" text="Chưa chọn máy gặt" />
+    <text name="rhm_gui_not_init" text="Máy gặt chưa khởi tạo" />
+    <text name="rhm_ui_drum_speed" text="Tốc độ trống đập" />
+    <text name="rhm_ui_roller_speed" text="Tốc độ con lăn" />
+    <text name="rhm_ui_picker_speed" text="Tốc độ bẻ bắp" />
+    <text name="rhm_ui_forage_fan" text="Tốc độ quạt thổi" />
+    <text name="rhm_ui_forage_drum" text="Trống băm nghiền" />
+    <text name="rhm_ui_forage_feeder" text="Trục cuốn nạp" />
+    <text name="rhm_ui_root_roller" text="Con lăn làm sạch" />
+    <text name="rhm_ui_root_feeder" text="Băng chuyền sàng" />
+    <text name="rhm_ui_grape_shaker" text="Tốc độ rung lắc" />
+    <text name="rhm_ui_olive_shaker" text="Tốc độ đập" />
+    <text name="rhm_ui_grape_conveyor" text="Tốc độ băng tải" />
+    <text name="rhm_ui_grape_fan" text="Quạt hút tạp chất" />
+    <text name="rhm_units_short" text="Đơn vị đo" />
+    <text name="rhm_units_long" text="Chọn hệ thống đo lường (vận tốc, khối lượng, diện tích)" />
+    <text name="rhm_unit_metric" text="Hệ mét (km/h, t/h, ha)" />
+    <text name="rhm_unit_imperial" text="Hệ Anh-Mỹ (mph, ton/h, ac)" />
+    <text name="rhm_unit_bushels" text="Hệ Bushel (mph, bu/h, ac)" />
+    <text name="rhm_reset" text="Đặt lại cài đặt RH" />
+    <text name="rhm_loss_low" text="THẤP" />
+    <text name="rhm_loss_med" text="TRUNG" />
+    <text name="rhm_loss_high" text="CAO" />
+    <text name="rhm_warning_turn_on_combine" text="Hãy nổ máy gặt trước!" />
+    <text name="rhm_warning_turn_on_cutter" text="Hãy bật guồng quay hàm cắt!" />
+    <text name="rhm_warn_overload_high" text="Máy gặt quá tải! Giảm tốc độ để hạn chế thất thoát hạt." />
+    <text name="rhm_warn_overload_critical" text="MÁY GẶT QUÁ TẢI NGUY HIỂM! Thất thoát hạt rất nghiêm trọng!" />
+    <text name="rhm_configuration_title" text="Hệ thống Realistic Harvesting" />
+    <text name="rhm_package_standard" text="Cấp 1: Cơ khí tiêu chuẩn" />
+    <text name="rhm_package_sensor" text="Cấp 2: Gói cảm biến" />
+    <text name="rhm_package_yield" text="Cấp 3: Đo từ xa &amp; Giám sát năng suất" />
+    <text name="rhm_package_opti" text="Cấp 4: Tự lái Opti-Harvest AI" />
+    <text name="rhm_msg_req_level_4" text="Yêu cầu gói tự lái Opti-Harvest AI (Cấp 4) lắp tại xưởng." />
+    <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Thu hoạch một vài mét để bắt đầu tự động hiệu chuẩn!" />
+    <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Đã tự động hiệu chuẩn thành công cho %s!" />
+    <text name="rhm_help_category" text="Realistic Harvesting" />
+    <text name="rhm_help_title" text="Cẩm nang Realistic Harvesting" />
+    <text name="rhm_help_overview_title" text="Tổng quan &amp; Vật lý" />
+    <text name="rhm_help_overview_sub1" text="Tải động cơ &amp; Thông lượng" />
+    <text name="rhm_help_overview_1" text="Realistic Harvesting thay thế tốc độ làm việc cố định bằng mô hình lưu lượng dựa trên vật lý. Tải động cơ được tính từ khối lượng cây trồng mỗi giây, độ ẩm, độ rộng hàm cắt và máy băm rơm. Khi cây trồng dày đặc, máy gặt sẽ tự hãm tốc độ để tránh nghẹt trống đập." />
+    <text name="rhm_help_overview_sub2" text="Điều khiển tốc độ" />
+    <text name="rhm_help_overview_2" text="Bộ điều tốc thủy tĩnh tự động điều chỉnh tốc độ di chuyển để giữ động cơ trong dải hiệu suất tối ưu (80–95%). Khi ra bờ ruộng, tốc độ làm việc được ghi nhớ để tiếp tục mượt mà vào đường gặt tiếp theo." />
+    <text name="rhm_help_hud_title" text="HUD &amp; Đo từ xa" />
+    <text name="rhm_help_hud_sub1" text="HUD Thu hoạch" />
+    <text name="rhm_help_hud_1" text="Màn hình HUD hiển thị trực tiếp: tốc độ hiện tại và đề xuất, phần trăm tải động cơ, thông lượng tấn mỗi giờ (t/h), năng suất thời gian thực và tỷ lệ hao hụt." />
+    <text name="rhm_help_hud_sub2" text="Cảnh báo &amp; Màu sắc" />
+    <text name="rhm_help_hud_2" text="Màu xanh biểu thị tải tối ưu. Màu vàng là tải trung bình. Màu đỏ nhấp nháy khi quá tải nguy hiểm (&gt;95%), máy gặt sẽ tự động giảm tốc." />
+    <text name="rhm_help_hud_sub3" text="Các chỉ số đo đạc" />
+    <text name="rhm_help_hud_3_load" text="TẢI: Tỷ lệ tải động cơ từ truyền động, buồng đập và băm rơm." />
+    <text name="rhm_help_hud_3_yield" text="SẢN LƯỢNG: Năng suất thực tế trên diện tích đang gặt (t/ha hoặc bu/ac)." />
+    <text name="rhm_help_hud_3_productivity" text="NĂNG SUẤT: Lưu lượng vật liệu đi qua máy tính theo tấn/giờ (t/h)." />
+    <text name="rhm_help_hud_3_moisture" text="ĐỘ ẨM: Phần trăm độ ẩm cây trồng. Nông sản ướt đòi hỏi công suất lớn hơn nhiều." />
+    <text name="rhm_help_hud_3_loss" text="THẤT THOÁT: Tỷ lệ hạt rơi vãi từ buồng đập và hệ thống sàng lọc." />
+    <text name="rhm_help_hud_3_speed" text="TỐC ĐỘ: Tốc độ hiện tại so với tốc độ tối ưu được tính toán." />
+    <text name="rhm_help_calibration_title" text="Bảng điều khiển hiệu chuẩn" />
+    <text name="rhm_help_calibration_main_sub" text="Bảng điều khiển (Shift Phải + K)" />
+    <text name="rhm_help_calibration_main_text" text="Mở bảng hiệu chuẩn bằng Shift Phải + K. Tại đây bạn có thể cài đặt tốc độ trống đập, quạt gió, khe hở máng đập và độ mở sàng phù hợp từng loại cây trồng." />
+    <text name="rhm_help_calibration_rotor_sub" text="Tốc độ trống &amp; Khe hở máng" />
+    <text name="rhm_help_calibration_rotor_text" text="Tốc độ quá cao hoặc khe hở quá hẹp sẽ làm nát hạt. Tốc độ quá thấp để lại hạt chưa đập bám trên rơm." />
+    <text name="rhm_help_calibration_fan_sub" text="Quạt gió &amp; Sàng lọc" />
+    <text name="rhm_help_calibration_fan_text" text="Quạt gió thổi sạch vỏ trấu khỏi hạt. Gió quá mạnh sẽ thổi bay hạt ra ngoài ruộng. Gió quá yếu làm trấu đọng nghẹt sàng." />
+    <text name="rhm_help_calibration_perf_sub" text="Tinh chỉnh hiệu suất" />
+    <text name="rhm_help_calibration_perf_text" text="Thiết lập chuẩn xác giúp giảm tỷ lệ thất thoát xuống dưới 0.5% và cho phép máy gặt chạy nhanh hơn mà không quá tải." />
+    <text name="rhm_help_special_title" text="Máy gặt chuyên dụng" />
+    <text name="rhm_help_special_sub1" text="Máy gặt ủ chua &amp; Hàm cuốn luống" />
+    <text name="rhm_help_special_1" text="Máy thu hoạch thức ăn chăn nuôi tự hành có cơ chế cắt xắt riêng biệt. Với hàm cuốn luống, tải được tính toán dựa trên độ dày của luống rơm/cỏ." />
+    <text name="rhm_help_special_sub2" text="Máy gặt củ, Bông vải &amp; Nền tảng NEXAT" />
+    <text name="rhm_help_special_2" text="Máy thu hoạch khoai tây và củ cải có lực cản đất lớn. Hàm cắt bắp ngô cần vòng tua thấp để tránh làm nát bắp." />
+    <text name="rhm_help_loss_title" text="Thất thoát mùa màng" />
+    <text name="rhm_help_loss_sub1" text="Thất thoát hạt vật lý" />
+    <text name="rhm_help_loss_1" text="Hạt thất thoát bị trừ trực tiếp từ bồn chứa nông sản của máy gặt, gây thiệt hại kinh tế thực sự." />
+    <text name="rhm_help_loss_sub2" text="Nguyên nhân hao hụt" />
+    <text name="rhm_help_loss_2" text="Nguyên nhân chính: Tốc độ di chuyển quá nhanh, cài đặt sàng sai, cây trồng quá ướt, hoặc lưỡi cắt bị cùn." />
+    <text name="rhm_help_loss_sub3" text="Bù dốc địa hình" />
+    <text name="rhm_help_loss_3" text="Trên địa hình đồi dốc, vật liệu bị dồn về một bên sàng làm tăng thất thoát mạnh mẽ trừ khi máy giảm tốc độ." />
+    <text name="rhm_help_difficulty_title" text="Cấp độ khó" />
+    <text name="rhm_help_difficulty_sub1" text="Lựa chọn chế độ" />
+    <text name="rhm_help_difficulty_1" text="Trong menu cài đặt, bạn có thể chọn riêng biệt chế độ Arcade, Normal hoặc Realistic cho tải động cơ và thất thoát." />
+    <text name="rhm_help_difficulty_sub2" text="Sự khác biệt" />
+    <text name="rhm_help_difficulty_2" text="Arcade tắt cơ chế giảm tốc. Normal mang lại trải nghiệm cân bằng. Realistic cung cấp mô phỏng chân thực 100%." />
+    <text name="rhm_help_upgrades_title" text="Nâng cấp điện tử" />
+    <text name="rhm_help_upgrades_sub1" text="Cấp 1: Cơ khí thủ công" />
+    <text name="rhm_help_upgrades_1" text="Máy gặt nguyên bản. Đòi hỏi người chơi tự cài đặt tất cả các thông số dựa trên kinh nghiệm." />
+    <text name="rhm_help_upgrades_sub2" text="Cấp 2: Bộ cảm biến" />
+    <text name="rhm_help_upgrades_2" text="Bổ sung cảm biến thất thoát điện tử và hiển thị tải giúp việc căn chỉnh dễ dàng hơn." />
+    <text name="rhm_help_upgrades_sub3" text="Cấp 3: Màn hình đo từ xa" />
+    <text name="rhm_help_upgrades_3" text="Màn hình năng suất hoàn chỉnh, đo đạc diện tích và khả năng lưu/tải các cấu hình cây trồng." />
+    <text name="rhm_help_upgrades_sub4" text="Cấp 4: Tự lái Opti-Harvest AI" />
+    <text name="rhm_help_upgrades_4" text="Hệ thống máy tính thông minh tự động tinh chỉnh thông số máy gặt liên tục theo điều kiện thực tế." />
+    <text name="rhm_help_moisture_title" text="Hệ thống độ ẩm" />
+    <text name="rhm_help_moisture_sub1" text="Chu kỳ ngày đêm &amp; Sương sớm" />
+    <text name="rhm_help_moisture_1" text="Sương ban mai khiến thân rơm dai và khó đập. Thu hoạch lúc ẩm ướt đòi hỏi công suất động cơ vượt trội." />
+    <text name="rhm_help_moisture_sub2" text="Phạt do độ ẩm" />
+    <text name="rhm_help_moisture_2" text="Trên 18% độ ẩm, năng lực đập tách hạt suy giảm rõ rệt và nguy cơ nghẽn trống đập tăng vọt." />
+    <text name="rhm_help_cropsettings_title" text="Hướng dẫn cây trồng" />
+    <text name="rhm_help_cropsettings_grain_sub" text="Cây hạt (Lúa mì, Đại mạch, Yến mạch, Lúa mạch đen)" />
+    <text name="rhm_help_cropsettings_grain_text" text="Vòng tua trống cao (700–850 RPM) và khe hở máng vừa phải (10–15 mm) để tách hạt hiệu quả." />
+    <text name="rhm_help_cropsettings_forage_sub" text="Bắp ngô &amp; Hoa hướng dương" />
+    <text name="rhm_help_cropsettings_forage_text" text="Vòng tua thấp (350–450 RPM) và khe hở máng rộng (25–35 mm) để bảo vệ bắp và hạt không bị nát." />
+    <text name="rhm_help_cropsettings_root_sub" text="Cây họ đậu &amp; Cải dầu" />
+    <text name="rhm_help_cropsettings_root_text" text="Cải dầu đòi hỏi tốc độ gió thấp để các hạt nhẹ không bị thổi bay ra khỏi buồng sàng." />
+    <text name="rhm_ui_section_separation" text="ĐẬP VÀ PHÂN TÁCH" />
+    <text name="rhm_ui_section_cleaning" text="HỆ THỐNG LÀM SẠCH" />
+    <text name="rhm_ui_section_discharge" text="XẢ HẠT VÀ BĂM RƠM" />
+    <text name="rhm_ui_section_performance" text="HIỆU SUẤT HOẠT ĐỘNG" />
+    <text name="rhm_ui_tier1_manual" text="CẤP 1 - THỦ CÔNG" />
+    <text name="rhm_ui_tier2_sensors" text="CẤP 2 - CẢM BIẾN" />
+    <text name="rhm_ui_tier3_monitor" text="CẤP 3 - ĐO TỪ XA" />
+    <text name="rhm_ui_tier4_opti" text="CẤP 4 - AI TỐI ƯU" />
+    <text name="rhm_ui_arcade_badge" text="ARCADE" />
+    <text name="rhm_ui_card_engine_load" text="TẢI ĐỘNG CƠ" />
+    <text name="rhm_ui_card_efficiency" text="HIỆU QUẢ" />
+    <text name="rhm_ui_card_predicted_loss" text="DỰ ĐOÁN HAO HỤT" />
+    <text name="rhm_ui_btn_ai_auto" text="AI TỰ ĐỘNG HIỆU CHUẨN" />
+    <text name="rhm_ui_btn_auto_locked" text="TỰ ĐỘNG (ĐÃ KHÓA)" />
+    <text name="rhm_ui_btn_load_preset" text="TẢI THIẾT LẬP" />
+    <text name="rhm_ui_btn_save_profile" text="LƯU CẤU HÌNH" />
+    <text name="rhm_ui_btn_load_locked" text="TẢI (ĐÃ KHÓA)" />
+    <text name="rhm_ui_btn_save_locked" text="LƯU (BỊ KHÓA)" />
+    <text name="rhm_ui_btn_reset_defaults" text="KHÔI PHỤC CÀI ĐẶT GỐC" />
+    <text name="rhm_ui_status_optimal" text="TỐI ƯU" />
+    <text name="rhm_ui_status_low" text="QUÁ THẤP" />
+    <text name="rhm_ui_status_high" text="QUÁ CAO" />
+    <text name="rhm_msg_req_tier4" text="Yêu cầu gói tự lái Opti-Harvest AI (Cấp 4)" />
+    <text name="rhm_msg_req_tier3" text="Cấu hình yêu cầu Màn hình đo từ xa (Cấp 3)" />
+    <text name="rhm_msg_req_tier2" text="Cấu hình yêu cầu Bộ cảm biến (Cấp 2 trở lên)" />
+    <text name="rhm_msg_profile_saved" text="Đã lưu cấu hình: %s" />
+    <text name="rhm_msg_profile_loaded" text="Đã tải cấu hình: %s" />
+    <text name="rhm_msg_profile_not_found" text="Không tìm thấy cấu hình đã lưu cho loại cây này" />
+    <text name="rhm_ui_combine_not_init" text="Máy gặt chưa được khởi tạo" />
+    <text name="rhm_unit_t_per_hour" text="t/h" />
+    <text name="rhm_unit_ha_per_hour" text="ha/h" />
+    <text name="rhm_setting_ai_tuning" text="Điều chỉnh công nhân AI" />
+    <text name="rhm_setting_ai_tuning_long" text="Xác định cách AI xử lý cài đặt máy. 'Giữ cài đặt của tôi' bảo lưu các cấu hình thủ công. 'Luôn tự hiệu chuẩn' căn chỉnh theo cấp điện tử. 'Tắt' ngăn AI thay đổi cài đặt." />
+    <text name="rhm_setting_ai_tuning_keep" text="Giữ cài đặt của tôi" />
+    <text name="rhm_setting_ai_tuning_auto" text="Luôn tự hiệu chuẩn" />
+    <text name="rhm_setting_ai_tuning_disabled" text="Đã tắt" />
+    <text name="rhm_crop_straw_windrow" text="Luống rơm rạ" />
+    <text name="rhm_crop_grass_windrow" text="Luống cỏ tươi" />
+    <text name="rhm_crop_drygrass_windrow" text="Luống cỏ khô" />
+    <text name="rhm_crop_alfalfa_windrow" text="Luống cỏ linh lăng" />
+    <text name="rhm_crop_clover_windrow" text="Luống cỏ ba lá" />
+    <text name="rhm_crop_maize_forage" text="Cây ngô ủ chua" />
+    <text name="rhm_windrow_format" text="Luống: %s" />
+    <text name="rhm_setting_enableTutorials" text="Gợi ý hướng dẫn" />
+    <text name="rhm_setting_enableTutorials_long" text="Hiển thị các mẹo hướng dẫn tương tác trong khi thu hoạch." />
+    <text name="rhm_ui_btn_close_notification" text="OK (Enter / Nhấp chuột trái)" />
+    <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+    <text name="rhm_tut_welcome_msg" text="Chào mừng đến với Realistic Harvesting! Tốc độ máy gặt sẽ tự động thích ứng theo tải động cơ, độ dày cây trồng và hàm cắt. Mở bảng hiệu chuẩn bằng (Shift Phải + K)." />
+    <text name="rhm_tut_overload_title" text="Động cơ quá tải" />
+    <text name="rhm_tut_overload_msg" text="Động cơ đang chịu tải cực lớn! Hộp số thủy tĩnh tự động hãm tốc độ để tránh nghẹt trống đập. Hãy nâng hàm cắt hoặc giảm bề rộng vệt gặt." />
+    <text name="rhm_tut_loss_title" text="Thất thoát mùa màng cao" />
+    <text name="rhm_tut_loss_msg" text="Hạt thất thoát sau đuôi máy đang ở mức báo động! Vòng tua trống đập hoặc độ mở sàng chưa phù hợp. Nhấn (Shift Phải + K) để căn chỉnh." />
+    <text name="rhm_tut_moisture_title" text="Cây trồng độ ẩm cao" />
+    <text name="rhm_tut_moisture_msg" text="Độ ẩm hạt quá cao hoặc trời vừa đổ mưa! Sinh khối ướt tạo lực cản khổng lồ, làm tăng vọt tải động cơ và thất thoát. Hãy thu hoạch lúc trời khô ráo." />
+    <text name="rhm_tut_headland_title" text="Bộ nhớ tốc độ bờ ruộng" />
+    <text name="rhm_tut_headland_msg" text="Khi nhấc hàm cắt lúc quay đầu bờ ruộng, máy gặt ghi nhớ tốc độ làm việc. Khi hạ hàm ở luống mới, máy sẽ tăng tốc êm ái không bị giật." />
+    <text name="rhm_tut_upgrade_title" text="Nâng cấp máy gặt" />
+    <text name="rhm_tut_upgrade_msg" text="Máy gặt cơ bản cần căn chỉnh thủ công. Nâng cấp điện tử tại xưởng để mở khóa Bộ cảm biến (Cấp 2), Màn hình năng suất (Cấp 3) hoặc Opti-Harvest AI (Cấp 4)." />
+    <text name="rhm_setting_wear_loss_short" text="Thất thoát do hao mòn máy" />
+    <text name="rhm_setting_wear_loss_long" text="Mô phỏng rơi rớt hạt do thiết bị hao mòn. Dao cắt cùn đập rụng bông/bắp (lên đến +3% hao hụt và +15% lực cản). Trống đập và sàng bị mòn làm rơi hạt chưa tách (lên đến +3% hao hụt)." />
+    <text name="rhm_ui_wear_loss" text="Hao mòn" />
+    <text name="rhm_ui_cutter_wear" text="Độ mòn hàm cắt" />
+    <text name="rhm_ui_combine_wear" text="Độ mòn buồng đập" />
+  </texts>
+</l10n>

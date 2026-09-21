@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<l10n>
+  <texts>
+    <text name="rhm_section_simulation" text="Realistic Harvesting - 物理模擬" />
+    <text name="rhm_section_visuals" text="Realistic Harvesting - HUD 與儀表" />
+    <text name="input_RHM_OPEN_MENU" text="聯合收割機設置選單" />
+    <text name="input_RHM_TOGGLE_HUD" text="切換收割 HUD 顯示" />
+    <text name="input_RHM_CLOSE_NOTIFICATION" text="關閉通知" />
+    <text name="rhm_hud_load" text="負載" />
+    <text name="rhm_hud_loss" text="損失" />
+    <text name="rhm_hud_moist" text="濕度" />
+    <text name="rhm_ai_settings_retained" text="已保留手動設置" />
+    <text name="rhm_ai_auto_tuned" text="已自動校準" />
+    <text name="rhm_difficulty" text="難度" />
+    <text name="rhm_difficulty_motor" text="引擎功率限制" />
+    <text name="rhm_difficulty_motor_short" text="引擎限制" />
+    <text name="rhm_difficulty_motor_long" text="決定引擎負載物理。街機 = 禁用（無過載減速），普通 = +35% 功率餘量，真實 = 100% 真實物理模擬。" />
+    <text name="rhm_difficulty_loss" text="作物損失懲罰" />
+    <text name="rhm_difficulty_loss_short" text="損失懲罰" />
+    <text name="rhm_difficulty_loss_long" text="決定作物損失率。街機 = 0%（無損失），普通 = 標準損失，真實 = 增加損失（200%）。" />
+    <text name="rhm_diff_1" text="街機" />
+    <text name="rhm_difficulty_long" text="街機：無過載或作物損失。普通：平衡物理（+35%）。真實：純粹模擬（0%）。" />
+    <text name="rhm_diff_2" text="普通" />
+    <text name="rhm_diff_3" text="真實" />
+    <text name="rhm_show_yield" text="顯示產量監控" />
+    <text name="rhm_show_yield_short" text="顯示產量" />
+    <text name="rhm_show_yield_long" text="在 HUD 中即時顯示產量（t/ha 或 bu/ac）" />
+    <text name="rhm_yield_label" text="產量" />
+    <text name="rhm_hud_short" text="顯示 HUD" />
+    <text name="rhm_hud_long" text="在螢幕上顯示收割遙測資訊" />
+    <text name="rhm_speedlimit_short" text="速度限制器" />
+    <text name="rhm_speedlimit_long" text="根據引擎負載自動限制收割機作業速度" />
+    <text name="rhm_croploss_short" text="啟用作物損失" />
+    <text name="rhm_croploss_long" text="超載時計算作物收穫損失" />
+    <text name="rhm_show_speed_short" text="顯示速度" />
+    <text name="rhm_show_speed_long" text="在 HUD 中顯示當前速度與推薦速度" />
+    <text name="rhm_show_load_short" text="顯示引擎負載" />
+    <text name="rhm_show_load_long" text="在 HUD 中顯示引擎負載百分比" />
+    <text name="rhm_show_productivity_short" text="顯示作業效率" />
+    <text name="rhm_show_productivity_long" text="在 HUD 中顯示吞吐量（t/h）" />
+    <text name="rhm_show_croploss_short" text="顯示損失" />
+    <text name="rhm_show_moisture_short" text="顯示濕度" />
+    <text name="rhm_show_moisture_long" text="在 HUD 中顯示作物含水率百分比" />
+    <text name="rhm_moisture_enable_short" text="濕度阻力" />
+    <text name="rhm_moisture_enable_long" text="根據作物濕度施加負載懲罰（需要 Moisture System 模組）" />
+    <text name="rhm_ui_title_main" text="聯合收割機校準終端" />
+    <text name="rhm_ui_page_settings" text="設置" />
+    <text name="rhm_ui_page_profiles" text="配置存檔" />
+    <text name="rhm_ui_current_crop" text="當前作物:" />
+    <text name="rhm_ui_load" text="引擎負載:" />
+    <text name="rhm_ui_loss" text="作物損失:" />
+    <text name="rhm_ui_fan_speed" text="風機轉速" />
+    <text name="rhm_ui_rotor_speed" text="轉子轉速" />
+    <text name="rhm_ui_upper_sieve" text="上篩（魚鱗篩）開度" />
+    <text name="rhm_ui_lower_sieve" text="下篩開度" />
+    <text name="rhm_ui_feeder_speed" text="凹板間隙" />
+    <text name="rhm_ui_mode_auto" text="自動" />
+    <text name="rhm_ui_mode_manual" text="手動" />
+    <text name="rhm_ui_btn_reset" text="恢復預設" />
+    <text name="rhm_ui_profile_create" text="新建配置" />
+    <text name="rhm_ui_profile_save" text="儲存" />
+    <text name="rhm_ui_profile_load" text="載入" />
+    <text name="rhm_ui_profile_delete" text="刪除" />
+    <text name="rhm_ui_profile_name_placeholder" text="輸入配置名稱..." />
+    <text name="rhm_hud_yield_label" text="產量" />
+    <text name="rhm_hud_load_label" text="負載" />
+    <text name="rhm_hud_loss_label" text="損失" />
+    <text name="rhm_loss_level_low" text="低" />
+    <text name="rhm_loss_level_med" text="中" />
+    <text name="rhm_loss_level_high" text="高" />
+    <text name="rhm_show_croploss_long" text="在 HUD 中顯示作物損失百分比" />
+    <text name="rhm_show_load_warn_short" text="超載警告" />
+    <text name="rhm_show_load_warn_long" text="當收割機超載時顯示閃爍警告" />
+    <text name="rhm_overload_sounds_short" text="超載警報音效" />
+    <text name="rhm_overload_sounds_long" text="當收割機嚴重超載或損失超標時播放駕駛艙警報及機械受力音效" />
+    <text name="rhm_section_audio" text="Realistic Harvesting - 音效" />
+    <text name="rhm_alarm_sounds_short" text="超載警報蜂鳴器" />
+    <text name="rhm_alarm_sounds_long" text="當引擎負載達到嚴重超載（105%+）或作物損失超過 5% 時的駕駛室蜂鳴器警報。" />
+    <text name="rhm_alarm_mode_smart" text="智能（3次鳴叫）" />
+    <text name="rhm_alarm_mode_continuous" text="持續鳴叫" />
+    <text name="rhm_alarm_mode_off" text="關閉" />
+    <text name="rhm_sound_volume_short" text="警報音量" />
+    <text name="rhm_sound_volume_long" text="調整駕駛室超載蜂鳴警報器的音量大小。" />
+    <text name="rhm_target_load" text="目標引擎負載" />
+    <text name="rhm_gui_title" text="收割機設置" />
+    <text name="rhm_gui_crop" text="作物:" />
+    <text name="rhm_gui_none" text="無" />
+    <text name="rhm_gui_btn_auto" text="自動" />
+    <text name="rhm_gui_btn_load_preset" text="載入預設" />
+    <text name="rhm_gui_btn_save" text="儲存配置" />
+    <text name="rhm_gui_btn_reset" text="重設為預設" />
+    <text name="rhm_gui_engine_load" text="引擎負載: %.0f%%" />
+    <text name="rhm_gui_loss" text="損失率: %.1f%%" />
+    <text name="rhm_gui_preview_loss" text="預覽損失: %.1f%%" />
+    <text name="rhm_gui_close_hint" text="右Shift+K 關閉" />
+    <text name="rhm_gui_no_combine" text="未選擇收割機" />
+    <text name="rhm_gui_not_init" text="收割機未初始化" />
+    <text name="rhm_ui_drum_speed" text="滾筒轉速" />
+    <text name="rhm_ui_roller_speed" text="壓輥速度" />
+    <text name="rhm_ui_picker_speed" text="摘穗速度" />
+    <text name="rhm_ui_forage_fan" text="拋料風機速度" />
+    <text name="rhm_ui_forage_drum" text="切碎滾筒" />
+    <text name="rhm_ui_forage_feeder" text="喂入輥" />
+    <text name="rhm_ui_root_roller" text="清選輥" />
+    <text name="rhm_ui_root_feeder" text="升運鏈耙" />
+    <text name="rhm_ui_grape_shaker" text="振搖頻率" />
+    <text name="rhm_ui_olive_shaker" text="擊打速度" />
+    <text name="rhm_ui_grape_conveyor" text="輸送帶速度" />
+    <text name="rhm_ui_grape_fan" text="排雜風扇" />
+    <text name="rhm_units_short" text="計量單位" />
+    <text name="rhm_units_long" text="選擇計量單位系統（速度、質量、面積）" />
+    <text name="rhm_unit_metric" text="公制 (km/h, t/h, ha)" />
+    <text name="rhm_unit_imperial" text="英制 (mph, ton/h, ac)" />
+    <text name="rhm_unit_bushels" text="英制蒲式耳 (mph, bu/h, ac)" />
+    <text name="rhm_reset" text="重設 RH 設定" />
+    <text name="rhm_loss_low" text="低" />
+    <text name="rhm_loss_med" text="中" />
+    <text name="rhm_loss_high" text="高" />
+    <text name="rhm_warning_turn_on_combine" text="請先啟動收割機引擎！" />
+    <text name="rhm_warning_turn_on_cutter" text="請先開啟割台運轉！" />
+    <text name="rhm_warn_overload_high" text="收割機超載！請降低車速以減少作物損失。" />
+    <text name="rhm_warn_overload_critical" text="收割機嚴重過載！正在發生嚴重作物損失！" />
+    <text name="rhm_configuration_title" text="Realistic Harvesting 系統" />
+    <text name="rhm_package_standard" text="第 1 級: 標準機械版" />
+    <text name="rhm_package_sensor" text="第 2 級: 感測器套件" />
+    <text name="rhm_package_yield" text="第 3 級：遙測與產量監控" />
+    <text name="rhm_package_opti" text="第 4 級：Opti-Harvest AI 自動巡航" />
+    <text name="rhm_msg_req_level_4" text="需要在農機維修車間改裝配備 Opti-Harvest AI（第 4 級）套件。" />
+    <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI：請向前收割幾米作物以啟動自動校準！" />
+    <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI：已成功完成 %s 的自動校準！" />
+    <text name="rhm_help_category" text="Realistic Harvesting" />
+    <text name="rhm_help_title" text="Realistic Harvesting 操作手冊" />
+    <text name="rhm_help_overview_title" text="系統概覽與物理模型" />
+    <text name="rhm_help_overview_sub1" text="引擎負載與餵入吞吐量" />
+    <text name="rhm_help_overview_1" text="Realistic Harvesting 以真實的物理吞吐量模型取代了固定工作速度。系統根據每秒生物量流入、作物含水率、割台寬度和碎草機狀態持續計算引擎負載。遇到密集作物時，收割機會自動減速防止滾筒噎塞。" />
+    <text name="rhm_help_overview_sub2" text="流體靜壓速度控制器" />
+    <text name="rhm_help_overview_2" text="流體靜壓調速器自動調整前進速度，使引擎保持在最高效的輸出區間（80–95%）。在田頭轉彎時會記憶作業速度，駛入下一壟時能平順加速。" />
+    <text name="rhm_help_hud_title" text="HUD 顯示與儀表" />
+    <text name="rhm_help_hud_sub1" text="收割儀表 HUD" />
+    <text name="rhm_help_hud_1" text="HUD 顯示即時作業數據：當前與推薦速度、引擎負載百分比、每小時吞吐量（t/h）、即時單產及作物損失率。各項資訊可在選單中自訂位置或開關。" />
+    <text name="rhm_help_hud_sub2" text="警報與顏色狀態" />
+    <text name="rhm_help_hud_2" text="綠色代表作業狀態最佳。黃色代表負載中等。紅色閃爍代表嚴重過載（&gt;95%），此時收割機會主動制動減速以防止停轉堵塞。" />
+    <text name="rhm_help_hud_sub3" text="遙測指標解析" />
+    <text name="rhm_help_hud_3_load" text="負載：來自底盤行走、脫粒滾筒及碎草機的總引擎負載比例。" />
+    <text name="rhm_help_hud_3_yield" text="產量：當前收割田塊的即時單產（t/ha 或 bu/ac）。" />
+    <text name="rhm_help_hud_3_productivity" text="產能：每小時通過機器的物料吞吐量（t/h）。" />
+    <text name="rhm_help_hud_3_moisture" text="濕度：作物含水率百分比。潮濕作物需要大幅增加發動機功率。" />
+    <text name="rhm_help_hud_3_loss" text="損失：來自脫粒滾筒及清選篩排出的穀物拋灑損失比例。" />
+    <text name="rhm_help_hud_3_speed" text="速度：當前行駛速度與系統計算的最佳推薦速度對比。" />
+    <text name="rhm_help_calibration_title" text="收割機校準終端" />
+    <text name="rhm_help_calibration_main_sub" text="校準終端（右 Shift + K）" />
+    <text name="rhm_help_calibration_main_text" text="按下右 Shift + K 開啟校準終端。在此處您可以為每種作物專門調校滾筒轉速、風機風量、凹板間隙及篩網開度。" />
+    <text name="rhm_help_calibration_rotor_sub" text="滾筒轉速與凹板間隙" />
+    <text name="rhm_help_calibration_rotor_text" text="轉速過高或間隙過窄會壓碎穀粒並增加引擎負擔；轉速過低則會導致脫粒不淨，籽粒殘留在稭稈中排出。" />
+    <text name="rhm_help_calibration_fan_sub" text="清選風機與篩網" />
+    <text name="rhm_help_calibration_fan_text" text="風機將穀糠吹離籽粒。風力過大會將糧食吹出車外；風力不足則會使雜餘堆積堵塞篩面。" />
+    <text name="rhm_help_calibration_perf_sub" text="效能調校指南" />
+    <text name="rhm_help_calibration_perf_text" text="精準的校準參數能將糧食損失壓低至 0.5% 以下，並讓收割機在不過載的前提下達到更高作業航速。" />
+    <text name="rhm_help_special_title" text="特殊收穫機型" />
+    <text name="rhm_help_special_sub1" text="青貯飼料收割機與撿拾割台" />
+    <text name="rhm_help_special_1" text="自走式青貯機採用專門的切碎長度物理計算。撿拾割台根據草條體積動態計算吞吐負載。" />
+    <text name="rhm_help_special_sub2" text="塊根收割機、棉花與 NEXAT 平台" />
+    <text name="rhm_help_special_2" text="馬鈴薯和甜菜收割機承受巨大的土壤掘起阻力。玉米摘穗台需要較低轉速以保護果穗不被破碎。" />
+    <text name="rhm_help_loss_title" text="產量損失與拋灑" />
+    <text name="rhm_help_loss_sub1" text="實體穀物損失" />
+    <text name="rhm_help_loss_1" text="拋灑的穀物會直接從糧箱實際收成中扣除，造成真實的經濟收益損失。" />
+    <text name="rhm_help_loss_sub2" text="主要原因：作業車速過快、篩網開度不當、作物潮濕或割台刀片磨損。" />
+    <text name="rhm_help_loss_2" text="損失主要誘因" />
+    <text name="rhm_help_loss_sub3" text="在斜坡作業時，物料會向篩網一側傾斜堆積，若不主動減速將大幅加劇拋灑損失。" />
+    <text name="rhm_help_loss_3" text="坡度補償效應" />
+    <text name="rhm_help_difficulty_title" text="難度級別" />
+    <text name="rhm_help_difficulty_sub1" text="模式選擇" />
+    <text name="rhm_help_difficulty_1" text="在設定選單中，您可以分別為引擎負載與作物損失獨立選擇街機、普通或真實模式。" />
+    <text name="rhm_help_difficulty_sub2" text="級別差異" />
+    <text name="rhm_help_difficulty_2" text="街機模式關閉引擎超載減速；普通模式提供均衡體驗；真實模式呈現 100% 硬核物理模擬。" />
+    <text name="rhm_help_upgrades_title" text="電子系統升級" />
+    <text name="rhm_help_upgrades_sub1" text="第 1 級：手動機械版" />
+    <text name="rhm_help_upgrades_1" text="基礎款機械收割機。需要玩家完全依靠經驗與農作物手冊手動調整所有工作部件。" />
+    <text name="rhm_help_upgrades_sub2" text="第 2 級：感測器套件" />
+    <text name="rhm_help_upgrades_2" text="增加電子損失感測器與即時負載監控，直觀輔助駕駛員找到最佳工作設定。" />
+    <text name="rhm_help_upgrades_sub3" text="第 3 級：遙測與產量監控儀" />
+    <text name="rhm_help_upgrades_3" text="配備完整單產監控、面積測繪儀，並解鎖作物調校配置檔案的儲存與載入功能。" />
+    <text name="rhm_help_upgrades_sub4" text="第 4 級：Opti-Harvest AI 自動巡航" />
+    <text name="rhm_help_upgrades_4" text="頂級智能車載電腦，在田間作業時自動監測並平滑微調所有收割部件參數。" />
+    <text name="rhm_help_moisture_title" text="濕度環境系統" />
+    <text name="rhm_help_moisture_sub1" text="晝夜循環與晨露" />
+    <text name="rhm_help_moisture_1" text="清晨和傍晚的露水會使稭稈變得韌性極高。在潮濕條件下收割需要消耗更多引擎馬力。" />
+    <text name="rhm_help_moisture_sub2" text="高濕懲罰機制" />
+    <text name="rhm_help_moisture_2" text="含水率超過 18% 時，脫粒分離能力急劇下降，滾筒噎塞風險成倍上升。" />
+    <text name="rhm_help_cropsettings_title" text="作物品種調校指南" />
+    <text name="rhm_help_cropsettings_grain_sub" text="禾穀類（小麥、大麥、燕麥、黑麥）" />
+    <text name="rhm_help_cropsettings_grain_text" text="需要高滾筒轉速（700–850 RPM）與適中凹板間隙（10–15 mm）確保脫淨。" />
+    <text name="rhm_help_cropsettings_forage_sub" text="玉米與向日葵" />
+    <text name="rhm_help_cropsettings_forage_text" text="需要低滾筒轉速（350–450 RPM）與大凹板間隙（25–35 mm）防止籽粒與果穗破裂。" />
+    <text name="rhm_help_cropsettings_root_sub" text="豆類與油菜" />
+    <text name="rhm_help_cropsettings_root_text" text="油菜籽極輕，必須調低風機風量，防止細小籽粒被吹出機外。" />
+    <text name="rhm_ui_section_separation" text="脫粒與分離" />
+    <text name="rhm_ui_section_cleaning" text="清選系統" />
+    <text name="rhm_ui_section_discharge" text="排出與拋撒" />
+    <text name="rhm_ui_section_performance" text="效能監測" />
+    <text name="rhm_ui_tier1_manual" text="TIER 1 - 手動機械" />
+    <text name="rhm_ui_tier2_sensors" text="TIER 2 - 感測器" />
+    <text name="rhm_ui_tier3_monitor" text="TIER 3 - 遙測儀" />
+    <text name="rhm_ui_tier4_opti" text="TIER 4 - AI 優化" />
+    <text name="rhm_ui_arcade_badge" text="街機" />
+    <text name="rhm_ui_card_engine_load" text="引擎負載" />
+    <text name="rhm_ui_card_efficiency" text="作業效率" />
+    <text name="rhm_ui_card_predicted_loss" text="預期損失" />
+    <text name="rhm_ui_btn_ai_auto" text="AI 自動校準" />
+    <text name="rhm_ui_btn_auto_locked" text="自動（已鎖定）" />
+    <text name="rhm_ui_btn_load_preset" text="載入預設" />
+    <text name="rhm_ui_btn_save_profile" text="儲存配置" />
+    <text name="rhm_ui_btn_load_locked" text="載入（已鎖定）" />
+    <text name="rhm_ui_btn_save_locked" text="儲存（未解鎖）" />
+    <text name="rhm_ui_btn_reset_defaults" text="恢復出廠預設值" />
+    <text name="rhm_ui_status_optimal" text="最佳" />
+    <text name="rhm_ui_status_low" text="過低" />
+    <text name="rhm_ui_status_high" text="過高" />
+    <text name="rhm_msg_req_tier4" text="需要 Opti-Harvest AI 自動巡航（第 4 級）" />
+    <text name="rhm_msg_req_tier3" text="配置存檔需要遙測監控儀（第 3 級）" />
+    <text name="rhm_msg_req_tier2" text="配置存檔需要感測器套件（第 2 級或更高）" />
+    <text name="rhm_msg_profile_saved" text="已儲存配置：%s" />
+    <text name="rhm_msg_profile_loaded" text="已載入配置：%s" />
+    <text name="rhm_msg_profile_not_found" text="未找到該作物的儲存配置" />
+    <text name="rhm_ui_combine_not_init" text="聯合收割機未初始化" />
+    <text name="rhm_unit_t_per_hour" text="t/h" />
+    <text name="rhm_unit_ha_per_hour" text="ha/h" />
+    <text name="rhm_setting_ai_tuning" text="AI 雇工自動調校" />
+    <text name="rhm_setting_ai_tuning_long" text="決定 AI 雇工如何對待收割機設定。『保留我的設定』嚴格維持您的手動參數；『始終自動校準』依據電子等級調整；『關閉』禁止 AI 變更設定。" />
+    <text name="rhm_setting_ai_tuning_keep" text="保留我的設定" />
+    <text name="rhm_setting_ai_tuning_auto" text="始終自動校準" />
+    <text name="rhm_setting_ai_tuning_disabled" text="已停用" />
+    <text name="rhm_crop_straw_windrow" text="麥稈草條" />
+    <text name="rhm_crop_grass_windrow" text="牧草條" />
+    <text name="rhm_crop_drygrass_windrow" text="乾草條" />
+    <text name="rhm_crop_alfalfa_windrow" text="苜蓿草條" />
+    <text name="rhm_crop_clover_windrow" text="三葉草條" />
+    <text name="rhm_crop_maize_forage" text="玉米青貯" />
+    <text name="rhm_windrow_format" text="草條: %s" />
+    <text name="rhm_setting_enableTutorials" text="新手教學提示" />
+    <text name="rhm_setting_enableTutorials_long" text="在收割作業期間顯示互動式引導提示。" />
+    <text name="rhm_ui_btn_close_notification" text="確認 (Enter / 滑鼠左鍵)" />
+    <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+    <text name="rhm_tut_welcome_msg" text="歡迎使用 Realistic Harvesting！收割機速度將根據引擎負載、作物密度與割台狀態動態適應。按下（右 Shift + K）可開啟校準終端。" />
+    <text name="rhm_tut_overload_title" text="引擎嚴重超載" />
+    <text name="rhm_tut_overload_msg" text="發動機處於極限負載狀態！流體靜壓傳動正自動減速以防滾筒堵塞。請略微抬升割台或減小割幅。" />
+    <text name="rhm_tut_loss_title" text="產量損失過高" />
+    <text name="rhm_tut_loss_msg" text="收割機尾部穀物拋灑過多！當前滾筒轉速或篩網開度與該作物不匹配。請按下（右 Shift + K）進行精細校準。" />
+    <text name="rhm_tut_moisture_title" text="作物濕度偏高" />
+    <text name="rhm_tut_moisture_msg" text="穀物濕度過高或天降細雨！潮濕的稭稈造成巨大摩擦阻力，大幅增加引擎負載與損失。建議在晴朗乾燥天氣收割。" />
+    <text name="rhm_tut_headland_title" text="地頭速度記憶" />
+    <text name="rhm_tut_headland_msg" text="在地頭轉彎抬起割台時，系統會自動記住剛才的作業速度。切入新一壟時將平穩提速，毫無頓挫。" />
+    <text name="rhm_tut_upgrade_title" text="收割機電子升級" />
+    <text name="rhm_tut_upgrade_msg" text="基礎款收割機需手動調節。前往車間升級電子系統可解鎖感測器套件（第 2 級）、產量監控（第 3 級）或 Opti-Harvest AI（第 4 級）。" />
+    <text name="rhm_setting_wear_loss_short" text="機械磨損損失" />
+    <text name="rhm_setting_wear_loss_long" text="模擬設備磨損造成的籽粒損失。鈍化割刀會打碎穗頭（最多增加 +3% 損失及 +15% 阻力），磨損的脫粒紋桿與篩網會漏掉未脫淨穀物（最多增加 +3% 損失）。" />
+    <text name="rhm_ui_wear_loss" text="磨損損失" />
+    <text name="rhm_ui_cutter_wear" text="割台磨損" />
+    <text name="rhm_ui_combine_wear" text="脫粒機構磨損" />
+  </texts>
+</l10n>

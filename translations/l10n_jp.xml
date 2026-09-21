@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<l10n>
+  <texts>
+    <text name="rhm_section_simulation" text="Realistic Harvesting - シミュレーション" />
+    <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; ディスプレイ" />
+    <text name="input_RHM_OPEN_MENU" text="コンバイン設定メニュー" />
+    <text name="input_RHM_TOGGLE_HUD" text="収穫HUDの表示切替" />
+    <text name="input_RHM_CLOSE_NOTIFICATION" text="通知を閉じる" />
+    <text name="rhm_hud_load" text="負荷" />
+    <text name="rhm_hud_loss" text="損失" />
+    <text name="rhm_hud_moist" text="水分" />
+    <text name="rhm_ai_settings_retained" text="手動設定を保持" />
+    <text name="rhm_ai_auto_tuned" text="自動キャリブレーション完了" />
+    <text name="rhm_difficulty" text="難易度" />
+    <text name="rhm_difficulty_motor" text="エンジン出力制限" />
+    <text name="rhm_difficulty_motor_short" text="エンジン制限" />
+    <text name="rhm_difficulty_motor_long" text="エンジン負荷物理を設定します。アーケード = 無効（過負荷なし）、ノーマル = +35% 出力余裕、リアル = 100% 本格物理シミュレーション。" />
+    <text name="rhm_difficulty_loss" text="収穫ロス率ペナルティ" />
+    <text name="rhm_difficulty_loss_short" text="ロス率設定" />
+    <text name="rhm_difficulty_loss_long" text="収穫ロス率を設定します。アーケード = 0%（ロスなし）、ノーマル = 標準ロス、リアル = ロス倍増（200%）。" />
+    <text name="rhm_diff_1" text="アーケード" />
+    <text name="rhm_difficulty_long" text="アーケード: 過負荷やロスなし。ノーマル: バランスの取れた物理 (+35%)。リアル: 完全シミュレーション (0%)。" />
+    <text name="rhm_diff_2" text="ノーマル" />
+    <text name="rhm_diff_3" text="リアル" />
+    <text name="rhm_show_yield" text="収量モニターを表示" />
+    <text name="rhm_show_yield_short" text="収量を表示" />
+    <text name="rhm_show_yield_long" text="HUDにリアルタイム収量を表示（t/ha または bu/ac）" />
+    <text name="rhm_yield_label" text="収量" />
+    <text name="rhm_hud_short" text="HUDを表示" />
+    <text name="rhm_hud_long" text="画面に収穫情報を表示" />
+    <text name="rhm_speedlimit_short" text="速度リミッター" />
+    <text name="rhm_speedlimit_long" text="エンジン負荷に基づいてコンバインの作業速度を自動制限" />
+    <text name="rhm_croploss_short" text="収穫ロスを有効化" />
+    <text name="rhm_croploss_long" text="過負荷時に穀物ロスを計算" />
+    <text name="rhm_show_speed_short" text="速度を表示" />
+    <text name="rhm_show_speed_long" text="HUDに現在の速度と推奨速度を表示" />
+    <text name="rhm_show_load_short" text="エンジン負荷を表示" />
+    <text name="rhm_show_load_long" text="HUDにエンジン負荷率（%）を表示" />
+    <text name="rhm_show_productivity_short" text="処理能力を表示" />
+    <text name="rhm_show_productivity_long" text="HUDに処理スループット（t/h）を表示" />
+    <text name="rhm_show_croploss_short" text="ロス率を表示" />
+    <text name="rhm_show_moisture_short" text="水分率を表示" />
+    <text name="rhm_show_moisture_long" text="HUDで作物の水分含有率（%）を表示" />
+    <text name="rhm_moisture_enable_short" text="水分抵抗" />
+    <text name="rhm_moisture_enable_long" text="作物の水分率に応じて負荷を増加（Moisture System MODが必要）" />
+    <text name="rhm_ui_title_main" text="コンバイン・キャリブレーション端末" />
+    <text name="rhm_ui_page_settings" text="設定" />
+    <text name="rhm_ui_page_profiles" text="プロファイル" />
+    <text name="rhm_ui_current_crop" text="現在の作物:" />
+    <text name="rhm_ui_load" text="エンジン負荷:" />
+    <text name="rhm_ui_loss" text="収穫ロス:" />
+    <text name="rhm_ui_fan_speed" text="ファン送風速度" />
+    <text name="rhm_ui_rotor_speed" text="ローター回転数" />
+    <text name="rhm_ui_upper_sieve" text="上段シーブ開度" />
+    <text name="rhm_ui_lower_sieve" text="下段シーブ開度" />
+    <text name="rhm_ui_feeder_speed" text="受け網（コンケーブ）隙間" />
+    <text name="rhm_ui_mode_auto" text="自動" />
+    <text name="rhm_ui_mode_manual" text="手動" />
+    <text name="rhm_ui_btn_reset" text="初期設定に戻す" />
+    <text name="rhm_ui_profile_create" text="新規プロファイル" />
+    <text name="rhm_ui_profile_save" text="保存" />
+    <text name="rhm_ui_profile_load" text="読み込み" />
+    <text name="rhm_ui_profile_delete" text="削除" />
+    <text name="rhm_ui_profile_name_placeholder" text="プロファイル名を入力..." />
+    <text name="rhm_hud_yield_label" text="収量" />
+    <text name="rhm_hud_load_label" text="負荷" />
+    <text name="rhm_hud_loss_label" text="損失" />
+    <text name="rhm_loss_level_low" text="低" />
+    <text name="rhm_loss_level_med" text="中" />
+    <text name="rhm_loss_level_high" text="高" />
+    <text name="rhm_show_croploss_long" text="HUDに収穫ロス率（%）を表示" />
+    <text name="rhm_show_load_warn_short" text="過負荷警告" />
+    <text name="rhm_show_load_warn_long" text="コンバイン過負荷時に点滅警告を表示" />
+    <text name="rhm_overload_sounds_short" text="過負荷アラーム音" />
+    <text name="rhm_overload_sounds_long" text="過負荷時やロス超過時にキャビンアラーム音と機械負荷音を再生" />
+    <text name="rhm_section_audio" text="Realistic Harvesting - オーディオ" />
+    <text name="rhm_alarm_sounds_short" text="過負荷アラームブザー" />
+    <text name="rhm_alarm_sounds_long" text="エンジン負荷が危険域（105%以上）に達するか、穀物ロスが5%を超えた際のキャビンブザー音。" />
+    <text name="rhm_alarm_mode_smart" text="スマート（3回ビープ）" />
+    <text name="rhm_alarm_mode_continuous" text="連続吹鳴" />
+    <text name="rhm_alarm_mode_off" text="オフ" />
+    <text name="rhm_sound_volume_short" text="アラーム音量" />
+    <text name="rhm_sound_volume_long" text="運転室内の過負荷ブザー音量を調整します。" />
+    <text name="rhm_target_load" text="目標エンジン負荷" />
+    <text name="rhm_gui_title" text="コンバイン設定" />
+    <text name="rhm_gui_crop" text="作物:" />
+    <text name="rhm_gui_none" text="なし" />
+    <text name="rhm_gui_btn_auto" text="自動" />
+    <text name="rhm_gui_btn_load_preset" text="プリセット読込" />
+    <text name="rhm_gui_btn_save" text="プロファイル保存" />
+    <text name="rhm_gui_btn_reset" text="初期値にリセット" />
+    <text name="rhm_gui_engine_load" text="エンジン負荷: %.0f%%" />
+    <text name="rhm_gui_loss" text="ロス率: %.1f%%" />
+    <text name="rhm_gui_preview_loss" text="予想ロス: %.1f%%" />
+    <text name="rhm_gui_close_hint" text="右Shift+K で閉じる" />
+    <text name="rhm_gui_no_combine" text="コンバインが選択されていません" />
+    <text name="rhm_gui_not_init" text="コンバイン未初期化" />
+    <text name="rhm_ui_drum_speed" text="ドラム回転数" />
+    <text name="rhm_ui_roller_speed" text="ローラー回転数" />
+    <text name="rhm_ui_picker_speed" text="ピッカー速度" />
+    <text name="rhm_ui_forage_fan" text="ブロワー速度" />
+    <text name="rhm_ui_forage_drum" text="細断ドラム" />
+    <text name="rhm_ui_forage_feeder" text="供給ロール" />
+    <text name="rhm_ui_root_roller" text="清掃ローラー" />
+    <text name="rhm_ui_root_feeder" text="昇降エレベーター" />
+    <text name="rhm_ui_grape_shaker" text="シェーカー速度" />
+    <text name="rhm_ui_olive_shaker" text="ビーター速度" />
+    <text name="rhm_ui_grape_conveyor" text="コンベア速度" />
+    <text name="rhm_ui_grape_fan" text="排気ファン" />
+    <text name="rhm_units_short" text="単位系" />
+    <text name="rhm_units_long" text="計測単位系（速度、質量、面積）を選択" />
+    <text name="rhm_unit_metric" text="メートル法 (km/h, t/h, ha)" />
+    <text name="rhm_unit_imperial" text="ヤード・ポンド法 (mph, ton/h, ac)" />
+    <text name="rhm_unit_bushels" text="ブッシェル併記 (mph, bu/h, ac)" />
+    <text name="rhm_reset" text="RH設定をリセット" />
+    <text name="rhm_loss_low" text="低" />
+    <text name="rhm_loss_med" text="中" />
+    <text name="rhm_loss_high" text="高" />
+    <text name="rhm_warning_turn_on_combine" text="先にコンバインのエンジンを始動してください！" />
+    <text name="rhm_warning_turn_on_cutter" text="ヘッダーの駆動を入れてください！" />
+    <text name="rhm_warn_overload_high" text="コンバイン過負荷！穀物ロスを抑えるため速度を落としてください。" />
+    <text name="rhm_warn_overload_critical" text="コンバインが深刻な過負荷です！大量の穀物ロスが発生しています！" />
+    <text name="rhm_configuration_title" text="Realistic Harvesting システム" />
+    <text name="rhm_package_standard" text="Tier 1: 標準メカニカル" />
+    <text name="rhm_package_sensor" text="Tier 2: センサーパッケージ" />
+    <text name="rhm_package_yield" text="Tier 3: テレメトリ &amp; 収量モニター" />
+    <text name="rhm_package_opti" text="Tier 4: Opti-Harvest AI オートパイロット" />
+    <text name="rhm_msg_req_level_4" text="整備工場で Opti-Harvest AI（Tier 4）パッケージを装備する必要があります。" />
+    <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: 自動キャリブレーションを開始するため作物を数メートル収穫してください！" />
+    <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: %s の自動キャリブレーションが完了しました！" />
+    <text name="rhm_help_category" text="Realistic Harvesting" />
+    <text name="rhm_help_title" text="Realistic Harvesting ガイド" />
+    <text name="rhm_help_overview_title" text="概要 &amp; 物理モデル" />
+    <text name="rhm_help_overview_sub1" text="エンジン負荷とスループット" />
+    <text name="rhm_help_overview_1" text="Realistic Harvesting は固定作業速度を物理ベースのスループットモデルに置き換えます。エンジン負荷は毎秒のバイオマス質量、作物水分率、ヘッダー幅、チョッパー状態からリアルタイムで計算されます。作物が密集している場所では自動的に減速して詰まりを防ぎます。" />
+    <text name="rhm_help_overview_sub2" text="静油圧式速度制御" />
+    <text name="rhm_help_overview_2" text="HST速度コントローラーが走行速度を自動調整し、エンジンを最も効率的な出力範囲（80～95%）に維持します。枕地での旋回時には作業速度が記憶され、次の筋への進入時に滑らかに加速します。" />
+    <text name="rhm_help_hud_title" text="HUD &amp; テレメトリ" />
+    <text name="rhm_help_hud_sub1" text="収穫作業 HUD" />
+    <text name="rhm_help_hud_1" text="HUD には現在速度と推奨速度、エンジン負荷率、毎時スループット（t/h）、リアルタイム収量、穀物ロス率がライブ表示されます。表示項目はメニューで個別にカスタマイズできます。" />
+    <text name="rhm_help_hud_sub2" text="警告表示とカラーコード" />
+    <text name="rhm_help_hud_2" text="緑色は最適負荷を示します。黄色は中程度の負荷です。赤色点滅は危険な過負荷（&gt;95%）を示し、コンバインは自動的に減速します。" />
+    <text name="rhm_help_hud_sub3" text="テレメトリ指標" />
+    <text name="rhm_help_hud_3_load" text="負荷: 走行駆動、脱穀機構、チョッパーによるエンジン総負荷率。" />
+    <text name="rhm_help_hud_3_yield" text="収量: 収穫中の圃場におけるリアルタイム収量（t/ha または bu/ac）。" />
+    <text name="rhm_help_hud_3_productivity" text="処理能力: 毎時コンバインを通過する作物重量（t/h）。" />
+    <text name="rhm_help_hud_3_moisture" text="水分: 作物の水分含有率。湿った作物は大きなエンジン出力を消費します。" />
+    <text name="rhm_help_hud_3_loss" text="損失: 脱穀ドラムおよびシーブから漏れ出る穀物ロスの割合。" />
+    <text name="rhm_help_hud_3_speed" text="速度: 現在の走行速度と計算された最適推奨速度。" />
+    <text name="rhm_help_calibration_title" text="キャリブレーション端末" />
+    <text name="rhm_help_calibration_main_sub" text="端末を開く（右Shift + K）" />
+    <text name="rhm_help_calibration_main_text" text="右Shift + K でキャリブレーション端末を開きます。ドラム回転数、ファン送風量、受け網隙間、シーブ開度を作物ごとに精密設定できます。" />
+    <text name="rhm_help_calibration_rotor_sub" text="ドラム回転数と受け網" />
+    <text name="rhm_help_calibration_rotor_text" text="回転数が高すぎるか隙間が狭すぎると穀粒が破砕されます。回転数が低すぎると脱穀されずにワラと一緒に排出されます。" />
+    <text name="rhm_help_calibration_fan_sub" text="ファン風量とシーブ" />
+    <text name="rhm_help_calibration_fan_text" text="ファンは籾殻を風で飛ばします。風が強すぎると穀物まで機外へ吹き飛ばし、弱すぎるとシーブが詰まります。" />
+    <text name="rhm_help_calibration_perf_sub" text="性能チューニング" />
+    <text name="rhm_help_calibration_perf_text" text="適切な調整により穀物ロスを0.5%未満に抑え、過負荷を起こさずに高速で収穫できるようになります。" />
+    <text name="rhm_help_special_title" text="特殊収穫機械" />
+    <text name="rhm_help_special_sub1" text="飼料収穫機 &amp; ピックアップ" />
+    <text name="rhm_help_special_1" text="自走式フォレージハーベスターは専用の細断長物理で計算されます。ピックアップヘッダーは草条の体積から負荷を求めます。" />
+    <text name="rhm_help_special_sub2" text="根菜収穫機、コットン &amp; NEXATプラットフォーム" />
+    <text name="rhm_help_special_2" text="ジャガイモやビートの収穫機は大きな土壌抵抗を受けます。コーンヘッダーは穂先を傷めないよう低回転が必要です。" />
+    <text name="rhm_help_loss_title" text="収穫ロスとペナルティ" />
+    <text name="rhm_help_loss_sub1" text="物理的な穀物ロス" />
+    <text name="rhm_help_loss_1" text="漏れ出た穀物はホッパーの実際の収穫量から差し引かれ、直接的な経済的損失となります。" />
+    <text name="rhm_help_loss_sub2" text="ロスの主な原因" />
+    <text name="rhm_help_loss_2" text="主な原因: 走行速度の出し過ぎ、シーブ開度の誤り、高湿度、またはヘッダーの刃の摩耗。" />
+    <text name="rhm_help_loss_sub3" text="斜面での影響" />
+    <text name="rhm_help_loss_3" text="傾斜地では作物がシーブの片側に偏るため、速度を落とさないとロスが急増します。" />
+    <text name="rhm_help_difficulty_title" text="難易度設定" />
+    <text name="rhm_help_difficulty_sub1" text="モード選択" />
+    <text name="rhm_help_difficulty_1" text="設定メニューでエンジン負荷と収穫ロスをそれぞれ独立してアーケード、ノーマル、リアルから選択できます。" />
+    <text name="rhm_help_difficulty_sub2" text="難易度ごとの違い" />
+    <text name="rhm_help_difficulty_2" text="アーケードは過負荷減速を無効化します。ノーマルはバランスの取れた挙動です。リアルは100%忠実なシミュレーションです。" />
+    <text name="rhm_help_upgrades_title" text="電子機器のアップグレード" />
+    <text name="rhm_help_upgrades_sub1" text="Tier 1: 標準メカニカル" />
+    <text name="rhm_help_upgrades_1" text="基本の手動式コンバイン。経験に基づいてすべての数値を手動調整する必要があります。" />
+    <text name="rhm_help_upgrades_sub2" text="Tier 2: センサーパッケージ" />
+    <text name="rhm_help_upgrades_2" text="電子式ロスセンサーと負荷モニターが追加され、適切な調整が格段にしやすくなります。" />
+    <text name="rhm_help_upgrades_sub3" text="Tier 3: テレメトリモニター" />
+    <text name="rhm_help_upgrades_3" text="面積計算付きの高精度収量モニターと、作物別プロファイルの保存・ロード機能が解放されます。" />
+    <text name="rhm_help_upgrades_sub4" text="Tier 4: Opti-Harvest AI" />
+    <text name="rhm_help_upgrades_4" text="走行中にコンバインの各部セッティングを自動的に微調整する高度なコンピューター制御システム。" />
+    <text name="rhm_help_moisture_title" text="水分システム" />
+    <text name="rhm_help_moisture_sub1" text="日周変化と朝露" />
+    <text name="rhm_help_moisture_1" text="朝露や夕暮れ時はワラが湿って強靭になります。湿った状態での脱穀には非常に大きな馬力が必要です。" />
+    <text name="rhm_help_moisture_sub2" text="高湿度ペナルティ" />
+    <text name="rhm_help_moisture_2" text="水分率が18%を超えると脱穀能力が急低下し、詰まりの危険性が飛躍的に高まります。" />
+    <text name="rhm_help_cropsettings_title" text="作物別調整ガイド" />
+    <text name="rhm_help_cropsettings_grain_sub" text="麦類（小麦、大麦、オート麦、ライ麦）" />
+    <text name="rhm_help_cropsettings_grain_text" text="高いドラム回転数（700～850 RPM）と適度な受け網隙間（10～15 mm）でしっかり脱穀します。" />
+    <text name="rhm_help_cropsettings_forage_sub" text="トウモロコシ &amp; ヒマワリ" />
+    <text name="rhm_help_cropsettings_forage_text" text="子実の破砕を防ぐため、低回転（350～450 RPM）と広い隙間（25～35 mm）に設定します。" />
+    <text name="rhm_help_cropsettings_root_sub" text="豆類 &amp; キャノーラ" />
+    <text name="rhm_help_cropsettings_root_text" text="キャノーラは種子が非常に軽いため、機外へ吹き飛ばないようファンの回転数を低く抑えます。" />
+    <text name="rhm_ui_section_separation" text="脱穀・分離" />
+    <text name="rhm_ui_section_cleaning" text="風力選別" />
+    <text name="rhm_ui_section_discharge" text="排出・排気" />
+    <text name="rhm_ui_section_performance" text="性能指標" />
+    <text name="rhm_ui_tier1_manual" text="TIER 1 - 手動機械式" />
+    <text name="rhm_ui_tier2_sensors" text="TIER 2 - センサー" />
+    <text name="rhm_ui_tier3_monitor" text="TIER 3 - テレメトリ" />
+    <text name="rhm_ui_tier4_opti" text="TIER 4 - AI最適化" />
+    <text name="rhm_ui_arcade_badge" text="アーケード" />
+    <text name="rhm_ui_card_engine_load" text="エンジン負荷" />
+    <text name="rhm_ui_card_efficiency" text="作業効率" />
+    <text name="rhm_ui_card_predicted_loss" text="予想ロス率" />
+    <text name="rhm_ui_btn_ai_auto" text="AI自動キャリブレーション" />
+    <text name="rhm_ui_btn_auto_locked" text="自動（ロック中）" />
+    <text name="rhm_ui_btn_load_preset" text="プリセット読込" />
+    <text name="rhm_ui_btn_save_profile" text="プロファイル保存" />
+    <text name="rhm_ui_btn_load_locked" text="読込（ロック中）" />
+    <text name="rhm_ui_btn_save_locked" text="保存（ロック中）" />
+    <text name="rhm_ui_btn_reset_defaults" text="工場出荷時に戻す" />
+    <text name="rhm_ui_status_optimal" text="最適" />
+    <text name="rhm_ui_status_low" text="低すぎる" />
+    <text name="rhm_ui_status_high" text="高すぎる" />
+    <text name="rhm_msg_req_tier4" text="Opti-Harvest AI（Tier 4）が必要です" />
+    <text name="rhm_msg_req_tier3" text="プロファイル保存にはテレメトリモニター（Tier 3）が必要です" />
+    <text name="rhm_msg_req_tier2" text="プロファイル保存にはセンサーキット（Tier 2以上）が必要です" />
+    <text name="rhm_msg_profile_saved" text="プロファイルを保存しました: %s" />
+    <text name="rhm_msg_profile_loaded" text="プロファイルを読み込みました: %s" />
+    <text name="rhm_msg_profile_not_found" text="この作物の保存済みプロファイルが見つかりません" />
+    <text name="rhm_ui_combine_not_init" text="コンバインが初期化されていません" />
+    <text name="rhm_unit_t_per_hour" text="t/h" />
+    <text name="rhm_unit_ha_per_hour" text="ha/h" />
+    <text name="rhm_setting_ai_tuning" text="AIワーカーの調整動作" />
+    <text name="rhm_setting_ai_tuning_long" text="AIがコンバイン設定をどう扱うかを決定します。『手動設定を保持』はあなたの数値を厳守。『常に自動調整』は電子機器レベルに合わせて調整。『オフ』はAIによる変更を禁止。" />
+    <text name="rhm_setting_ai_tuning_keep" text="手動設定を保持" />
+    <text name="rhm_setting_ai_tuning_auto" text="常に自動調整" />
+    <text name="rhm_setting_ai_tuning_disabled" text="無効" />
+    <text name="rhm_crop_straw_windrow" text="麦わらウインドロー" />
+    <text name="rhm_crop_grass_windrow" text="牧草ウインドロー" />
+    <text name="rhm_crop_drygrass_windrow" text="乾草ウインドロー" />
+    <text name="rhm_crop_alfalfa_windrow" text="アルファルファウインドロー" />
+    <text name="rhm_crop_clover_windrow" text="クローバーウインドロー" />
+    <text name="rhm_crop_maize_forage" text="コーンサイレージ" />
+    <text name="rhm_windrow_format" text="ウインドロー: %s" />
+    <text name="rhm_setting_enableTutorials" text="チュートリアルヒント" />
+    <text name="rhm_setting_enableTutorials_long" text="収穫作業中に画面上で役立つヒントや案内を表示します。" />
+    <text name="rhm_ui_btn_close_notification" text="OK (Enter / 左クリック)" />
+    <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+    <text name="rhm_tut_welcome_msg" text="Realistic Harvesting へようこそ！コンバインの速度はエンジン負荷、作物の密度、ヘッダー状態に応じて動的に変化します。（右Shift + K）でキャリブレーション端末を開けます。" />
+    <text name="rhm_tut_overload_title" text="エンジン過負荷" />
+    <text name="rhm_tut_overload_msg" text="エンジンが過大な負荷を受けています！ドラムの詰まりを防ぐため走行速度が自動的に減速しています。ヘッダーを少し上げるか作業幅を狭めてください。" />
+    <text name="rhm_tut_loss_title" text="高い収穫ロス" />
+    <text name="rhm_tut_loss_msg" text="コンバイン後方での穀物ロスが限界値を超えています！ドラム回転数やシーブ開度が作物に合っていません。（右Shift + K）で設定を調整してください。" />
+    <text name="rhm_tut_moisture_title" text="作物の高水分状態" />
+    <text name="rhm_tut_moisture_msg" text="穀物の水分率が高いか雨が降り始めました！湿った作物は非常に大きな摩擦抵抗を生み、負荷とロスを急増させます。乾燥した時間帯での収穫をおすすめします。" />
+    <text name="rhm_tut_headland_title" text="作業速度メモリ機能" />
+    <text name="rhm_tut_headland_msg" text="枕地でヘッダーを上げると作業速度が自動的に記憶されます。次の筋に入ると衝撃なく滑らかに元の速度まで加速します。" />
+    <text name="rhm_tut_upgrade_title" text="コンバインのアップグレード" />
+    <text name="rhm_tut_upgrade_msg" text="基本仕様のコンバインは手動調整が必要です。整備工場で電子機器をアップグレードすると、センサーキット（Tier 2）、収量モニター（Tier 3）、Opti-Harvest AI（Tier 4）がアンロックされます。" />
+    <text name="rhm_setting_wear_loss_short" text="機械摩耗によるロス" />
+    <text name="rhm_setting_wear_loss_long" text="機器の摩耗による穀物損失をシミュレート。切れ味の落ちた刃は穂先を叩き落とし（最大+3%のロスと+15%の負荷）、摩耗したドラムとシーブは脱穀不良を起こします（最大+3%のロス）。" />
+    <text name="rhm_ui_wear_loss" text="摩耗ロス" />
+    <text name="rhm_ui_cutter_wear" text="ヘッダー摩耗" />
+    <text name="rhm_ui_combine_wear" text="脱穀部摩耗" />
+  </texts>
+</l10n>

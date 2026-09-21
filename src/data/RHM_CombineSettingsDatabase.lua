@@ -411,83 +411,104 @@ function RHM_CombineSettingsDatabase:calculatePhysicalOptimalSettings(cropName, 
     else
         -- GRAIN COMBINE HARVESTER (Aerodynamic & Threshing Physics Engine)
         -- A. Fan Speed: Aerodynamic terminal velocity directly related to bulk density
-        local fanOpt = math.floor(math.max(20, math.min(90, 20 + (densityKgPerL * 52) + 0.5)))
+        local fanOpt = math.floor(math.max(15, math.min(90, 15 + (densityKgPerL * 75) + 0.5)))
         
-        -- Specific aerodynamic corrections for seed geometry & chaff drag:
-        if cropName == "CANOLA" or cropName == "MUSTARD" or cropName == "LINSEED" or cropName == "FLAX" then
-            fanOpt = 39
+        -- Specific aerodynamic corrections for seed geometry, chaff drag & grain density:
+        if cropName == "CANOLA" then
+            fanOpt = 44 -- ~700 RPM (gentle airflow to prevent loss of light seeds)
+        elseif cropName == "MUSTARD" or cropName == "LINSEED" or cropName == "FLAX" then
+            fanOpt = 56 -- ~800 RPM
         elseif cropName == "POPPY" then
-            fanOpt = 35
+            fanOpt = 17 -- ~450 RPM (ultra-light seeds)
         elseif cropName == "GRASS_SEED" or cropName == "CLOVER" then
-            fanOpt = 25
-        elseif cropName == "OAT" or cropName == "OATS" or cropName == "SUNFLOWER" or cropName == "SAFFLOWER" then
-            fanOpt = 44
-        elseif cropName == "BARLEY" or cropName == "WHEAT" or cropName == "RYE" or cropName == "TRITICALE" or cropName == "SPELT" then
-            fanOpt = 56
+            fanOpt = 17 -- ~450 RPM (minimal airflow)
+        elseif cropName == "OAT" or cropName == "OATS" then
+            fanOpt = 50 -- ~750 RPM (light hulls)
+        elseif cropName == "SUNFLOWER" or cropName == "SAFFLOWER" then
+            fanOpt = 50 -- ~750 RPM
+        elseif cropName == "WHEAT" or cropName == "RYE" or cropName == "TRITICALE" or cropName == "SPELT" then
+            fanOpt = 72 -- ~950 RPM (standard cereal separation)
+        elseif cropName == "BARLEY" then
+            fanOpt = 78 -- ~1000 RPM (strong airflow for chaff & awn separation)
         elseif cropName == "SORGHUM" then
-            fanOpt = 58
+            fanOpt = 89 -- ~1100 RPM (dense seedhead)
         elseif cropName == "RICE" or cropName == "RICE_LONG_GRAIN" then
-            fanOpt = 50
+            fanOpt = 83 -- ~1050 RPM
         elseif cropName == "SOYBEAN" then
-            fanOpt = 61
+            fanOpt = 75 -- ~980 RPM (heavy beans)
         elseif cropName == "CORN" or cropName == "MAIZE" then
-            fanOpt = 67
+            fanOpt = 72 -- ~950 RPM (heavy kernels + cob trash ejection)
         elseif cropName == "PEA" or cropName == "PEAS" or cropName == "LENTIL" or cropName == "CHICKPEA"
             or cropName == "BEANS" or cropName == "BEAN" or cropName == "FABABEAN" then
-            fanOpt = 55
+            fanOpt = 78 -- ~1000 RPM (heavy pulses)
+        elseif cropName == "BUCKWHEAT" then
+            fanOpt = 50 -- ~750 RPM
+        elseif cropName == "HEMP" then
+            fanOpt = 61 -- ~850 RPM
         end
 
         -- B. Rotor & Concave: Based on straw volume, seed brittleness, and ear architecture
         local rotorOpt = 55
-        local concaveOpt = 45
-        local feederOpt = 25
-        local upperOpt = 48
-        local lowerOpt = 32
+        local concaveOpt = 35
+        local feederOpt = 20
+        local upperOpt = 47
+        local lowerOpt = 28
         local moistLimit = 14
 
         if cropName == "BARLEY" then
-            -- Tough awns: higher drum speed (63%) and tighter concave (22%)
-            rotorOpt = 63; concaveOpt = 22; upperOpt = 47; lowerOpt = 32; feederOpt = 14; moistLimit = 14
+            -- Tough awns: high drum speed (800 RPM / 67%) to de-awn, concave 12 mm (24%), sieves 14/8 mm
+            rotorOpt = 67; concaveOpt = 24; upperOpt = 47; lowerOpt = 32; feederOpt = 14; moistLimit = 14
         elseif cropName == "WHEAT" or cropName == "RYE" or cropName == "TRITICALE" or cropName == "SPELT" or cropName == "MILLET" then
-            -- Standard cereal grain: rotor 56%, concave 25%
-            rotorOpt = 56; concaveOpt = 25; upperOpt = 47; lowerOpt = 32; feederOpt = 12; moistLimit = 14
+            -- Standard cereal grain: rotor 800 RPM (67%), concave 10 mm (20%), sieves 14/7 mm
+            rotorOpt = 67; concaveOpt = 20; upperOpt = 47; lowerOpt = 28; feederOpt = 12; moistLimit = 14
         elseif cropName == "OAT" or cropName == "OATS" then
-            -- Loose hulls: gentle rotor 50%, concave 30%
-            rotorOpt = 50; concaveOpt = 30; upperOpt = 45; lowerOpt = 28; feederOpt = 12; moistLimit = 14
-        elseif cropName == "CANOLA" or cropName == "MUSTARD" or cropName == "LINSEED" or cropName == "FLAX" or cropName == "POPPY" then
-            -- Fragile pods, easily shattered: low rotor (33%), narrow sieves
-            rotorOpt = 33; concaveOpt = 40; upperOpt = 30; lowerOpt = 18; feederOpt = 40; moistLimit = 9
+            -- Loose hulls: gentle rotor 700 RPM (55%), concave 15 mm (30%), sieves 15/7 mm
+            rotorOpt = 55; concaveOpt = 30; upperOpt = 50; lowerOpt = 28; feederOpt = 12; moistLimit = 14
+        elseif cropName == "CANOLA" then
+            -- Fragile pods: gentle rotor 500 RPM (33%), concave 20 mm (40%), narrow sieves 9/4 mm
+            rotorOpt = 33; concaveOpt = 40; upperOpt = 30; lowerOpt = 16; feederOpt = 35; moistLimit = 9
+        elseif cropName == "MUSTARD" or cropName == "LINSEED" or cropName == "FLAX" then
+            -- Tough fibrous flax/mustard straw: high drum 850 RPM (72%), tight concave 10 mm (20%), sieves 9/4 mm
+            rotorOpt = 72; concaveOpt = 20; upperOpt = 30; lowerOpt = 16; feederOpt = 30; moistLimit = 9
+        elseif cropName == "POPPY" then
+            -- Fragile heads, ultra-fine seeds: low drum 450 RPM (28%), sieves 7/3 mm
+            rotorOpt = 28; concaveOpt = 35; upperOpt = 23; lowerOpt = 12; feederOpt = 25; moistLimit = 9
         elseif cropName == "CORN" or cropName == "MAIZE" then
-            -- Big cobs, cracking prevention: ultra-low drum (13%), wide concave (60%), large sieves (65/48)
-            rotorOpt = 13; concaveOpt = 60; upperOpt = 65; lowerOpt = 48; feederOpt = 60; moistLimit = 15
+            -- Big cobs, cracking prevention: ultra-low drum 330 RPM (14%), wide concave 30 mm (60%), large sieves 20/12 mm (67/48)
+            rotorOpt = 14; concaveOpt = 60; upperOpt = 67; lowerOpt = 48; feederOpt = 60; moistLimit = 15
         elseif cropName == "SUNFLOWER" or cropName == "SAFFLOWER" then
-            -- Fragile hulls: low drum (18%), wide concave (60%)
-            rotorOpt = 18; concaveOpt = 60; upperOpt = 60; lowerOpt = 40; feederOpt = 55; moistLimit = 9
+            -- Fragile hulls: low drum 350 RPM (17%), wide concave 35 mm (70%), sieves 18/10 mm (60/40)
+            rotorOpt = 17; concaveOpt = 70; upperOpt = 60; lowerOpt = 40; feederOpt = 50; moistLimit = 9
         elseif cropName == "SOYBEAN" then
-            -- Brittle embryo: gentle rotor (39%), medium-wide concave (38%)
-            rotorOpt = 39; concaveOpt = 38; upperOpt = 55; lowerOpt = 36; feederOpt = 36; moistLimit = 13
+            -- Brittle embryo: gentle rotor 560 RPM (40%), medium concave 18 mm (36%), sieves 16/9 mm (53/36)
+            rotorOpt = 40; concaveOpt = 36; upperOpt = 53; lowerOpt = 36; feederOpt = 36; moistLimit = 13
         elseif cropName == "PEA" or cropName == "PEAS" or cropName == "LENTIL" or cropName == "CHICKPEA"
             or cropName == "BEANS" or cropName == "BEAN" or cropName == "FABABEAN" then
-            -- Large pulses: slow drum (30%), wide concave (45%)
-            rotorOpt = 30; concaveOpt = 45; upperOpt = 55; lowerOpt = 35; feederOpt = 30; moistLimit = 14
+            -- Large pulses: slow drum 430 RPM (26%), wide concave 22 mm (45%), sieves 18/9 mm (60/36)
+            rotorOpt = 26; concaveOpt = 45; upperOpt = 60; lowerOpt = 36; feederOpt = 30; moistLimit = 14
         elseif cropName == "SORGHUM" then
-            rotorOpt = 42; concaveOpt = 35; upperOpt = 45; lowerOpt = 30; feederOpt = 20; moistLimit = 14
+            -- Dense head: rotor 600 RPM (44%), concave 18 mm (36%), sieves 15/7.5 mm (50/30)
+            rotorOpt = 44; concaveOpt = 36; upperOpt = 50; lowerOpt = 30; feederOpt = 20; moistLimit = 14
         elseif cropName == "RICE" or cropName == "RICE_LONG_GRAIN" then
-            rotorOpt = 45; concaveOpt = 30; upperOpt = 40; lowerOpt = 25; feederOpt = 15; moistLimit = 14
+            -- Tough abrasive rice straw: rotor 720 RPM (58%), concave 15 mm (30%), sieves 16/7 mm (53/28)
+            rotorOpt = 58; concaveOpt = 30; upperOpt = 53; lowerOpt = 28; feederOpt = 15; moistLimit = 18
         elseif cropName == "GRASS_SEED" or cropName == "CLOVER" then
-            rotorOpt = 45; concaveOpt = 25; upperOpt = 25; lowerOpt = 15; feederOpt = 10; moistLimit = 12
+            -- Rubbing tiny heads: high rotor 800 RPM (67%), tight concave 10 mm (20%), sieves 7/3 mm (23/12)
+            rotorOpt = 67; concaveOpt = 20; upperOpt = 23; lowerOpt = 12; feederOpt = 10; moistLimit = 12
         elseif cropName == "BUCKWHEAT" then
-            rotorOpt = 35; concaveOpt = 35; upperOpt = 38; lowerOpt = 22; feederOpt = 25; moistLimit = 13
+            -- Fragile hulls: gentle rotor 550 RPM (39%), concave 18 mm (36%), sieves 12/6 mm (40/24)
+            rotorOpt = 39; concaveOpt = 36; upperOpt = 40; lowerOpt = 24; feederOpt = 25; moistLimit = 13
         elseif cropName == "HEMP" then
-            rotorOpt = 40; concaveOpt = 35; upperOpt = 45; lowerOpt = 28; feederOpt = 25; moistLimit = 12
+            -- Tough fiber: rotor 650 RPM (50%), concave 18 mm (36%), sieves 14/7 mm (47/28)
+            rotorOpt = 50; concaveOpt = 36; upperOpt = 47; lowerOpt = 28; feederOpt = 25; moistLimit = 12
         else
             -- Dynamic calculation for unlisted custom mod crop
             if hasStraw then
-                rotorOpt = 56; concaveOpt = 25; upperOpt = 47; lowerOpt = 32; feederOpt = 14; moistLimit = 14
+                rotorOpt = 67; concaveOpt = 20; upperOpt = 47; lowerOpt = 28; feederOpt = 14; moistLimit = 14
             elseif densityKgPerL < 0.50 then
-                rotorOpt = 35; concaveOpt = 40; upperOpt = 32; lowerOpt = 18; feederOpt = 35; moistLimit = 10
+                rotorOpt = 33; concaveOpt = 40; upperOpt = 30; lowerOpt = 16; feederOpt = 35; moistLimit = 10
             elseif densityKgPerL >= 0.70 then
-                rotorOpt = 25; concaveOpt = 55; upperOpt = 60; lowerOpt = 42; feederOpt = 50; moistLimit = 14
+                rotorOpt = 20; concaveOpt = 60; upperOpt = 65; lowerOpt = 45; feederOpt = 50; moistLimit = 14
             else
                 rotorOpt = 45; concaveOpt = 35; upperOpt = 45; lowerOpt = 28; feederOpt = 25; moistLimit = 14
             end
@@ -507,31 +528,50 @@ function RHM_CombineSettingsDatabase:calculatePhysicalOptimalSettings(cropName, 
     return template
 end
 
----EN: Applies live environmental offsets (moisture, yield) to optimal settings pins.
----UA: Застосовує живі поправки навколишнього середовища (вологість, врожайність) до оптимальних налаштувань.
-function RHM_CombineSettingsDatabase:applyEnvironmentalOffsets(baseTemplate, context)
-    if not baseTemplate or not context then return baseTemplate end
+---EN: Applies live environmental offsets (time of day, dew, weather, moisture, yield) to optimal settings pins.
+---UA: Застосовує живі поправки навколишнього середовища (час доби, роса, погода, вологість, врожайність) до оптимальних налаштувань.
+function RHM_CombineSettingsDatabase:applyEnvironmentalOffsets(baseTemplate, context, cropName)
+    if not baseTemplate then return baseTemplate end
+    context = context or {}
 
-    local moisture = context.moisture
-    local yield = context.yield
     local machineType = context.machineType or "grain"
 
-    -- EN: Early exit if not a grain combine or moisture is absent/zero, avoiding deep-copy GC churn.
-    -- UA: Ранній вихід якщо не зерновий комбайн або вологість відсутня, без непотрібного копіювання таблиць.
-    if machineType ~= "grain" or not moisture or moisture <= 0 then
-        return baseTemplate
+    -- EN: Safely extract or resolve environmental factors
+    -- UA: Безпечно витягуємо або визначаємо фактори навколишнього середовища
+    local dayTimeHours = context.dayTime
+    if not dayTimeHours and g_currentMission and g_currentMission.environment then
+        if g_currentMission.environment.dayTime then
+            dayTimeHours = g_currentMission.environment.dayTime / 3600000
+        elseif g_currentMission.environment.currentHour then
+            dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
+        end
+    end
+    dayTimeHours = dayTimeHours or 12.0
+
+    local isRaining = context.isRaining
+    if isRaining == nil and g_currentMission and g_currentMission.environment and g_currentMission.environment.weather then
+        isRaining = g_currentMission.environment.weather:getIsRaining()
+    end
+    isRaining = isRaining or false
+
+    local moisture = context.moisture or 0
+    local yield = context.yield or 0
+
+    -- EN: High-performance bucketed caching (Rule 7: zero allocations in hot onDraw/onUpdate loops)
+    -- UA: Високопродуктивне кешування за бакетами (нуль алокацій таблиць у гарячих циклах)
+    local rainKey = isRaining and 1 or 0
+    local timeBucket = math.floor(dayTimeHours * 30) -- 2 in-game minutes granularity
+    local moistBucket = math.floor(moisture * 5)     -- 0.2% moisture granularity
+    local yieldBucket = math.floor(yield * 5)        -- 0.2 t/ha yield granularity
+
+    self._envCache = self._envCache or {}
+    local cKey = tostring(cropName or "GENERIC") .. "_" .. tostring(machineType)
+    local cached = self._envCache[cKey]
+    if cached and cached.timeBucket == timeBucket and cached.moistBucket == moistBucket and cached.yieldBucket == yieldBucket and cached.rainKey == rainKey then
+        return cached.template
     end
 
-    local refMoisture = baseTemplate.moistureLimit or 14.0
-    local deltaM = moisture - refMoisture
-    local hasMoistureOffset = (deltaM > 0 or deltaM < -2.0)
-    local hasYieldOffset = (yield and yield > 8.0)
-
-    if not hasMoistureOffset and not hasYieldOffset then
-        return baseTemplate
-    end
-
-    -- Deep copy template so we don't modify the static database template
+    -- Deep copy baseTemplate into a new table for cache storage
     local adjusted = {}
     for k, v in pairs(baseTemplate) do
         if type(v) == "table" then
@@ -546,50 +586,139 @@ function RHM_CombineSettingsDatabase:applyEnvironmentalOffsets(baseTemplate, con
         end
     end
 
-    -- 1. Grain combines: Moisture and Yield live corrections
-    if machineType == "grain" and moisture and moisture > 0 then
-        local refMoisture = baseTemplate.moistureLimit or 14.0
-        local deltaM = moisture - refMoisture
+    -- 1. Diurnal cycle curve: smooth continuous harmonic curve cos((t - 3.0) * 2pi / 24)
+    -- Peak night dew at 03:00 (+1.0), peak dry midday sun at 15:00 (-1.0), neutral at 09:00 and 21:00 (0.0)
+    local diurnalFactor = math.cos((dayTimeHours - 3.0) * 0.2617993877991494)
 
-        if deltaM > 0 then
-            -- Tough/damp grain: faster rotor (+1.5%/1%), tighter concave (-1.0%/1%), stronger fan (+1.2%/1%)
-            if adjusted.rotor then
-                adjusted.rotor.optimal = math.min(100, math.floor(adjusted.rotor.optimal + deltaM * 1.5 + 0.5))
-            end
-            if adjusted.concave then
-                adjusted.concave.optimal = math.max(10, math.floor(adjusted.concave.optimal - deltaM * 1.0 + 0.5))
-            end
-            if adjusted.fan then
-                adjusted.fan.optimal = math.min(100, math.floor(adjusted.fan.optimal + deltaM * 1.2 + 0.5))
-            end
-        elseif deltaM < -2.0 then
-            -- Very dry/brittle grain (< 12%): slower rotor (-1.5%/1%), wider concave (+1.0%/1%), gentler fan (-0.8%/1%)
-            local dryDelta = math.abs(deltaM + 2.0)
-            if adjusted.rotor then
-                adjusted.rotor.optimal = math.max(10, math.floor(adjusted.rotor.optimal - dryDelta * 1.5 + 0.5))
-            end
-            if adjusted.concave then
-                adjusted.concave.optimal = math.min(100, math.floor(adjusted.concave.optimal + dryDelta * 1.0 + 0.5))
-            end
-            if adjusted.fan then
-                adjusted.fan.optimal = math.max(15, math.floor(adjusted.fan.optimal - dryDelta * 0.8 + 0.5))
+    local rotorOffset = 0
+    local fanOffset = 0
+    local upperOffset = 0
+    local lowerOffset = 0
+    local feederOffset = 0
+
+    if machineType == "grain" then
+        -- A. Diurnal Dew & Atmospheric Humidity
+        if diurnalFactor > 0 then
+            -- Night & morning dew: damp, tougher straw requires higher thresher and fan RPM
+            rotorOffset = rotorOffset + (diurnalFactor * 4.5)
+            fanOffset = fanOffset + (diurnalFactor * 2.5)
+            upperOffset = upperOffset - (diurnalFactor * 1.5)
+        else
+            -- Hot afternoon sun: dry, brittle straw threshes easily; lower RPM preserves straw & grain integrity
+            rotorOffset = rotorOffset + (diurnalFactor * 3.0) -- negative
+            fanOffset = fanOffset + (diurnalFactor * 1.5)   -- negative
+            upperOffset = upperOffset - (diurnalFactor * 2.0) -- positive (wider sieve prevents fine chaff choking)
+        end
+
+        -- B. Precipitation / Rain
+        if isRaining then
+            rotorOffset = rotorOffset + 4.0
+            fanOffset = fanOffset + 3.0
+            feederOffset = feederOffset + 3.0
+        end
+
+        -- C. Physical Crop Moisture (from provider or simulated)
+        if moisture > 0 then
+            local refMoisture = baseTemplate.moistureLimit or 14.0
+            local deltaM = math.max(-5.0, math.min(10.0, moisture - refMoisture))
+            if deltaM > 0 then
+                rotorOffset = rotorOffset + (deltaM * 1.0)
+                fanOffset = fanOffset + (deltaM * 0.7)
+                upperOffset = upperOffset + (deltaM * 0.5)
+            elseif deltaM < -1.5 then
+                local dryDelta = math.abs(deltaM + 1.5)
+                rotorOffset = rotorOffset - (dryDelta * 0.8)
+                fanOffset = fanOffset - (dryDelta * 0.5)
             end
         end
 
-        -- Stand density / Yield correction: high yield (> 8 t/ha) needs wider sieves & concaves to prevent choking
-        if yield and yield > 8.0 then
-            local excessYield = math.min(10.0, yield - 8.0)
-            if adjusted.upperSieve then
-                adjusted.upperSieve.optimal = math.min(100, math.floor(adjusted.upperSieve.optimal + excessYield * 1.0 + 0.5))
+        -- D. Field Yield & Biomass Stand Density (t/ha)
+        if yield > 0 then
+            local refYield = 7.5
+            local deltaY = math.max(-4.0, math.min(6.0, yield - refYield))
+            if deltaY > 0 then
+                upperOffset = upperOffset + (deltaY * 0.8)
+                lowerOffset = lowerOffset + (deltaY * 0.6)
+                feederOffset = feederOffset + (deltaY * 0.8)
+            elseif deltaY < -2.0 then
+                local lowDelta = math.abs(deltaY + 2.0)
+                upperOffset = upperOffset - (lowDelta * 0.6)
+                lowerOffset = lowerOffset - (lowDelta * 0.4)
             end
-            if adjusted.lowerSieve then
-                adjusted.lowerSieve.optimal = math.min(100, math.floor(adjusted.lowerSieve.optimal + excessYield * 0.8 + 0.5))
-            end
-            if adjusted.concave then
-                adjusted.concave.optimal = math.min(100, math.floor(adjusted.concave.optimal + excessYield * 1.0 + 0.5))
-            end
+        end
+
+    elseif machineType == "forage" then
+        if diurnalFactor > 0 then
+            rotorOffset = rotorOffset + (diurnalFactor * 3.0)
+            fanOffset = fanOffset + (diurnalFactor * 2.0)
+        else
+            rotorOffset = rotorOffset + (diurnalFactor * 2.0)
+            fanOffset = fanOffset + (diurnalFactor * 1.0)
+        end
+        if isRaining then
+            rotorOffset = rotorOffset + 3.0
+            fanOffset = fanOffset + 2.0
+        end
+        if yield > 0 then
+            local refYield = 25.0
+            local deltaY = math.max(-10.0, math.min(20.0, yield - refYield))
+            feederOffset = feederOffset + (deltaY * 0.3)
+        end
+
+    elseif machineType == "root" then
+        if isRaining then
+            rotorOffset = rotorOffset + 3.0
+            fanOffset = fanOffset + 2.0
+        end
+        if yield > 0 then
+            local refYield = 40.0
+            local deltaY = math.max(-15.0, math.min(30.0, yield - refYield))
+            feederOffset = feederOffset + (deltaY * 0.2)
+        end
+
+    elseif machineType == "cotton" then
+        if diurnalFactor > 0 then
+            rotorOffset = rotorOffset + (diurnalFactor * 3.0)
+            fanOffset = fanOffset + (diurnalFactor * 2.0)
+        end
+        if isRaining then
+            rotorOffset = rotorOffset + 4.0
+            fanOffset = fanOffset + 3.0
+        end
+
+    else
+        -- Grape / Olive / Special machinery
+        if diurnalFactor > 0 or isRaining then
+            rotorOffset = rotorOffset + 2.0
+            fanOffset = fanOffset + 2.0
         end
     end
+
+    -- Apply offsets safely and clamp within valid range
+    if adjusted.rotor then
+        adjusted.rotor.optimal = math.max(adjusted.rotor.min, math.min(adjusted.rotor.max, math.floor(adjusted.rotor.optimal + rotorOffset + 0.5)))
+    end
+    if adjusted.fan then
+        adjusted.fan.optimal = math.max(adjusted.fan.min, math.min(adjusted.fan.max, math.floor(adjusted.fan.optimal + fanOffset + 0.5)))
+    end
+    if adjusted.upperSieve then
+        adjusted.upperSieve.optimal = math.max(adjusted.upperSieve.min, math.min(adjusted.upperSieve.max, math.floor(adjusted.upperSieve.optimal + upperOffset + 0.5)))
+    end
+    if adjusted.lowerSieve then
+        adjusted.lowerSieve.optimal = math.max(adjusted.lowerSieve.min, math.min(adjusted.lowerSieve.max, math.floor(adjusted.lowerSieve.optimal + lowerOffset + 0.5)))
+    end
+    if adjusted.feeder then
+        adjusted.feeder.optimal = math.max(adjusted.feeder.min, math.min(adjusted.feeder.max, math.floor(adjusted.feeder.optimal + feederOffset + 0.5)))
+    end
+
+    -- Store in cache
+    self._envCache[cKey] = {
+        template = adjusted,
+        timeBucket = timeBucket,
+        moistBucket = moistBucket,
+        yieldBucket = yieldBucket,
+        rainKey = rainKey,
+    }
 
     return adjusted
 end
@@ -637,8 +766,8 @@ function RHM_CombineSettingsDatabase:getSettingsForCrop(cropName, context)
         rhm_log(string.format("RHM: [CROP DB] Dynamically generated physical profile for mod crop '%s' ('%s', machine: %s)", canonical, tostring(resolvedTitle), tostring(newRecord.machineType)))
     end
 
-    if context and (context.moisture or context.yield) then
-        return self:applyEnvironmentalOffsets(baseTemplate, context)
+    if context then
+        return self:applyEnvironmentalOffsets(baseTemplate, context, canonical)
     end
 
     return baseTemplate

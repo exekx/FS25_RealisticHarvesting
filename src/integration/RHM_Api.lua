@@ -597,14 +597,41 @@ function RHM_Api.getSettings(vehicle)
 end
 
 ---EN: Returns optimal factory preset settings for the active crop.
----UA: Повертає рекомендовані заводські налаштування для поточної культури.
+---EN: Returns optimal combine settings template for the current crop with live environmental adjustments.
+---UA: Повертає рекомендовані налаштування для поточної культури з урахуванням живих поправок середовища.
 ---@param vehicle table|nil
 ---@return table|nil
 function RHM_Api.getOptimalSettings(vehicle)
     local combine = RHM_Api.findCombine(vehicle)
     local crop = RHM_Api.getCurrentCrop(combine)
     if crop and RHM_CombineSettingsDatabase and RHM_CombineSettingsDatabase.getSettingsForCrop then
-        return RHM_CombineSettingsDatabase:getSettingsForCrop(crop)
+        local context = nil
+        if combine and combine.spec_rhm_Combine then
+            local rhmSpec = combine.spec_rhm_Combine
+            local dayTimeHours = 12.0
+            local isRaining = false
+            if g_currentMission and g_currentMission.environment then
+                if g_currentMission.environment.dayTime then
+                    dayTimeHours = g_currentMission.environment.dayTime / 3600000
+                elseif g_currentMission.environment.currentHour then
+                    dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
+                end
+                if g_currentMission.environment.weather then
+                    isRaining = g_currentMission.environment.weather:getIsRaining()
+                end
+            end
+            context = {
+                machineType = rhmSpec.machineType or "grain",
+                moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0,
+                yield = (rhmSpec.data and rhmSpec.data.yield) or 0,
+                isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,
+                fillType = rhmSpec.lastFillType,
+                fruitType = rhmSpec.lastFruitType,
+                dayTime = dayTimeHours,
+                isRaining = isRaining,
+            }
+        end
+        return RHM_CombineSettingsDatabase:getSettingsForCrop(crop, context)
     end
     return nil
 end

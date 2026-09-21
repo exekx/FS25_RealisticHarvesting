@@ -34,11 +34,6 @@
             ]]></text>
         <text name="rhm_croploss_short" text="Enable Crop Loss"/>
         <text name="rhm_croploss_long" text="Calculate crop loss when overloaded"/>
-        <text name="rhm_setting_wear_loss_short" text="Mechanical Wear Loss"/>
-        <text name="rhm_setting_wear_loss_long" text="Calculate and display crop losses caused by mechanical wear of the cutter (dull knives) and combine (thresher separation)."/>
-        <text name="rhm_ui_wear_loss" text="Wear"/>
-        <text name="rhm_ui_cutter_wear" text="Header Wear"/>
-        <text name="rhm_ui_combine_wear" text="Combine Wear"/>
         <text name="rhm_show_speed_short" text="Show Speed"/>
         <text name="rhm_show_speed_long" text="Display current speed and recommended speed in HUD"/>
         <text name="rhm_show_load_short" text="Show Engine Load"/>

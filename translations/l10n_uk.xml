@@ -36,11 +36,6 @@
         ]]></text>
         <text name="rhm_croploss_short" text="Увімкнути втрати"/>
         <text name="rhm_croploss_long" text="Розраховувати втрати врожаю при перевантаженні комбайна"/>
-        <text name="rhm_setting_wear_loss_short" text="Втрати від зносу"/>
-        <text name="rhm_setting_wear_loss_long" text="Розраховувати та відображати втрати врожаю, спричинені механічним зносом жатки (тупі ножі) та комбайна (недомолот)."/>
-        <text name="rhm_ui_wear_loss" text="Знос"/>
-        <text name="rhm_ui_cutter_wear" text="Знос жатки"/>
-        <text name="rhm_ui_combine_wear" text="Знос комбайна"/>
         <text name="rhm_show_speed_short" text="Показувати швидкість"/>
         <text name="rhm_show_speed_long" text="Показувати поточну та рекомендовану швидкість в HUD"/>
         <text name="rhm_show_load_short" text="Показувати навантаження"/>

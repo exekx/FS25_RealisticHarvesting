@@ -405,10 +405,15 @@ function RHM_LoadCalculator:getAttachedHeaderInfo(vehicle)
                 isCutterActive = true
             end
 
-            if obj.spec_forageHarvesterCutter ~= nil or obj.spec_forageCutter ~= nil then
+            local objItem = obj.configFileName and g_storeManager and g_storeManager.getItemByXMLFilename and g_storeManager:getItemByXMLFilename(obj.configFileName)
+            local objCat = (objItem and objItem.categoryName) or ""
+            local objCatLower = tostring(objCat):lower()
+            local objTypeName = (obj.typeName or (obj.type and obj.type.name) or ""):lower()
+
+            if obj.spec_forageHarvesterCutter ~= nil or obj.spec_forageCutter ~= nil or objCatLower:find("forage") ~= nil or objTypeName:find("forage") ~= nil then
                 isForageCutter = true
             end
-            if obj.spec_pickup ~= nil then
+            if obj.spec_pickup ~= nil or objCatLower:find("pickup") ~= nil or objTypeName:find("pickup") ~= nil then
                 isPickup = true
             end
 
@@ -631,18 +636,21 @@ function RHM_LoadCalculator:getCropSpecificEnergy(fruitTypeIndex, fillTypeIndex,
     if machineType == "forage" or isForageCutter then
         if cropName:find("POPLAR") or cropName:find("WOOD") then
             baseESpec = 9.5 -- Poplar wood chipping: high-resistance wood cutting drum
-        elseif cropName:find("MAIZE") or cropName:find("CORN") or cropName:find("SILAGE") or cropName:find("CHAFF") or cropName:find("GPS") then
-            baseESpec = 2.10 -- Whole corn silage: heavy biomass + corn cracker roller mills (ASABE EP496)
-        elseif cropName:find("GRASS") or cropName:find("MEADOW") or cropName:find("ALFALFA") or cropName:find("LUCERNE") or cropName:find("CLOVER") then
-            if isPickup then
-                baseESpec = 1.75 -- Swath pickup: pre-wilted windrow, low cutter resistance
+        elseif isPickup then
+            -- Swath pickup headers (e.g. EasyFlow, Pick Up 300): pre-wilted windrow, cracker rolls disengaged
+            if cropName:find("STRAW") or cropName:find("HAY") or cropName:find("DRYGRASS") then
+                baseESpec = 1.05 -- Dry windrow pickup: brittle, easy shearing
             else
-                baseESpec = 3.20 -- Direct-cut standing fresh grass: tough elastic fibers + disc mower power
+                baseESpec = 1.18 -- Wilted grass / alfalfa / clover / whole-crop windrow pickup (ASABE D497 ~1.1-1.3 kWh/t FM at 15-25mm LOC)
             end
-        elseif cropName:find("STRAW") or cropName:find("HAY") or cropName:find("DRYGRASS") then
-            baseESpec = 1.60 -- Dry windrow pickup: ~1.60 HP per t/h
+        elseif cropName:find("MAIZE") or cropName:find("CORN") or cropName:find("SILAGE") or cropName:find("CHAFF") or cropName:find("GPS") then
+            -- Standing whole corn silage or direct-cut sorghum: heavy woody stalk + active corn cracker roller mills (ASABE EP496)
+            baseESpec = 2.10
+        elseif cropName:find("GRASS") or cropName:find("MEADOW") or cropName:find("ALFALFA") or cropName:find("LUCERNE") or cropName:find("CLOVER") then
+            -- Direct-cut standing fresh grass disc header (e.g. XDisc): tough elastic standing stems
+            baseESpec = 2.60
         else
-            baseESpec = isPickup and 1.75 or 2.60 -- Universal forage fallback
+            baseESpec = 2.10 -- Universal direct-cut forage fallback
         end
 
     -- 2. ROOT & SPECIALIZED VEGETABLE HARVESTERS (Lifting, cleaning, pod stripping, stalk cutting)
@@ -848,7 +856,7 @@ function RHM_LoadCalculator:getBasePerformanceFromPower(vehicle)
     -- Nominal throughput at 100% processing load (t/h)
     local nominalTph = 0
     if isForage then
-        nominalTph = hp / 2.1 -- ~2.1 HP per t/h
+        nominalTph = hp / 1.4 -- ~1.4 HP per t/h average for whole-crop / swath chopping
     elseif isRoot then
         nominalTph = hp / 0.75 -- ~0.75 HP per t/h
     elseif isCotton then
@@ -1121,7 +1129,7 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
             -- In heavy swaths, pickup auger & feed rolls have an intake capacity limit.
             -- When fresh mass exceeds nominal feed capacity, intake resistance rises sharply.
             if isPickup then
-                local pickupIntakeLimitTph = (effectiveEngineHp * 0.25) + 60.0
+                local pickupIntakeLimitTph = math.max(320.0, (effectiveEngineHp * 0.45) + 80.0)
                 if avgTph > pickupIntakeLimitTph then
                     local surgeRatio = (avgTph - pickupIntakeLimitTph) / pickupIntakeLimitTph
                     local feedChokePenalty = pForageFeed * math.min(1.5, surgeRatio * 2.0)
@@ -1216,6 +1224,15 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     self.lastPowerSoil = pSoil
     self.lastPowerTotal = pTotal
     self.lastEffectiveHp = effectiveEngineHp
+
+    -- Dispatch overload event to external API listeners if engine load reaches overload threshold (>= 100%)
+    if self.engineLoad >= 1.0 and RHM_Api and RHM_Api.dispatch then
+        local now = g_currentMission and g_currentMission.time or 0
+        if not self._lastOverloadDispatchTime or (now - self._lastOverloadDispatchTime) > 3000 then
+            self._lastOverloadDispatchTime = now
+            RHM_Api.dispatch("onOverload", vehicle, self.engineLoad * 100, self.speedLimit)
+        end
+    end
 end
 
 ---EN: Calculates Vehicle Speed Limit based on physical power load and target load.

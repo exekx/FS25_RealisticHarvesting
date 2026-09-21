@@ -1737,6 +1737,19 @@ function RHMCombineCalibrationGUI:handleWheelScroll(direction, posX, posY)
 end
 
 function RHMCombineCalibrationGUI:getHarvestContext(machineType)
+    local dayTimeHours = nil
+    local isRaining = nil
+    if g_currentMission and g_currentMission.environment then
+        if g_currentMission.environment.dayTime then
+            dayTimeHours = g_currentMission.environment.dayTime / 3600000
+        elseif g_currentMission.environment.currentHour then
+            dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
+        end
+        if g_currentMission.environment.weather then
+            isRaining = g_currentMission.environment.weather:getIsRaining()
+        end
+    end
+
     if self.activeVehicle and self.activeVehicle.spec_rhm_Combine then
         local rhmSpec = self.activeVehicle.spec_rhm_Combine
         return {
@@ -1746,9 +1759,15 @@ function RHMCombineCalibrationGUI:getHarvestContext(machineType)
             isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,
             fillType = rhmSpec.lastFillType,
             fruitType = rhmSpec.lastFruitType,
+            dayTime = dayTimeHours,
+            isRaining = isRaining,
         }
     end
-    return { machineType = machineType or "grain" }
+    return {
+        machineType = machineType or "grain",
+        dayTime = dayTimeHours,
+        isRaining = isRaining,
+    }
 end
 
 rhm_log("RHM [UI]: [OK] RHMCombineCalibrationGUI (Obsidian CEBIS In-Cab Terminal) loaded")

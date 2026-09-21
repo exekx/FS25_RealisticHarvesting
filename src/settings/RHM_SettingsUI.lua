@@ -347,7 +347,11 @@ function RHMSettingsUI.inject(settings)
                     end
                 end
                 if vehicle and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.samples and vehicle.spec_rhm_Combine.samples.overloadAlarm then
+                    local sample = vehicle.spec_rhm_Combine.samples.overloadAlarm
+                    local prevGroup = sample.audioGroup
+                    sample.audioGroup = AudioGroup.GUI or prevGroup
                     rhm_Combine.playAlarmSample(vehicle, vehicle.spec_rhm_Combine, settings.soundVolume)
+                    sample.audioGroup = prevGroup
                 end
             end
         end)
