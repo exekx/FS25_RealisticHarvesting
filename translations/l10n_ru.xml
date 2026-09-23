@@ -271,5 +271,109 @@
         <text name="rhm_ui_wear_loss" text="Потери от износа"/>
         <text name="rhm_ui_cutter_wear" text="Износ жатки"/>
         <text name="rhm_ui_combine_wear" text="Износ молотилки"/>
+
+        <!-- Harvest History & Field Trip Telemetry -->
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="Журнал уборки и одометр поля"/>
+        <text name="input_RHM_QUICK_RESET_TRIP" text="Сбросить замер поля (удерживать)"/>
+        <text name="rhm_trip_reset_done" text="Замер поля сброшен!"/>
+
+        <text name="rhm_tab_trip" text="Текущая сессия / Поле"/>
+        <text name="rhm_tab_trip_desc" text="Телеметрия намолота, площади, средней урожайности и финансовых потерь для текущей операции."/>
+        <text name="rhm_tab_analytics" text="Аналитика потерь и Рейтинг"/>
+        <text name="rhm_tab_analytics_desc" text="Распределение факторов потерь, официальный индекс эффективности и рекомендации бортового компьютера."/>
+        <text name="rhm_tab_fleet" text="Комбайны на поле"/>
+        <text name="rhm_tab_fleet_desc" text="Телеметрия в реальном времени, производительность и статус комбайнов вашего хозяйства."/>
+        <text name="rhm_tab_settings" text="Настройки фермы и ИИ"/>
+        <text name="rhm_tab_settings_desc" text="Конфигурация круиз-контроля для наемных рабочих, генерация падалицы и параметры сброса."/>
+
+        <text name="rhm_driver_parked" text="Стоянка"/>
+        <text name="rhm_driver_cp_ai" text="ИИ (Courseplay)"/>
+        <text name="rhm_driver_hired_ai" text="ИИ (Работник)"/>
+        <text name="rhm_driver_player" text="Игрок"/>
+        <text name="rhm_driver_idle_on" text="Холостой ход"/>
+        <text name="rhm_field_yard" text="База / Двор"/>
+        <text name="rhm_field_format" text="Поле %d"/>
+        <text name="rhm_fleet_driver" text="Водитель / Оператор"/>
+        <text name="rhm_fleet_cutter" text="Ширина жатки"/>
+        <text name="rhm_fleet_grain_tank" text="Заполнение бункера"/>
+        <text name="rhm_fleet_throughput" text="Производительность"/>
+        <text name="rhm_fleet_realtime_yield" text="Текущая урожайность"/>
+        <text name="rhm_fleet_crop_loss" text="Доля потерь"/>
+        <text name="rhm_fleet_wear_state" text="Износ техники"/>
+        <text name="rhm_fleet_total_count" text="Всего комбайнов"/>
+
+        <text name="rhm_btn_subtab_fleet" text="ПАРК ТЕХНИКИ"/>
+        <text name="rhm_btn_subtab_history" text="ЖУРНАЛ СЕЗОНА / ВСЕ ПОЛЯ"/>
+        <text name="rhm_hist_total_area" text="Всего обработано"/>
+        <text name="rhm_hist_total_harvest" text="Валовой намолот"/>
+        <text name="rhm_hist_avg_loss" text="Средние потери"/>
+        <text name="rhm_hist_total_money" text="Общие потери"/>
+        <text name="rhm_col_season" text="Сезон"/>
+        <text name="rhm_col_status" text="Статус"/>
+        <text name="rhm_hist_empty" text="Записей за сезон еще нет"/>
+        <text name="rhm_status_harvesting" text="В работе (косит)"/>
+        <text name="rhm_status_on_field_idle" text="На поле (ожидание)"/>
+        <text name="rhm_status_on_field_stopped" text="На поле (остановлен)"/>
+        <text name="rhm_status_in_transit" text="Дорога / Переезд"/>
+        <text name="rhm_status_in_cab" text="Игрок в кабине"/>
+        <text name="rhm_status_parked_yard" text="Стоянка на базе"/>
+
+        <text name="rhm_card_field_harvest" text="ТЕКУЩЕЕ ПОЛЕ И СБОР"/>
+        <text name="rhm_field_number" text="Номер поля"/>
+        <text name="rhm_trip_no_field" text="Вне поля"/>
+        <text name="rhm_crop_type" text="Культура"/>
+        <text name="rhm_harvested_area" text="Обработанная площадь"/>
+        <text name="rhm_clean_harvest" text="Чистый намолот"/>
+        <text name="rhm_average_yield" text="Средняя урожайность"/>
+
+        <text name="rhm_card_loss_finances" text="ПОТЕРИ И ФИНАНСЫ"/>
+        <text name="rhm_loss_volume" text="Объем потерь"/>
+        <text name="rhm_loss_share" text="Доля от био-урожая"/>
+        <text name="rhm_financial_loss" text="Финансовые потери"/>
+
+        <text name="rhm_card_performance" text="ПОКАЗАТЕЛИ И ВРЕМЯ"/>
+        <text name="rhm_avg_working_speed" text="Ср. рабочая скорость"/>
+        <text name="rhm_avg_engine_load" text="Ср. нагрузка двигателя"/>
+        <text name="rhm_session_duration" text="Длительность сессии"/>
+        <text name="rhm_btn_reset_trip" text="Сбросить одометр поля"/>
+
+        <text name="rhm_causes_title" text="ПРИЧИНЫ ПОТЕРЬ УРОЖАЯ"/>
+        <text name="rhm_cause_speed" text="Скорость и перегрузка молотилки"/>
+        <text name="rhm_cause_moisture" text="Влажность культуры и роса"/>
+        <text name="rhm_cause_wear" text="Механический износ жатки и комбайна"/>
+        <text name="rhm_cause_slope" text="Склоны поля и рельеф"/>
+
+        <text name="rhm_scorecard_title" text="РЕЙТИНГ ЭФФЕКТИВНОСТИ КОМБАЙНЕРА"/>
+        <text name="rhm_rank_title_a" text="Ранг A: Отличная работа"/>
+        <text name="rhm_rank_desc_a" text="Потери менее 1.5%. Комбайн и скорость идеально сбалансированы."/>
+        <text name="rhm_rank_title_b" text="Ранг B: Приемлемо"/>
+        <text name="rhm_rank_desc_b" text="Потери от 1.5% до 3.0%. Рекомендуется точнее подстроить зазоры или скорость."/>
+        <text name="rhm_rank_title_c" text="Ранг C: Повышенные потери"/>
+        <text name="rhm_rank_desc_c" text="Потери от 3.0% до 4.5%. Снизьте скорость или проверьте остроту ножей жатки."/>
+        <text name="rhm_rank_title_d" text="Ранг D: Критические потери"/>
+        <text name="rhm_rank_desc_d" text="Потери превышают 4.5%! Требуется немедленная калибровка или очистка решет."/>
+
+        <text name="rhm_guidance_title" text="СОВЕТЫ БОРТОВОГО КОМПЬЮТЕРА"/>
+        <text name="rhm_advice_perfect" text="Отличные показатели уборки. Все параметры обмолота и скорость сбалансированы."/>
+        <text name="rhm_advice_speed" text="Основные потери из-за чрезмерной скорости. Замедлитесь для разгрузки решетного стана."/>
+        <text name="rhm_advice_moisture" text="Потери вызваны высокой влажностью или утренней росой. Дождитесь подсыхания или сбавьте ход."/>
+        <text name="rhm_advice_wear" text="Повышенные потери из-за износа жатки или бичей барабана. Проведите ТО в мастерской."/>
+        <text name="rhm_advice_slope" text="Потери вызваны боковым креном комбайна на склоне. Снизьте скорость при движении вдоль склона."/>
+
+        <text name="rhm_col_machine" text="Техника"/>
+        <text name="rhm_col_hours" text="Моточасы"/>
+        <text name="rhm_col_harvested" text="Собрано"/>
+        <text name="rhm_col_lost" text="Потери"/>
+        <text name="rhm_col_rank" text="Ранг"/>
+        <text name="rhm_fleet_no_combines" text="Комбайны не найдены"/>
+
+        <text name="rhm_setting_ai_limiter_title" text="ОГРАНИЧИТЕЛЬ СКОРОСТИ ИИ"/>
+        <text name="rhm_setting_ai_limiter_desc" text="Автоматически ограничивает скорость наемных рабочих при превышении порога потерь."/>
+        <text name="rhm_setting_ai_threshold_title" text="ПОРОГ ПОТЕРЬ ДЛЯ ИИ"/>
+        <text name="rhm_setting_ai_threshold_desc" text="Максимально допустимый процент потерь, при котором помощник ИИ начнет притормаживать."/>
+        <text name="rhm_setting_volunteer_title" text="ПАДАЛИЦА (VOLUNTEER CROPS)"/>
+        <text name="rhm_setting_volunteer_desc" text="Создает очаги сорняков/падалицы позади комбайна в зонах критических потерь (&gt;3%)."/>
+        <text name="rhm_setting_autoreset_title" text="АВТО-СБРОС ОДОМЕТРА"/>
+        <text name="rhm_setting_autoreset_desc" text="Автоматически сбрасывать и архивировать замер текущей сессии при переезде на другое поле."/>
     </texts>
 </l10n>

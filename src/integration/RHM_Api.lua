@@ -13,7 +13,7 @@
 -- ============================================================================
 
 RHM_Api = {}
-RHM_Api.VERSION = "1.6.0.1"
+RHM_Api.VERSION = "1.6.1.0"
 RHM_Api.listeners = {}
 
 -- ============================================================================
@@ -723,4 +723,109 @@ function RHM_Api.dispatch(eventName, ...)
             rhm_log(string.format("RHM [API Event Error] %s: %s", eventName, tostring(err)))
         end
     end
+end
+
+-- ============================================================================
+-- 10. HARVEST TRACKER & FIELD TRIP TELEMETRY API
+-- ============================================================================
+
+---EN: Returns the singleton HarvestTracker instance.
+---UA: Повертає синглтон-екземпляр трекера збору врожаю.
+function RHM_Api.getHarvestTracker()
+    return g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
+end
+
+---EN: Returns the active field trip odometer data for a given farm.
+---UA: Повертає дані активного одометра поля для заданої ферми.
+function RHM_Api.getFarmTrip(farmId)
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker then
+        local farm = tracker:getFarmData(farmId or 1)
+        return farm and farm.currentTrip
+    end
+    return nil
+end
+
+---EN: Returns the active field trip odometer data for a specific combine.
+---UA: Повертає дані одометра поля для конкретного комбайна.
+---@param vehicle table|nil
+---@return table|nil trip
+function RHM_Api.getCombineTrip(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.trip then
+        return combine.spec_rhm_Combine.trip
+    end
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker and combine then
+        local farmId = (combine.getOwnerFarmId and combine:getOwnerFarmId()) or 1
+        local farm = tracker:getFarmData(farmId)
+        if farm and farm.combineTrips then
+            local machineKey = combine.configFileName or (combine.getFullName and combine:getFullName()) or "Harvester"
+            if farm.combineTrips[machineKey] then
+                return farm.combineTrips[machineKey]
+            end
+        end
+    end
+    return nil
+end
+
+---EN: Resolves the combine harvester currently occupied or driven by the local player.
+---UA: Визначає комбайн, в якому зараз сидить або яким керує локальний гравець.
+---@return table|nil combine
+function RHM_Api.findPlayerEnteredCombine()
+    if RHM_HarvestTracker and RHM_HarvestTracker.findPlayerEnteredCombine then
+        return RHM_HarvestTracker.findPlayerEnteredCombine()
+    end
+    return nil
+end
+
+---EN: Returns fleet statistics for all harvesters of a given farm.
+---UA: Повертає статистику парку комбайнів для заданої ферми.
+function RHM_Api.getFarmFleetStats(farmId)
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker then
+        local farm = tracker:getFarmData(farmId or 1)
+        return farm and farm.fleetStats
+    end
+    return nil
+end
+
+---EN: Returns historical multi-season field harvest entries for a given farm.
+---UA: Повертає історію збору врожаю за попередні сезони для заданої ферми.
+function RHM_Api.getFarmHistory(farmId)
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker then
+        local farm = tracker:getFarmData(farmId or 1)
+        return farm and farm.seasonHistory
+    end
+    return nil
+end
+
+---EN: Calculates efficiency rank grade (A, B, C, D) from loss percentage.
+---UA: Розраховує ранг ефективності (A, B, C, D) за відсотком втрат.
+function RHM_Api.getEfficiencyRank(lossPct)
+    return RHM_HarvestTracker.calculateEfficiencyRank(lossPct)
+end
+
+---EN: Requests a reset of the trip odometer for a given farm.
+---UA: Запитує скидання одометра поля для заданої ферми.
+function RHM_Api.resetFarmTrip(farmId)
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker then
+        return tracker:resetTrip(farmId or 1, nil)
+    end
+    return false
+end
+
+---EN: Returns recorded precision GPS telemetry points for field yield & loss heatmap.
+---UA: Повертає записані GPS-точки для теплової карти врожайності та втрат поля.
+function RHM_Api.getFieldHeatmap(farmId, fieldId)
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker and fieldId and fieldId > 0 then
+        local farm = tracker:getFarmData(farmId or 1)
+        if farm and farm.fieldHeatmaps and farm.fieldHeatmaps[fieldId] then
+            return farm.fieldHeatmaps[fieldId].points
+        end
+    end
+    return nil
 end

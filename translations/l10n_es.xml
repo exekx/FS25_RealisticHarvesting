@@ -269,5 +269,76 @@
         <text name="rhm_ui_wear_loss" text="Pérdida por desgaste"/>
         <text name="rhm_ui_cutter_wear" text="Desgaste del cabezal"/>
         <text name="rhm_ui_combine_wear" text="Desgaste de la trilladora"/>
+            <!-- Harvest History & Field Trip Telemetry -->
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="Harvest History &amp; Field Trip Odometer"/>
+        <text name="input_RHM_QUICK_RESET_TRIP" text="Reset Field Trip (Hold)"/>
+        <text name="rhm_trip_reset_done" text="Field Trip Odometer Reset!"/>
+
+        <text name="rhm_tab_trip" text="Current Session / Field"/>
+        <text name="rhm_tab_trip_desc" text="Live telemetry for harvested volume, area, average yield, and financial losses for the current field operation."/>
+        <text name="rhm_tab_analytics" text="Loss Root Causes &amp; Scorecard"/>
+        <text name="rhm_tab_analytics_desc" text="Loss distribution, operator efficiency ranking grade, and onboard diagnostic computer recommendations."/>
+        <text name="rhm_tab_fleet" text="Season History &amp; Combine Fleet"/>
+        <text name="rhm_tab_fleet_desc" text="Comprehensive fleet operating hours, harvested volumes, and loss records across farm machines."/>
+        <text name="rhm_tab_settings" text="Farm &amp; AI Settings"/>
+        <text name="rhm_tab_settings_desc" text="Configure hired worker cruise limiter, volunteer weed generation, and auto-reset options."/>
+
+        <text name="rhm_card_field_harvest" text="CURRENT FIELD &amp; HARVEST"/>
+        <text name="rhm_field_number" text="Field Number"/>
+        <text name="rhm_trip_no_field" text="Off-Field"/>
+        <text name="rhm_crop_type" text="Crop Type"/>
+        <text name="rhm_harvested_area" text="Harvested Area"/>
+        <text name="rhm_clean_harvest" text="Clean Harvest"/>
+        <text name="rhm_average_yield" text="Average Yield"/>
+
+        <text name="rhm_card_loss_finances" text="LOSSES &amp; FINANCES"/>
+        <text name="rhm_loss_volume" text="Lost Volume"/>
+        <text name="rhm_loss_share" text="Loss % of Bio Yield"/>
+        <text name="rhm_financial_loss" text="Financial Loss"/>
+
+        <text name="rhm_card_performance" text="PERFORMANCE &amp; TIME"/>
+        <text name="rhm_avg_working_speed" text="Avg Working Speed"/>
+        <text name="rhm_avg_engine_load" text="Avg Engine Load"/>
+        <text name="rhm_session_duration" text="Session Duration"/>
+        <text name="rhm_btn_reset_trip" text="Reset Trip Odometer"/>
+
+        <text name="rhm_causes_title" text="CROP LOSS ROOT CAUSES"/>
+        <text name="rhm_cause_speed" text="Speed &amp; Separator Overload"/>
+        <text name="rhm_cause_moisture" text="Crop Moisture &amp; Dew"/>
+        <text name="rhm_cause_wear" text="Cutterbar &amp; Thresher Wear"/>
+        <text name="rhm_cause_slope" text="Field Slopes &amp; Incline"/>
+
+        <text name="rhm_scorecard_title" text="OPERATOR EFFICIENCY SCORECARD"/>
+        <text name="rhm_rank_title_a" text="Grade A: Optimal"/>
+        <text name="rhm_rank_desc_a" text="Loss rate is below 1.5%. Combine setup and speed are perfectly balanced."/>
+        <text name="rhm_rank_title_b" text="Grade B: Acceptable"/>
+        <text name="rhm_rank_desc_b" text="Loss rate between 1.5% and 3.0%. Consider minor speed or concave adjustments."/>
+        <text name="rhm_rank_title_c" text="Grade C: Elevated Losses"/>
+        <text name="rhm_rank_desc_c" text="Loss rate between 3.0% and 4.5%. Reduce speed or inspect header sharpness."/>
+        <text name="rhm_rank_title_d" text="Grade D: Critical Losses"/>
+        <text name="rhm_rank_desc_d" text="Loss rate exceeds 4.5%! Severe sieve overloading or miscalibration detected."/>
+
+        <text name="rhm_guidance_title" text="ONBOARD COMPUTER GUIDANCE"/>
+        <text name="rhm_advice_perfect" text="Harvesting efficiency is optimal. All separation parameters are well-balanced."/>
+        <text name="rhm_advice_speed" text="Dominant loss from excessive ground speed. Slow down to reduce sieve bed depth."/>
+        <text name="rhm_advice_moisture" text="Losses driven by high crop moisture or morning dew. Wait for field drying or reduce speed."/>
+        <text name="rhm_advice_wear" text="Elevated losses due to worn cutter knives or rasp bars. Service equipment at the workshop."/>
+        <text name="rhm_advice_slope" text="Lateral tilt on slopes causing uneven shoe loading. Reduce speed along side hills."/>
+
+        <text name="rhm_col_machine" text="Machine"/>
+        <text name="rhm_col_hours" text="Work Hours"/>
+        <text name="rhm_col_harvested" text="Harvested"/>
+        <text name="rhm_col_lost" text="Losses"/>
+        <text name="rhm_col_rank" text="Grade"/>
+
+        <text name="rhm_setting_ai_limiter_title" text="AI SPEED LIMITER"/>
+        <text name="rhm_setting_ai_limiter_desc" text="Automatically caps cruise speed for hired workers when loss exceeds threshold."/>
+        <text name="rhm_setting_ai_threshold_title" text="AI LOSS THRESHOLD"/>
+        <text name="rhm_setting_ai_threshold_desc" text="Maximum acceptable loss percentage before AI helper automatically brakes."/>
+        <text name="rhm_setting_volunteer_title" text="VOLUNTEER CROPS"/>
+        <text name="rhm_setting_volunteer_desc" text="Generates weed and volunteer sprouts behind combines in heavy loss zones (>3%)."/>
+        <text name="rhm_setting_autoreset_title" text="AUTO-RESET ON FIELD CHANGE"/>
+        <text name="rhm_setting_autoreset_desc" text="Automatically archive and reset current trip when driving to a different field."/>
     </texts>
 </l10n>
+

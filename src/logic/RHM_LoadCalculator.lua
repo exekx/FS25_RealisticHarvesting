@@ -1425,6 +1425,24 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     else
         self.speedLimit = math.max(minSpeed, self.speedLimit)
     end
+
+    -- AI SPEED LIMITER: Automatically slow down hired AI workers when loss exceeds farm limit
+    if vehicle and rhm_Combine and rhm_Combine.isAiWorkerActive and rhm_Combine.isAiWorkerActive(vehicle) then
+        local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
+        if tracker then
+            local farmId = vehicle.getOwnerFarmId and vehicle:getOwnerFarmId() or 1
+            local farm = tracker:getFarmData(farmId)
+            if farm and farm.farmSettings and farm.farmSettings.aiSpeedLimiter then
+                local maxAllowedLoss = farm.farmSettings.aiMaxLossPct or 2.0
+                local currentLoss = self.cropLoss or 0
+                if currentLoss > maxAllowedLoss then
+                    local excess = currentLoss - maxAllowedLoss
+                    local brakeFactor = math.max(0.55, 1.0 - (excess * 0.12))
+                    self.speedLimit = math.max(minSpeed, self.speedLimit * brakeFactor)
+                end
+            end
+        end
+    end
 end
 
 ---EN: Returns current engine load factor / UA: Повертає поточне навантаження двигуна
@@ -1752,10 +1770,65 @@ function RHM_LoadCalculator:calculateTotalCropLoss(vehicle)
     else
         wearLoss = self.totalWearLoss or 0
     end
-    local totalLoss = baseLoss + settingsAddedLoss + wearLoss
+
+    -- 4. Slope Loss: Lateral tilt causes grain pooling on one side of cleaning shoe sieves
+    local slopeLoss = 0
+    if vehicle and vehicle.rootNode then
+        local _, upY, _ = localDirectionToWorld(vehicle.rootNode, 0, 1, 0)
+        upY = math.min(1.0, math.max(-1.0, upY))
+        local angleDeg = math.deg(math.acos(upY))
+        if angleDeg > 4.0 then
+            slopeLoss = math.min(5.0, (angleDeg - 4.0) * 0.35)
+        end
+    end
+
+    -- 5. Moisture & Dew Loss: High moisture causes straw matting and walker/rotor grain adhesion
+    local moistureLoss = 0
+    if g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableMoisture ~= false then
+        local currentMoisture = self.currentMoisture or 0
+        if currentMoisture == 0 and vehicle and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.data then
+            currentMoisture = vehicle.spec_rhm_Combine.data.moisture or 0
+        end
+
+        if currentMoisture > 14.0 then
+            -- Standard safe threshold: 14% moisture
+            -- For every 1% above 14%, separator losses increase by 0.35% due to wet straw matting
+            local excessMoisture = currentMoisture - 14.0
+            moistureLoss = math.min(8.0, excessMoisture * 0.35)
+        end
+
+        -- Extra wet weather penalty if actively raining
+        if g_currentMission and g_currentMission.environment and g_currentMission.environment.weather then
+            if g_currentMission.environment.weather:getIsRaining() then
+                moistureLoss = math.min(10.0, moistureLoss + 1.8)
+            end
+        end
+    end
+
+    self.baseLoss = baseLoss
+    self.settingsAddedLoss = settingsAddedLoss
+    self.wearLoss = wearLoss
+    self.slopeLoss = slopeLoss
+    self.moistureLoss = moistureLoss
+
+    local totalLoss = baseLoss + settingsAddedLoss + wearLoss + slopeLoss + moistureLoss
     totalLoss = math.min(totalLoss, 50)
     self.cropLoss = totalLoss
     return totalLoss
+end
+
+---EN: Returns instantaneous breakdown of loss causes in percentage
+---UA: Повертає моментальний розподіл причин втрат у відсотках
+function RHM_LoadCalculator:getLossBreakdown()
+    -- EN: Combine speed overload and improper concave/settings under thresher overload
+    --     so all 4 UI scorecard categories are accurately represented.
+    local thresherLoss = (self.baseLoss or 0) + (self.settingsAddedLoss or 0)
+    return {
+        speedPct = thresherLoss,
+        moisturePct = self.moistureLoss or 0,
+        wearPct = self.wearLoss or 0,
+        slopePct = self.slopeLoss or 0
+    }
 end
 
 ---EN: Returns instantaneous processed metric tonnes per clock hour / UA: Перерахунок в тонни на годину

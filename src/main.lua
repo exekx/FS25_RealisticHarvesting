@@ -39,6 +39,15 @@ source(modDirectory .. "src/data/RHM_CombineSettingsDatabase.lua")
 source(modDirectory .. "src/settings/RHM_ProfileManager.lua")
 source(modDirectory .. "src/settings/RHM_CombineMemory.lua")
 source(modDirectory .. "src/network/RHM_CombineSettingsEvent.lua")
+source(modDirectory .. "src/logic/RHM_HarvestTracker.lua")
+source(modDirectory .. "src/network/RHM_HarvestSyncInitialEvent.lua")
+source(modDirectory .. "src/network/RHM_HarvestUpdateStatsEvent.lua")
+source(modDirectory .. "src/network/RHM_HarvestResetTripEvent.lua")
+source(modDirectory .. "src/network/RHM_HarvestFarmSettingsEvent.lua")
+source(modDirectory .. "src/gui/frames/RHM_HarvestHistoryTrip.lua")
+source(modDirectory .. "src/gui/frames/RHM_HarvestHistoryAnalytics.lua")
+source(modDirectory .. "src/gui/frames/RHM_HarvestHistoryFleet.lua")
+source(modDirectory .. "src/gui/RHM_HarvestHistoryGUI.lua")
 source(modDirectory .. "src/integration/RHM_MoistureAdapter.lua")
 source(modDirectory .. "src/integration/RHM_ModCompatibility.lua")
 source(modDirectory .. "src/integration/RHM_Api.lua")
@@ -106,6 +115,19 @@ local function loadedMission(mission, node)
 
     rhm:onMissionLoaded()
 
+    -- EN: Load persistent harvest trip and fleet statistics on the server
+    -- UA: Завантажуємо збережені дані одометра та парку техніки на сервері
+    if mission:getIsServer() and mission.missionInfo and mission.missionInfo.savegameDirectory then
+        local xmlPath = mission.missionInfo.savegameDirectory .. "/realisticHarvestingData.xml"
+        if fileExists(xmlPath) and rhm and rhm.harvestTracker then
+            local xmlFile = loadXMLFile("RHM_Data", xmlPath)
+            if xmlFile ~= 0 then
+                rhm.harvestTracker:loadFromXMLFile(xmlFile, "realisticHarvesting")
+                delete(xmlFile)
+            end
+        end
+    end
+
     if RHM_ModCompatibility and RHM_ModCompatibility.init then
         RHM_ModCompatibility.init()
     end
@@ -166,6 +188,30 @@ end
 Mission00.load = Utils.prependedFunction(Mission00.load, load)
 Mission00.loadMission00Finished = Utils.appendedFunction(Mission00.loadMission00Finished, loadedMission)
 FSBaseMission.delete = Utils.appendedFunction(FSBaseMission.delete, unload)
+
+-- EN: Hook savegame saving to persist realisticHarvestingData.xml on server
+-- UA: Підключаємось до збереження гри для запису realisticHarvestingData.xml на сервері
+local function onSaveSavegame(self)
+    if self:getIsServer() and self.missionInfo and self.missionInfo.savegameDirectory then
+        local xmlPath = self.missionInfo.savegameDirectory .. "/realisticHarvestingData.xml"
+        local xmlFile = createXMLFile("RHM_Data", xmlPath, "realisticHarvesting")
+        if xmlFile ~= 0 and rhm and rhm.harvestTracker then
+            rhm.harvestTracker:saveToXMLFile(xmlFile, "realisticHarvesting")
+            saveXMLFile(xmlFile)
+            delete(xmlFile)
+        end
+    end
+end
+FSBaseMission.saveSavegame = Utils.appendedFunction(FSBaseMission.saveSavegame, onSaveSavegame)
+
+-- EN: Hook initial client state transmission in multiplayer to sync farm data to joining player
+-- UA: Передаємо повний стан ферми гравцю, який приєднується до сесії мультиплеєра
+local function onSendInitialClientState(self, connection, user, farm)
+    if self.isMultiplayer and connection and not connection:getIsServer() and rhm and rhm.harvestTracker and farm then
+        connection:sendEvent(RHM_HarvestSyncInitialEvent.new(farm.farmId))
+    end
+end
+FSBaseMission.sendInitialClientState = Utils.appendedFunction(FSBaseMission.sendInitialClientState, onSendInitialClientState)
 
 -- EN: Update hook — runs every game frame to update HUD data and calibration GUI state.
 --     Guarded against re-entrant calls when Mission00 calls superClass().update.

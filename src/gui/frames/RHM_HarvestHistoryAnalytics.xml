@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI>
+    <GuiElement profile="uiInGameMenuFrame">
+        <!-- Page header with icon and title -->
+        <GuiElement profile="fs25_menuHeaderPanel">
+            <Bitmap profile="fs25_menuHeaderIconBg">
+                <Bitmap profile="fs25_menuHeaderIcon" imageSliceId="gui.icon_ingameMenu_calendar" />
+            </Bitmap>
+            <Text profile="fs25_menuHeaderTitle" text="$l10n_rhm_tab_analytics" />
+        </GuiElement>
+
+        <Text profile="rhmDescriptiveText" text="$l10n_rhm_tab_analytics_desc" position="20px -50px" width="1400px" />
+
+        <!-- LEFT PANEL: Loss Root Causes (Progress Bars) -->
+        <GuiElement profile="rhmCardContainer" position="20px -100px" size="680px 480px">
+            <Text profile="rhmCardTitle" position="20px -25px" text="$l10n_rhm_causes_title" />
+
+            <!-- Cause 1: Speed & Overload -->
+            <Text profile="rhmCardSubValue" position="20px -70px" text="$l10n_rhm_cause_speed" />
+            <Text profile="rhmCardValueRight" id="speedValText" position="480px -70px" size="180px 20px" text="0.0%" />
+            <GuiElement id="speedBarBg" profile="rhmProgressBarBg" position="20px -95px" size="640px 14px">
+                <GuiElement id="speedBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 14px" />
+            </GuiElement>
+
+            <!-- Cause 2: Moisture & Dew -->
+            <Text profile="rhmCardSubValue" position="20px -145px" text="$l10n_rhm_cause_moisture" />
+            <Text profile="rhmCardValueRight" id="moistureValText" position="480px -145px" size="180px 20px" text="0.0%" />
+            <GuiElement id="moistureBarBg" profile="rhmProgressBarBg" position="20px -170px" size="640px 14px">
+                <GuiElement id="moistureBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 14px" />
+            </GuiElement>
+
+            <!-- Cause 3: Mechanical Wear -->
+            <Text profile="rhmCardSubValue" position="20px -220px" text="$l10n_rhm_cause_wear" />
+            <Text profile="rhmCardValueRight" id="wearValText" position="480px -220px" size="180px 20px" text="0.0%" />
+            <GuiElement id="wearBarBg" profile="rhmProgressBarBg" position="20px -245px" size="640px 14px">
+                <GuiElement id="wearBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 14px" />
+            </GuiElement>
+
+            <!-- Cause 4: Field Slopes -->
+            <Text profile="rhmCardSubValue" position="20px -295px" text="$l10n_rhm_cause_slope" />
+            <Text profile="rhmCardValueRight" id="slopeValText" position="480px -295px" size="180px 20px" text="0.0%" />
+            <GuiElement id="slopeBarBg" profile="rhmProgressBarBg" position="20px -320px" size="640px 14px">
+                <GuiElement id="slopeBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 14px" />
+            </GuiElement>
+        </GuiElement>
+
+        <!-- RIGHT PANEL: Scorecard & Operator Recommendations -->
+        <GuiElement profile="rhmCardContainer" position="720px -100px" size="660px 480px">
+            <Text profile="rhmCardTitle" position="20px -25px" text="$l10n_rhm_scorecard_title" />
+
+            <!-- Rank Badge -->
+            <Text profile="rhmCardValue" id="rankBadgeText" position="20px -75px" size="100px 40px" text="[A]" />
+            <Text profile="rhmCardValue" id="rankTitleText" position="110px -75px" size="520px 30px" text="Grade A: Optimal" />
+            <Text profile="rhmDescriptiveText" id="rankDescText" position="110px -115px" width="520px" text="Loss rate is below 1.5% threshold." />
+
+            <!-- Guidance Box -->
+            <Text profile="rhmCardTitle" position="20px -200px" text="$l10n_rhm_guidance_title" />
+            <GuiElement profile="rhmProgressBarBg" position="20px -235px" size="620px 180px">
+                <Text profile="rhmDescriptiveText" id="adviceText" position="15px -15px" width="590px" text="Threshing parameters are balanced." />
+            </GuiElement>
+        </GuiElement>
+    </GuiElement>
+</GUI>

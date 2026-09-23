@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI>
+    <GuiElement profile="uiInGameMenuFrame">
+        <!-- Page header with icon and title -->
+        <GuiElement profile="fs25_menuHeaderPanel">
+            <Bitmap profile="fs25_menuHeaderIconBg">
+                <Bitmap profile="fs25_menuHeaderIcon" imageSliceId="gui.icon_ingameMenu_prices" />
+            </Bitmap>
+            <Text profile="fs25_menuHeaderTitle" text="$l10n_rhm_tab_trip" />
+        </GuiElement>
+
+        <Text profile="rhmDescriptiveText" text="$l10n_rhm_tab_trip_desc" position="20px -50px" width="1400px" />
+
+        <!-- CARD 1: Field & Harvest Throughput -->
+        <GuiElement profile="rhmCardContainer" position="20px -100px" size="440px 380px">
+            <Text profile="rhmCardTitle" position="20px -25px" text="$l10n_rhm_card_field_harvest" />
+
+            <Text profile="rhmCardSubValue" position="20px -70px" text="$l10n_rhm_field_number" />
+            <Text profile="rhmCardValue" id="fieldNumberText" position="20px -95px" text="--" />
+
+            <Text profile="rhmCardSubValue" position="220px -70px" text="$l10n_rhm_crop_type" />
+            <Text profile="rhmCardValue" id="cropTypeText" position="220px -95px" text="--" />
+
+            <Text profile="rhmCardSubValue" position="20px -165px" text="$l10n_rhm_harvested_area" />
+            <Text profile="rhmCardValue" id="harvestedAreaText" position="20px -190px" text="0.00 ha" />
+
+            <Text profile="rhmCardSubValue" position="20px -250px" text="$l10n_rhm_clean_harvest" />
+            <Text profile="rhmCardValue" id="harvestedVolumeText" position="20px -275px" text="0.0 t" />
+
+            <Text profile="rhmCardSubValue" position="20px -325px" text="$l10n_rhm_average_yield" />
+            <Text profile="rhmCardValue" id="avgYieldText" position="20px -350px" text="0.00 t/ha" />
+        </GuiElement>
+
+        <!-- CARD 2: Losses & Finances -->
+        <GuiElement profile="rhmCardContainer" position="480px -100px" size="440px 380px">
+            <Text profile="rhmCardTitle" position="20px -25px" text="$l10n_rhm_card_loss_finances" />
+
+            <Text profile="rhmCardSubValue" position="20px -70px" text="$l10n_rhm_loss_volume" />
+            <Text profile="rhmCardValue" id="lossVolumeText" position="20px -95px" text="0.0 t" />
+
+            <Text profile="rhmCardSubValue" position="20px -165px" text="$l10n_rhm_loss_share" />
+            <Text profile="rhmCardValue" id="lossPercentText" position="20px -190px" text="0.00%" />
+
+            <Text profile="rhmCardSubValue" position="20px -250px" text="$l10n_rhm_financial_loss" />
+            <Text profile="rhmCardValue" id="lossMoneyText" position="20px -275px" text="-$0" />
+        </GuiElement>
+
+        <!-- CARD 3: Combine Performance & Session Duration -->
+        <GuiElement profile="rhmCardContainer" position="940px -100px" size="440px 380px">
+            <Text profile="rhmCardTitle" position="20px -25px" text="$l10n_rhm_card_performance" />
+
+            <Text profile="rhmCardSubValue" position="20px -70px" text="$l10n_rhm_avg_working_speed" />
+            <Text profile="rhmCardValue" id="avgSpeedText" position="20px -95px" text="0.0 km/h" />
+
+            <Text profile="rhmCardSubValue" position="20px -165px" text="$l10n_rhm_avg_engine_load" />
+            <Text profile="rhmCardValue" id="avgLoadText" position="20px -190px" text="0%" />
+
+            <Text profile="rhmCardSubValue" position="20px -250px" text="$l10n_rhm_session_duration" />
+            <Text profile="rhmCardValue" id="sessionDurationText" position="20px -275px" text="00:00" />
+        </GuiElement>
+
+        <!-- Reset Trip Button -->
+        <Button id="resetButton" profile="rhmActionButton" position="20px -505px" size="360px 48px" text="$l10n_rhm_btn_reset_trip" inputAction="MENU_EXTRA_1" onClick="onClickResetTrip" />
+    </GuiElement>
+</GUI>

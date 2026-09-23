@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="111">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.6.0.1</version>
+    <version>1.6.1.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -19,6 +19,7 @@ Features:
 - Yield Monitor (t/ha, bu/ac) with real-time field fluctuations
 - Customizable HUD with live speed, load, yield, loss, moisture & productivity
 - Touchscreen Combine Calibration Terminal (Right Shift + K) with map crop extraction
+- Fullscreen Field Trip Odometer & Fleet Harvest History (Right Shift + J)
 - 4-Tier Electronics Progression: Manual, Sensors, Telemetry Monitor & Opti-Harvest AI
 - Multi-tier AI Worker & Courseplay auto-tuning based on electronics package
 - Full savegame persistence for active combine settings and custom crop profiles
@@ -38,6 +39,7 @@ Funktionen:
 - Ertragsmonitor (t/ha, bu/ac) mit realistischen Feldschwankungen
 - Anpassbares HUD mit Echtzeit-Messwerten (Last, Geschwindigkeit, Ertrag, Verlust, Feuchtigkeit)
 - Mähdrescher-Kalibrierungsterminal (Rechts-Shift + K) mit Erkennung von Map-Früchten
+- Feld-Odometer & Flotten-Erntehistorie im Vollbildmodus (Rechts-Shift + J)
 - 4 Elektronik-Stufen: Manuell, Sensor-Kit, Telemetrie-Monitor & Opti-Harvest KI
 - Mehrstufige automatische Anpassung für KI-Helfer & Courseplay
 - Vollständige Speicherung aktiver Einstellungen und Profile im Spielstand
@@ -57,6 +59,7 @@ Fonctionnalités:
 - Moniteur de rendement (t/ha, bu/ac) avec fluctuations réelles du champ
 - HUD personnalisable avec métriques en temps réel (charge, vitesse, rendement, pertes, humidité)
 - Terminal tactile de calibrage de récolte (Shift Droit + K)
+- Odomètre de champ et historique de récolte en plein écran (Shift Droit + J)
 - Progression sur 4 niveaux d'électronique: Manuel, Capteurs, Écran Télémétrie & IA Opti-Harvest
 - Réglage automatique multi-niveaux pour ouvriers IA & Courseplay
 - Sauvegarde complète des profils et réglages actifs dans la partie
@@ -78,6 +81,8 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
     <actions>
         <action name="RHM_OPEN_MENU" category="VEHICLE" />
         <action name="RHM_TOGGLE_HUD" category="VEHICLE" />
+        <action name="RHM_OPEN_HARVEST_MENU" category="ONFOOT VEHICLE" axisType="HALF" ignoreComboMask="false" />
+        <action name="RHM_QUICK_RESET_TRIP" category="VEHICLE" />
         <action name="RHM_CLOSE_NOTIFICATION" displayCategory="PLAYER_INTERACTIVE" />
     </actions>
     
@@ -87,6 +92,12 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
         </actionBinding>
         <actionBinding action="RHM_TOGGLE_HUD">
             <binding device="KB_MOUSE_DEFAULT" input="KEY_rshift KEY_h" />
+        </actionBinding>
+        <actionBinding action="RHM_OPEN_HARVEST_MENU">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_rshift KEY_j" />
+        </actionBinding>
+        <actionBinding action="RHM_QUICK_RESET_TRIP">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_rshift KEY_r" />
         </actionBinding>
         <actionBinding action="RHM_CLOSE_NOTIFICATION">
             <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_LEFT" />

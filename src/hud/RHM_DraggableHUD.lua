@@ -786,6 +786,58 @@ function RHMDraggableHUD:draw()
         currentX = cellEndX
     end
 
+    -- ── Field Trip Telemetry Mini-Badge & Quick Reset Hold Indicator ──────────
+    local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
+    if tracker and self.vehicle then
+        local farmId = self.vehicle.getOwnerFarmId and self.vehicle:getOwnerFarmId() or 1
+        local farm = tracker:getFarmData(farmId)
+        local trip = (self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.trip)
+        if not trip and farm and farm.combineTrips and self.vehicle then
+            local machineKey = self.vehicle.configFileName or (self.vehicle.getFullName and self.vehicle:getFullName()) or "Harvester"
+            trip = farm.combineTrips[machineKey]
+        end
+        trip = trip or (farm and farm.currentTrip)
+        if trip and trip.harvestedLiters and trip.harvestedLiters > 0 then
+            local badgeH = 0.018 * self.uiScale
+            local badgeY = y - badgeH - (0.002 * self.uiScale)
+            local badgeW = w
+            self:drawPanelBackground(x, badgeY, badgeW, badgeH, {0.02, 0.03, 0.04, 0.85})
+
+            local rank = trip.efficiencyRank or "A"
+            local rankColor = {0.55, 0.72, 0.0, 1.0}
+            if rank == "B" then rankColor = {0.80, 0.85, 0.20, 1.0}
+            elseif rank == "C" then rankColor = {1.0, 0.60, 0.0, 1.0}
+            elseif rank == "D" then rankColor = {0.95, 0.25, 0.20, 1.0}
+            end
+
+            local tripVolStr = string.format("TRIP: %.1f kL", trip.harvestedLiters / 1000.0)
+            local totalBio = trip.harvestedLiters + trip.lostLiters
+            local tripLossPct = (totalBio > 0) and ((trip.lostLiters / totalBio) * 100.0) or 0
+            local tripLossStr = string.format("LOSS: %.1f%%", tripLossPct)
+
+            setTextBold(true)
+            setTextAlignment(RenderText.ALIGN_LEFT)
+            setTextColor(0.92, 0.92, 0.92, 0.95)
+            renderText(x + 0.005 * self.uiScale, badgeY + 0.004 * self.uiScale, 0.0105 * self.uiScale, tripVolStr)
+
+            setTextColor(0.75, 0.78, 0.82, 0.90)
+            renderText(x + 0.062 * self.uiScale, badgeY + 0.004 * self.uiScale, 0.0105 * self.uiScale, tripLossStr)
+
+            setTextColor(rankColor[1], rankColor[2], rankColor[3], 1.0)
+            setTextAlignment(RenderText.ALIGN_RIGHT)
+            renderText(x + badgeW - 0.006 * self.uiScale, badgeY + 0.004 * self.uiScale, 0.0115 * self.uiScale, "[" .. rank .. "]")
+        end
+    end
+
+    local spec = self.vehicle and self.vehicle.spec_rhm_Combine
+    if spec and spec.resetHoldProgress and spec.resetHoldProgress > 0 then
+        local barH = 0.005 * self.uiScale
+        local barY = y - barH - (0.001 * self.uiScale)
+        local barW = w
+        self:drawRect(x, barY, barW, barH, 0.1, 0.1, 0.1, 0.85)
+        self:drawRect(x, barY, barW * spec.resetHoldProgress, barH, 0.55, 0.72, 0.0, 0.95)
+    end
+
     setTextBold(false)
     setTextColor(1, 1, 1, 1)
     setTextAlignment(RenderText.ALIGN_LEFT)

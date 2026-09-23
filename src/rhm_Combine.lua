@@ -193,6 +193,15 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
             end, false, true, false, true, nil)
         g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
     end
+    if InputAction.RHM_OPEN_HARVEST_MENU then
+        local _, eventId = vehicle:addActionEvent(vehicle._rhmActionEvents, InputAction.RHM_OPEN_HARVEST_MENU, vehicle,
+            function(self, ...)
+                if g_realisticHarvestManager then
+                    g_realisticHarvestManager:showHarvestHistoryGUI()
+                end
+            end, false, true, false, true, nil)
+        g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_NORMAL)
+    end
 end
 
 -- Apply global hook ONCE (guard against double-loading)
@@ -246,6 +255,24 @@ function rhm_Combine:onLoad(savegame)
     end
 
     spec.isRhmCombine = true
+    spec.trip = {
+        fieldId = 0,
+        cropName = "--",
+        fillTypeIndex = FillType.UNKNOWN,
+        harvestedAreaHa = 0,
+        harvestedLiters = 0,
+        harvestedMassKg = 0,
+        lostLiters = 0,
+        lossMoney = 0,
+        sessionDuration = 0,
+        avgSpeedSum = 0,
+        avgSpeedCount = 0,
+        avgLoadSum = 0,
+        avgLoadCount = 0,
+        efficiencyRank = "A",
+        reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 },
+        isActive = false
+    }
     
     -- Синхронізація дебаг-прапорця з основним менеджером — тепер просто rhm_log()
     rhm_log(string.format("RHM [Combine]: RHM: onLoad called for %s (has savegame: %s)", 
@@ -934,6 +961,12 @@ end
 function rhm_Combine.isAiWorkerActive(vehicle)
     if not vehicle then return false end
     if vehicle.getIsAIActive and vehicle:getIsAIActive() then
+        return true
+    end
+    if vehicle.currentHelper ~= nil then
+        return true
+    end
+    if vehicle.hasAIVehicle and vehicle:hasAIVehicle() then
         return true
     end
     if vehicle.getIsCpActive and vehicle:getIsCpActive() then
@@ -1814,6 +1847,57 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- EN: Use lastRawArea (actual geometric area) for yield calculation.
     -- UA: Використовуємо lastRawArea (реальну геометричну площу) для розрахунку врожайності.
     local areaForYield = spec.lastRawArea or spec.lastArea or 0 
+
+    -- MOISTURE: Retrieve from environmental moisture provider or internal diurnal simulation
+    local moisture = 0
+    if g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableMoisture ~= false then
+        if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive then
+            if cutterIsTurnedOn then
+                local fillType = spec.lastFillType or FillType.UNKNOWN
+                if fillType ~= FillType.UNKNOWN and self.components and self.components[1] then
+                    moisture = RHM_MoistureAdapter.getObjectMoisture(self.components[1].node, fillType)
+                end
+                if (moisture == 0 or moisture == nil) and self.components and self.components[1] then
+                    local mx, _, mz = getWorldTranslation(self.components[1].node)
+                    moisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz)
+                end
+            end
+        end
+        -- Fallback to environmental diurnal dew & weather simulation if adapter is absent or returned 0
+        if (not moisture or moisture <= 0) and cutterIsTurnedOn then
+            local dayTimeHours = 12.0
+            if g_currentMission and g_currentMission.environment then
+                if g_currentMission.environment.dayTime then
+                    dayTimeHours = g_currentMission.environment.dayTime / 3600000
+                elseif g_currentMission.environment.currentHour then
+                    dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
+                end
+            end
+            local isRaining = false
+            if g_currentMission and g_currentMission.environment and g_currentMission.environment.weather then
+                isRaining = g_currentMission.environment.weather:getIsRaining()
+            end
+
+            -- Harmonic diurnal curve: peak dew at 03:00 (+1.0), dry sun at 15:00 (-1.0)
+            local diurnalFactor = math.cos((dayTimeHours - 3.0) * 0.2617993877991494)
+            local baseMoisture = 12.5
+            if diurnalFactor > 0 then
+                baseMoisture = baseMoisture + (diurnalFactor * 5.5) -- up to 18.0% at peak dew
+            else
+                baseMoisture = baseMoisture + (diurnalFactor * 1.5) -- down to 11.0% in hot sun
+            end
+            if isRaining then
+                baseMoisture = math.max(baseMoisture, 22.0)
+            end
+            moisture = baseMoisture
+        end
+    end
+    if spec.data then
+        spec.data.moisture = moisture or 0
+    end
+    if spec.loadCalculator then
+        spec.loadCalculator.currentMoisture = moisture or 0
+    end
     
     -- EN: Pass accumulated MASS to RHM_LoadCalculator (not area) — mass is the main driver now.
     -- UA: Передаємо накопичену МАСУ в RHM_LoadCalculator (не площу) — маса тепер основний показник.
@@ -1859,13 +1943,51 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                         ToolType.UNDEFINED,
                         nil
                     )
-                    
-                    -- EN: Commented out to prevent massive console spam every update tick
-                    -- UA: Закоментовано, щоб уникнути масового спаму в консолі кожен тік оновлення
-                    -- rhm_log(string.format("RHM [Combine]: RHM: [LOSS] Crop Loss Applied: %.1f L lost (%.1f%% of %.1f L harvest)",
-                    --    lostLiters, cropLoss, liters))
-                else
-                    -- rhm_log("RHM [Combine]: RHM: Warning - Could not find fill unit for crop loss removal")
+                end
+            end
+        end
+
+        -- HARVEST TRACKER & FIELD TRIP TELEMETRY INTEGRATION
+        local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
+        if tracker then
+            local fieldId = 0
+            pcall(function()
+                local wx, _, wz = getWorldTranslation(self.rootNode)
+                if g_fieldManager then
+                    local field = nil
+                    if g_fieldManager.getFieldAtWorldPosition then
+                        field = g_fieldManager:getFieldAtWorldPosition(wx, wz)
+                    elseif g_fieldManager.getFieldByWorldPosition then
+                        field = g_fieldManager:getFieldByWorldPosition(wx, wz)
+                    end
+                    if field and (field.fieldId or field.id) then
+                        fieldId = field.fieldId or field.id
+                    end
+                end
+                if fieldId == 0 and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
+                    local fid = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
+                    if fid and fid > 0 then
+                        fieldId = fid
+                    end
+                end
+            end)
+
+            local farmId = self:getOwnerFarmId() or 1
+            local lossReasons = spec.loadCalculator:getLossBreakdown()
+            local speedKmh = self:getLastSpeed()
+            local loadRatio = spec.loadCalculator.engineLoad or 0
+            local areaHaThisTick = (areaForYield or 0) / 10000.0
+
+            tracker:onCombineHarvestTick(self, farmId, liters, massKg, areaHaThisTick, fieldId, totalCropLossThisTick, lossReasons, speedKmh, loadRatio, dt)
+
+            -- VOLUNTEER CROPS (Падалиця): In zones of high losses (> 3.0%), generate weed sprouts behind the machine
+            local farmData = tracker:getFarmData(farmId)
+            if farmData and farmData.farmSettings and farmData.farmSettings.volunteerCrops and totalCropLossThisTick >= 3.0 then
+                local wx, _, wz = getWorldTranslation(self.rootNode)
+                if FSDensityMapUtil and FSDensityMapUtil.setWeedArea then
+                    pcall(function()
+                        FSDensityMapUtil.setWeedArea(wx - 1.2, wz - 1.2, wx + 1.2, wz - 1.2, wx - 1.2, wz + 1.2, 1)
+                    end)
                 end
             end
         end
@@ -1879,25 +2001,10 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     spec.lastLiters = 0
     spec._fallbackLiters = 0
     
-    -- MOISTURE: Отримуємо дані з Moisture Adapter
-    local moisture = 0
-    if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive and g_realisticHarvestManager.settings.enableMoisture then
-        if cutterIsTurnedOn then
-            local fillType = spec.lastFillType or FillType.UNKNOWN
-            if fillType ~= FillType.UNKNOWN then
-                moisture = RHM_MoistureAdapter.getObjectMoisture(self.components[1].node, fillType)
-            end
-            if moisture == 0 or moisture == nil then
-                local mx, _, mz = getWorldTranslation(self.components[1].node)
-                moisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz)
-            end
-        end
-    end
-
     -- EN: Update HUD live data table from RHM_LoadCalculator outputs.
     -- UA: Оновлюємо таблицю живих даних HUD з виводів RHM_LoadCalculator.
     if spec.data then
-        spec.data.moisture = moisture or 0
+        spec.data.moisture = moisture or spec.data.moisture or 0
         spec.data.load = spec.loadCalculator:getEngineLoad()
         spec.data.cropLoss = totalCropLossThisTick
         spec.data.cutterWearLoss = spec.loadCalculator.cutterWearLoss or 0
@@ -2131,6 +2238,37 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                 end
             end
         end
+    end
+
+    -- CLIENT: Quick Trip Reset Hold Handling (1.5 seconds)
+    if self.isClient and spec.isHoldingReset then
+        spec.resetHoldTimer = (spec.resetHoldTimer or 0) + dt
+        spec.resetHoldProgress = math.min(1.0, spec.resetHoldTimer / 1500)
+        if spec.resetHoldTimer >= 1500 then
+            spec.isHoldingReset = false
+            spec.resetHoldTimer = 0
+            spec.resetHoldProgress = 0
+
+            local farmId = self:getOwnerFarmId() or 1
+            local isMultiplayer = g_currentMission and g_currentMission.isMultiplayer
+            local isDedicatedClient = isMultiplayer and not g_currentMission:getIsServer()
+
+            if isDedicatedClient and g_client and g_client:getServerConnection() then
+                g_client:getServerConnection():sendEvent(RHM_HarvestResetTripEvent.new(farmId))
+            else
+                local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
+                if tracker then tracker:resetTripForCombine(farmId, self, nil) end
+                if self.resetTrip then self:resetTrip() end
+            end
+
+            if g_currentMission and g_currentMission.showBlinkingWarning then
+                local msg = (g_i18n and g_i18n:hasText("rhm_trip_reset_done") and g_i18n:getText("rhm_trip_reset_done")) or "Harvest Trip Reset!"
+                g_currentMission:showBlinkingWarning(msg, 2000)
+            end
+        end
+    elseif self.isClient and not spec.isHoldingReset then
+        spec.resetHoldTimer = 0
+        spec.resetHoldProgress = 0
     end
 end
 
@@ -2665,6 +2803,16 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
                 local _, hudEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_TOGGLE_HUD, self, rhm_Combine.actionToggleHUD, false, true, false, true, nil)
                 g_inputBinding:setActionEventTextPriority(hudEventId, GS_PRIO_HIGH)
             end
+            -- Реєструємо дію Відкриття Журналу Врожаю (RShift+J)
+            if InputAction.RHM_OPEN_HARVEST_MENU then
+                local _, hMenuEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_OPEN_HARVEST_MENU, self, rhm_Combine.actionOpenHarvestMenu, false, true, false, true, nil)
+                g_inputBinding:setActionEventTextPriority(hMenuEventId, GS_PRIO_NORMAL)
+            end
+            -- Реєструємо дію Швидкого Скидання Одометра (Затискання RShift+R)
+            if InputAction.RHM_QUICK_RESET_TRIP then
+                local _, resetEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_QUICK_RESET_TRIP, self, rhm_Combine.actionQuickResetTrip, true, true, false, true, nil)
+                g_inputBinding:setActionEventTextPriority(resetEventId, GS_PRIO_LOW)
+            end
         end
     end
 end
@@ -2672,6 +2820,24 @@ end
 function rhm_Combine:actionOpenMenu(actionName, inputValue, callbackState, isAnalog)
     if g_realisticHarvestManager then
         g_realisticHarvestManager:toggleMenu(self)
+    end
+end
+
+function rhm_Combine:actionOpenHarvestMenu(actionName, inputValue, callbackState, isAnalog)
+    if g_realisticHarvestManager then
+        g_realisticHarvestManager:showHarvestHistoryGUI()
+    end
+end
+
+function rhm_Combine:actionQuickResetTrip(actionName, inputValue, callbackState, isAnalog)
+    local spec = self.spec_rhm_Combine
+    if not spec then return end
+    if inputValue > 0 then
+        spec.isHoldingReset = true
+    else
+        spec.isHoldingReset = false
+        spec.resetHoldTimer = 0
+        spec.resetHoldProgress = 0
     end
 end
 
@@ -2723,6 +2889,41 @@ function rhm_Combine:onDelete()
         spec.samples = nil
     end
 end
+
+---EN: Resets the trip odometer for this specific combine
+---UA: Скидає лічильник сесії/поля для цього конкретного комбайна
+function rhm_Combine:resetTrip()
+    local spec = self.spec_rhm_Combine
+    if not spec then return end
+    spec.trip = {
+        fieldId = spec.trip and spec.trip.fieldId or 0,
+        cropName = spec.trip and spec.trip.cropName or "--",
+        fillTypeIndex = spec.trip and spec.trip.fillTypeIndex or FillType.UNKNOWN,
+        harvestedAreaHa = 0,
+        harvestedLiters = 0,
+        harvestedMassKg = 0,
+        lostLiters = 0,
+        lossMoney = 0,
+        sessionDuration = 0,
+        avgSpeedSum = 0,
+        avgSpeedCount = 0,
+        avgLoadSum = 0,
+        avgLoadCount = 0,
+        efficiencyRank = "A",
+        reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 },
+        isActive = false
+    }
+    local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
+    if tracker then
+        local farmId = (self.getOwnerFarmId and self:getOwnerFarmId()) or 1
+        local farm = tracker:getFarmData(farmId)
+        local machineKey = self.configFileName or (self.getFullName and self:getFullName()) or "Harvester"
+        if farm and farm.combineTrips and farm.combineTrips[machineKey] then
+            farm.combineTrips[machineKey] = spec.trip
+        end
+    end
+end
+
 
 
 

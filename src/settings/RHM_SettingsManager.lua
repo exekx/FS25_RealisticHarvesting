@@ -256,9 +256,9 @@ function RHMSettingsManager:saveServerSettings(settingsObject)
         -- EN: Verify the file was actually saved to disk.
         -- UA: Перевіряємо що файл справді збережений на диску.
         if fileExists(xmlPath) then
-            rhm_log(string.format("RHM [RHMSettings]: RHM: [Save] ✓ File verified to exist: %s", xmlPath))
+            rhm_log(string.format("RHM [RHMSettings]: RHM: [Save] [OK] File verified to exist: %s", xmlPath))
         else
-            rhm_log(string.format("RHM [RHMSettings]: RHM: [Save] ✗ WARNING - File does NOT exist after save: %s", xmlPath))
+            rhm_log(string.format("RHM [RHMSettings]: RHM: [Save] [WARN] File does NOT exist after save: %s", xmlPath))
         end
 
         rhm_log("RHM [RHMSettings]: RHM: [Save] Server settings saved successfully")

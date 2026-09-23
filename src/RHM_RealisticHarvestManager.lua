@@ -42,6 +42,12 @@ function RHM_RealisticHarvestManager.new(mission, modDirectory, modName)
     -- UA: Завантажуємо збережені налаштування з XML перед створенням HUD (HUD читає налаштування в конструкторі).
     self.settings:load()
 
+    -- EN: Initialize server-authoritative harvest tracker for trip odometer and fleet history
+    -- UA: Ініціалізуємо серверний трекер збору врожаю для одометра поля та історії техніки
+    if RHM_HarvestTracker then
+        self.harvestTracker = RHM_HarvestTracker.new()
+    end
+
     -- EN: Create the draggable HUD overlay (client only, handles display of live data).
     -- UA: Створюємо перетягуваний HUD (тільки клієнт, відображає живі дані).
     if mission:getIsClient() then
@@ -75,6 +81,38 @@ function RHM_RealisticHarvestManager:toggleMenu(vehicle)
     if self.calibrationGUI then
         self.calibrationGUI:toggle(vehicle)
     end
+end
+
+-- EN: Shows the fullscreen Harvest History and Trip Telemetry GUI.
+-- UA: Відкриває повноекранне меню історії збору врожаю та одометра поля.
+function RHM_RealisticHarvestManager:showHarvestHistoryGUI()
+    if g_gui then
+        if g_gui.currentGui == nil then
+            g_gui:showGui("RHM_HarvestHistoryGUI")
+        elseif g_gui.currentGuiName == "RHM_HarvestHistoryGUI" then
+            g_gui:showGui("")
+        end
+    end
+end
+
+-- EN: Loads GUI profiles and XML frames for the native TabbedMenu harvest history dialog.
+-- UA: Завантажує профілі та XML-фрейми для нативного діалогу журналу врожаю (TabbedMenu).
+function RHM_RealisticHarvestManager:loadHarvestHistoryGUI()
+    if not (g_gui and self.mission and self.mission:getIsClient()) then return end
+
+    g_gui:loadProfiles(self.modDirectory .. "src/gui/guiProfiles.xml")
+
+    local tripFrame = RHM_HarvestHistoryTrip.new(g_i18n)
+    g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryTrip.xml", "RHM_HarvestHistoryTrip", tripFrame, true)
+
+    local analyticsFrame = RHM_HarvestHistoryAnalytics.new(g_i18n)
+    g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryAnalytics.xml", "RHM_HarvestHistoryAnalytics", analyticsFrame, true)
+
+    local fleetFrame = RHM_HarvestHistoryFleet.new(g_i18n)
+    g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryFleet.xml", "RHM_HarvestHistoryFleet", fleetFrame, true)
+
+    self.harvestHistoryGUI = RHM_HarvestHistoryGUI.new(g_messageCenter, g_i18n, g_inputBinding)
+    g_gui:loadGui(self.modDirectory .. "src/gui/RHM_HarvestHistoryGUI.xml", "RHM_HarvestHistoryGUI", self.harvestHistoryGUI)
 end
 
 -- EN: Toggles the small telemetry HUD overlay visibility and saves setting.
@@ -178,6 +216,10 @@ function RHM_RealisticHarvestManager:onMissionLoaded()
     if self.hud then
         self.hud:load()
     end
+
+    if self.mission and self.mission:getIsClient() then
+        self:loadHarvestHistoryGUI()
+    end
 end
 
 local SEARCH_CHECKED = {}
@@ -259,6 +301,12 @@ end
 --     Шукає в ієрархії транспорту гравця специфікацію комбайна для відстеження живих даних.
 --     Оновлює HUD тільки коли знайдено і запущено комбайн.
 function RHM_RealisticHarvestManager:update(dt)
+    -- EN: Server-side tracker ticks to broadcast stats to clients
+    -- UA: Серверний трекер оновлює стан та транслює статистику клієнтам
+    if self.harvestTracker then
+        self.harvestTracker:update(dt)
+    end
+
     -- EN: Dedicated servers have no local client, HUD or UI. Skip client updates.
     -- UA: Виділені сервери не мають локального клієнта, HUD або UI. Пропускаємо клієнтські оновлення.
     if not self.mission:getIsClient() then
