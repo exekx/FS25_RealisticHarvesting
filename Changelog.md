@@ -9,8 +9,12 @@ Changelog 1.6.1.0:
 - ADDED: Native diurnal crop moisture and ambient dew simulation with harmonic day/night cycles.
 - ADDED: In-cockpit HUD mini-badge with live trip yield, loss %, and efficiency rank.
 - ADDED: Quick in-cab field counter reset action by holding Right Shift + R.
+- ADDED: Multi-stage power model for forage harvesters (feed rolls, chopping drum, accelerator).
+- ADDED: Swath pickup header support with intake surge damping and windrow volume load.
 - ADDED: Dedicated public integration API methods for fleet stats and field trip counters.
 - IMPROVED: Authentic agricultural terminology overhaul ("Field Counter" / "Feldzähler") across all 27 languages.
+- IMPROVED: Recalibrated crop specific energy and throughput curves based on DLG & ASABE standards.
+- IMPROVED: Straw chopper power consumption model (extra 15-20% engine load when chopping vs swathing).
 - IMPROVED: Architectural hardening, purging defensive pcalls and enforcing unambiguous API contracts.
 - IMPROVED: Full dedicated server multiplayer network synchronization and farm-isolated XML savegame storage.
 - FIXED: Fatal crash at 100% map loading caused by unsupported GUI XML color profile attributes.
