@@ -86,22 +86,20 @@ function RHM_HarvestHistoryTrip:updateData()
     -- Field & Crop
     local fieldId = trip.fieldId or 0
     if fieldId == 0 and activeCombine and activeCombine.rootNode then
-        pcall(function()
-            local wx, _, wz = getWorldTranslation(activeCombine.rootNode)
-            if g_fieldManager then
-                local field = (g_fieldManager.getFieldAtWorldPosition and g_fieldManager:getFieldAtWorldPosition(wx, wz))
-                           or (g_fieldManager.getFieldByWorldPosition and g_fieldManager:getFieldByWorldPosition(wx, wz))
-                if field and (field.fieldId or field.id) then
-                    fieldId = field.fieldId or field.id
-                end
+        local wx, _, wz = getWorldTranslation(activeCombine.rootNode)
+        if g_fieldManager then
+            local field = (g_fieldManager.getFieldAtWorldPosition and g_fieldManager:getFieldAtWorldPosition(wx, wz))
+                       or (g_fieldManager.getFieldByWorldPosition and g_fieldManager:getFieldByWorldPosition(wx, wz))
+            if field and (field.fieldId or field.id) then
+                fieldId = field.fieldId or field.id
             end
-            if fieldId == 0 and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
-                local fid = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
-                if fid and fid > 0 then
-                    fieldId = fid
-                end
+        end
+        if fieldId == 0 and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
+            local fid = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
+            if fid and fid > 0 then
+                fieldId = fid
             end
-        end)
+        end
     end
 
     local fieldStr = fieldId > 0 and tostring(fieldId) or (g_i18n and g_i18n:getText("rhm_trip_no_field") or "--")

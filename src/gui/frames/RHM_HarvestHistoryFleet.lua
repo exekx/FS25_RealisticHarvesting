@@ -380,31 +380,29 @@ function RHM_HarvestHistoryFleet:updateTables()
                     local fieldStr = g_i18n:getText("rhm_field_yard") or "Yard / Base"
                     local onField = false
                     local checkNode = vehicle.rootNode or targetHarv.rootNode
-                    pcall(function()
-                        if checkNode then
-                            local wx, _, wz = getWorldTranslation(checkNode)
-                            local fId = 0
-                            if g_fieldManager then
-                                local f = nil
-                                if g_fieldManager.getFieldAtWorldPosition then
-                                    f = g_fieldManager:getFieldAtWorldPosition(wx, wz)
-                                elseif g_fieldManager.getFieldByWorldPosition then
-                                    f = g_fieldManager:getFieldByWorldPosition(wx, wz)
-                                end
-                                if f and (f.fieldId or f.id) then
-                                    fId = f.fieldId or f.id
-                                end
+                    if checkNode then
+                        local wx, _, wz = getWorldTranslation(checkNode)
+                        local fId = 0
+                        if g_fieldManager then
+                            local f = nil
+                            if g_fieldManager.getFieldAtWorldPosition then
+                                f = g_fieldManager:getFieldAtWorldPosition(wx, wz)
+                            elseif g_fieldManager.getFieldByWorldPosition then
+                                f = g_fieldManager:getFieldByWorldPosition(wx, wz)
                             end
-                            if fId == 0 and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
-                                local farmLandId = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
-                                if farmLandId and farmLandId > 0 then fId = farmLandId end
-                            end
-                            if fId > 0 then
-                                onField = true
-                                fieldStr = string.format(g_i18n:getText("rhm_field_format") or "Field %d", fId)
+                            if f and (f.fieldId or f.id) then
+                                fId = f.fieldId or f.id
                             end
                         end
-                    end)
+                        if fId == 0 and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
+                            local farmLandId = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
+                            if farmLandId and farmLandId > 0 then fId = farmLandId end
+                        end
+                        if fId > 0 then
+                            onField = true
+                            fieldStr = string.format(g_i18n:getText("rhm_field_format") or "Field %d", fId)
+                        end
+                    end
 
                     local isTurnedOn = ((vehicle.getIsTurnedOn and vehicle:getIsTurnedOn()) or (targetHarv.getIsTurnedOn and targetHarv:getIsTurnedOn())) or false
                     local speedKmh = (vehicle.getLastSpeed and vehicle:getLastSpeed()) or (targetHarv.getLastSpeed and targetHarv:getLastSpeed()) or 0

@@ -169,6 +169,9 @@ function RHM_LoadCalculator:getEnginePowerHp(vehicle)
                         end
                     end
                 end
+                if not okVal and not okStr then
+                    rhm_log(string.format("RHM: Failed to inspect shop power specifications for %s: %s", tostring(motorObj:getName() or motorObj.configFileName), tostring(p1 or pStr)))
+                end
             end
         end
     end

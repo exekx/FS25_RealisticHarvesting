@@ -24,32 +24,36 @@ end
 function RHM_MoistureAdapter.getObjectMoisture(uniqueId, fillType)
     if not RHM_MoistureAdapter.isActive or not uniqueId or not fillType then return 0 end
     
-    -- Safe call
-    local success, moisture = pcall(function()
+    -- Safe call to external system with diagnostic logging on exception
+    local success, result = pcall(function()
         return g_currentMission.MoistureSystem:getObjectMoisture(uniqueId, fillType)
     end)
     
-    if success and moisture then
-        return moisture * 100 -- Convert 0-1 scale to percentage
+    if success and result then
+        return result * 100 -- Convert 0-1 scale to percentage
+    elseif not success then
+        rhm_log(string.format("RHM [Moisture Adapter Error] getObjectMoisture: %s", tostring(result)))
     end
     
-    return 0
+    return nil
 end
 
 ---Fetches the moisture level at a specific world coordinate.
 ---@param x number X coordinate
 ---@param z number Z coordinate
----@return number Moisture percentage (0.0 to 100.0)
+---@return number|nil Moisture percentage (0.0 to 100.0) or nil if unavailable
 function RHM_MoistureAdapter.getMoistureAtPosition(x, z)
-    if not RHM_MoistureAdapter.isActive or not x or not z then return 0 end
+    if not RHM_MoistureAdapter.isActive or not x or not z then return nil end
     
-    local success, moisture = pcall(function()
+    local success, result = pcall(function()
         return g_currentMission.MoistureSystem:getMoistureAtPosition(x, z)
     end)
     
-    if success and moisture then
-        return moisture * 100 -- Convert 0-1 scale to percentage
+    if success and result then
+        return result * 100 -- Convert 0-1 scale to percentage
+    elseif not success then
+        rhm_log(string.format("RHM [Moisture Adapter Error] getMoistureAtPosition: %s", tostring(result)))
     end
     
-    return 0
+    return nil
 end

@@ -545,10 +545,7 @@ function rhm_Combine:onLoad(savegame)
     -- EN: Restore saved combine settings from savegame if loading a saved game
     -- UA: Відновлюємо збережені налаштування комбайна з savegame при завантаженні збереження
     if savegame ~= nil then
-        local ok, err = pcall(rhm_Combine.loadFromSavegame, self, savegame)
-        if not ok then
-            Logging.error("RHM: Error loading savegame for %s: %s", tostring(self:getFullName()), tostring(err))
-        end
+        self:loadFromSavegame(savegame)
     end
 end
 
@@ -558,10 +555,7 @@ end
 --     Гарантує відновлення налаштувань збереження, якщо вони ще не були завантажені в onLoad.
 function rhm_Combine:onPostLoad(savegame)
     if savegame ~= nil and not self._rhmSettingsLoadedFromSavegame then
-        local ok, err = pcall(rhm_Combine.loadFromSavegame, self, savegame)
-        if not ok then
-            Logging.error("RHM: Error post-loading savegame for %s: %s", tostring(self:getFullName()), tostring(err))
-        end
+        self:loadFromSavegame(savegame)
     end
 end
 
@@ -1319,8 +1313,7 @@ function rhm_Combine:getCanBeTurnedOn(superFunc)
     -- UA: Якщо Незалежний Запуск вимкнений, перевіряємо готовність прикріплених жаток.
     for cutter, _ in pairs(spec_combine.attachedCutters) do
         if cutter ~= self and cutter.getCanBeTurnedOn ~= nil then
-            local success, canTurnOn = pcall(cutter.getCanBeTurnedOn, cutter)
-            if success and not canTurnOn then
+            if not cutter:getCanBeTurnedOn() then
                 return false
             end
         end
@@ -1406,10 +1399,8 @@ function rhm_Combine:stopThreshing(superFunc)
         g_soundManager:playSample(spec_combine.samples.stop)
 
         local spec_rhm = self.spec_rhm_Combine
-        if spec_rhm and spec_rhm.samples then
-            if spec_rhm.samples.overloadAlarm then
-                pcall(function() g_soundManager:stopSample(spec_rhm.samples.overloadAlarm) end)
-            end
+        if spec_rhm and spec_rhm.samples and spec_rhm.samples.overloadAlarm and g_soundManager then
+            g_soundManager:stopSample(spec_rhm.samples.overloadAlarm)
         end
     end
     
@@ -1523,26 +1514,20 @@ function rhm_Combine.playAlarmSample(vehicle, spec, soundVolMultiplier)
     alarmSample.currentVolume = alarmVol
     alarmSample.targetVolume = alarmVol
 
-    if g_soundManager and g_soundManager.setSampleVolume then
-        pcall(function() g_soundManager:setSampleVolume(alarmSample, alarmVol) end)
+    if g_soundManager then
+        if g_soundManager.setSampleVolume then
+            g_soundManager:setSampleVolume(alarmSample, alarmVol)
+        end
+        if g_soundManager.stopSample then
+            g_soundManager:stopSample(alarmSample)
+        end
+        g_soundManager:playSample(alarmSample)
+        if g_soundManager.setSampleVolume then
+            g_soundManager:setSampleVolume(alarmSample, alarmVol)
+        end
     end
     if alarmSample.soundSample and type(setAudioSourceVolume) == "function" then
-        pcall(function() setAudioSourceVolume(alarmSample.soundSample, alarmVol) end)
-    end
-
-    if g_soundManager and g_soundManager.stopSample then
-        pcall(function() g_soundManager:stopSample(alarmSample) end)
-    end
-
-    pcall(function() g_soundManager:playSample(alarmSample) end)
-
-    -- EN: Enforce channel volume directly on C++ audio source after playSample triggers
-    -- UA: Закріплюємо гучність аудіоканалу прямо на рівні C++ аудіоджерела відразу після playSample
-    if alarmSample.soundSample and type(setAudioSourceVolume) == "function" then
-        pcall(function() setAudioSourceVolume(alarmSample.soundSample, alarmVol) end)
-    end
-    if g_soundManager and g_soundManager.setSampleVolume then
-        pcall(function() g_soundManager:setSampleVolume(alarmSample, alarmVol) end)
+        setAudioSourceVolume(alarmSample.soundSample, alarmVol)
     end
 end
 
@@ -1593,11 +1578,8 @@ function rhm_Combine:updateSounds(dt)
 
     -- If alarm disabled, muted (0%), player not in vehicle, combine turned off, game paused, or in any GUI/menu: stop active sounds
     if alarmMode == 3 or soundVolMultiplier <= 0.01 or not isPlayerEntered or not isTurnedOn or isGuiVisible or isPaused then
-        if spec.samples.overloadAlarm then
-            pcall(function() g_soundManager:stopSample(spec.samples.overloadAlarm) end)
-            if spec.samples.overloadAlarm.soundSample and type(stopAudioSource) == "function" then
-                pcall(function() stopAudioSource(spec.samples.overloadAlarm.soundSample) end)
-            end
+        if spec.samples.overloadAlarm and g_soundManager then
+            g_soundManager:stopSample(spec.samples.overloadAlarm)
         end
         spec._rhmAlarmTimer = 1500
         spec._rhmAlarmBurstCount = 0
@@ -1951,26 +1933,24 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
         if tracker then
             local fieldId = 0
-            pcall(function()
-                local wx, _, wz = getWorldTranslation(self.rootNode)
-                if g_fieldManager then
-                    local field = nil
-                    if g_fieldManager.getFieldAtWorldPosition then
-                        field = g_fieldManager:getFieldAtWorldPosition(wx, wz)
-                    elseif g_fieldManager.getFieldByWorldPosition then
-                        field = g_fieldManager:getFieldByWorldPosition(wx, wz)
-                    end
-                    if field and (field.fieldId or field.id) then
-                        fieldId = field.fieldId or field.id
-                    end
+            local wx, _, wz = getWorldTranslation(self.rootNode)
+            if g_fieldManager then
+                local field = nil
+                if g_fieldManager.getFieldAtWorldPosition then
+                    field = g_fieldManager:getFieldAtWorldPosition(wx, wz)
+                elseif g_fieldManager.getFieldByWorldPosition then
+                    field = g_fieldManager:getFieldByWorldPosition(wx, wz)
                 end
-                if fieldId == 0 and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
-                    local fid = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
-                    if fid and fid > 0 then
-                        fieldId = fid
-                    end
+                if field and (field.fieldId or field.id) then
+                    fieldId = field.fieldId or field.id
                 end
-            end)
+            end
+            if fieldId == 0 and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
+                local fid = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
+                if fid and fid > 0 then
+                    fieldId = fid
+                end
+            end
 
             local farmId = self:getOwnerFarmId() or 1
             local lossReasons = spec.loadCalculator:getLossBreakdown()
@@ -1983,11 +1963,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             -- VOLUNTEER CROPS (Падалиця): In zones of high losses (> 3.0%), generate weed sprouts behind the machine
             local farmData = tracker:getFarmData(farmId)
             if farmData and farmData.farmSettings and farmData.farmSettings.volunteerCrops and totalCropLossThisTick >= 3.0 then
-                local wx, _, wz = getWorldTranslation(self.rootNode)
                 if FSDensityMapUtil and FSDensityMapUtil.setWeedArea then
-                    pcall(function()
-                        FSDensityMapUtil.setWeedArea(wx - 1.2, wz - 1.2, wx + 1.2, wz - 1.2, wx - 1.2, wz + 1.2, 1)
-                    end)
+                    FSDensityMapUtil.setWeedArea(wx - 1.2, wz - 1.2, wx + 1.2, wz - 1.2, wx - 1.2, wz + 1.2, 1)
                 end
             end
         end
@@ -2286,9 +2263,9 @@ end
 -- ============================================================================
 
 -- EN: Saves combine settings (mode, currentCrop, fan/rotor/sieve/feeder values) to the savegame XML file.
---     Uses pcall for each setValue so schema validation errors don't crash the save.
+--     Directly serializes to the registered savegame XML schema.
 -- UA: Зберігає налаштування комбайна (режим, поточна культура, значення вентилятора/ротора/решета/подачі) у XML файл збереження.
---     Використовує pcall для кожного setValue щоб помилки валідації схеми не падали при збереженні.
+--     Безпосередньо записує в зареєстровану XML-схему збереження.
 function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local spec = self.spec_rhm_Combine
     if not spec or not spec.combineMemory then return end
@@ -2297,27 +2274,18 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local mem = spec.combineMemory
     local settings = mem.currentSettings
     
-    -- EN: Use pcall for each setValue to prevent schema validation crashes.
-    -- UA: pcall для кожного setValue щоб помилки схеми не падали.
-    local function safeSet(path, value)
-        local ok, err = pcall(function() xmlFile:setValue(path, value) end)
-        if not ok then
-            rhm_log("RHM [Combine]: RHM: [SAVE] Warning - could not set " .. tostring(path) .. ": " .. tostring(err))
-        end
-    end
-    
-    safeSet(cur .. "#mode",       mem.mode or "MANUAL")
-    safeSet(cur .. "#autoSwitch", mem.autoSwitchEnabled ~= false)
-    safeSet(cur .. "#currentCrop", mem.currentCrop or "")
-    safeSet(cur .. "#fan",        settings.fan or 50)
-    safeSet(cur .. "#upperSieve", settings.upperSieve or 50)
-    safeSet(cur .. "#lowerSieve", settings.lowerSieve or 50)
-    safeSet(cur .. "#rotor",      settings.rotor or 50)
-    safeSet(cur .. "#feeder",     settings.feeder or 50)
-    safeSet(cur .. "#targetEngineLoad", settings.targetEngineLoad or 95)
+    xmlFile:setValue(cur .. "#mode",              mem.mode or "MANUAL")
+    xmlFile:setValue(cur .. "#autoSwitch",         mem.autoSwitchEnabled ~= false)
+    xmlFile:setValue(cur .. "#currentCrop",        mem.currentCrop or "")
+    xmlFile:setValue(cur .. "#fan",                settings.fan or 50)
+    xmlFile:setValue(cur .. "#upperSieve",         settings.upperSieve or 50)
+    xmlFile:setValue(cur .. "#lowerSieve",         settings.lowerSieve or 50)
+    xmlFile:setValue(cur .. "#rotor",              settings.rotor or 50)
+    xmlFile:setValue(cur .. "#feeder",             settings.feeder or 50)
+    xmlFile:setValue(cur .. "#targetEngineLoad",   settings.targetEngineLoad or 95)
     
     local isCalib = mem.isCalibrated == true or mem.hasManualTuning == true or (mem.calibratedCrops and mem.currentCrop and mem.calibratedCrops[mem.currentCrop] == true)
-    safeSet(cur .. "#isCalibrated", isCalib)
+    xmlFile:setValue(cur .. "#isCalibrated", isCalib)
 
     local calibList = {}
     if mem.calibratedCrops then
@@ -2328,7 +2296,7 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
         end
     end
     if #calibList > 0 then
-        safeSet(cur .. "#calibratedCrops", table.concat(calibList, " "))
+        xmlFile:setValue(cur .. "#calibratedCrops", table.concat(calibList, " "))
     end
     
     rhm_log(string.format("RHM [Combine]: RHM: [SAVE] Saved combine state for %s: crop=%s, fan=%s, upper=%s, lower=%s, rotor=%s, feeder=%s, load=%s", 
@@ -2390,14 +2358,10 @@ function rhm_Combine:loadFromSavegame(savegame)
         local val = nil
         if xmlFile.getInt then
             val = xmlFile:getInt(path)
-        end
-        if val == nil and XMLValueType and XMLValueType.INT then
-            local ok, res = pcall(function() return xmlFile:getValue(path, XMLValueType.INT) end)
-            if ok then val = res end
-        end
-        if val == nil then
-            local ok, res = pcall(function() return xmlFile:getValue(path) end)
-            if ok then val = res end
+        elseif XMLValueType and XMLValueType.INT then
+            val = xmlFile:getValue(path, XMLValueType.INT)
+        else
+            val = xmlFile:getValue(path)
         end
         return (val ~= nil and tonumber(val)) or def
     end
@@ -2409,14 +2373,10 @@ function rhm_Combine:loadFromSavegame(savegame)
         local val = nil
         if xmlFile.getString then
             val = xmlFile:getString(path)
-        end
-        if val == nil and XMLValueType and XMLValueType.STRING then
-            local ok, res = pcall(function() return xmlFile:getValue(path, XMLValueType.STRING) end)
-            if ok then val = res end
-        end
-        if val == nil then
-            local ok, res = pcall(function() return xmlFile:getValue(path) end)
-            if ok then val = res end
+        elseif XMLValueType and XMLValueType.STRING then
+            val = xmlFile:getValue(path, XMLValueType.STRING)
+        else
+            val = xmlFile:getValue(path)
         end
         return (val ~= nil and tostring(val)) or def
     end
@@ -2428,14 +2388,10 @@ function rhm_Combine:loadFromSavegame(savegame)
         local val = nil
         if xmlFile.getBool then
             val = xmlFile:getBool(path)
-        end
-        if val == nil and XMLValueType and XMLValueType.BOOL then
-            local ok, res = pcall(function() return xmlFile:getValue(path, XMLValueType.BOOL) end)
-            if ok then val = res end
-        end
-        if val == nil then
-            local ok, res = pcall(function() return xmlFile:getValue(path) end)
-            if ok then val = res end
+        elseif XMLValueType and XMLValueType.BOOL then
+            val = xmlFile:getValue(path, XMLValueType.BOOL)
+        else
+            val = xmlFile:getValue(path)
         end
         if val == nil then return def end
         if type(val) == "boolean" then return val end
@@ -2852,10 +2808,8 @@ end
 function rhm_Combine:onLeaveVehicle(wasEntered)
     if self.isClient then
         local spec_rhm = self.spec_rhm_Combine
-        if spec_rhm and spec_rhm.samples then
-            if spec_rhm.samples.overloadAlarm then
-                pcall(function() g_soundManager:stopSample(spec_rhm.samples.overloadAlarm) end)
-            end
+        if spec_rhm and spec_rhm.samples and spec_rhm.samples.overloadAlarm and g_soundManager then
+            g_soundManager:stopSample(spec_rhm.samples.overloadAlarm)
         end
 
         if g_realisticHarvestManager then
@@ -2881,11 +2835,11 @@ end
 -- UA: Очищення звукових семплів та ресурсів при видаленні комбайна.
 function rhm_Combine:onDelete()
     local spec = self.spec_rhm_Combine
-    if spec and spec.samples then
+    if spec and spec.samples and g_soundManager then
         if spec.samples.overloadAlarm then
-            pcall(function() g_soundManager:stopSample(spec.samples.overloadAlarm) end)
+            g_soundManager:stopSample(spec.samples.overloadAlarm)
         end
-        pcall(function() g_soundManager:deleteSamples(spec.samples) end)
+        g_soundManager:deleteSamples(spec.samples)
         spec.samples = nil
     end
 end

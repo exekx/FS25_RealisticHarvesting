@@ -157,20 +157,21 @@ function RHM_RealisticHarvestManager:setupSettingsHooks()
 
     local function ensureAdditionalGameSettings()
         if g_additionalSettingsManager and g_additionalSettingsManager.settingsPage then
-            pcall(function()
+            local ok, err = pcall(function()
                 if g_additionalSettingsManager.settingsPage.updateAlternating then
                     g_additionalSettingsManager.settingsPage:updateAlternating()
                 end
             end)
+            if not ok then
+                rhm_log("RHM [Settings]: Auxiliary settings page update failed: " .. tostring(err))
+            end
         end
     end
 
     local function onSettingsFrameOpen(settingsPage)
-        pcall(function()
-            RHMSettingsUI.inject(settings)
-            RHMSettingsUI.refreshUI(settings)
-            ensureAdditionalGameSettings()
-        end)
+        RHMSettingsUI.inject(settings)
+        RHMSettingsUI.refreshUI(settings)
+        ensureAdditionalGameSettings()
     end
 
     -- 1. Hook InGameMenu.onMenuOpened (Global menu hook, completely immune to pageSettings shadowing)
@@ -178,11 +179,9 @@ function RHM_RealisticHarvestManager:setupSettingsHooks()
         InGameMenu.onMenuOpened = Utils.appendedFunction(
             InGameMenu.onMenuOpened,
             function(menu)
-                pcall(function()
-                    RHMSettingsUI.inject(settings)
-                    RHMSettingsUI.refreshUI(settings)
-                    ensureAdditionalGameSettings()
-                end)
+                RHMSettingsUI.inject(settings)
+                RHMSettingsUI.refreshUI(settings)
+                ensureAdditionalGameSettings()
             end
         )
         self._inGameMenuOpenedHooked = true
@@ -204,10 +203,8 @@ function RHM_RealisticHarvestManager:onMissionLoaded()
     self:setupSettingsHooks()
 
     if self.mission and self.mission:getIsClient() then
-        pcall(function()
-            RHMSettingsUI.inject(self.settings)
-            RHMSettingsUI.refreshUI(self.settings)
-        end)
+        RHMSettingsUI.inject(self.settings)
+        RHMSettingsUI.refreshUI(self.settings)
     end
 
     if self.notificationManager then
