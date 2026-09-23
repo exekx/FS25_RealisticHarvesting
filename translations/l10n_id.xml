@@ -1,331 +1,353 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
-  <texts>
-    <text name="rhm_section_simulation" text="Realistic Harvesting - Simulasi" />
-    <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Tampilan" />
-    <text name="input_RHM_OPEN_MENU" text="Menu Pengaturan Combine" />
-    <text name="input_RHM_TOGGLE_HUD" text="Alihkan HUD Pemanenan" />
-    <text name="input_RHM_CLOSE_NOTIFICATION" text="Tutup Notifikasi" />
-    <text name="rhm_hud_load" text="BEBAN" />
-    <text name="rhm_hud_loss" text="SUSUT" />
-    <text name="rhm_hud_moist" text="LEMBAB" />
-    <text name="rhm_ai_settings_retained" text="Pengaturan Manual Dipertahankan" />
-    <text name="rhm_ai_auto_tuned" text="Dikalibrasi Otomatis" />
-    <text name="rhm_difficulty" text="Tingkat Kesulitan" />
-    <text name="rhm_difficulty_motor" text="Batas Tenaga Mesin" />
-    <text name="rhm_difficulty_motor_short" text="Batas Mesin" />
-    <text name="rhm_difficulty_motor_long" text="Menentukan fisika beban mesin. Arcade = Nonaktif (tanpa beban berlebih), Normal = +35% ruang tenaga, Realistis = 100% fisika autentik." />
-    <text name="rhm_difficulty_loss" text="Penalti Kehilangan Hasil" />
-    <text name="rhm_difficulty_loss_short" text="Penalti Susut" />
-    <text name="rhm_difficulty_loss_long" text="Menentukan susut panen. Arcade = 0% (tanpa susut), Normal = susut standar, Realistis = susut lebih tinggi (200%)." />
-    <text name="rhm_diff_1" text="Arcade" />
-    <text name="rhm_difficulty_long" text="Arcade: Tanpa beban berlebih atau susut. Normal: Fisika seimbang (+35%). Realistis: Simulasi murni (0%)." />
-    <text name="rhm_diff_2" text="Normal" />
-    <text name="rhm_diff_3" text="Realistis" />
-    <text name="rhm_show_yield" text="Tampilkan Monitor Hasil" />
-    <text name="rhm_show_yield_short" text="Tampilkan Hasil" />
-    <text name="rhm_show_yield_long" text="Tampilkan hasil panen waktu-nyata di HUD (t/ha atau bu/ac)" />
-    <text name="rhm_yield_label" text="Hasil Panen" />
-    <text name="rhm_hud_short" text="Tampilkan HUD" />
-    <text name="rhm_hud_long" text="Tampilkan info panen di layar" />
-    <text name="rhm_speedlimit_short" text="Pembatas Kecepatan" />
-    <text name="rhm_speedlimit_long" text="Batasi kecepatan combine secara otomatis berdasarkan beban mesin" />
-    <text name="rhm_croploss_short" text="Aktifkan Susut Panen" />
-    <text name="rhm_croploss_long" text="Hitung kehilangan hasil saat combine kelebihan beban" />
-    <text name="rhm_show_speed_short" text="Tampilkan Kecepatan" />
-    <text name="rhm_show_speed_long" text="Tampilkan kecepatan saat ini dan yang disarankan di HUD" />
-    <text name="rhm_show_load_short" text="Tampilkan Beban Mesin" />
-    <text name="rhm_show_load_long" text="Tampilkan persentase beban mesin di HUD" />
-    <text name="rhm_show_productivity_short" text="Tampilkan Produktivitas" />
-    <text name="rhm_show_productivity_long" text="Tampilkan laju aliran massa (t/jam) di HUD" />
-    <text name="rhm_show_croploss_short" text="Tampilkan Susut" />
-    <text name="rhm_show_moisture_short" text="Tampilkan Kelembaban" />
-    <text name="rhm_show_moisture_long" text="Tampilkan persentase kelembaban tanaman di HUD" />
-    <text name="rhm_moisture_enable_short" text="Hambatan Kelembaban" />
-    <text name="rhm_moisture_enable_long" text="Terapkan penalti beban berdasarkan kelembaban tanaman (memerlukan mod Moisture System)" />
-    <text name="rhm_ui_title_main" text="TERMINAL KALIBRASI COMBINE" />
-    <text name="rhm_ui_page_settings" text="Pengaturan" />
-    <text name="rhm_ui_page_profiles" text="Profil" />
-    <text name="rhm_ui_current_crop" text="Tanaman Saat Ini:" />
-    <text name="rhm_ui_load" text="Beban Mesin:" />
-    <text name="rhm_ui_loss" text="Susut Panen:" />
-    <text name="rhm_ui_fan_speed" text="Kecepatan Kipas" />
-    <text name="rhm_ui_rotor_speed" text="Kecepatan Rotor" />
-    <text name="rhm_ui_upper_sieve" text="AYAKAN ATAS" />
-    <text name="rhm_ui_lower_sieve" text="AYAKAN BAWAH" />
-    <text name="rhm_ui_feeder_speed" text="Jarak Cekung" />
-    <text name="rhm_ui_mode_auto" text="OTOMATIS" />
-    <text name="rhm_ui_mode_manual" text="MANUAL" />
-    <text name="rhm_ui_btn_reset" text="RESET DEFAULT" />
-    <text name="rhm_ui_profile_create" text="PROFIL BARU" />
-    <text name="rhm_ui_profile_save" text="Simpan" />
-    <text name="rhm_ui_profile_load" text="MUAT" />
-    <text name="rhm_ui_profile_delete" text="Hapus" />
-    <text name="rhm_ui_profile_name_placeholder" text="Nama Profil..." />
-    <text name="rhm_hud_yield_label" text="HASIL" />
-    <text name="rhm_hud_load_label" text="BEBAN" />
-    <text name="rhm_hud_loss_label" text="SUSUT" />
-    <text name="rhm_loss_level_low" text="RENDAH" />
-    <text name="rhm_loss_level_med" text="SEDANG" />
-    <text name="rhm_loss_level_high" text="TINGGI" />
-    <text name="rhm_show_croploss_long" text="Tampilkan persentase kehilangan hasil di HUD" />
-    <text name="rhm_show_load_warn_short" text="Peringatan Beban Berlebih" />
-    <text name="rhm_show_load_warn_long" text="Tampilkan peringatan berkedip saat combine kelebihan beban" />
-    <text name="rhm_overload_sounds_short" text="Suara Beban Berlebih" />
-    <text name="rhm_overload_sounds_long" text="Putar alarm kabin dan suara getaran mekanis saat combine kelebihan beban atau susut berlebih" />
-    <text name="rhm_section_audio" text="Realistic Harvesting - Audio" />
-    <text name="rhm_alarm_sounds_short" text="Buzzer Alarm Beban Berlebih" />
-    <text name="rhm_alarm_sounds_long" text="Mode buzzer kabin saat beban mesin mencapai kelebihan parah (105%+) atau susut melebihi 5%." />
-    <text name="rhm_alarm_mode_smart" text="Pintar (3 Beep)" />
-    <text name="rhm_alarm_mode_continuous" text="Kontinu" />
-    <text name="rhm_alarm_mode_off" text="Mati" />
-    <text name="rhm_sound_volume_short" text="Volume Suara" />
-    <text name="rhm_sound_volume_long" text="Menyesuaikan volume suara alarm buzzer beban berlebih di kabin." />
-    <text name="rhm_target_load" text="Target Beban Mesin" />
-    <text name="rhm_gui_title" text="Pengaturan Combine" />
-    <text name="rhm_gui_crop" text="Tanaman:" />
-    <text name="rhm_gui_none" text="TIDAK ADA" />
-    <text name="rhm_gui_btn_auto" text="OTOMATIS" />
-    <text name="rhm_gui_btn_load_preset" text="Muat Preset" />
-    <text name="rhm_gui_btn_save" text="Simpan Profil" />
-    <text name="rhm_gui_btn_reset" text="Reset Default" />
-    <text name="rhm_gui_engine_load" text="Beban Mesin: %.0f%%" />
-    <text name="rhm_gui_loss" text="Susut: %.1f%%" />
-    <text name="rhm_gui_preview_loss" text="Perkiraan Susut: %.1f%%" />
-    <text name="rhm_gui_close_hint" text="Shift Kanan+K untuk Menutup" />
-    <text name="rhm_gui_no_combine" text="Tidak Ada Combine Terpilih" />
-    <text name="rhm_gui_not_init" text="Combine Belum Diinisialisasi" />
-    <text name="rhm_ui_drum_speed" text="Kecepatan Drum" />
-    <text name="rhm_ui_roller_speed" text="Kecepatan Rol" />
-    <text name="rhm_ui_picker_speed" text="Kecepatan Pemipil" />
-    <text name="rhm_ui_forage_fan" text="Kecepatan Blower" />
-    <text name="rhm_ui_forage_drum" text="Drum Pencacah" />
-    <text name="rhm_ui_forage_feeder" text="Rol Pengumpan" />
-    <text name="rhm_ui_root_roller" text="Rol Pembersih" />
-    <text name="rhm_ui_root_feeder" text="Konveyor Pemisah" />
-    <text name="rhm_ui_grape_shaker" text="Kecepatan Pengocok" />
-    <text name="rhm_ui_olive_shaker" text="Kecepatan Pemukul" />
-    <text name="rhm_ui_grape_conveyor" text="Kecepatan Konveyor" />
-    <text name="rhm_ui_grape_fan" text="Kipas Pembuang" />
-    <text name="rhm_units_short" text="Satuan Ukuran" />
-    <text name="rhm_units_long" text="Pilih sistem pengukuran (kecepatan, massa, area)" />
-    <text name="rhm_unit_metric" text="Metrik (km/jam, t/jam, ha)" />
-    <text name="rhm_unit_imperial" text="Imperial (mph, ton/jam, ac)" />
-    <text name="rhm_unit_bushels" text="Imperial dengan Bushel (mph, bu/jam, ac)" />
-    <text name="rhm_reset" text="Reset Pengaturan RH" />
-    <text name="rhm_loss_low" text="RENDAH" />
-    <text name="rhm_loss_med" text="SEDANG" />
-    <text name="rhm_loss_high" text="TINGGI" />
-    <text name="rhm_warning_turn_on_combine" text="Nyalakan mesin combine terlebih dahulu!" />
-    <text name="rhm_warning_turn_on_cutter" text="Nyalakan header pemotong!" />
-    <text name="rhm_warn_overload_high" text="Combine kelebihan beban! Kurangi kecepatan untuk menekan susut panen." />
-    <text name="rhm_warn_overload_critical" text="COMBINE KRITIS KELEBIHAN BEBAN! Terjadi kehilangan hasil yang parah!" />
-    <text name="rhm_configuration_title" text="Sistem Realistic Harvesting" />
-    <text name="rhm_package_standard" text="Tingkat 1: Mekanis Dasar" />
-    <text name="rhm_package_sensor" text="Tingkat 2: Paket Sensor" />
-    <text name="rhm_package_yield" text="Tingkat 3: Telemetri &amp; Monitor Hasil" />
-    <text name="rhm_package_opti" text="Tingkat 4: Autopilot AI Opti-Harvest" />
-    <text name="rhm_msg_req_level_4" text="Memerlukan paket Autopilot AI Opti-Harvest (Tingkat 4) yang terpasang di bengkel." />
-    <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Panen beberapa meter tanaman untuk memulai kalibrasi otomatis!" />
-    <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Berhasil mengkalibrasi otomatis untuk %s!" />
-    <text name="rhm_help_category" text="Realistic Harvesting" />
-    <text name="rhm_help_title" text="Panduan Realistic Harvesting" />
-    <text name="rhm_help_overview_title" text="Ikhtisar &amp; Fisika" />
-    <text name="rhm_help_overview_sub1" text="Beban Mesin &amp; Aliran Massa" />
-    <text name="rhm_help_overview_1" text="Realistic Harvesting menggantikan kecepatan kerja tetap dengan model throughput berbasis fisika. Beban mesin dihitung dari massa tanaman per detik, kelembaban, lebar header, dan status pencacah jerami. Pada tanaman yang lebat, combine akan melambat untuk mencegah drum tersumbat." />
-    <text name="rhm_help_overview_sub2" text="Kontrol Kecepatan" />
-    <text name="rhm_help_overview_2" text="Pengontrol kecepatan hidrostatik menyesuaikan laju kendaraan untuk menjaga mesin pada rentang efisiensi optimal (80â€“95%). Kecepatan kerja disimpan saat di ujung ladang sehingga akselerasi ke baris berikutnya berlangsung mulus." />
-    <text name="rhm_help_hud_title" text="HUD &amp; Telemetri" />
-    <text name="rhm_help_hud_sub1" text="HUD Pemanenan" />
-    <text name="rhm_help_hud_1" text="HUD menampilkan data langsung: kecepatan saat ini dan yang direkomendasikan, beban mesin dalam persen, throughput dalam ton per jam (t/jam), hasil panen waktu-nyata, dan persentase susut." />
-    <text name="rhm_help_hud_sub2" text="Peringatan &amp; Kode Warna" />
-    <text name="rhm_help_hud_2" text="Hijau menunjukkan beban optimal. Kuning menunjukkan beban sedang. Merah berkedip saat beban kritis (&gt;95%), di mana combine otomatis melambat." />
-    <text name="rhm_help_hud_sub3" text="Metrik Telemetri" />
-    <text name="rhm_help_hud_3_load" text="BEBAN: Persentase beban mesin dari transmisi, perontokan, dan pencacah." />
-    <text name="rhm_help_hud_3_yield" text="HASIL: Hasil panen langsung di ladang (t/ha atau bu/ac)." />
-    <text name="rhm_help_hud_3_productivity" text="PROD: Aliran material melalui mesin dalam ton per jam (t/jam)." />
-    <text name="rhm_help_hud_3_moisture" text="LEMBAB: Persentase kelembaban tanaman. Tanaman basah membutuhkan tenaga jauh lebih besar." />
-    <text name="rhm_help_hud_3_loss" text="SUSUT: Persentase kehilangan hasil dari drum perontok dan ayakan pembersih." />
-    <text name="rhm_help_hud_3_speed" text="KECEP: Kecepatan aktual dibandingkan kecepatan optimal yang dihitung." />
-    <text name="rhm_help_calibration_title" text="Terminal Kalibrasi" />
-    <text name="rhm_help_calibration_main_sub" text="Terminal (Shift Kanan + K)" />
-    <text name="rhm_help_calibration_main_text" text="Buka terminal kalibrasi dengan Shift Kanan + K. Di sini Anda dapat menyesuaikan RPM rotor, kecepatan kipas, jarak cekung, dan bukaan ayakan untuk setiap tanaman." />
-    <text name="rhm_help_calibration_rotor_sub" text="RPM Rotor &amp; Jarak Cekung" />
-    <text name="rhm_help_calibration_rotor_text" text="RPM terlalu tinggi atau jarak terlalu rapat menghancurkan biji-bijian. RPM terlalu rendah meninggalkan biji yang tidak terontok di jerami." />
-    <text name="rhm_help_calibration_fan_sub" text="Kipas &amp; Ayakan" />
-    <text name="rhm_help_calibration_fan_text" text="Kipas memisahkan sekam dari biji. Angin terlalu kencang menerbangkan biji ke luar mesin. Angin terlalu lemah menyumbat ayakan." />
-    <text name="rhm_help_calibration_perf_sub" text="Penyetelan Kinerja" />
-    <text name="rhm_help_calibration_perf_text" text="Pengaturan yang dikalibrasi dengan benar menurunkan susut di bawah 0,5% dan memungkinkan kecepatan berkendara lebih tinggi tanpa beban berlebih." />
-    <text name="rhm_help_special_title" text="Mesin Khusus" />
-    <text name="rhm_help_special_sub1" text="Forage Harvester &amp; Pengumpul Barisan" />
-    <text name="rhm_help_special_1" text="Mesin pemanen pakan ternak diatur dengan fisika panjang pemotongan khusus. Pada header pengumpul, beban dihitung dari volume barisan jerami/hijauan." />
-    <text name="rhm_help_special_sub2" text="Pemanen Umbi, Kapas &amp; Platform NEXAT" />
-    <text name="rhm_help_special_2" text="Mesin pemanen kentang dan bit mengalami hambatan tanah yang besar. Header jagung memerlukan RPM rotor lebih rendah untuk melindungi tongkol." />
-    <text name="rhm_help_loss_title" text="Kehilangan Hasil &amp; Susut" />
-    <text name="rhm_help_loss_sub1" text="Susut Biji Fisik" />
-    <text name="rhm_help_loss_1" text="Susut panen dikurangkan langsung dari isi tangki penampung dan merupakan kerugian finansial yang nyata." />
-    <text name="rhm_help_loss_sub2" text="Penyebab Susut" />
-    <text name="rhm_help_loss_2" text="Penyebab utama: Kecepatan berkendara terlalu tinggi, pengaturan ayakan keliru, tanaman basah, atau pisau header tumpul." />
-    <text name="rhm_help_loss_sub3" text="Kompensasi Kemiringan" />
-    <text name="rhm_help_loss_3" text="Di lereng berbukit, material bergeser ke satu sisi ayakan yang meningkatkan susut secara drastis kecuali kecepatan dikurangi." />
-    <text name="rhm_help_difficulty_title" text="Tingkat Kesulitan" />
-    <text name="rhm_help_difficulty_sub1" text="Pemilihan Mode" />
-    <text name="rhm_help_difficulty_1" text="Pilih mode Arcade, Normal, atau Realistis untuk beban mesin dan susut panen secara terpisah di menu pengaturan." />
-    <text name="rhm_help_difficulty_sub2" text="Perbedaan Tingkatan" />
-    <text name="rhm_help_difficulty_2" text="Arcade menonaktifkan pengereman otomatis. Normal memberikan pengalaman bermain yang seimbang. Realistis menyajikan 100% simulasi murni." />
-    <text name="rhm_help_upgrades_title" text="Peningkatan Elektronik" />
-    <text name="rhm_help_upgrades_sub1" text="Tingkat 1: Mekanis Manual" />
-    <text name="rhm_help_upgrades_1" text="Combine standar mekanis. Memerlukan penyesuaian semua pengaturan secara manual berdasarkan pengalaman." />
-    <text name="rhm_help_upgrades_sub2" text="Tingkat 2: Paket Sensor" />
-    <text name="rhm_help_upgrades_2" text="Menambahkan sensor kehilangan hasil elektronik dan pemantauan beban untuk panduan penyetelan yang lebih baik." />
-    <text name="rhm_help_upgrades_sub3" text="Tingkat 3: Monitor Telemetri" />
-    <text name="rhm_help_upgrades_3" text="Monitor hasil lengkap dengan penghitungan luas lahan dan kemampuan untuk menyimpan serta memuat profil tanaman." />
-    <text name="rhm_help_upgrades_sub4" text="Tingkat 4: Autopilot AI Opti-Harvest" />
-    <text name="rhm_help_upgrades_4" text="Kontrol komputer cerdas yang secara otomatis mengkalibrasi dan menyesuaikan pengaturan combine saat bekerja di ladang." />
-    <text name="rhm_help_moisture_title" text="Sistem Kelembaban" />
-    <text name="rhm_help_moisture_sub1" text="Siklus Harian &amp; Embun Pagi" />
-    <text name="rhm_help_moisture_1" text="Embun pagi membuat jerami liat dan alot. Memanen di kondisi lembab membutuhkan tenaga mesin yang jauh lebih besar." />
-    <text name="rhm_help_moisture_sub2" text="Penalti Kelembaban" />
-    <text name="rhm_help_moisture_2" text="Di atas 18% kelembaban, kapasitas perontokan menurun drastis dan risiko penyumbatan drum meningkat tajam." />
-    <text name="rhm_help_cropsettings_title" text="Panduan Tanaman" />
-    <text name="rhm_help_cropsettings_grain_sub" text="Biji-bijian (Gandum, Jelai, Oat, Rye)" />
-    <text name="rhm_help_cropsettings_grain_text" text="RPM rotor tinggi (700â€“850 RPM) dan jarak cekung sedang (10â€“15 mm) untuk pemisahan yang efektif." />
-    <text name="rhm_help_cropsettings_forage_sub" text="Jagung &amp; Bunga Matahari" />
-    <text name="rhm_help_cropsettings_forage_text" text="RPM rendah (350â€“450 RPM) dan jarak cekung lebar (25â€“35 mm) agar tidak menghancurkan tongkol dan biji." />
-    <text name="rhm_help_cropsettings_root_sub" text="Kacang-kacangan &amp; Kanola" />
-    <text name="rhm_help_cropsettings_root_text" text="Kanola memerlukan kecepatan kipas rendah agar biji yang ringan tidak tertiup keluar dari ayakan." />
-    <text name="rhm_ui_section_separation" text="PERONTOKAN &amp; PEMISAHAN" />
-    <text name="rhm_ui_section_cleaning" text="PEMBERSIHAN" />
-    <text name="rhm_ui_section_discharge" text="PEMBUANGAN &amp; JERAMI" />
-    <text name="rhm_ui_section_performance" text="KINERJA" />
-    <text name="rhm_ui_tier1_manual" text="TINGKAT 1 - MEKANIS" />
-    <text name="rhm_ui_tier2_sensors" text="TINGKAT 2 - SENSOR" />
-    <text name="rhm_ui_tier3_monitor" text="TINGKAT 3 - TELEMETRI" />
-    <text name="rhm_ui_tier4_opti" text="TINGKAT 4 - AI OPTI" />
-    <text name="rhm_ui_arcade_badge" text="ARCADE" />
-    <text name="rhm_ui_card_engine_load" text="BEBAN MESIN" />
-    <text name="rhm_ui_card_efficiency" text="EFISIENSI" />
-    <text name="rhm_ui_card_predicted_loss" text="PERKIRAAN SUSUT" />
-    <text name="rhm_ui_btn_ai_auto" text="AI KALIBRASI OTOMATIS" />
-    <text name="rhm_ui_btn_auto_locked" text="OTOMATIS (TERKUNCI)" />
-    <text name="rhm_ui_btn_load_preset" text="MUAT PRESET" />
-    <text name="rhm_ui_btn_save_profile" text="SIMPAN PROFIL" />
-    <text name="rhm_ui_btn_load_locked" text="MUAT (TERKUNCI)" />
-    <text name="rhm_ui_btn_save_locked" text="SIMPAN (TERKUNCI)" />
-    <text name="rhm_ui_btn_reset_defaults" text="KEMBALIKAN KE SETELAN PABRIK" />
-    <text name="rhm_ui_status_optimal" text="OPTIMAL" />
-    <text name="rhm_ui_status_low" text="TERLALU RENDAH" />
-    <text name="rhm_ui_status_high" text="TERLALU TINGGI" />
-    <text name="rhm_msg_req_tier4" text="Memerlukan Autopilot AI Opti-Harvest (Tingkat 4)" />
-    <text name="rhm_msg_req_tier3" text="Profil memerlukan Monitor Telemetri (Tingkat 3)" />
-    <text name="rhm_msg_req_tier2" text="Profil memerlukan Paket Sensor (Tingkat 2 atau lebih tinggi)" />
-    <text name="rhm_msg_profile_saved" text="Profil disimpan: %s" />
-    <text name="rhm_msg_profile_loaded" text="Profil dimuat: %s" />
-    <text name="rhm_msg_profile_not_found" text="Tidak ditemukan profil tersimpan untuk tanaman ini" />
-    <text name="rhm_ui_combine_not_init" text="Combine belum diinisialisasi" />
-    <text name="rhm_unit_t_per_hour" text="t/jam" />
-    <text name="rhm_unit_ha_per_hour" text="ha/jam" />
-    <text name="rhm_setting_ai_tuning" text="Penyesuaian Pekerja AI" />
-    <text name="rhm_setting_ai_tuning_long" text="Menentukan bagaimana AI menangani pengaturan. 'Pertahankan punya saya' mempertahankan profil manual. 'Selalu kalibrasi otomatis' menyetel sesuai tingkat elektronik. 'Nonaktif' melarang perubahan oleh AI." />
-    <text name="rhm_setting_ai_tuning_keep" text="Pertahankan punya saya" />
-    <text name="rhm_setting_ai_tuning_auto" text="Selalu kalibrasi otomatis" />
-    <text name="rhm_setting_ai_tuning_disabled" text="Nonaktif" />
-    <text name="rhm_crop_straw_windrow" text="Barisan Jerami" />
-    <text name="rhm_crop_grass_windrow" text="Barisan Rumput" />
-    <text name="rhm_crop_drygrass_windrow" text="Barisan Jerami Kering" />
-    <text name="rhm_crop_alfalfa_windrow" text="Barisan Alfalfa" />
-    <text name="rhm_crop_clover_windrow" text="Barisan Semanggi" />
-    <text name="rhm_crop_maize_forage" text="Silase Jagung" />
-    <text name="rhm_windrow_format" text="Barisan: %s" />
-    <text name="rhm_setting_enableTutorials" text="Petunjuk Tutorial" />
-    <text name="rhm_setting_enableTutorials_long" text="Tampilkan tips panduan interaktif selama memanen." />
-    <text name="rhm_ui_btn_close_notification" text="OK (Enter / Klik Kiri)" />
-    <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
-    <text name="rhm_tut_welcome_msg" text="Selamat datang di Realistic Harvesting! Kecepatan combine menyesuaikan secara dinamis berdasarkan beban mesin, kepadatan tanaman, dan header. Buka terminal kalibrasi dengan (Shift Kanan + K)." />
-    <text name="rhm_tut_overload_title" text="Mesin Kelebihan Beban" />
-    <text name="rhm_tut_overload_msg" text="Mesin kelebihan beban berat! Transmisi hidrostatik memperlambat laju combine untuk mencegah drum tersumbat. Angkat header atau kurangi lebar potongan." />
-    <text name="rhm_tut_loss_title" text="Susut Panen Tinggi" />
-    <text name="rhm_tut_loss_msg" text="Kehilangan hasil di belakang combine sangat tinggi! Kecepatan rotor atau ayakan tidak cocok dengan tanaman. Tekan (Shift Kanan + K) untuk kalibrasi presisi." />
-    <text name="rhm_tut_moisture_title" text="Kelembaban Tanaman Tinggi" />
-    <text name="rhm_tut_moisture_msg" text="Kelembaban biji-bijian tinggi atau hujan mulai turun! Biomassa basah menciptakan hambatan besar, meningkatkan beban mesin dan susut. Panen di cuaca kering untuk hasil terbaik." />
-    <text name="rhm_tut_headland_title" text="Memori Kecepatan Ujung Ladang" />
-    <text name="rhm_tut_headland_msg" text="Saat header diangkat di ujung ladang, combine menyimpan kecepatan kerja. Di baris berikutnya, akselerasi berlangsung mulus tanpa hentakan." />
-    <text name="rhm_tut_upgrade_title" text="Peningkatan Combine" />
-    <text name="rhm_tut_upgrade_msg" text="Combine dasar memerlukan penyesuaian manual. Tingkatkan elektronik di bengkel untuk membuka Paket Sensor (Tingkat 2), Monitor Hasil (Tingkat 3), atau Opti-Harvest AI (Tingkat 4)." />
-    <text name="rhm_setting_wear_loss_short" text="Susut Keausan Mekanis" />
-    <text name="rhm_setting_wear_loss_long" text="Mensimulasikan kehilangan hasil akibat keausan alat. Pisau header yang tumpul merontokkan bulir tanaman (hingga +3% susut dan +15% hambatan tenaga). Drum perontok dan ayakan aus membuang biji yang belum terontok (hingga +3% susut)." />
-    <text name="rhm_ui_wear_loss" text="Susut Keausan" />
-    <text name="rhm_ui_cutter_wear" text="Keausan Header" />
-    <text name="rhm_ui_combine_wear" text="Keausan Perontok" />
-          <!-- Harvest History & Field Trip Telemetry -->
-        <text name="input_RHM_OPEN_HARVEST_MENU" text="Harvest History &amp; Field Trip Odometer"/>
-        <text name="input_RHM_QUICK_RESET_TRIP" text="Reset Field Trip (Hold)"/>
-        <text name="rhm_trip_reset_done" text="Field Trip Odometer Reset!"/>
-
-        <text name="rhm_tab_trip" text="Current Session / Field"/>
-        <text name="rhm_tab_trip_desc" text="Live telemetry for harvested volume, area, average yield, and financial losses for the current field operation."/>
-        <text name="rhm_tab_analytics" text="Loss Root Causes &amp; Scorecard"/>
-        <text name="rhm_tab_analytics_desc" text="Loss distribution, operator efficiency ranking grade, and onboard diagnostic computer recommendations."/>
-        <text name="rhm_tab_fleet" text="Season History &amp; Combine Fleet"/>
-        <text name="rhm_tab_fleet_desc" text="Comprehensive fleet operating hours, harvested volumes, and loss records across farm machines."/>
-        <text name="rhm_tab_settings" text="Farm &amp; AI Settings"/>
-        <text name="rhm_tab_settings_desc" text="Configure hired worker cruise limiter, volunteer weed generation, and auto-reset options."/>
-
-        <text name="rhm_card_field_harvest" text="CURRENT FIELD &amp; HARVEST"/>
-        <text name="rhm_field_number" text="Field Number"/>
-        <text name="rhm_trip_no_field" text="Off-Field"/>
-        <text name="rhm_crop_type" text="Crop Type"/>
-        <text name="rhm_harvested_area" text="Harvested Area"/>
-        <text name="rhm_clean_harvest" text="Clean Harvest"/>
-        <text name="rhm_average_yield" text="Average Yield"/>
-
-        <text name="rhm_card_loss_finances" text="LOSSES &amp; FINANCES"/>
-        <text name="rhm_loss_volume" text="Lost Volume"/>
-        <text name="rhm_loss_share" text="Loss % of Bio Yield"/>
-        <text name="rhm_financial_loss" text="Financial Loss"/>
-
-        <text name="rhm_card_performance" text="PERFORMANCE &amp; TIME"/>
-        <text name="rhm_avg_working_speed" text="Avg Working Speed"/>
-        <text name="rhm_avg_engine_load" text="Avg Engine Load"/>
-        <text name="rhm_session_duration" text="Session Duration"/>
-        <text name="rhm_btn_reset_trip" text="Reset Trip Odometer"/>
-
-        <text name="rhm_causes_title" text="CROP LOSS ROOT CAUSES"/>
-        <text name="rhm_cause_speed" text="Speed &amp; Separator Overload"/>
-        <text name="rhm_cause_moisture" text="Crop Moisture &amp; Dew"/>
-        <text name="rhm_cause_wear" text="Cutterbar &amp; Thresher Wear"/>
-        <text name="rhm_cause_slope" text="Field Slopes &amp; Incline"/>
-
-        <text name="rhm_scorecard_title" text="OPERATOR EFFICIENCY SCORECARD"/>
-        <text name="rhm_rank_title_a" text="Grade A: Optimal"/>
-        <text name="rhm_rank_desc_a" text="Loss rate is below 1.5%. Combine setup and speed are perfectly balanced."/>
-        <text name="rhm_rank_title_b" text="Grade B: Acceptable"/>
-        <text name="rhm_rank_desc_b" text="Loss rate between 1.5% and 3.0%. Consider minor speed or concave adjustments."/>
-        <text name="rhm_rank_title_c" text="Grade C: Elevated Losses"/>
-        <text name="rhm_rank_desc_c" text="Loss rate between 3.0% and 4.5%. Reduce speed or inspect header sharpness."/>
-        <text name="rhm_rank_title_d" text="Grade D: Critical Losses"/>
-        <text name="rhm_rank_desc_d" text="Loss rate exceeds 4.5%! Severe sieve overloading or miscalibration detected."/>
-
-        <text name="rhm_guidance_title" text="ONBOARD COMPUTER GUIDANCE"/>
-        <text name="rhm_advice_perfect" text="Harvesting efficiency is optimal. All separation parameters are well-balanced."/>
-        <text name="rhm_advice_speed" text="Dominant loss from excessive ground speed. Slow down to reduce sieve bed depth."/>
-        <text name="rhm_advice_moisture" text="Losses driven by high crop moisture or morning dew. Wait for field drying or reduce speed."/>
-        <text name="rhm_advice_wear" text="Elevated losses due to worn cutter knives or rasp bars. Service equipment at the workshop."/>
-        <text name="rhm_advice_slope" text="Lateral tilt on slopes causing uneven shoe loading. Reduce speed along side hills."/>
-
-        <text name="rhm_col_machine" text="Machine"/>
-        <text name="rhm_col_hours" text="Work Hours"/>
-        <text name="rhm_col_harvested" text="Harvested"/>
-        <text name="rhm_col_lost" text="Losses"/>
-        <text name="rhm_col_rank" text="Grade"/>
-
-        <text name="rhm_setting_ai_limiter_title" text="AI SPEED LIMITER"/>
-        <text name="rhm_setting_ai_limiter_desc" text="Automatically caps cruise speed for hired workers when loss exceeds threshold."/>
-        <text name="rhm_setting_ai_threshold_title" text="AI LOSS THRESHOLD"/>
-        <text name="rhm_setting_ai_threshold_desc" text="Maximum acceptable loss percentage before AI helper automatically brakes."/>
-        <text name="rhm_setting_volunteer_title" text="VOLUNTEER CROPS"/>
-        <text name="rhm_setting_volunteer_desc" text="Generates weed and volunteer sprouts behind combines in heavy loss zones (>3%)."/>
-        <text name="rhm_setting_autoreset_title" text="AUTO-RESET ON FIELD CHANGE"/>
-        <text name="rhm_setting_autoreset_desc" text="Automatically archive and reset current trip when driving to a different field."/>
+    <texts>
+        <text name="rhm_section_simulation" text="Realistic Harvesting - Simulasi" />
+        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Tampilan" />
+        <text name="input_RHM_OPEN_MENU" text="Menu Pengaturan Combine" />
+        <text name="input_RHM_TOGGLE_HUD" text="Alihkan HUD Pemanenan" />
+        <text name="input_RHM_CLOSE_NOTIFICATION" text="Tutup Notifikasi" />
+        <text name="rhm_hud_load" text="BEBAN" />
+        <text name="rhm_hud_loss" text="SUSUT" />
+        <text name="rhm_hud_moist" text="LEMBAB" />
+        <text name="rhm_ai_settings_retained" text="Pengaturan Manual Dipertahankan" />
+        <text name="rhm_ai_auto_tuned" text="Dikalibrasi Otomatis" />
+        <text name="rhm_difficulty" text="Tingkat Kesulitan" />
+        <text name="rhm_difficulty_motor" text="Batas Tenaga Mesin" />
+        <text name="rhm_difficulty_motor_short" text="Batas Mesin" />
+        <text name="rhm_difficulty_motor_long" text="Menentukan fisika beban mesin. Arcade = Nonaktif (tanpa beban berlebih), Normal = +35% ruang tenaga, Realistis = 100% fisika autentik." />
+        <text name="rhm_difficulty_loss" text="Penalti Kehilangan Hasil" />
+        <text name="rhm_difficulty_loss_short" text="Penalti Susut" />
+        <text name="rhm_difficulty_loss_long" text="Menentukan susut panen. Arcade = 0% (tanpa susut), Normal = susut standar, Realistis = susut lebih tinggi (200%)." />
+        <text name="rhm_diff_1" text="Arcade" />
+        <text name="rhm_difficulty_long" text="Arcade: Tanpa beban berlebih atau susut. Normal: Fisika seimbang (+35%). Realistis: Simulasi murni (0%)." />
+        <text name="rhm_diff_2" text="Normal" />
+        <text name="rhm_diff_3" text="Realistis" />
+        <text name="rhm_show_yield" text="Tampilkan Monitor Hasil" />
+        <text name="rhm_show_yield_short" text="Tampilkan Hasil" />
+        <text name="rhm_show_yield_long" text="Tampilkan hasil panen waktu-nyata di HUD (t/ha atau bu/ac)" />
+        <text name="rhm_yield_label" text="Hasil Panen" />
+        <text name="rhm_hud_short" text="Tampilkan HUD" />
+        <text name="rhm_hud_long" text="Tampilkan info panen di layar" />
+        <text name="rhm_speedlimit_short" text="Pembatas Kecepatan" />
+        <text name="rhm_speedlimit_long" text="Batasi kecepatan combine secara otomatis berdasarkan beban mesin" />
+        <text name="rhm_croploss_short" text="Aktifkan Susut Panen" />
+        <text name="rhm_croploss_long" text="Hitung kehilangan hasil saat combine kelebihan beban" />
+        <text name="rhm_show_speed_short" text="Tampilkan Kecepatan" />
+        <text name="rhm_show_speed_long" text="Tampilkan kecepatan saat ini dan yang disarankan di HUD" />
+        <text name="rhm_show_load_short" text="Tampilkan Beban Mesin" />
+        <text name="rhm_show_load_long" text="Tampilkan persentase beban mesin di HUD" />
+        <text name="rhm_show_productivity_short" text="Tampilkan Produktivitas" />
+        <text name="rhm_show_productivity_long" text="Tampilkan laju aliran massa (t/jam) di HUD" />
+        <text name="rhm_show_croploss_short" text="Tampilkan Susut" />
+        <text name="rhm_show_moisture_short" text="Tampilkan Kelembaban" />
+        <text name="rhm_show_moisture_long" text="Tampilkan persentase kelembaban tanaman di HUD" />
+        <text name="rhm_moisture_enable_short" text="Hambatan Kelembaban" />
+        <text name="rhm_moisture_enable_long" text="Terapkan penalti beban berdasarkan kelembaban tanaman (memerlukan mod Moisture System)" />
+        <text name="rhm_ui_title_main" text="TERMINAL KALIBRASI COMBINE" />
+        <text name="rhm_ui_page_settings" text="Pengaturan" />
+        <text name="rhm_ui_page_profiles" text="Profil" />
+        <text name="rhm_ui_current_crop" text="Tanaman Saat Ini:" />
+        <text name="rhm_ui_load" text="Beban Mesin:" />
+        <text name="rhm_ui_loss" text="Susut Panen:" />
+        <text name="rhm_ui_fan_speed" text="Kecepatan Kipas" />
+        <text name="rhm_ui_rotor_speed" text="Kecepatan Rotor" />
+        <text name="rhm_ui_upper_sieve" text="AYAKAN ATAS" />
+        <text name="rhm_ui_lower_sieve" text="AYAKAN BAWAH" />
+        <text name="rhm_ui_feeder_speed" text="Jarak Cekung" />
+        <text name="rhm_ui_mode_auto" text="OTOMATIS" />
+        <text name="rhm_ui_mode_manual" text="MANUAL" />
+        <text name="rhm_ui_btn_reset" text="RESET DEFAULT" />
+        <text name="rhm_ui_profile_create" text="PROFIL BARU" />
+        <text name="rhm_ui_profile_save" text="Simpan" />
+        <text name="rhm_ui_profile_load" text="MUAT" />
+        <text name="rhm_ui_profile_delete" text="Hapus" />
+        <text name="rhm_ui_profile_name_placeholder" text="Nama Profil..." />
+        <text name="rhm_hud_yield_label" text="HASIL" />
+        <text name="rhm_hud_load_label" text="BEBAN" />
+        <text name="rhm_hud_loss_label" text="SUSUT" />
+        <text name="rhm_loss_level_low" text="RENDAH" />
+        <text name="rhm_loss_level_med" text="SEDANG" />
+        <text name="rhm_loss_level_high" text="TINGGI" />
+        <text name="rhm_show_croploss_long" text="Tampilkan persentase kehilangan hasil di HUD" />
+        <text name="rhm_show_load_warn_short" text="Peringatan Beban Berlebih" />
+        <text name="rhm_show_load_warn_long" text="Tampilkan peringatan berkedip saat combine kelebihan beban" />
+        <text name="rhm_overload_sounds_short" text="Suara Beban Berlebih" />
+        <text name="rhm_overload_sounds_long" text="Putar alarm kabin dan suara getaran mekanis saat combine kelebihan beban atau susut berlebih" />
+        <text name="rhm_section_audio" text="Realistic Harvesting - Audio" />
+        <text name="rhm_alarm_sounds_short" text="Buzzer Alarm Beban Berlebih" />
+        <text name="rhm_alarm_sounds_long" text="Mode buzzer kabin saat beban mesin mencapai kelebihan parah (105%+) atau susut melebihi 5%." />
+        <text name="rhm_alarm_mode_smart" text="Pintar (3 Beep)" />
+        <text name="rhm_alarm_mode_continuous" text="Kontinu" />
+        <text name="rhm_alarm_mode_off" text="Mati" />
+        <text name="rhm_sound_volume_short" text="Volume Suara" />
+        <text name="rhm_sound_volume_long" text="Menyesuaikan volume suara alarm buzzer beban berlebih di kabin." />
+        <text name="rhm_target_load" text="Target Beban Mesin" />
+        <text name="rhm_gui_title" text="Pengaturan Combine" />
+        <text name="rhm_gui_crop" text="Tanaman:" />
+        <text name="rhm_gui_none" text="TIDAK ADA" />
+        <text name="rhm_gui_btn_auto" text="OTOMATIS" />
+        <text name="rhm_gui_btn_load_preset" text="Muat Preset" />
+        <text name="rhm_gui_btn_save" text="Simpan Profil" />
+        <text name="rhm_gui_btn_reset" text="Reset Default" />
+        <text name="rhm_gui_engine_load" text="Beban Mesin: %.0f%%" />
+        <text name="rhm_gui_loss" text="Susut: %.1f%%" />
+        <text name="rhm_gui_preview_loss" text="Perkiraan Susut: %.1f%%" />
+        <text name="rhm_gui_close_hint" text="Shift Kanan+K untuk Menutup" />
+        <text name="rhm_gui_no_combine" text="Tidak Ada Combine Terpilih" />
+        <text name="rhm_gui_not_init" text="Combine Belum Diinisialisasi" />
+        <text name="rhm_ui_drum_speed" text="Kecepatan Drum" />
+        <text name="rhm_ui_roller_speed" text="Kecepatan Rol" />
+        <text name="rhm_ui_picker_speed" text="Kecepatan Pemipil" />
+        <text name="rhm_ui_forage_fan" text="Kecepatan Blower" />
+        <text name="rhm_ui_forage_drum" text="Drum Pencacah" />
+        <text name="rhm_ui_forage_feeder" text="Rol Pengumpan" />
+        <text name="rhm_ui_root_roller" text="Rol Pembersih" />
+        <text name="rhm_ui_root_feeder" text="Konveyor Pemisah" />
+        <text name="rhm_ui_grape_shaker" text="Kecepatan Pengocok" />
+        <text name="rhm_ui_olive_shaker" text="Kecepatan Pemukul" />
+        <text name="rhm_ui_grape_conveyor" text="Kecepatan Konveyor" />
+        <text name="rhm_ui_grape_fan" text="Kipas Pembuang" />
+        <text name="rhm_units_short" text="Satuan Ukuran" />
+        <text name="rhm_units_long" text="Pilih sistem pengukuran (kecepatan, massa, area)" />
+        <text name="rhm_unit_metric" text="Metrik (km/jam, t/jam, ha)" />
+        <text name="rhm_unit_imperial" text="Imperial (mph, ton/jam, ac)" />
+        <text name="rhm_unit_bushels" text="Imperial dengan Bushel (mph, bu/jam, ac)" />
+        <text name="rhm_reset" text="Reset Pengaturan RH" />
+        <text name="rhm_loss_low" text="RENDAH" />
+        <text name="rhm_loss_med" text="SEDANG" />
+        <text name="rhm_loss_high" text="TINGGI" />
+        <text name="rhm_warning_turn_on_combine" text="Nyalakan mesin combine terlebih dahulu!" />
+        <text name="rhm_warning_turn_on_cutter" text="Nyalakan header pemotong!" />
+        <text name="rhm_warn_overload_high" text="Combine kelebihan beban! Kurangi kecepatan untuk menekan susut panen." />
+        <text name="rhm_warn_overload_critical" text="COMBINE KRITIS KELEBIHAN BEBAN! Terjadi kehilangan hasil yang parah!" />
+        <text name="rhm_configuration_title" text="Sistem Realistic Harvesting" />
+        <text name="rhm_package_standard" text="Tingkat 1: Mekanis Dasar" />
+        <text name="rhm_package_sensor" text="Tingkat 2: Paket Sensor" />
+        <text name="rhm_package_yield" text="Tingkat 3: Telemetri &amp; Monitor Hasil" />
+        <text name="rhm_package_opti" text="Tingkat 4: Autopilot AI Opti-Harvest" />
+        <text name="rhm_msg_req_level_4" text="Memerlukan paket Autopilot AI Opti-Harvest (Tingkat 4) yang terpasang di bengkel." />
+        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Panen beberapa meter tanaman untuk memulai kalibrasi otomatis!" />
+        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Berhasil mengkalibrasi otomatis untuk %s!" />
+        <text name="rhm_help_category" text="Realistic Harvesting" />
+        <text name="rhm_help_title" text="Panduan Realistic Harvesting" />
+        <text name="rhm_help_overview_title" text="Ikhtisar &amp; Fisika" />
+        <text name="rhm_help_overview_sub1" text="Beban Mesin &amp; Aliran Massa" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting menggantikan kecepatan kerja tetap dengan model throughput berbasis fisika. Beban mesin dihitung dari massa tanaman per detik, kelembaban, lebar header, dan status pencacah jerami. Pada tanaman yang lebat, combine akan melambat untuk mencegah drum tersumbat." />
+        <text name="rhm_help_overview_sub2" text="Kontrol Kecepatan" />
+        <text name="rhm_help_overview_2" text="Pengontrol kecepatan hidrostatik menyesuaikan laju kendaraan untuk menjaga mesin pada rentang efisiensi optimal (80–95%). Kecepatan kerja disimpan saat di ujung ladang sehingga akselerasi ke baris berikutnya berlangsung mulus." />
+        <text name="rhm_help_hud_title" text="HUD &amp; Telemetri" />
+        <text name="rhm_help_hud_sub1" text="HUD Pemanenan" />
+        <text name="rhm_help_hud_1" text="HUD menampilkan data langsung: kecepatan saat ini dan yang direkomendasikan, beban mesin dalam persen, throughput dalam ton per jam (t/jam), hasil panen waktu-nyata, dan persentase susut." />
+        <text name="rhm_help_hud_sub2" text="Peringatan &amp; Kode Warna" />
+        <text name="rhm_help_hud_2" text="Hijau menunjukkan beban optimal. Kuning menunjukkan beban sedang. Merah berkedip saat beban kritis (&gt;95%), di mana combine otomatis melambat." />
+        <text name="rhm_help_hud_sub3" text="Metrik Telemetri" />
+        <text name="rhm_help_hud_3_load" text="BEBAN: Persentase beban mesin dari transmisi, perontokan, dan pencacah." />
+        <text name="rhm_help_hud_3_yield" text="HASIL: Hasil panen langsung di ladang (t/ha atau bu/ac)." />
+        <text name="rhm_help_hud_3_productivity" text="PROD: Aliran material melalui mesin dalam ton per jam (t/jam)." />
+        <text name="rhm_help_hud_3_moisture" text="LEMBAB: Persentase kelembaban tanaman. Tanaman basah membutuhkan tenaga jauh lebih besar." />
+        <text name="rhm_help_hud_3_loss" text="SUSUT: Persentase kehilangan hasil dari drum perontok dan ayakan pembersih." />
+        <text name="rhm_help_hud_3_speed" text="KECEP: Kecepatan aktual dibandingkan kecepatan optimal yang dihitung." />
+        <text name="rhm_help_calibration_title" text="Terminal Kalibrasi" />
+        <text name="rhm_help_calibration_main_sub" text="Terminal (Shift Kanan + K)" />
+        <text name="rhm_help_calibration_main_text" text="Buka terminal kalibrasi dengan Shift Kanan + K. Di sini Anda dapat menyesuaikan RPM rotor, kecepatan kipas, jarak cekung, dan bukaan ayakan untuk setiap tanaman." />
+        <text name="rhm_help_calibration_rotor_sub" text="RPM Rotor &amp; Jarak Cekung" />
+        <text name="rhm_help_calibration_rotor_text" text="RPM terlalu tinggi atau jarak terlalu rapat menghancurkan biji-bijian. RPM terlalu rendah meninggalkan biji yang tidak terontok di jerami." />
+        <text name="rhm_help_calibration_fan_sub" text="Kipas &amp; Ayakan" />
+        <text name="rhm_help_calibration_fan_text" text="Kipas memisahkan sekam dari biji. Angin terlalu kencang menerbangkan biji ke luar mesin. Angin terlalu lemah menyumbat ayakan." />
+        <text name="rhm_help_calibration_perf_sub" text="Penyetelan Kinerja" />
+        <text name="rhm_help_calibration_perf_text" text="Pengaturan yang dikalibrasi dengan benar menurunkan susut di bawah 0,5% dan memungkinkan kecepatan berkendara lebih tinggi tanpa beban berlebih." />
+        <text name="rhm_help_special_title" text="Mesin Khusus" />
+        <text name="rhm_help_special_sub1" text="Forage Harvester &amp; Pengumpul Barisan" />
+        <text name="rhm_help_special_1" text="Mesin pemanen pakan ternak diatur dengan fisika panjang pemotongan khusus. Pada header pengumpul, beban dihitung dari volume barisan jerami/hijauan." />
+        <text name="rhm_help_special_sub2" text="Pemanen Umbi, Kapas &amp; Platform NEXAT" />
+        <text name="rhm_help_special_2" text="Mesin pemanen kentang dan bit mengalami hambatan tanah yang besar. Header jagung memerlukan RPM rotor lebih rendah untuk melindungi tongkol." />
+        <text name="rhm_help_loss_title" text="Kehilangan Hasil &amp; Susut" />
+        <text name="rhm_help_loss_sub1" text="Susut Biji Fisik" />
+        <text name="rhm_help_loss_1" text="Susut panen dikurangkan langsung dari isi tangki penampung dan merupakan kerugian finansial yang nyata." />
+        <text name="rhm_help_loss_sub2" text="Penyebab Susut" />
+        <text name="rhm_help_loss_2" text="Penyebab utama: Kecepatan berkendara terlalu tinggi, pengaturan ayakan keliru, tanaman basah, atau pisau header tumpul." />
+        <text name="rhm_help_loss_sub3" text="Kompensasi Kemiringan" />
+        <text name="rhm_help_loss_3" text="Di lereng berbukit, material bergeser ke satu sisi ayakan yang meningkatkan susut secara drastis kecuali kecepatan dikurangi." />
+        <text name="rhm_help_difficulty_title" text="Tingkat Kesulitan" />
+        <text name="rhm_help_difficulty_sub1" text="Pemilihan Mode" />
+        <text name="rhm_help_difficulty_1" text="Pilih mode Arcade, Normal, atau Realistis untuk beban mesin dan susut panen secara terpisah di menu pengaturan." />
+        <text name="rhm_help_difficulty_sub2" text="Perbedaan Tingkatan" />
+        <text name="rhm_help_difficulty_2" text="Arcade menonaktifkan pengereman otomatis. Normal memberikan pengalaman bermain yang seimbang. Realistis menyajikan 100% simulasi murni." />
+        <text name="rhm_help_upgrades_title" text="Peningkatan Elektronik" />
+        <text name="rhm_help_upgrades_sub1" text="Tingkat 1: Mekanis Manual" />
+        <text name="rhm_help_upgrades_1" text="Combine standar mekanis. Memerlukan penyesuaian semua pengaturan secara manual berdasarkan pengalaman." />
+        <text name="rhm_help_upgrades_sub2" text="Tingkat 2: Paket Sensor" />
+        <text name="rhm_help_upgrades_2" text="Menambahkan sensor kehilangan hasil elektronik dan pemantauan beban untuk panduan penyetelan yang lebih baik." />
+        <text name="rhm_help_upgrades_sub3" text="Tingkat 3: Monitor Telemetri" />
+        <text name="rhm_help_upgrades_3" text="Monitor hasil lengkap dengan penghitungan luas lahan dan kemampuan untuk menyimpan serta memuat profil tanaman." />
+        <text name="rhm_help_upgrades_sub4" text="Tingkat 4: Autopilot AI Opti-Harvest" />
+        <text name="rhm_help_upgrades_4" text="Kontrol komputer cerdas yang secara otomatis mengkalibrasi dan menyesuaikan pengaturan combine saat bekerja di ladang." />
+        <text name="rhm_help_moisture_title" text="Sistem Kelembaban" />
+        <text name="rhm_help_moisture_sub1" text="Siklus Harian &amp; Embun Pagi" />
+        <text name="rhm_help_moisture_1" text="Embun pagi membuat jerami liat dan alot. Memanen di kondisi lembab membutuhkan tenaga mesin yang jauh lebih besar." />
+        <text name="rhm_help_moisture_sub2" text="Penalti Kelembaban" />
+        <text name="rhm_help_moisture_2" text="Di atas 18% kelembaban, kapasitas perontokan menurun drastis dan risiko penyumbatan drum meningkat tajam." />
+        <text name="rhm_help_cropsettings_title" text="Panduan Tanaman" />
+        <text name="rhm_help_cropsettings_grain_sub" text="Biji-bijian (Gandum, Jelai, Oat, Rye)" />
+        <text name="rhm_help_cropsettings_grain_text" text="RPM rotor tinggi (700–850 RPM) dan jarak cekung sedang (10–15 mm) untuk pemisahan yang efektif." />
+        <text name="rhm_help_cropsettings_forage_sub" text="Jagung &amp; Bunga Matahari" />
+        <text name="rhm_help_cropsettings_forage_text" text="RPM rendah (350–450 RPM) dan jarak cekung lebar (25–35 mm) agar tidak menghancurkan tongkol dan biji." />
+        <text name="rhm_help_cropsettings_root_sub" text="Kacang-kacangan &amp; Kanola" />
+        <text name="rhm_help_cropsettings_root_text" text="Kanola memerlukan kecepatan kipas rendah agar biji yang ringan tidak tertiup keluar dari ayakan." />
+        <text name="rhm_ui_section_separation" text="PERONTOKAN &amp; PEMISAHAN" />
+        <text name="rhm_ui_section_cleaning" text="PEMBERSIHAN" />
+        <text name="rhm_ui_section_discharge" text="PEMBUANGAN &amp; JERAMI" />
+        <text name="rhm_ui_section_performance" text="KINERJA" />
+        <text name="rhm_ui_tier1_manual" text="TINGKAT 1 - MEKANIS" />
+        <text name="rhm_ui_tier2_sensors" text="TINGKAT 2 - SENSOR" />
+        <text name="rhm_ui_tier3_monitor" text="TINGKAT 3 - TELEMETRI" />
+        <text name="rhm_ui_tier4_opti" text="TINGKAT 4 - AI OPTI" />
+        <text name="rhm_ui_arcade_badge" text="ARCADE" />
+        <text name="rhm_ui_card_engine_load" text="BEBAN MESIN" />
+        <text name="rhm_ui_card_efficiency" text="EFISIENSI" />
+        <text name="rhm_ui_card_predicted_loss" text="PERKIRAAN SUSUT" />
+        <text name="rhm_ui_btn_ai_auto" text="AI KALIBRASI OTOMATIS" />
+        <text name="rhm_ui_btn_auto_locked" text="OTOMATIS (TERKUNCI)" />
+        <text name="rhm_ui_btn_load_preset" text="MUAT PRESET" />
+        <text name="rhm_ui_btn_save_profile" text="SIMPAN PROFIL" />
+        <text name="rhm_ui_btn_load_locked" text="MUAT (TERKUNCI)" />
+        <text name="rhm_ui_btn_save_locked" text="SIMPAN (TERKUNCI)" />
+        <text name="rhm_ui_btn_reset_defaults" text="KEMBALIKAN KE SETELAN PABRIK" />
+        <text name="rhm_ui_status_optimal" text="OPTIMAL" />
+        <text name="rhm_ui_status_low" text="TERLALU RENDAH" />
+        <text name="rhm_ui_status_high" text="TERLALU TINGGI" />
+        <text name="rhm_msg_req_tier4" text="Memerlukan Autopilot AI Opti-Harvest (Tingkat 4)" />
+        <text name="rhm_msg_req_tier3" text="Profil memerlukan Monitor Telemetri (Tingkat 3)" />
+        <text name="rhm_msg_req_tier2" text="Profil memerlukan Paket Sensor (Tingkat 2 atau lebih tinggi)" />
+        <text name="rhm_msg_profile_saved" text="Profil disimpan: %s" />
+        <text name="rhm_msg_profile_loaded" text="Profil dimuat: %s" />
+        <text name="rhm_msg_profile_not_found" text="Tidak ditemukan profil tersimpan untuk tanaman ini" />
+        <text name="rhm_ui_combine_not_init" text="Combine belum diinisialisasi" />
+        <text name="rhm_unit_t_per_hour" text="t/jam" />
+        <text name="rhm_unit_ha_per_hour" text="ha/jam" />
+        <text name="rhm_setting_ai_tuning" text="Penyesuaian Pekerja AI" />
+        <text name="rhm_setting_ai_tuning_long" text="Menentukan bagaimana AI menangani pengaturan. 'Pertahankan punya saya' mempertahankan profil manual. 'Selalu kalibrasi otomatis' menyetel sesuai tingkat elektronik. 'Nonaktif' melarang perubahan oleh AI." />
+        <text name="rhm_setting_ai_tuning_keep" text="Pertahankan punya saya" />
+        <text name="rhm_setting_ai_tuning_auto" text="Selalu kalibrasi otomatis" />
+        <text name="rhm_setting_ai_tuning_disabled" text="Nonaktif" />
+        <text name="rhm_crop_straw_windrow" text="Barisan Jerami" />
+        <text name="rhm_crop_grass_windrow" text="Barisan Rumput" />
+        <text name="rhm_crop_drygrass_windrow" text="Barisan Jerami Kering" />
+        <text name="rhm_crop_alfalfa_windrow" text="Barisan Alfalfa" />
+        <text name="rhm_crop_clover_windrow" text="Barisan Semanggi" />
+        <text name="rhm_crop_maize_forage" text="Silase Jagung" />
+        <text name="rhm_windrow_format" text="Barisan: %s" />
+        <text name="rhm_setting_enableTutorials" text="Petunjuk Tutorial" />
+        <text name="rhm_setting_enableTutorials_long" text="Tampilkan tips panduan interaktif selama memanen." />
+        <text name="rhm_ui_btn_close_notification" text="OK (Enter / Klik Kiri)" />
+        <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+        <text name="rhm_tut_welcome_msg" text="Selamat datang di Realistic Harvesting! Kecepatan combine menyesuaikan secara dinamis berdasarkan beban mesin, kepadatan tanaman, dan header. Buka terminal kalibrasi dengan (Shift Kanan + K)." />
+        <text name="rhm_tut_overload_title" text="Mesin Kelebihan Beban" />
+        <text name="rhm_tut_overload_msg" text="Mesin kelebihan beban berat! Transmisi hidrostatik memperlambat laju combine untuk mencegah drum tersumbat. Angkat header atau kurangi lebar potongan." />
+        <text name="rhm_tut_loss_title" text="Susut Panen Tinggi" />
+        <text name="rhm_tut_loss_msg" text="Kehilangan hasil di belakang combine sangat tinggi! Kecepatan rotor atau ayakan tidak cocok dengan tanaman. Tekan (Shift Kanan + K) untuk kalibrasi presisi." />
+        <text name="rhm_tut_moisture_title" text="Kelembaban Tanaman Tinggi" />
+        <text name="rhm_tut_moisture_msg" text="Kelembaban biji-bijian tinggi atau hujan mulai turun! Biomassa basah menciptakan hambatan besar, meningkatkan beban mesin dan susut. Panen di cuaca kering untuk hasil terbaik." />
+        <text name="rhm_tut_headland_title" text="Memori Kecepatan Ujung Ladang" />
+        <text name="rhm_tut_headland_msg" text="Saat header diangkat di ujung ladang, combine menyimpan kecepatan kerja. Di baris berikutnya, akselerasi berlangsung mulus tanpa hentakan." />
+        <text name="rhm_tut_upgrade_title" text="Peningkatan Combine" />
+        <text name="rhm_tut_upgrade_msg" text="Combine dasar memerlukan penyesuaian manual. Tingkatkan elektronik di bengkel untuk membuka Paket Sensor (Tingkat 2), Monitor Hasil (Tingkat 3), atau Opti-Harvest AI (Tingkat 4)." />
+        <text name="rhm_setting_wear_loss_short" text="Susut Keausan Mekanis" />
+        <text name="rhm_setting_wear_loss_long" text="Mensimulasikan kehilangan hasil akibat keausan alat. Pisau header yang tumpul merontokkan bulir tanaman (hingga +3% susut dan +15% hambatan tenaga). Drum perontok dan ayakan aus membuang biji yang belum terontok (hingga +3% susut)." />
+        <text name="rhm_ui_wear_loss" text="Susut Keausan" />
+        <text name="rhm_ui_cutter_wear" text="Keausan Header" />
+        <text name="rhm_ui_combine_wear" text="Keausan Perontok" />
+        <!-- Harvest History & Field Trip Telemetry -->
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="Riwayat Panen &amp; Penghitung Lahan" />
+        <text name="input_RHM_QUICK_RESET_TRIP" text="Reset Penghitung Lahan (Tahan)" />
+        <text name="rhm_trip_reset_done" text="Penghitung lahan berhasil direset!" />
+        <text name="rhm_tab_trip" text="Lahan Saat Ini / Penghitung" />
+        <text name="rhm_tab_trip_desc" text="Telemetri langsung untuk volume panen, area olah, rata-rata hasil, dan kerugian finansial." />
+        <text name="rhm_tab_analytics" text="Penyebab Kehilangan &amp; Lembar Penilaian" />
+        <text name="rhm_tab_analytics_desc" text="Distribusi faktor kehilangan, nilai efisiensi operator, dan rekomendasi komputer mesin." />
+        <text name="rhm_tab_fleet" text="Pemanen di Lahan" />
+        <text name="rhm_tab_fleet_desc" text="Telemetri langsung, kapasitas, dan status semua mesin pemanen di ladang Anda." />
+        <text name="rhm_tab_settings" text="Pengaturan Ladang &amp; AI" />
+        <text name="rhm_tab_settings_desc" text="Konfigurasi pembatas kecepatan pekerja AI, gulma susulan, dan opsi reset otomatis." />
+        <text name="rhm_driver_parked" text="Parkir" />
+        <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
+        <text name="rhm_driver_hired_ai" text="Pekerja AI" />
+        <text name="rhm_driver_player" text="Pemain" />
+        <text name="rhm_driver_idle_on" text="Stasioner" />
+        <text name="rhm_field_yard" text="Pangkalan / Garasi" />
+        <text name="rhm_field_format" text="Lahan %d" />
+        <text name="rhm_fleet_driver" text="Pengemudi / Operator" />
+        <text name="rhm_fleet_cutter" text="Lebar Pisau" />
+        <text name="rhm_fleet_grain_tank" text="Isi Tangki" />
+        <text name="rhm_fleet_throughput" text="Kapasitas Olah" />
+        <text name="rhm_fleet_realtime_yield" text="Hasil Real-time" />
+        <text name="rhm_fleet_crop_loss" text="Tingkat Kerugian" />
+        <text name="rhm_fleet_wear_state" text="Keausan Mesin" />
+        <text name="rhm_fleet_total_count" text="Total Pemanen" />
+        <text name="rhm_btn_subtab_fleet" text="ARMADA PEMANEN" />
+        <text name="rhm_btn_subtab_history" text="RIWAYAT MUSIM / SEMUA LAHAN" />
+        <text name="rhm_hist_total_area" text="Total Area Dipanen" />
+        <text name="rhm_hist_total_harvest" text="Total Panen Bersih" />
+        <text name="rhm_hist_avg_loss" text="Rata-rata Kehilangan" />
+        <text name="rhm_hist_total_money" text="Total Kerugian Finansial" />
+        <text name="rhm_col_season" text="Musim" />
+        <text name="rhm_col_status" text="Status" />
+        <text name="rhm_hist_empty" text="Belum ada catatan musim" />
+        <text name="rhm_status_harvesting" text="Memanen (aktif)" />
+        <text name="rhm_status_on_field_idle" text="Di Lahan (stasioner)" />
+        <text name="rhm_status_on_field_stopped" text="Di Lahan (berhenti)" />
+        <text name="rhm_status_in_transit" text="Di Jalan / Perjalanan" />
+        <text name="rhm_status_in_cab" text="Terisi (Pemain)" />
+        <text name="rhm_status_parked_yard" text="Parkir di Garasi" />
+        <text name="rhm_card_field_harvest" text="LAHAN SAAT INI &amp; PANEN" />
+        <text name="rhm_field_number" text="Nomor Lahan" />
+        <text name="rhm_trip_no_field" text="Luar Lahan" />
+        <text name="rhm_crop_type" text="Jenis Tanaman" />
+        <text name="rhm_harvested_area" text="Area Dipanen" />
+        <text name="rhm_clean_harvest" text="Panen Bersih" />
+        <text name="rhm_average_yield" text="Hasil Rata-rata" />
+        <text name="rhm_card_loss_finances" text="KEHILANGAN &amp; FINANSIAL" />
+        <text name="rhm_loss_volume" text="Volume Hilang" />
+        <text name="rhm_loss_share" text="Kehilangan % Hasil" />
+        <text name="rhm_financial_loss" text="Kerugian Finansial" />
+        <text name="rhm_card_performance" text="KINERJA &amp; WAKTU" />
+        <text name="rhm_avg_working_speed" text="Kecepatan Rata-rata" />
+        <text name="rhm_avg_engine_load" text="Beban Mesin Rata-rata" />
+        <text name="rhm_session_duration" text="Durasi Sesi" />
+        <text name="rhm_btn_reset_trip" text="Reset Penghitung Lahan" />
+        <text name="rhm_causes_title" text="PENYEBAB UTAMA KEHILANGAN PANEN" />
+        <text name="rhm_cause_speed" text="Kecepatan &amp; Beban Silinder Perontok" />
+        <text name="rhm_cause_moisture" text="Kelembapan Tanaman &amp; Embun" />
+        <text name="rhm_cause_wear" text="Keausan Pisau &amp; Pemukul" />
+        <text name="rhm_cause_slope" text="Kemiringan Lahan &amp; Kontur" />
+        <text name="rhm_scorecard_title" text="LEMBAR EFISIENSI OPERATOR" />
+        <text name="rhm_rank_title_a" text="Tingkat A: Optimal" />
+        <text name="rhm_rank_desc_a" text="Tingkat kehilangan di bawah 1,5%. Pengaturan mesin dan kecepatan sangat seimbang." />
+        <text name="rhm_rank_title_b" text="Tingkat B: Dapat Diterima" />
+        <text name="rhm_rank_desc_b" text="Tingkat kehilangan antara 1,5% dan 3,0%. Disarankan penyesuaian kecepatan atau cekungan." />
+        <text name="rhm_rank_title_c" text="Tingkat C: Kerugian Meningkat" />
+        <text name="rhm_rank_desc_c" text="Tingkat kehilangan antara 3,0% dan 4,5%. Kurangi kecepatan atau periksa pisau pemotong." />
+        <text name="rhm_rank_title_d" text="Tingkat D: Kerugian Kritis" />
+        <text name="rhm_rank_desc_d" text="Kehilangan melebihi 4,5%! Ayakan kelebihan beban parah atau kalibrasi salah." />
+        <text name="rhm_guidance_title" text="PANDUAN KOMPUTER MESIN" />
+        <text name="rhm_advice_perfect" text="Efisiensi panen sangat optimal. Semua parameter pemisahan bekerja seimbang." />
+        <text name="rhm_advice_speed" text="Kehilangan utama akibat kecepatan berlebih. Kurangi laju untuk meringankan ayakan." />
+        <text name="rhm_advice_moisture" text="Kehilangan karena tanaman basah atau embun. Tunggu kering atau kurangi kecepatan." />
+        <text name="rhm_advice_wear" text="Kehilangan meningkat karena pisau atau pemukul aus. Lakukan servis di bengkel." />
+        <text name="rhm_advice_slope" text="Kemiringan samping membuat beban ayakan tidak rata. Kurangi kecepatan di lereng." />
+        <text name="rhm_col_machine" text="Mesin" />
+        <text name="rhm_col_hours" text="Jam Kerja" />
+        <text name="rhm_col_harvested" text="Dipanen" />
+        <text name="rhm_col_lost" text="Kehilangan" />
+        <text name="rhm_col_rank" text="Peringkat" />
+        <text name="rhm_fleet_no_combines" text="Tidak ada pemanen ditemukan" />
+        <text name="rhm_setting_ai_limiter_title" text="PEMBATAS KECEPATAN AI" />
+        <text name="rhm_setting_ai_limiter_desc" text="Membatasi kecepatan otomatis pekerja bantuan saat tingkat kehilangan melebihi batas." />
+        <text name="rhm_setting_ai_threshold_title" text="AMBANG KEHILANGAN AI" />
+        <text name="rhm_setting_ai_threshold_desc" text="Persentase kehilangan maksimum sebelum pekerja AI otomatis memperlambat laju." />
+        <text name="rhm_setting_volunteer_title" text="GULMA SUSULAN / BIJI RONTOK" />
+        <text name="rhm_setting_volunteer_desc" text="Menumbuhkan gulma di belakang pemanen pada area dengan tingkat kehilangan tinggi (&gt;3%)." />
+        <text name="rhm_setting_autoreset_title" text="RESET OTOMATIS GANTI LAHAN" />
+        <text name="rhm_setting_autoreset_desc" text="Arsipkan dan reset penghitung lahan secara otomatis saat berpindah ke lahan lain." />
     </texts>
 </l10n>

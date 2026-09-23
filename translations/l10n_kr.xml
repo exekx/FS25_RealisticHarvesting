@@ -1,331 +1,353 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
-  <texts>
-    <text name="rhm_section_simulation" text="Realistic Harvesting - ì‹œë®¬ë ˆì´ì…˜" />
-    <text name="rhm_section_visuals" text="Realistic Harvesting - HUD ë° ë””ìŠ¤í”Œë ˆì´" />
-    <text name="input_RHM_OPEN_MENU" text="ì½¤ë°”ì¸ ì„¤ì • ë©”ë‰´" />
-    <text name="input_RHM_TOGGLE_HUD" text="ìˆ˜í™• HUD ì¼œê¸°/ë„ê¸°" />
-    <text name="input_RHM_CLOSE_NOTIFICATION" text="ì•Œë¦¼ ë‹«ê¸°" />
-    <text name="rhm_hud_load" text="ë¶€í•˜" />
-    <text name="rhm_hud_loss" text="ì†ì‹¤" />
-    <text name="rhm_hud_moist" text="ìˆ˜ë¶„" />
-    <text name="rhm_ai_settings_retained" text="ìˆ˜ë™ ì„¤ì • ìœ ì§€ë¨" />
-    <text name="rhm_ai_auto_tuned" text="ìžë™ ë³´ì • ì™„ë£Œ" />
-    <text name="rhm_difficulty" text="ë‚œì´ë„" />
-    <text name="rhm_difficulty_motor" text="ì—”ì§„ ì¶œë ¥ ì œí•œ" />
-    <text name="rhm_difficulty_motor_short" text="ì—”ì§„ ì œí•œ" />
-    <text name="rhm_difficulty_motor_long" text="ì—”ì§„ ë¶€í•˜ ë¬¼ë¦¬ë¥¼ ê²°ì •í•©ë‹ˆë‹¤. ì•„ì¼€ì´ë“œ = ë¹„í™œì„±í™”(ê³¼ë¶€í•˜ ì—†ìŒ), ë³´í†µ = +35% ì—¬ìœ  ì¶œë ¥, ì‚¬ì‹¤ì  = 100% ì‹¤ì œ ë¬¼ë¦¬ ì‹œë®¬ë ˆì´ì…˜." />
-    <text name="rhm_difficulty_loss" text="ìˆ˜í™• ì†ì‹¤ íŽ˜ë„í‹°" />
-    <text name="rhm_difficulty_loss_short" text="ì†ì‹¤ íŽ˜ë„í‹°" />
-    <text name="rhm_difficulty_loss_long" text="ìˆ˜í™• ì†ì‹¤ìœ¨ì„ ê²°ì •í•©ë‹ˆë‹¤. ì•„ì¼€ì´ë“œ = 0%(ì†ì‹¤ ì—†ìŒ), ë³´í†µ = í‘œì¤€ ì†ì‹¤, ì‚¬ì‹¤ì  = ì¦ê°€ëœ ì†ì‹¤(200%)." />
-    <text name="rhm_diff_1" text="ì•„ì¼€ì´ë“œ" />
-    <text name="rhm_difficulty_long" text="ì•„ì¼€ì´ë“œ: ê³¼ë¶€í•˜ë‚˜ ì†ì‹¤ ì—†ìŒ. ë³´í†µ: ê· í˜• ìž¡ížŒ ë¬¼ë¦¬(+35%). ì‚¬ì‹¤ì : ìˆœìˆ˜ ì‹œë®¬ë ˆì´ì…˜(0%)." />
-    <text name="rhm_diff_2" text="ë³´í†µ" />
-    <text name="rhm_diff_3" text="ì‚¬ì‹¤ì " />
-    <text name="rhm_show_yield" text="ìˆ˜í™•ëŸ‰ ëª¨ë‹ˆí„° í‘œì‹œ" />
-    <text name="rhm_show_yield_short" text="ìˆ˜í™•ëŸ‰ í‘œì‹œ" />
-    <text name="rhm_show_yield_long" text="HUDì— ì‹¤ì‹œê°„ ìˆ˜í™•ëŸ‰ì„ í‘œì‹œí•©ë‹ˆë‹¤ (t/ha ë˜ëŠ” bu/ac)" />
-    <text name="rhm_yield_label" text="ìˆ˜í™•ëŸ‰" />
-    <text name="rhm_hud_short" text="HUD í‘œì‹œ" />
-    <text name="rhm_hud_long" text="í™”ë©´ì— ìˆ˜í™• ì •ë³´ í‘œì‹œ" />
-    <text name="rhm_speedlimit_short" text="ì†ë„ ì œí•œê¸°" />
-    <text name="rhm_speedlimit_long" text="ì—”ì§„ ë¶€í•˜ì— ë”°ë¼ ì½¤ë°”ì¸ ìž‘ì—… ì†ë„ë¥¼ ìžë™ìœ¼ë¡œ ì œí•œ" />
-    <text name="rhm_croploss_short" text="ìˆ˜í™• ì†ì‹¤ í™œì„±í™”" />
-    <text name="rhm_croploss_long" text="ê³¼ë¶€í•˜ ì‹œ ìž‘ë¬¼ ì†ì‹¤ ê³„ì‚°" />
-    <text name="rhm_show_speed_short" text="ì†ë„ í‘œì‹œ" />
-    <text name="rhm_show_speed_long" text="HUDì— í˜„ìž¬ ì†ë„ì™€ ê¶Œìž¥ ì†ë„ í‘œì‹œ" />
-    <text name="rhm_show_load_short" text="ì—”ì§„ ë¶€í•˜ í‘œì‹œ" />
-    <text name="rhm_show_load_long" text="HUDì— ì—”ì§„ ë¶€í•˜ ë°±ë¶„ìœ¨(%) í‘œì‹œ" />
-    <text name="rhm_show_productivity_short" text="ì²˜ë¦¬ëŸ‰ í‘œì‹œ" />
-    <text name="rhm_show_productivity_long" text="HUDì— ì‹œê°„ë‹¹ ì²˜ë¦¬ëŸ‰(t/h) í‘œì‹œ" />
-    <text name="rhm_show_croploss_short" text="ì†ì‹¤ í‘œì‹œ" />
-    <text name="rhm_show_moisture_short" text="ìˆ˜ë¶„ í‘œì‹œ" />
-    <text name="rhm_show_moisture_long" text="HUDì— ìž‘ë¬¼ ìˆ˜ë¶„ í•¨ëŸ‰(%) í‘œì‹œ" />
-    <text name="rhm_moisture_enable_short" text="ìˆ˜ë¶„ ì €í•­" />
-    <text name="rhm_moisture_enable_long" text="ìž‘ë¬¼ ìˆ˜ë¶„ì— ë”°ë¼ ë¶€í•˜ íŽ˜ë„í‹° ì ìš© (Moisture System ëª¨ë“œ í•„ìš”)" />
-    <text name="rhm_ui_title_main" text="ì½¤ë°”ì¸ ìº˜ë¦¬ë¸Œë ˆì´ì…˜ í„°ë¯¸ë„" />
-    <text name="rhm_ui_page_settings" text="ì„¤ì •" />
-    <text name="rhm_ui_page_profiles" text="í”„ë¡œí•„" />
-    <text name="rhm_ui_current_crop" text="í˜„ìž¬ ìž‘ë¬¼:" />
-    <text name="rhm_ui_load" text="ì—”ì§„ ë¶€í•˜:" />
-    <text name="rhm_ui_loss" text="ìˆ˜í™• ì†ì‹¤:" />
-    <text name="rhm_ui_fan_speed" text="íŒ¬ ì†ë„" />
-    <text name="rhm_ui_rotor_speed" text="ë¡œí„° ì†ë„" />
-    <text name="rhm_ui_upper_sieve" text="ìƒë‹¨ ì²´ ì—´ë¦¼" />
-    <text name="rhm_ui_lower_sieve" text="í•˜ë‹¨ ì²´ ì—´ë¦¼" />
-    <text name="rhm_ui_feeder_speed" text="ì½˜ì¼€ì´ë¸Œ ê°„ê²©" />
-    <text name="rhm_ui_mode_auto" text="ìžë™" />
-    <text name="rhm_ui_mode_manual" text="ìˆ˜ë™" />
-    <text name="rhm_ui_btn_reset" text="ê¸°ë³¸ê°’ ì´ˆê¸°í™”" />
-    <text name="rhm_ui_profile_create" text="ìƒˆ í”„ë¡œí•„" />
-    <text name="rhm_ui_profile_save" text="ì €ìž¥" />
-    <text name="rhm_ui_profile_load" text="ë¶ˆëŸ¬ì˜¤ê¸°" />
-    <text name="rhm_ui_profile_delete" text="ì‚­ì œ" />
-    <text name="rhm_ui_profile_name_placeholder" text="í”„ë¡œí•„ ì´ë¦„ ìž…ë ¥..." />
-    <text name="rhm_hud_yield_label" text="ìˆ˜í™•ëŸ‰" />
-    <text name="rhm_hud_load_label" text="ë¶€í•˜" />
-    <text name="rhm_hud_loss_label" text="ì†ì‹¤" />
-    <text name="rhm_loss_level_low" text="ë‚®ìŒ" />
-    <text name="rhm_loss_level_med" text="ì¤‘ê°„" />
-    <text name="rhm_loss_level_high" text="ë†’ìŒ" />
-    <text name="rhm_show_croploss_long" text="HUDì— ìˆ˜í™• ì†ì‹¤ ë°±ë¶„ìœ¨(%) í‘œì‹œ" />
-    <text name="rhm_show_load_warn_short" text="ê³¼ë¶€í•˜ ê²½ê³ " />
-    <text name="rhm_show_load_warn_long" text="ì½¤ë°”ì¸ì´ ê³¼ë¶€í•˜ë  ë•Œ ê¹œë¹¡ì´ëŠ” ê²½ê³  í‘œì‹œ" />
-    <text name="rhm_overload_sounds_short" text="ê³¼ë¶€í•˜ ì‚¬ìš´ë“œ" />
-    <text name="rhm_overload_sounds_long" text="ì½¤ë°”ì¸ ê³¼ë¶€í•˜ ë˜ëŠ” ì†ì‹¤ ì´ˆê³¼ ì‹œ ìš´ì „ì‹¤ ê²½ë³´ìŒ ë° ê¸°ê³„ ì§„ë™ìŒ ìž¬ìƒ" />
-    <text name="rhm_section_audio" text="Realistic Harvesting - ì˜¤ë””ì˜¤" />
-    <text name="rhm_alarm_sounds_short" text="ê³¼ë¶€í•˜ ê²½ë³´ ë²„ì €" />
-    <text name="rhm_alarm_sounds_long" text="ì—”ì§„ ë¶€í•˜ê°€ ì‹¬ê°í•œ ê³¼ë¶€í•˜(105%+)ì— ë„ë‹¬í•˜ê±°ë‚˜ ì†ì‹¤ì´ 5%ë¥¼ ì´ˆê³¼í•  ë•Œì˜ ìºë¹ˆ ë²„ì € ëª¨ë“œ." />
-    <text name="rhm_alarm_mode_smart" text="ìŠ¤ë§ˆíŠ¸ (3íšŒ ë¹„í”„ìŒ)" />
-    <text name="rhm_alarm_mode_continuous" text="ì—°ì† ì•Œë¦¼" />
-    <text name="rhm_alarm_mode_off" text="ë„ê¸°" />
-    <text name="rhm_sound_volume_short" text="ì‚¬ìš´ë“œ ìŒëŸ‰" />
-    <text name="rhm_sound_volume_long" text="ìš´ì „ì‹¤ ê³¼ë¶€í•˜ ë²„ì € ì•Œë¦¼ ìŒëŸ‰ì„ ì¡°ì ˆí•©ë‹ˆë‹¤." />
-    <text name="rhm_target_load" text="ëª©í‘œ ì—”ì§„ ë¶€í•˜" />
-    <text name="rhm_gui_title" text="ì½¤ë°”ì¸ ì„¤ì •" />
-    <text name="rhm_gui_crop" text="ìž‘ë¬¼:" />
-    <text name="rhm_gui_none" text="ì—†ìŒ" />
-    <text name="rhm_gui_btn_auto" text="ìžë™" />
-    <text name="rhm_gui_btn_load_preset" text="ì‚¬ì „ì„¤ì • ë¡œë“œ" />
-    <text name="rhm_gui_btn_save" text="í”„ë¡œí•„ ì €ìž¥" />
-    <text name="rhm_gui_btn_reset" text="ê¸°ë³¸ê°’ ë³µì›" />
-    <text name="rhm_gui_engine_load" text="ì—”ì§„ ë¶€í•˜: %.0f%%" />
-    <text name="rhm_gui_loss" text="ì†ì‹¤ìœ¨: %.1f%%" />
-    <text name="rhm_gui_preview_loss" text="ì˜ˆìƒ ì†ì‹¤: %.1f%%" />
-    <text name="rhm_gui_close_hint" text="ì˜¤ë¥¸ìª½ Shift+Kë¡œ ë‹«ê¸°" />
-    <text name="rhm_gui_no_combine" text="ì„ íƒëœ ì½¤ë°”ì¸ ì—†ìŒ" />
-    <text name="rhm_gui_not_init" text="ì½¤ë°”ì¸ ë¯¸ì´ˆê¸°í™”" />
-    <text name="rhm_ui_drum_speed" text="ë“œëŸ¼ ì†ë„" />
-    <text name="rhm_ui_roller_speed" text="ë¡¤ëŸ¬ ì†ë„" />
-    <text name="rhm_ui_picker_speed" text="í”¼ì»¤ ì†ë„" />
-    <text name="rhm_ui_forage_fan" text="ë¸”ë¡œì–´ ì†ë„" />
-    <text name="rhm_ui_forage_drum" text="ì„¸ì ˆ ë“œëŸ¼" />
-    <text name="rhm_ui_forage_feeder" text="ê³µê¸‰ ë¡¤ëŸ¬" />
-    <text name="rhm_ui_root_roller" text="ì„¸ì²™ ë¡¤ëŸ¬" />
-    <text name="rhm_ui_root_feeder" text="ì—˜ë¦¬ë² ì´í„° ì›¹" />
-    <text name="rhm_ui_grape_shaker" text="ì§„ë™ ì†ë„" />
-    <text name="rhm_ui_olive_shaker" text="íƒ€ê²© ì†ë„" />
-    <text name="rhm_ui_grape_conveyor" text="ì»¨ë² ì´ì–´ ì†ë„" />
-    <text name="rhm_ui_grape_fan" text="ë°°ì¶œ íŒ¬" />
-    <text name="rhm_units_short" text="ë‹¨ìœ„ê³„" />
-    <text name="rhm_units_long" text="ì¸¡ì • ë‹¨ìœ„ê³„(ì†ë„, ë¬´ê²Œ, ë©´ì ) ì„ íƒ" />
-    <text name="rhm_unit_metric" text="ë¯¸í„°ë²• (km/h, t/h, ha)" />
-    <text name="rhm_unit_imperial" text="ì•¼ë“œíŒŒìš´ë“œë²• (mph, ton/h, ac)" />
-    <text name="rhm_unit_bushels" text="ë¶€ì…¸ ë³‘ê¸° (mph, bu/h, ac)" />
-    <text name="rhm_reset" text="RH ì„¤ì • ì´ˆê¸°í™”" />
-    <text name="rhm_loss_low" text="ë‚®ìŒ" />
-    <text name="rhm_loss_med" text="ì¤‘ê°„" />
-    <text name="rhm_loss_high" text="ë†’ìŒ" />
-    <text name="rhm_warning_turn_on_combine" text="ë¨¼ì € ì½¤ë°”ì¸ ì‹œë™ì„ ì¼œì„¸ìš”!" />
-    <text name="rhm_warning_turn_on_cutter" text="í—¤ë”ë¥¼ ìž‘ë™ì‹œí‚¤ì„¸ìš”!" />
-    <text name="rhm_warn_overload_high" text="ì½¤ë°”ì¸ ê³¼ë¶€í•˜! ìˆ˜í™• ì†ì‹¤ì„ ì¤„ì´ë ¤ë©´ ì†ë„ë¥¼ ì¤„ì´ì„¸ìš”." />
-    <text name="rhm_warn_overload_critical" text="ì½¤ë°”ì¸ ì‹¬ê°í•œ ê³¼ë¶€í•˜! ì‹¬í•œ ê³¡ë¬¼ ì†ì‹¤ ë°œìƒ ì¤‘!" />
-    <text name="rhm_configuration_title" text="Realistic Harvesting ì‹œìŠ¤í…œ" />
-    <text name="rhm_package_standard" text="1ë‹¨ê³„: ê¸°ë³¸ ê¸°ê³„ì‹" />
-    <text name="rhm_package_sensor" text="2ë‹¨ê³„: ì„¼ì„œ íŒ¨í‚¤ì§€" />
-    <text name="rhm_package_yield" text="3ë‹¨ê³„: í…”ë ˆë©”íŠ¸ë¦¬ &amp; ìˆ˜í™•ëŸ‰ ëª¨ë‹ˆí„°" />
-    <text name="rhm_package_opti" text="4ë‹¨ê³„: Opti-Harvest AI ì˜¤í† íŒŒì¼ëŸ¿" />
-    <text name="rhm_msg_req_level_4" text="ì •ë¹„ì†Œì—ì„œ Opti-Harvest AI(4ë‹¨ê³„) íŒ¨í‚¤ì§€ë¥¼ ìž¥ì°©í•´ì•¼ í•©ë‹ˆë‹¤." />
-    <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: ìžë™ ìº˜ë¦¬ë¸Œë ˆì´ì…˜ì„ ì‹œìž‘í•˜ë ¤ë©´ ìž‘ë¬¼ì„ ëª‡ ë¯¸í„° ìˆ˜í™•í•˜ì„¸ìš”!" />
-    <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: %s ìž‘ë¬¼ì— ëŒ€í•´ ìžë™ ë³´ì •ì´ ì„±ê³µí–ˆìŠµë‹ˆë‹¤!" />
-    <text name="rhm_help_category" text="Realistic Harvesting" />
-    <text name="rhm_help_title" text="Realistic Harvesting ì•ˆë‚´ì„œ" />
-    <text name="rhm_help_overview_title" text="ê°œìš” ë° ë¬¼ë¦¬ ëª¨ë¸" />
-    <text name="rhm_help_overview_sub1" text="ì—”ì§„ ë¶€í•˜ ë° ì²˜ë¦¬ëŸ‰" />
-    <text name="rhm_help_overview_1" text="Realistic Harvesting ì€ ê³ ì •ëœ ìž‘ì—… ì†ë„ë¥¼ ë¬¼ë¦¬ ê¸°ë°˜ì˜ ì²˜ë¦¬ëŸ‰ ëª¨ë¸ë¡œ ëŒ€ì²´í•©ë‹ˆë‹¤. ì´ˆë‹¹ ìž‘ë¬¼ ì§ˆëŸ‰ ìœ ìž…, ìˆ˜ë¶„ìœ¨, í—¤ë” í­ ë° íŒŒì‡„ê¸° ìƒíƒœë¥¼ ë°”íƒ•ìœ¼ë¡œ ì—”ì§„ ë¶€í•˜ë¥¼ ì‹¤ì‹œê°„ ê³„ì‚°í•©ë‹ˆë‹¤. ìž‘ë¬¼ì´ ë¹½ë¹½í•œ êµ¬ì—­ì—ì„œëŠ” ë“œëŸ¼ ë§‰íž˜ì„ ë°©ì§€í•˜ê¸° ìœ„í•´ ìžë™ìœ¼ë¡œ ê°ì†í•©ë‹ˆë‹¤." />
-    <text name="rhm_help_overview_sub2" text="ì •ìœ ì••ì‹ ì†ë„ ì œì–´" />
-    <text name="rhm_help_overview_2" text="HST ì†ë„ ì œì–´ê¸°ê°€ ì£¼í–‰ ì†ë„ë¥¼ ìžë™ìœ¼ë¡œ ì¡°ì ˆí•˜ì—¬ ì—”ì§„ì„ ê°€ìž¥ íš¨ìœ¨ì ì¸ ì¶œë ¥ ë²”ìœ„(80~95%) ë‚´ë¡œ ìœ ì§€í•©ë‹ˆë‹¤. í—¤ë“œëžœë“œì—ì„œ ì„ íšŒí•  ë•Œ ìž‘ì—… ì†ë„ê°€ ì €ìž¥ë˜ì–´ ë‹¤ìŒ ê³¨ë¡œ ì§„ìž…í•  ë•Œ ë¶€ë“œëŸ½ê²Œ ê°€ì†í•©ë‹ˆë‹¤." />
-    <text name="rhm_help_hud_title" text="HUD ë° í…”ë ˆë©”íŠ¸ë¦¬" />
-    <text name="rhm_help_hud_sub1" text="ìˆ˜í™• ìž‘ì—… HUD" />
-    <text name="rhm_help_hud_1" text="HUDëŠ” í˜„ìž¬ ì†ë„ì™€ ê¶Œìž¥ ì†ë„, ì—”ì§„ ë¶€í•˜ìœ¨, ì‹œê°„ë‹¹ ì²˜ë¦¬ëŸ‰(t/h), ì‹¤ì‹œê°„ ìˆ˜í™•ëŸ‰ ë° ì†ì‹¤ìœ¨ì„ ì‹¤ì‹œê°„ìœ¼ë¡œ í‘œì‹œí•©ë‹ˆë‹¤. ë©”ë‰´ì—ì„œ ê°œë³„ í•­ëª©ì„ ì›í•˜ëŠ” ëŒ€ë¡œ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤." />
-    <text name="rhm_help_hud_sub2" text="ê²½ê³  í‘œì‹œ ë° ìƒ‰ìƒ ì½”ë“œ" />
-    <text name="rhm_help_hud_2" text="ì´ˆë¡ìƒ‰ì€ ìµœì  ìƒíƒœë¥¼ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤. ë…¸ëž€ìƒ‰ì€ ì¤‘ê°„ ë¶€í•˜ìž…ë‹ˆë‹¤. ë¹¨ê°„ìƒ‰ ê¹œë¹¡ìž„ì€ ìœ„í—˜í•œ ê³¼ë¶€í•˜(&gt;95%)ë¥¼ ë‚˜íƒ€ë‚´ë©°, ì´ë•Œ ì½¤ë°”ì¸ì€ ìžë™ìœ¼ë¡œ ê°ì†í•©ë‹ˆë‹¤." />
-    <text name="rhm_help_hud_sub3" text="í…”ë ˆë©”íŠ¸ë¦¬ ì¸¡ì • ì§€í‘œ" />
-    <text name="rhm_help_hud_3_load" text="ë¶€í•˜: ì£¼í–‰ êµ¬ë™ê³„, íƒˆê³¡ ë“œëŸ¼ ë° íŒŒì‡„ê¸°ë¡œ ì¸í•œ ì—”ì§„ ì´ ë¶€í•˜ìœ¨." />
-    <text name="rhm_help_hud_3_yield" text="ìˆ˜í™•ëŸ‰: ìˆ˜í™• ì¤‘ì¸ ë°­ì˜ ì‹¤ì‹œê°„ ìˆ˜í™•ëŸ‰ (t/ha ë˜ëŠ” bu/ac)." />
-    <text name="rhm_help_hud_3_productivity" text="ì²˜ë¦¬ëŸ‰: ì‹œê°„ë‹¹ ê¸°ê³„ë¥¼ í†µê³¼í•˜ëŠ” ìž‘ë¬¼ ë¬¼ì§ˆ ìœ ëŸ‰ (t/h)." />
-    <text name="rhm_help_hud_3_moisture" text="ìˆ˜ë¶„: ìž‘ë¬¼ì˜ ìˆ˜ë¶„ í•¨ëŸ‰. ì –ì€ ìž‘ë¬¼ì€ í›¨ì”¬ ë” ë§Žì€ ì—”ì§„ ë™ë ¥ì„ í•„ìš”ë¡œ í•©ë‹ˆë‹¤." />
-    <text name="rhm_help_hud_3_loss" text="ì†ì‹¤: íƒˆê³¡ ë“œëŸ¼ ë° ì„ ë³„ ì²´ì—ì„œ ì†ì‹¤ë˜ëŠ” ê³¡ë¬¼ ë¹„ìœ¨." />
-    <text name="rhm_help_hud_3_speed" text="ì†ë„: í˜„ìž¬ ì£¼í–‰ ì†ë„ ëŒ€ ê³„ì‚°ëœ ìµœì  ì¶”ì²œ ì†ë„." />
-    <text name="rhm_help_calibration_title" text="ìº˜ë¦¬ë¸Œë ˆì´ì…˜ í„°ë¯¸ë„" />
-    <text name="rhm_help_calibration_main_sub" text="í„°ë¯¸ë„ (ì˜¤ë¥¸ìª½ Shift + K)" />
-    <text name="rhm_help_calibration_main_text" text="ì˜¤ë¥¸ìª½ Shift + K ë¡œ ìº˜ë¦¬ë¸Œë ˆì´ì…˜ í„°ë¯¸ë„ì„ ì—½ë‹ˆë‹¤. ê° ìž‘ë¬¼ì— ë§žê²Œ ë“œëŸ¼ íšŒì „ìˆ˜, íŒ¬ ì†ë„, íƒˆê³¡ë§ ê°„ê²© ë° ì²´ ì—´ë¦¼ì„ ì •ë°€ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤." />
-    <text name="rhm_help_calibration_rotor_sub" text="ë“œëŸ¼ íšŒì „ìˆ˜ ë° íƒˆê³¡ë§" />
-    <text name="rhm_help_calibration_rotor_text" text="íšŒì „ìˆ˜ê°€ ë„ˆë¬´ ë†’ê±°ë‚˜ ê°„ê²©ì´ ë„ˆë¬´ ì¢ìœ¼ë©´ ì•Œê³¡ì´ ê¹¨ì§‘ë‹ˆë‹¤. íšŒì „ìˆ˜ê°€ ë„ˆë¬´ ë‚®ìœ¼ë©´ íƒˆê³¡ë˜ì§€ ì•Šì€ ë‚Ÿì•Œì´ ì§šê³¼ í•¨ê»˜ ë°°ì¶œë©ë‹ˆë‹¤." />
-    <text name="rhm_help_calibration_fan_sub" text="íŒ¬ ì†ë„ ë° ì²´" />
-    <text name="rhm_help_calibration_fan_text" text="íŒ¬ì€ ê»ì§ˆê³¼ í‹°ëŒì„ ë¶ˆì–´ëƒ…ë‹ˆë‹¤. ë°”ëžŒì´ ë„ˆë¬´ ì„¸ë©´ ì•Œê³¡ê¹Œì§€ ë°­ ë°–ìœ¼ë¡œ ë‚ ì•„ê°€ê³ , ë„ˆë¬´ ì•½í•˜ë©´ ì²´ê°€ ë§‰íž™ë‹ˆë‹¤." />
-    <text name="rhm_help_calibration_perf_sub" text="ì„±ëŠ¥ ìµœì í™”" />
-    <text name="rhm_help_calibration_perf_text" text="ì •í™•í•˜ê²Œ ì„¤ì •í•˜ë©´ ê³¡ë¬¼ ì†ì‹¤ì„ 0.5% ë¯¸ë§Œìœ¼ë¡œ ì¤„ì´ê³ , ê³¼ë¶€í•˜ ì—†ì´ ë” ë¹ ë¥¸ ì£¼í–‰ ì†ë„ë¡œ ìˆ˜í™•í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤." />
-    <text name="rhm_help_special_title" text="íŠ¹ìˆ˜ ìˆ˜í™• ìž¥ë¹„" />
-    <text name="rhm_help_special_sub1" text="ì‚¬ë£Œ ìˆ˜í™•ê¸° ë° í”½ì—… í—¤ë”" />
-    <text name="rhm_help_special_1" text="ìžì£¼ì‹ ì‚¬ë£Œ ìˆ˜í™•ê¸°ëŠ” ì ˆë‹¨ ê¸¸ì´ ì „ìš© ë¬¼ë¦¬ë¡œ ê³„ì‚°ë©ë‹ˆë‹¤. í”½ì—… í—¤ë”ëŠ” ì§šì¤„ì˜ ë¶€í”¼ë¡œë¶€í„° ë¶€í•˜ë¥¼ ê³„ì‚°í•©ë‹ˆë‹¤." />
-    <text name="rhm_help_special_sub2" text="ë¿Œë¦¬ ìž‘ë¬¼ ìˆ˜í™•ê¸°, ëª©í™” ë° NEXAT í”Œëž«í¼" />
-    <text name="rhm_help_special_2" text="ê°ìž ë° ì‚¬íƒ•ë¬´ ìˆ˜í™•ê¸°ëŠ” ìƒë‹¹í•œ í† ì–‘ ì €í•­ì„ ë°›ìŠµë‹ˆë‹¤. ì˜¥ìˆ˜ìˆ˜ í—¤ë”ëŠ” ì•Œê³¡ íŒŒì†ì„ ë§‰ê¸° ìœ„í•´ ë‚®ì€ íšŒì „ìˆ˜ê°€ í•„ìš”í•©ë‹ˆë‹¤." />
-    <text name="rhm_help_loss_title" text="ìˆ˜í™• ì†ì‹¤ ë° íŽ˜ë„í‹°" />
-    <text name="rhm_help_loss_sub1" text="ë¬¼ë¦¬ì  ê³¡ë¬¼ ì†ì‹¤" />
-    <text name="rhm_help_loss_1" text="í˜ë¦° ê³¡ë¬¼ì€ íƒ±í¬ì˜ ì‹¤ì œ ìˆ˜í™•ëŸ‰ì—ì„œ ì°¨ê°ë˜ì–´ ì§ì ‘ì ì¸ ê²½ì œì  ì†ì‹¤ì„ ìœ ë°œí•©ë‹ˆë‹¤." />
-    <text name="rhm_help_loss_sub2" text="ì†ì‹¤ ì›ì¸" />
-    <text name="rhm_help_loss_2" text="ì£¼ìš” ì›ì¸: ê³¼ë„í•œ ì£¼í–‰ ì†ë„, ìž˜ëª»ëœ ì²´ ì„¤ì •, ì –ì€ ìž‘ë¬¼, ë˜ëŠ” í—¤ë” ì¹¼ë‚  ë§ˆëª¨." />
-    <text name="rhm_help_loss_sub3" text="ê²½ì‚¬ì§€ ì˜í–¥" />
-    <text name="rhm_help_loss_3" text="ê²½ì‚¬ì§€ì—ì„œëŠ” ìž‘ë¬¼ì´ ì²´ í•œìª½ìœ¼ë¡œ ì ë¦¬ë¯€ë¡œ ì†ë„ë¥¼ ì¤„ì´ì§€ ì•Šìœ¼ë©´ ì†ì‹¤ì´ ê¸‰ì¦í•©ë‹ˆë‹¤." />
-    <text name="rhm_help_difficulty_title" text="ë‚œì´ë„ ì„¤ì •" />
-    <text name="rhm_help_difficulty_sub1" text="ëª¨ë“œ ì„ íƒ" />
-    <text name="rhm_help_difficulty_1" text="ì„¤ì • ë©”ë‰´ì—ì„œ ì—”ì§„ ë¶€í•˜ì™€ ìˆ˜í™• ì†ì‹¤ì„ ê°ê° ì•„ì¼€ì´ë“œ, ë³´í†µ, ì‚¬ì‹¤ì  ì¤‘ì—ì„œ ë…ë¦½ì ìœ¼ë¡œ ì„ íƒí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤." />
-    <text name="rhm_help_difficulty_sub2" text="ë‚œì´ë„ë³„ ì°¨ì´" />
-    <text name="rhm_help_difficulty_2" text="ì•„ì¼€ì´ë“œëŠ” ê³¼ë¶€í•˜ ê°ì†ì„ ë•ë‹ˆë‹¤. ë³´í†µì€ ê· í˜• ìž¡ížŒ ê²Œìž„ í”Œë ˆì´ë¥¼ ì œê³µí•©ë‹ˆë‹¤. ì‚¬ì‹¤ì ì€ 100% ìˆœìˆ˜ ì‹œë®¬ë ˆì´ì…˜ì„ ì œê³µí•©ë‹ˆë‹¤." />
-    <text name="rhm_help_upgrades_title" text="ì „ìž ìž¥ë¹„ ì—…ê·¸ë ˆì´ë“œ" />
-    <text name="rhm_help_upgrades_sub1" text="1ë‹¨ê³„: ìˆ˜ë™ ê¸°ê³„ì‹" />
-    <text name="rhm_help_upgrades_1" text="ê¸°ë³¸ ìˆ˜ë™ ì½¤ë°”ì¸. ê²½í—˜ì— ì˜ì¡´í•˜ì—¬ ëª¨ë“  ìˆ˜ì¹˜ë¥¼ ìˆ˜ë™ìœ¼ë¡œ ì¡°ì ˆí•´ì•¼ í•©ë‹ˆë‹¤." />
-    <text name="rhm_help_upgrades_sub2" text="2ë‹¨ê³„: ì„¼ì„œ íŒ¨í‚¤ì§€" />
-    <text name="rhm_help_upgrades_2" text="ì „ìžì‹ ì†ì‹¤ ì„¼ì„œì™€ ì‹¤ì‹œê°„ ë¶€í•˜ ëª¨ë‹ˆí„°ë§ì´ ì¶”ê°€ë˜ì–´ ì˜¬ë°”ë¥¸ ì„¤ì •ì„ ì°¾ê¸° ì‰¬ì›Œì§‘ë‹ˆë‹¤." />
-    <text name="rhm_help_upgrades_sub3" text="3ë‹¨ê³„: í…”ë ˆë©”íŠ¸ë¦¬ ëª¨ë‹ˆí„°" />
-    <text name="rhm_help_upgrades_3" text="ë©´ì  ê³„ì‚°ì´ í¬í•¨ëœ ìˆ˜í™•ëŸ‰ ëª¨ë‹ˆí„°ì™€ ìž‘ë¬¼ë³„ í”„ë¡œí•„ ì €ìž¥/ë¡œë“œ ê¸°ëŠ¥ì´ ìž ê¸ˆ í•´ì œë©ë‹ˆë‹¤." />
-    <text name="rhm_help_upgrades_sub4" text="4ë‹¨ê³„: Opti-Harvest AI" />
-    <text name="rhm_help_upgrades_4" text="ìˆ˜í™• ì¤‘ ì½¤ë°”ì¸ì˜ ê° ì„¤ì •ì„ ì‹¤ì‹œê°„ìœ¼ë¡œ ìžë™ ë¯¸ì„¸ ì¡°ì ˆí•˜ëŠ” ìµœì²¨ë‹¨ ì»´í“¨í„° ì œì–´ ì‹œìŠ¤í…œ." />
-    <text name="rhm_help_moisture_title" text="ìˆ˜ë¶„ í™˜ê²½ ì‹œìŠ¤í…œ" />
-    <text name="rhm_help_moisture_sub1" text="ì¼ì¼ ì£¼ê¸° ë° ì•„ì¹¨ ì´ìŠ¬" />
-    <text name="rhm_help_moisture_1" text="ì•„ì¹¨ ì´ìŠ¬ì´ë‚˜ ì €ë…ì—ëŠ” ì§šì´ ì§ˆê²¨ì§‘ë‹ˆë‹¤. ìŠµí•œ ì¡°ê±´ì—ì„œì˜ íƒˆê³¡ì€ í›¨ì”¬ ë” í° ì—”ì§„ ì¶œë ¥ì„ ìš”êµ¬í•©ë‹ˆë‹¤." />
-    <text name="rhm_help_moisture_sub2" text="ìˆ˜ë¶„ íŽ˜ë„í‹°" />
-    <text name="rhm_help_moisture_2" text="ìˆ˜ë¶„ í•¨ëŸ‰ì´ 18%ë¥¼ ì´ˆê³¼í•˜ë©´ íƒˆê³¡ ë¶„ë¦¬ ì„±ëŠ¥ì´ ê¸‰ê²©ížˆ ë–¨ì–´ì§€ê³  ë“œëŸ¼ ë§‰íž˜ ìœ„í—˜ì´ ì¹˜ì†ŸìŠµë‹ˆë‹¤." />
-    <text name="rhm_help_cropsettings_title" text="ìž‘ë¬¼ë³„ ì¡°ì ˆ ê°€ì´ë“œ" />
-    <text name="rhm_help_cropsettings_grain_sub" text="ê³¡ë¬¼ (ë°€, ë³´ë¦¬, ê·€ë¦¬, í˜¸ë°€)" />
-    <text name="rhm_help_cropsettings_grain_text" text="ì™„ì „í•œ íƒˆê³¡ì„ ìœ„í•´ ë†’ì€ ë“œëŸ¼ íšŒì „ìˆ˜(700~850 RPM)ì™€ ì ë‹¹í•œ ê°„ê²©(10~15 mm)ì´ í•„ìš”í•©ë‹ˆë‹¤." />
-    <text name="rhm_help_cropsettings_forage_sub" text="ì˜¥ìˆ˜ìˆ˜ ë° í•´ë°”ë¼ê¸°" />
-    <text name="rhm_help_cropsettings_forage_text" text="ì•Œê³¡ ê¹¨ì§ì„ ë°©ì§€í•˜ê¸° ìœ„í•´ ë‚®ì€ íšŒì „ìˆ˜(350~450 RPM)ì™€ ë„“ì€ ê°„ê²©(25~35 mm)ìœ¼ë¡œ ì„¤ì •í•©ë‹ˆë‹¤." />
-    <text name="rhm_help_cropsettings_root_sub" text="ì½©ë¥˜ ë° ì¹´ë†€ë¼" />
-    <text name="rhm_help_cropsettings_root_text" text="ì¹´ë†€ë¼ëŠ” ì”¨ì•—ì´ ë§¤ìš° ê°€ë²¼ìš°ë¯€ë¡œ ë°–ìœ¼ë¡œ ë¶ˆë ¤ë‚˜ê°€ì§€ ì•Šë„ë¡ íŒ¬ íšŒì „ìˆ˜ë¥¼ ë‚®ì¶°ì•¼ í•©ë‹ˆë‹¤." />
-    <text name="rhm_ui_section_separation" text="íƒˆê³¡ ë° ë¶„ë¦¬" />
-    <text name="rhm_ui_section_cleaning" text="í’ë ¥ ì„ ë³„" />
-    <text name="rhm_ui_section_discharge" text="ë°°ì¶œ ë° ì‚´í¬" />
-    <text name="rhm_ui_section_performance" text="ì„±ëŠ¥ ëª¨ë‹ˆí„°ë§" />
-    <text name="rhm_ui_tier1_manual" text="TIER 1 - ê¸°ê³„ì‹" />
-    <text name="rhm_ui_tier2_sensors" text="TIER 2 - ì„¼ì„œ" />
-    <text name="rhm_ui_tier3_monitor" text="TIER 3 - í…”ë ˆë©”íŠ¸ë¦¬" />
-    <text name="rhm_ui_tier4_opti" text="TIER 4 - AI ìµœì í™”" />
-    <text name="rhm_ui_arcade_badge" text="ì•„ì¼€ì´ë“œ" />
-    <text name="rhm_ui_card_engine_load" text="ì—”ì§„ ë¶€í•˜" />
-    <text name="rhm_ui_card_efficiency" text="ìž‘ì—… íš¨ìœ¨" />
-    <text name="rhm_ui_card_predicted_loss" text="ì˜ˆìƒ ì†ì‹¤" />
-    <text name="rhm_ui_btn_ai_auto" text="AI ìžë™ ë³´ì •" />
-    <text name="rhm_ui_btn_auto_locked" text="ìžë™ (ìž ê¹€)" />
-    <text name="rhm_ui_btn_load_preset" text="ì‚¬ì „ì„¤ì • ë¡œë“œ" />
-    <text name="rhm_ui_btn_save_profile" text="í”„ë¡œí•„ ì €ìž¥" />
-    <text name="rhm_ui_btn_load_locked" text="ë¡œë“œ (ìž ê¹€)" />
-    <text name="rhm_ui_btn_save_locked" text="ì €ìž¥ (ìž ê¹€)" />
-    <text name="rhm_ui_btn_reset_defaults" text="ê³µìž¥ ì¶œí•˜ê°’ ë³µì›" />
-    <text name="rhm_ui_status_optimal" text="ìµœì " />
-    <text name="rhm_ui_status_low" text="ë„ˆë¬´ ë‚®ìŒ" />
-    <text name="rhm_ui_status_high" text="ë„ˆë¬´ ë†’ìŒ" />
-    <text name="rhm_msg_req_tier4" text="Opti-Harvest AI(4ë‹¨ê³„)ê°€ í•„ìš”í•©ë‹ˆë‹¤" />
-    <text name="rhm_msg_req_tier3" text="í”„ë¡œí•„ ì €ìž¥ì€ í…”ë ˆë©”íŠ¸ë¦¬ ëª¨ë‹ˆí„°(3ë‹¨ê³„)ê°€ í•„ìš”í•©ë‹ˆë‹¤" />
-    <text name="rhm_msg_req_tier2" text="í”„ë¡œí•„ ì €ìž¥ì€ ì„¼ì„œ í‚¤íŠ¸(2ë‹¨ê³„ ì´ìƒ)ê°€ í•„ìš”í•©ë‹ˆë‹¤" />
-    <text name="rhm_msg_profile_saved" text="í”„ë¡œí•„ ì €ìž¥ ì™„ë£Œ: %s" />
-    <text name="rhm_msg_profile_loaded" text="í”„ë¡œí•„ ë¡œë“œ ì™„ë£Œ: %s" />
-    <text name="rhm_msg_profile_not_found" text="ì´ ìž‘ë¬¼ì— ëŒ€í•´ ì €ìž¥ëœ í”„ë¡œí•„ì´ ì—†ìŠµë‹ˆë‹¤" />
-    <text name="rhm_ui_combine_not_init" text="ì½¤ë°”ì¸ì´ ì´ˆê¸°í™”ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤" />
-    <text name="rhm_unit_t_per_hour" text="t/h" />
-    <text name="rhm_unit_ha_per_hour" text="ha/h" />
-    <text name="rhm_setting_ai_tuning" text="AI ì¼ê¾¼ ìžë™ ì¡°ì ˆ" />
-    <text name="rhm_setting_ai_tuning_long" text="AI ì¼ê¾¼ì´ ì½¤ë°”ì¸ ì„¤ì •ì„ ë‹¤ë£¨ëŠ” ë°©ì‹ì„ ê²°ì •í•©ë‹ˆë‹¤. 'ë‚´ ì„¤ì • ìœ ì§€'ëŠ” ìˆ˜ë™ ì„¤ì •ì„ ê³ ìˆ˜í•©ë‹ˆë‹¤. 'í•­ìƒ ìžë™ ì¡°ì ˆ'ì€ ì „ìž ìž¥ë¹„ ë‹¨ê³„ì— ë§žì¶° ì¡°ì ˆí•©ë‹ˆë‹¤. 'ë„ê¸°'ëŠ” AIì˜ ì„¤ì • ë³€ê²½ì„ ê¸ˆì§€í•©ë‹ˆë‹¤." />
-    <text name="rhm_setting_ai_tuning_keep" text="ë‚´ ì„¤ì • ìœ ì§€" />
-    <text name="rhm_setting_ai_tuning_auto" text="í•­ìƒ ìžë™ ì¡°ì ˆ" />
-    <text name="rhm_setting_ai_tuning_disabled" text="ë¹„í™œì„±í™”ë¨" />
-    <text name="rhm_crop_straw_windrow" text="ë³ì§š ìœˆë“œë¡œ" />
-    <text name="rhm_crop_grass_windrow" text="í’€ ìœˆë“œë¡œ" />
-    <text name="rhm_crop_drygrass_windrow" text="ê±´ì´ˆ ìœˆë“œë¡œ" />
-    <text name="rhm_crop_alfalfa_windrow" text="ì•ŒíŒŒíŒŒ ìœˆë“œë¡œ" />
-    <text name="rhm_crop_clover_windrow" text="í´ë¡œë²„ ìœˆë“œë¡œ" />
-    <text name="rhm_crop_maize_forage" text="ì˜¥ìˆ˜ìˆ˜ ì‚¬ì¼ë¦¬ì§€" />
-    <text name="rhm_windrow_format" text="ìœˆë“œë¡œ: %s" />
-    <text name="rhm_setting_enableTutorials" text="íŠœí† ë¦¬ì–¼ ížŒíŠ¸" />
-    <text name="rhm_setting_enableTutorials_long" text="ìˆ˜í™• ì¤‘ ëŒ€í™”í˜• ì˜¨ë³´ë”© ížŒíŠ¸ì™€ íŒì„ í‘œì‹œí•©ë‹ˆë‹¤." />
-    <text name="rhm_ui_btn_close_notification" text="í™•ì¸ (Enter / ë§ˆìš°ìŠ¤ ì™¼ìª½ í´ë¦­)" />
-    <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
-    <text name="rhm_tut_welcome_msg" text="Realistic Harvesting ì— ì˜¤ì‹  ê²ƒì„ í™˜ì˜í•©ë‹ˆë‹¤! ì½¤ë°”ì¸ ì†ë„ëŠ” ì—”ì§„ ë¶€í•˜, ìž‘ë¬¼ ë°€ë„ ë° í—¤ë”ì— ë§žì¶° ë™ì ìœ¼ë¡œ ì¡°ì ˆë©ë‹ˆë‹¤. (ì˜¤ë¥¸ìª½ Shift + K) ë¡œ ìº˜ë¦¬ë¸Œë ˆì´ì…˜ í„°ë¯¸ë„ì„ ì—´ ìˆ˜ ìžˆìŠµë‹ˆë‹¤." />
-    <text name="rhm_tut_overload_title" text="ì—”ì§„ ê³¼ë¶€í•˜" />
-    <text name="rhm_tut_overload_msg" text="ì—”ì§„ì´ ê·¹ì‹¬í•œ ë¶€í•˜ë¥¼ ë°›ê³  ìžˆìŠµë‹ˆë‹¤! ë“œëŸ¼ ë§‰íž˜ì„ ë°©ì§€í•˜ê¸° ìœ„í•´ ì†ë„ê°€ ìžë™ìœ¼ë¡œ ê°ì†ë©ë‹ˆë‹¤. í—¤ë”ë¥¼ ì•½ê°„ ì˜¬ë¦¬ê±°ë‚˜ ìž‘ì—… í­ì„ ì¢ížˆì„¸ìš”." />
-    <text name="rhm_tut_loss_title" text="ë†’ì€ ìˆ˜í™• ì†ì‹¤" />
-    <text name="rhm_tut_loss_msg" text="ì½¤ë°”ì¸ ë’¤ìª½ìœ¼ë¡œ ë²„ë ¤ì§€ëŠ” ê³¡ë¬¼ì´ ìœ„í—˜ ìˆ˜ì¤€ìž…ë‹ˆë‹¤! ë“œëŸ¼ íšŒì „ìˆ˜ë‚˜ ì²´ ì„¤ì •ì´ ìž‘ë¬¼ê³¼ ë§žì§€ ì•ŠìŠµë‹ˆë‹¤. (ì˜¤ë¥¸ìª½ Shift + K) ë¡œ ì„¤ì •ì„ ë§žì¶”ì„¸ìš”." />
-    <text name="rhm_tut_moisture_title" text="ë†’ì€ ìž‘ë¬¼ ìˆ˜ë¶„ í•¨ëŸ‰" />
-    <text name="rhm_tut_moisture_msg" text="ê³¡ë¬¼ ìˆ˜ë¶„ì´ ë†’ê±°ë‚˜ ë¹„ê°€ ì˜¤ê¸° ì‹œìž‘í–ˆìŠµë‹ˆë‹¤! ì –ì€ ìž‘ë¬¼ì€ ì—„ì²­ë‚œ ì €í•­ì„ ì¼ìœ¼ì¼œ ë¶€í•˜ì™€ ì†ì‹¤ì„ ê¸‰ì¦ì‹œí‚µë‹ˆë‹¤. ê±´ì¡°í•œ ë‚ ì”¨ì— ìˆ˜í™•í•˜ëŠ” ê²ƒì„ ê¶Œìž¥í•©ë‹ˆë‹¤." />
-    <text name="rhm_tut_headland_title" text="ìž‘ì—… ì†ë„ ë©”ëª¨ë¦¬ ê¸°ëŠ¥" />
-    <text name="rhm_tut_headland_msg" text="í—¤ë“œëžœë“œì—ì„œ í—¤ë”ë¥¼ ì˜¬ë¦¬ë©´ ë°©ê¸ˆ ìž‘ì—…í•˜ë˜ ì†ë„ë¥¼ ê¸°ì–µí•©ë‹ˆë‹¤. ë‹¤ìŒ ì¤„ë¡œ ì§„ìž…í•  ë•Œ ëœì»¹ê±°ë¦¼ ì—†ì´ ë¶€ë“œëŸ½ê²Œ ì›ëž˜ ì†ë„ê¹Œì§€ ê°€ì†í•©ë‹ˆë‹¤." />
-    <text name="rhm_tut_upgrade_title" text="ì½¤ë°”ì¸ ì „ìž ìž¥ë¹„ ì—…ê·¸ë ˆì´ë“œ" />
-    <text name="rhm_tut_upgrade_msg" text="ê¸°ë³¸í˜• ì½¤ë°”ì¸ì€ ìˆ˜ë™ ì¡°ì ˆì´ í•„ìš”í•©ë‹ˆë‹¤. ì •ë¹„ì†Œì—ì„œ ì „ìž ìž¥ë¹„ë¥¼ ì—…ê·¸ë ˆì´ë“œí•˜ì—¬ ì„¼ì„œ í‚¤íŠ¸(2ë‹¨ê³„), ìˆ˜í™•ëŸ‰ ëª¨ë‹ˆí„°(3ë‹¨ê³„), Opti-Harvest AI(4ë‹¨ê³„)ë¥¼ ìž ê¸ˆ í•´ì œí•˜ì„¸ìš”." />
-    <text name="rhm_setting_wear_loss_short" text="ê¸°ê³„ ë§ˆëª¨ë¡œ ì¸í•œ ì†ì‹¤" />
-    <text name="rhm_setting_wear_loss_long" text="ê¸°ê³„ ë§ˆëª¨ì— ë”°ë¥¸ ê³¡ë¬¼ ì†ì‹¤ ì‹œë®¬ë ˆì´ì…˜. ë¬´ëŽŒì§„ ì¹¼ë‚ ì€ ì´ì‚­ì„ í„¸ì–´ ë–¨ì–´ëœ¨ë¦¬ê³ (ìµœëŒ€ +3% ì†ì‹¤ ë° +15% ì €í•­), ë§ˆëª¨ëœ íƒˆê³¡ ë“œëŸ¼ê³¼ ì²´ëŠ” ëœ í„¸ë¦° ì•Œê³¡ì„ ë²„ë¦½ë‹ˆë‹¤(ìµœëŒ€ +3% ì†ì‹¤)." />
-    <text name="rhm_ui_wear_loss" text="ë§ˆëª¨ ì†ì‹¤" />
-    <text name="rhm_ui_cutter_wear" text="í—¤ë” ë§ˆëª¨" />
-    <text name="rhm_ui_combine_wear" text="íƒˆê³¡ê¸° ë§ˆëª¨" />
-          <!-- Harvest History & Field Trip Telemetry -->
-        <text name="input_RHM_OPEN_HARVEST_MENU" text="Harvest History &amp; Field Trip Odometer"/>
-        <text name="input_RHM_QUICK_RESET_TRIP" text="Reset Field Trip (Hold)"/>
-        <text name="rhm_trip_reset_done" text="Field Trip Odometer Reset!"/>
-
-        <text name="rhm_tab_trip" text="Current Session / Field"/>
-        <text name="rhm_tab_trip_desc" text="Live telemetry for harvested volume, area, average yield, and financial losses for the current field operation."/>
-        <text name="rhm_tab_analytics" text="Loss Root Causes &amp; Scorecard"/>
-        <text name="rhm_tab_analytics_desc" text="Loss distribution, operator efficiency ranking grade, and onboard diagnostic computer recommendations."/>
-        <text name="rhm_tab_fleet" text="Season History &amp; Combine Fleet"/>
-        <text name="rhm_tab_fleet_desc" text="Comprehensive fleet operating hours, harvested volumes, and loss records across farm machines."/>
-        <text name="rhm_tab_settings" text="Farm &amp; AI Settings"/>
-        <text name="rhm_tab_settings_desc" text="Configure hired worker cruise limiter, volunteer weed generation, and auto-reset options."/>
-
-        <text name="rhm_card_field_harvest" text="CURRENT FIELD &amp; HARVEST"/>
-        <text name="rhm_field_number" text="Field Number"/>
-        <text name="rhm_trip_no_field" text="Off-Field"/>
-        <text name="rhm_crop_type" text="Crop Type"/>
-        <text name="rhm_harvested_area" text="Harvested Area"/>
-        <text name="rhm_clean_harvest" text="Clean Harvest"/>
-        <text name="rhm_average_yield" text="Average Yield"/>
-
-        <text name="rhm_card_loss_finances" text="LOSSES &amp; FINANCES"/>
-        <text name="rhm_loss_volume" text="Lost Volume"/>
-        <text name="rhm_loss_share" text="Loss % of Bio Yield"/>
-        <text name="rhm_financial_loss" text="Financial Loss"/>
-
-        <text name="rhm_card_performance" text="PERFORMANCE &amp; TIME"/>
-        <text name="rhm_avg_working_speed" text="Avg Working Speed"/>
-        <text name="rhm_avg_engine_load" text="Avg Engine Load"/>
-        <text name="rhm_session_duration" text="Session Duration"/>
-        <text name="rhm_btn_reset_trip" text="Reset Trip Odometer"/>
-
-        <text name="rhm_causes_title" text="CROP LOSS ROOT CAUSES"/>
-        <text name="rhm_cause_speed" text="Speed &amp; Separator Overload"/>
-        <text name="rhm_cause_moisture" text="Crop Moisture &amp; Dew"/>
-        <text name="rhm_cause_wear" text="Cutterbar &amp; Thresher Wear"/>
-        <text name="rhm_cause_slope" text="Field Slopes &amp; Incline"/>
-
-        <text name="rhm_scorecard_title" text="OPERATOR EFFICIENCY SCORECARD"/>
-        <text name="rhm_rank_title_a" text="Grade A: Optimal"/>
-        <text name="rhm_rank_desc_a" text="Loss rate is below 1.5%. Combine setup and speed are perfectly balanced."/>
-        <text name="rhm_rank_title_b" text="Grade B: Acceptable"/>
-        <text name="rhm_rank_desc_b" text="Loss rate between 1.5% and 3.0%. Consider minor speed or concave adjustments."/>
-        <text name="rhm_rank_title_c" text="Grade C: Elevated Losses"/>
-        <text name="rhm_rank_desc_c" text="Loss rate between 3.0% and 4.5%. Reduce speed or inspect header sharpness."/>
-        <text name="rhm_rank_title_d" text="Grade D: Critical Losses"/>
-        <text name="rhm_rank_desc_d" text="Loss rate exceeds 4.5%! Severe sieve overloading or miscalibration detected."/>
-
-        <text name="rhm_guidance_title" text="ONBOARD COMPUTER GUIDANCE"/>
-        <text name="rhm_advice_perfect" text="Harvesting efficiency is optimal. All separation parameters are well-balanced."/>
-        <text name="rhm_advice_speed" text="Dominant loss from excessive ground speed. Slow down to reduce sieve bed depth."/>
-        <text name="rhm_advice_moisture" text="Losses driven by high crop moisture or morning dew. Wait for field drying or reduce speed."/>
-        <text name="rhm_advice_wear" text="Elevated losses due to worn cutter knives or rasp bars. Service equipment at the workshop."/>
-        <text name="rhm_advice_slope" text="Lateral tilt on slopes causing uneven shoe loading. Reduce speed along side hills."/>
-
-        <text name="rhm_col_machine" text="Machine"/>
-        <text name="rhm_col_hours" text="Work Hours"/>
-        <text name="rhm_col_harvested" text="Harvested"/>
-        <text name="rhm_col_lost" text="Losses"/>
-        <text name="rhm_col_rank" text="Grade"/>
-
-        <text name="rhm_setting_ai_limiter_title" text="AI SPEED LIMITER"/>
-        <text name="rhm_setting_ai_limiter_desc" text="Automatically caps cruise speed for hired workers when loss exceeds threshold."/>
-        <text name="rhm_setting_ai_threshold_title" text="AI LOSS THRESHOLD"/>
-        <text name="rhm_setting_ai_threshold_desc" text="Maximum acceptable loss percentage before AI helper automatically brakes."/>
-        <text name="rhm_setting_volunteer_title" text="VOLUNTEER CROPS"/>
-        <text name="rhm_setting_volunteer_desc" text="Generates weed and volunteer sprouts behind combines in heavy loss zones (>3%)."/>
-        <text name="rhm_setting_autoreset_title" text="AUTO-RESET ON FIELD CHANGE"/>
-        <text name="rhm_setting_autoreset_desc" text="Automatically archive and reset current trip when driving to a different field."/>
+    <texts>
+        <text name="rhm_section_simulation" text="Realistic Harvesting - 시뮬레이션" />
+        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD 및 디스플레이" />
+        <text name="input_RHM_OPEN_MENU" text="콤바인 설정 메뉴" />
+        <text name="input_RHM_TOGGLE_HUD" text="수확 HUD 켜기/끄기" />
+        <text name="input_RHM_CLOSE_NOTIFICATION" text="알림 닫기" />
+        <text name="rhm_hud_load" text="부하" />
+        <text name="rhm_hud_loss" text="손실" />
+        <text name="rhm_hud_moist" text="수분" />
+        <text name="rhm_ai_settings_retained" text="수동 설정 유지됨" />
+        <text name="rhm_ai_auto_tuned" text="자동 보정 완료" />
+        <text name="rhm_difficulty" text="난이도" />
+        <text name="rhm_difficulty_motor" text="엔진 출력 제한" />
+        <text name="rhm_difficulty_motor_short" text="엔진 제한" />
+        <text name="rhm_difficulty_motor_long" text="엔진 부하 물리를 결정합니다. 아케이드 = 비활성화(과부하 없음), 보통 = +35% 여유 출력, 사실적 = 100% 실제 물리 시뮬레이션." />
+        <text name="rhm_difficulty_loss" text="수확 손실 페널티" />
+        <text name="rhm_difficulty_loss_short" text="손실 페널티" />
+        <text name="rhm_difficulty_loss_long" text="수확 손실율을 결정합니다. 아케이드 = 0%(손실 없음), 보통 = 표준 손실, 사실적 = 증가된 손실(200%)." />
+        <text name="rhm_diff_1" text="아케이드" />
+        <text name="rhm_difficulty_long" text="아케이드: 과부하나 손실 없음. 보통: 균형 잡힌 물리(+35%). 사실적: 순수 시뮬레이션(0%)." />
+        <text name="rhm_diff_2" text="보통" />
+        <text name="rhm_diff_3" text="사실적" />
+        <text name="rhm_show_yield" text="수확량 모니터 표시" />
+        <text name="rhm_show_yield_short" text="수확량 표시" />
+        <text name="rhm_show_yield_long" text="HUD에 실시간 수확량을 표시합니다 (t/ha 또는 bu/ac)" />
+        <text name="rhm_yield_label" text="수확량" />
+        <text name="rhm_hud_short" text="HUD 표시" />
+        <text name="rhm_hud_long" text="화면에 수확 정보 표시" />
+        <text name="rhm_speedlimit_short" text="속도 제한기" />
+        <text name="rhm_speedlimit_long" text="엔진 부하에 따라 콤바인 작업 속도를 자동으로 제한" />
+        <text name="rhm_croploss_short" text="수확 손실 활성화" />
+        <text name="rhm_croploss_long" text="과부하 시 작물 손실 계산" />
+        <text name="rhm_show_speed_short" text="속도 표시" />
+        <text name="rhm_show_speed_long" text="HUD에 현재 속도와 권장 속도 표시" />
+        <text name="rhm_show_load_short" text="엔진 부하 표시" />
+        <text name="rhm_show_load_long" text="HUD에 엔진 부하 백분율(%) 표시" />
+        <text name="rhm_show_productivity_short" text="처리량 표시" />
+        <text name="rhm_show_productivity_long" text="HUD에 시간당 처리량(t/h) 표시" />
+        <text name="rhm_show_croploss_short" text="손실 표시" />
+        <text name="rhm_show_moisture_short" text="수분 표시" />
+        <text name="rhm_show_moisture_long" text="HUD에 작물 수분 함량(%) 표시" />
+        <text name="rhm_moisture_enable_short" text="수분 저항" />
+        <text name="rhm_moisture_enable_long" text="작물 수분에 따라 부하 페널티 적용 (Moisture System 모드 필요)" />
+        <text name="rhm_ui_title_main" text="콤바인 캘리브레이션 터미널" />
+        <text name="rhm_ui_page_settings" text="설정" />
+        <text name="rhm_ui_page_profiles" text="프로필" />
+        <text name="rhm_ui_current_crop" text="현재 작물:" />
+        <text name="rhm_ui_load" text="엔진 부하:" />
+        <text name="rhm_ui_loss" text="수확 손실:" />
+        <text name="rhm_ui_fan_speed" text="팬 속도" />
+        <text name="rhm_ui_rotor_speed" text="로터 속도" />
+        <text name="rhm_ui_upper_sieve" text="상단 체 열림" />
+        <text name="rhm_ui_lower_sieve" text="하단 체 열림" />
+        <text name="rhm_ui_feeder_speed" text="콘케이브 간격" />
+        <text name="rhm_ui_mode_auto" text="자동" />
+        <text name="rhm_ui_mode_manual" text="수동" />
+        <text name="rhm_ui_btn_reset" text="기본값 초기화" />
+        <text name="rhm_ui_profile_create" text="새 프로필" />
+        <text name="rhm_ui_profile_save" text="저장" />
+        <text name="rhm_ui_profile_load" text="불러오기" />
+        <text name="rhm_ui_profile_delete" text="삭제" />
+        <text name="rhm_ui_profile_name_placeholder" text="프로필 이름 입력..." />
+        <text name="rhm_hud_yield_label" text="수확량" />
+        <text name="rhm_hud_load_label" text="부하" />
+        <text name="rhm_hud_loss_label" text="손실" />
+        <text name="rhm_loss_level_low" text="낮음" />
+        <text name="rhm_loss_level_med" text="중간" />
+        <text name="rhm_loss_level_high" text="높음" />
+        <text name="rhm_show_croploss_long" text="HUD에 수확 손실 백분율(%) 표시" />
+        <text name="rhm_show_load_warn_short" text="과부하 경고" />
+        <text name="rhm_show_load_warn_long" text="콤바인이 과부하될 때 깜빡이는 경고 표시" />
+        <text name="rhm_overload_sounds_short" text="과부하 사운드" />
+        <text name="rhm_overload_sounds_long" text="콤바인 과부하 또는 손실 초과 시 운전실 경보음 및 기계 진동음 재생" />
+        <text name="rhm_section_audio" text="Realistic Harvesting - 오디오" />
+        <text name="rhm_alarm_sounds_short" text="과부하 경보 버저" />
+        <text name="rhm_alarm_sounds_long" text="엔진 부하가 심각한 과부하(105%+)에 도달하거나 손실이 5%를 초과할 때의 캐빈 버저 모드." />
+        <text name="rhm_alarm_mode_smart" text="스마트 (3회 비프음)" />
+        <text name="rhm_alarm_mode_continuous" text="연속 알림" />
+        <text name="rhm_alarm_mode_off" text="끄기" />
+        <text name="rhm_sound_volume_short" text="사운드 음량" />
+        <text name="rhm_sound_volume_long" text="운전실 과부하 버저 알림 음량을 조절합니다." />
+        <text name="rhm_target_load" text="목표 엔진 부하" />
+        <text name="rhm_gui_title" text="콤바인 설정" />
+        <text name="rhm_gui_crop" text="작물:" />
+        <text name="rhm_gui_none" text="없음" />
+        <text name="rhm_gui_btn_auto" text="자동" />
+        <text name="rhm_gui_btn_load_preset" text="사전설정 로드" />
+        <text name="rhm_gui_btn_save" text="프로필 저장" />
+        <text name="rhm_gui_btn_reset" text="기본값 복원" />
+        <text name="rhm_gui_engine_load" text="엔진 부하: %.0f%%" />
+        <text name="rhm_gui_loss" text="손실율: %.1f%%" />
+        <text name="rhm_gui_preview_loss" text="예상 손실: %.1f%%" />
+        <text name="rhm_gui_close_hint" text="오른쪽 Shift+K로 닫기" />
+        <text name="rhm_gui_no_combine" text="선택된 콤바인 없음" />
+        <text name="rhm_gui_not_init" text="콤바인 미초기화" />
+        <text name="rhm_ui_drum_speed" text="드럼 속도" />
+        <text name="rhm_ui_roller_speed" text="롤러 속도" />
+        <text name="rhm_ui_picker_speed" text="피커 속도" />
+        <text name="rhm_ui_forage_fan" text="블로어 속도" />
+        <text name="rhm_ui_forage_drum" text="세절 드럼" />
+        <text name="rhm_ui_forage_feeder" text="공급 롤러" />
+        <text name="rhm_ui_root_roller" text="세척 롤러" />
+        <text name="rhm_ui_root_feeder" text="엘리베이터 웹" />
+        <text name="rhm_ui_grape_shaker" text="진동 속도" />
+        <text name="rhm_ui_olive_shaker" text="타격 속도" />
+        <text name="rhm_ui_grape_conveyor" text="컨베이어 속도" />
+        <text name="rhm_ui_grape_fan" text="배출 팬" />
+        <text name="rhm_units_short" text="단위계" />
+        <text name="rhm_units_long" text="측정 단위계(속도, 무게, 면적) 선택" />
+        <text name="rhm_unit_metric" text="미터법 (km/h, t/h, ha)" />
+        <text name="rhm_unit_imperial" text="야드파운드법 (mph, ton/h, ac)" />
+        <text name="rhm_unit_bushels" text="부셸 병기 (mph, bu/h, ac)" />
+        <text name="rhm_reset" text="RH 설정 초기화" />
+        <text name="rhm_loss_low" text="낮음" />
+        <text name="rhm_loss_med" text="중간" />
+        <text name="rhm_loss_high" text="높음" />
+        <text name="rhm_warning_turn_on_combine" text="먼저 콤바인 시동을 켜세요!" />
+        <text name="rhm_warning_turn_on_cutter" text="헤더를 작동시키세요!" />
+        <text name="rhm_warn_overload_high" text="콤바인 과부하! 수확 손실을 줄이려면 속도를 줄이세요." />
+        <text name="rhm_warn_overload_critical" text="콤바인 심각한 과부하! 심한 곡물 손실 발생 중!" />
+        <text name="rhm_configuration_title" text="Realistic Harvesting 시스템" />
+        <text name="rhm_package_standard" text="1단계: 기본 기계식" />
+        <text name="rhm_package_sensor" text="2단계: 센서 패키지" />
+        <text name="rhm_package_yield" text="3단계: 텔레메트리 &amp; 수확량 모니터" />
+        <text name="rhm_package_opti" text="4단계: Opti-Harvest AI 오토파일럿" />
+        <text name="rhm_msg_req_level_4" text="정비소에서 Opti-Harvest AI(4단계) 패키지를 장착해야 합니다." />
+        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: 자동 캘리브레이션을 시작하려면 작물을 몇 미터 수확하세요!" />
+        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: %s 작물에 대해 자동 보정이 성공했습니다!" />
+        <text name="rhm_help_category" text="Realistic Harvesting" />
+        <text name="rhm_help_title" text="Realistic Harvesting 안내서" />
+        <text name="rhm_help_overview_title" text="개요 및 물리 모델" />
+        <text name="rhm_help_overview_sub1" text="엔진 부하 및 처리량" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting 은 고정된 작업 속도를 물리 기반의 처리량 모델로 대체합니다. 초당 작물 질량 유입, 수분율, 헤더 폭 및 파쇄기 상태를 바탕으로 엔진 부하를 실시간 계산합니다. 작물이 빽빽한 구역에서는 드럼 막힘을 방지하기 위해 자동으로 감속합니다." />
+        <text name="rhm_help_overview_sub2" text="정유압식 속도 제어" />
+        <text name="rhm_help_overview_2" text="HST 속도 제어기가 주행 속도를 자동으로 조절하여 엔진을 가장 효율적인 출력 범위(80~95%) 내로 유지합니다. 헤드랜드에서 선회할 때 작업 속도가 저장되어 다음 골로 진입할 때 부드럽게 가속합니다." />
+        <text name="rhm_help_hud_title" text="HUD 및 텔레메트리" />
+        <text name="rhm_help_hud_sub1" text="수확 작업 HUD" />
+        <text name="rhm_help_hud_1" text="HUD는 현재 속도와 권장 속도, 엔진 부하율, 시간당 처리량(t/h), 실시간 수확량 및 손실율을 실시간으로 표시합니다. 메뉴에서 개별 항목을 원하는 대로 설정할 수 있습니다." />
+        <text name="rhm_help_hud_sub2" text="경고 표시 및 색상 코드" />
+        <text name="rhm_help_hud_2" text="초록색은 최적 상태를 나타냅니다. 노란색은 중간 부하입니다. 빨간색 깜빡임은 위험한 과부하(&gt;95%)를 나타내며, 이때 콤바인은 자동으로 감속합니다." />
+        <text name="rhm_help_hud_sub3" text="텔레메트리 측정 지표" />
+        <text name="rhm_help_hud_3_load" text="부하: 주행 구동계, 탈곡 드럼 및 파쇄기로 인한 엔진 총 부하율." />
+        <text name="rhm_help_hud_3_yield" text="수확량: 수확 중인 밭의 실시간 수확량 (t/ha 또는 bu/ac)." />
+        <text name="rhm_help_hud_3_productivity" text="처리량: 시간당 기계를 통과하는 작물 물질 유량 (t/h)." />
+        <text name="rhm_help_hud_3_moisture" text="수분: 작물의 수분 함량. 젖은 작물은 훨씬 더 많은 엔진 동력을 필요로 합니다." />
+        <text name="rhm_help_hud_3_loss" text="손실: 탈곡 드럼 및 선별 체에서 손실되는 곡물 비율." />
+        <text name="rhm_help_hud_3_speed" text="속도: 현재 주행 속도 대 계산된 최적 추천 속도." />
+        <text name="rhm_help_calibration_title" text="캘리브레이션 터미널" />
+        <text name="rhm_help_calibration_main_sub" text="터미널 (오른쪽 Shift + K)" />
+        <text name="rhm_help_calibration_main_text" text="오른쪽 Shift + K 로 캘리브레이션 터미널을 엽니다. 각 작물에 맞게 드럼 회전수, 팬 속도, 탈곡망 간격 및 체 열림을 정밀 설정할 수 있습니다." />
+        <text name="rhm_help_calibration_rotor_sub" text="드럼 회전수 및 탈곡망" />
+        <text name="rhm_help_calibration_rotor_text" text="회전수가 너무 높거나 간격이 너무 좁으면 알곡이 깨집니다. 회전수가 너무 낮으면 탈곡되지 않은 낟알이 짚과 함께 배출됩니다." />
+        <text name="rhm_help_calibration_fan_sub" text="팬 속도 및 체" />
+        <text name="rhm_help_calibration_fan_text" text="팬은 껍질과 티끌을 불어냅니다. 바람이 너무 세면 알곡까지 밭 밖으로 날아가고, 너무 약하면 체가 막힙니다." />
+        <text name="rhm_help_calibration_perf_sub" text="성능 최적화" />
+        <text name="rhm_help_calibration_perf_text" text="정확하게 설정하면 곡물 손실을 0.5% 미만으로 줄이고, 과부하 없이 더 빠른 주행 속도로 수확할 수 있습니다." />
+        <text name="rhm_help_special_title" text="특수 수확 장비" />
+        <text name="rhm_help_special_sub1" text="사료 수확기 및 픽업 헤더" />
+        <text name="rhm_help_special_1" text="자주식 사료 수확기는 절단 길이 전용 물리로 계산됩니다. 픽업 헤더는 짚줄의 부피로부터 부하를 계산합니다." />
+        <text name="rhm_help_special_sub2" text="뿌리 작물 수확기, 목화 및 NEXAT 플랫폼" />
+        <text name="rhm_help_special_2" text="감자 및 사탕무 수확기는 상당한 토양 저항을 받습니다. 옥수수 헤더는 알곡 파손을 막기 위해 낮은 회전수가 필요합니다." />
+        <text name="rhm_help_loss_title" text="수확 손실 및 페널티" />
+        <text name="rhm_help_loss_sub1" text="물리적 곡물 손실" />
+        <text name="rhm_help_loss_1" text="흘린 곡물은 탱크의 실제 수확량에서 차감되어 직접적인 경제적 손실을 유발합니다." />
+        <text name="rhm_help_loss_sub2" text="손실 원인" />
+        <text name="rhm_help_loss_2" text="주요 원인: 과도한 주행 속도, 잘못된 체 설정, 젖은 작물, 또는 헤더 칼날 마모." />
+        <text name="rhm_help_loss_sub3" text="경사지 영향" />
+        <text name="rhm_help_loss_3" text="경사지에서는 작물이 체 한쪽으로 쏠리므로 속도를 줄이지 않으면 손실이 급증합니다." />
+        <text name="rhm_help_difficulty_title" text="난이도 설정" />
+        <text name="rhm_help_difficulty_sub1" text="모드 선택" />
+        <text name="rhm_help_difficulty_1" text="설정 메뉴에서 엔진 부하와 수확 손실을 각각 아케이드, 보통, 사실적 중에서 독립적으로 선택할 수 있습니다." />
+        <text name="rhm_help_difficulty_sub2" text="난이도별 차이" />
+        <text name="rhm_help_difficulty_2" text="아케이드는 과부하 감속을 끕니다. 보통은 균형 잡힌 게임 플레이를 제공합니다. 사실적은 100% 순수 시뮬레이션을 제공합니다." />
+        <text name="rhm_help_upgrades_title" text="전자 장비 업그레이드" />
+        <text name="rhm_help_upgrades_sub1" text="1단계: 수동 기계식" />
+        <text name="rhm_help_upgrades_1" text="기본 수동 콤바인. 경험에 의존하여 모든 수치를 수동으로 조절해야 합니다." />
+        <text name="rhm_help_upgrades_sub2" text="2단계: 센서 패키지" />
+        <text name="rhm_help_upgrades_2" text="전자식 손실 센서와 실시간 부하 모니터링이 추가되어 올바른 설정을 찾기 쉬워집니다." />
+        <text name="rhm_help_upgrades_sub3" text="3단계: 텔레메트리 모니터" />
+        <text name="rhm_help_upgrades_3" text="면적 계산이 포함된 수확량 모니터와 작물별 프로필 저장/로드 기능이 잠금 해제됩니다." />
+        <text name="rhm_help_upgrades_sub4" text="4단계: Opti-Harvest AI" />
+        <text name="rhm_help_upgrades_4" text="수확 중 콤바인의 각 설정을 실시간으로 자동 미세 조절하는 최첨단 컴퓨터 제어 시스템." />
+        <text name="rhm_help_moisture_title" text="수분 환경 시스템" />
+        <text name="rhm_help_moisture_sub1" text="일일 주기 및 아침 이슬" />
+        <text name="rhm_help_moisture_1" text="아침 이슬이나 저녁에는 짚이 질겨집니다. 습한 조건에서의 탈곡은 훨씬 더 큰 엔진 출력을 요구합니다." />
+        <text name="rhm_help_moisture_sub2" text="수분 페널티" />
+        <text name="rhm_help_moisture_2" text="수분 함량이 18%를 초과하면 탈곡 분리 성능이 급격히 떨어지고 드럼 막힘 위험이 치솟습니다." />
+        <text name="rhm_help_cropsettings_title" text="작물별 조절 가이드" />
+        <text name="rhm_help_cropsettings_grain_sub" text="곡물 (밀, 보리, 귀리, 호밀)" />
+        <text name="rhm_help_cropsettings_grain_text" text="완전한 탈곡을 위해 높은 드럼 회전수(700~850 RPM)와 적당한 간격(10~15 mm)이 필요합니다." />
+        <text name="rhm_help_cropsettings_forage_sub" text="옥수수 및 해바라기" />
+        <text name="rhm_help_cropsettings_forage_text" text="알곡 깨짐을 방지하기 위해 낮은 회전수(350~450 RPM)와 넓은 간격(25~35 mm)으로 설정합니다." />
+        <text name="rhm_help_cropsettings_root_sub" text="콩류 및 카놀라" />
+        <text name="rhm_help_cropsettings_root_text" text="카놀라는 씨앗이 매우 가벼우므로 밖으로 불려나가지 않도록 팬 회전수를 낮춰야 합니다." />
+        <text name="rhm_ui_section_separation" text="탈곡 및 분리" />
+        <text name="rhm_ui_section_cleaning" text="풍력 선별" />
+        <text name="rhm_ui_section_discharge" text="배출 및 살포" />
+        <text name="rhm_ui_section_performance" text="성능 모니터링" />
+        <text name="rhm_ui_tier1_manual" text="TIER 1 - 기계식" />
+        <text name="rhm_ui_tier2_sensors" text="TIER 2 - 센서" />
+        <text name="rhm_ui_tier3_monitor" text="TIER 3 - 텔레메트리" />
+        <text name="rhm_ui_tier4_opti" text="TIER 4 - AI 최적화" />
+        <text name="rhm_ui_arcade_badge" text="아케이드" />
+        <text name="rhm_ui_card_engine_load" text="엔진 부하" />
+        <text name="rhm_ui_card_efficiency" text="작업 효율" />
+        <text name="rhm_ui_card_predicted_loss" text="예상 손실" />
+        <text name="rhm_ui_btn_ai_auto" text="AI 자동 보정" />
+        <text name="rhm_ui_btn_auto_locked" text="자동 (잠김)" />
+        <text name="rhm_ui_btn_load_preset" text="사전설정 로드" />
+        <text name="rhm_ui_btn_save_profile" text="프로필 저장" />
+        <text name="rhm_ui_btn_load_locked" text="로드 (잠김)" />
+        <text name="rhm_ui_btn_save_locked" text="저장 (잠김)" />
+        <text name="rhm_ui_btn_reset_defaults" text="공장 출하값 복원" />
+        <text name="rhm_ui_status_optimal" text="최적" />
+        <text name="rhm_ui_status_low" text="너무 낮음" />
+        <text name="rhm_ui_status_high" text="너무 높음" />
+        <text name="rhm_msg_req_tier4" text="Opti-Harvest AI(4단계)가 필요합니다" />
+        <text name="rhm_msg_req_tier3" text="프로필 저장은 텔레메트리 모니터(3단계)가 필요합니다" />
+        <text name="rhm_msg_req_tier2" text="프로필 저장은 센서 키트(2단계 이상)가 필요합니다" />
+        <text name="rhm_msg_profile_saved" text="프로필 저장 완료: %s" />
+        <text name="rhm_msg_profile_loaded" text="프로필 로드 완료: %s" />
+        <text name="rhm_msg_profile_not_found" text="이 작물에 대해 저장된 프로필이 없습니다" />
+        <text name="rhm_ui_combine_not_init" text="콤바인이 초기화되지 않았습니다" />
+        <text name="rhm_unit_t_per_hour" text="t/h" />
+        <text name="rhm_unit_ha_per_hour" text="ha/h" />
+        <text name="rhm_setting_ai_tuning" text="AI 일꾼 자동 조절" />
+        <text name="rhm_setting_ai_tuning_long" text="AI 일꾼이 콤바인 설정을 다루는 방식을 결정합니다. '내 설정 유지'는 수동 설정을 고수합니다. '항상 자동 조절'은 전자 장비 단계에 맞춰 조절합니다. '끄기'는 AI의 설정 변경을 금지합니다." />
+        <text name="rhm_setting_ai_tuning_keep" text="내 설정 유지" />
+        <text name="rhm_setting_ai_tuning_auto" text="항상 자동 조절" />
+        <text name="rhm_setting_ai_tuning_disabled" text="비활성화됨" />
+        <text name="rhm_crop_straw_windrow" text="볏짚 윈드로" />
+        <text name="rhm_crop_grass_windrow" text="풀 윈드로" />
+        <text name="rhm_crop_drygrass_windrow" text="건초 윈드로" />
+        <text name="rhm_crop_alfalfa_windrow" text="알파파 윈드로" />
+        <text name="rhm_crop_clover_windrow" text="클로버 윈드로" />
+        <text name="rhm_crop_maize_forage" text="옥수수 사일리지" />
+        <text name="rhm_windrow_format" text="윈드로: %s" />
+        <text name="rhm_setting_enableTutorials" text="튜토리얼 힌트" />
+        <text name="rhm_setting_enableTutorials_long" text="수확 중 대화형 온보딩 힌트와 팁을 표시합니다." />
+        <text name="rhm_ui_btn_close_notification" text="확인 (Enter / 마우스 왼쪽 클릭)" />
+        <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+        <text name="rhm_tut_welcome_msg" text="Realistic Harvesting 에 오신 것을 환영합니다! 콤바인 속도는 엔진 부하, 작물 밀도 및 헤더에 맞춰 동적으로 조절됩니다. (오른쪽 Shift + K) 로 캘리브레이션 터미널을 열 수 있습니다." />
+        <text name="rhm_tut_overload_title" text="엔진 과부하" />
+        <text name="rhm_tut_overload_msg" text="엔진이 극심한 부하를 받고 있습니다! 드럼 막힘을 방지하기 위해 속도가 자동으로 감속됩니다. 헤더를 약간 올리거나 작업 폭을 좁히세요." />
+        <text name="rhm_tut_loss_title" text="높은 수확 손실" />
+        <text name="rhm_tut_loss_msg" text="콤바인 뒤쪽으로 버려지는 곡물이 위험 수준입니다! 드럼 회전수나 체 설정이 작물과 맞지 않습니다. (오른쪽 Shift + K) 로 설정을 맞추세요." />
+        <text name="rhm_tut_moisture_title" text="높은 작물 수분 함량" />
+        <text name="rhm_tut_moisture_msg" text="곡물 수분이 높거나 비가 오기 시작했습니다! 젖은 작물은 엄청난 저항을 일으켜 부하와 손실을 급증시킵니다. 건조한 날씨에 수확하는 것을 권장합니다." />
+        <text name="rhm_tut_headland_title" text="작업 속도 메모리 기능" />
+        <text name="rhm_tut_headland_msg" text="헤드랜드에서 헤더를 올리면 방금 작업하던 속도를 기억합니다. 다음 줄로 진입할 때 덜컹거림 없이 부드럽게 원래 속도까지 가속합니다." />
+        <text name="rhm_tut_upgrade_title" text="콤바인 전자 장비 업그레이드" />
+        <text name="rhm_tut_upgrade_msg" text="기본형 콤바인은 수동 조절이 필요합니다. 정비소에서 전자 장비를 업그레이드하여 센서 키트(2단계), 수확량 모니터(3단계), Opti-Harvest AI(4단계)를 잠금 해제하세요." />
+        <text name="rhm_setting_wear_loss_short" text="기계 마모로 인한 손실" />
+        <text name="rhm_setting_wear_loss_long" text="기계 마모에 따른 곡물 손실 시뮬레이션. 무뎌진 칼날은 이삭을 털어 떨어뜨리고(최대 +3% 손실 및 +15% 저항), 마모된 탈곡 드럼과 체는 덜 털린 알곡을 버립니다(최대 +3% 손실)." />
+        <text name="rhm_ui_wear_loss" text="마모 손실" />
+        <text name="rhm_ui_cutter_wear" text="헤더 마모" />
+        <text name="rhm_ui_combine_wear" text="탈곡기 마모" />
+        <!-- Harvest History & Field Trip Telemetry -->
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="수확 기록 및 필드 카운터" />
+        <text name="input_RHM_QUICK_RESET_TRIP" text="필드 카운터 초기화 (길게 누르기)" />
+        <text name="rhm_trip_reset_done" text="필드 카운터가 초기화되었습니다!" />
+        <text name="rhm_tab_trip" text="현재 필드 / 작업 카운터" />
+        <text name="rhm_tab_trip_desc" text="현재 필드 작업의 수확량, 작업 면적, 평균 수확률 및 손실을 실시간으로 표시합니다." />
+        <text name="rhm_tab_analytics" text="ì†ì‹¤ ìš”ì¸ &amp; í‰ê°€ ìŠ¤ì½”ì–´ì¹´ë“œ" />
+        <text name="rhm_tab_analytics_desc" text="ì†ì‹¤ ìš”ì¸ ë¶„ì„, ìš´ì „ìž íš¨ìœ¨ì„± ë“±ê¸‰ ë° ì˜¨ë³´ë“œ ì»´í“¨í„° ì¶”ì²œ ì¡°ì¹˜ì‚¬í•­ìž…ë‹ˆë‹¤." />
+        <text name="rhm_tab_fleet" text="í•„ë“œì˜ ì½¤ë°”ì¸" />
+        <text name="rhm_tab_fleet_desc" text="ë†ìž¥ì˜ ëª¨ë“  ìˆ˜í™•ê¸°ì— ëŒ€í•œ ì‹¤ì‹œê°„ í…”ë ˆë©”íŠ¸ë¦¬, ì²˜ë¦¬ëŸ‰ ë° ìž‘ë™ ìƒíƒœìž…ë‹ˆë‹¤." />
+        <text name="rhm_tab_settings" text="ë†ìž¥ ë° AI ì„¤ì •" />
+        <text name="rhm_tab_settings_desc" text="ê³ ìš© ì¼ê¾¼ ì†ë„ ì œí•œê¸°, ë‚™ê³¡ ìž¡ì´ˆ ë°œìƒ ë° ìžë™ ì´ˆê¸°í™” ì˜µì…˜ì„ ì„¤ì •í•©ë‹ˆë‹¤." />
+        <text name="rhm_driver_parked" text="ì£¼ì°¨ë¨" />
+        <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
+        <text name="rhm_driver_hired_ai" text="AI ì¼ê¾¼" />
+        <text name="rhm_driver_player" text="í”Œë ˆì´ì–´" />
+        <text name="rhm_driver_idle_on" text="ê³µíšŒì „" />
+        <text name="rhm_field_yard" text="ë†ìž¥ / ê¸°ì§€" />
+        <text name="rhm_field_format" text="í•„ë“œ %d" />
+        <text name="rhm_fleet_driver" text="ìš´ì „ìž / ì˜¤í¼ë ˆì´í„°" />
+        <text name="rhm_fleet_cutter" text="í—¤ë” í­" />
+        <text name="rhm_fleet_grain_tank" text="ê³¡ë¬¼ íƒ±í¬ ìš©ëŸ‰" />
+        <text name="rhm_fleet_throughput" text="ì²˜ë¦¬ëŸ‰" />
+        <text name="rhm_fleet_realtime_yield" text="ì‹¤ì‹œê°„ ìˆ˜í™•ëŸ‰" />
+        <text name="rhm_fleet_crop_loss" text="ì†ì‹¤ë¥ " />
+        <text name="rhm_fleet_wear_state" text="ê¸°ê³„ ë§ˆëª¨ë„" />
+        <text name="rhm_fleet_total_count" text="ì´ ì½¤ë°”ì¸ ìˆ˜" />
+        <text name="rhm_btn_subtab_fleet" text="ì½¤ë°”ì¸ í”Œë¦¿" />
+        <text name="rhm_btn_subtab_history" text="ì‹œì¦Œ ê¸°ë¡ / ëª¨ë“  í•„ë“œ" />
+        <text name="rhm_hist_total_area" text="ì´ ìˆ˜í™• ë©´ì " />
+        <text name="rhm_hist_total_harvest" text="ì´ ìˆœìˆ˜í™•ëŸ‰" />
+        <text name="rhm_hist_avg_loss" text="í‰ê·  ì†ì‹¤ë¥ " />
+        <text name="rhm_hist_total_money" text="ì´ ìž¬ì • ì†ì‹¤" />
+        <text name="rhm_col_season" text="ì‹œì¦Œ" />
+        <text name="rhm_col_status" text="ìƒíƒœ" />
+        <text name="rhm_hist_empty" text="ì‹œì¦Œ ê¸°ë¡ì´ ì•„ì§ ì—†ìŠµë‹ˆë‹¤" />
+        <text name="rhm_status_harvesting" text="ìˆ˜í™• ì¤‘ (ìž‘ì—…)" />
+        <text name="rhm_status_on_field_idle" text="í•„ë“œ ë‚´ (ëŒ€ê¸°)" />
+        <text name="rhm_status_on_field_stopped" text="í•„ë“œ ë‚´ (ì •ì§€)" />
+        <text name="rhm_status_in_transit" text="ë„ë¡œ ì´ë™ ì¤‘" />
+        <text name="rhm_status_in_cab" text="íƒ‘ìŠ¹ ì¤‘ (í”Œë ˆì´ì–´)" />
+        <text name="rhm_status_parked_yard" text="ë†ìž¥ì— ì£¼ì°¨ë¨" />
+        <text name="rhm_card_field_harvest" text="í˜„ìž¬ í•„ë“œ ë° ìˆ˜í™•" />
+        <text name="rhm_field_number" text="í•„ë“œ ë²ˆí˜¸" />
+        <text name="rhm_trip_no_field" text="í•„ë“œ ì™¸ë¶€" />
+        <text name="rhm_crop_type" text="ìž‘ë¬¼ ì¢…ë¥˜" />
+        <text name="rhm_harvested_area" text="ìˆ˜í™• ë©´ì " />
+        <text name="rhm_clean_harvest" text="ìˆœìˆ˜í™•ëŸ‰" />
+        <text name="rhm_average_yield" text="í‰ê·  ìˆ˜í™•ëŸ‰" />
+        <text name="rhm_card_loss_finances" text="ì†ì‹¤ ë° ìž¬ì • ì˜í–¥" />
+        <text name="rhm_loss_volume" text="ì†ì‹¤ëŸ‰" />
+        <text name="rhm_loss_share" text="ìˆ˜í™• ëŒ€ë¹„ ì†ì‹¤ë¥  %" />
+        <text name="rhm_financial_loss" text="ìž¬ì •ì  ì†ì‹¤" />
+        <text name="rhm_card_performance" text="ìž‘ì—… ì„±ëŠ¥ ë° ì‹œê°„" />
+        <text name="rhm_avg_working_speed" text="í‰ê·  ìž‘ì—… ì†ë„" />
+        <text name="rhm_avg_engine_load" text="í‰ê·  ì—”ì§„ ë¶€í•˜" />
+        <text name="rhm_session_duration" text="ì„¸ì…˜ ìž‘ì—… ì‹œê°„" />
+        <text name="rhm_btn_reset_trip" text="필드 카운터 초기화" />
+        <text name="rhm_causes_title" text="ìˆ˜í™• ì†ì‹¤ì˜ ì£¼ìš” ì›ì¸" />
+        <text name="rhm_cause_speed" text="ì†ë„ ë° íƒˆê³¡ë¶€ ê³¼ë¶€í•˜" />
+        <text name="rhm_cause_moisture" text="ìž‘ë¬¼ ìˆ˜ë¶„ ë° ì•„ì¹¨ ì´ìŠ¬" />
+        <text name="rhm_cause_wear" text="í—¤ë” ë‚  ë° íƒˆê³¡ê¸° ë§ˆëª¨" />
+        <text name="rhm_cause_slope" text="í•„ë“œ ê²½ì‚¬ ë° ì§€í˜•" />
+        <text name="rhm_scorecard_title" text="ìš´ì „ìž íš¨ìœ¨ì„± ìŠ¤ì½”ì–´ì¹´ë“œ" />
+        <text name="rhm_rank_title_a" text="ë“±ê¸‰ A: ìµœì " />
+        <text name="rhm_rank_desc_a" text="ì†ì‹¤ë¥ ì´ 1.5% ë¯¸ë§Œìž…ë‹ˆë‹¤. ì½¤ë°”ì¸ ì„¤ì •ê³¼ ìž‘ì—… ì†ë„ê°€ ì™„ë²½í•˜ê²Œ ê· í˜•ì„ ì´ë£¨ê³  ìžˆìŠµë‹ˆë‹¤." />
+        <text name="rhm_rank_title_b" text="ë“±ê¸‰ B: ì–‘í˜¸" />
+        <text name="rhm_rank_desc_b" text="ì†ì‹¤ë¥ ì´ 1.5%~3.0% ì‚¬ì´ìž…ë‹ˆë‹¤. ì†ë„ë‚˜ ì˜¤ëª©íŒ ê°„ê²©ì„ ì•½ê°„ ì¡°ì •í•˜ëŠ” ê²ƒì´ ì¢‹ìŠµë‹ˆë‹¤." />
+        <text name="rhm_rank_title_c" text="ë“±ê¸‰ C: ì†ì‹¤ ì¦ê°€" />
+        <text name="rhm_rank_desc_c" text="ì†ì‹¤ë¥ ì´ 3.0%~4.5% ì‚¬ì´ìž…ë‹ˆë‹¤. ì†ë„ë¥¼ ì¤„ì´ê±°ë‚˜ í—¤ë” ë‚ ì˜ ìƒíƒœë¥¼ ì ê²€í•˜ì„¸ìš”." />
+        <text name="rhm_rank_title_d" text="ë“±ê¸‰ D: ì¹˜ëª…ì  ì†ì‹¤" />
+        <text name="rhm_rank_desc_d" text="ì†ì‹¤ë¥ ì´ 4.5%ë¥¼ ì´ˆê³¼í–ˆìŠµë‹ˆë‹¤! ì²´íŒ ê³¼ë¶€í•˜ê°€ ì‹¬ê°í•˜ê±°ë‚˜ ìº˜ë¦¬ë¸Œë ˆì´ì…˜ì´ ìž˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤." />
+        <text name="rhm_guidance_title" text="ì˜¨ë³´ë“œ ì»´í“¨í„° ê¶Œìž¥ ì¡°ì¹˜" />
+        <text name="rhm_advice_perfect" text="ìˆ˜í™• íš¨ìœ¨ì´ ìµœì ìž…ë‹ˆë‹¤. ëª¨ë“  íƒˆê³¡ ë° ì„ ë³„ ë§¤ê°œë³€ìˆ˜ê°€ ë§¤ìš° ì¡°í™”ë¡­ìŠµë‹ˆë‹¤." />
+        <text name="rhm_advice_speed" text="ì£¼ìš” ì†ì‹¤ ì›ì¸ì€ ê³¼ë„í•œ ì£¼í–‰ ì†ë„ìž…ë‹ˆë‹¤. ì²´íŒ ë¶€ë‹´ì„ ì¤„ì´ê¸° ìœ„í•´ ê°ì†í•˜ì„¸ìš”." />
+        <text name="rhm_advice_moisture" text="ìž‘ë¬¼ ìˆ˜ë¶„ì´ë‚˜ ì•„ì¹¨ ì´ìŠ¬ë¡œ ì¸í•œ ì†ì‹¤ìž…ë‹ˆë‹¤. í•„ë“œê°€ ë§ˆë¥¼ ë•Œê¹Œì§€ ê¸°ë‹¤ë¦¬ê±°ë‚˜ ê°ì†í•˜ì„¸ìš”." />
+        <text name="rhm_advice_wear" text="ë‚ ì´ë‚˜ ë¹„í„° ë°”ì˜ ë§ˆëª¨ë¡œ ì†ì‹¤ì´ ì¦ê°€í–ˆìŠµë‹ˆë‹¤. ì •ë¹„ì†Œì—ì„œ ìœ ì§€ë³´ìˆ˜ë¥¼ ë°›ìœ¼ì„¸ìš”." />
+        <text name="rhm_advice_slope" text="ê²½ì‚¬ì§€ íš¡ê²½ì‚¬ë¡œ ì¸í•´ ì²´íŒ ë¶€í•˜ê°€ ë¶ˆê· í˜•í•©ë‹ˆë‹¤. ê²½ì‚¬ êµ¬ê°„ì—ì„œëŠ” ì†ë„ë¥¼ ì¤„ì´ì„¸ìš”." />
+        <text name="rhm_col_machine" text="ê¸°ê³„" />
+        <text name="rhm_col_hours" text="ìž‘ì—… ì‹œê°„" />
+        <text name="rhm_col_harvested" text="ìˆ˜í™•ëŸ‰" />
+        <text name="rhm_col_lost" text="ì†ì‹¤ëŸ‰" />
+        <text name="rhm_col_rank" text="ë“±ê¸‰" />
+        <text name="rhm_fleet_no_combines" text="ì½¤ë°”ì¸ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤" />
+        <text name="rhm_setting_ai_limiter_title" text="AI ì†ë„ ì œí•œê¸°" />
+        <text name="rhm_setting_ai_limiter_desc" text="ì†ì‹¤ë¥ ì´ ê¸°ì¤€ì¹˜ë¥¼ ì´ˆê³¼í•  ë•Œ ê³ ìš© ì¼ê¾¼ì˜ ìµœê³  ì†ë„ë¥¼ ìžë™ìœ¼ë¡œ ì œí•œí•©ë‹ˆë‹¤." />
+        <text name="rhm_setting_ai_threshold_title" text="AI ì†ì‹¤ ìž„ê³„ê°’" />
+        <text name="rhm_setting_ai_threshold_desc" text="AI ì¼ê¾¼ì´ ìžë™ìœ¼ë¡œ ê°ì†í•˜ê¸° ì‹œìž‘í•˜ëŠ” ìµœëŒ€ í—ˆìš© ì†ì‹¤ ë¹„ìœ¨(%)ìž…ë‹ˆë‹¤." />
+        <text name="rhm_setting_volunteer_title" text="ë‚™ê³¡ ìž¡ì´ˆ ë°œìƒ" />
+        <text name="rhm_setting_volunteer_desc" text="ì†ì‹¤ë¥ ì´ ë†’ì€ êµ¬ì—­(&gt;3%)ì—ì„œ ì½¤ë°”ì¸ ë’¤íŽ¸ìœ¼ë¡œ ìž¡ì´ˆì™€ ë‚™ê³¡ ì‹¹ì„ ë°œìƒì‹œí‚µë‹ˆë‹¤." />
+        <text name="rhm_setting_autoreset_title" text="필드 이동 시 자동 초기화" />
+        <text name="rhm_setting_autoreset_desc" text="다른 필드로 이동할 때 현재 작업 기록을 저장하고 필드 카운터를 초기화합니다." />
     </texts>
 </l10n>
