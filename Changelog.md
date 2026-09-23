@@ -9,9 +9,7 @@ Changelog 1.6.1.0:
 - ADDED: Native diurnal crop moisture and ambient dew simulation with harmonic day/night cycles.
 - ADDED: In-cockpit HUD mini-badge with live trip yield, loss %, and efficiency rank.
 - ADDED: Quick in-cab field counter reset action by holding Right Shift + R.
-- ADDED: Automatic AI helper cruise speed limiter when loss exceeds configurable threshold.
-- ADDED: Spatial GPS telemetry buffer recording field coordinates, yield, and loss for heatmaps.
-- ADDED: Dedicated public integration API methods for fleet stats, trip counters, and heatmaps.
+- ADDED: Dedicated public integration API methods for fleet stats and field trip counters.
 - IMPROVED: Authentic agricultural terminology overhaul ("Field Counter" / "Feldzähler") across all 27 languages.
 - IMPROVED: Architectural hardening, purging defensive pcalls and enforcing unambiguous API contracts.
 - IMPROVED: Full dedicated server multiplayer network synchronization and farm-isolated XML savegame storage.
