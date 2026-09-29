@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simülasyon" />
@@ -356,5 +356,41 @@
         <text name="rhm_setting_volunteer_desc" text="YÃ¼ksek kayÄ±plÄ± alanlarda (&gt;%3) biÃ§erdÃ¶verin arkasÄ±nda yabancÄ± ot ve dÃ¶kÃ¼len tohum filizleri oluÅŸturur." />
         <text name="rhm_setting_autoreset_title" text="TARLA DEĞİŞİNCE OTO-SIFIRLA" />
         <text name="rhm_setting_autoreset_desc" text="Farklı bir tarlaya geçildiğinde mevcut çalışmayı otomatik arşivler ve tarla sayacını sıfırlar." />
+        <text name="rhm_col_field" text="Tarla" />
+        <text name="rhm_col_speed" text="Hız" />
+        <text name="rhm_col_load" text="Yük" />
+        <text name="rhm_col_loss" text="Kayıp" />
+        <text name="rhm_col_tank" text="Depo" />
+        <text name="rhm_col_area" text="Alan" />
+        <text name="rhm_col_money" text="Kayıp ($)" />
+        <text name="rhm_col_driver" text="Operatör" />
+        <text name="rhm_col_cutter" text="Tabla" />
+        <text name="rhm_col_throughput" text="Verim Akışı" />
+        <text name="rhm_col_yield" text="Verim" />
+        <text name="rhm_col_wear" text="Aşınma" />
+        <text name="rhm_kpi_field" text="TARLA" />
+        <text name="rhm_kpi_crop" text="ÜRÜN" />
+        <text name="rhm_kpi_area" text="ALAN" />
+        <text name="rhm_kpi_harvest" text="HASAT" />
+        <text name="rhm_kpi_yield" text="VERİM" />
+        <text name="rhm_kpi_loss" text="KAYIP" />
+        <text name="rhm_kpi_speed" text="HIZ" />
+        <text name="rhm_efficiency_index" text="Verimlilik Derecesi" />
+        <text name="rhm_trip_footer_hint" text="Gezi sayacı aktif tarla için biçilen alanı ve temiz dane hacmini kaydeder. İstediğiniz zaman sıfırlayabilirsiniz." />
+        <text name="rhm_detail_area" text="Toplam hasat edilen tarla alanı" />
+        <text name="rhm_detail_clean_grain" text="temiz dane" />
+        <text name="rhm_detail_yield" text="Biçilen alandaki ortalama verim" />
+        <text name="rhm_detail_throughput" text="Mevcut harmanlama debisi" />
+        <text name="rhm_detail_lost_grain" text="kayıp dane" />
+        <text name="rhm_detail_loss_rating" text="Biyolojik verime göre kayıp oranı" />
+        <text name="rhm_detail_financial_loss" text="Ürün kaybının finansal etkisi" />
+        <text name="rhm_detail_speed" text="Biçerdöver ortalama ilerleme hızı" />
+        <text name="rhm_detail_load" text="Ortalama motor yükü" />
+        <text name="rhm_detail_duration" text="Aktif oturum süresi" />
+        <text name="rhm_detail_wear" text="Harmanlama ünitesi mekanik aşınması" />
+        <text name="rhm_rating_normal" text="Kusursuz (&lt; %1,5)" />
+        <text name="rhm_rating_moderate" text="Orta (%1,5 - %3,0)" />
+        <text name="rhm_rating_elevated" text="Yüksek (&gt; %3,0)" />
+        <text name="rhm_rating_critical" text="Kritik (&gt; %4,5)" />
     </texts>
 </l10n>

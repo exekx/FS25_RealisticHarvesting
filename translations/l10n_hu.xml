@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Szimuláció" />
@@ -358,5 +358,41 @@
         <text name="rhm_setting_volunteer_desc" text="Gyom- Ã©s Ã¡rvakelÃ©sfoltokat hoz lÃ©tre a kombÃ¡jn mÃ¶gÃ¶tt a nagy vesztesÃ©gÅ± zÃ³nÃ¡kban (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMATIKUS NULLÁZÁS TÁBLAVÁLTÁSKOR" />
         <text name="rhm_setting_autoreset_desc" text="Automatikusan archiválja és nullázza a mezei számlálót másik táblára hajtáskor." />
+        <text name="rhm_col_field" text="Mező" />
+        <text name="rhm_col_speed" text="Sebesség" />
+        <text name="rhm_col_load" text="Terhelés" />
+        <text name="rhm_col_loss" text="Veszteség" />
+        <text name="rhm_col_tank" text="Tartály" />
+        <text name="rhm_col_area" text="Terület" />
+        <text name="rhm_col_money" text="Veszteség ($)" />
+        <text name="rhm_col_driver" text="Gépkezelő" />
+        <text name="rhm_col_cutter" text="Vágóasztal" />
+        <text name="rhm_col_throughput" text="Áteresztőképesség" />
+        <text name="rhm_col_yield" text="Hozam" />
+        <text name="rhm_col_wear" text="Kopás" />
+        <text name="rhm_kpi_field" text="MEZŐ" />
+        <text name="rhm_kpi_crop" text="NÖVÉNY" />
+        <text name="rhm_kpi_area" text="TERÜLET" />
+        <text name="rhm_kpi_harvest" text="BETAKARÍTÁS" />
+        <text name="rhm_kpi_yield" text="HOZAM" />
+        <text name="rhm_kpi_loss" text="VESZTESÉG" />
+        <text name="rhm_kpi_speed" text="SEBESSÉG" />
+        <text name="rhm_efficiency_index" text="Hatékonysági fokozat" />
+        <text name="rhm_trip_footer_hint" text="A részleges számláló az aktív mező betakarított területét és tiszta magmennyiségét méri. Bármikor lenullázható." />
+        <text name="rhm_detail_area" text="A mező teljes levágott területe" />
+        <text name="rhm_detail_clean_grain" text="tiszta gabona" />
+        <text name="rhm_detail_yield" text="Átlaghozam a levágott területen" />
+        <text name="rhm_detail_throughput" text="Jelenlegi cséplési áteresztőképesség" />
+        <text name="rhm_detail_lost_grain" text="elvesztett gabona" />
+        <text name="rhm_detail_loss_rating" text="Veszteségarány a biológiai hozamhoz viszonyítva" />
+        <text name="rhm_detail_financial_loss" text="A termésveszteségből eredő anyagi kár" />
+        <text name="rhm_detail_speed" text="Kombájn átlagos munkasebessége" />
+        <text name="rhm_detail_load" text="Átlagos motorterhelés" />
+        <text name="rhm_detail_duration" text="Aktív műszak időtartama" />
+        <text name="rhm_detail_wear" text="Cséplőszerkezet mechanikai kopása" />
+        <text name="rhm_rating_normal" text="Optimális (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Mérsékelt (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Megnövekedett (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Kritikus (&gt; 4.5%)" />
     </texts>
 </l10n>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulação" />
@@ -356,5 +356,41 @@
         <text name="rhm_setting_volunteer_desc" text="Gera brotos de plantas daninhas e repouses atrÃ¡s da colheitadeira em Ã¡reas de alta perda (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOREDEFINIÇÃO AO MUDAR DE CAMPO" />
         <text name="rhm_setting_autoreset_desc" text="Arquiva e redefine automaticamente o contador de campo ao mudar de campo." />
+        <text name="rhm_col_field" text="Campo" />
+        <text name="rhm_col_speed" text="Velocidade" />
+        <text name="rhm_col_load" text="Carga" />
+        <text name="rhm_col_loss" text="Perdas" />
+        <text name="rhm_col_tank" text="Tanque" />
+        <text name="rhm_col_area" text="Área" />
+        <text name="rhm_col_money" text="Perda ($)" />
+        <text name="rhm_col_driver" text="Operador" />
+        <text name="rhm_col_cutter" text="Plataforma" />
+        <text name="rhm_col_throughput" text="Vazão" />
+        <text name="rhm_col_yield" text="Produtividade" />
+        <text name="rhm_col_wear" text="Desgaste" />
+        <text name="rhm_kpi_field" text="CAMPO" />
+        <text name="rhm_kpi_crop" text="CULTURA" />
+        <text name="rhm_kpi_area" text="ÁREA" />
+        <text name="rhm_kpi_harvest" text="COLHEITA" />
+        <text name="rhm_kpi_yield" text="PRODUTIVIDADE" />
+        <text name="rhm_kpi_loss" text="PERDA" />
+        <text name="rhm_kpi_speed" text="VELOCIDADE" />
+        <text name="rhm_efficiency_index" text="Grau de eficiência" />
+        <text name="rhm_trip_footer_hint" text="O hodômetro registra a área colhida e o volume de grãos limpos do talhão ativo. Pode ser zerado a qualquer momento." />
+        <text name="rhm_detail_area" text="Área total colhida no campo" />
+        <text name="rhm_detail_clean_grain" text="de grãos limpos" />
+        <text name="rhm_detail_yield" text="Produtividade média na área colhida" />
+        <text name="rhm_detail_throughput" text="Vazão de trilha atual" />
+        <text name="rhm_detail_lost_grain" text="de grãos perdidos" />
+        <text name="rhm_detail_loss_rating" text="Taxa de perda em relação à produtividade biológica" />
+        <text name="rhm_detail_financial_loss" text="Impacto financeiro das perdas de grãos" />
+        <text name="rhm_detail_speed" text="Velocidade média de avanço da colheitadeira" />
+        <text name="rhm_detail_load" text="Carga média do motor" />
+        <text name="rhm_detail_duration" text="Duração da sessão ativa" />
+        <text name="rhm_detail_wear" text="Desgaste mecânico do sistema de trilha" />
+        <text name="rhm_rating_normal" text="Excelente (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Moderado (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Elevado (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Crítico (&gt; 4.5%)" />
     </texts>
 </l10n>

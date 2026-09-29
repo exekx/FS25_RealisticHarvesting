@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulatie" />
@@ -356,5 +356,41 @@
         <text name="rhm_setting_volunteer_desc" text="Veroorzaakt opslag en onkruid achter de maaidorser in zones met hoge verliezen (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-RESET BIJ VELDWISSEL" />
         <text name="rhm_setting_autoreset_desc" text="Huidige meting automatisch archiveren en veldteller resetten bij het betreden van een ander veld." />
+        <text name="rhm_col_field" text="Veld" />
+        <text name="rhm_col_speed" text="Snelheid" />
+        <text name="rhm_col_load" text="Belasting" />
+        <text name="rhm_col_loss" text="Verlies" />
+        <text name="rhm_col_tank" text="Graantank" />
+        <text name="rhm_col_area" text="Oppervlakte" />
+        <text name="rhm_col_money" text="Verlies ($)" />
+        <text name="rhm_col_driver" text="Bestuurder" />
+        <text name="rhm_col_cutter" text="Maaibord" />
+        <text name="rhm_col_throughput" text="Capaciteit" />
+        <text name="rhm_col_yield" text="Opbrengst" />
+        <text name="rhm_col_wear" text="Slijtage" />
+        <text name="rhm_kpi_field" text="VELD" />
+        <text name="rhm_kpi_crop" text="GEWAS" />
+        <text name="rhm_kpi_area" text="OPPERVLAKTE" />
+        <text name="rhm_kpi_harvest" text="OOGST" />
+        <text name="rhm_kpi_yield" text="OPBRENGST" />
+        <text name="rhm_kpi_loss" text="VERLIES" />
+        <text name="rhm_kpi_speed" text="SNELHEID" />
+        <text name="rhm_efficiency_index" text="Efficiëntieklasse" />
+        <text name="rhm_trip_footer_hint" text="De dagteller meet het geoogste oppervlak en het schone graanvolume voor het actieve perceel. Kan op elk moment worden gereset." />
+        <text name="rhm_detail_area" text="Totaal geoogst veldoppervlak" />
+        <text name="rhm_detail_clean_grain" text="schoon graan" />
+        <text name="rhm_detail_yield" text="Gemiddelde opbrengst op geoogst perceel" />
+        <text name="rhm_detail_throughput" text="Huidige dorstcapaciteit" />
+        <text name="rhm_detail_lost_grain" text="verloren graan" />
+        <text name="rhm_detail_loss_rating" text="Verliespercentage t.o.v. biologische opbrengst" />
+        <text name="rhm_detail_financial_loss" text="Financiële impact van gewasverlies" />
+        <text name="rhm_detail_speed" text="Gemiddelde rijsnelheid van combine" />
+        <text name="rhm_detail_load" text="Gemiddelde motorbelasting" />
+        <text name="rhm_detail_duration" text="Actieve sessieduur" />
+        <text name="rhm_detail_wear" text="Mechanische slijtage van de dorstrommel" />
+        <text name="rhm_rating_normal" text="Optimaal (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Gematigd (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Verhoogd (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Kritiek (&gt; 4.5%)" />
     </texts>
 </l10n>

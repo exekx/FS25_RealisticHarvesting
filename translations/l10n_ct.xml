@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - 物理模擬" />
@@ -349,5 +349,41 @@
         <text name="rhm_setting_volunteer_desc" text="åœ¨é‡åº¦æå¤±å€åŸŸï¼ˆ&gt;3%ï¼‰æ”¶å‰²æ©Ÿå¾Œæ–¹ç”Ÿæˆé›œè‰èˆ‡è½ç²’å¹¼è‹—ã€‚" />
         <text name="rhm_setting_autoreset_title" text="更換農田時自動重設" />
         <text name="rhm_setting_autoreset_desc" text="行駛至另一塊農田時，自動封存記錄並重設農田計數器。" />
+        <text name="rhm_col_field" text="田地" />
+        <text name="rhm_col_speed" text="速度" />
+        <text name="rhm_col_load" text="負載" />
+        <text name="rhm_col_loss" text="損失" />
+        <text name="rhm_col_tank" text="糧箱" />
+        <text name="rhm_col_area" text="面積" />
+        <text name="rhm_col_money" text="損失 ($)" />
+        <text name="rhm_col_driver" text="駕駛員" />
+        <text name="rhm_col_cutter" text="割台" />
+        <text name="rhm_col_throughput" text="產能" />
+        <text name="rhm_col_yield" text="產量" />
+        <text name="rhm_col_wear" text="磨損" />
+        <text name="rhm_kpi_field" text="田地" />
+        <text name="rhm_kpi_crop" text="作物" />
+        <text name="rhm_kpi_area" text="面積" />
+        <text name="rhm_kpi_harvest" text="收穫" />
+        <text name="rhm_kpi_yield" text="產量" />
+        <text name="rhm_kpi_loss" text="損失" />
+        <text name="rhm_kpi_speed" text="速度" />
+        <text name="rhm_efficiency_index" text="效率等級" />
+        <text name="rhm_trip_footer_hint" text="作業計程表追蹤當前田地的收穫面積與淨糧體積。您可以隨時重置計數。" />
+        <text name="rhm_detail_area" text="總收穫田地面積" />
+        <text name="rhm_detail_clean_grain" text="淨糧" />
+        <text name="rhm_detail_yield" text="收穫面積平均產量" />
+        <text name="rhm_detail_throughput" text="當前脫粒產能" />
+        <text name="rhm_detail_lost_grain" text="損失糧食" />
+        <text name="rhm_detail_loss_rating" text="相對於生物產量的損失率" />
+        <text name="rhm_detail_financial_loss" text="收穫損失造成的經濟影響" />
+        <text name="rhm_detail_speed" text="聯合收割機平均前進速度" />
+        <text name="rhm_detail_load" text="平均引擎動力負載" />
+        <text name="rhm_detail_duration" text="本次作業時長" />
+        <text name="rhm_detail_wear" text="脫粒機構機械磨損" />
+        <text name="rhm_rating_normal" text="最佳 (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="適中 (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="偏高 (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="嚴重 (&gt; 4.5%)" />
     </texts>
 </l10n>

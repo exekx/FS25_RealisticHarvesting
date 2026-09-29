@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulation" />
@@ -360,5 +360,41 @@
         <text name="rhm_setting_volunteer_desc" text="GÃ©nÃ¨re des repousses spontanÃ©es et mauvaises herbes derriÃ¨re la batteuse en zone de fortes pertes (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="RÉINITIALISATION AUTO AU CHANGEMENT DE CHAMP" />
         <text name="rhm_setting_autoreset_desc" text="Archive et réinitialise automatiquement le compteur de champ en passant à un autre champ." />
+        <text name="rhm_col_field" text="Champ" />
+        <text name="rhm_col_speed" text="Vitesse" />
+        <text name="rhm_col_load" text="Charge" />
+        <text name="rhm_col_loss" text="Perte" />
+        <text name="rhm_col_tank" text="Trémie" />
+        <text name="rhm_col_area" text="Superficie" />
+        <text name="rhm_col_money" text="Perte ($)" />
+        <text name="rhm_col_driver" text="Conducteur" />
+        <text name="rhm_col_cutter" text="Barre de coupe" />
+        <text name="rhm_col_throughput" text="Débit" />
+        <text name="rhm_col_yield" text="Rendement" />
+        <text name="rhm_col_wear" text="Usure" />
+        <text name="rhm_kpi_field" text="CHAMP" />
+        <text name="rhm_kpi_crop" text="CULTURE" />
+        <text name="rhm_kpi_area" text="SUPERFICIE" />
+        <text name="rhm_kpi_harvest" text="RÉCOLTE" />
+        <text name="rhm_kpi_yield" text="RENDEMENT" />
+        <text name="rhm_kpi_loss" text="PERTE" />
+        <text name="rhm_kpi_speed" text="VITESSE" />
+        <text name="rhm_efficiency_index" text="Indice d'efficacité" />
+        <text name="rhm_trip_footer_hint" text="Le compteur de parcelle enregistre la superficie récoltée et le grain propre pour le champ actif. Réinitialisable à tout moment." />
+        <text name="rhm_detail_area" text="Superficie totale récoltée du champ" />
+        <text name="rhm_detail_clean_grain" text="de grain propre" />
+        <text name="rhm_detail_yield" text="Rendement moyen sur la zone récoltée" />
+        <text name="rhm_detail_throughput" text="Débit de battage actuel" />
+        <text name="rhm_detail_lost_grain" text="de grain perdu" />
+        <text name="rhm_detail_loss_rating" text="Taux de perte par rapport au rendement biologique" />
+        <text name="rhm_detail_financial_loss" text="Impact financier des pertes de récolte" />
+        <text name="rhm_detail_speed" text="Vitesse d'avancement moyenne de la batteuse" />
+        <text name="rhm_detail_load" text="Charge moteur moyenne" />
+        <text name="rhm_detail_duration" text="Durée de session active" />
+        <text name="rhm_detail_wear" text="Usure mécanique du batteur" />
+        <text name="rhm_rating_normal" text="Optimal (&lt; 1,5 %)" />
+        <text name="rhm_rating_moderate" text="Modéré (1,5 - 3,0 %)" />
+        <text name="rhm_rating_elevated" text="Élevé (&gt; 3,0 %)" />
+        <text name="rhm_rating_critical" text="Critique (&gt; 4,5 %)" />
     </texts>
 </l10n>

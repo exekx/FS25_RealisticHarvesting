@@ -4,60 +4,68 @@
         <!-- Page header with icon and title -->
         <GuiElement profile="fs25_menuHeaderPanel">
             <Bitmap profile="fs25_menuHeaderIconBg">
-                <Bitmap profile="fs25_menuHeaderIcon" imageSliceId="gui.icon_ingameMenu_calendar" />
+                <Bitmap profile="fs25_menuHeaderIcon" imageSliceId="rhmUi.icon_tab_analytics" />
             </Bitmap>
             <Text profile="fs25_menuHeaderTitle" text="$l10n_rhm_tab_analytics" />
         </GuiElement>
 
-        <Text profile="rhmDescriptiveText" text="$l10n_rhm_tab_analytics_desc" position="20px -50px" width="1400px" />
+        <Text profile="rhmDescriptiveText" text="$l10n_rhm_tab_analytics_desc" position="20px -46px" width="1400px" />
 
         <!-- LEFT PANEL: Loss Root Causes (Progress Bars) -->
-        <GuiElement profile="rhmCardContainer" position="20px -100px" size="680px 480px">
-            <Text profile="rhmCardTitle" position="20px -25px" text="$l10n_rhm_causes_title" />
+        <Bitmap profile="rhmCardContainer" position="20px -96px" size="680px 490px">
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_loss" position="20px -16px" size="24px 24px" />
+            <Text profile="rhmCardTitle" position="52px -18px" size="600px 22px" text="$l10n_rhm_causes_title" />
 
             <!-- Cause 1: Speed & Overload -->
-            <Text profile="rhmCardSubValue" position="20px -70px" text="$l10n_rhm_cause_speed" />
-            <Text profile="rhmCardValueRight" id="speedValText" position="480px -70px" size="180px 20px" text="0.0%" />
-            <GuiElement id="speedBarBg" profile="rhmProgressBarBg" position="20px -95px" size="640px 14px">
-                <GuiElement id="speedBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 14px" />
-            </GuiElement>
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_speed" position="20px -64px" size="24px 24px" />
+            <Text profile="rhmCardSubValue" position="52px -64px" size="440px 18px" text="$l10n_rhm_cause_speed" />
+            <Text profile="rhmCardValueRight" id="speedValText" position="500px -64px" size="160px 20px" text="0.0%" />
+            <Bitmap id="speedBarBg" profile="rhmProgressBarBg" position="52px -92px" size="608px 12px">
+                <Bitmap id="speedBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 12px" />
+            </Bitmap>
 
             <!-- Cause 2: Moisture & Dew -->
-            <Text profile="rhmCardSubValue" position="20px -145px" text="$l10n_rhm_cause_moisture" />
-            <Text profile="rhmCardValueRight" id="moistureValText" position="480px -145px" size="180px 20px" text="0.0%" />
-            <GuiElement id="moistureBarBg" profile="rhmProgressBarBg" position="20px -170px" size="640px 14px">
-                <GuiElement id="moistureBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 14px" />
-            </GuiElement>
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_moisture" position="20px -144px" size="24px 24px" />
+            <Text profile="rhmCardSubValue" position="52px -144px" size="440px 18px" text="$l10n_rhm_cause_moisture" />
+            <Text profile="rhmCardValueRight" id="moistureValText" position="500px -144px" size="160px 20px" text="0.0%" />
+            <Bitmap id="moistureBarBg" profile="rhmProgressBarBg" position="52px -172px" size="608px 12px">
+                <Bitmap id="moistureBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 12px" />
+            </Bitmap>
 
             <!-- Cause 3: Mechanical Wear -->
-            <Text profile="rhmCardSubValue" position="20px -220px" text="$l10n_rhm_cause_wear" />
-            <Text profile="rhmCardValueRight" id="wearValText" position="480px -220px" size="180px 20px" text="0.0%" />
-            <GuiElement id="wearBarBg" profile="rhmProgressBarBg" position="20px -245px" size="640px 14px">
-                <GuiElement id="wearBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 14px" />
-            </GuiElement>
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_wear" position="20px -224px" size="24px 24px" />
+            <Text profile="rhmCardSubValue" position="52px -224px" size="440px 18px" text="$l10n_rhm_cause_wear" />
+            <Text profile="rhmCardValueRight" id="wearValText" position="500px -224px" size="160px 20px" text="0.0%" />
+            <Bitmap id="wearBarBg" profile="rhmProgressBarBg" position="52px -252px" size="608px 12px">
+                <Bitmap id="wearBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 12px" />
+            </Bitmap>
 
             <!-- Cause 4: Field Slopes -->
-            <Text profile="rhmCardSubValue" position="20px -295px" text="$l10n_rhm_cause_slope" />
-            <Text profile="rhmCardValueRight" id="slopeValText" position="480px -295px" size="180px 20px" text="0.0%" />
-            <GuiElement id="slopeBarBg" profile="rhmProgressBarBg" position="20px -320px" size="640px 14px">
-                <GuiElement id="slopeBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 14px" />
-            </GuiElement>
-        </GuiElement>
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_slope" position="20px -304px" size="24px 24px" />
+            <Text profile="rhmCardSubValue" position="52px -304px" size="440px 18px" text="$l10n_rhm_cause_slope" />
+            <Text profile="rhmCardValueRight" id="slopeValText" position="500px -304px" size="160px 20px" text="0.0%" />
+            <Bitmap id="slopeBarBg" profile="rhmProgressBarBg" position="52px -332px" size="608px 12px">
+                <Bitmap id="slopeBarFill" profile="rhmProgressBarFill" position="0px 0px" size="10px 12px" />
+            </Bitmap>
+        </Bitmap>
 
         <!-- RIGHT PANEL: Scorecard & Operator Recommendations -->
-        <GuiElement profile="rhmCardContainer" position="720px -100px" size="660px 480px">
-            <Text profile="rhmCardTitle" position="20px -25px" text="$l10n_rhm_scorecard_title" />
+        <Bitmap profile="rhmCardContainer" position="720px -96px" size="660px 490px">
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_rank" position="20px -16px" size="24px 24px" />
+            <Text profile="rhmCardTitle" position="52px -18px" size="580px 22px" text="$l10n_rhm_scorecard_title" />
 
             <!-- Rank Badge -->
-            <Text profile="rhmCardValue" id="rankBadgeText" position="20px -75px" size="100px 40px" text="[A]" />
-            <Text profile="rhmCardValue" id="rankTitleText" position="110px -75px" size="520px 30px" text="Grade A: Optimal" />
-            <Text profile="rhmDescriptiveText" id="rankDescText" position="110px -115px" width="520px" text="Loss rate is below 1.5% threshold." />
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_rank" position="20px -64px" size="36px 36px" />
+            <Text profile="rhmCardHighlightValue" id="rankBadgeText" position="66px -62px" size="70px 36px" text="[A]" textSize="28px" />
+            <Text profile="rhmCardValue" id="rankTitleText" position="140px -64px" size="490px 28px" text="Grade A: Optimal" />
+            <Text profile="rhmDescriptiveText" id="rankDescText" position="140px -96px" size="490px 48px" text="Loss rate is below 1.5% threshold." />
 
             <!-- Guidance Box -->
-            <Text profile="rhmCardTitle" position="20px -200px" text="$l10n_rhm_guidance_title" />
-            <GuiElement profile="rhmProgressBarBg" position="20px -235px" size="620px 180px">
-                <Text profile="rhmDescriptiveText" id="adviceText" position="15px -15px" width="590px" text="Threshing parameters are balanced." />
-            </GuiElement>
-        </GuiElement>
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_advice" position="20px -174px" size="24px 24px" />
+            <Text profile="rhmCardTitle" position="52px -176px" size="580px 22px" text="$l10n_rhm_guidance_title" />
+            <Bitmap profile="rhmInnerPanel" position="20px -206px" size="620px 250px">
+                <Text profile="rhmDescriptiveText" id="adviceText" position="24px -20px" size="572px 210px" text="Threshing parameters are balanced." />
+            </Bitmap>
+        </Bitmap>
     </GuiElement>
 </GUI>

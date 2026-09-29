@@ -68,13 +68,12 @@ function RHM_HarvestHistoryFleet:updateViewModeUI()
     if self.fleetPanel then self.fleetPanel:setVisible(isFleet) end
     if self.historyPanel then self.historyPanel:setVisible(not isFleet) end
 
-    -- Visual button highlight feedback
-    if self.btnSubTabFleet and self.btnSubTabHistory then
-        if isFleet then
-            self.btnSubTabFleet:setDisabled(false)
-        else
-            self.btnSubTabHistory:setDisabled(false)
-        end
+    -- Visual button highlight feedback (dedicated fixed-size subtab profiles)
+    if self.btnSubTabFleet and self.btnSubTabFleet.applyProfile then
+        self.btnSubTabFleet:applyProfile(isFleet and "rhmSubTabFleetActive" or "rhmSubTabFleet")
+    end
+    if self.btnSubTabHistory and self.btnSubTabHistory.applyProfile then
+        self.btnSubTabHistory:applyProfile(isFleet and "rhmSubTabHistory" or "rhmSubTabHistoryActive")
     end
 end
 
@@ -338,6 +337,7 @@ function RHM_HarvestHistoryFleet:updateTables()
                     seenVehicles[vehicle] = true
                     seenVehicles[targetHarv] = true
                     local baseName = targetHarv:getFullName() or targetHarv:getName() or vehicle:getFullName() or vehicle:getName() or "Harvester"
+                    local machineKey = vehicle.configFileName or (targetHarv and targetHarv.configFileName) or baseName
                     
                     -- Disambiguation for multiple vehicles of the same model
                     modelCount[baseName] = (modelCount[baseName] or 0) + 1
@@ -366,7 +366,7 @@ function RHM_HarvestHistoryFleet:updateTables()
                                   or (vehicle.cp and (vehicle.cp.isDriving or vehicle.cp.isFieldWorkActive))
                                   or (targetHarv.getIsCpActive and targetHarv:getIsCpActive())
                         if isCp then
-                            driverStr = g_i18n:getText("rhm_driver_cp_ai") or "AI (Courseplay)"
+                            driverStr = g_i18n:getText("rhm_driver_cp_ai") or "AI Worker"
                         else
                             driverStr = g_i18n:getText("rhm_driver_hired_ai") or "AI Worker"
                         end
@@ -433,42 +433,164 @@ function RHM_HarvestHistoryFleet:updateTables()
                         statusText = g_i18n:getText("rhm_status_parked_yard") or "Parked at Base"
                     end
 
-                    -- Crop type
-                    local cropStr = "--"
-                    local fillTypeIdx = FillType.UNKNOWN
-                    if rhmSpec and rhmSpec.lastFillType and rhmSpec.lastFillType ~= FillType.UNKNOWN then
-                        fillTypeIdx = rhmSpec.lastFillType
-                    elseif targetHarv.spec_combine and targetHarv.spec_combine.lastValidInputFruitType then
-                        fillTypeIdx = targetHarv.spec_combine.lastValidInputFruitType
-                    end
-                    if fillTypeIdx ~= FillType.UNKNOWN and g_fillTypeManager then
-                        local ft = g_fillTypeManager:getFillTypeByIndex(fillTypeIdx)
-                        if ft and ft.title then cropStr = ft.title end
-                    end
-
                     -- Header working width
                     local widthM = getHarvesterWorkingWidth(targetHarv, vehicle)
 
-                    -- Grain tank level (checks combine fill unit, then iterates all fill units)
+                    -- Grain tank level & Fill Type resolution
                     local fillUnitIndex = (targetHarv.spec_combine and targetHarv.spec_combine.fillUnitIndex) or 1
                     local fillLevel = 0
                     local capacity = 0
-                    if targetHarv.getFillUnits then
-                        local fillUnits = targetHarv:getFillUnits()
-                        if fillUnits then
-                            for idx = 1, #fillUnits do
-                                local cap = targetHarv:getFillUnitCapacity(idx) or 0
-                                if cap > capacity then
-                                    capacity = cap
-                                    fillLevel = targetHarv:getFillUnitFillLevel(idx) or 0
+                    local tankFillType = FillType.UNKNOWN
+                    local bestUnitIdx = fillUnitIndex
+
+                    local function scanFillUnits(veh)
+                        if not veh then return end
+                        if veh.spec_combine and veh.spec_combine.fillUnitIndex then
+                            local cIdx = veh.spec_combine.fillUnitIndex
+                            local cCap = (veh.getFillUnitCapacity and veh:getFillUnitCapacity(cIdx)) or 0
+                            if cCap > 0 then
+                                bestUnitIdx = cIdx
+                                capacity = cCap
+                                fillLevel = (veh.getFillUnitFillLevel and veh:getFillUnitFillLevel(cIdx)) or 0
+                                tankFillType = (veh.getFillUnitFillType and veh:getFillUnitFillType(cIdx)) or FillType.UNKNOWN
+                                return
+                            end
+                        end
+                        if veh.getFillUnits then
+                            local fillUnits = veh:getFillUnits()
+                            if fillUnits then
+                                for idx = 1, #fillUnits do
+                                    local cap = (veh.getFillUnitCapacity and veh:getFillUnitCapacity(idx)) or 0
+                                    local ft = (veh.getFillUnitFillType and veh:getFillUnitFillType(idx)) or FillType.UNKNOWN
+                                    local isDiesel = (FillType and (ft == FillType.DIESEL or ft == FillType.DEF or ft == FillType.AIR))
+                                    if cap > capacity and not isDiesel then
+                                        bestUnitIdx = idx
+                                        capacity = cap
+                                        fillLevel = (veh.getFillUnitFillLevel and veh:getFillUnitFillLevel(idx)) or 0
+                                        tankFillType = ft
+                                    end
+                                end
+                            end
+                        elseif veh.getFillUnitFillLevel and veh.getFillUnitCapacity then
+                            local cap = veh:getFillUnitCapacity(fillUnitIndex) or 0
+                            if cap > capacity then
+                                bestUnitIdx = fillUnitIndex
+                                capacity = cap
+                                fillLevel = veh:getFillUnitFillLevel(fillUnitIndex) or 0
+                                tankFillType = (veh.getFillUnitFillType and veh:getFillUnitFillType(fillUnitIndex)) or FillType.UNKNOWN
+                            end
+                        end
+                    end
+
+                    scanFillUnits(targetHarv)
+                    if capacity <= 0 and vehicle ~= targetHarv then
+                        scanFillUnits(vehicle)
+                    end
+                    if capacity <= 0 and targetHarv.getAttachedImplements then
+                        for _, imp in pairs(targetHarv:getAttachedImplements()) do
+                            if imp.object and imp.object ~= targetHarv then
+                                scanFillUnits(imp.object)
+                                if capacity > 0 then break end
+                            end
+                        end
+                    end
+
+                    local tankPct = (capacity > 0) and ((fillLevel / capacity) * 100.0) or 0
+
+                    -- Multi-source Crop Resolution
+                    local cropStr = "--"
+
+                    -- 1. Direct from grain tank contents if tank has grain
+                    if fillLevel > 0 and tankFillType and tankFillType ~= FillType.UNKNOWN and g_fillTypeManager then
+                        local ftDesc = g_fillTypeManager:getFillTypeByIndex(tankFillType)
+                        if ftDesc and ftDesc.title and ftDesc.title ~= "" then
+                            cropStr = ftDesc.title
+                        end
+                    end
+
+                    -- 2. Direct from machine's active or recent trip in harvest tracker
+                    local mTrip = nil
+                    if farm and farm.combineTrips then
+                        mTrip = farm.combineTrips[machineKey] or farm.combineTrips[vehicle.configFileName] or farm.combineTrips[targetHarv.configFileName] or farm.combineTrips[baseName]
+                        if not mTrip then
+                            local nBase = string.gsub(string.lower(tostring(baseName or "harvester")), "\\", "/")
+                            for k, tr in pairs(farm.combineTrips) do
+                                if string.gsub(string.lower(tostring(k)), "\\", "/"):find(nBase, 1, true) then
+                                    mTrip = tr
+                                    break
                                 end
                             end
                         end
-                    elseif targetHarv.getFillUnitFillLevel and targetHarv.getFillUnitCapacity then
-                        fillLevel = targetHarv:getFillUnitFillLevel(fillUnitIndex) or 0
-                        capacity = targetHarv:getFillUnitCapacity(fillUnitIndex) or 0
                     end
-                    local tankPct = (capacity > 0) and ((fillLevel / capacity) * 100.0) or 0
+                    if not mTrip and targetHarv.spec_rhm_Combine and targetHarv.spec_rhm_Combine.trip then
+                        mTrip = targetHarv.spec_rhm_Combine.trip
+                    end
+                    if not mTrip and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.trip then
+                        mTrip = vehicle.spec_rhm_Combine.trip
+                    end
+
+                    if cropStr == "--" and mTrip then
+                        if mTrip.cropName and mTrip.cropName ~= "UNKNOWN" and mTrip.cropName ~= "--" and mTrip.cropName ~= "" then
+                            if g_fillTypeManager then
+                                local ftDesc = g_fillTypeManager:getFillTypeByName(mTrip.cropName)
+                                if ftDesc and ftDesc.title then
+                                    cropStr = ftDesc.title
+                                else
+                                    cropStr = mTrip.cropName
+                                end
+                            else
+                                cropStr = mTrip.cropName
+                            end
+                        elseif mTrip.fillTypeIndex and mTrip.fillTypeIndex ~= FillType.UNKNOWN and g_fillTypeManager then
+                            local ftDesc = g_fillTypeManager:getFillTypeByIndex(mTrip.fillTypeIndex)
+                            if ftDesc and ftDesc.title then
+                                cropStr = ftDesc.title
+                            end
+                        end
+                    end
+
+                    -- 3. Live RHM combine spec
+                    if cropStr == "--" and rhmSpec and rhmSpec.lastFillType and rhmSpec.lastFillType ~= FillType.UNKNOWN and g_fillTypeManager then
+                        local ftDesc = g_fillTypeManager:getFillTypeByIndex(rhmSpec.lastFillType)
+                        if ftDesc and ftDesc.title then cropStr = ftDesc.title end
+                    end
+
+                    -- 4. Combine fruit type specification (converted to fillType title)
+                    if cropStr == "--" and targetHarv.spec_combine and targetHarv.spec_combine.lastValidInputFruitType then
+                        local fruitType = targetHarv.spec_combine.lastValidInputFruitType
+                        if fruitType and fruitType ~= FruitType.UNKNOWN and g_fruitTypeManager then
+                            local ftIdx = g_fruitTypeManager:getFillTypeIndexByFruitTypeIndex(fruitType)
+                            if ftIdx and ftIdx ~= FillType.UNKNOWN and g_fillTypeManager then
+                                local ftDesc = g_fillTypeManager:getFillTypeByIndex(ftIdx)
+                                if ftDesc and ftDesc.title then cropStr = ftDesc.title end
+                            end
+                        end
+                    end
+
+                    -- 5. Field fruit type at combine position if positioned on a field
+                    if cropStr == "--" and onField and checkNode then
+                        local wx, _, wz = getWorldTranslation(checkNode)
+                        local fruitType = nil
+                        if FSDensityMapUtil and FSDensityMapUtil.getFieldFruitTypeAtWorldPos then
+                            fruitType = FSDensityMapUtil.getFieldFruitTypeAtWorldPos(wx, wz)
+                        end
+                        if fruitType and fruitType ~= FruitType.UNKNOWN and g_fruitTypeManager then
+                            local ftIdx = g_fruitTypeManager:getFillTypeIndexByFruitTypeIndex(fruitType)
+                            if ftIdx and ftIdx ~= FillType.UNKNOWN and g_fillTypeManager then
+                                local ftDesc = g_fillTypeManager:getFillTypeByIndex(ftIdx)
+                                if ftDesc and ftDesc.title then cropStr = ftDesc.title end
+                            end
+                        end
+                    end
+
+                    -- 6. Last valid fill type stored in the fill unit even if currently empty
+                    if cropStr == "--" and targetHarv.spec_fillUnit and targetHarv.spec_fillUnit.fillUnits then
+                        local fu = targetHarv.spec_fillUnit.fillUnits[bestUnitIdx]
+                        if fu and fu.lastValidFillType and fu.lastValidFillType ~= FillType.UNKNOWN and g_fillTypeManager then
+                            local ftDesc = g_fillTypeManager:getFillTypeByIndex(fu.lastValidFillType)
+                            if ftDesc and ftDesc.title then cropStr = ftDesc.title end
+                        end
+                    end
 
                     -- Telemetry metrics
                     local engineLoad = (rhmSpec and rhmSpec.loadCalculator and rhmSpec.loadCalculator.engineLoad) or 0
@@ -482,15 +604,51 @@ function RHM_HarvestHistoryFleet:updateTables()
                     local cropLoss = (rhmSpec and rhmSpec.loadCalculator and rhmSpec.loadCalculator.cropLoss) or 0
                     local tonPerHour = (rhmSpec and rhmSpec.loadCalculator and rhmSpec.loadCalculator:getTonPerHour()) or 0
                     local currentYield = (rhmSpec and rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentYield) or 0
+                    local lastYield = (rhmSpec and rhmSpec.loadCalculator and rhmSpec.loadCalculator.lastValidYield) or 0
                     local damage = (vehicle.getDamageAmount and vehicle:getDamageAmount()) or 0
 
-                    -- Tracker cumulative records
-                    local machineKey = vehicle.configFileName or baseName
-                    local stat = fleetStats[machineKey] or {}
+                    -- Tracker cumulative records & fuzzy key lookup
+                    local stat = fleetStats[machineKey]
+                    if not stat then
+                        local nKey = string.gsub(string.lower(tostring(machineKey or baseName or "harvester")), "\\", "/")
+                        local nBase = string.gsub(string.lower(tostring(baseName or "harvester")), "\\", "/")
+                        for k, v in pairs(fleetStats) do
+                            local nk = string.gsub(string.lower(tostring(k)), "\\", "/")
+                            if nk == nKey or (nBase ~= "" and (nk:find(nBase, 1, true) or nBase:find(nk, 1, true))) then
+                                stat = v
+                                break
+                            end
+                        end
+                    end
+                    stat = stat or {}
                     local totalHarvestedL = stat.totalHarvested or 0
                     local totalLostL = stat.totalLost or 0
+
+                    -- Check combineTrips if mTrip has higher numbers
+                    if mTrip then
+                        if (mTrip.harvestedLiters or 0) > totalHarvestedL then
+                            totalHarvestedL = mTrip.harvestedLiters
+                        end
+                        if (mTrip.lostLiters or 0) > totalLostL then
+                            totalLostL = mTrip.lostLiters
+                        end
+                    end
+
+                    -- If combine has grain in tank, it has harvested at least this volume
+                    if fillLevel > totalHarvestedL then
+                        totalHarvestedL = fillLevel
+                    end
+
+                    local avgYield = 0
+                    if mTrip and mTrip.harvestedAreaHa and mTrip.harvestedAreaHa > 0.01 and totalHarvestedL > 0 then
+                        local massKg = mTrip.harvestedMassKg or (totalHarvestedL * 0.75)
+                        avgYield = (massKg * 0.001) / mTrip.harvestedAreaHa
+                    elseif farm and farm.currentTrip and farm.currentTrip.harvestedAreaHa and farm.currentTrip.harvestedAreaHa > 0.01 and (farm.currentTrip.lastMachineKey == machineKey or isControlled) then
+                        avgYield = ((farm.currentTrip.harvestedMassKg or (farm.currentTrip.harvestedLiters * 0.75)) * 0.001) / farm.currentTrip.harvestedAreaHa
+                    end
+
                     local totalBio = totalHarvestedL + totalLostL
-                    local fleetLossPct = (totalBio > 0) and ((totalLostL / totalBio) * 100.0) or cropLoss
+                    local fleetLossPct = (totalBio > 0 and totalLostL > 0) and ((totalLostL / totalBio) * 100.0) or cropLoss
                     local rank = RHM_HarvestTracker.calculateEfficiencyRank(fleetLossPct)
                     local opHours = ((vehicle.operatingTime or 0) / 3600000.0)
 
@@ -510,6 +668,8 @@ function RHM_HarvestHistoryFleet:updateTables()
                         totalHarvestedL = totalHarvestedL,
                         totalLostL = totalLostL,
                         currentYield = currentYield,
+                        lastYield = lastYield,
+                        avgYield = avgYield,
                         hours = opHours,
                         engineLoad = engineLoad,
                         cropLoss = cropLoss,
@@ -634,7 +794,8 @@ function RHM_HarvestHistoryFleet:updateSelectedCardData()
     end
     if self.card1GrainTank then
         if entry.capacity and entry.capacity > 0 then
-            self.card1GrainTank:setText(string.format("%.0f L (%.0f%%)", entry.fillLevel or 0, entry.tankPct or 0))
+            local cropSuffix = (entry.crop and entry.crop ~= "--") and (" " .. entry.crop) or ""
+            self.card1GrainTank:setText(string.format("%.0f L (%.0f%%)%s", entry.fillLevel or 0, entry.tankPct or 0, cropSuffix))
         else
             self.card1GrainTank:setText("--")
         end
@@ -645,11 +806,15 @@ function RHM_HarvestHistoryFleet:updateSelectedCardData()
     if self.card2ThroughputText then self.card2ThroughputText:setText(string.format("%.1f t/h", entry.throughput or 0)) end
     if self.card2HarvestedText then
         local harvTons = (entry.totalHarvestedL or 0) * 0.00075
-        self.card2HarvestedText:setText(string.format("%.1f t (%.0f L)", harvTons, entry.totalHarvestedL or 0))
+        self.card2HarvestedText:setText(string.format("%.1f t", harvTons))
     end
     if self.card2YieldText then
         if entry.currentYield and entry.currentYield > 0.01 then
             self.card2YieldText:setText(string.format("%.2f t/ha", entry.currentYield))
+        elseif entry.lastYield and entry.lastYield > 0.01 then
+            self.card2YieldText:setText(string.format("%.2f t/ha", entry.lastYield))
+        elseif entry.avgYield and entry.avgYield > 0.01 then
+            self.card2YieldText:setText(string.format("%.2f t/ha", entry.avgYield))
         else
             self.card2YieldText:setText("--")
         end
@@ -663,13 +828,11 @@ function RHM_HarvestHistoryFleet:updateSelectedCardData()
     if self.card3LossPct then self.card3LossPct:setText(string.format("%.2f%%", entry.cropLoss or 0)) end
     if self.card3LossVolume then
         local lostTons = (entry.totalLostL or 0) * 0.00075
-        self.card3LossVolume:setText(string.format("%.1f t (%.0f L)", lostTons, entry.totalLostL or 0))
+        self.card3LossVolume:setText(string.format("%.1f t", lostTons))
     end
     if self.card3RankText then
         local rank = entry.rank or "A"
-        local rankTitleKey = "rhm_rank_title_" .. string.lower(rank)
-        local rankTitle = (g_i18n and g_i18n:hasText(rankTitleKey)) and g_i18n:getText(rankTitleKey) or rank
-        self.card3RankText:setText(string.format("[%s] %s", rank, rankTitle))
+        self.card3RankText:setText(string.format("[%s]", rank))
     end
     if self.card3WearText then
         self.card3WearText:setText(string.format("%.0f%%", (entry.damage or 0) * 100.0))
@@ -873,7 +1036,8 @@ function RHM_HarvestHistoryFleet:populateCellForItemInSection(list, section, ind
     local tankElem = cell:getDescendantByName("tankStr")
     if tankElem and tankElem.setText then
         if entry.capacity and entry.capacity > 0 then
-            tankElem:setText(string.format("%.0f L (%.0f%%)", entry.fillLevel or 0, entry.tankPct or 0))
+            local cropSuffix = (entry.fillLevel and entry.fillLevel > 0 and entry.crop and entry.crop ~= "--") and (" " .. entry.crop) or ""
+            tankElem:setText(string.format("%.0f L (%.0f%%)%s", entry.fillLevel or 0, entry.tankPct or 0, cropSuffix))
         else
             tankElem:setText("--")
         end

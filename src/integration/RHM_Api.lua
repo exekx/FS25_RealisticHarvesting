@@ -432,6 +432,18 @@ function RHM_Api.getYield(vehicle)
     return nil
 end
 
+---EN: Returns last valid non-zero field yield in metric tonnes per hectare (t/ha).
+---UA: Повертає останню валідну ненульову врожайність поля в тоннах на гектар (т/га).
+---@param vehicle table|nil
+---@return number|nil lastValidYield or nil if unmanaged
+function RHM_Api.getLastValidYield(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.loadCalculator then
+        return combine.spec_rhm_Combine.loadCalculator.lastValidYield or 0.0
+    end
+    return nil
+end
+
 ---EN: Returns total accumulated harvested mass for this session in kilograms (kg).
 ---UA: Повертає загальну накопичену зібрану масу за сесію в кілограмах (кг).
 ---@param vehicle table|nil

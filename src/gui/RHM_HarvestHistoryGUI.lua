@@ -33,9 +33,9 @@ end
 
 function RHM_HarvestHistoryGUI:setupPages()
     local pages = {
-        { self.pageTrip, 'gui.icon_ingameMenu_prices' },
-        { self.pageAnalytics, 'gui.icon_ingameMenu_finances' },
-        { self.pageFleet, 'gui.icon_ingameMenu_calendar' }
+        { self.pageTrip, 'rhmUi.icon_tab_trip' },
+        { self.pageFleet, 'rhmUi.icon_tab_fleet' },
+        { self.pageAnalytics, 'rhmUi.icon_tab_analytics' }
     }
 
     for idx, thisPage in ipairs(pages) do

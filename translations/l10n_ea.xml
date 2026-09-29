@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulación" />
@@ -358,5 +358,41 @@
         <text name="rhm_setting_volunteer_desc" text="Genera brotes de maleza y rebrotes tras la cosechadora en zonas con pÃ©rdidas elevadas (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="REINICIO AUTOMÁTICO AL CAMBIAR DE CAMPO" />
         <text name="rhm_setting_autoreset_desc" text="Archiva y reinicia automáticamente el contador de campo al desplazarse a otro campo." />
+        <text name="rhm_col_field" text="Campo" />
+        <text name="rhm_col_speed" text="Velocidad" />
+        <text name="rhm_col_load" text="Carga" />
+        <text name="rhm_col_loss" text="Pérdidas" />
+        <text name="rhm_col_tank" text="Tolva" />
+        <text name="rhm_col_area" text="Área" />
+        <text name="rhm_col_money" text="Pérdida ($)" />
+        <text name="rhm_col_driver" text="Operador" />
+        <text name="rhm_col_cutter" text="Cabezal" />
+        <text name="rhm_col_throughput" text="Rendimiento" />
+        <text name="rhm_col_yield" text="Cosecha" />
+        <text name="rhm_col_wear" text="Desgaste" />
+        <text name="rhm_kpi_field" text="CAMPO" />
+        <text name="rhm_kpi_crop" text="CULTIVO" />
+        <text name="rhm_kpi_area" text="ÁREA" />
+        <text name="rhm_kpi_harvest" text="COSECHA" />
+        <text name="rhm_kpi_yield" text="RENDIMIENTO" />
+        <text name="rhm_kpi_loss" text="PÉRDIDA" />
+        <text name="rhm_kpi_speed" text="VELOCIDAD" />
+        <text name="rhm_efficiency_index" text="Grado de eficiencia" />
+        <text name="rhm_trip_footer_hint" text="El contador de viaje registra el área cosechada y el grano limpio para el campo activo. Puedes reiniciarlo en cualquier momento." />
+        <text name="rhm_detail_area" text="Área total cosechada del campo" />
+        <text name="rhm_detail_clean_grain" text="de grano limpio" />
+        <text name="rhm_detail_yield" text="Rendimiento promedio en el área cosechada" />
+        <text name="rhm_detail_throughput" text="Rendimiento actual de trilla" />
+        <text name="rhm_detail_lost_grain" text="de grano perdido" />
+        <text name="rhm_detail_loss_rating" text="Tasa de pérdida respecto al rendimiento biológico" />
+        <text name="rhm_detail_financial_loss" text="Impacto financiero por pérdida de grano" />
+        <text name="rhm_detail_speed" text="Velocidad media de avance de la cosechadora" />
+        <text name="rhm_detail_load" text="Carga media del motor" />
+        <text name="rhm_detail_duration" text="Duración de la sesión activa" />
+        <text name="rhm_detail_wear" text="Desgaste mecánico del sistema de trilla" />
+        <text name="rhm_rating_normal" text="Óptimo (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Moderado (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Elevado (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Crítico (&gt; 4.5%)" />
     </texts>
 </l10n>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulation" />
@@ -358,5 +358,41 @@
         <text name="rhm_setting_volunteer_desc" text="Erzeugt Unkraut- und Auswuchssprossen hinter MÃ¤hdreschern in Zonen mit hohem Verlust (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-RESET BEI FELDWECHSEL" />
         <text name="rhm_setting_autoreset_desc" text="Aktuellen Feldeinsatz automatisch archivieren und den Feldzähler zurücksetzen, wenn zu einem anderen Feld gewechselt wird." />
+        <text name="rhm_col_field" text="Feld" />
+        <text name="rhm_col_speed" text="Geschwindigkeit" />
+        <text name="rhm_col_load" text="Auslastung" />
+        <text name="rhm_col_loss" text="Verlust" />
+        <text name="rhm_col_tank" text="Tank" />
+        <text name="rhm_col_area" text="Fläche" />
+        <text name="rhm_col_money" text="Verlust ($)" />
+        <text name="rhm_col_driver" text="Fahrer" />
+        <text name="rhm_col_cutter" text="Schneidwerk" />
+        <text name="rhm_col_throughput" text="Durchsatz" />
+        <text name="rhm_col_yield" text="Ertrag" />
+        <text name="rhm_col_wear" text="Verschleiß" />
+        <text name="rhm_kpi_field" text="FELD" />
+        <text name="rhm_kpi_crop" text="FRUCHTART" />
+        <text name="rhm_kpi_area" text="FLÄCHE" />
+        <text name="rhm_kpi_harvest" text="ERNTE" />
+        <text name="rhm_kpi_yield" text="ERTRAG" />
+        <text name="rhm_kpi_loss" text="VERLUST" />
+        <text name="rhm_kpi_speed" text="TEMPO" />
+        <text name="rhm_efficiency_index" text="Effizienzgrad" />
+        <text name="rhm_trip_footer_hint" text="Der Tageszähler erfasst geerntete Fläche und Reinkornvolumen für das aktive Feld. Kann jederzeit zurückgesetzt werden." />
+        <text name="rhm_detail_area" text="Gesamte geerntete Feldfläche" />
+        <text name="rhm_detail_clean_grain" text="Reinkorn" />
+        <text name="rhm_detail_yield" text="Durchschnittsertrag auf geernteter Fläche" />
+        <text name="rhm_detail_throughput" text="Aktueller Dreschdurchsatz" />
+        <text name="rhm_detail_lost_grain" text="Körnerverlust" />
+        <text name="rhm_detail_loss_rating" text="Verlustquote bezogen auf biologischen Ertrag" />
+        <text name="rhm_detail_financial_loss" text="Finanzieller Schaden durch Ernteverluste" />
+        <text name="rhm_detail_speed" text="Durchschnittliche Arbeitsgeschwindigkeit" />
+        <text name="rhm_detail_load" text="Durchschnittliche Motorlast" />
+        <text name="rhm_detail_duration" text="Aktive Einsatzdauer" />
+        <text name="rhm_detail_wear" text="Mechanischer Verschleiß des Dreschwerks" />
+        <text name="rhm_rating_normal" text="Optimal (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Moderat (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Erhöht (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Kritisch (&gt; 4.5%)" />
     </texts>
 </l10n>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulace" />
@@ -358,5 +358,41 @@
         <text name="rhm_setting_volunteer_desc" text="VytvÃ¡Å™Ã­ loÅ¾iska plevele a vÃ½drolu za kombajnem v mÃ­stech vysokÃ½ch ztrÃ¡t (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMATICKÝ RESET PŘI ZMĚNĚ POLE" />
         <text name="rhm_setting_autoreset_desc" text="Automaticky archivovat a resetovat polní počítadlo při přejezdu na jiné pole." />
+        <text name="rhm_col_field" text="Pole" />
+        <text name="rhm_col_speed" text="Rychlost" />
+        <text name="rhm_col_load" text="Zatížení" />
+        <text name="rhm_col_loss" text="Ztráty" />
+        <text name="rhm_col_tank" text="Zásobník" />
+        <text name="rhm_col_area" text="Plocha" />
+        <text name="rhm_col_money" text="Ztráta ($)" />
+        <text name="rhm_col_driver" text="Řidič" />
+        <text name="rhm_col_cutter" text="Lišta" />
+        <text name="rhm_col_throughput" text="Průchodnost" />
+        <text name="rhm_col_yield" text="Výnos" />
+        <text name="rhm_col_wear" text="Opotřebení" />
+        <text name="rhm_kpi_field" text="POLE" />
+        <text name="rhm_kpi_crop" text="PLODINA" />
+        <text name="rhm_kpi_area" text="PLOCHA" />
+        <text name="rhm_kpi_harvest" text="SKLIZEŇ" />
+        <text name="rhm_kpi_yield" text="VÝNOS" />
+        <text name="rhm_kpi_loss" text="ZTRÁTA" />
+        <text name="rhm_kpi_speed" text="RYCHLOST" />
+        <text name="rhm_efficiency_index" text="Třída efektivity" />
+        <text name="rhm_trip_footer_hint" text="Dílčí počítadlo zaznamenává sklizenou plochu a čisté zrno pro aktivní pole. Kdykoliv můžete vynulovat." />
+        <text name="rhm_detail_area" text="Celková sklizená plocha pole" />
+        <text name="rhm_detail_clean_grain" text="čistého zrna" />
+        <text name="rhm_detail_yield" text="Průměrný výnos na sklizené ploše" />
+        <text name="rhm_detail_throughput" text="Aktuální průchodnost mlácení" />
+        <text name="rhm_detail_lost_grain" text="ztraceného zrna" />
+        <text name="rhm_detail_loss_rating" text="Míra ztrát vůči biologickému výnosu" />
+        <text name="rhm_detail_financial_loss" text="Finanční ztráta způsobená ztrátami při sklizni" />
+        <text name="rhm_detail_speed" text="Průměrná pracovní rychlost kombajnu" />
+        <text name="rhm_detail_load" text="Průměrné zatížení motoru" />
+        <text name="rhm_detail_duration" text="Doba aktivní práce" />
+        <text name="rhm_detail_wear" text="Mechanické opotřebení mláticího ústrojí" />
+        <text name="rhm_rating_normal" text="Optimální (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Mírné (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Zvýšené (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Kritické (&gt; 4.5%)" />
     </texts>
 </l10n>

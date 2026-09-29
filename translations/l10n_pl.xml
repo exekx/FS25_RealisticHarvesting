@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Symulacja" />
@@ -358,5 +358,41 @@
         <text name="rhm_setting_volunteer_desc" text="Tworzy ogniska chwastÃ³w i samosiewÃ³w za kombajnem w miejscach duÅ¼ych strat (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMATYCZNY RESET PRZY ZMIANIE POLA" />
         <text name="rhm_setting_autoreset_desc" text="Automatycznie archiwizuje bieżący pomiar i resetuje licznik po przejechaniu na inne pole." />
+        <text name="rhm_col_field" text="Pole" />
+        <text name="rhm_col_speed" text="Prędkość" />
+        <text name="rhm_col_load" text="Obciążenie" />
+        <text name="rhm_col_loss" text="Straty" />
+        <text name="rhm_col_tank" text="Zbiornik" />
+        <text name="rhm_col_area" text="Obszar" />
+        <text name="rhm_col_money" text="Straty ($)" />
+        <text name="rhm_col_driver" text="Operator" />
+        <text name="rhm_col_cutter" text="Heder" />
+        <text name="rhm_col_throughput" text="Przepustowość" />
+        <text name="rhm_col_yield" text="Plon" />
+        <text name="rhm_col_wear" text="Zużycie" />
+        <text name="rhm_kpi_field" text="POLE" />
+        <text name="rhm_kpi_crop" text="UPRAWA" />
+        <text name="rhm_kpi_area" text="POWIERZCHNIA" />
+        <text name="rhm_kpi_harvest" text="ZBIÓR" />
+        <text name="rhm_kpi_yield" text="PLON" />
+        <text name="rhm_kpi_loss" text="STRATY" />
+        <text name="rhm_kpi_speed" text="PRĘDKOŚĆ" />
+        <text name="rhm_efficiency_index" text="Klasa wydajności" />
+        <text name="rhm_trip_footer_hint" text="Licznik dzienny rejestruje skoszony obszar i czyste ziarno dla aktywnego pola. Można zresetować w dowolnym momencie." />
+        <text name="rhm_detail_area" text="Całkowity skoszony obszar pola" />
+        <text name="rhm_detail_clean_grain" text="czystego ziarna" />
+        <text name="rhm_detail_yield" text="Średni plon ze skoszonego obszaru" />
+        <text name="rhm_detail_throughput" text="Bieżąca przepustowość omłotu" />
+        <text name="rhm_detail_lost_grain" text="straconego ziarna" />
+        <text name="rhm_detail_loss_rating" text="Poziom strat w relacji do plonu biologicznego" />
+        <text name="rhm_detail_financial_loss" text="Wpływ finansowy strat w zbiorach" />
+        <text name="rhm_detail_speed" text="Średnia prędkość robocza kombajnu" />
+        <text name="rhm_detail_load" text="Średnie obciążenie silnika" />
+        <text name="rhm_detail_duration" text="Czas trwania aktywnej sesji" />
+        <text name="rhm_detail_wear" text="Zużycie mechaniczne młocarni" />
+        <text name="rhm_rating_normal" text="Optymalnie (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Umiarkowane (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Podwyższone (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Krytyczne (&gt; 4.5%)" />
     </texts>
 </l10n>

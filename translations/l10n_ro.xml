@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulare" />
@@ -356,5 +356,41 @@
         <text name="rhm_setting_volunteer_desc" text="GenereazÄƒ samulastrÄƒ È™i buruieni Ã®n spatele combinei Ã®n zonele cu pierderi mari (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTORESETARE LA SCHIMBAREA PARCELEI" />
         <text name="rhm_setting_autoreset_desc" text="Arhivează și resetează automat contorul de parcelă la intrarea pe altă parcelă." />
+        <text name="rhm_col_field" text="Câmp" />
+        <text name="rhm_col_speed" text="Viteză" />
+        <text name="rhm_col_load" text="Sarcină" />
+        <text name="rhm_col_loss" text="Pierderi" />
+        <text name="rhm_col_tank" text="Buncăr" />
+        <text name="rhm_col_area" text="Suprafață" />
+        <text name="rhm_col_money" text="Pierdere ($)" />
+        <text name="rhm_col_driver" text="Operator" />
+        <text name="rhm_col_cutter" text="Heder" />
+        <text name="rhm_col_throughput" text="Capacitate" />
+        <text name="rhm_col_yield" text="Producție" />
+        <text name="rhm_col_wear" text="Uzură" />
+        <text name="rhm_kpi_field" text="CÂMP" />
+        <text name="rhm_kpi_crop" text="CULTURĂ" />
+        <text name="rhm_kpi_area" text="SUPRAFAȚĂ" />
+        <text name="rhm_kpi_harvest" text="RECOLTĂ" />
+        <text name="rhm_kpi_yield" text="PRODUCȚIE" />
+        <text name="rhm_kpi_loss" text="PIERDERE" />
+        <text name="rhm_kpi_speed" text="VITEZĂ" />
+        <text name="rhm_efficiency_index" text="Grad de eficiență" />
+        <text name="rhm_trip_footer_hint" text="Contorul de cursă monitorizează suprafața recoltată și volumul de boabe curate pentru parcela activă. Poate fi resetat oricând." />
+        <text name="rhm_detail_area" text="Suprafața totală recoltată a parcelei" />
+        <text name="rhm_detail_clean_grain" text="de boabe curate" />
+        <text name="rhm_detail_yield" text="Producție medie pe suprafața recoltată" />
+        <text name="rhm_detail_throughput" text="Capacitate curentă de treierat" />
+        <text name="rhm_detail_lost_grain" text="de boabe pierdute" />
+        <text name="rhm_detail_loss_rating" text="Rată de pierdere față de producția biologică" />
+        <text name="rhm_detail_financial_loss" text="Impact financiar datorat pierderilor de recoltă" />
+        <text name="rhm_detail_speed" text="Viteza medie de lucru a combinei" />
+        <text name="rhm_detail_load" text="Sarcina medie a motorului" />
+        <text name="rhm_detail_duration" text="Durata sesiunii active" />
+        <text name="rhm_detail_wear" text="Uzura mecanică a bătătorului" />
+        <text name="rhm_rating_normal" text="Optim (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Moderat (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Ridicat (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Critic (&gt; 4.5%)" />
     </texts>
 </l10n>

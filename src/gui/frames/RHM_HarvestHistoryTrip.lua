@@ -131,7 +131,12 @@ function RHM_HarvestHistoryTrip:updateData()
     local harvestedTons = (trip.harvestedMassKg or 0) / 1000.0
     if self.harvestedAreaText then self.harvestedAreaText:setText(string.format("%.2f ha", areaHa)) end
     if self.harvestedVolumeText then
-        self.harvestedVolumeText:setText(string.format("%.1f t  (%.0f L)", harvestedTons, harvestedL))
+        self.harvestedVolumeText:setText(string.format("%.1f t", harvestedTons))
+    end
+    if self.harvestedVolumeSubText then
+        local detailCleanKey = "rhm_detail_clean_grain"
+        local cleanGrainStr = (g_i18n and g_i18n:hasText(detailCleanKey)) and g_i18n:getText(detailCleanKey) or "clean grain"
+        self.harvestedVolumeSubText:setText(string.format("%.0f L %s", harvestedL, cleanGrainStr))
     end
 
     -- Average Yield
@@ -147,8 +152,22 @@ function RHM_HarvestHistoryTrip:updateData()
     local totalBio = harvestedL + lostL
     local lossPct = (totalBio > 0) and ((lostL / totalBio) * 100.0) or 0
 
-    if self.lossVolumeText then self.lossVolumeText:setText(string.format("%.1f t  (%.0f L)", lostTons, lostL)) end
+    if self.lossVolumeText then self.lossVolumeText:setText(string.format("%.1f t", lostTons)) end
+    if self.lossVolumeSubText then
+        local detailLostKey = "rhm_detail_lost_grain"
+        local lostGrainStr = (g_i18n and g_i18n:hasText(detailLostKey)) and g_i18n:getText(detailLostKey) or "grain lost"
+        self.lossVolumeSubText:setText(string.format("%.0f L %s", lostL, lostGrainStr))
+    end
     if self.lossPercentText then self.lossPercentText:setText(string.format("%.2f%%", lossPct)) end
+    if self.lossRatingSubText then
+        local ratingKey = "rhm_rating_normal"
+        if lossPct >= 4.5 then ratingKey = "rhm_rating_critical"
+        elseif lossPct >= 3.0 then ratingKey = "rhm_rating_elevated"
+        elseif lossPct >= 1.5 then ratingKey = "rhm_rating_moderate"
+        end
+        local ratingStr = (g_i18n and g_i18n:hasText(ratingKey)) and g_i18n:getText(ratingKey) or "< 1.5%"
+        self.lossRatingSubText:setText(ratingStr)
+    end
 
     local moneyVal = trip.lossMoney or 0
     local moneyStr = "-$0"
@@ -161,15 +180,12 @@ function RHM_HarvestHistoryTrip:updateData()
 
     -- Efficiency Rank
     local rank = trip.efficiencyRank or "A"
-    local rankColor = {0.55, 0.72, 0.0, 1.0}
-    if rank == "B" then rankColor = {0.80, 0.85, 0.20, 1.0}
-    elseif rank == "C" then rankColor = {1.0, 0.60, 0.0, 1.0}
-    elseif rank == "D" then rankColor = {0.95, 0.25, 0.20, 1.0}
-    end
     if self.efficiencyRankBadge then self.efficiencyRankBadge:setText(string.format("[%s]", rank)) end
 
-    local rankKey = "rhm_trip_rank_" .. string.lower(rank)
-    local rankDesc = (g_i18n and g_i18n:hasText(rankKey)) and g_i18n:getText(rankKey) or rank
+    local rankKey = "rhm_rank_desc_" .. string.lower(rank)
+    local rankTitleKey = "rhm_rank_title_" .. string.lower(rank)
+    local rankDesc = (g_i18n and g_i18n:hasText(rankKey)) and g_i18n:getText(rankKey)
+                  or ((g_i18n and g_i18n:hasText(rankTitleKey)) and g_i18n:getText(rankTitleKey) or rank)
     if self.efficiencyRankDesc then self.efficiencyRankDesc:setText(rankDesc) end
 
     -- Averages & Duration
@@ -182,6 +198,14 @@ function RHM_HarvestHistoryTrip:updateData()
     if self.avgSpeedText then self.avgSpeedText:setText(string.format("%.1f km/h", avgSpeed)) end
     if self.avgLoadText then self.avgLoadText:setText(string.format("%.0f%%", avgLoad)) end
     if self.sessionDurationText then self.sessionDurationText:setText(string.format("%02d:%02d", durMin, durSecRem)) end
+
+    -- Throughput
+    local throughput = (durSec > 10) and (harvestedTons / (durSec / 3600.0)) or 0
+    if self.avgThroughputText then self.avgThroughputText:setText(string.format("%.1f t/h", throughput)) end
+
+    -- Machine Wear
+    local wearVal = (activeCombine and activeCombine.getDamageAmount and activeCombine:getDamageAmount()) or 0
+    if self.machineWearText then self.machineWearText:setText(string.format("%.0f%%", wearVal * 100.0)) end
 
     -- Enable / disable Reset Trip button based on user permissions
     local canManage = true

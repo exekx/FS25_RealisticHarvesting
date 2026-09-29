@@ -106,12 +106,13 @@ local function loadedMission(mission, node)
         RHM_CombineSettingsDatabase:initMapCrops()
     end
 
-    -- EN: Register custom help menu tab icons
-    -- UA: Реєструємо власні іконки для вкладок меню довідки
+    -- EN: Register custom help menu tab icons & UI icon atlas
+    -- UA: Реєструємо власні іконки для вкладок меню довідки та атлас іконок інтерфейсу
     local tabs = {"overview", "hud", "calibration", "special", "croploss", "difficulty", "upgrades", "moisture"}
     for _, tab in ipairs(tabs) do
         g_overlayManager:addTextureConfigFile(modDirectory .. "textures/tab_icons/" .. tab .. ".xml", "rhmHelp_" .. tab)
     end
+    g_overlayManager:addTextureConfigFile(modDirectory .. "textures/rhm_ui_icons.xml", "rhmUi")
 
     rhm:onMissionLoaded()
 

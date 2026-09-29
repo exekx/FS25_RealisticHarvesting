@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulering" />
@@ -349,5 +349,41 @@
         <text name="rhm_setting_volunteer_desc" text="Danner spildplanter og ukrudt bag mejetÃ¦rskeren i omrÃ¥der med hÃ¸jt tab (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-NULSTIL VED MARKSKIFT" />
         <text name="rhm_setting_autoreset_desc" text="Arkiverer og nulstiller automatisk mark-tælleren ved kørsel til en anden mark." />
+        <text name="rhm_col_field" text="Mark" />
+        <text name="rhm_col_speed" text="Hastighed" />
+        <text name="rhm_col_load" text="Belastning" />
+        <text name="rhm_col_loss" text="Spild" />
+        <text name="rhm_col_tank" text="Kornbeholder" />
+        <text name="rhm_col_area" text="Areal" />
+        <text name="rhm_col_money" text="Tab ($)" />
+        <text name="rhm_col_driver" text="Fører" />
+        <text name="rhm_col_cutter" text="Skærebord" />
+        <text name="rhm_col_throughput" text="Gennemstrømning" />
+        <text name="rhm_col_yield" text="Udbytte" />
+        <text name="rhm_col_wear" text="Slitage" />
+        <text name="rhm_kpi_field" text="MARK" />
+        <text name="rhm_kpi_crop" text="AFGRØDE" />
+        <text name="rhm_kpi_area" text="AREAL" />
+        <text name="rhm_kpi_harvest" text="HØST" />
+        <text name="rhm_kpi_yield" text="UDBYTTE" />
+        <text name="rhm_kpi_loss" text="SPILD" />
+        <text name="rhm_kpi_speed" text="HASTIGHED" />
+        <text name="rhm_efficiency_index" text="Effektivitetsklasse" />
+        <text name="rhm_trip_footer_hint" text="Triptælleren måler det høstede areal og renkornsmængden på den aktive mark. Kan nulstilles når som helst." />
+        <text name="rhm_detail_area" text="Samlet høstet markareal" />
+        <text name="rhm_detail_clean_grain" text="rent korn" />
+        <text name="rhm_detail_yield" text="Gennemsnitligt udbytte på høstet areal" />
+        <text name="rhm_detail_throughput" text="Aktuel tærske-gennemstrømning" />
+        <text name="rhm_detail_lost_grain" text="spildt korn" />
+        <text name="rhm_detail_loss_rating" text="Spildrate i forhold til biologisk udbytte" />
+        <text name="rhm_detail_financial_loss" text="Økonomisk tab som følge af høstspild" />
+        <text name="rhm_detail_speed" text="Mejetærskerens gennemsnitlige arbejdshastighed" />
+        <text name="rhm_detail_load" text="Gennemsnitlig motorbelastning" />
+        <text name="rhm_detail_duration" text="Aktiv arbejdstid" />
+        <text name="rhm_detail_wear" text="Mekanisk slitage på tærskesystemet" />
+        <text name="rhm_rating_normal" text="Optimalt (&lt; 1,5 %)" />
+        <text name="rhm_rating_moderate" text="Moderat (1,5 - 3,0 %)" />
+        <text name="rhm_rating_elevated" text="Forhøjet (&gt; 3,0 %)" />
+        <text name="rhm_rating_critical" text="Kritisk (&gt; 4,5 %)" />
     </texts>
 </l10n>

@@ -45,6 +45,8 @@ function RHM_LoadCalculator.new(modDirectory)
     self.litersPerHour = 0  -- EN: Yield in L/h / UA: Продуктивність в Л/год
     self.hectaresPerHour = 0 -- EN: Area rate in ha/h / UA: Продуктивність в га/год
     self.totalOutputMass = 0  -- EN: Total harvested mass / UA: Загальна маса зібраного врожаю
+    self.currentYield = 0     -- EN: Real-time smoothed yield (t/ha) / UA: Поточна згладжена врожайність
+    self.lastValidYield = 0   -- EN: Last valid non-zero harvesting yield (t/ha) / UA: Остання валідна врожайність
     
     -- EN: Yield counters accumulation / UA: Накопичення продуктивності
     self.productivityMass = 0  -- EN: Accumulated mass (kg) / UA: Накопичена маса (кг)
@@ -1956,11 +1958,17 @@ function RHM_LoadCalculator:updateProductivityAndYield(mass, liters, area, dt)
         local alpha = 0.03
         if not self.currentYield or self.currentYield == 0 then self.currentYield = rawYield end
         self.currentYield = self.currentYield * (1 - alpha) + rawYield * alpha
+        if self.currentYield > 0.1 then
+            self.lastValidYield = self.currentYield
+        end
     end
 end
 
 function RHM_LoadCalculator:setRealTimeYield(yieldTha)
     self.currentYield = yieldTha or 0
+    if self.currentYield > 0.1 then
+        self.lastValidYield = self.currentYield
+    end
 end
 
 ---EN: Returns formatted yield string / UA: Отримує форматований рядок врожайності

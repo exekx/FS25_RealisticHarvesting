@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - 시뮬레이션" />
@@ -349,5 +349,41 @@
         <text name="rhm_setting_volunteer_desc" text="ì†ì‹¤ë¥ ì´ ë†’ì€ êµ¬ì—­(&gt;3%)ì—ì„œ ì½¤ë°”ì¸ ë’¤íŽ¸ìœ¼ë¡œ ìž¡ì´ˆì™€ ë‚™ê³¡ ì‹¹ì„ ë°œìƒì‹œí‚µë‹ˆë‹¤." />
         <text name="rhm_setting_autoreset_title" text="필드 이동 시 자동 초기화" />
         <text name="rhm_setting_autoreset_desc" text="다른 필드로 이동할 때 현재 작업 기록을 저장하고 필드 카운터를 초기화합니다." />
+        <text name="rhm_col_field" text="필지" />
+        <text name="rhm_col_speed" text="속도" />
+        <text name="rhm_col_load" text="부하" />
+        <text name="rhm_col_loss" text="손실" />
+        <text name="rhm_col_tank" text="곡물 탱크" />
+        <text name="rhm_col_area" text="면적" />
+        <text name="rhm_col_money" text="손실액 ($)" />
+        <text name="rhm_col_driver" text="작업자" />
+        <text name="rhm_col_cutter" text="헤더" />
+        <text name="rhm_col_throughput" text="처리량" />
+        <text name="rhm_col_yield" text="수확량" />
+        <text name="rhm_col_wear" text="마모" />
+        <text name="rhm_kpi_field" text="필지" />
+        <text name="rhm_kpi_crop" text="작물" />
+        <text name="rhm_kpi_area" text="면적" />
+        <text name="rhm_kpi_harvest" text="수확량" />
+        <text name="rhm_kpi_yield" text="단위수량" />
+        <text name="rhm_kpi_loss" text="손실" />
+        <text name="rhm_kpi_speed" text="속도" />
+        <text name="rhm_efficiency_index" text="효율성 등급" />
+        <text name="rhm_trip_footer_hint" text="구간 계측기는 현재 필지의 작업 면적과 정립 수확량을 기록합니다. 언제든지 재설정할 수 있습니다." />
+        <text name="rhm_detail_area" text="총 수확 필지 면적" />
+        <text name="rhm_detail_clean_grain" text="정립 곡물" />
+        <text name="rhm_detail_yield" text="수확 면적당 평균 단위수량" />
+        <text name="rhm_detail_throughput" text="현재 탈곡 처리량" />
+        <text name="rhm_detail_lost_grain" text="손실 곡물" />
+        <text name="rhm_detail_loss_rating" text="생물학적 수확량 대비 손실률" />
+        <text name="rhm_detail_financial_loss" text="수확 손실로 인한 재정적 영향" />
+        <text name="rhm_detail_speed" text="콤바인 평균 작업 속도" />
+        <text name="rhm_detail_load" text="평균 엔진 부하" />
+        <text name="rhm_detail_duration" text="실제 작업 시간" />
+        <text name="rhm_detail_wear" text="탈곡부 기계적 마모" />
+        <text name="rhm_rating_normal" text="최적 (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="보통 (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="주의 (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="위험 (&gt; 4.5%)" />
     </texts>
 </l10n>

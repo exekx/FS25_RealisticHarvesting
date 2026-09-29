@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - シミュレーション" />
@@ -349,5 +349,41 @@
         <text name="rhm_setting_volunteer_desc" text="æå¤±ãŒå¤§ãã„ã‚¨ãƒªã‚¢ï¼ˆ&gt;3%ï¼‰ã§ã€ã‚³ãƒ³ãƒã‚¤ãƒ³é€šéŽå¾Œã«é›‘è‰ã‚’ç™ºç”Ÿã•ã›ã¾ã™ã€‚" />
         <text name="rhm_setting_autoreset_title" text="圃場変更時の自動リセット" />
         <text name="rhm_setting_autoreset_desc" text="別の圃場へ移動した際、現在の作業記録を保存してカウンターを自動リセットします。" />
+        <text name="rhm_col_field" text="圃場" />
+        <text name="rhm_col_speed" text="速度" />
+        <text name="rhm_col_load" text="負荷" />
+        <text name="rhm_col_loss" text="ロス" />
+        <text name="rhm_col_tank" text="グレンタンク" />
+        <text name="rhm_col_area" text="面積" />
+        <text name="rhm_col_money" text="損失額 ($)" />
+        <text name="rhm_col_driver" text="オペレーター" />
+        <text name="rhm_col_cutter" text="ヘッダー" />
+        <text name="rhm_col_throughput" text="処理量" />
+        <text name="rhm_col_yield" text="収量" />
+        <text name="rhm_col_wear" text="摩耗" />
+        <text name="rhm_kpi_field" text="圃場" />
+        <text name="rhm_kpi_crop" text="作物" />
+        <text name="rhm_kpi_area" text="面積" />
+        <text name="rhm_kpi_harvest" text="収穫量" />
+        <text name="rhm_kpi_yield" text="収量" />
+        <text name="rhm_kpi_loss" text="ロス" />
+        <text name="rhm_kpi_speed" text="速度" />
+        <text name="rhm_efficiency_index" text="効率グレード" />
+        <text name="rhm_trip_footer_hint" text="区間カウンターは現在の圃場の収穫面積と純穀物量を記録します。いつでもリセット可能です。" />
+        <text name="rhm_detail_area" text="総収穫圃場面積" />
+        <text name="rhm_detail_clean_grain" text="純穀物量" />
+        <text name="rhm_detail_yield" text="収穫面積の平均収量" />
+        <text name="rhm_detail_throughput" text="現在の脱穀処理能力" />
+        <text name="rhm_detail_lost_grain" text="損失穀物量" />
+        <text name="rhm_detail_loss_rating" text="生物学的収量に対するロス率" />
+        <text name="rhm_detail_financial_loss" text="収穫ロスによる経済的損失" />
+        <text name="rhm_detail_speed" text="コンバインの平均作業速度" />
+        <text name="rhm_detail_load" text="平均エンジン負荷" />
+        <text name="rhm_detail_duration" text="アクティブ稼働時間" />
+        <text name="rhm_detail_wear" text="脱穀部の機械的摩耗" />
+        <text name="rhm_rating_normal" text="最適 (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="許容 (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="増加 (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="危険 (&gt; 4.5%)" />
     </texts>
 </l10n>

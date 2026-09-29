@@ -301,6 +301,29 @@
         <text name="rhm_hist_total_money" text="Total Financial Loss" />
         <text name="rhm_col_season" text="Season" />
         <text name="rhm_col_status" text="Status" />
+        <text name="rhm_col_field" text="Field" />
+        <text name="rhm_col_speed" text="Speed" />
+        <text name="rhm_col_load" text="Load" />
+        <text name="rhm_col_loss" text="Loss" />
+        <text name="rhm_col_tank" text="Tank" />
+        <text name="rhm_col_area" text="Area" />
+        <text name="rhm_col_money" text="Loss ($)" />
+        <text name="rhm_col_driver" text="Operator" />
+        <text name="rhm_col_cutter" text="Header" />
+        <text name="rhm_col_throughput" text="Throughput" />
+        <text name="rhm_col_yield" text="Yield" />
+        <text name="rhm_col_wear" text="Wear" />
+        <text name="rhm_col_harvested" text="Harvested" />
+        <text name="rhm_col_hours" text="Work Hours" />
+        <text name="rhm_kpi_field" text="FIELD" />
+        <text name="rhm_kpi_crop" text="CROP" />
+        <text name="rhm_kpi_area" text="AREA" />
+        <text name="rhm_kpi_harvest" text="HARVEST" />
+        <text name="rhm_kpi_yield" text="YIELD" />
+        <text name="rhm_kpi_loss" text="LOSS" />
+        <text name="rhm_kpi_speed" text="SPEED" />
+        <text name="rhm_efficiency_index" text="Efficiency Grade" />
+        <text name="rhm_trip_footer_hint" text="Trip odometer tracks harvested area and clean grain volume for the active field. You can reset at any time." />
         <text name="rhm_hist_empty" text="No Season Records Yet" />
         <text name="rhm_status_harvesting" text="Harvesting" />
         <text name="rhm_status_on_field_idle" text="On Field (Idling)" />
@@ -358,5 +381,20 @@
         <text name="rhm_setting_volunteer_desc" text="Generates weed and volunteer sprouts behind combines in heavy loss zones (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-RESET ON FIELD CHANGE" />
         <text name="rhm_setting_autoreset_desc" text="Automatically archive the current operation and reset the field counter when moving to a different field." />
+        <text name="rhm_detail_area" text="Total harvested field area" />
+        <text name="rhm_detail_clean_grain" text="clean grain" />
+        <text name="rhm_detail_yield" text="Average yield on harvested area" />
+        <text name="rhm_detail_throughput" text="Current threshing throughput" />
+        <text name="rhm_detail_lost_grain" text="grain lost" />
+        <text name="rhm_detail_loss_rating" text="Loss rate vs biological yield" />
+        <text name="rhm_detail_financial_loss" text="Financial impact from crop loss" />
+        <text name="rhm_detail_speed" text="Average combine forward speed" />
+        <text name="rhm_detail_load" text="Average engine power load" />
+        <text name="rhm_detail_duration" text="Active session duration" />
+        <text name="rhm_detail_wear" text="Thresher mechanical wear" />
+        <text name="rhm_rating_normal" text="Optimal (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Moderate (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Elevated (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Critical (&gt; 4.5%)" />
     </texts>
 </l10n>

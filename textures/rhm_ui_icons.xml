@@ -1,0 +1,47 @@
+<texture>
+  <meta>
+    <filename>rhm_ui_icons.dds</filename>
+    <size width="512" height="512"/>
+  </meta>
+  <slices>
+    <!-- Row 0: Field & Trip Metrics -->
+    <slice id="icon_field" uvs="0px 0px 64px 64px"/>
+    <slice id="icon_crop" uvs="64px 0px 64px 64px"/>
+    <slice id="icon_area" uvs="128px 0px 64px 64px"/>
+    <slice id="icon_harvest" uvs="192px 0px 64px 64px"/>
+    <slice id="icon_yield" uvs="256px 0px 64px 64px"/>
+    <slice id="icon_loss" uvs="320px 0px 64px 64px"/>
+    <slice id="icon_loss_pct" uvs="384px 0px 64px 64px"/>
+    <slice id="icon_money" uvs="448px 0px 64px 64px"/>
+
+    <!-- Row 1: Combine & Performance Metrics -->
+    <slice id="icon_speed" uvs="0px 64px 64px 64px"/>
+    <slice id="icon_load" uvs="64px 64px 64px 64px"/>
+    <slice id="icon_duration" uvs="128px 64px 64px 64px"/>
+    <slice id="icon_rank" uvs="192px 64px 64px 64px"/>
+    <slice id="icon_driver" uvs="256px 64px 64px 64px"/>
+    <slice id="icon_cutter" uvs="320px 64px 64px 64px"/>
+    <slice id="icon_tank" uvs="384px 64px 64px 64px"/>
+    <slice id="icon_throughput" uvs="448px 64px 64px 64px"/>
+
+    <!-- Row 2: Causes & Telemetry -->
+    <slice id="icon_wear" uvs="0px 128px 64px 64px"/>
+    <slice id="icon_hours" uvs="64px 128px 64px 64px"/>
+    <slice id="icon_cause_speed" uvs="128px 128px 64px 64px"/>
+    <slice id="icon_cause_moisture" uvs="192px 128px 64px 64px"/>
+    <slice id="icon_cause_wear" uvs="256px 128px 64px 64px"/>
+    <slice id="icon_cause_slope" uvs="320px 128px 64px 64px"/>
+    <slice id="icon_advice" uvs="384px 128px 64px 64px"/>
+    <slice id="icon_yard" uvs="448px 128px 64px 64px"/>
+
+    <!-- Row 3: Badges & Tabs -->
+    <slice id="icon_combine_badge" uvs="0px 192px 64px 64px"/>
+    <slice id="icon_tab_trip" uvs="64px 192px 64px 64px"/>
+    <slice id="icon_tab_fleet" uvs="128px 192px 64px 64px"/>
+    <slice id="icon_tab_analytics" uvs="192px 192px 64px 64px"/>
+    <slice id="icon_tab_history" uvs="256px 192px 64px 64px"/>
+    <slice id="icon_reset" uvs="320px 192px 64px 64px"/>
+    <slice id="icon_check" uvs="384px 192px 64px 64px"/>
+    <slice id="icon_settings" uvs="448px 192px 64px 64px"/>
+  </slices>
+</texture>

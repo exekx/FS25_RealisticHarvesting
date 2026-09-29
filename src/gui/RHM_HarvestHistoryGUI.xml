@@ -3,8 +3,8 @@
   <Bitmap profile="fs25_fullScreenBackground" id="background" />
   <Paging profile="uiInGameMenuPaging" onPageChange="onPageChange" onPageUpdate="onPageUpdate" id="pagingElement">
     <FrameReference ref="RHM_HarvestHistoryTrip" name="RHM_HarvestHistoryTrip" id="pageTrip"/>
-    <FrameReference ref="RHM_HarvestHistoryAnalytics" name="RHM_HarvestHistoryAnalytics" id="pageAnalytics"/>
     <FrameReference ref="RHM_HarvestHistoryFleet" name="RHM_HarvestHistoryFleet" id="pageFleet"/>
+    <FrameReference ref="RHM_HarvestHistoryAnalytics" name="RHM_HarvestHistoryAnalytics" id="pageAnalytics"/>
   </Paging>
   <Bitmap profile="fs25_tabListContainer" id="header">
     <MultiTextOption profile="uiInGameMenuHeaderSelector" onClick="onClickPageSelection" id="pageSelector" soundDisabled="true" />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulazione" />
@@ -358,5 +358,41 @@
         <text name="rhm_setting_volunteer_desc" text="Genera rinascite spontanee e infestanti dietro alla mietitrebbiatrice nelle zone a perdita elevata (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AZZERAMENTO AUTOMATICO AL CAMBIO CAMPO" />
         <text name="rhm_setting_autoreset_desc" text="Archivia e azzera automaticamente il contatore di campo quando ci si sposta su un altro campo." />
+        <text name="rhm_col_field" text="Campo" />
+        <text name="rhm_col_speed" text="Velocità" />
+        <text name="rhm_col_load" text="Carico" />
+        <text name="rhm_col_loss" text="Perdita" />
+        <text name="rhm_col_tank" text="Serbatoio" />
+        <text name="rhm_col_area" text="Area" />
+        <text name="rhm_col_money" text="Perdita ($)" />
+        <text name="rhm_col_driver" text="Operatore" />
+        <text name="rhm_col_cutter" text="Barra falciante" />
+        <text name="rhm_col_throughput" text="Portata" />
+        <text name="rhm_col_yield" text="Resa" />
+        <text name="rhm_col_wear" text="Usura" />
+        <text name="rhm_kpi_field" text="CAMPO" />
+        <text name="rhm_kpi_crop" text="COLTURA" />
+        <text name="rhm_kpi_area" text="AREA" />
+        <text name="rhm_kpi_harvest" text="RACCOLTO" />
+        <text name="rhm_kpi_yield" text="RESA" />
+        <text name="rhm_kpi_loss" text="PERDITA" />
+        <text name="rhm_kpi_speed" text="VELOCITÀ" />
+        <text name="rhm_efficiency_index" text="Grado di efficienza" />
+        <text name="rhm_trip_footer_hint" text="Il contachilometri parziale traccia l'area raccolta e il volume di granella pulita per il campo attivo. Azzerabile in qualsiasi momento." />
+        <text name="rhm_detail_area" text="Superficie totale raccolta del campo" />
+        <text name="rhm_detail_clean_grain" text="di granella pulita" />
+        <text name="rhm_detail_yield" text="Resa media sull'area raccolta" />
+        <text name="rhm_detail_throughput" text="Portata di trebbiatura attuale" />
+        <text name="rhm_detail_lost_grain" text="di granella persa" />
+        <text name="rhm_detail_loss_rating" text="Tasso di perdita rispetto alla resa biologica" />
+        <text name="rhm_detail_financial_loss" text="Impatto economico derivante dalle perdite di raccolto" />
+        <text name="rhm_detail_speed" text="Velocità media di avanzamento della mietitrebbia" />
+        <text name="rhm_detail_load" text="Carico medio del motore" />
+        <text name="rhm_detail_duration" text="Durata della sessione attiva" />
+        <text name="rhm_detail_wear" text="Usura meccanica dell'apparato trebbiante" />
+        <text name="rhm_rating_normal" text="Ottimale (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Moderato (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Elevato (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Critico (&gt; 4.5%)" />
     </texts>
 </l10n>

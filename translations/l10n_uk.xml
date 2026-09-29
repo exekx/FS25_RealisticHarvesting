@@ -272,11 +272,11 @@
         <text name="input_RHM_OPEN_HARVEST_MENU" text="Журнал жнив та лічильник поля" />
         <text name="input_RHM_QUICK_RESET_TRIP" text="Скинути лічильник поля (затиснути)" />
         <text name="rhm_trip_reset_done" text="Лічильник поля скинуто!" />
-        <text name="rhm_tab_trip" text="Поточне поле / Лічильник" />
-        <text name="rhm_tab_trip_desc" text="Оперативні показники намолоту, обробленої площі, середньої врожайності та втрат для поточної операції." />
-        <text name="rhm_tab_analytics" text="Аналітика причин та Рейтинг" />
-        <text name="rhm_tab_analytics_desc" text="Розподіл факторів втрат, офіційний індекс ефективності та рекомендації бортового комп'ютера." />
-        <text name="rhm_tab_fleet" text="Комбайни на полі" />
+        <text name="rhm_tab_trip" text="Поточне поле / Одометр" />
+        <text name="rhm_tab_trip_desc" text="Оперативні показники намолоту, обробленої площі, врожайності та втрат поточної сесії." />
+        <text name="rhm_tab_analytics" text="Аналітика та Рейтинг" />
+        <text name="rhm_tab_analytics_desc" text="Розподіл причин втрат, рейтинг комбайнера та поради бортового комп'ютера." />
+        <text name="rhm_tab_fleet" text="Парк комбайнів" />
         <text name="rhm_tab_fleet_desc" text="Телеметрія в реальному часі, продуктивність та статус комбайнів вашого господарства." />
         <text name="rhm_tab_settings" text="Налаштування ферми та AI" />
         <text name="rhm_tab_settings_desc" text="Конфігурація обмежувача швидкості для найманців, генерація падалиці та параметри скидання." />
@@ -287,11 +287,11 @@
         <text name="rhm_driver_idle_on" text="Холостий хід" />
         <text name="rhm_field_yard" text="База / Двір" />
         <text name="rhm_field_format" text="Поле %d" />
-        <text name="rhm_fleet_driver" text="Водій / Оператор" />
-        <text name="rhm_fleet_cutter" text="Ширина жатки" />
-        <text name="rhm_fleet_grain_tank" text="Заповнення бункера" />
+        <text name="rhm_fleet_driver" text="Оператор" />
+        <text name="rhm_fleet_cutter" text="Жатка" />
+        <text name="rhm_fleet_grain_tank" text="Бункер" />
         <text name="rhm_fleet_throughput" text="Продуктивність" />
-        <text name="rhm_fleet_realtime_yield" text="Поточна врожайність" />
+        <text name="rhm_fleet_realtime_yield" text="Врожайність" />
         <text name="rhm_fleet_crop_loss" text="Рівень втрат" />
         <text name="rhm_fleet_wear_state" text="Знос техніки" />
         <text name="rhm_fleet_total_count" text="Усього комбайнів" />
@@ -303,6 +303,29 @@
         <text name="rhm_hist_total_money" text="Загальні втрати" />
         <text name="rhm_col_season" text="Сезон" />
         <text name="rhm_col_status" text="Статус" />
+        <text name="rhm_col_field" text="Поле" />
+        <text name="rhm_col_speed" text="Швидкість" />
+        <text name="rhm_col_load" text="Двигун" />
+        <text name="rhm_col_loss" text="Втрати" />
+        <text name="rhm_col_tank" text="Бункер" />
+        <text name="rhm_col_area" text="Площа" />
+        <text name="rhm_col_money" text="Збитки ($)" />
+        <text name="rhm_col_driver" text="Оператор" />
+        <text name="rhm_col_cutter" text="Жатка" />
+        <text name="rhm_col_throughput" text="Продуктивність" />
+        <text name="rhm_col_yield" text="Врожайність" />
+        <text name="rhm_col_wear" text="Знос" />
+        <text name="rhm_col_harvested" text="Намолот" />
+        <text name="rhm_col_hours" text="Мотогодини" />
+        <text name="rhm_kpi_field" text="ПОЛЕ" />
+        <text name="rhm_kpi_crop" text="КУЛЬТУРА" />
+        <text name="rhm_kpi_area" text="ПЛОЩА" />
+        <text name="rhm_kpi_harvest" text="НАМОЛОТ" />
+        <text name="rhm_kpi_yield" text="ВРОЖАЙ" />
+        <text name="rhm_kpi_loss" text="ВТРАТИ" />
+        <text name="rhm_kpi_speed" text="ШВИДКІСТЬ" />
+        <text name="rhm_efficiency_index" text="Індекс ефективності" />
+        <text name="rhm_trip_footer_hint" text="Лічильник одометра фіксує площу та намолот для поточного поля. Ви можете скинути замір у будь-який момент." />
         <text name="rhm_hist_empty" text="Записів за сезон ще немає" />
         <text name="rhm_status_harvesting" text="У роботі (косить)" />
         <text name="rhm_status_on_field_idle" text="На полі (очікування)" />
@@ -317,15 +340,15 @@
         <text name="rhm_harvested_area" text="Оброблена площа" />
         <text name="rhm_clean_harvest" text="Чистий намолот" />
         <text name="rhm_average_yield" text="Середня врожайність" />
-        <text name="rhm_card_loss_finances" text="ВТРАТИ ТА ФІНАНСИ" />
+        <text name="rhm_card_loss_finances" text="ВТРАТИ ТА ЕКОНОМІКА" />
         <text name="rhm_loss_volume" text="Об'єм втрат" />
         <text name="rhm_loss_share" text="Частка від врожаю" />
         <text name="rhm_financial_loss" text="Фінансові втрати" />
-        <text name="rhm_card_performance" text="ПОКАЗНИКИ ТА ЧАС" />
-        <text name="rhm_avg_working_speed" text="Сер. робоча швидкість" />
-        <text name="rhm_avg_engine_load" text="Сер. навантаження двигуна" />
-        <text name="rhm_session_duration" text="Тривалість сесії" />
-        <text name="rhm_btn_reset_trip" text="Скинути лічильник поля" />
+        <text name="rhm_card_performance" text="ТЕЛЕМЕТРІЯ ТА ЧАС" />
+        <text name="rhm_avg_working_speed" text="Робоча швидкість" />
+        <text name="rhm_avg_engine_load" text="Навантаження двигуна" />
+        <text name="rhm_session_duration" text="Час роботи на полі" />
+        <text name="rhm_btn_reset_trip" text="Скинути замір поля" />
         <text name="rhm_causes_title" text="ПРИЧИНИ ВТРАТ ВРОЖАЮ" />
         <text name="rhm_cause_speed" text="Швидкість та перевантаження молотарки" />
         <text name="rhm_cause_moisture" text="Вологість культури та роса" />
@@ -360,5 +383,20 @@
         <text name="rhm_setting_volunteer_desc" text="Створює осередки бур'янів/падалиці на полі позаду комбайна в зонах високих втрат (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="АВТО-СКИДАННЯ ПРИ ЗМІНІ ПОЛЯ" />
         <text name="rhm_setting_autoreset_desc" text="Автоматично архівувати поточний замір та скидати лічильник при переході на інше поле." />
+        <text name="rhm_detail_area" text="Загальна обмолочена площа поля" />
+        <text name="rhm_detail_clean_grain" text="чистого зерна" />
+        <text name="rhm_detail_yield" text="Середня врожайність на обробленій площі" />
+        <text name="rhm_detail_throughput" text="Поточний темп обмолоту культури" />
+        <text name="rhm_detail_lost_grain" text="зерна втрачено" />
+        <text name="rhm_detail_loss_rating" text="Відсоток втрат від біологічного врожаю" />
+        <text name="rhm_detail_financial_loss" text="Фінансові втрати через просипання зерна" />
+        <text name="rhm_detail_speed" text="Середня робоча швидкість комбайна" />
+        <text name="rhm_detail_load" text="Середнє завантаження силової установки" />
+        <text name="rhm_detail_duration" text="Тривалість поточної робочої операції" />
+        <text name="rhm_detail_wear" text="Технічний знос робочих органів молотарки" />
+        <text name="rhm_rating_normal" text="У межах норми (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Помірні втрати (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Підвищені втрати (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Критичні втрати (&gt; 4.5%)" />
     </texts>
 </l10n>

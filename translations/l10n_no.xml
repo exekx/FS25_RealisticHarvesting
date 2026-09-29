@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulering" />
@@ -349,5 +349,41 @@
         <text name="rhm_setting_volunteer_desc" text="Genererer ugras og spillkorn bak treskeren i soner med store tap (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-NULLSTILL VED ÅKERSKIFTE" />
         <text name="rhm_setting_autoreset_desc" text="Arkiverer og nullstiller automatisk åkertelleren når du kjører til en annen åker." />
+        <text name="rhm_col_field" text="Åker" />
+        <text name="rhm_col_speed" text="Hastighet" />
+        <text name="rhm_col_load" text="Belastning" />
+        <text name="rhm_col_loss" text="Spill" />
+        <text name="rhm_col_tank" text="Korntank" />
+        <text name="rhm_col_area" text="Areal" />
+        <text name="rhm_col_money" text="Tap ($)" />
+        <text name="rhm_col_driver" text="Fører" />
+        <text name="rhm_col_cutter" text="Skjærebord" />
+        <text name="rhm_col_throughput" text="Kapasitet" />
+        <text name="rhm_col_yield" text="Avling" />
+        <text name="rhm_col_wear" text="Slitasje" />
+        <text name="rhm_kpi_field" text="ÅKER" />
+        <text name="rhm_kpi_crop" text="VEKST" />
+        <text name="rhm_kpi_area" text="AREAL" />
+        <text name="rhm_kpi_harvest" text="INNHØSTING" />
+        <text name="rhm_kpi_yield" text="AVLING" />
+        <text name="rhm_kpi_loss" text="SPILL" />
+        <text name="rhm_kpi_speed" text="HASTIGHET" />
+        <text name="rhm_efficiency_index" text="Effektivitetsklasse" />
+        <text name="rhm_trip_footer_hint" text="Triptelleren registrerer innhøstet areal og rent kornvolum for den aktive åkeren. Kan nullstilles når som helst." />
+        <text name="rhm_detail_area" text="Totalt innhøstet åkerareal" />
+        <text name="rhm_detail_clean_grain" text="rent korn" />
+        <text name="rhm_detail_yield" text="Gjennomsnittlig avling på innhøstet areal" />
+        <text name="rhm_detail_throughput" text="Nåværende treskekapasitet" />
+        <text name="rhm_detail_lost_grain" text="tapt korn" />
+        <text name="rhm_detail_loss_rating" text="Spillprosent i forhold til biologisk avling" />
+        <text name="rhm_detail_financial_loss" text="Økonomisk tap som følge av avlingstap" />
+        <text name="rhm_detail_speed" text="Skurtreskerens gjennomsnittlige fart" />
+        <text name="rhm_detail_load" text="Gjennomsnittlig motorbelastning" />
+        <text name="rhm_detail_duration" text="Aktiv øktvarighet" />
+        <text name="rhm_detail_wear" text="Mekanisk slitasje på treskeverket" />
+        <text name="rhm_rating_normal" text="Optimalt (&lt; 1,5 %)" />
+        <text name="rhm_rating_moderate" text="Moderat (1,5 - 3,0 %)" />
+        <text name="rhm_rating_elevated" text="Forhøyet (&gt; 3,0 %)" />
+        <text name="rhm_rating_critical" text="Kritisk (&gt; 4,5 %)" />
     </texts>
 </l10n>

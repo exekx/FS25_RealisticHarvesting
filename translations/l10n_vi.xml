@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Mô phỏng" />
@@ -349,5 +349,41 @@
         <text name="rhm_setting_volunteer_desc" text="Táº¡o cá» dáº¡i sau Ä‘uÃ´i mÃ¡y gáº·t táº¡i cÃ¡c khu vá»±c cÃ³ tá»· lá»‡ tháº¥t thoÃ¡t cao (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="TỰ ĐỘNG ĐẶT LẠI KHI ĐỔI RUỘNG" />
         <text name="rhm_setting_autoreset_desc" text="Tự động lưu trữ và đặt lại bộ đếm khi di chuyển sang một cánh đồng khác." />
+        <text name="rhm_col_field" text="Ruộng" />
+        <text name="rhm_col_speed" text="Tốc độ" />
+        <text name="rhm_col_load" text="Tải trọng" />
+        <text name="rhm_col_loss" text="Hao hụt" />
+        <text name="rhm_col_tank" text="Thùng chứa" />
+        <text name="rhm_col_area" text="Diện tích" />
+        <text name="rhm_col_money" text="Hao hụt ($)" />
+        <text name="rhm_col_driver" text="Người lái" />
+        <text name="rhm_col_cutter" text="Hàm cắt" />
+        <text name="rhm_col_throughput" text="Năng suất gặt" />
+        <text name="rhm_col_yield" text="Năng suất" />
+        <text name="rhm_col_wear" text="Hao mòn" />
+        <text name="rhm_kpi_field" text="RUỘNG" />
+        <text name="rhm_kpi_crop" text="CÂY TRỒNG" />
+        <text name="rhm_kpi_area" text="DIỆN TÍCH" />
+        <text name="rhm_kpi_harvest" text="THU HOẠCH" />
+        <text name="rhm_kpi_yield" text="NĂNG SUẤT" />
+        <text name="rhm_kpi_loss" text="HAO HỤT" />
+        <text name="rhm_kpi_speed" text="TỐC ĐỘ" />
+        <text name="rhm_efficiency_index" text="Hạng hiệu quả" />
+        <text name="rhm_trip_footer_hint" text="Đồng hồ đo theo dõi diện tích thu hoạch và khối lượng thóc sạch cho thửa ruộng đang làm việc. Có thể đặt lại bất cứ lúc nào." />
+        <text name="rhm_detail_area" text="Tổng diện tích ruộng đã thu hoạch" />
+        <text name="rhm_detail_clean_grain" text="hạt sạch" />
+        <text name="rhm_detail_yield" text="Năng suất trung bình trên diện tích thu hoạch" />
+        <text name="rhm_detail_throughput" text="Năng suất đập lúa hiện tại" />
+        <text name="rhm_detail_lost_grain" text="hạt bị thất thoát" />
+        <text name="rhm_detail_loss_rating" text="Tỷ lệ hao hụt so với năng suất sinh học" />
+        <text name="rhm_detail_financial_loss" text="Thiệt hại tài chính do hao hụt thu hoạch" />
+        <text name="rhm_detail_speed" text="Tốc độ di chuyển trung bình của máy gặt" />
+        <text name="rhm_detail_load" text="Tải trọng động cơ trung bình" />
+        <text name="rhm_detail_duration" text="Thời gian làm việc thực tế" />
+        <text name="rhm_detail_wear" text="Độ hao mòn cơ học của buồng đập" />
+        <text name="rhm_rating_normal" text="Tối ưu (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Vừa phải (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Tăng cao (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Nghiêm trọng (&gt; 4.5%)" />
     </texts>
 </l10n>

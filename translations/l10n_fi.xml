@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulaatio" />
@@ -349,5 +349,41 @@
         <text name="rhm_setting_volunteer_desc" text="Luo karistumaa ja rikkoja puimurin taakse suurten tappioiden alueille (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMAATTINOLLAUS LOHKOVAIHDOSSA" />
         <text name="rhm_setting_autoreset_desc" text="Arkistoi ja nollaa peltolaskurin automaattisesti siirryttäessä toiselle pellolle." />
+        <text name="rhm_col_field" text="Pelto" />
+        <text name="rhm_col_speed" text="Nopeus" />
+        <text name="rhm_col_load" text="Kuormitus" />
+        <text name="rhm_col_loss" text="Hävikki" />
+        <text name="rhm_col_tank" text="Viljasäiliö" />
+        <text name="rhm_col_area" text="Pinta-ala" />
+        <text name="rhm_col_money" text="Hävikki ($)" />
+        <text name="rhm_col_driver" text="Kuljettaja" />
+        <text name="rhm_col_cutter" text="Leikkuupöytä" />
+        <text name="rhm_col_throughput" text="Läpäisykyky" />
+        <text name="rhm_col_yield" text="Sato" />
+        <text name="rhm_col_wear" text="Kuluminen" />
+        <text name="rhm_kpi_field" text="PELTO" />
+        <text name="rhm_kpi_crop" text="KASVI" />
+        <text name="rhm_kpi_area" text="PINTA-ALA" />
+        <text name="rhm_kpi_harvest" text="PUINTI" />
+        <text name="rhm_kpi_yield" text="SATO" />
+        <text name="rhm_kpi_loss" text="HÄVIKKI" />
+        <text name="rhm_kpi_speed" text="NOPEUS" />
+        <text name="rhm_efficiency_index" text="Tehokkuusluokka" />
+        <text name="rhm_trip_footer_hint" text="Osamatkamittari seuraa puidun alan ja puhtaan viljan määrää nykyisellä pellolla. Nollattavissa milloin vain." />
+        <text name="rhm_detail_area" text="Pellon kokonaispuitu pinta-ala" />
+        <text name="rhm_detail_clean_grain" text="puhdasta viljaa" />
+        <text name="rhm_detail_yield" text="Keskimääräinen sato puidulla alalla" />
+        <text name="rhm_detail_throughput" text="Nykyinen puintiteho" />
+        <text name="rhm_detail_lost_grain" text="hukattua viljaa" />
+        <text name="rhm_detail_loss_rating" text="Hävikkiprosentti suhteessa biologiseen satoon" />
+        <text name="rhm_detail_financial_loss" text="Satohävikistä aiheutuva taloudellinen tappio" />
+        <text name="rhm_detail_speed" text="Puimurin keskimääräinen työnopeus" />
+        <text name="rhm_detail_load" text="Moottorin keskimääräinen kuormitus" />
+        <text name="rhm_detail_duration" text="Aktiivisen työjakson kesto" />
+        <text name="rhm_detail_wear" text="Puimakoneiston mekaaninen kuluminen" />
+        <text name="rhm_rating_normal" text="Ihanteellinen (&lt; 1,5 %)" />
+        <text name="rhm_rating_moderate" text="Kohtalainen (1,5 - 3,0 %)" />
+        <text name="rhm_rating_elevated" text="Kohonnut (&gt; 3,0 %)" />
+        <text name="rhm_rating_critical" text="Kriittinen (&gt; 4,5 %)" />
     </texts>
 </l10n>

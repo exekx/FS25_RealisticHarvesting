@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulering" />
@@ -349,5 +349,41 @@
         <text name="rhm_setting_volunteer_desc" text="Skapar ogrÃ¤s och spillsÃ¤d bakom trÃ¶skan i omrÃ¥den med hÃ¶ga fÃ¶rluster (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-ÅTERSTÄLL VID FÄLTBYTE" />
         <text name="rhm_setting_autoreset_desc" text="Arkiverar och nollställer automatiskt fälträknaren vid förflyttning till ett annat fält." />
+        <text name="rhm_col_field" text="Fält" />
+        <text name="rhm_col_speed" text="Hastighet" />
+        <text name="rhm_col_load" text="Belastning" />
+        <text name="rhm_col_loss" text="Förlust" />
+        <text name="rhm_col_tank" text="Spannmålstank" />
+        <text name="rhm_col_area" text="Areal" />
+        <text name="rhm_col_money" text="Förlust ($)" />
+        <text name="rhm_col_driver" text="Förare" />
+        <text name="rhm_col_cutter" text="Skärbord" />
+        <text name="rhm_col_throughput" text="Genomströmning" />
+        <text name="rhm_col_yield" text="Skörd" />
+        <text name="rhm_col_wear" text="Slitage" />
+        <text name="rhm_kpi_field" text="FÄLT" />
+        <text name="rhm_kpi_crop" text="GRÖDA" />
+        <text name="rhm_kpi_area" text="AREAL" />
+        <text name="rhm_kpi_harvest" text="SKÖRD" />
+        <text name="rhm_kpi_yield" text="AVKASTNING" />
+        <text name="rhm_kpi_loss" text="FÖRLUST" />
+        <text name="rhm_kpi_speed" text="HASTIGHET" />
+        <text name="rhm_efficiency_index" text="Effektivitetsklass" />
+        <text name="rhm_trip_footer_hint" text="Trippmätaren spårar skördad areal och ren spannmålsvolym för det aktiva fältet. Kan nollställas när som helst." />
+        <text name="rhm_detail_area" text="Total skördad fältareal" />
+        <text name="rhm_detail_clean_grain" text="ren spannmål" />
+        <text name="rhm_detail_yield" text="Genomsnittlig avkastning på skördad areal" />
+        <text name="rhm_detail_throughput" text="Aktuell tröskningsgenomströmning" />
+        <text name="rhm_detail_lost_grain" text="förlorad spannmål" />
+        <text name="rhm_detail_loss_rating" text="Förlustgrad gentemot biologisk skörd" />
+        <text name="rhm_detail_financial_loss" text="Ekonomisk förlust på grund av spill" />
+        <text name="rhm_detail_speed" text="Tröskans genomsnittliga körhastighet" />
+        <text name="rhm_detail_load" text="Genomsnittlig motorbelastning" />
+        <text name="rhm_detail_duration" text="Aktiv arbetstid" />
+        <text name="rhm_detail_wear" text="Mekaniskt slitage på tröskverket" />
+        <text name="rhm_rating_normal" text="Optimalt (&lt; 1,5 %)" />
+        <text name="rhm_rating_moderate" text="Måttligt (1,5 - 3,0 %)" />
+        <text name="rhm_rating_elevated" text="Förhöjt (&gt; 3,0 %)" />
+        <text name="rhm_rating_critical" text="Kritiskt (&gt; 4,5 %)" />
     </texts>
 </l10n>

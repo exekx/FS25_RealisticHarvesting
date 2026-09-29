@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulasi" />
@@ -349,5 +349,41 @@
         <text name="rhm_setting_volunteer_desc" text="Menumbuhkan gulma di belakang pemanen pada area dengan tingkat kehilangan tinggi (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="RESET OTOMATIS GANTI LAHAN" />
         <text name="rhm_setting_autoreset_desc" text="Arsipkan dan reset penghitung lahan secara otomatis saat berpindah ke lahan lain." />
+        <text name="rhm_col_field" text="Lahan" />
+        <text name="rhm_col_speed" text="Kecepatan" />
+        <text name="rhm_col_load" text="Beban" />
+        <text name="rhm_col_loss" text="Kehilangan" />
+        <text name="rhm_col_tank" text="Tangki" />
+        <text name="rhm_col_area" text="Luas" />
+        <text name="rhm_col_money" text="Kerugian ($)" />
+        <text name="rhm_col_driver" text="Operator" />
+        <text name="rhm_col_cutter" text="Pisau Pemotong" />
+        <text name="rhm_col_throughput" text="Kapasitas" />
+        <text name="rhm_col_yield" text="Hasil Panen" />
+        <text name="rhm_col_wear" text="Keausan" />
+        <text name="rhm_kpi_field" text="LAHAN" />
+        <text name="rhm_kpi_crop" text="TANAMAN" />
+        <text name="rhm_kpi_area" text="LUAS" />
+        <text name="rhm_kpi_harvest" text="PANEN" />
+        <text name="rhm_kpi_yield" text="HASIL" />
+        <text name="rhm_kpi_loss" text="KEHILANGAN" />
+        <text name="rhm_kpi_speed" text="KECEPATAN" />
+        <text name="rhm_efficiency_index" text="Tingkat Efisiensi" />
+        <text name="rhm_trip_footer_hint" text="Pengukur jarak memantau luas area panen dan volume gabah bersih untuk lahan aktif. Dapat disetel ulang kapan saja." />
+        <text name="rhm_detail_area" text="Total luas lahan yang dipanen" />
+        <text name="rhm_detail_clean_grain" text="biji bersih" />
+        <text name="rhm_detail_yield" text="Rata-rata hasil panen pada area panen" />
+        <text name="rhm_detail_throughput" text="Kapasitas perontokan saat ini" />
+        <text name="rhm_detail_lost_grain" text="biji yang hilang" />
+        <text name="rhm_detail_loss_rating" text="Tingkat kehilangan vs hasil biologis" />
+        <text name="rhm_detail_financial_loss" text="Dampak finansial dari kehilangan hasil panen" />
+        <text name="rhm_detail_speed" text="Kecepatan kerja rata-rata combine" />
+        <text name="rhm_detail_load" text="Beban daya mesin rata-rata" />
+        <text name="rhm_detail_duration" text="Durasi sesi aktif" />
+        <text name="rhm_detail_wear" text="Keausan mekanis mesin perontok" />
+        <text name="rhm_rating_normal" text="Optimal (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Sedang (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Tinggi (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Kritis (&gt; 4.5%)" />
     </texts>
 </l10n>
