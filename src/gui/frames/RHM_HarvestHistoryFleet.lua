@@ -12,6 +12,8 @@ function RHM_HarvestHistoryFleet.new(l18n)
     self.fleetData = {}
     self.historyData = {}
     self.selectedIndex = 1
+    self.selectedSeasonIndex = 1
+    self.seasonYearList = {}
     self.viewMode = "fleet" -- "fleet" or "history"
     return self
 end
@@ -864,8 +866,26 @@ function RHM_HarvestHistoryFleet:onClickNextCombine()
 end
 
 -- ============================================================================
--- SEASON HISTORY DATA COLLECTION
+-- SEASON HISTORY DATA COLLECTION & 3-CARD DASHBOARD
 -- ============================================================================
+
+function RHM_HarvestHistoryFleet:onClickPrevSeason()
+    if not self.seasonYearList or #self.seasonYearList <= 1 then return end
+    self.selectedSeasonIndex = self.selectedSeasonIndex - 1
+    if self.selectedSeasonIndex < 1 then
+        self.selectedSeasonIndex = #self.seasonYearList
+    end
+    self:updateHistoryData()
+end
+
+function RHM_HarvestHistoryFleet:onClickNextSeason()
+    if not self.seasonYearList or #self.seasonYearList <= 1 then return end
+    self.selectedSeasonIndex = self.selectedSeasonIndex + 1
+    if self.selectedSeasonIndex > #self.seasonYearList then
+        self.selectedSeasonIndex = 1
+    end
+    self:updateHistoryData()
+end
 
 function RHM_HarvestHistoryFleet:updateHistoryData()
     local farmId = getActivePlayerFarmId()
@@ -874,74 +894,151 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
     local farm = tracker and tracker:getFarmData(farmId)
     local rawHistory = (farm and farm.seasonHistory) or {}
 
-    self.historyData = {}
-    local totalArea = 0
-    local totalHarvestL = 0
-    local totalLostL = 0
-    local totalMoney = 0
-
-    for _, rec in ipairs(rawHistory) do
-        local area = rec.areaHa or 0
-        local harvL = rec.harvested or 0
-        local lostL = rec.lost or 0
-        local money = rec.lossMoney or 0
-        local harvT = harvL * 0.00075
-        local yieldTha = (area > 0.001) and (harvT / area) or 0
-
-        local bioVol = harvL + lostL
-        local lossPct = (bioVol > 0) and ((lostL / bioVol) * 100.0) or 0
-
-        totalArea = totalArea + area
-        totalHarvestL = totalHarvestL + harvL
-        totalLostL = totalLostL + lostL
-        totalMoney = totalMoney + money
-
-        local fieldLabel = "--"
-        if rec.fieldId and rec.fieldId > 0 then
-            fieldLabel = string.format(g_i18n:getText("rhm_field_format") or "Field %d", rec.fieldId)
-        end
-
-        local moneyStr = "-$0"
-        if g_i18n and g_i18n.formatMoney then
-            moneyStr = "-" .. g_i18n:formatMoney(money, nil, true, true)
-        else
-            moneyStr = string.format("-$%.0f", money)
-        end
-
-        table.insert(self.historyData, {
-            year = string.format("Y%d", rec.year or 1),
-            field = fieldLabel,
-            crop = rec.cropName or "UNKNOWN",
-            area = string.format("%.2f ha", area),
-            harvested = string.format("%.1f t (%.0f L)", harvT, harvL),
-            yield = string.format("%.2f t/ha", yieldTha),
-            loss = string.format("%.2f%%", lossPct),
-            money = moneyStr
-        })
+    self.seasonYearList = (tracker and tracker.getAvailableYears and tracker:getAvailableYears(farmId)) or { 1, "ALL" }
+    if self.selectedSeasonIndex == nil or self.selectedSeasonIndex > #self.seasonYearList or self.selectedSeasonIndex < 1 then
+        self.selectedSeasonIndex = 1
     end
 
-    -- Update Summary Metrics Banner
-    local totalBioAll = totalHarvestL + totalLostL
-    local overallLossPct = (totalBioAll > 0) and ((totalLostL / totalBioAll) * 100.0) or 0
-    local totalHarvestTons = totalHarvestL * 0.00075
+    local selectedYear = self.seasonYearList[self.selectedSeasonIndex]
+    local summary = tracker and tracker.getSeasonSummary and tracker:getSeasonSummary(farmId, selectedYear)
+    if not summary then
+        summary = {
+            year = selectedYear or "ALL",
+            isAllTime = (selectedYear == "ALL"),
+            isCurrent = false,
+            harvestedAreaHa = 0,
+            avgYield = 0,
+            harvestedTons = 0,
+            throughput = 0,
+            topCropsText = "--",
+            lostTons = 0,
+            lossPct = 0,
+            lossMoney = 0,
+            efficiencyRank = "A",
+            dominantReason = "speed",
+            avgSpeed = 0,
+            avgLoad = 0,
+            sessionDuration = 0,
+            fieldOperations = 0
+        }
+    end
 
-    if self.histTotalAreaText then self.histTotalAreaText:setText(string.format("%.2f ha", totalArea)) end
-    if self.histTotalHarvestText then self.histTotalHarvestText:setText(string.format("%.1f t", totalHarvestTons)) end
-    if self.histAvgLossText then self.histAvgLossText:setText(string.format("%.2f%%", overallLossPct)) end
-
-    local totalMoneyStr = "-$0"
-    if g_i18n and g_i18n.formatMoney then
-        totalMoneyStr = "-" .. g_i18n:formatMoney(totalMoney, nil, true, true)
+    -- Header Title
+    local titleStr = ""
+    if summary.isAllTime then
+        titleStr = string.format("[%d/%d]  %s", self.selectedSeasonIndex, #self.seasonYearList, g_i18n:getText("rhm_season_all_time") or "All Seasons (All-Time)")
     else
-        totalMoneyStr = string.format("-$%.0f", totalMoney)
+        local suffix = summary.isCurrent and (" " .. (g_i18n:getText("rhm_season_current_suffix") or "[Current]")) or ""
+        local sName = string.format(g_i18n:getText("rhm_season_format") or "Season %d (Year %d)", selectedYear, selectedYear)
+        titleStr = string.format("[%d/%d]  %s%s", self.selectedSeasonIndex, #self.seasonYearList, sName, suffix)
     end
-    if self.histTotalMoneyText then self.histTotalMoneyText:setText(totalMoneyStr) end
+    if self.selectedSeasonTitle then self.selectedSeasonTitle:setText(titleStr) end
+
+    local opLabel = g_i18n:getText("rhm_season_operations") or "Operations"
+    local countStr = string.format("%s: %d  |  %.2f ha", opLabel, summary.fieldOperations or 0, summary.harvestedAreaHa or 0)
+    if self.seasonSummaryCountText then self.seasonSummaryCountText:setText(countStr) end
+
+    -- CARD 1: Season Harvest & Area
+    if self.seasonCardArea then self.seasonCardArea:setText(string.format("%.2f ha", summary.harvestedAreaHa or 0)) end
+    if self.seasonCardYield then self.seasonCardYield:setText(string.format("%.2f t/ha", summary.avgYield or 0)) end
+    if self.seasonCardHarvestVolume then
+        self.seasonCardHarvestVolume:setText(string.format("%.1f t", summary.harvestedTons or 0))
+    end
+    if self.seasonCardThroughput then self.seasonCardThroughput:setText(string.format("%.1f t/h", summary.throughput or 0)) end
+    if self.seasonCardTopCrops then self.seasonCardTopCrops:setText(summary.topCropsText or "--") end
+
+    -- CARD 2: Season Losses & Finances
+    if self.seasonCardLossVolume then self.seasonCardLossVolume:setText(string.format("%.1f t", summary.lostTons or 0)) end
+    if self.seasonCardLossPercent then self.seasonCardLossPercent:setText(string.format("%.2f%%", summary.lossPct or 0)) end
+
+    local moneyStr = "-$0"
+    if g_i18n and g_i18n.formatMoney then
+        moneyStr = "-" .. g_i18n:formatMoney(summary.lossMoney or 0, nil, true, true)
+    else
+        moneyStr = string.format("-$%.0f", summary.lossMoney or 0)
+    end
+    if self.seasonCardLossMoney then self.seasonCardLossMoney:setText(moneyStr) end
+    if self.seasonCardEfficiencyRank then self.seasonCardEfficiencyRank:setText(string.format("[%s]", summary.efficiencyRank or "A")) end
+
+    local reasonKey = "rhm_cause_" .. tostring(summary.dominantReason or "speed")
+    local reasonName = (g_i18n and g_i18n:hasText(reasonKey) and g_i18n:getText(reasonKey)) or summary.dominantReason or "speed"
+    if self.seasonCardDominantCause then self.seasonCardDominantCause:setText(reasonName) end
+
+    -- CARD 3: Season Performance & Working Time
+    if self.seasonCardAvgSpeed then self.seasonCardAvgSpeed:setText(string.format("%.1f km/h", summary.avgSpeed or 0)) end
+    if self.seasonCardAvgLoad then self.seasonCardAvgLoad:setText(string.format("%.0f%%", summary.avgLoad or 0)) end
+
+    local totalSecs = math.floor(summary.sessionDuration or 0)
+    local hrs = math.floor(totalSecs / 3600)
+    local mins = math.floor((totalSecs % 3600) / 60)
+    local durStr = string.format("%02d:%02d", hrs, mins)
+    if self.seasonCardDuration then self.seasonCardDuration:setText(durStr) end
+    if self.seasonCardOperations then self.seasonCardOperations:setText(tostring(summary.fieldOperations or 0)) end
+
+    local statusText = ""
+    if summary.isAllTime then
+        statusText = g_i18n:getText("rhm_season_all_time_status") or "All-Time History"
+    elseif summary.isCurrent then
+        statusText = g_i18n:getText("rhm_season_active_status") or "Active Season"
+    else
+        statusText = g_i18n:getText("rhm_season_archived_status") or "Archived Season"
+    end
+    if self.seasonCardStatusText then self.seasonCardStatusText:setText(statusText) end
+
+    -- Table Entries Filtering
+    self.historyData = {}
+    for _, rec in ipairs(rawHistory) do
+        local recYear = rec.year or 1
+        local include = summary.isAllTime or (recYear == tonumber(selectedYear))
+        if include then
+            local area = rec.areaHa or 0
+            local harvL = rec.harvested or 0
+            local lostL = rec.lost or 0
+            local money = rec.lossMoney or 0
+            local harvT = harvL * 0.00075
+            local yieldTha = (area > 0.001) and (harvT / area) or 0
+
+            local bioVol = harvL + lostL
+            local lossPct = (bioVol > 0) and ((lostL / bioVol) * 100.0) or 0
+
+            local fieldLabel = "--"
+            if rec.fieldId and rec.fieldId > 0 then
+                fieldLabel = string.format(g_i18n:getText("rhm_field_format") or "Field %d", rec.fieldId)
+            end
+
+            local rowMoney = "-$0"
+            if g_i18n and g_i18n.formatMoney then
+                rowMoney = "-" .. g_i18n:formatMoney(money, nil, true, true)
+            else
+                rowMoney = string.format("-$%.0f", money)
+            end
+
+            local cropDisplay = rec.cropName or "UNKNOWN"
+            if g_fillTypeManager and cropDisplay ~= "UNKNOWN" and cropDisplay ~= "--" then
+                local ft = g_fillTypeManager:getFillTypeByName(cropDisplay)
+                if ft and ft.title and ft.title ~= "" then
+                    cropDisplay = ft.title
+                end
+            end
+
+            table.insert(self.historyData, {
+                year = string.format("Y%d", recYear),
+                field = fieldLabel,
+                crop = cropDisplay,
+                area = string.format("%.2f ha", area),
+                harvested = string.format("%.1f t (%.0f L)", harvT, harvL),
+                yield = string.format("%.2f t/ha", yieldTha),
+                loss = string.format("%.2f%%", lossPct),
+                money = rowMoney
+            })
+        end
+    end
 
     if #self.historyData == 0 then
         table.insert(self.historyData, {
             year = "--",
             field = "--",
-            crop = g_i18n:getText("rhm_hist_empty") or "No Records Yet",
+            crop = g_i18n:getText("rhm_hist_empty") or "No Records For This Season",
             area = "--",
             harvested = "--",
             yield = "--",

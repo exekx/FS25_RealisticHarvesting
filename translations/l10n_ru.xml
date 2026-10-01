@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Симуляция" />
@@ -297,6 +297,16 @@
         <text name="rhm_fleet_total_count" text="Всего комбайнов" />
         <text name="rhm_btn_subtab_fleet" text="ПАРК ТЕХНИКИ" />
         <text name="rhm_btn_subtab_history" text="ЖУРНАЛ СЕЗОНА / ВСЕ ПОЛЯ" />
+        <text name="rhm_season_all_time" text="Все сезоны (За все время)" />
+        <text name="rhm_season_format" text="Сезон %d (Год %d)" />
+        <text name="rhm_season_current_suffix" text="[Текущий]" />
+        <text name="rhm_card_season_harvest" text="СЕЗОННЫЙ СБОР И ПЛОЩАДЬ" />
+        <text name="rhm_card_season_losses" text="ПОТЕРИ И ЭКОНОМИКА СЕЗОНА" />
+        <text name="rhm_card_season_telemetry" text="ТЕЛЕМЕТРИЯ И ВРЕМЯ УБОРКИ" />
+        <text name="rhm_season_operations" text="Выполнено работ" />
+        <text name="rhm_season_active_status" text="Активный сезон" />
+        <text name="rhm_season_archived_status" text="Архивный сезон" />
+        <text name="rhm_season_all_time_status" text="За все время" />
         <text name="rhm_hist_total_area" text="Всего обработано" />
         <text name="rhm_hist_total_harvest" text="Валовой намолот" />
         <text name="rhm_hist_avg_loss" text="Средние потери" />

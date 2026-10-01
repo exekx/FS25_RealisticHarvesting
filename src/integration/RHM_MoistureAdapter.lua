@@ -18,21 +18,69 @@ function RHM_MoistureAdapter.initialize()
 end
 
 ---Fetches the moisture level for a specific fill type in a specific vehicle.
----@param uniqueId number The unique ID of the object (e.g. vehicle)
----@param fillType number The FS25 fill type enum
----@return number Moisture percentage (0.0 to 100.0)
-function RHM_MoistureAdapter.getObjectMoisture(uniqueId, fillType)
-    if not RHM_MoistureAdapter.isActive or not uniqueId or not fillType then return 0 end
+---@param vehicle table|number The vehicle instance or unique ID
+---@param fillType number|string The FS25 fill type enum or name
+---@return number|nil Moisture percentage (0.0 to 100.0) or nil if unavailable
+function RHM_MoistureAdapter.getObjectMoisture(vehicle, fillType)
+    if not RHM_MoistureAdapter.isActive or not vehicle then return nil end
     
-    -- Safe call to external system with diagnostic logging on exception
-    local success, result = pcall(function()
-        return g_currentMission.MoistureSystem:getObjectMoisture(uniqueId, fillType)
-    end)
+    local ms = g_currentMission and g_currentMission.MoistureSystem
+    if not ms then return nil end
     
-    if success and result then
-        return result * 100 -- Convert 0-1 scale to percentage
-    elseif not success then
-        rhm_log(string.format("RHM [Moisture Adapter Error] getObjectMoisture: %s", tostring(result)))
+    local uniqueId = nil
+    if type(vehicle) == "table" then
+        uniqueId = vehicle.uniqueId
+    elseif type(vehicle) == "string" or type(vehicle) == "number" then
+        uniqueId = vehicle
+    end
+    
+    if uniqueId and ms.objectInfo then
+        if ms.ensureObjectMoistureLoaded and type(vehicle) == "table" then
+            pcall(function() ms:ensureObjectMoistureLoaded(vehicle) end)
+        end
+        
+        local objectData = ms.objectInfo[uniqueId]
+        if objectData then
+            local fillTypeName = nil
+            if type(fillType) == "number" and g_fillTypeManager then
+                fillTypeName = g_fillTypeManager:getFillTypeNameByIndex(fillType)
+            elseif type(fillType) == "string" then
+                fillTypeName = fillType
+            end
+            
+            if fillTypeName and objectData[fillTypeName] and objectData[fillTypeName].moisture then
+                return objectData[fillTypeName].moisture * 100.0
+            end
+            
+            -- Case-insensitive search across object entries
+            if fillTypeName then
+                local upper = fillTypeName:upper()
+                for name, data in pairs(objectData) do
+                    if name:upper() == upper and data and data.moisture then
+                        return data.moisture * 100.0
+                    end
+                end
+            end
+            
+            -- Fallback to first valid recorded moisture property for this vehicle
+            for _, data in pairs(objectData) do
+                if data and data.moisture and type(data.moisture) == "number" then
+                    return data.moisture * 100.0
+                end
+            end
+        end
+    end
+    
+    -- Generic external interface probe fallback
+    if ms.getObjectMoisture then
+        local success, result = pcall(function()
+            return ms:getObjectMoisture(uniqueId, fillType)
+        end)
+        if success and result and type(result) == "number" then
+            return (result <= 1.0) and (result * 100.0) or result
+        elseif not success then
+            rhm_log(string.format("RHM [Moisture Adapter Error] getObjectMoisture: %s", tostring(result)))
+        end
     end
     
     return nil
@@ -49,7 +97,7 @@ function RHM_MoistureAdapter.getMoistureAtPosition(x, z)
         return g_currentMission.MoistureSystem:getMoistureAtPosition(x, z)
     end)
     
-    if success and result then
+    if success and result and type(result) == "number" then
         return result * 100 -- Convert 0-1 scale to percentage
     elseif not success then
         rhm_log(string.format("RHM [Moisture Adapter Error] getMoistureAtPosition: %s", tostring(result)))

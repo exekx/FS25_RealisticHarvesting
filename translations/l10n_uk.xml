@@ -297,6 +297,16 @@
         <text name="rhm_fleet_total_count" text="Усього комбайнів" />
         <text name="rhm_btn_subtab_fleet" text="ПАРК ТЕХНІКИ" />
         <text name="rhm_btn_subtab_history" text="ЖУРНАЛ СЕЗОНУ / УСІ ПОЛЯ" />
+        <text name="rhm_season_all_time" text="Всі сезони (За весь час)" />
+        <text name="rhm_season_format" text="Сезон %d (Рік %d)" />
+        <text name="rhm_season_current_suffix" text="[Поточний]" />
+        <text name="rhm_card_season_harvest" text="СЕЗОННИЙ ЗБІР І ПЛОЩА" />
+        <text name="rhm_card_season_losses" text="ВТРАТИ ТА ЕКОНОМІКА СЕЗОНУ" />
+        <text name="rhm_card_season_telemetry" text="ТЕЛЕМЕТРІЯ ТА ЧАС ЖНИВ" />
+        <text name="rhm_season_operations" text="Виконано робіт" />
+        <text name="rhm_season_active_status" text="Активний сезон" />
+        <text name="rhm_season_archived_status" text="Архівний сезон" />
+        <text name="rhm_season_all_time_status" text="За весь час" />
         <text name="rhm_hist_total_area" text="Усього оброблено" />
         <text name="rhm_hist_total_harvest" text="Валовий намолот" />
         <text name="rhm_hist_avg_loss" text="Середні втрати" />
@@ -315,8 +325,6 @@
         <text name="rhm_col_throughput" text="Продуктивність" />
         <text name="rhm_col_yield" text="Врожайність" />
         <text name="rhm_col_wear" text="Знос" />
-        <text name="rhm_col_harvested" text="Намолот" />
-        <text name="rhm_col_hours" text="Мотогодини" />
         <text name="rhm_kpi_field" text="ПОЛЕ" />
         <text name="rhm_kpi_crop" text="КУЛЬТУРА" />
         <text name="rhm_kpi_area" text="ПЛОЩА" />

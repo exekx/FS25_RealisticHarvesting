@@ -13,7 +13,7 @@
 -- ============================================================================
 
 RHM_Api = {}
-RHM_Api.VERSION = "1.6.1.0"
+RHM_Api.VERSION = "1.6.2.0"
 RHM_Api.listeners = {}
 
 -- ============================================================================
@@ -782,19 +782,23 @@ end
 ---@return table|nil trip
 function RHM_Api.getCombineTrip(vehicle)
     local combine = RHM_Api.findCombine(vehicle)
-    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.trip then
-        return combine.spec_rhm_Combine.trip
-    end
+    if not combine then return nil end
     local tracker = RHM_Api.getHarvestTracker()
-    if tracker and combine then
+    if tracker then
         local farmId = (combine.getOwnerFarmId and combine:getOwnerFarmId()) or 1
         local farm = tracker:getFarmData(farmId)
         if farm and farm.combineTrips then
             local machineKey = combine.configFileName or (combine.getFullName and combine:getFullName()) or "Harvester"
             if farm.combineTrips[machineKey] then
+                if combine.spec_rhm_Combine then
+                    combine.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
+                end
                 return farm.combineTrips[machineKey]
             end
         end
+    end
+    if combine.spec_rhm_Combine and combine.spec_rhm_Combine.trip then
+        return combine.spec_rhm_Combine.trip
     end
     return nil
 end
@@ -856,6 +860,36 @@ function RHM_Api.getFieldHeatmap(farmId, fieldId)
         if farm and farm.fieldHeatmaps and farm.fieldHeatmaps[fieldId] then
             return farm.fieldHeatmaps[fieldId].points
         end
+    end
+    return nil
+end
+
+---EN: Returns list of recorded season years plus 'ALL' for a given farm.
+---UA: Повертає список доступних сезонів та 'ALL' для заданої ферми.
+function RHM_Api.getAvailableSeasons(farmId)
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker and tracker.getAvailableYears then
+        return tracker:getAvailableYears(farmId or 1)
+    end
+    return { 1, "ALL" }
+end
+
+---EN: Returns comprehensive aggregate telemetry, harvest throughput, and finances for a specific season.
+---UA: Повертає повний підсумок намолоту, площі, втрат та телеметрії для обраного сезону.
+function RHM_Api.getFarmSeasonSummary(farmId, year)
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker and tracker.getSeasonSummary then
+        return tracker:getSeasonSummary(farmId or 1, year)
+    end
+    return nil
+end
+
+---EN: Returns all-time historical harvest totals and performance metrics across all seasons.
+---UA: Повертає агреговані підсумки жнив за весь час (усі сезони разом) для заданої ферми.
+function RHM_Api.getFarmAllTimeSummary(farmId)
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker and tracker.getSeasonSummary then
+        return tracker:getSeasonSummary(farmId or 1, "ALL")
     end
     return nil
 end

@@ -48,16 +48,64 @@ function RHM_HarvestHistoryTrip:getActiveTrip()
     local activeCombine = RHM_HarvestTracker and RHM_HarvestTracker.findPlayerEnteredCombine and RHM_HarvestTracker.findPlayerEnteredCombine()
     if activeCombine then
         local trip = nil
-        if activeCombine.spec_rhm_Combine and activeCombine.spec_rhm_Combine.trip then
-            trip = activeCombine.spec_rhm_Combine.trip
+        local machineKey = activeCombine.configFileName or (activeCombine.getFullName and activeCombine:getFullName()) or "Harvester"
+
+        -- First check persistent per-machine trip table
+        if farm and farm.combineTrips and farm.combineTrips[machineKey] then
+            trip = farm.combineTrips[machineKey]
         end
-        if farm and farm.combineTrips then
-            local machineKey = activeCombine.configFileName or (activeCombine.getFullName and activeCombine:getFullName()) or "Harvester"
-            if farm.combineTrips[machineKey] then
+
+        -- Second check if combine spec itself already holds an active non-empty trip
+        if (not trip or (trip.harvestedLiters or 0) <= 0) and activeCombine.spec_rhm_Combine and activeCombine.spec_rhm_Combine.trip and (activeCombine.spec_rhm_Combine.trip.harvestedLiters or 0) > 0 then
+            trip = activeCombine.spec_rhm_Combine.trip
+            if farm then
+                farm.combineTrips = farm.combineTrips or {}
+                farm.combineTrips[machineKey] = trip
+            end
+        end
+
+        -- Third check: fallback to farm.currentTrip if combine trip has no data but currentTrip does
+        if (not trip or (trip.harvestedLiters or 0) <= 0) and farm and farm.currentTrip and (farm.currentTrip.harvestedLiters or 0) > 0 then
+            if farm.currentTrip.lastMachineKey == nil or farm.currentTrip.lastMachineKey == machineKey then
+                farm.combineTrips = farm.combineTrips or {}
+                if not farm.combineTrips[machineKey] then
+                    farm.combineTrips[machineKey] = {
+                        fieldId = farm.currentTrip.fieldId or 0,
+                        cropName = farm.currentTrip.cropName or "--",
+                        fillTypeIndex = farm.currentTrip.fillTypeIndex or FillType.UNKNOWN,
+                        harvestedAreaHa = farm.currentTrip.harvestedAreaHa or 0,
+                        harvestedLiters = farm.currentTrip.harvestedLiters or 0,
+                        harvestedMassKg = farm.currentTrip.harvestedMassKg or 0,
+                        lostLiters = farm.currentTrip.lostLiters or 0,
+                        lossMoney = farm.currentTrip.lossMoney or 0,
+                        sessionDuration = farm.currentTrip.sessionDuration or 0,
+                        avgSpeedSum = farm.currentTrip.avgSpeedSum or 0,
+                        avgSpeedCount = farm.currentTrip.avgSpeedCount or 0,
+                        avgLoadSum = farm.currentTrip.avgLoadSum or 0,
+                        avgLoadCount = farm.currentTrip.avgLoadCount or 0,
+                        efficiencyRank = farm.currentTrip.efficiencyRank or RHM_HarvestTracker.RANK_A,
+                        reasons = {
+                            speed = farm.currentTrip.reasons and farm.currentTrip.reasons.speed or 0,
+                            moisture = farm.currentTrip.reasons and farm.currentTrip.reasons.moisture or 0,
+                            wear = farm.currentTrip.reasons and farm.currentTrip.reasons.wear or 0,
+                            slope = farm.currentTrip.reasons and farm.currentTrip.reasons.slope or 0
+                        },
+                        isActive = farm.currentTrip.isActive or false
+                    }
+                end
                 trip = farm.combineTrips[machineKey]
             end
         end
+
+        -- If still nil, fallback to spec.trip
+        if not trip and activeCombine.spec_rhm_Combine and activeCombine.spec_rhm_Combine.trip then
+            trip = activeCombine.spec_rhm_Combine.trip
+        end
+
         if trip then
+            if activeCombine.spec_rhm_Combine then
+                activeCombine.spec_rhm_Combine.trip = trip
+            end
             return trip, activeCombine, farmId
         end
     end
@@ -65,7 +113,7 @@ function RHM_HarvestHistoryTrip:getActiveTrip()
     -- 2. If player is not in a combine, check if there is an active combine in the fleet
     if farm and farm.combineTrips then
         for machineKey, mTrip in pairs(farm.combineTrips) do
-            if mTrip.isActive or (mTrip.sessionDuration and mTrip.sessionDuration > 0) then
+            if mTrip.isActive or (mTrip.sessionDuration and mTrip.sessionDuration > 0) or (mTrip.harvestedLiters and mTrip.harvestedLiters > 0) then
                 return mTrip, nil, farmId
             end
         end

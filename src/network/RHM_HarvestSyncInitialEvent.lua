@@ -52,6 +52,13 @@ function RHM_HarvestSyncInitialEvent:writeStream(streamId, connection)
     streamWriteFloat32(streamId, reasons.wear or 0)
     streamWriteFloat32(streamId, reasons.slope or 0)
 
+    streamWriteFloat32(streamId, trip.avgSpeedSum or 0)
+    streamWriteUInt32(streamId, trip.avgSpeedCount or 0)
+    streamWriteFloat32(streamId, trip.avgLoadSum or 0)
+    streamWriteUInt32(streamId, trip.avgLoadCount or 0)
+    streamWriteBool(streamId, trip.isActive == true)
+    streamWriteString(streamId, trip.lastMachineKey or "")
+
     -- Farm Settings
     local set = farm.farmSettings or {}
     streamWriteBool(streamId, set.aiSpeedLimiter ~= false)
@@ -91,6 +98,64 @@ function RHM_HarvestSyncInitialEvent:writeStream(streamId, connection)
         streamWriteString(streamId, h.efficiencyRank or "A")
         streamWriteString(streamId, h.dominantReason or "speed")
     end
+
+    -- Yearly Stats count & entries (capped at 20)
+    local yearlyList = {}
+    if farm.yearlyStats then
+        for _, yStat in pairs(farm.yearlyStats) do
+            table.insert(yearlyList, yStat)
+            if #yearlyList >= 20 then break end
+        end
+    end
+    streamWriteUInt16(streamId, #yearlyList)
+    for _, yStat in ipairs(yearlyList) do
+        streamWriteUInt16(streamId, yStat.year or 1)
+        streamWriteFloat32(streamId, yStat.harvestedLiters or 0)
+        streamWriteFloat32(streamId, yStat.harvestedMassKg or 0)
+        streamWriteFloat32(streamId, yStat.harvestedAreaHa or 0)
+        streamWriteFloat32(streamId, yStat.lostLiters or 0)
+        streamWriteFloat32(streamId, yStat.lossMoney or 0)
+        streamWriteFloat32(streamId, yStat.sessionDuration or 0)
+        streamWriteFloat32(streamId, yStat.avgSpeedSum or 0)
+        streamWriteUInt32(streamId, yStat.avgSpeedCount or 0)
+        streamWriteFloat32(streamId, yStat.avgLoadSum or 0)
+        streamWriteUInt32(streamId, yStat.avgLoadCount or 0)
+        streamWriteUInt16(streamId, yStat.fieldOperations or 0)
+    end
+
+    -- Combine Trips count & entries (capped at 20)
+    local cList = {}
+    if farm.combineTrips then
+        for machineKey, mTrip in pairs(farm.combineTrips) do
+            table.insert(cList, { machineKey = machineKey, trip = mTrip })
+            if #cList >= 20 then break end
+        end
+    end
+    streamWriteUInt16(streamId, #cList)
+    for _, item in ipairs(cList) do
+        local mTrip = item.trip
+        streamWriteString(streamId, item.machineKey)
+        streamWriteInt32(streamId, mTrip.fieldId or 0)
+        streamWriteString(streamId, mTrip.cropName or "--")
+        streamWriteInt32(streamId, mTrip.fillTypeIndex or FillType.UNKNOWN)
+        streamWriteFloat32(streamId, mTrip.harvestedLiters or 0)
+        streamWriteFloat32(streamId, mTrip.harvestedMassKg or 0)
+        streamWriteFloat32(streamId, mTrip.harvestedAreaHa or 0)
+        streamWriteFloat32(streamId, mTrip.lostLiters or 0)
+        streamWriteFloat32(streamId, mTrip.lossMoney or 0)
+        streamWriteFloat32(streamId, mTrip.sessionDuration or 0)
+        streamWriteString(streamId, mTrip.efficiencyRank or "A")
+        streamWriteFloat32(streamId, mTrip.avgSpeedSum or 0)
+        streamWriteUInt32(streamId, mTrip.avgSpeedCount or 0)
+        streamWriteFloat32(streamId, mTrip.avgLoadSum or 0)
+        streamWriteUInt32(streamId, mTrip.avgLoadCount or 0)
+        local mReasons = mTrip.reasons or {}
+        streamWriteFloat32(streamId, mReasons.speed or 0)
+        streamWriteFloat32(streamId, mReasons.moisture or 0)
+        streamWriteFloat32(streamId, mReasons.wear or 0)
+        streamWriteFloat32(streamId, mReasons.slope or 0)
+        streamWriteBool(streamId, mTrip.isActive == true)
+    end
 end
 
 function RHM_HarvestSyncInitialEvent:readStream(streamId, connection)
@@ -118,6 +183,16 @@ function RHM_HarvestSyncInitialEvent:readStream(streamId, connection)
     trip.reasons.moisture = streamReadFloat32(streamId)
     trip.reasons.wear = streamReadFloat32(streamId)
     trip.reasons.slope = streamReadFloat32(streamId)
+
+    trip.avgSpeedSum = streamReadFloat32(streamId)
+    trip.avgSpeedCount = streamReadUInt32(streamId)
+    trip.avgLoadSum = streamReadFloat32(streamId)
+    trip.avgLoadCount = streamReadUInt32(streamId)
+    trip.isActive = streamReadBool(streamId)
+    local lmk = streamReadString(streamId)
+    if lmk and lmk ~= "" then
+        trip.lastMachineKey = lmk
+    end
 
     -- Farm Settings
     local set = farm.farmSettings
@@ -158,6 +233,78 @@ function RHM_HarvestSyncInitialEvent:readStream(streamId, connection)
             efficiencyRank = streamReadString(streamId),
             dominantReason = streamReadString(streamId)
         })
+    end
+
+    -- Yearly Stats
+    local yearlyCount = streamReadUInt16(streamId)
+    farm.yearlyStats = farm.yearlyStats or {}
+    for _ = 1, yearlyCount do
+        local y = streamReadUInt16(streamId)
+        farm.yearlyStats[y] = {
+            year = y,
+            harvestedLiters = streamReadFloat32(streamId),
+            harvestedMassKg = streamReadFloat32(streamId),
+            harvestedAreaHa = streamReadFloat32(streamId),
+            lostLiters = streamReadFloat32(streamId),
+            lossMoney = streamReadFloat32(streamId),
+            sessionDuration = streamReadFloat32(streamId),
+            avgSpeedSum = streamReadFloat32(streamId),
+            avgSpeedCount = streamReadUInt32(streamId),
+            avgLoadSum = streamReadFloat32(streamId),
+            avgLoadCount = streamReadUInt32(streamId),
+            fieldOperations = streamReadUInt16(streamId),
+            reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 },
+            cropVolumes = {}
+        }
+    end
+
+    -- Combine Trips
+    local combineCount = streamReadUInt16(streamId)
+    farm.combineTrips = farm.combineTrips or {}
+    for _ = 1, combineCount do
+        local machineKey = streamReadString(streamId)
+        local mTrip = {
+            fieldId = streamReadInt32(streamId),
+            cropName = streamReadString(streamId),
+            fillTypeIndex = streamReadInt32(streamId),
+            harvestedLiters = streamReadFloat32(streamId),
+            harvestedMassKg = streamReadFloat32(streamId),
+            harvestedAreaHa = streamReadFloat32(streamId),
+            lostLiters = streamReadFloat32(streamId),
+            lossMoney = streamReadFloat32(streamId),
+            sessionDuration = streamReadFloat32(streamId),
+            efficiencyRank = streamReadString(streamId),
+            avgSpeedSum = streamReadFloat32(streamId),
+            avgSpeedCount = streamReadUInt32(streamId),
+            avgLoadSum = streamReadFloat32(streamId),
+            avgLoadCount = streamReadUInt32(streamId),
+            reasons = {
+                speed = streamReadFloat32(streamId),
+                moisture = streamReadFloat32(streamId),
+                wear = streamReadFloat32(streamId),
+                slope = streamReadFloat32(streamId)
+            },
+            isActive = streamReadBool(streamId)
+        }
+        farm.combineTrips[machineKey] = mTrip
+    end
+
+    -- Link client combine specs if vehicles already spawned
+    if g_currentMission then
+        local vehicles = (g_currentMission.vehicleSystem and g_currentMission.vehicleSystem.vehicles) or g_currentMission.vehicles
+        if vehicles then
+            for _, vehicle in pairs(vehicles) do
+                if vehicle and type(vehicle) == "table" and vehicle.spec_rhm_Combine then
+                    local vFarmId = (vehicle.getOwnerFarmId and vehicle:getOwnerFarmId()) or 1
+                    if vFarmId == self.farmId and farm.combineTrips then
+                        local machineKey = vehicle.configFileName or (vehicle.getFullName and vehicle:getFullName()) or "Harvester"
+                        if farm.combineTrips[machineKey] then
+                            vehicle.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
+                        end
+                    end
+                end
+            end
+        end
     end
 
     self:run(connection)

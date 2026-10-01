@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulação" />
@@ -293,6 +293,16 @@
         <text name="rhm_fleet_total_count" text="Total de colheitadeiras" />
         <text name="rhm_btn_subtab_fleet" text="FROTA DE COLHEITADEIRAS" />
         <text name="rhm_btn_subtab_history" text="HISTÃ“RICO DA TEMPORADA / TODOS OS CAMPOS" />
+        <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
+        <text name="rhm_season_format" text="Season %d (Year %d)" />
+        <text name="rhm_season_current_suffix" text="[Current]" />
+        <text name="rhm_card_season_harvest" text="SEASON HARVEST &amp; AREA" />
+        <text name="rhm_card_season_losses" text="SEASON LOSSES &amp; FINANCES" />
+        <text name="rhm_card_season_telemetry" text="SEASON METRICS &amp; HARVEST TIME" />
+        <text name="rhm_season_operations" text="Completed Operations" />
+        <text name="rhm_season_active_status" text="Active Season" />
+        <text name="rhm_season_archived_status" text="Archived Season" />
+        <text name="rhm_season_all_time_status" text="All-Time History" />
         <text name="rhm_hist_total_area" text="Ãrea total colhida" />
         <text name="rhm_hist_total_harvest" text="Colheita limpa total" />
         <text name="rhm_hist_avg_loss" text="Perdas mÃ©dias" />

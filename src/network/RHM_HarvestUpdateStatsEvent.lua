@@ -43,6 +43,13 @@ function RHM_HarvestUpdateStatsEvent:writeStream(streamId, connection)
     streamWriteFloat32(streamId, reasons.moisture or 0)
     streamWriteFloat32(streamId, reasons.wear or 0)
     streamWriteFloat32(streamId, reasons.slope or 0)
+
+    streamWriteFloat32(streamId, trip.avgSpeedSum or 0)
+    streamWriteUInt32(streamId, trip.avgSpeedCount or 0)
+    streamWriteFloat32(streamId, trip.avgLoadSum or 0)
+    streamWriteUInt32(streamId, trip.avgLoadCount or 0)
+    streamWriteBool(streamId, trip.isActive == true)
+    streamWriteString(streamId, trip.lastMachineKey or "")
 end
 
 function RHM_HarvestUpdateStatsEvent:readStream(streamId, connection)
@@ -69,6 +76,16 @@ function RHM_HarvestUpdateStatsEvent:readStream(streamId, connection)
         trip.reasons.moisture = streamReadFloat32(streamId)
         trip.reasons.wear = streamReadFloat32(streamId)
         trip.reasons.slope = streamReadFloat32(streamId)
+
+        trip.avgSpeedSum = streamReadFloat32(streamId)
+        trip.avgSpeedCount = streamReadUInt32(streamId)
+        trip.avgLoadSum = streamReadFloat32(streamId)
+        trip.avgLoadCount = streamReadUInt32(streamId)
+        trip.isActive = streamReadBool(streamId)
+        local lmk = streamReadString(streamId)
+        if lmk and lmk ~= "" then
+            trip.lastMachineKey = lmk
+        end
     end
 
     self:run(connection)

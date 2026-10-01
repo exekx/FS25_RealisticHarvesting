@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulation" />
@@ -295,7 +295,17 @@
         <text name="rhm_fleet_total_count" text="Gesamtzahl MÃ¤hdrescher" />
         <text name="rhm_btn_subtab_fleet" text="MÃ„HDRESCHER-FLOTTE" />
         <text name="rhm_btn_subtab_history" text="SAISON-HISTORIE / ALLE FELDER" />
-        <text name="rhm_hist_total_area" text="Gesamte ErnteflÃ¤che" />
+        <text name="rhm_season_all_time" text="Alle Saisons (Gesamt)" />
+        <text name="rhm_season_format" text="Saison %d (Jahr %d)" />
+        <text name="rhm_season_current_suffix" text="[Aktuell]" />
+        <text name="rhm_card_season_harvest" text="SAISONERNTE &amp; FLÄCHE" />
+        <text name="rhm_card_season_losses" text="SAISONVERLUSTE &amp; FINANZEN" />
+        <text name="rhm_card_season_telemetry" text="SAISONDATEN &amp; ERNTEZEIT" />
+        <text name="rhm_season_operations" text="Erledigte Arbeiten" />
+        <text name="rhm_season_active_status" text="Aktive Saison" />
+        <text name="rhm_season_archived_status" text="Archivierte Saison" />
+        <text name="rhm_season_all_time_status" text="Gesamte Historie" />
+        <text name="rhm_hist_total_area" text="Gesamte Erntefläche" />
         <text name="rhm_hist_total_harvest" text="Gesamte Reinernte" />
         <text name="rhm_hist_avg_loss" text="Durchschnittliche Verluste" />
         <text name="rhm_hist_total_money" text="Gesamter finanzieller Verlust" />

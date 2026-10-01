@@ -557,6 +557,16 @@ function rhm_Combine:onPostLoad(savegame)
     if savegame ~= nil and not self._rhmSettingsLoadedFromSavegame then
         self:loadFromSavegame(savegame)
     end
+    -- Link persistent trip odometer if already loaded in harvest tracker
+    local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
+    if tracker then
+        local farmId = (self.getOwnerFarmId and self:getOwnerFarmId()) or 1
+        local farm = tracker.farms and tracker.farms[farmId]
+        local machineKey = self.configFileName or (self.getFullName and self:getFullName()) or "Harvester"
+        if farm and farm.combineTrips and farm.combineTrips[machineKey] then
+            self.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
+        end
+    end
 end
 
 -- EN: Override for addFillUnitFillLevel — tracks actual liters added to the bunker (hopper).
@@ -1835,13 +1845,50 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     if g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableMoisture ~= false then
         if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive then
             if cutterIsTurnedOn then
-                local fillType = spec.lastFillType or FillType.UNKNOWN
-                if fillType ~= FillType.UNKNOWN and self.components and self.components[1] then
-                    moisture = RHM_MoistureAdapter.getObjectMoisture(self.components[1].node, fillType)
+                local fillType = spec.lastFillType
+                if not fillType or fillType == FillType.UNKNOWN then
+                    if self.getFillUnitFillType and self.spec_combine and self.spec_combine.fillUnitIndex then
+                        fillType = self:getFillUnitFillType(self.spec_combine.fillUnitIndex)
+                    end
                 end
+                if not fillType or fillType == FillType.UNKNOWN then
+                    fillType = (spec.combineMemory and spec.combineMemory.currentCrop) or FillType.UNKNOWN
+                end
+                
+                if fillType and fillType ~= FillType.UNKNOWN then
+                    moisture = RHM_MoistureAdapter.getObjectMoisture(self, fillType)
+                end
+                
+                -- Fallback to environmental position moisture only if vehicle crop moisture is not yet recorded
                 if (moisture == 0 or moisture == nil) and self.components and self.components[1] then
                     local mx, _, mz = getWorldTranslation(self.components[1].node)
-                    moisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz)
+                    local rawSoilMoisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz)
+                    if rawSoilMoisture and rawSoilMoisture > 0 then
+                        -- Soil/ground moisture in environmental provider is 18-35% baseline subterranean moisture.
+                        -- Standing grain in sunlight dries out; do not treat ground moisture as grain moisture.
+                        local isRaining = g_currentMission and g_currentMission.environment and g_currentMission.environment.weather and g_currentMission.environment.weather:getIsRaining()
+                        if isRaining then
+                            moisture = math.max(rawSoilMoisture, 22.0)
+                        else
+                            local dayTimeHours = 12.0
+                            if g_currentMission and g_currentMission.environment then
+                                if g_currentMission.environment.dayTime then
+                                    dayTimeHours = g_currentMission.environment.dayTime / 3600000
+                                elseif g_currentMission.environment.currentHour then
+                                    dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
+                                end
+                            end
+                            local diurnalFactor = math.cos((dayTimeHours - 3.0) * 0.2617993877991494)
+                            if diurnalFactor <= 0 then
+                                -- Warm daytime/afternoon (10:00 - 19:00): standing crop dries to safe levels
+                                local dryScale = 0.45 + (1.0 + diurnalFactor) * 0.20
+                                moisture = math.max(8.0, math.min(13.5, rawSoilMoisture * dryScale))
+                            else
+                                -- Early morning dew or night: crop absorbs humidity
+                                moisture = math.max(12.0, math.min(25.0, rawSoilMoisture * (0.65 + diurnalFactor * 0.35)))
+                            end
+                        end
+                    end
                 end
             end
         end
@@ -2105,7 +2152,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
     end
 
-    
     -- === SPEED LIMIT ENFORCEMENT (Server Side) ===
     -- Certain automated drivers and auxiliary controllers can bypass `getSpeedLimit()`.
     -- Enforce the dynamic cap directly on the motor for both:
