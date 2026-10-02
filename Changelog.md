@@ -1,5 +1,15 @@
 # Realistic Harvesting - Changelog
 
+Changelog 1.6.2.0:
+- ADDED: Authentic agricultural on-board computer terminal warning chime (Deutz-Fahr iMonitor profile) replacing harsh piezo buzzer.
+- ADDED: Precision single-pulse alert chime (0.30s) harmonized with rhythmic Smart Mode bursts (3 beeps followed by an 18s grace period).
+- IMPROVED: Farm Fields overview table (SmoothList) rendering and robust multi-strategy farmland ownership resolution.
+- IMPROVED: AI Worker speed limiter logic separating controllable machine losses from ambient weather moisture.
+- IMPROVED: Mini HUD typography baseline elevation and rank indicator clearance in compact view.
+- FIXED: Field statistics session duration and accumulator arithmetic nil exception on active harvest ticks.
+- FIXED: Savegame reload persistence for field trip counters and individual machine odometers across save/load cycles.
+- FIXED: Multiplayer synchronization for field harvest statistics and active combine trips.
+
 Changelog 1.6.1.0:
 - ADDED: Fullscreen Harvest Records & Field Job Counter menu (Right Shift + J).
 - ADDED: Live field-level yield, harvested area, clean crop volume, and financial loss metrics.

@@ -1431,7 +1431,8 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         self.speedLimit = math.max(minSpeed, self.speedLimit)
     end
 
-    -- AI SPEED LIMITER: Automatically slow down hired AI workers when loss exceeds farm limit
+    -- AI SPEED LIMITER: Automatically slow down hired AI workers when speed-controllable loss exceeds farm limit.
+    -- Uncontrollable losses (environmental moisture/dew and mechanical blade wear) cannot be reduced by driving slower.
     if vehicle and rhm_Combine and rhm_Combine.isAiWorkerActive and rhm_Combine.isAiWorkerActive(vehicle) then
         local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
         if tracker then
@@ -1439,9 +1440,10 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
             local farm = tracker:getFarmData(farmId)
             if farm and farm.farmSettings and farm.farmSettings.aiSpeedLimiter then
                 local maxAllowedLoss = farm.farmSettings.aiMaxLossPct or 2.0
-                local currentLoss = self.cropLoss or 0
-                if currentLoss > maxAllowedLoss then
-                    local excess = currentLoss - maxAllowedLoss
+                local uncontrollableLoss = (self.moistureLoss or 0) + (self.wearLoss or 0)
+                local controllableLoss = math.max(0, (self.cropLoss or 0) - uncontrollableLoss)
+                if controllableLoss > maxAllowedLoss then
+                    local excess = controllableLoss - maxAllowedLoss
                     local brakeFactor = math.max(0.55, 1.0 - (excess * 0.12))
                     self.speedLimit = math.max(minSpeed, self.speedLimit * brakeFactor)
                 end

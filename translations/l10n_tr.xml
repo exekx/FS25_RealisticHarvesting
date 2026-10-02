@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simülasyon" />
@@ -402,5 +402,17 @@
         <text name="rhm_rating_moderate" text="Orta (%1,5 - %3,0)" />
         <text name="rhm_rating_elevated" text="Yüksek (&gt; %3,0)" />
         <text name="rhm_rating_critical" text="Kritik (&gt; %4,5)" />
+        <text name="rhm_tab_fields" text="Çiftlik Tarlaları" />
+        <text name="rhm_tab_fields_desc" text="Çiftliğiniz için tarla bazında hasat, verim, kayıp ve sözleşmeli işlerin kapsamlı özeti." />
+        <text name="rhm_card_field_land" text="TARIM ARAZİSİ &amp; İLERLEME" />
+        <text name="rhm_card_field_yield" text="ÜRETİM &amp; VERİM" />
+        <text name="rhm_card_field_losses" text="ÜRÜN KAYIPLARI &amp; KALİTE" />
+        <text name="rhm_fields_total_owned" text="Ait Tarlalar" />
+        <text name="rhm_fields_best_yield" text="En Yüksek Verim" />
+        <text name="rhm_fields_owned" text="Mülk" />
+        <text name="rhm_fields_contract" text="Sözleşme" />
+        <text name="rhm_fields_no_data" text="Kayıtlı Tarla Yok" />
+        <text name="rhm_contract_tag" text="(Sözleşme)" />
+        <text name="rhm_status_completed" text="Hasat Edildi" />
     </texts>
 </l10n>

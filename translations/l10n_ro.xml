@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulare" />
@@ -402,5 +402,17 @@
         <text name="rhm_rating_moderate" text="Moderat (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="Ridicat (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="Critic (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Câmpurile fermei" />
+        <text name="rhm_tab_fields_desc" text="Prezentare detaliată a recoltei, randamentelor, pierderilor și contractelor pentru fiecare câmp." />
+        <text name="rhm_card_field_land" text="TEREN &amp; PROGRES" />
+        <text name="rhm_card_field_yield" text="PRODUCȚIE &amp; RANDAMENT" />
+        <text name="rhm_card_field_losses" text="PIERDERI &amp; CALITATE" />
+        <text name="rhm_fields_total_owned" text="Câmpuri proprii" />
+        <text name="rhm_fields_best_yield" text="Cel mai bun randament" />
+        <text name="rhm_fields_owned" text="Propriu" />
+        <text name="rhm_fields_contract" text="Contract" />
+        <text name="rhm_fields_no_data" text="Niciun câmp înregistrat" />
+        <text name="rhm_contract_tag" text="(Contract)" />
+        <text name="rhm_status_completed" text="Recoltat" />
     </texts>
 </l10n>

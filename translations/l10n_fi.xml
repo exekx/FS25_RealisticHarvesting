@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulaatio" />
@@ -395,5 +395,17 @@
         <text name="rhm_rating_moderate" text="Kohtalainen (1,5 - 3,0 %)" />
         <text name="rhm_rating_elevated" text="Kohonnut (&gt; 3,0 %)" />
         <text name="rhm_rating_critical" text="Kriittinen (&gt; 4,5 %)" />
+        <text name="rhm_tab_fields" text="Tilan Pellot" />
+        <text name="rhm_tab_fields_desc" text="Yksityiskohtainen katsaus sadonkorjuusta, sadoista, hävikistä ja urakointitöistä lohkoittain." />
+        <text name="rhm_card_field_land" text="PELTOALA &amp; EDISTYMINEN" />
+        <text name="rhm_card_field_yield" text="TUOTANTO &amp; SATO" />
+        <text name="rhm_card_field_losses" text="HÄVIKKI &amp; LAATU" />
+        <text name="rhm_fields_total_owned" text="Omat pellot" />
+        <text name="rhm_fields_best_yield" text="Paras sato" />
+        <text name="rhm_fields_owned" text="Oma" />
+        <text name="rhm_fields_contract" text="Urakka" />
+        <text name="rhm_fields_no_data" text="Ei tallennettuja peltoja" />
+        <text name="rhm_contract_tag" text="(Urakka)" />
+        <text name="rhm_status_completed" text="Korjattu" />
     </texts>
 </l10n>

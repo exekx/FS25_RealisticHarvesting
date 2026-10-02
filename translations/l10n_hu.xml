@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Szimuláció" />
@@ -404,5 +404,17 @@
         <text name="rhm_rating_moderate" text="Mérsékelt (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="Megnövekedett (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="Kritikus (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Gazdaság földjei" />
+        <text name="rhm_tab_fields_desc" text="Részletes áttekintés a betakarításról, hozamokról, veszteségekről és szerződésekről mezőnként." />
+        <text name="rhm_card_field_land" text="FÖLDTERÜLET ÉS HALADÁS" />
+        <text name="rhm_card_field_yield" text="TERMELÉS ÉS HOZAM" />
+        <text name="rhm_card_field_losses" text="VESZTESÉGEK ÉS MINŐSÉG" />
+        <text name="rhm_fields_total_owned" text="Saját mezők" />
+        <text name="rhm_fields_best_yield" text="Legjobb hozam" />
+        <text name="rhm_fields_owned" text="Saját" />
+        <text name="rhm_fields_contract" text="Szerződés" />
+        <text name="rhm_fields_no_data" text="Nincsenek rögzített mezők" />
+        <text name="rhm_contract_tag" text="(Szerződés)" />
+        <text name="rhm_status_completed" text="Betakarítva" />
     </texts>
 </l10n>

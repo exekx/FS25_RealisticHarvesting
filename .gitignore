@@ -19,6 +19,8 @@ scratch/
 *.tmp
 *.bak
 *~
+src/extensions/
+src/GroundPropertyTracker.lua
 
 # Build artifacts
 *.zip

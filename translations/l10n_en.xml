@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulation" />
@@ -404,5 +404,17 @@
         <text name="rhm_rating_moderate" text="Moderate (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="Elevated (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="Critical (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Farm Fields" />
+        <text name="rhm_tab_fields_desc" text="Comprehensive field-level production, yields, losses, and contract operations for your farm." />
+        <text name="rhm_card_field_land" text="FARMLAND &amp; PROGRESS" />
+        <text name="rhm_card_field_yield" text="PRODUCTION &amp; YIELD" />
+        <text name="rhm_card_field_losses" text="CROP LOSSES &amp; QUALITY" />
+        <text name="rhm_fields_total_owned" text="Owned Fields" />
+        <text name="rhm_fields_best_yield" text="Best Yield Field" />
+        <text name="rhm_fields_owned" text="Owned" />
+        <text name="rhm_fields_contract" text="Contract" />
+        <text name="rhm_fields_no_data" text="No Fields Recorded" />
+        <text name="rhm_contract_tag" text="(Contract)" />
+        <text name="rhm_status_completed" text="Harvested" />
     </texts>
 </l10n>

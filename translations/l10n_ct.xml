@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - 物理模擬" />
@@ -395,5 +395,17 @@
         <text name="rhm_rating_moderate" text="適中 (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="偏高 (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="嚴重 (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="農場田地" />
+        <text name="rhm_tab_fields_desc" text="農場各田地的產量、畝產、損失與合約任務詳細總覽。" />
+        <text name="rhm_card_field_land" text="農地與進度" />
+        <text name="rhm_card_field_yield" text="產量與收穫" />
+        <text name="rhm_card_field_losses" text="作物損失與品質" />
+        <text name="rhm_fields_total_owned" text="自有田地" />
+        <text name="rhm_fields_best_yield" text="最高產量田地" />
+        <text name="rhm_fields_owned" text="自有" />
+        <text name="rhm_fields_contract" text="合約" />
+        <text name="rhm_fields_no_data" text="無田地記錄" />
+        <text name="rhm_contract_tag" text="(合約)" />
+        <text name="rhm_status_completed" text="已收穫" />
     </texts>
 </l10n>

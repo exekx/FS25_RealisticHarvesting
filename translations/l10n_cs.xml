@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulace" />
@@ -404,5 +404,17 @@
         <text name="rhm_rating_moderate" text="Mírné (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="Zvýšené (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="Kritické (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Pole farmy" />
+        <text name="rhm_tab_fields_desc" text="Podrobný přehled sklizně, výnosů, ztrát a zakázek na jednotlivých polích." />
+        <text name="rhm_card_field_land" text="POZEMKY A POKROK" />
+        <text name="rhm_card_field_yield" text="SKLIZEŇ A VÝNOS" />
+        <text name="rhm_card_field_losses" text="ZTRÁTY A KVALITA" />
+        <text name="rhm_fields_total_owned" text="Vlastní pole" />
+        <text name="rhm_fields_best_yield" text="Nejlepší výnos" />
+        <text name="rhm_fields_owned" text="Vlastní" />
+        <text name="rhm_fields_contract" text="Smlouva" />
+        <text name="rhm_fields_no_data" text="Žádná pole nezaznamenána" />
+        <text name="rhm_contract_tag" text="(Smlouva)" />
+        <text name="rhm_status_completed" text="Sklizeno" />
     </texts>
 </l10n>

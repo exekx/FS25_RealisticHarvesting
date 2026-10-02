@@ -1004,6 +1004,10 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
             local fieldLabel = "--"
             if rec.fieldId and rec.fieldId > 0 then
                 fieldLabel = string.format(g_i18n:getText("rhm_field_format") or "Field %d", rec.fieldId)
+                if rec.isContract then
+                    local contractText = (g_i18n and g_i18n:hasText("rhm_contract_tag")) and g_i18n:getText("rhm_contract_tag") or "(Contract)"
+                    fieldLabel = fieldLabel .. " " .. contractText
+                end
             end
 
             local rowMoney = "-$0"

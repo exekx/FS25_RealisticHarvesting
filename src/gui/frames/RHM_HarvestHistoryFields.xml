@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI>
+    <GuiElement profile="uiInGameMenuFrame">
+        <!-- Page header with icon and title -->
+        <GuiElement profile="fs25_menuHeaderPanel">
+            <Bitmap profile="fs25_menuHeaderIconBg">
+                <Bitmap profile="fs25_menuHeaderIcon" imageSliceId="rhmUi.icon_field" />
+            </Bitmap>
+            <Text profile="fs25_menuHeaderTitle" text="$l10n_rhm_tab_fields" />
+        </GuiElement>
+
+        <Text profile="rhmDescriptiveText" text="$l10n_rhm_tab_fields_desc" position="20px -46px" width="1400px" />
+
+        <!-- Fields Overview Panel -->
+        <GuiElement id="fieldsPanel" profile="rhmSubPanel" position="0px 0px" size="1400px 700px">
+            <!-- Header Summary Box -->
+            <Bitmap profile="rhmMachineHeaderBox" position="20px -72px" size="1360px 40px">
+                <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_field" position="16px -8px" size="24px 24px" />
+                <Text profile="rhmCardTitle" id="fieldsSummaryTitle" position="50px -10px" size="780px 22px" text="--" />
+                <Text profile="rhmCardSubValue" id="fieldsSummaryCountText" position="850px -10px" size="490px 22px" text="--" textAlignment="right" />
+            </Bitmap>
+
+            <!-- CARD 1: Farmland & Status -->
+            <Bitmap profile="rhmCardContainer" position="20px -120px" size="440px 198px">
+                <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_field" position="18px -12px" size="20px 20px" />
+                <Text profile="rhmCardTitle" position="46px -14px" size="375px 20px" text="$l10n_rhm_card_field_land" />
+
+                <!-- Slot 1: Owned Fields -->
+                <Text profile="rhmCardSubValue" position="20px -46px" size="180px 14px" text="$l10n_rhm_fields_total_owned" />
+                <Text profile="rhmCardHighlightValue" id="fieldSummaryOwnedCount" position="20px -64px" size="180px 26px" text="0" />
+
+                <!-- Slot 2: Total Farm Area -->
+                <Text profile="rhmCardSubValue" position="220px -46px" size="195px 14px" text="$l10n_rhm_hist_total_area" />
+                <Text profile="rhmCardValue" id="fieldSummaryTotalArea" position="220px -64px" size="195px 26px" text="0.00 ha" />
+
+                <!-- Slot 3: Harvested Area -->
+                <Text profile="rhmCardSubValue" position="20px -100px" size="180px 14px" text="$l10n_rhm_col_area" />
+                <Text profile="rhmCardHighlightValue" id="fieldSummaryHarvestedArea" position="20px -118px" size="180px 26px" text="0.00 ha" textSize="18px" />
+
+                <!-- Slot 4: Contract Fields -->
+                <Text profile="rhmCardSubValue" position="220px -100px" size="195px 14px" text="$l10n_rhm_contract_tag" />
+                <Text profile="rhmCardValue" id="fieldSummaryContractCount" position="220px -118px" size="195px 26px" text="0" />
+
+                <!-- Slot 5: Progress / Coverage -->
+                <Text profile="rhmCardSubValue" position="20px -156px" size="120px 18px" text="$l10n_rhm_col_status" />
+                <Text profile="rhmCardValue" id="fieldSummaryProgressText" position="140px -158px" size="275px 22px" text="--" textSize="16px" />
+            </Bitmap>
+
+            <!-- CARD 2: Production & Yield -->
+            <Bitmap profile="rhmCardContainer" position="480px -120px" size="440px 198px">
+                <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_yield" position="18px -12px" size="20px 20px" />
+                <Text profile="rhmCardTitle" position="46px -14px" size="375px 20px" text="$l10n_rhm_card_field_yield" />
+
+                <!-- Slot 1: Total Clean Harvest -->
+                <Text profile="rhmCardSubValue" position="20px -46px" size="180px 14px" text="$l10n_rhm_clean_harvest" />
+                <Text profile="rhmCardHighlightValue" id="fieldSummaryTotalHarvest" position="20px -64px" size="180px 26px" text="0.0 t" />
+
+                <!-- Slot 2: Average Farm Yield -->
+                <Text profile="rhmCardSubValue" position="220px -46px" size="195px 14px" text="$l10n_rhm_col_yield" />
+                <Text profile="rhmCardHighlightValue" id="fieldSummaryAvgYield" position="220px -64px" size="195px 26px" text="0.00 t/ha" />
+
+                <!-- Slot 3: Best Yield Field -->
+                <Text profile="rhmCardSubValue" position="20px -100px" size="180px 14px" text="$l10n_rhm_fields_best_yield" />
+                <Text profile="rhmCardValue" id="fieldSummaryBestField" position="20px -118px" size="180px 26px" text="--" textSize="18px" />
+
+                <!-- Slot 4: Top Crop -->
+                <Text profile="rhmCardSubValue" position="220px -100px" size="195px 14px" text="$l10n_rhm_kpi_crop" />
+                <Text profile="rhmCardValue" id="fieldSummaryTopCrop" position="220px -118px" size="195px 26px" text="--" />
+
+                <!-- Slot 5: Operating Work Time -->
+                <Text profile="rhmCardSubValue" position="20px -156px" size="120px 18px" text="$l10n_rhm_session_duration" />
+                <Text profile="rhmCardValue" id="fieldSummaryWorkDuration" position="140px -158px" size="275px 22px" text="00:00" textSize="16px" />
+            </Bitmap>
+
+            <!-- CARD 3: Losses & Quality Grade -->
+            <Bitmap profile="rhmCardContainer" position="940px -120px" size="440px 198px">
+                <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_loss" position="18px -12px" size="20px 20px" />
+                <Text profile="rhmCardTitle" position="46px -14px" size="375px 20px" text="$l10n_rhm_card_field_losses" />
+
+                <!-- Slot 1: Total Loss Volume -->
+                <Text profile="rhmCardSubValue" position="20px -46px" size="180px 14px" text="$l10n_rhm_loss_volume" />
+                <Text profile="rhmCardWarningValue" id="fieldSummaryTotalLost" position="20px -64px" size="180px 26px" text="0.0 t" />
+
+                <!-- Slot 2: Average Loss Rate % -->
+                <Text profile="rhmCardSubValue" position="220px -46px" size="195px 14px" text="$l10n_rhm_loss_share" />
+                <Text profile="rhmCardWarningValue" id="fieldSummaryAvgLossPct" position="220px -64px" size="195px 26px" text="0.00%" />
+
+                <!-- Slot 3: Financial Losses -->
+                <Text profile="rhmCardSubValue" position="20px -100px" size="180px 14px" text="$l10n_rhm_financial_loss" />
+                <Text profile="rhmCardAlertValue" id="fieldSummaryTotalMoney" position="20px -118px" size="180px 26px" text="-$0" textSize="18px" />
+
+                <!-- Slot 4: Efficiency Class -->
+                <Text profile="rhmCardSubValue" position="220px -100px" size="195px 14px" text="$l10n_rhm_efficiency_index" />
+                <Text profile="rhmCardHighlightValue" id="fieldSummaryEfficiencyRank" position="220px -118px" size="195px 26px" text="[A]" textSize="18px" />
+
+                <!-- Slot 5: Dominant Cause -->
+                <Text profile="rhmCardSubValue" position="20px -156px" size="140px 18px" text="$l10n_rhm_causes_title" />
+                <Text profile="rhmCardWarningValue" id="fieldSummaryDominantCause" position="165px -158px" size="250px 22px" text="--" textSize="16px" />
+            </Bitmap>
+
+            <!-- Table Header Box -->
+            <GuiElement profile="rhmTableHeaderBox" position="20px -326px" size="1360px 24px">
+                <Button profile="rhmTableHeader" position="10px -2px" size="130px 20px" text="$l10n_rhm_col_field" handleFocus="false" />
+                <Button profile="rhmTableHeader" position="150px -2px" size="120px 20px" text="$l10n_rhm_col_status" handleFocus="false" />
+                <Button profile="rhmTableHeader" position="280px -2px" size="120px 20px" text="$l10n_rhm_col_area" handleFocus="false" />
+                <Button profile="rhmTableHeader" position="410px -2px" size="190px 20px" text="$l10n_rhm_crop_type" handleFocus="false" />
+                <Button profile="rhmTableHeader" position="610px -2px" size="210px 20px" text="$l10n_rhm_col_harvested" handleFocus="false" />
+                <Button profile="rhmTableHeader" position="830px -2px" size="150px 20px" text="$l10n_rhm_col_yield" handleFocus="false" />
+                <Button profile="rhmTableHeader" position="990px -2px" size="140px 20px" text="$l10n_rhm_col_loss" handleFocus="false" />
+                <Button profile="rhmTableHeader" position="1140px -2px" size="130px 20px" text="$l10n_rhm_col_money" handleFocus="false" />
+                <Button profile="rhmTableHeader" position="1280px -2px" size="70px 20px" text="$l10n_rhm_col_rank" handleFocus="false" />
+            </GuiElement>
+
+            <!-- Fields Table Content -->
+            <SmoothList id="fieldsTable" profile="rhmTable" position="20px -354px" size="1360px 300px">
+                <ListItem profile="rhmListItem">
+                    <Text profile="rhmRowCellLeft" name="colField" position="10px 0px" size="130px 38px" />
+                    <Text profile="rhmRowCellLeft" name="colStatus" position="150px 0px" size="120px 38px" />
+                    <Text profile="rhmRowCellLeft" name="colArea" position="280px 0px" size="120px 38px" />
+                    <Text profile="rhmRowCellLeft" name="colCrop" position="410px 0px" size="190px 38px" />
+                    <Text profile="rhmRowCellLeft" name="colHarvested" position="610px 0px" size="210px 38px" />
+                    <Text profile="rhmRowCellLeft" name="colYield" position="830px 0px" size="150px 38px" />
+                    <Text profile="rhmRowCellLeft" name="colLoss" position="990px 0px" size="140px 38px" />
+                    <Text profile="rhmRowCellLeft" name="colMoney" position="1140px 0px" size="130px 38px" />
+                    <Text profile="rhmRowCellLeft" name="colRank" position="1280px 0px" size="70px 38px" />
+                </ListItem>
+            </SmoothList>
+
+            <!-- Scrollbar Slider -->
+            <ThreePartBitmap profile="rhmSliderBox" position="1385px -354px" size="6px 300px">
+                <Slider profile="fs25_listSlider" dataElementId="fieldsTable" />
+            </ThreePartBitmap>
+        </GuiElement>
+    </GuiElement>
+</GUI>

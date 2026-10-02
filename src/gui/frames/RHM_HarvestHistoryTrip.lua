@@ -150,7 +150,18 @@ function RHM_HarvestHistoryTrip:updateData()
         end
     end
 
-    local fieldStr = fieldId > 0 and tostring(fieldId) or (g_i18n and g_i18n:getText("rhm_trip_no_field") or "--")
+    local isContract = (trip.isContract == true)
+    if not isContract and fieldId > 0 and RHM_HarvestTracker and RHM_HarvestTracker.isContractField then
+        isContract = RHM_HarvestTracker.isContractField(fieldId, farmId)
+    end
+
+    local contractTag = ""
+    if isContract then
+        local contractText = (g_i18n and g_i18n:hasText("rhm_contract_tag")) and g_i18n:getText("rhm_contract_tag") or "(Contract)"
+        contractTag = " " .. contractText
+    end
+
+    local fieldStr = fieldId > 0 and (tostring(fieldId) .. contractTag) or (g_i18n and g_i18n:getText("rhm_trip_no_field") or "--")
     local cropStr = trip.cropName or "--"
     if cropStr == "UNKNOWN" or cropStr == "--" then
         if activeCombine then

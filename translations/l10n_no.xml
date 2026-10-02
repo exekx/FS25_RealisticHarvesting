@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulering" />
@@ -395,5 +395,17 @@
         <text name="rhm_rating_moderate" text="Moderat (1,5 - 3,0 %)" />
         <text name="rhm_rating_elevated" text="Forhøyet (&gt; 3,0 %)" />
         <text name="rhm_rating_critical" text="Kritisk (&gt; 4,5 %)" />
+        <text name="rhm_tab_fields" text="Gårdens Jorder" />
+        <text name="rhm_tab_fields_desc" text="Omfattende oversikt over innhøsting, avling, tap og oppdrag for hvert jorde." />
+        <text name="rhm_card_field_land" text="DYRKET MARK &amp; FREMDRIFT" />
+        <text name="rhm_card_field_yield" text="PRODUKSJON &amp; AVLING" />
+        <text name="rhm_card_field_losses" text="AVLINGSTAP &amp; KVALITET" />
+        <text name="rhm_fields_total_owned" text="Eide jorder" />
+        <text name="rhm_fields_best_yield" text="Beste avling" />
+        <text name="rhm_fields_owned" text="Eget" />
+        <text name="rhm_fields_contract" text="Kontrakt" />
+        <text name="rhm_fields_no_data" text="Ingen jorder registrert" />
+        <text name="rhm_contract_tag" text="(Kontrakt)" />
+        <text name="rhm_status_completed" text="Innhøstet" />
     </texts>
 </l10n>

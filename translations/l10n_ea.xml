@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulación" />
@@ -404,5 +404,17 @@
         <text name="rhm_rating_moderate" text="Moderado (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="Elevado (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="Crítico (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Campos de la granja" />
+        <text name="rhm_tab_fields_desc" text="Información detallada de producción, rendimiento, pérdidas y contratos por campo de la granja." />
+        <text name="rhm_card_field_land" text="TIERRA &amp; PROGRESO" />
+        <text name="rhm_card_field_yield" text="PRODUCCIÓN &amp; RENDIMIENTO" />
+        <text name="rhm_card_field_losses" text="PÉRDIDAS &amp; CALIDAD" />
+        <text name="rhm_fields_total_owned" text="Campos propios" />
+        <text name="rhm_fields_best_yield" text="Mejor rendimiento" />
+        <text name="rhm_fields_owned" text="Propio" />
+        <text name="rhm_fields_contract" text="Contrato" />
+        <text name="rhm_fields_no_data" text="Sin campos registrados" />
+        <text name="rhm_contract_tag" text="(Contrato)" />
+        <text name="rhm_status_completed" text="Cosechado" />
     </texts>
 </l10n>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Симуляция" />
@@ -406,5 +406,17 @@
         <text name="rhm_rating_moderate" text="Умеренные (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="Повышенные (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="Критические (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Поля фермы" />
+        <text name="rhm_tab_fields_desc" text="Подробный обзор сбора урожая, урожайности, потерь и контрактов по отдельным полям фермы." />
+        <text name="rhm_card_field_land" text="ЗЕМЛЯ И ПРОГРЕСС" />
+        <text name="rhm_card_field_yield" text="СБОР И УРОЖАЙНОСТЬ" />
+        <text name="rhm_card_field_losses" text="ПОТЕРИ И КАЧЕСТВО" />
+        <text name="rhm_fields_total_owned" text="Собственных полей" />
+        <text name="rhm_fields_best_yield" text="Лучшее поле" />
+        <text name="rhm_fields_owned" text="Собственное" />
+        <text name="rhm_fields_contract" text="Контракт" />
+        <text name="rhm_fields_no_data" text="Нет записей полей" />
+        <text name="rhm_contract_tag" text="(Контракт)" />
+        <text name="rhm_status_completed" text="Убрано" />
     </texts>
 </l10n>

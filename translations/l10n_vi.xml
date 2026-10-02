@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Mô phỏng" />
@@ -395,5 +395,17 @@
         <text name="rhm_rating_moderate" text="Vừa phải (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="Tăng cao (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="Nghiêm trọng (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Cánh đồng trang trại" />
+        <text name="rhm_tab_fields_desc" text="Tổng quan chi tiết về thu hoạch, năng suất, tổn thất và hợp đồng cho từng cánh đồng." />
+        <text name="rhm_card_field_land" text="ĐẤT TRỒNG &amp; TIẾN ĐỘ" />
+        <text name="rhm_card_field_yield" text="SẢN LƯỢNG &amp; NĂNG SUẤT" />
+        <text name="rhm_card_field_losses" text="TỔN THẤT &amp; CHẤT LƯỢNG" />
+        <text name="rhm_fields_total_owned" text="Đồng ruộng sở hữu" />
+        <text name="rhm_fields_best_yield" text="Năng suất cao nhất" />
+        <text name="rhm_fields_owned" text="Sở hữu" />
+        <text name="rhm_fields_contract" text="Hợp đồng" />
+        <text name="rhm_fields_no_data" text="Chưa có dữ liệu đồng ruộng" />
+        <text name="rhm_contract_tag" text="(Hợp đồng)" />
+        <text name="rhm_status_completed" text="Đã thu hoạch" />
     </texts>
 </l10n>

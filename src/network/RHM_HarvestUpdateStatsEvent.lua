@@ -49,6 +49,7 @@ function RHM_HarvestUpdateStatsEvent:writeStream(streamId, connection)
     streamWriteFloat32(streamId, trip.avgLoadSum or 0)
     streamWriteUInt32(streamId, trip.avgLoadCount or 0)
     streamWriteBool(streamId, trip.isActive == true)
+    streamWriteBool(streamId, trip.isContract == true)
     streamWriteString(streamId, trip.lastMachineKey or "")
 end
 
@@ -82,9 +83,13 @@ function RHM_HarvestUpdateStatsEvent:readStream(streamId, connection)
         trip.avgLoadSum = streamReadFloat32(streamId)
         trip.avgLoadCount = streamReadUInt32(streamId)
         trip.isActive = streamReadBool(streamId)
+        trip.isContract = streamReadBool(streamId)
         local lmk = streamReadString(streamId)
         if lmk and lmk ~= "" then
             trip.lastMachineKey = lmk
+            if farm.combineTrips and farm.combineTrips[lmk] then
+                farm.combineTrips[lmk].isContract = trip.isContract
+            end
         end
     end
 

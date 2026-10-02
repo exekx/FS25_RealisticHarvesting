@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulatie" />
@@ -402,5 +402,17 @@
         <text name="rhm_rating_moderate" text="Gematigd (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="Verhoogd (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="Kritiek (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Boerderijvelden" />
+        <text name="rhm_tab_fields_desc" text="Uitgebreid overzicht van oogst, opbrengsten, verliezen en contracten per veld." />
+        <text name="rhm_card_field_land" text="LANDBOUWGROND &amp; VOORTGANG" />
+        <text name="rhm_card_field_yield" text="PRODUCTIE &amp; OPBRENGST" />
+        <text name="rhm_card_field_losses" text="VERLIEZEN &amp; KWALITEIT" />
+        <text name="rhm_fields_total_owned" text="Eigen velden" />
+        <text name="rhm_fields_best_yield" text="Beste opbrengst" />
+        <text name="rhm_fields_owned" text="Eigen" />
+        <text name="rhm_fields_contract" text="Contract" />
+        <text name="rhm_fields_no_data" text="Geen velden geregistreerd" />
+        <text name="rhm_contract_tag" text="(Contract)" />
+        <text name="rhm_status_completed" text="Geoogst" />
     </texts>
 </l10n>

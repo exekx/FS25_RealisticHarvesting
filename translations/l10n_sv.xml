@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulering" />
@@ -395,5 +395,17 @@
         <text name="rhm_rating_moderate" text="Måttligt (1,5 - 3,0 %)" />
         <text name="rhm_rating_elevated" text="Förhöjt (&gt; 3,0 %)" />
         <text name="rhm_rating_critical" text="Kritiskt (&gt; 4,5 %)" />
+        <text name="rhm_tab_fields" text="Gårdens Fält" />
+        <text name="rhm_tab_fields_desc" text="Översikt över skörd, avkastning, förluster och kontraktsarbeten per fält." />
+        <text name="rhm_card_field_land" text="ÅKERMARK &amp; FRAMSTEG" />
+        <text name="rhm_card_field_yield" text="PRODUKTION &amp; SKÖRD" />
+        <text name="rhm_card_field_losses" text="FÖRLUSTER &amp; KVALITET" />
+        <text name="rhm_fields_total_owned" text="Ägda fält" />
+        <text name="rhm_fields_best_yield" text="Bästa avkastning" />
+        <text name="rhm_fields_owned" text="Ägt" />
+        <text name="rhm_fields_contract" text="Kontrakt" />
+        <text name="rhm_fields_no_data" text="Inga fält registrerade" />
+        <text name="rhm_contract_tag" text="(Kontrakt)" />
+        <text name="rhm_status_completed" text="Skördat" />
     </texts>
 </l10n>

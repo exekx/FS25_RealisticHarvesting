@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - シミュレーション" />
@@ -395,5 +395,17 @@
         <text name="rhm_rating_moderate" text="許容 (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="増加 (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="危険 (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="農場圃場一覧" />
+        <text name="rhm_tab_fields_desc" text="農場の各圃場における収穫量、収量、ロス、契約作業の詳細概要。" />
+        <text name="rhm_card_field_land" text="農地と進捗" />
+        <text name="rhm_card_field_yield" text="生産量と収量" />
+        <text name="rhm_card_field_losses" text="作物ロスと品質" />
+        <text name="rhm_fields_total_owned" text="所有圃場" />
+        <text name="rhm_fields_best_yield" text="最高収量圃場" />
+        <text name="rhm_fields_owned" text="所有" />
+        <text name="rhm_fields_contract" text="契約" />
+        <text name="rhm_fields_no_data" text="記録された圃場なし" />
+        <text name="rhm_contract_tag" text="(契約)" />
+        <text name="rhm_status_completed" text="収穫完了" />
     </texts>
 </l10n>

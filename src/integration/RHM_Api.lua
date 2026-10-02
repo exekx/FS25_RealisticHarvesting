@@ -893,3 +893,28 @@ function RHM_Api.getFarmAllTimeSummary(farmId)
     end
     return nil
 end
+
+---EN: Checks if a given field is currently under an active contract/mission for the specified farm.
+---UA: Перевіряє, чи виконуються зараз на полі контрактні роботи (місія) для вказаної ферми.
+---@param fieldId number
+---@param farmId number|nil
+---@return boolean
+function RHM_Api.isContractField(fieldId, farmId)
+    if RHM_HarvestTracker and RHM_HarvestTracker.isContractField then
+        return RHM_HarvestTracker.isContractField(fieldId, farmId)
+    end
+    return false
+end
+
+---EN: Returns list of owned farm fields and contract operations with cumulative harvest telemetry.
+---UA: Повертає список полів ферми та контрактних місій із накопиченою телеметрією збору врожаю.
+---@param farmId number|nil
+---@return table
+function RHM_Api.getFarmFields(farmId)
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker and tracker.getFarmFields then
+        return tracker:getFarmFields(farmId or 1)
+    end
+    return {}
+end
+

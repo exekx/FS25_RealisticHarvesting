@@ -24,8 +24,9 @@ function RHM_HarvestHistoryGUI:onGuiSetupFinished()
     self.clickBackCallback = self:makeSelfCallback(self.onButtonBack)
 
     if self.pageTrip then self.pageTrip:initialize() end
-    if self.pageAnalytics then self.pageAnalytics:initialize() end
+    if self.pageFields then self.pageFields:initialize() end
     if self.pageFleet then self.pageFleet:initialize() end
+    if self.pageAnalytics then self.pageAnalytics:initialize() end
 
     self:setupPages()
     self:setupMenuButtonInfo()
@@ -34,6 +35,7 @@ end
 function RHM_HarvestHistoryGUI:setupPages()
     local pages = {
         { self.pageTrip, 'rhmUi.icon_tab_trip' },
+        { self.pageFields, 'rhmUi.icon_field' },
         { self.pageFleet, 'rhmUi.icon_tab_fleet' },
         { self.pageAnalytics, 'rhmUi.icon_tab_analytics' }
     }
@@ -99,10 +101,12 @@ function RHM_HarvestHistoryGUI:getCurrentPage()
     end
     if self.pageTrip and self.pageTrip.getIsVisible and self.pageTrip:getIsVisible() then
         return self.pageTrip
-    elseif self.pageAnalytics and self.pageAnalytics.getIsVisible and self.pageAnalytics:getIsVisible() then
-        return self.pageAnalytics
+    elseif self.pageFields and self.pageFields.getIsVisible and self.pageFields:getIsVisible() then
+        return self.pageFields
     elseif self.pageFleet and self.pageFleet.getIsVisible and self.pageFleet:getIsVisible() then
         return self.pageFleet
+    elseif self.pageAnalytics and self.pageAnalytics.getIsVisible and self.pageAnalytics:getIsVisible() then
+        return self.pageAnalytics
     end
     return nil
 end

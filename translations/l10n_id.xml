@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulasi" />
@@ -395,5 +395,17 @@
         <text name="rhm_rating_moderate" text="Sedang (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="Tinggi (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="Kritis (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Lahan Pertanian" />
+        <text name="rhm_tab_fields_desc" text="Ringkasan lengkap produksi, hasil panen, kerugian, dan kontrak kerja untuk setiap lahan pertanian Anda." />
+        <text name="rhm_card_field_land" text="LAHAN &amp; KEMAJUAN" />
+        <text name="rhm_card_field_yield" text="PRODUKSI &amp; HASIL PANEN" />
+        <text name="rhm_card_field_losses" text="KERUGIAN &amp; KUALITAS" />
+        <text name="rhm_fields_total_owned" text="Lahan Dimiliki" />
+        <text name="rhm_fields_best_yield" text="Hasil Panen Terbaik" />
+        <text name="rhm_fields_owned" text="Dimiliki" />
+        <text name="rhm_fields_contract" text="Kontrak" />
+        <text name="rhm_fields_no_data" text="Tidak Ada Data Lahan" />
+        <text name="rhm_contract_tag" text="(Kontrak)" />
+        <text name="rhm_status_completed" text="Dipanen" />
     </texts>
 </l10n>

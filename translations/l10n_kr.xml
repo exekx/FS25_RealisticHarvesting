@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - 시뮬레이션" />
@@ -395,5 +395,17 @@
         <text name="rhm_rating_moderate" text="보통 (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="주의 (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="위험 (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="농장 농경지" />
+        <text name="rhm_tab_fields_desc" text="농장의 개별 농경지별 수확량, 단위 수량, 손실 및 계약 작업 종합 현황." />
+        <text name="rhm_card_field_land" text="농경지 및 진행률" />
+        <text name="rhm_card_field_yield" text="생산량 및 수확량" />
+        <text name="rhm_card_field_losses" text="수확 손실 및 품질" />
+        <text name="rhm_fields_total_owned" text="소유 농경지" />
+        <text name="rhm_fields_best_yield" text="최고 수확 농경지" />
+        <text name="rhm_fields_owned" text="소유" />
+        <text name="rhm_fields_contract" text="계약" />
+        <text name="rhm_fields_no_data" text="기록된 농경지 없음" />
+        <text name="rhm_contract_tag" text="(계약)" />
+        <text name="rhm_status_completed" text="수확 완료" />
     </texts>
 </l10n>

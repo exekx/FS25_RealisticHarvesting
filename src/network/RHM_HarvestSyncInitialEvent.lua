@@ -57,6 +57,7 @@ function RHM_HarvestSyncInitialEvent:writeStream(streamId, connection)
     streamWriteFloat32(streamId, trip.avgLoadSum or 0)
     streamWriteUInt32(streamId, trip.avgLoadCount or 0)
     streamWriteBool(streamId, trip.isActive == true)
+    streamWriteBool(streamId, trip.isContract == true)
     streamWriteString(streamId, trip.lastMachineKey or "")
 
     -- Farm Settings
@@ -97,6 +98,7 @@ function RHM_HarvestSyncInitialEvent:writeStream(streamId, connection)
         streamWriteFloat32(streamId, h.areaHa or 0)
         streamWriteString(streamId, h.efficiencyRank or "A")
         streamWriteString(streamId, h.dominantReason or "speed")
+        streamWriteBool(streamId, h.isContract == true)
     end
 
     -- Yearly Stats count & entries (capped at 20)
@@ -155,6 +157,28 @@ function RHM_HarvestSyncInitialEvent:writeStream(streamId, connection)
         streamWriteFloat32(streamId, mReasons.wear or 0)
         streamWriteFloat32(streamId, mReasons.slope or 0)
         streamWriteBool(streamId, mTrip.isActive == true)
+        streamWriteBool(streamId, mTrip.isContract == true)
+    end
+
+    -- Field Stats count & entries (capped at 50)
+    local fList = {}
+    if farm.fieldStats then
+        for fId, fStat in pairs(farm.fieldStats) do
+            table.insert(fList, fStat)
+            if #fList >= 50 then break end
+        end
+    end
+    streamWriteUInt16(streamId, #fList)
+    for _, fStat in ipairs(fList) do
+        streamWriteInt32(streamId, fStat.fieldId or 0)
+        streamWriteFloat32(streamId, fStat.harvestedLiters or 0)
+        streamWriteFloat32(streamId, fStat.harvestedMassKg or 0)
+        streamWriteFloat32(streamId, fStat.harvestedAreaHa or 0)
+        streamWriteFloat32(streamId, fStat.lostLiters or 0)
+        streamWriteFloat32(streamId, fStat.lossMoney or 0)
+        streamWriteUInt16(streamId, fStat.operationsCount or 0)
+        streamWriteBool(streamId, fStat.isContract == true)
+        streamWriteString(streamId, fStat.lastCropName or "--")
     end
 end
 
@@ -189,6 +213,7 @@ function RHM_HarvestSyncInitialEvent:readStream(streamId, connection)
     trip.avgLoadSum = streamReadFloat32(streamId)
     trip.avgLoadCount = streamReadUInt32(streamId)
     trip.isActive = streamReadBool(streamId)
+    trip.isContract = streamReadBool(streamId)
     local lmk = streamReadString(streamId)
     if lmk and lmk ~= "" then
         trip.lastMachineKey = lmk
@@ -231,7 +256,8 @@ function RHM_HarvestSyncInitialEvent:readStream(streamId, connection)
             lossMoney = streamReadFloat32(streamId),
             areaHa = streamReadFloat32(streamId),
             efficiencyRank = streamReadString(streamId),
-            dominantReason = streamReadString(streamId)
+            dominantReason = streamReadString(streamId),
+            isContract = streamReadBool(streamId)
         })
     end
 
@@ -284,9 +310,36 @@ function RHM_HarvestSyncInitialEvent:readStream(streamId, connection)
                 wear = streamReadFloat32(streamId),
                 slope = streamReadFloat32(streamId)
             },
-            isActive = streamReadBool(streamId)
+            isActive = streamReadBool(streamId),
+            isContract = streamReadBool(streamId)
         }
         farm.combineTrips[machineKey] = mTrip
+    end
+
+    -- Field Stats
+    local fCount = streamReadUInt16(streamId)
+    farm.fieldStats = farm.fieldStats or {}
+    for _ = 1, fCount do
+        local fId = streamReadInt32(streamId)
+        farm.fieldStats[fId] = {
+            fieldId = fId,
+            harvestedLiters = streamReadFloat32(streamId),
+            harvestedMassKg = streamReadFloat32(streamId),
+            harvestedAreaHa = streamReadFloat32(streamId),
+            sessionDuration = 0,
+            lostLiters = streamReadFloat32(streamId),
+            lossMoney = streamReadFloat32(streamId),
+            operationsCount = streamReadUInt16(streamId),
+            isContract = streamReadBool(streamId),
+            lastCropName = streamReadString(streamId),
+            lastCrop = "--",
+            avgSpeedSum = 0,
+            avgSpeedCount = 0,
+            avgLoadSum = 0,
+            avgLoadCount = 0,
+            lastYear = 1,
+            cropVolumes = {}
+        }
     end
 
     -- Link client combine specs if vehicles already spawned

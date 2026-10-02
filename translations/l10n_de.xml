@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulation" />
@@ -404,5 +404,17 @@
         <text name="rhm_rating_moderate" text="Moderat (1.5 - 3.0%)" />
         <text name="rhm_rating_elevated" text="Erhöht (&gt; 3.0%)" />
         <text name="rhm_rating_critical" text="Kritisch (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Felderübersicht" />
+        <text name="rhm_tab_fields_desc" text="Detaillierte Übersicht über Erntemengen, Erträge, Verluste und Lohnarbeiten Ihrer Felder." />
+        <text name="rhm_card_field_land" text="LANDFLÄCHE &amp; FORTSCHRITT" />
+        <text name="rhm_card_field_yield" text="PRODUKTION &amp; ERTRAG" />
+        <text name="rhm_card_field_losses" text="VERLUSTE &amp; QUALITÄT" />
+        <text name="rhm_fields_total_owned" text="Eigene Felder" />
+        <text name="rhm_fields_best_yield" text="Bester Feldertrag" />
+        <text name="rhm_fields_owned" text="Eigen" />
+        <text name="rhm_fields_contract" text="Lohnarbeit" />
+        <text name="rhm_fields_no_data" text="Keine Felder erfasst" />
+        <text name="rhm_contract_tag" text="(Lohnarbeit)" />
+        <text name="rhm_status_completed" text="Geerntet" />
     </texts>
 </l10n>

@@ -105,11 +105,14 @@ function RHM_RealisticHarvestManager:loadHarvestHistoryGUI()
     local tripFrame = RHM_HarvestHistoryTrip.new(g_i18n)
     g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryTrip.xml", "RHM_HarvestHistoryTrip", tripFrame, true)
 
-    local analyticsFrame = RHM_HarvestHistoryAnalytics.new(g_i18n)
-    g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryAnalytics.xml", "RHM_HarvestHistoryAnalytics", analyticsFrame, true)
+    local fieldsFrame = RHM_HarvestHistoryFields.new(g_i18n)
+    g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryFields.xml", "RHM_HarvestHistoryFields", fieldsFrame, true)
 
     local fleetFrame = RHM_HarvestHistoryFleet.new(g_i18n)
     g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryFleet.xml", "RHM_HarvestHistoryFleet", fleetFrame, true)
+
+    local analyticsFrame = RHM_HarvestHistoryAnalytics.new(g_i18n)
+    g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryAnalytics.xml", "RHM_HarvestHistoryAnalytics", analyticsFrame, true)
 
     self.harvestHistoryGUI = RHM_HarvestHistoryGUI.new(g_messageCenter, g_i18n, g_inputBinding)
     g_gui:loadGui(self.modDirectory .. "src/gui/RHM_HarvestHistoryGUI.xml", "RHM_HarvestHistoryGUI", self.harvestHistoryGUI)

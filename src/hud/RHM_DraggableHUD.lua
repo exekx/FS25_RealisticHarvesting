@@ -755,8 +755,8 @@ function RHMDraggableHUD:draw()
         -- Two-line stacked typography: number on top, unit on bottom (or centered if no unit)
         local textX = iconX + iconW + 0.0030 * self.uiScale
         local hasUnit = (cell.unitStr and cell.unitStr ~= "")
-        local topY = hasUnit and (y + h * 0.44) or (y + (h - numTextSize) * 0.54)
-        local botY = y + h * 0.13
+        local topY = hasUnit and (y + h * 0.48) or (y + (h - numTextSize) * 0.50)
+        local botY = y + h * 0.19
 
         setTextBold(true)
         setTextAlignment(RenderText.ALIGN_LEFT)
@@ -768,9 +768,30 @@ function RHMDraggableHUD:draw()
         renderText(textX, topY, numTextSize, cell.numStr)
 
         if hasUnit then
-            setTextBold(false)
-            setTextColor(0.72, 0.74, 0.78, 0.90)
-            renderText(textX, botY, unitTextSize, cell.unitStr)
+            if cell.rankColor and cell.unitStr and cell.unitStr:sub(1, 1) == "[" then
+                local closeIdx = cell.unitStr:find("%]")
+                if closeIdx then
+                    local rankPart = cell.unitStr:sub(1, closeIdx)
+                    local restPart = cell.unitStr:sub(closeIdx + 1)
+                    restPart = restPart:match("^%s*(.-)$") or restPart
+                    local rankTextSize = 0.0080 * self.uiScale
+                    setTextBold(true)
+                    setTextColor(cell.rankColor[1], cell.rankColor[2], cell.rankColor[3], 1.0)
+                    renderText(textX, botY, rankTextSize, rankPart)
+                    local rkW = (getTextWidth and getTextWidth(rankTextSize, rankPart)) or (0.0070 * self.uiScale)
+                    setTextBold(false)
+                    setTextColor(0.72, 0.74, 0.78, 0.90)
+                    renderText(textX + rkW + (0.0012 * self.uiScale), botY, rankTextSize, restPart)
+                else
+                    setTextBold(false)
+                    setTextColor(0.72, 0.74, 0.78, 0.90)
+                    renderText(textX, botY, unitTextSize, cell.unitStr)
+                end
+            else
+                setTextBold(false)
+                setTextColor(0.72, 0.74, 0.78, 0.90)
+                renderText(textX, botY, unitTextSize, cell.unitStr)
+            end
         end
 
         -- Dynamic Colored Underline Indicator (exact PF style: centered under text)
@@ -784,49 +805,6 @@ function RHMDraggableHUD:draw()
         end
 
         currentX = cellEndX
-    end
-
-    -- ── Field Trip Telemetry Mini-Badge & Quick Reset Hold Indicator ──────────
-    local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
-    if tracker and self.vehicle then
-        local farmId = self.vehicle.getOwnerFarmId and self.vehicle:getOwnerFarmId() or 1
-        local farm = tracker:getFarmData(farmId)
-        local trip = (self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.trip)
-        if not trip and farm and farm.combineTrips and self.vehicle then
-            local machineKey = self.vehicle.configFileName or (self.vehicle.getFullName and self.vehicle:getFullName()) or "Harvester"
-            trip = farm.combineTrips[machineKey]
-        end
-        trip = trip or (farm and farm.currentTrip)
-        if trip and trip.harvestedLiters and trip.harvestedLiters > 0 then
-            local badgeH = 0.018 * self.uiScale
-            local badgeY = y - badgeH - (0.002 * self.uiScale)
-            local badgeW = w
-            self:drawPanelBackground(x, badgeY, badgeW, badgeH, {0.02, 0.03, 0.04, 0.85})
-
-            local rank = trip.efficiencyRank or "A"
-            local rankColor = {0.55, 0.72, 0.0, 1.0}
-            if rank == "B" then rankColor = {0.80, 0.85, 0.20, 1.0}
-            elseif rank == "C" then rankColor = {1.0, 0.60, 0.0, 1.0}
-            elseif rank == "D" then rankColor = {0.95, 0.25, 0.20, 1.0}
-            end
-
-            local tripVolStr = string.format("TRIP: %.1f kL", trip.harvestedLiters / 1000.0)
-            local totalBio = trip.harvestedLiters + trip.lostLiters
-            local tripLossPct = (totalBio > 0) and ((trip.lostLiters / totalBio) * 100.0) or 0
-            local tripLossStr = string.format("LOSS: %.1f%%", tripLossPct)
-
-            setTextBold(true)
-            setTextAlignment(RenderText.ALIGN_LEFT)
-            setTextColor(0.92, 0.92, 0.92, 0.95)
-            renderText(x + 0.005 * self.uiScale, badgeY + 0.004 * self.uiScale, 0.0105 * self.uiScale, tripVolStr)
-
-            setTextColor(0.75, 0.78, 0.82, 0.90)
-            renderText(x + 0.062 * self.uiScale, badgeY + 0.004 * self.uiScale, 0.0105 * self.uiScale, tripLossStr)
-
-            setTextColor(rankColor[1], rankColor[2], rankColor[3], 1.0)
-            setTextAlignment(RenderText.ALIGN_RIGHT)
-            renderText(x + badgeW - 0.006 * self.uiScale, badgeY + 0.004 * self.uiScale, 0.0115 * self.uiScale, "[" .. rank .. "]")
-        end
     end
 
     local spec = self.vehicle and self.vehicle.spec_rhm_Combine
@@ -870,6 +848,41 @@ function RHMDraggableHUD:buildActiveCells()
         return fallback
     end
 
+    -- Query active trip for cumulative field session telemetry and quality rank
+    local trip = (self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.trip)
+    local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
+    if not trip and tracker and self.vehicle then
+        local farmId = self.vehicle.getOwnerFarmId and self.vehicle:getOwnerFarmId() or 1
+        local farm = tracker:getFarmData(farmId)
+        if farm and farm.combineTrips then
+            local machineKey = self.vehicle.configFileName or (self.vehicle.getFullName and self.vehicle:getFullName()) or "Harvester"
+            trip = farm.combineTrips[machineKey]
+        end
+        trip = trip or (farm and farm.currentTrip)
+    end
+
+    local tripRank = nil
+    local tripRankColor = nil
+    local tripLossSubStr = nil
+    local tripHarvestSubStr = nil
+    if trip and trip.harvestedLiters and trip.harvestedLiters > 0 then
+        local rk = trip.efficiencyRank or "A"
+        tripRank = rk
+        if rk == "B" then tripRankColor = {0.80, 0.85, 0.20, 1.0}
+        elseif rk == "C" then tripRankColor = {1.0, 0.60, 0.0, 1.0}
+        elseif rk == "D" then tripRankColor = {0.95, 0.25, 0.20, 1.0}
+        else tripRankColor = {0.55, 0.72, 0.0, 1.0}
+        end
+
+        local totalBio = (trip.harvestedLiters or 0) + (trip.lostLiters or 0)
+        local tripLossPct = (totalBio > 0) and (((trip.lostLiters or 0) / totalBio) * 100.0) or 0
+        tripLossSubStr = string.format("[%s] %.1f%%", rk, tripLossPct)
+
+        local massKg = trip.harvestedMassKg or (trip.harvestedLiters * 0.75)
+        local tripTons = massKg * 0.001
+        tripHarvestSubStr = string.format("%.1ft", tripTons)
+    end
+
     -- 1. Engine Load Cell
     if self.settings.showLoad then
         local loadVal = self.data.load or 0
@@ -890,10 +903,12 @@ function RHMDraggableHUD:buildActiveCells()
         local lossVal = self.data.cropLoss or 0
         local lossStr = (lossVal > 0.05) and string.format("%.1f%%", lossVal) or "0.0%"
         local lossColor, indColor = self:getLossColors(lossVal)
+        local lossUnit = tripLossSubStr or ""
         table.insert(cells, {
             iconName = "loss",
             numStr = lossStr,
-            unitStr = "",
+            unitStr = lossUnit,
+            rankColor = tripRankColor,
             color = lossColor,
             indicatorColor = indColor
         })
@@ -995,6 +1010,9 @@ function RHMDraggableHUD:buildActiveCells()
                 suffixStr = "t/h"
             end
             local unitLabel = (suffixStr == "t/h" and g_i18n:hasText("rhm_unit_t_per_hour")) and g_i18n:getText("rhm_unit_t_per_hour") or suffixStr
+            if tripHarvestSubStr then
+                unitLabel = string.format("%s • %s", unitLabel, tripHarvestSubStr)
+            end
             table.insert(cells, {
                 iconName = "productivity",
                 numStr = valStr,
