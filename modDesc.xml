@@ -115,7 +115,7 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
     <helpLines>
         <!-- Title category for GUI -->
         <category title="$l10n_rhm_help_category">
-            <!-- ===== PAGE 1: OVERVIEW & PHYSICS ===== -->
+            <!-- ===== PAGE 1: ENGINE LOAD PHYSICS & SPEED ===== -->
             <page title="$l10n_rhm_help_overview_title" iconSliceId="rhmHelp_overview.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_overview_sub1"/>
@@ -125,9 +125,13 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                     <title text="$l10n_rhm_help_overview_sub2"/>
                     <text text="$l10n_rhm_help_overview_2"/>
                 </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_overview_sub3"/>
+                    <text text="$l10n_rhm_help_overview_3"/>
+                </paragraph>
             </page>
 
-            <!-- ===== PAGE 2: HUD & TELEMETRY ===== -->
+            <!-- ===== PAGE 2: INTERACTIVE HUD & TELEMETRY ===== -->
             <page title="$l10n_rhm_help_hud_title" iconSliceId="rhmHelp_hud.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_hud_sub1"/>
@@ -139,26 +143,11 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_hud_sub3"/>
-                    <text text="$l10n_rhm_help_hud_3_load"/>
-                </paragraph>
-                <paragraph>
-                    <text text="$l10n_rhm_help_hud_3_yield"/>
-                </paragraph>
-                <paragraph>
-                    <text text="$l10n_rhm_help_hud_3_productivity"/>
-                </paragraph>
-                <paragraph>
-                    <text text="$l10n_rhm_help_hud_3_moisture"/>
-                </paragraph>
-                <paragraph>
-                    <text text="$l10n_rhm_help_hud_3_loss"/>
-                </paragraph>
-                <paragraph>
-                    <text text="$l10n_rhm_help_hud_3_speed"/>
+                    <text text="$l10n_rhm_help_hud_3"/>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 3: CALIBRATION ===== -->
+            <!-- ===== PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) ===== -->
             <page title="$l10n_rhm_help_calibration_title" iconSliceId="rhmHelp_calibration.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_calibration_main_sub"/>
@@ -169,56 +158,48 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                     <text text="$l10n_rhm_help_calibration_rotor_text"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_calibration_fan_sub"/>
-                    <text text="$l10n_rhm_help_calibration_fan_text"/>
-                </paragraph>
-                <paragraph>
-                    <title text="$l10n_rhm_help_calibration_perf_sub"/>
-                    <text text="$l10n_rhm_help_calibration_perf_text"/>
+                    <title text="$l10n_rhm_help_calibration_presets_sub"/>
+                    <text text="$l10n_rhm_help_calibration_presets_text"/>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 4: SPECIAL COMBINES ===== -->
-            <page title="$l10n_rhm_help_special_title" iconSliceId="rhmHelp_special.tab">
+            <!-- ===== PAGE 4: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) ===== -->
+            <page title="$l10n_rhm_help_trip_title" iconSliceId="rhmHelp_trip.tab">
                 <paragraph>
-                    <title text="$l10n_rhm_help_special_sub1"/>
-                    <text text="$l10n_rhm_help_special_1"/>
+                    <title text="$l10n_rhm_help_trip_sub1"/>
+                    <text text="$l10n_rhm_help_trip_1"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_special_sub2"/>
-                    <text text="$l10n_rhm_help_special_2"/>
-                </paragraph>
-            </page>
-
-            <!-- ===== PAGE 5: CROP LOST ===== -->
-            <page title="$l10n_rhm_help_loss_title" iconSliceId="rhmHelp_croploss.tab">
-                <paragraph>
-                    <title text="$l10n_rhm_help_loss_sub1"/>
-                    <text text="$l10n_rhm_help_loss_1"/>
+                    <title text="$l10n_rhm_help_trip_sub2"/>
+                    <text text="$l10n_rhm_help_trip_2"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_loss_sub2"/>
-                    <text text="$l10n_rhm_help_loss_2"/>
+                    <title text="$l10n_rhm_help_trip_sub3"/>
+                    <text text="$l10n_rhm_help_trip_3"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_loss_sub3"/>
-                    <text text="$l10n_rhm_help_loss_3"/>
+                    <title text="$l10n_rhm_help_trip_sub4"/>
+                    <text text="$l10n_rhm_help_trip_4"/>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 6: DIFFICULTY ===== -->
-            <page title="$l10n_rhm_help_difficulty_title" iconSliceId="rhmHelp_difficulty.tab">
+            <!-- ===== PAGE 5: CROP LOSSES & ROOT CAUSES ===== -->
+            <page title="$l10n_rhm_help_croploss_title" iconSliceId="rhmHelp_croploss.tab">
                 <paragraph>
-                    <title text="$l10n_rhm_help_difficulty_sub1"/>
-                    <text text="$l10n_rhm_help_difficulty_1"/>
+                    <title text="$l10n_rhm_help_croploss_sub1"/>
+                    <text text="$l10n_rhm_help_croploss_1"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_difficulty_sub2"/>
-                    <text text="$l10n_rhm_help_difficulty_2"/>
+                    <title text="$l10n_rhm_help_croploss_sub2"/>
+                    <text text="$l10n_rhm_help_croploss_2"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_croploss_sub3"/>
+                    <text text="$l10n_rhm_help_croploss_3"/>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 7: UPGRADES ===== -->
+            <!-- ===== PAGE 6: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) ===== -->
             <page title="$l10n_rhm_help_upgrades_title" iconSliceId="rhmHelp_upgrades.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub1"/>
@@ -232,13 +213,25 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                     <title text="$l10n_rhm_help_upgrades_sub3"/>
                     <text text="$l10n_rhm_help_upgrades_3"/>
                 </paragraph>
+            </page>
+
+            <!-- ===== PAGE 7: AI WORKERS & AUTOPILOTS ===== -->
+            <page title="$l10n_rhm_help_ai_workers_title" iconSliceId="rhmHelp_ai_workers.tab">
                 <paragraph>
-                    <title text="$l10n_rhm_help_upgrades_sub4"/>
-                    <text text="$l10n_rhm_help_upgrades_4"/>
+                    <title text="$l10n_rhm_help_ai_workers_sub1"/>
+                    <text text="$l10n_rhm_help_ai_workers_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_ai_workers_sub2"/>
+                    <text text="$l10n_rhm_help_ai_workers_2"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_ai_workers_sub3"/>
+                    <text text="$l10n_rhm_help_ai_workers_3"/>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 8: MOISTURE SYSTEM ===== -->
+            <!-- ===== PAGE 8: CROP MOISTURE & DIURNAL WEATHER ===== -->
             <page title="$l10n_rhm_help_moisture_title" iconSliceId="rhmHelp_moisture.tab">
                 <paragraph>
                     <title text="$l10n_rhm_help_moisture_sub1"/>
@@ -248,20 +241,41 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                     <title text="$l10n_rhm_help_moisture_sub2"/>
                     <text text="$l10n_rhm_help_moisture_2"/>
                 </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_moisture_sub3"/>
+                    <text text="$l10n_rhm_help_moisture_3"/>
+                </paragraph>
             </page>
-            <!-- ===== PAGE 9: CROP SETTINGS GUIDE ===== -->
-            <page title="$l10n_rhm_help_cropsettings_title" iconSliceId="rhmHelp_overview.tab">
+
+            <!-- ===== PAGE 9: FORAGE, ROOT CROPS & SPECIAL MACHINERY ===== -->
+            <page title="$l10n_rhm_help_special_title" iconSliceId="rhmHelp_special.tab">
                 <paragraph>
-                    <title text="$l10n_rhm_help_cropsettings_grain_sub"/>
-                    <text text="$l10n_rhm_help_cropsettings_grain_text"/>
+                    <title text="$l10n_rhm_help_special_sub1"/>
+                    <text text="$l10n_rhm_help_special_1"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_cropsettings_forage_sub"/>
-                    <text text="$l10n_rhm_help_cropsettings_forage_text"/>
+                    <title text="$l10n_rhm_help_special_sub2"/>
+                    <text text="$l10n_rhm_help_special_2"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_cropsettings_root_sub"/>
-                    <text text="$l10n_rhm_help_cropsettings_root_text"/>
+                    <title text="$l10n_rhm_help_special_sub3"/>
+                    <text text="$l10n_rhm_help_special_3"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 10: DIFFICULTY MODES & SETTINGS ===== -->
+            <page title="$l10n_rhm_help_difficulty_title" iconSliceId="rhmHelp_difficulty.tab">
+                <paragraph>
+                    <title text="$l10n_rhm_help_difficulty_sub1"/>
+                    <text text="$l10n_rhm_help_difficulty_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_difficulty_sub2"/>
+                    <text text="$l10n_rhm_help_difficulty_2"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_difficulty_sub3"/>
+                    <text text="$l10n_rhm_help_difficulty_3"/>
                 </paragraph>
             </page>
         </category>

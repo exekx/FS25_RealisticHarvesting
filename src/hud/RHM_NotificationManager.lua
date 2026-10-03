@@ -160,8 +160,23 @@ function RHM_NotificationManager:consoleCommandShowHint(name)
         local msg = g_i18n:hasText("rhm_tut_upgrade_msg") and g_i18n:getText("rhm_tut_upgrade_msg") or "Harvester upgrade packages are available at the vehicle shop: Tier 2 (Sensors & Profiles), Tier 3 (Telemetry & Loss Monitor), and Tier 4 (Opti-Harvest AI autopilot)."
         self:showNotification(title, msg, 0, false)
         return "Displayed hint: UPGRADE"
+    elseif name == "HUD" or name == "HUD_DRAG" or name == "7" then
+        local title = g_i18n:hasText("rhm_tut_hud_drag_title") and g_i18n:getText("rhm_tut_hud_drag_title") or "INTERACTIVE HUD"
+        local msg = g_i18n:hasText("rhm_tut_hud_drag_msg") and g_i18n:getText("rhm_tut_hud_drag_msg") or "You can reposition the HUD anywhere by holding the Left Mouse Button (LMB) on the panel, or snap it cleanly beneath the F1 menu and screen edges."
+        self:showNotification(title, msg, 0, false)
+        return "Displayed hint: HUD_DRAG"
+    elseif name == "TRIP" or name == "TRIP_COUNTER" or name == "8" then
+        local title = g_i18n:hasText("rhm_tut_trip_title") and g_i18n:getText("rhm_tut_trip_title") or "FIELD JOB COUNTER"
+        local msg = g_i18n:hasText("rhm_tut_trip_msg") and g_i18n:getText("rhm_tut_trip_msg") or "Press Shift+J to view your field yield summary, financial loss analysis, and fleet status. To quickly reset the counter for a new field, hold Shift+R for 1 second in the cab!"
+        self:showNotification(title, msg, 0, false)
+        return "Displayed hint: TRIP_COUNTER"
+    elseif name == "CHOPPER" or name == "STRAW_CHOPPER" or name == "9" then
+        local title = g_i18n:hasText("rhm_tut_chopper_title") and g_i18n:getText("rhm_tut_chopper_title") or "STRAW CHOPPER POWER"
+        local msg = g_i18n:hasText("rhm_tut_chopper_msg") and g_i18n:getText("rhm_tut_chopper_msg") or "Chopping straw consumes an extra 15-20% of engine power compared to swathing. If you need more harvesting speed on dense crops, switch to laying a swath."
+        self:showNotification(title, msg, 0, false)
+        return "Displayed hint: STRAW_CHOPPER"
     else
-        return "Unknown hint name. Available: welcome, overload, loss, moisture, headland, upgrade (or 1..6)"
+        return "Unknown hint name. Available: welcome, overload, loss, moisture, headland, upgrade, hud, trip, chopper (or 1..9)"
     end
 end
 
@@ -602,6 +617,32 @@ function RHM_NotificationManager:update(dt, combineVehicle)
         local title = g_i18n:hasText("rhm_tut_upgrade_title") and g_i18n:getText("rhm_tut_upgrade_title") or "UPGRADE PACKAGES"
         local msg = g_i18n:hasText("rhm_tut_upgrade_msg") and g_i18n:getText("rhm_tut_upgrade_msg") or "Harvester upgrade packages are available at the vehicle shop: Tier 2 (Sensors & Profiles), Tier 3 (Telemetry & Loss Monitor), and Tier 4 (Opti-Harvest AI autopilot)."
         self:showNotification(title, msg, 0, true, "UPGRADE_TIERS")
+        return
+    end
+
+    -- TRIGGER 7: Interactive HUD Drag & Docking (after active harvesting run time >= 25s)
+    if not self.seenTutorials["HUD_DRAG"] and self.harvestActiveRunTime >= 25000 then
+        local title = g_i18n:hasText("rhm_tut_hud_drag_title") and g_i18n:getText("rhm_tut_hud_drag_title") or "INTERACTIVE HUD"
+        local msg = g_i18n:hasText("rhm_tut_hud_drag_msg") and g_i18n:getText("rhm_tut_hud_drag_msg") or "You can reposition the HUD anywhere by holding the Left Mouse Button (LMB) on the panel, or snap it cleanly beneath the F1 menu and screen edges."
+        self:showNotification(title, msg, 0, true, "HUD_DRAG")
+        return
+    end
+
+    -- TRIGGER 8: Field Job Counter & Quick Reset (accumulated area >= 0.15 ha)
+    local tripArea = (spec.trip and spec.trip.harvestedAreaHa) or 0
+    if not self.seenTutorials["TRIP_COUNTER"] and tripArea >= 0.15 then
+        local title = g_i18n:hasText("rhm_tut_trip_title") and g_i18n:getText("rhm_tut_trip_title") or "FIELD JOB COUNTER"
+        local msg = g_i18n:hasText("rhm_tut_trip_msg") and g_i18n:getText("rhm_tut_trip_msg") or "Press Shift+J to view your field yield summary, financial loss analysis, and fleet status. To quickly reset the counter for a new field, hold Shift+R for 1 second in the cab!"
+        self:showNotification(title, msg, 0, true, "TRIP_COUNTER")
+        return
+    end
+
+    -- TRIGGER 9: Straw Chopper Power Consumption (straw chopper active + high load >= 85%)
+    local isChopperActive = (spec.data and spec.data.isStrawChopperActive) or (spec.loadCalculator and spec.loadCalculator.isStrawChopperActive) or false
+    if not self.seenTutorials["STRAW_CHOPPER"] and isHarvesting and isChopperActive and load >= 85 then
+        local title = g_i18n:hasText("rhm_tut_chopper_title") and g_i18n:getText("rhm_tut_chopper_title") or "STRAW CHOPPER POWER"
+        local msg = g_i18n:hasText("rhm_tut_chopper_msg") and g_i18n:getText("rhm_tut_chopper_msg") or "Chopping straw consumes an extra 15-20% of engine power compared to swathing. If you need more harvesting speed on dense crops, switch to laying a swath."
+        self:showNotification(title, msg, 0, true, "STRAW_CHOPPER")
         return
     end
 end

@@ -9,98 +9,123 @@
             <Text profile="fs25_menuHeaderTitle" text="$l10n_rhm_tab_trip" />
         </GuiElement>
 
-        <!-- CARD 1: Field & Harvest Throughput -->
-        <Bitmap profile="rhmCardContainer" position="20px -54px" size="440px 530px">
-            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_yield" position="20px -16px" size="24px 24px" />
-            <Text profile="rhmCardTitle" position="54px -18px" size="365px 22px" text="$l10n_rhm_card_field_harvest" />
+        <Text profile="rhmDescriptiveText" text="$l10n_rhm_tab_trip_desc" position="20px -46px" width="1400px" />
 
-            <!-- Row 1: Field & Crop Type -->
-            <Text profile="rhmCardSubValue" position="24px -56px" size="180px 16px" text="$l10n_rhm_field_number" />
-            <Text profile="rhmCardHighlightValue" id="fieldNumberText" position="24px -76px" size="180px 32px" text="--" textSize="26px" />
+        <!-- Status Band -->
+        <GuiElement profile="rhmStatusBandContainer" position="20px -72px" size="1360px 38px">
+            <RoundCorner profile="rhmSurfaceBand" />
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_tab_trip" position="14px -8px" size="22px 22px" />
+            <Text profile="rhmStatusText" id="tripSummaryHeaderTitle" position="46px -8px" size="820px 22px" text="--" />
+            <Text profile="rhmCardHeaderVehicle" id="tripSummaryHeaderMachine" position="870px -8px" size="474px 22px" text="--" />
+        </GuiElement>
 
-            <Text profile="rhmCardSubValue" position="230px -56px" size="185px 16px" text="$l10n_rhm_crop_type" />
-            <Text profile="rhmCardValue" id="cropTypeText" position="230px -76px" size="185px 32px" text="--" textSize="26px" />
+        <!-- CARD 1: Equipment & Field -->
+        <GuiElement profile="rhmCardContainer" position="20px -118px" size="440px 486px">
+            <RoundCorner profile="rhmCardSurface" />
+            <Text profile="rhmCardTitle" position="20px -16px" size="400px 24px" text="$l10n_rhm_card_field_harvest" />
+
+            <!-- Row 1: Field Number & Crop Type Split -->
+            <Text profile="rhmCardSubValue" position="20px -56px" size="180px 14px" text="$l10n_rhm_field_number" />
+            <Text profile="rhmCardValue" id="fieldNumberText" position="20px -74px" size="180px 28px" text="--" />
+
+            <Text profile="rhmCardSubValue" position="220px -56px" size="200px 14px" text="$l10n_rhm_crop_type" />
+            <Text profile="rhmCardValue" id="cropTypeText" position="220px -74px" size="200px 28px" text="--" />
 
             <!-- Row 2: Harvested Area -->
-            <Text profile="rhmCardSubValue" position="24px -144px" size="390px 16px" text="$l10n_rhm_harvested_area" />
-            <Text profile="rhmCardValue" id="harvestedAreaText" position="24px -164px" size="390px 34px" text="0.00 ha" textSize="28px" />
-            <Text profile="rhmCardDetailText" position="24px -200px" size="390px 16px" text="$l10n_rhm_detail_area" />
+            <Text profile="rhmCardSubValue" position="20px -116px" size="400px 14px" text="$l10n_rhm_harvested_area" />
+            <Text profile="rhmCardHighlightValue" id="harvestedAreaText" position="20px -134px" size="400px 32px" text="0.00 ha" textSize="28px" />
+            <Text profile="rhmCardDetailText" position="20px -170px" size="400px 14px" text="$l10n_rhm_detail_area" />
 
             <!-- Row 3: Clean Grain Harvest -->
-            <Text profile="rhmCardSubValue" position="24px -236px" size="390px 16px" text="$l10n_rhm_clean_harvest" />
-            <Text profile="rhmCardHighlightValue" id="harvestedVolumeText" position="24px -256px" size="390px 34px" text="0.0 t" textSize="28px" />
-            <Text profile="rhmCardDetailText" id="harvestedVolumeSubText" position="24px -292px" size="390px 16px" text="0 L" />
+            <Text profile="rhmCardSubValue" position="20px -196px" size="400px 14px" text="$l10n_rhm_clean_harvest" />
+            <Text profile="rhmCardHighlightValue" id="harvestedVolumeText" position="20px -212px" size="400px 32px" text="0.0 t" textSize="28px" />
+            <Text profile="rhmCardDetailText" id="harvestedVolumeSubText" position="20px -248px" size="400px 14px" text="0 L clean grain" />
 
             <!-- Row 4: Average Yield -->
-            <Text profile="rhmCardSubValue" position="24px -328px" size="390px 16px" text="$l10n_rhm_average_yield" />
-            <Text profile="rhmCardValue" id="avgYieldText" position="24px -348px" size="390px 34px" text="0.00 t/ha" textSize="28px" />
-            <Text profile="rhmCardDetailText" position="24px -384px" size="390px 16px" text="$l10n_rhm_detail_yield" />
+            <Text profile="rhmCardSubValue" position="20px -276px" size="400px 14px" text="$l10n_rhm_average_yield" />
+            <Text profile="rhmCardValue" id="avgYieldText" position="20px -294px" size="400px 32px" text="0.00 t/ha" textSize="28px" />
+            <Text profile="rhmCardDetailText" position="20px -330px" size="400px 14px" text="$l10n_rhm_detail_yield" />
 
-            <!-- Row 5: Rate / Status -->
-            <Text profile="rhmCardSubValue" position="24px -420px" size="390px 16px" text="$l10n_rhm_fleet_throughput" />
-            <Text profile="rhmCardHighlightValue" id="avgThroughputText" position="24px -440px" size="390px 34px" text="0.0 t/h" textSize="28px" />
-            <Text profile="rhmCardDetailText" position="24px -476px" size="390px 16px" text="$l10n_rhm_detail_throughput" />
-        </Bitmap>
+            <!-- Row 5: Fleet Throughput -->
+            <Text profile="rhmCardSubValue" position="20px -356px" size="400px 14px" text="$l10n_rhm_fleet_throughput" />
+            <Text profile="rhmCardHighlightValue" id="avgThroughputText" position="20px -374px" size="400px 32px" text="0.0 t/h" textSize="28px" />
+            <Text profile="rhmCardDetailText" position="20px -410px" size="400px 14px" text="$l10n_rhm_detail_throughput" />
+        </GuiElement>
 
-        <!-- CARD 2: Losses & Finances -->
-        <Bitmap profile="rhmCardContainer" position="480px -54px" size="440px 530px">
-            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_loss" position="20px -16px" size="24px 24px" />
-            <Text profile="rhmCardTitle" position="54px -18px" size="365px 22px" text="$l10n_rhm_card_loss_finances" />
-
-            <!-- Row 1: Lost Volume -->
-            <Text profile="rhmCardSubValue" position="24px -56px" size="390px 16px" text="$l10n_rhm_loss_volume" />
-            <Text profile="rhmCardWarningValue" id="lossVolumeText" position="24px -76px" size="390px 34px" text="0.0 t" textSize="28px" />
-            <Text profile="rhmCardDetailText" id="lossVolumeSubText" position="24px -112px" size="390px 16px" text="0 L" />
-
-            <!-- Row 2: Loss Share % -->
-            <Text profile="rhmCardSubValue" position="24px -156px" size="390px 16px" text="$l10n_rhm_loss_share" />
-            <Text profile="rhmCardWarningValue" id="lossPercentText" position="24px -176px" size="390px 34px" text="0.00%" textSize="28px" />
-            <Text profile="rhmCardDetailText" id="lossRatingSubText" position="24px -212px" size="390px 16px" text="$l10n_rhm_detail_loss_rating" />
-
-            <!-- Row 3: Financial Loss -->
-            <Text profile="rhmCardSubValue" position="24px -256px" size="390px 16px" text="$l10n_rhm_financial_loss" />
-            <Text profile="rhmCardAlertValue" id="lossMoneyText" position="24px -276px" size="390px 34px" text="-$0" textSize="28px" />
-            <Text profile="rhmCardDetailText" position="24px -312px" size="390px 16px" text="$l10n_rhm_detail_financial_loss" />
-
-            <!-- Row 4: Efficiency Rank -->
-            <Text profile="rhmCardSubValue" position="24px -356px" size="390px 16px" text="$l10n_rhm_efficiency_index" />
-            <Text profile="rhmCardHighlightValue" id="efficiencyRankBadge" position="24px -376px" size="390px 34px" text="[A]" textSize="28px" />
-            <Text profile="rhmCardDetailText" id="efficiencyRankDesc" position="24px -412px" size="390px 16px" text="$l10n_rhm_rank_title_a" />
-        </Bitmap>
-
-        <!-- CARD 3: Combine Performance & Session Duration -->
-        <Bitmap profile="rhmCardContainer" position="940px -54px" size="440px 530px">
-            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_speed" position="20px -16px" size="24px 24px" />
-            <Text profile="rhmCardTitle" position="54px -18px" size="365px 22px" text="$l10n_rhm_card_performance" />
+        <!-- CARD 2: Combine Performance & Telemetry -->
+        <GuiElement profile="rhmCardContainer" position="480px -118px" size="440px 486px">
+            <RoundCorner profile="rhmCardSurface" />
+            <Text profile="rhmCardTitle" position="20px -16px" size="400px 24px" text="$l10n_rhm_card_performance" />
 
             <!-- Row 1: Working Speed -->
-            <Text profile="rhmCardSubValue" position="24px -56px" size="390px 16px" text="$l10n_rhm_avg_working_speed" />
-            <Text profile="rhmCardValue" id="avgSpeedText" position="24px -76px" size="390px 34px" text="0.0 km/h" textSize="28px" />
-            <Text profile="rhmCardDetailText" position="24px -112px" size="390px 16px" text="$l10n_rhm_detail_speed" />
+            <Text profile="rhmCardSubValue" position="20px -56px" size="400px 14px" text="$l10n_rhm_avg_working_speed" />
+            <Text profile="rhmCardValue" id="avgSpeedText" position="20px -74px" size="400px 32px" text="0.0 km/h" textSize="28px" />
+            <Text profile="rhmCardDetailText" position="20px -110px" size="400px 14px" text="$l10n_rhm_detail_speed" />
 
             <!-- Row 2: Engine Load -->
-            <Text profile="rhmCardSubValue" position="24px -156px" size="390px 16px" text="$l10n_rhm_avg_engine_load" />
-            <Text profile="rhmCardHighlightValue" id="avgLoadText" position="24px -176px" size="390px 34px" text="0%" textSize="28px" />
-            <Text profile="rhmCardDetailText" position="24px -212px" size="390px 16px" text="$l10n_rhm_detail_load" />
+            <Text profile="rhmCardSubValue" position="20px -136px" size="400px 14px" text="$l10n_rhm_avg_engine_load" />
+            <Text profile="rhmCardHighlightValue" id="avgLoadText" position="20px -154px" size="400px 32px" text="0%" textSize="28px" />
+            <Text profile="rhmGaugeEdgeLabel" position="20px -192px" size="24px 14px" text="0%" />
+            <Bitmap id="loadBarBg" profile="rhmGaugeTrack" position="48px -195px" size="324px 8px" />
+            <Bitmap id="loadBarFill" profile="rhmGaugeFill" position="48px -195px" size="10px 8px" />
+            <Text profile="rhmGaugeEdgeLabel" position="376px -192px" size="36px 14px" text="100%" textAlignment="right" />
 
-            <!-- Row 3: Session Duration -->
-            <Text profile="rhmCardSubValue" position="24px -256px" size="390px 16px" text="$l10n_rhm_session_duration" />
-            <Text profile="rhmCardValue" id="sessionDurationText" position="24px -276px" size="390px 34px" text="00:00" textSize="28px" />
-            <Text profile="rhmCardDetailText" position="24px -312px" size="390px 16px" text="$l10n_rhm_detail_duration" />
+            <!-- Row 3: Session Duration & Machine Wear Split -->
+            <Text profile="rhmCardSubValue" position="20px -220px" size="180px 14px" text="$l10n_rhm_session_duration" />
+            <Text profile="rhmCardValue" id="durationText" position="20px -238px" size="180px 28px" text="00:00" />
 
-            <!-- Row 4: Machine Condition -->
-            <Text profile="rhmCardSubValue" position="24px -356px" size="390px 16px" text="$l10n_rhm_fleet_wear_state" />
-            <Text profile="rhmCardValue" id="machineWearText" position="24px -376px" size="390px 34px" text="0%" textSize="28px" />
-            <Text profile="rhmCardDetailText" position="24px -412px" size="390px 16px" text="$l10n_rhm_detail_wear" />
-        </Bitmap>
+            <Text profile="rhmCardSubValue" position="220px -220px" size="200px 14px" text="$l10n_rhm_fleet_wear_state" />
+            <Text profile="rhmCardValue" id="wearDeltaText" position="220px -238px" size="200px 28px" text="0%" />
+
+            <!-- Row 4: Machine Model -->
+            <Text profile="rhmCardSubValue" position="20px -280px" size="400px 14px" text="$l10n_rhm_col_machine" />
+            <Text profile="rhmCardHighlightValue" id="combineModelText" position="20px -298px" size="400px 28px" text="Harvester" textSize="22px" />
+
+            <!-- Row 5: Powertrain Guidance Advice Box -->
+            <Text profile="rhmCardSubValue" position="20px -340px" size="400px 14px" text="$l10n_rhm_col_status" />
+            <Text profile="rhmDescriptiveText" id="powertrainStatusText" position="20px -360px" size="400px 96px" text="..." textSize="13px" />
+        </GuiElement>
+
+        <!-- CARD 3: Losses & Financial Rating -->
+        <GuiElement profile="rhmCardContainer" position="940px -118px" size="440px 486px">
+            <RoundCorner profile="rhmCardSurface" />
+            <Text profile="rhmCardTitle" position="20px -16px" size="400px 24px" text="$l10n_rhm_card_loss_finances" />
+
+            <!-- Row 1: Loss Volume -->
+            <Text profile="rhmCardSubValue" position="20px -56px" size="400px 14px" text="$l10n_rhm_loss_volume" />
+            <Text profile="rhmCardWarningValue" id="lossVolumeText" position="20px -74px" size="400px 32px" text="0.0 t" textSize="28px" />
+            <Text profile="rhmCardDetailText" id="lossVolumeSubText" position="20px -110px" size="400px 14px" text="0 L grain lost" />
+
+            <!-- Row 2: Loss Share % & Gauge -->
+            <Text profile="rhmCardSubValue" position="20px -136px" size="400px 14px" text="$l10n_rhm_loss_share" />
+            <Text profile="rhmCardWarningValue" id="lossPercentText" position="20px -154px" size="400px 32px" text="0.00%" textSize="28px" />
+            <Text profile="rhmGaugeEdgeLabel" position="20px -192px" size="24px 14px" text="0%" />
+            <Bitmap id="lossBarBg" profile="rhmGaugeTrack" position="48px -195px" size="324px 8px" />
+            <Bitmap id="lossBarFill" profile="rhmGaugeFill" position="48px -195px" size="10px 8px" />
+            <Text profile="rhmGaugeEdgeLabel" position="376px -192px" size="24px 14px" text="5%" textAlignment="right" />
+
+            <!-- Row 3: Financial Losses -->
+            <Text profile="rhmCardSubValue" position="20px -220px" size="400px 14px" text="$l10n_rhm_financial_loss" />
+            <Text profile="rhmCardAlertValue" id="lossMoneyText" position="20px -238px" size="400px 32px" text="-$0" textSize="28px" />
+            <Text profile="rhmCardDetailText" position="20px -274px" size="400px 14px" text="$l10n_rhm_detail_financial_loss" />
+
+            <!-- Row 4: Operator Efficiency Rank -->
+            <Text profile="rhmCardSubValue" position="20px -300px" size="400px 14px" text="$l10n_rhm_efficiency_index" />
+            <Text profile="rhmCardHighlightValue" id="efficiencyRankBadge" position="20px -318px" size="50px 32px" text="[A]" textSize="28px" />
+            <Text profile="rhmSectionTitle" id="efficiencyRankTitle" position="76px -322px" size="344px 24px" text="Rank A" textSize="16px" />
+            <Text profile="rhmCardDetailText" id="efficiencyRankDesc" position="20px -354px" size="400px 32px" text="..." textMaxNumLines="2" />
+
+            <!-- Row 5: Dominant Cause & Advice -->
+            <Text profile="rhmCardSubValue" position="20px -396px" size="400px 14px" text="$l10n_rhm_causes_title" />
+            <Text profile="rhmDescriptiveText" id="dominantCauseText" position="20px -416px" size="400px 60px" text="..." textSize="13px" />
+        </GuiElement>
 
         <!-- FOOTER & ACTION BAR -->
-        <GuiElement profile="rhmDividerLine" position="20px -594px" size="1360px 1px" />
-        <Text profile="rhmFooterText" position="20px -604px" size="980px 36px" text="$l10n_rhm_trip_footer_hint" />
+        <Text profile="rhmFooterText" position="20px -616px" size="940px 38px" text="$l10n_rhm_trip_footer_hint" />
 
         <!-- Reset Trip Button -->
-        <Button id="resetButton" profile="rhmActionButton" position="1020px -604px" size="360px 38px" text="$l10n_rhm_btn_reset_trip" inputAction="MENU_EXTRA_1" onClick="onClickResetTrip">
-            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_reset" position="14px -8px" size="22px 22px" />
+        <Button id="resetButton" profile="rhmActionButton" position="1020px -614px" size="360px 38px" text="$l10n_rhm_btn_reset_trip" inputAction="MENU_EXTRA_1" onClick="onClickResetTrip">
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_reset" position="16px -8px" size="22px 22px" />
         </Button>
     </GuiElement>
 </GUI>

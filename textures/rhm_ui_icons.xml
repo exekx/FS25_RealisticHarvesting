@@ -43,5 +43,15 @@
     <slice id="icon_reset" uvs="320px 192px 64px 64px"/>
     <slice id="icon_check" uvs="384px 192px 64px 64px"/>
     <slice id="icon_settings" uvs="448px 192px 64px 64px"/>
+
+    <!-- Row 4-5: Rounded Modern UI Slices -->
+    <slice id="badge_rounded" uvs="0px 256px 64px 64px"/>
+    <slice id="pill_badge" uvs="64px 256px 128px 48px"/>
+    <slice id="pill_subtle" uvs="192px 256px 128px 48px"/>
+    <slice id="bar_bg" uvs="320px 256px 128px 16px"/>
+    <slice id="bar_fill" uvs="320px 272px 128px 16px"/>
+    <slice id="button_rounded" uvs="0px 320px 256px 48px"/>
+    <slice id="panel_rounded" uvs="256px 320px 256px 64px"/>
+    <slice id="card_header_rounded" uvs="0px 376px 256px 40px"/>
   </slices>
 </texture>

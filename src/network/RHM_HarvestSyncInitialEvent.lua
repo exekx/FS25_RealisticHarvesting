@@ -179,6 +179,11 @@ function RHM_HarvestSyncInitialEvent:writeStream(streamId, connection)
         streamWriteUInt16(streamId, fStat.operationsCount or 0)
         streamWriteBool(streamId, fStat.isContract == true)
         streamWriteString(streamId, fStat.lastCropName or "--")
+        local fReasons = fStat.reasons or {}
+        streamWriteFloat32(streamId, fReasons.speed or 0)
+        streamWriteFloat32(streamId, fReasons.moisture or 0)
+        streamWriteFloat32(streamId, fReasons.wear or 0)
+        streamWriteFloat32(streamId, fReasons.slope or 0)
     end
 end
 
@@ -338,6 +343,12 @@ function RHM_HarvestSyncInitialEvent:readStream(streamId, connection)
             avgLoadSum = 0,
             avgLoadCount = 0,
             lastYear = 1,
+            reasons = {
+                speed = streamReadFloat32(streamId),
+                moisture = streamReadFloat32(streamId),
+                wear = streamReadFloat32(streamId),
+                slope = streamReadFloat32(streamId)
+            },
             cropVolumes = {}
         }
     end

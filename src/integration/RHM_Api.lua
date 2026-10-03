@@ -36,13 +36,13 @@ function RHM_Api.findCombine(vehicle)
         return nil
     end
 
-    -- Fast-path: target itself is an RHM combine
-    if target.spec_rhm_Combine ~= nil then
+    -- Fast-path: target itself is an RHM combine or harvester
+    if target.spec_rhm_Combine ~= nil or target.spec_combine ~= nil or target.spec_forageHarvester ~= nil or target.spec_cottonHarvester ~= nil or target.spec_sugarCaneHarvester ~= nil then
         return target
     end
 
     -- Check root vehicle
-    if target.rootVehicle ~= nil and target.rootVehicle ~= target and target.rootVehicle.spec_rhm_Combine ~= nil then
+    if target.rootVehicle ~= nil and target.rootVehicle ~= target and (target.rootVehicle.spec_rhm_Combine ~= nil or target.rootVehicle.spec_combine ~= nil or target.rootVehicle.spec_forageHarvester ~= nil or target.rootVehicle.spec_cottonHarvester ~= nil or target.rootVehicle.spec_sugarCaneHarvester ~= nil) then
         return target.rootVehicle
     end
 
@@ -54,7 +54,7 @@ function RHM_Api.findCombine(vehicle)
         end
         visited[node] = true
 
-        if node.spec_rhm_Combine ~= nil then
+        if node.spec_rhm_Combine ~= nil or node.spec_combine ~= nil or node.spec_forageHarvester ~= nil or node.spec_cottonHarvester ~= nil or node.spec_sugarCaneHarvester ~= nil then
             return node
         end
 
@@ -917,4 +917,52 @@ function RHM_Api.getFarmFields(farmId)
     end
     return {}
 end
+
+---EN: Returns cumulative harvest statistics for a specific field, including yield, losses, and loss reasons breakdown.
+---UA: Повертає накопичену статистику збору врожаю для вказаного поля, включаючи врожайність, втрати та розбивку причин.
+---@param fieldId number
+---@param farmId number|nil
+---@return table|nil
+function RHM_Api.getFieldStats(fieldId, farmId)
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker and tracker.getFarmFields and fieldId and fieldId > 0 then
+        local fields = tracker:getFarmFields(farmId or 1)
+        for _, f in ipairs(fields) do
+            if f.fieldId == fieldId then
+                return f
+            end
+        end
+    end
+    return nil
+end
+
+---EN: Returns the dominant loss factor ("speed", "moisture", "wear", "slope") for a specific field.
+---UA: Повертає домінуючий фактор втрат ("speed", "moisture", "wear", "slope") для вказаного поля.
+---@param fieldId number
+---@param farmId number|nil
+---@return string|nil
+function RHM_Api.getFieldDominantLossFactor(fieldId, farmId)
+    local fStat = RHM_Api.getFieldStats(fieldId, farmId)
+    if fStat and fStat.reasons and RHM_HarvestTracker and RHM_HarvestTracker.getDominantLossFactor then
+        return RHM_HarvestTracker.getDominantLossFactor(fStat.reasons)
+    end
+    return nil
+end
+
+---EN: Resolves field, fieldId, and farmlandId for world coordinates (wx, wz).
+---UA: Визначає поле, ID поля та ID ділянки для світових координат (wx, wz).
+---@param wx number
+---@param wz number
+---@param vehicle table|nil
+---@return table|nil field
+---@return number fieldId
+---@return number farmlandId
+function RHM_Api.getFieldAtWorldPosition(wx, wz, vehicle)
+    if RHM_HarvestTracker and RHM_HarvestTracker.getFieldAtWorldPosition then
+        return RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, vehicle)
+    end
+    return nil, 0, 0
+end
+
+
 

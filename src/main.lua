@@ -109,7 +109,7 @@ local function loadedMission(mission, node)
 
     -- EN: Register custom help menu tab icons & UI icon atlas
     -- UA: Реєструємо власні іконки для вкладок меню довідки та атлас іконок інтерфейсу
-    local tabs = {"overview", "hud", "calibration", "special", "croploss", "difficulty", "upgrades", "moisture"}
+    local tabs = {"overview", "hud", "calibration", "trip", "croploss", "upgrades", "ai_workers", "moisture", "special", "difficulty"}
     for _, tab in ipairs(tabs) do
         g_overlayManager:addTextureConfigFile(modDirectory .. "textures/tab_icons/" .. tab .. ".xml", "rhmHelp_" .. tab)
     end

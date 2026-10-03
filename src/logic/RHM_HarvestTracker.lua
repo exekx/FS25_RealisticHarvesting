@@ -88,10 +88,31 @@ function RHM_HarvestTracker.findPlayerEnteredCombine()
         controlled = g_localPlayer:getCurrentVehicle()
     end
 
+    local function isTargetHarvester(veh)
+        if not veh then return false end
+        if veh.spec_rhm_Combine ~= nil 
+           or veh.spec_combine ~= nil 
+           or veh.spec_forageHarvester ~= nil 
+           or veh.spec_cottonHarvester ~= nil
+           or veh.spec_sugarCaneHarvester ~= nil
+           or veh.spec_grapeHarvester ~= nil
+           or veh.spec_oliveHarvester ~= nil
+           or veh.spec_woodHarvester ~= nil then
+            return true
+        end
+        if veh.specializations then
+            if (Combine ~= nil and SpecializationUtil.hasSpecialization(Combine, veh.specializations))
+               or (ForageHarvester ~= nil and SpecializationUtil.hasSpecialization(ForageHarvester, veh.specializations)) then
+                return true
+            end
+        end
+        return false
+    end
+
     if controlled then
         local c = (RHM_Api and RHM_Api.findCombine and RHM_Api.findCombine(controlled))
         if c then return c end
-        if controlled.spec_rhm_Combine or controlled.spec_combine then return controlled end
+        if isTargetHarvester(controlled) then return controlled end
     end
 
     -- 3. Scan all vehicles on the map for player entry.
@@ -123,7 +144,7 @@ function RHM_HarvestTracker.findPlayerEnteredCombine()
                 if isEntered then
                     local c = (RHM_Api and RHM_Api.findCombine and RHM_Api.findCombine(v))
                     if c then return c end
-                    if v.spec_rhm_Combine or v.spec_combine then return v end
+                    if isTargetHarvester(v) then return v end
                 end
             end
         end
@@ -293,7 +314,8 @@ function RHM_HarvestTracker.isContractField(fieldId, farmId)
                 local status = mission.status
                 local isRunning = (MissionStatus and status == MissionStatus.RUNNING) or (status == 2)
                 if isRunning and mission.farmId == farm then
-                    local mFieldId = mission.fieldId or (mission.field and (mission.field.fieldId or mission.field.id))
+                    local mField = mission.field
+                    local mFieldId = mission.fieldId or (mField and ((mField.getId and mField:getId()) or mField.fieldId or mField.id))
                     if mFieldId == fieldId then
                         return true
                     end
@@ -303,6 +325,199 @@ function RHM_HarvestTracker.isContractField(fieldId, farmId)
     end
 
     return false
+end
+
+---EN: Resolves the active field object, field ID, and farmland ID for any world position.
+---    Maps farmlandId to authentic fields defined in g_fieldManager, distinguishing true fields
+---    from non-field parcels (such as farmyards, base infrastructure, meadows, or forests).
+---UA: Визначає об'єкт поля, ID поля та ID ділянки (farmland) для будь-якої світової координати.
+---@param wx number World X coordinate
+---@param wz number World Z coordinate
+---@param vehicle table|nil Optional vehicle reference for helper/course/cutter inspection
+---@return table|nil field Field object from g_fieldManager if located on a field, or nil
+---@return number fieldId ID of the field (1..N), or 0 if on non-field terrain / yard
+---@return number farmlandId ID of the underlying farmland parcel (0 if outside map/road)
+function RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, vehicle)
+    if not wx or not wz then return nil, 0, 0 end
+
+    if CpFieldUtil and CpFieldUtil.getFieldIdAtWorldPosition then
+        local cpFid = CpFieldUtil.getFieldIdAtWorldPosition(wx, wz)
+        if cpFid and cpFid > 0 then
+            local fmlId = (g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition and g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)) or cpFid
+            local f = (g_fieldManager and g_fieldManager.getFieldById and g_fieldManager:getFieldById(cpFid))
+            return f, cpFid, fmlId
+        end
+    end
+
+    -- 1. Try engine direct methods if available in GIANTS Engine 10
+    if g_fieldManager then
+        local f = (g_fieldManager.getFieldAtWorldPosition and g_fieldManager:getFieldAtWorldPosition(wx, wz))
+               or (g_fieldManager.getFieldByWorldPosition and g_fieldManager:getFieldByWorldPosition(wx, wz))
+        if f then
+            local fid = (f.getId and f:getId()) or f.fieldId or f.id or 0
+            if fid > 0 then
+                local fFarmland = (f.getFarmland and f:getFarmland()) or f.farmland
+                local fmlId = (fFarmland and ((fFarmland.getId and fFarmland:getId()) or fFarmland.id))
+                           or f.farmlandId or (f.farmland and (f.farmland.id or f.farmland.farmlandId)) or fid
+                return f, fid, fmlId
+            end
+        end
+    end
+
+    -- 2. Determine farmland object and farmlandId at the given coordinate
+    local farmland = nil
+    local fmlId = 0
+    if g_farmlandManager then
+        if g_farmlandManager.getFarmlandAtWorldPosition then
+            farmland = g_farmlandManager:getFarmlandAtWorldPosition(wx, wz)
+        end
+        if farmland then
+            fmlId = (farmland.getId and farmland:getId()) or farmland.id or 0
+        elseif g_farmlandManager.getFarmlandIdAtWorldPosition then
+            fmlId = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz) or 0
+        end
+    end
+
+    -- 3. FS25 GIANTS Engine 10 native: check if farmland has an authentic Field object attached
+    if farmland and farmland.getField then
+        local f = farmland:getField()
+        if f then
+            local fid = (f.getId and f:getId()) or f.fieldId or f.id or 0
+            if fid > 0 then
+                return f, fid, fmlId
+            end
+        end
+    end
+
+    -- If position is outside map / outside any farmland, check attached implements (e.g. cutter ahead on field)
+    if fmlId <= 0 and vehicle then
+        local checkCutters = {}
+        if vehicle.spec_combine and vehicle.spec_combine.attachedCutters then
+            for c, _ in pairs(vehicle.spec_combine.attachedCutters) do
+                table.insert(checkCutters, c)
+            end
+        end
+        if vehicle.getAttachedImplements then
+            for _, impl in pairs(vehicle:getAttachedImplements()) do
+                if impl.object and impl.object.spec_cutter then
+                    table.insert(checkCutters, impl.object)
+                end
+            end
+        end
+        for _, c in ipairs(checkCutters) do
+            if c.rootNode then
+                local cx, _, cz = getWorldTranslation(c.rootNode)
+                local cf, cfid, cfml = RHM_HarvestTracker.getFieldAtWorldPosition(cx, cz, nil)
+                if cfid and cfid > 0 then
+                    return cf, cfid, cfml
+                end
+            end
+        end
+        return nil, 0, 0
+    end
+
+    -- 4. Match against registered fields in g_fieldManager
+    if g_fieldManager then
+        -- Check direct getFieldById with fmlId (in FS25 farmlandId often corresponds 1:1 to fieldId)
+        if g_fieldManager.getFieldById and fmlId > 0 then
+            local f = g_fieldManager:getFieldById(fmlId)
+            if f then
+                local fid = (f.getId and f:getId()) or f.fieldId or f.id or fmlId
+                local fFarmland = (f.getFarmland and f:getFarmland()) or f.farmland
+                local ffml = (fFarmland and ((fFarmland.getId and fFarmland:getId()) or fFarmland.id)) or f.farmlandId
+                if not ffml or ffml == 0 or ffml == fmlId then
+                    return f, fid, fmlId
+                end
+            end
+        end
+
+        local fieldList = nil
+        if g_fieldManager.getFields then
+            fieldList = g_fieldManager:getFields()
+        end
+        if not fieldList or (type(fieldList) == "table" and next(fieldList) == nil) then
+            fieldList = g_fieldManager.fields or g_fieldManager.fieldList or g_fieldManager.idToField
+        end
+
+        local candidateFields = {}
+        if fieldList then
+            for _, f in pairs(fieldList) do
+                local fid = (f.getId and f:getId()) or f.fieldId or f.id
+                if fid and fid > 0 then
+                    local fFarmland = (f.getFarmland and f:getFarmland()) or f.farmland
+                    local ffml = (fFarmland and ((fFarmland.getId and fFarmland:getId()) or fFarmland.id)) or f.farmlandId
+                    if (not ffml or ffml == 0) and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
+                        if f.rootNode and f.rootNode ~= 0 and entityExists(f.rootNode) then
+                            local fx, _, fz = getWorldTranslation(f.rootNode)
+                            ffml = g_farmlandManager:getFarmlandIdAtWorldPosition(fx, fz)
+                        elseif f.fieldPositionX and f.fieldPositionZ then
+                            ffml = g_farmlandManager:getFarmlandIdAtWorldPosition(f.fieldPositionX, f.fieldPositionZ)
+                        elseif f.posX and f.posZ then
+                            ffml = g_farmlandManager:getFarmlandIdAtWorldPosition(f.posX, f.posZ)
+                        end
+                    end
+
+                    -- Check if field belongs to this farmland parcel or shares 1:1 ID mapping
+                    local isMatch = (ffml == fmlId)
+                    if not isMatch and fid == fmlId then
+                        isMatch = true
+                    end
+
+                    if isMatch then
+                        table.insert(candidateFields, { field = f, id = fid })
+                    end
+                end
+            end
+        end
+
+        if #candidateFields == 1 then
+            return candidateFields[1].field, candidateFields[1].id, fmlId
+        elseif #candidateFields > 1 then
+            -- Multiple fields on same parcel: pick closest center
+            local bestField = candidateFields[1].field
+            local bestId = candidateFields[1].id
+            local bestDistSq = math.huge
+            for _, cand in ipairs(candidateFields) do
+                local cx, cz = nil, nil
+                local f = cand.field
+                if f.rootNode and f.rootNode ~= 0 and entityExists(f.rootNode) then
+                    cx, _, cz = getWorldTranslation(f.rootNode)
+                elseif f.fieldPositionX and f.fieldPositionZ then
+                    cx, cz = f.fieldPositionX, f.fieldPositionZ
+                elseif f.posX and f.posZ then
+                    cx, cz = f.posX, f.posZ
+                end
+                local distSq = 0
+                if cx and cz then
+                    distSq = (cx - wx)^2 + (cz - wz)^2
+                end
+                if distSq < bestDistSq then
+                    bestDistSq = distSq
+                    bestField = f
+                    bestId = cand.id
+                end
+            end
+            return bestField, bestId, fmlId
+        end
+    end
+
+    -- Also check cutter node if combine is provided and fmlId did not find a field
+    if vehicle and vehicle.spec_combine and vehicle.spec_combine.attachedCutters then
+        for c, _ in pairs(vehicle.spec_combine.attachedCutters) do
+            if c.rootNode then
+                local cx, _, cz = getWorldTranslation(c.rootNode)
+                if math.abs(cx - wx) > 0.5 or math.abs(cz - wz) > 0.5 then
+                    local cf, cfid, cfml = RHM_HarvestTracker.getFieldAtWorldPosition(cx, cz, nil)
+                    if cfid and cfid > 0 then
+                        return cf, cfid, cfml
+                    end
+                end
+            end
+        end
+    end
+
+    -- Farmland exists (fmlId > 0), but no field is registered on it (e.g. farm yard, woods, empty meadows)
+    return nil, 0, fmlId
 end
 
 ---Processes a single harvesting simulation tick on the server
@@ -620,6 +835,7 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
                 lastCrop = activeCropName or "--",
                 operationsCount = 0,
                 lastYear = currentYear,
+                reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 },
                 cropVolumes = {}
             }
         end
@@ -632,6 +848,18 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
         fStat.lossMoney = (fStat.lossMoney or 0) + lossMoneyThisTick
         fStat.isContract = (fStat.isContract == true) or isContract
         fStat.lastYear = currentYear
+        fStat.reasons = fStat.reasons or { speed = 0, moisture = 0, wear = 0, slope = 0 }
+        if lossReasons and lostLiters > 0 then
+            local sumPcts = (lossReasons.speedPct or 0) + (lossReasons.moisturePct or 0) + (lossReasons.wearPct or 0) + (lossReasons.slopePct or 0)
+            if sumPcts > 0.001 then
+                fStat.reasons.speed = (fStat.reasons.speed or 0) + (lostLiters * ((lossReasons.speedPct or 0) / sumPcts))
+                fStat.reasons.moisture = (fStat.reasons.moisture or 0) + (lostLiters * ((lossReasons.moisturePct or 0) / sumPcts))
+                fStat.reasons.wear = (fStat.reasons.wear or 0) + (lostLiters * ((lossReasons.wearPct or 0) / sumPcts))
+                fStat.reasons.slope = (fStat.reasons.slope or 0) + (lostLiters * ((lossReasons.slopePct or 0) / sumPcts))
+            else
+                fStat.reasons.speed = (fStat.reasons.speed or 0) + lostLiters
+            end
+        end
         if activeCropName and activeCropName ~= "UNKNOWN" and activeCropName ~= "--" and activeCropName ~= "" then
             fStat.lastCrop = activeCropName
             fStat.lastCropName = activeCropName
@@ -1118,8 +1346,12 @@ function RHM_HarvestTracker:getFarmFields(farmId)
         if field.farmlandId and type(field.farmlandId) == "number" and field.farmlandId > 0 then
             return field.farmlandId
         end
-        if field.farmland and type(field.farmland) == "table" and (field.farmland.id or field.farmland.farmlandId) then
-            return field.farmland.id or field.farmland.farmlandId
+        local fl = (field.getFarmland and field:getFarmland()) or field.farmland
+        if fl then
+            local flid = (fl.getId and fl:getId()) or fl.id or fl.farmlandId
+            if flid and type(flid) == "number" and flid > 0 then
+                return flid
+            end
         end
         if g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
             if field.rootNode and field.rootNode ~= 0 and entityExists(field.rootNode) then
@@ -1141,7 +1373,7 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                 if fid and fid > 0 then return fid end
             end
         end
-        local fid = field.fieldId or field.id
+        local fid = (field.getId and field:getId()) or field.fieldId or field.id
         if fid and fid > 0 and ownedFarmlands[fid] then
             return fid
         end
@@ -1199,7 +1431,7 @@ function RHM_HarvestTracker:getFarmFields(farmId)
 
     if fieldList then
         for _, field in pairs(fieldList) do
-            local fid = field.fieldId or field.id
+            local fid = (field.getId and field:getId()) or field.fieldId or field.id
             if fid and fid > 0 then
                 local fmlId = resolveFarmlandId(field)
                 local isOwned = (fmlId > 0 and ownedFarmlands[fmlId] == true)
@@ -1211,17 +1443,44 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                     local areaHa = resolveFieldAreaHa(field, fmlId)
                     local fStat = farm.fieldStats and farm.fieldStats[fid]
 
-                    -- Merge live active trip if harvesting this field right now
-                    local liveHarvL = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.harvestedLiters) or 0
-                    local liveHarvMass = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.harvestedMassKg) or 0
-                    local liveAreaHa = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.harvestedAreaHa) or 0
-                    local liveLostL = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.lostLiters) or 0
-                    local liveMoney = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.lossMoney) or 0
-                    local liveDuration = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.sessionDuration) or 0
+                    local totalHArea = (fStat and fStat.harvestedAreaHa) or 0
+                    local totalHLiters = (fStat and fStat.harvestedLiters) or 0
+                    local totalHMass = (fStat and fStat.harvestedMassKg) or 0
+                    local totalLostL = (fStat and fStat.lostLiters) or 0
+                    local totalMoney = (fStat and fStat.lossMoney) or 0
+                    local totalDuration = (fStat and fStat.sessionDuration) or 0
 
                     local cropName = (fStat and (fStat.lastCropName or fStat.lastCrop)) or "--"
                     if cropName == "--" and farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.cropName and farm.currentTrip.cropName ~= "--" and farm.currentTrip.cropName ~= "UNKNOWN" then
                         cropName = farm.currentTrip.cropName
+                    end
+                    if cropName == "--" then
+                        local cx, cz = nil, nil
+                        if field.rootNode and field.rootNode ~= 0 and entityExists(field.rootNode) then
+                            cx, _, cz = getWorldTranslation(field.rootNode)
+                        elseif field.fieldPositionX and field.fieldPositionZ then
+                            cx, cz = field.fieldPositionX, field.fieldPositionZ
+                        elseif field.posX and field.posZ then
+                            cx, cz = field.posX, field.posZ
+                        end
+                        if cx and cz and FSDensityMapUtil and FSDensityMapUtil.getFieldFruitTypeAtWorldPos then
+                            local fruitType = FSDensityMapUtil.getFieldFruitTypeAtWorldPos(cx, cz)
+                            if fruitType and fruitType ~= FruitType.UNKNOWN and g_fruitTypeManager then
+                                local ftIdx = g_fruitTypeManager:getFillTypeIndexByFruitTypeIndex(fruitType)
+                                if ftIdx and ftIdx ~= FillType.UNKNOWN and g_fillTypeManager then
+                                    local ftDesc = g_fillTypeManager:getFillTypeByIndex(ftIdx)
+                                    if ftDesc and ftDesc.title and ftDesc.title ~= "" then
+                                        cropName = ftDesc.title
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    local fReasons = (fStat and fStat.reasons) or { speed = 0, moisture = 0, wear = 0, slope = 0 }
+                    local ops = (fStat and fStat.operationsCount) or 0
+                    if ops == 0 and (totalHLiters > 50 or totalHArea > 0.01) then
+                        ops = 1
                     end
 
                     table.insert(result, {
@@ -1229,16 +1488,17 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                         isOwned = true,
                         isContract = false,
                         nominalAreaHa = areaHa,
-                        harvestedAreaHa = ((fStat and fStat.harvestedAreaHa) or 0) + liveAreaHa,
-                        harvestedLiters = ((fStat and fStat.harvestedLiters) or 0) + liveHarvL,
-                        harvestedMassKg = ((fStat and fStat.harvestedMassKg) or 0) + liveHarvMass,
-                        lostLiters = ((fStat and fStat.lostLiters) or 0) + liveLostL,
-                        lossMoney = ((fStat and fStat.lossMoney) or 0) + liveMoney,
-                        sessionDuration = ((fStat and fStat.sessionDuration) or 0) + liveDuration,
+                        harvestedAreaHa = totalHArea,
+                        harvestedLiters = totalHLiters,
+                        harvestedMassKg = totalHMass,
+                        lostLiters = totalLostL,
+                        lossMoney = totalMoney,
+                        sessionDuration = totalDuration,
                         lastCrop = cropName,
                         cropVolumes = (fStat and fStat.cropVolumes) or {},
-                        operationsCount = ((fStat and fStat.operationsCount) or 0) + ((liveHarvL > 0 and 1) or 0),
-                        lastYear = (fStat and fStat.lastYear) or 1
+                        operationsCount = ops,
+                        lastYear = (fStat and fStat.lastYear) or 1,
+                        reasons = fReasons
                     })
                 end
             end
@@ -1248,74 +1508,167 @@ function RHM_HarvestTracker:getFarmFields(farmId)
     -- 3. Any owned farmland that wasn't matched to an engine field object (e.g. bought parcels, custom plots)
     for fmlId, _ in pairs(ownedFarmlands) do
         if not seen[fmlId] then
-            seen[fmlId] = true
-            local areaHa = resolveFieldAreaHa(nil, fmlId)
             local fStat = farm.fieldStats and farm.fieldStats[fmlId]
+            local totalHLiters = (fStat and fStat.harvestedLiters) or 0
+            local totalHArea = (fStat and fStat.harvestedAreaHa) or 0
+            local totalHMass = (fStat and fStat.harvestedMassKg) or 0
+            local totalLostL = (fStat and fStat.lostLiters) or 0
+            local totalMoney = (fStat and fStat.lossMoney) or 0
+            local totalDuration = (fStat and fStat.sessionDuration) or 0
 
-            local liveHarvL = (farm.currentTrip and farm.currentTrip.fieldId == fmlId and farm.currentTrip.harvestedLiters) or 0
-            local liveHarvMass = (farm.currentTrip and farm.currentTrip.fieldId == fmlId and farm.currentTrip.harvestedMassKg) or 0
-            local liveAreaHa = (farm.currentTrip and farm.currentTrip.fieldId == fmlId and farm.currentTrip.harvestedAreaHa) or 0
-            local liveLostL = (farm.currentTrip and farm.currentTrip.fieldId == fmlId and farm.currentTrip.lostLiters) or 0
-            local liveMoney = (farm.currentTrip and farm.currentTrip.fieldId == fmlId and farm.currentTrip.lossMoney) or 0
-            local liveDuration = (farm.currentTrip and farm.currentTrip.fieldId == fmlId and farm.currentTrip.sessionDuration) or 0
-
-            local cropName = (fStat and (fStat.lastCropName or fStat.lastCrop)) or "--"
-            if cropName == "--" and farm.currentTrip and farm.currentTrip.fieldId == fmlId and farm.currentTrip.cropName and farm.currentTrip.cropName ~= "--" and farm.currentTrip.cropName ~= "UNKNOWN" then
-                cropName = farm.currentTrip.cropName
+            -- Check if this farmland corresponds to a real registered engine field (e.g. Field 5 with grass)
+            local isRealField = false
+            local fieldObj = nil
+            if g_fieldManager and g_fieldManager.getFieldById then
+                fieldObj = g_fieldManager:getFieldById(fmlId)
+                if fieldObj then
+                    isRealField = true
+                end
+            end
+            if not isRealField and fieldList then
+                for _, f in pairs(fieldList) do
+                    local fid = f.fieldId or f.id
+                    if fid == fmlId then
+                        isRealField = true
+                        fieldObj = f
+                        break
+                    end
+                end
             end
 
-            table.insert(result, {
-                fieldId = fmlId,
-                isOwned = true,
-                isContract = false,
-                nominalAreaHa = areaHa,
-                harvestedAreaHa = ((fStat and fStat.harvestedAreaHa) or 0) + liveAreaHa,
-                harvestedLiters = ((fStat and fStat.harvestedLiters) or 0) + liveHarvL,
-                harvestedMassKg = ((fStat and fStat.harvestedMassKg) or 0) + liveHarvMass,
-                lostLiters = ((fStat and fStat.lostLiters) or 0) + liveLostL,
-                lossMoney = ((fStat and fStat.lossMoney) or 0) + liveMoney,
-                sessionDuration = ((fStat and fStat.sessionDuration) or 0) + liveDuration,
-                lastCrop = cropName,
-                cropVolumes = (fStat and fStat.cropVolumes) or {},
-                operationsCount = ((fStat and fStat.operationsCount) or 0) + ((liveHarvL > 0 and 1) or 0),
-                lastYear = (fStat and fStat.lastYear) or 1
-            })
-        end
-    end
+            -- Include if it is an actual registered field OR if the player actively harvested a custom plot!
+            -- Unharvested non-field parcels (e.g. farm base yard 44, woods 63, empty meadows 39) are excluded.
+            if isRealField or totalHLiters > 50 or totalHArea > 0.05 then
+                seen[fmlId] = true
+                local areaHa = resolveFieldAreaHa(fieldObj, fmlId)
 
-    -- 4. Add recorded fields from fieldStats that are contract missions
-    if farm.fieldStats then
-        for fid, fStat in pairs(farm.fieldStats) do
-            if not seen[fid] then
-                seen[fid] = true
-                local liveHarvL = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.harvestedLiters) or 0
-                local liveHarvMass = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.harvestedMassKg) or 0
-                local liveAreaHa = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.harvestedAreaHa) or 0
-                local liveLostL = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.lostLiters) or 0
-                local liveMoney = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.lossMoney) or 0
-                local liveDuration = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.sessionDuration) or 0
-
-                local cropName = (fStat.lastCropName or fStat.lastCrop) or "--"
-                if cropName == "--" and farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.cropName and farm.currentTrip.cropName ~= "--" and farm.currentTrip.cropName ~= "UNKNOWN" then
+                local cropName = (fStat and (fStat.lastCropName or fStat.lastCrop)) or "--"
+                if cropName == "--" and farm.currentTrip and farm.currentTrip.fieldId == fmlId and farm.currentTrip.cropName and farm.currentTrip.cropName ~= "--" and farm.currentTrip.cropName ~= "UNKNOWN" then
                     cropName = farm.currentTrip.cropName
+                end
+                if cropName == "--" then
+                    local cx, cz = nil, nil
+                    if fieldObj then
+                        if fieldObj.rootNode and fieldObj.rootNode ~= 0 and entityExists(fieldObj.rootNode) then
+                            cx, _, cz = getWorldTranslation(fieldObj.rootNode)
+                        elseif fieldObj.fieldPositionX and fieldObj.fieldPositionZ then
+                            cx, cz = fieldObj.fieldPositionX, fieldObj.fieldPositionZ
+                        elseif fieldObj.posX and fieldObj.posZ then
+                            cx, cz = fieldObj.posX, fieldObj.posZ
+                        end
+                    end
+                    if (not cx or not cz) and g_farmlandManager and g_farmlandManager.getFarmlandCenter then
+                        cx, cz = g_farmlandManager:getFarmlandCenter(fmlId)
+                    end
+                    if cx and cz and FSDensityMapUtil and FSDensityMapUtil.getFieldFruitTypeAtWorldPos then
+                        local fruitType = FSDensityMapUtil.getFieldFruitTypeAtWorldPos(cx, cz)
+                        if fruitType and fruitType ~= FruitType.UNKNOWN and g_fruitTypeManager then
+                            local ftIdx = g_fruitTypeManager:getFillTypeIndexByFruitTypeIndex(fruitType)
+                            if ftIdx and ftIdx ~= FillType.UNKNOWN and g_fillTypeManager then
+                                local ftDesc = g_fillTypeManager:getFillTypeByIndex(ftIdx)
+                                if ftDesc and ftDesc.title and ftDesc.title ~= "" then
+                                    cropName = ftDesc.title
+                                end
+                            end
+                        end
+                    end
+                end
+
+                local fReasons = (fStat and fStat.reasons) or { speed = 0, moisture = 0, wear = 0, slope = 0 }
+                local ops = (fStat and fStat.operationsCount) or 0
+                if ops == 0 and (totalHLiters > 50 or totalHArea > 0.01) then
+                    ops = 1
                 end
 
                 table.insert(result, {
-                    fieldId = fid,
-                    isOwned = false,
-                    isContract = (fStat.isContract == true),
-                    nominalAreaHa = fStat.harvestedAreaHa or 0,
-                    harvestedAreaHa = (fStat.harvestedAreaHa or 0) + liveAreaHa,
-                    harvestedLiters = (fStat.harvestedLiters or 0) + liveHarvL,
-                    harvestedMassKg = (fStat.harvestedMassKg or 0) + liveHarvMass,
-                    lostLiters = (fStat.lostLiters or 0) + liveLostL,
-                    lossMoney = (fStat.lossMoney or 0) + liveMoney,
-                    sessionDuration = (fStat.sessionDuration or 0) + liveDuration,
+                    fieldId = fmlId,
+                    isOwned = true,
+                    isContract = false,
+                    nominalAreaHa = areaHa,
+                    harvestedAreaHa = totalHArea,
+                    harvestedLiters = totalHLiters,
+                    harvestedMassKg = totalHMass,
+                    lostLiters = totalLostL,
+                    lossMoney = totalMoney,
+                    sessionDuration = totalDuration,
                     lastCrop = cropName,
-                    cropVolumes = fStat.cropVolumes or {},
-                    operationsCount = (fStat.operationsCount or 0) + ((liveHarvL > 0 and 1) or 0),
-                    lastYear = fStat.lastYear or 1
+                    cropVolumes = (fStat and fStat.cropVolumes) or {},
+                    operationsCount = ops,
+                    lastYear = (fStat and fStat.lastYear) or 1,
+                    reasons = fReasons
                 })
+            end
+        end
+    end
+
+    -- 4. Add recorded fields from fieldStats that are contract missions or recorded external field operations
+    if farm.fieldStats then
+        local toRemove = nil
+        for fid, fStat in pairs(farm.fieldStats) do
+            if not seen[fid] then
+                local totalHLiters = (fStat.harvestedLiters or 0)
+                local totalHArea = (fStat.harvestedAreaHa or 0)
+                local totalHMass = (fStat.harvestedMassKg or 0)
+                local totalLostL = (fStat.lostLiters or 0)
+                local totalMoney = (fStat.lossMoney or 0)
+                local totalDuration = (fStat.sessionDuration or 0)
+                local isNowContract = RHM_HarvestTracker.isContractField(fid, farmId)
+                local isContract = (fStat.isContract == true) or isNowContract
+
+                -- Filter out stray accidental cuts on unowned non-contract land (e.g. 2 liters cut on field 10)
+                if isContract or totalHLiters > 50 or totalHArea > 0.05 then
+                    seen[fid] = true
+
+                    local cropName = (fStat.lastCropName or fStat.lastCrop) or "--"
+                    if cropName == "--" and farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.cropName and farm.currentTrip.cropName ~= "--" and farm.currentTrip.cropName ~= "UNKNOWN" then
+                        cropName = farm.currentTrip.cropName
+                    end
+
+                    local fReasons = fStat.reasons or { speed = 0, moisture = 0, wear = 0, slope = 0 }
+
+                    -- Resolve authentic nominal area for contract/external field from fieldManager!
+                    local areaHa = 0
+                    if g_fieldManager and g_fieldManager.getFieldById then
+                        local fObj = g_fieldManager:getFieldById(fid)
+                        if fObj then
+                            areaHa = resolveFieldAreaHa(fObj, nil)
+                        end
+                    end
+                    if areaHa <= 0 then
+                        areaHa = fStat.harvestedAreaHa or 0
+                    end
+
+                    local ops = fStat.operationsCount or 0
+                    if ops == 0 and (totalHLiters > 50 or totalHArea > 0.01) then
+                        ops = 1
+                    end
+
+                    table.insert(result, {
+                        fieldId = fid,
+                        isOwned = false,
+                        isContract = isContract,
+                        nominalAreaHa = areaHa,
+                        harvestedAreaHa = totalHArea,
+                        harvestedLiters = totalHLiters,
+                        harvestedMassKg = totalHMass,
+                        lostLiters = totalLostL,
+                        lossMoney = totalMoney,
+                        sessionDuration = totalDuration,
+                        lastCrop = cropName,
+                        cropVolumes = fStat.cropVolumes or {},
+                        operationsCount = ops,
+                        lastYear = fStat.lastYear or 1,
+                        reasons = fReasons
+                    })
+                else
+                    toRemove = toRemove or {}
+                    table.insert(toRemove, fid)
+                end
+            end
+        end
+        if toRemove then
+            for _, fid in ipairs(toRemove) do
+                farm.fieldStats[fid] = nil
             end
         end
     end
@@ -1348,6 +1701,14 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                         cropName = farm.currentTrip.cropName
                     end
 
+                    local liveReasons = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.reasons) or nil
+                    local fReasons = {
+                        speed = (liveReasons and liveReasons.speed) or 0,
+                        moisture = (liveReasons and liveReasons.moisture) or 0,
+                        wear = (liveReasons and liveReasons.wear) or 0,
+                        slope = (liveReasons and liveReasons.slope) or 0
+                    }
+
                     table.insert(result, {
                         fieldId = fid,
                         isOwned = false,
@@ -1362,7 +1723,8 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                         lastCrop = cropName,
                         cropVolumes = {},
                         operationsCount = (liveHarvL > 0 and 1) or 0,
-                        lastYear = 1
+                        lastYear = 1,
+                        reasons = fReasons
                     })
                 end
             end
@@ -1592,6 +1954,11 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
                 setXMLFloat(xmlFile, fKey .. "#avgLoadSum", fStat.avgLoadSum or 0)
                 setXMLInt(xmlFile, fKey .. "#avgLoadCount", fStat.avgLoadCount or 0)
                 setXMLInt(xmlFile, fKey .. "#lastYear", fStat.lastYear or 1)
+                local r = fStat.reasons or {}
+                setXMLFloat(xmlFile, fKey .. "#reasonSpeed", r.speed or 0)
+                setXMLFloat(xmlFile, fKey .. "#reasonMoisture", r.moisture or 0)
+                setXMLFloat(xmlFile, fKey .. "#reasonWear", r.wear or 0)
+                setXMLFloat(xmlFile, fKey .. "#reasonSlope", r.slope or 0)
                 fIdx = fIdx + 1
             end
         end
@@ -1825,6 +2192,12 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                     avgLoadSum = getXMLFloat(xmlFile, fKey .. "#avgLoadSum") or 0,
                     avgLoadCount = getXMLInt(xmlFile, fKey .. "#avgLoadCount") or 0,
                     lastYear = getXMLInt(xmlFile, fKey .. "#lastYear") or 1,
+                    reasons = {
+                        speed = getXMLFloat(xmlFile, fKey .. "#reasonSpeed") or 0,
+                        moisture = getXMLFloat(xmlFile, fKey .. "#reasonMoisture") or 0,
+                        wear = getXMLFloat(xmlFile, fKey .. "#reasonWear") or 0,
+                        slope = getXMLFloat(xmlFile, fKey .. "#reasonSlope") or 0
+                    },
                     cropVolumes = {}
                 }
             end
@@ -1855,6 +2228,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                             avgLoadSum = 0,
                             avgLoadCount = 0,
                             lastYear = entry.year or 1,
+                            reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 },
                             cropVolumes = {}
                         }
                         farm.fieldStats[fId] = fStat
@@ -1865,6 +2239,15 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                     fStat.lostLiters = fStat.lostLiters + (entry.lost or 0)
                     fStat.lossMoney = fStat.lossMoney + (entry.lossMoney or 0)
                     fStat.operationsCount = fStat.operationsCount + 1
+                    fStat.reasons = fStat.reasons or { speed = 0, moisture = 0, wear = 0, slope = 0 }
+                    if entry.dominantReason and (entry.lost or 0) > 0 then
+                        local dKey = entry.dominantReason
+                        if fStat.reasons[dKey] ~= nil then
+                            fStat.reasons[dKey] = fStat.reasons[dKey] + entry.lost
+                        else
+                            fStat.reasons.speed = fStat.reasons.speed + entry.lost
+                        end
+                    end
                     if entry.cropName and entry.cropName ~= "UNKNOWN" and entry.cropName ~= "--" then
                         fStat.lastCropName = entry.cropName
                     end

@@ -111,7 +111,20 @@ function RHM_HarvestHistoryAnalytics:updateData()
 
     -- Scorecard Badge
     local rank = trip.efficiencyRank or "A"
-    if self.rankBadgeText then self.rankBadgeText:setText("[" .. rank .. "]") end
+    local rCol, gCol, bCol = 0.58, 0.77, 0.11
+    if rank == "B" then
+        rCol, gCol, bCol = 0.75, 0.85, 0.15
+    elseif rank == "C" then
+        rCol, gCol, bCol = 0.95, 0.60, 0.15
+    elseif rank == "D" then
+        rCol, gCol, bCol = 0.92, 0.28, 0.28
+    end
+    if self.rankBadgeText then
+        self.rankBadgeText:setText("[" .. rank .. "]")
+        if self.rankBadgeText.setTextColor then
+            self.rankBadgeText:setTextColor(rCol, gCol, bCol, 1.0)
+        end
+    end
 
     local rankTitleKey = "rhm_rank_title_" .. string.lower(rank)
     local rankDescKey = "rhm_rank_desc_" .. string.lower(rank)

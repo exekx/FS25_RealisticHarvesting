@@ -1510,7 +1510,7 @@ function rhm_Combine.playAlarmSample(vehicle, spec, soundVolMultiplier)
 
     -- EN: Consistent buzzer volume scaled by player's setting (0.0 to 1.0)
     -- UA: Стабільний рівень гучності зумера, масштабований налаштуванням гравця (0.0 до 1.0)
-    local alarmVol = math.min(1.0, math.max(0.0, 0.85 * soundVolMultiplier))
+    local alarmVol = math.min(1.0, math.max(0.0, soundVolMultiplier))
 
     -- EN: Update all sample volume properties directly to prevent SoundManager resets
     -- UA: Безпосередньо оновлюємо всі параметри гучності в таблиці семпла, щоб уникнути скидання
@@ -1981,22 +1981,9 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         if tracker then
             local fieldId = 0
             local wx, _, wz = getWorldTranslation(self.rootNode)
-            if g_fieldManager then
-                local field = nil
-                if g_fieldManager.getFieldAtWorldPosition then
-                    field = g_fieldManager:getFieldAtWorldPosition(wx, wz)
-                elseif g_fieldManager.getFieldByWorldPosition then
-                    field = g_fieldManager:getFieldByWorldPosition(wx, wz)
-                end
-                if field and (field.fieldId or field.id) then
-                    fieldId = field.fieldId or field.id
-                end
-            end
-            if fieldId == 0 and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
-                local fid = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
-                if fid and fid > 0 then
-                    fieldId = fid
-                end
+            if RHM_HarvestTracker and RHM_HarvestTracker.getFieldAtWorldPosition then
+                local _, fid = RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, self)
+                fieldId = fid or 0
             end
 
             local farmId = self:getOwnerFarmId() or 1

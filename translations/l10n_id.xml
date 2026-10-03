@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulasi" />
@@ -128,72 +128,106 @@
         <text name="rhm_msg_req_level_4" text="Memerlukan paket Autopilot AI Opti-Harvest (Tingkat 4) yang terpasang di bengkel." />
         <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Panen beberapa meter tanaman untuk memulai kalibrasi otomatis!" />
         <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Berhasil mengkalibrasi otomatis untuk %s!" />
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-9)                       -->
+        <!-- ================================================================= -->
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
+        <!-- ================================================================= -->
         <text name="rhm_help_category" text="Realistic Harvesting" />
-        <text name="rhm_help_title" text="Panduan Realistic Harvesting" />
-        <text name="rhm_help_overview_title" text="Ikhtisar &amp; Fisika" />
-        <text name="rhm_help_overview_sub1" text="Beban Mesin &amp; Aliran Massa" />
-        <text name="rhm_help_overview_1" text="Realistic Harvesting menggantikan kecepatan kerja tetap dengan model throughput berbasis fisika. Beban mesin dihitung dari massa tanaman per detik, kelembaban, lebar header, dan status pencacah jerami. Pada tanaman yang lebat, combine akan melambat untuk mencegah drum tersumbat." />
-        <text name="rhm_help_overview_sub2" text="Kontrol Kecepatan" />
-        <text name="rhm_help_overview_2" text="Pengontrol kecepatan hidrostatik menyesuaikan laju kendaraan untuk menjaga mesin pada rentang efisiensi optimal (80–95%). Kecepatan kerja disimpan saat di ujung ladang sehingga akselerasi ke baris berikutnya berlangsung mulus." />
-        <text name="rhm_help_hud_title" text="HUD &amp; Telemetri" />
-        <text name="rhm_help_hud_sub1" text="HUD Pemanenan" />
-        <text name="rhm_help_hud_1" text="HUD menampilkan data langsung: kecepatan saat ini dan yang direkomendasikan, beban mesin dalam persen, throughput dalam ton per jam (t/jam), hasil panen waktu-nyata, dan persentase susut." />
-        <text name="rhm_help_hud_sub2" text="Peringatan &amp; Kode Warna" />
-        <text name="rhm_help_hud_2" text="Hijau menunjukkan beban optimal. Kuning menunjukkan beban sedang. Merah berkedip saat beban kritis (&gt;95%), di mana combine otomatis melambat." />
-        <text name="rhm_help_hud_sub3" text="Metrik Telemetri" />
-        <text name="rhm_help_hud_3_load" text="BEBAN: Persentase beban mesin dari transmisi, perontokan, dan pencacah." />
-        <text name="rhm_help_hud_3_yield" text="HASIL: Hasil panen langsung di ladang (t/ha atau bu/ac)." />
-        <text name="rhm_help_hud_3_productivity" text="PROD: Aliran material melalui mesin dalam ton per jam (t/jam)." />
-        <text name="rhm_help_hud_3_moisture" text="LEMBAB: Persentase kelembaban tanaman. Tanaman basah membutuhkan tenaga jauh lebih besar." />
-        <text name="rhm_help_hud_3_loss" text="SUSUT: Persentase kehilangan hasil dari drum perontok dan ayakan pembersih." />
-        <text name="rhm_help_hud_3_speed" text="KECEP: Kecepatan aktual dibandingkan kecepatan optimal yang dihitung." />
-        <text name="rhm_help_calibration_title" text="Terminal Kalibrasi" />
-        <text name="rhm_help_calibration_main_sub" text="Terminal (Shift Kanan + K)" />
-        <text name="rhm_help_calibration_main_text" text="Buka terminal kalibrasi dengan Shift Kanan + K. Di sini Anda dapat menyesuaikan RPM rotor, kecepatan kipas, jarak cekung, dan bukaan ayakan untuk setiap tanaman." />
-        <text name="rhm_help_calibration_rotor_sub" text="RPM Rotor &amp; Jarak Cekung" />
-        <text name="rhm_help_calibration_rotor_text" text="RPM terlalu tinggi atau jarak terlalu rapat menghancurkan biji-bijian. RPM terlalu rendah meninggalkan biji yang tidak terontok di jerami." />
-        <text name="rhm_help_calibration_fan_sub" text="Kipas &amp; Ayakan" />
-        <text name="rhm_help_calibration_fan_text" text="Kipas memisahkan sekam dari biji. Angin terlalu kencang menerbangkan biji ke luar mesin. Angin terlalu lemah menyumbat ayakan." />
-        <text name="rhm_help_calibration_perf_sub" text="Penyetelan Kinerja" />
-        <text name="rhm_help_calibration_perf_text" text="Pengaturan yang dikalibrasi dengan benar menurunkan susut di bawah 0,5% dan memungkinkan kecepatan berkendara lebih tinggi tanpa beban berlebih." />
-        <text name="rhm_help_special_title" text="Mesin Khusus" />
-        <text name="rhm_help_special_sub1" text="Forage Harvester &amp; Pengumpul Barisan" />
-        <text name="rhm_help_special_1" text="Mesin pemanen pakan ternak diatur dengan fisika panjang pemotongan khusus. Pada header pengumpul, beban dihitung dari volume barisan jerami/hijauan." />
-        <text name="rhm_help_special_sub2" text="Pemanen Umbi, Kapas &amp; Platform NEXAT" />
-        <text name="rhm_help_special_2" text="Mesin pemanen kentang dan bit mengalami hambatan tanah yang besar. Header jagung memerlukan RPM rotor lebih rendah untuk melindungi tongkol." />
-        <text name="rhm_help_loss_title" text="Kehilangan Hasil &amp; Susut" />
-        <text name="rhm_help_loss_sub1" text="Susut Biji Fisik" />
-        <text name="rhm_help_loss_1" text="Susut panen dikurangkan langsung dari isi tangki penampung dan merupakan kerugian finansial yang nyata." />
-        <text name="rhm_help_loss_sub2" text="Penyebab Susut" />
-        <text name="rhm_help_loss_2" text="Penyebab utama: Kecepatan berkendara terlalu tinggi, pengaturan ayakan keliru, tanaman basah, atau pisau header tumpul." />
-        <text name="rhm_help_loss_sub3" text="Kompensasi Kemiringan" />
-        <text name="rhm_help_loss_3" text="Di lereng berbukit, material bergeser ke satu sisi ayakan yang meningkatkan susut secara drastis kecuali kecepatan dikurangi." />
-        <text name="rhm_help_difficulty_title" text="Tingkat Kesulitan" />
-        <text name="rhm_help_difficulty_sub1" text="Pemilihan Mode" />
-        <text name="rhm_help_difficulty_1" text="Pilih mode Arcade, Normal, atau Realistis untuk beban mesin dan susut panen secara terpisah di menu pengaturan." />
-        <text name="rhm_help_difficulty_sub2" text="Perbedaan Tingkatan" />
-        <text name="rhm_help_difficulty_2" text="Arcade menonaktifkan pengereman otomatis. Normal memberikan pengalaman bermain yang seimbang. Realistis menyajikan 100% simulasi murni." />
-        <text name="rhm_help_upgrades_title" text="Peningkatan Elektronik" />
-        <text name="rhm_help_upgrades_sub1" text="Tingkat 1: Mekanis Manual" />
-        <text name="rhm_help_upgrades_1" text="Combine standar mekanis. Memerlukan penyesuaian semua pengaturan secara manual berdasarkan pengalaman." />
-        <text name="rhm_help_upgrades_sub2" text="Tingkat 2: Paket Sensor" />
-        <text name="rhm_help_upgrades_2" text="Menambahkan sensor kehilangan hasil elektronik dan pemantauan beban untuk panduan penyetelan yang lebih baik." />
-        <text name="rhm_help_upgrades_sub3" text="Tingkat 3: Monitor Telemetri" />
-        <text name="rhm_help_upgrades_3" text="Monitor hasil lengkap dengan penghitungan luas lahan dan kemampuan untuk menyimpan serta memuat profil tanaman." />
-        <text name="rhm_help_upgrades_sub4" text="Tingkat 4: Autopilot AI Opti-Harvest" />
-        <text name="rhm_help_upgrades_4" text="Kontrol komputer cerdas yang secara otomatis mengkalibrasi dan menyesuaikan pengaturan combine saat bekerja di ladang." />
-        <text name="rhm_help_moisture_title" text="Sistem Kelembaban" />
-        <text name="rhm_help_moisture_sub1" text="Siklus Harian &amp; Embun Pagi" />
-        <text name="rhm_help_moisture_1" text="Embun pagi membuat jerami liat dan alot. Memanen di kondisi lembab membutuhkan tenaga mesin yang jauh lebih besar." />
-        <text name="rhm_help_moisture_sub2" text="Penalti Kelembaban" />
-        <text name="rhm_help_moisture_2" text="Di atas 18% kelembaban, kapasitas perontokan menurun drastis dan risiko penyumbatan drum meningkat tajam." />
-        <text name="rhm_help_cropsettings_title" text="Panduan Tanaman" />
-        <text name="rhm_help_cropsettings_grain_sub" text="Biji-bijian (Gandum, Jelai, Oat, Rye)" />
-        <text name="rhm_help_cropsettings_grain_text" text="RPM rotor tinggi (700–850 RPM) dan jarak cekung sedang (10–15 mm) untuk pemisahan yang efektif." />
-        <text name="rhm_help_cropsettings_forage_sub" text="Jagung &amp; Bunga Matahari" />
-        <text name="rhm_help_cropsettings_forage_text" text="RPM rendah (350–450 RPM) dan jarak cekung lebar (25–35 mm) agar tidak menghancurkan tongkol dan biji." />
-        <text name="rhm_help_cropsettings_root_sub" text="Kacang-kacangan &amp; Kanola" />
-        <text name="rhm_help_cropsettings_root_text" text="Kanola memerlukan kecepatan kipas rendah agar biji yang ringan tidak tertiup keluar dari ayakan." />
+        <text name="rhm_help_title" text="Realistic Harvesting Guide" />
+
+        <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
+        <text name="rhm_help_overview_title" text="1. Realistic Engine Physics &amp; Speed" />
+        <text name="rhm_help_overview_sub1" text="How Engine Load is Calculated" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting replaces artificial hard-coded speed limits with an honest, physics-based crop throughput model. Engine power is dynamically allocated between base vehicle locomotion, mechanical cutterbar drive, threshing drum and rotor friction, straw chopper load, and crop mass flow (t/h) calibrated to ASABE/DLG agricultural standards. When encountering dense swaths, the combine automatically and smoothly decelerates to prevent drum choking." />
+        <text name="rhm_help_overview_sub2" text="Automated Hydrostatic Speed Control" />
+        <text name="rhm_help_overview_2" text="The RHM hydrostatic controller continuously monitors threshing mechanism strain. The optimal operational window is 85–95% engine load. As strain approaches 100%, the combine gently trims forward cruise speed to protect internal components, then smoothly accelerates back to cruising pace in lighter crop stands." />
+        <text name="rhm_help_overview_sub3" text="Straw Chopper Strain &amp; Slope Dynamics" />
+        <text name="rhm_help_overview_3" text="An active straw chopper demands an extra 15–20% of rated engine horsepower compared to laying straw swaths. In dense grain crops, switching to swathing frees substantial horsepower, significantly boosting working speed. Harvesting uphill also imposes extra gravitational climb resistance, naturally moderating field speed." />
+
+        <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
+        <text name="rhm_help_hud_title" text="2. Interactive HUD &amp; Controls" />
+        <text name="rhm_help_hud_sub1" text="Live Telemetry Dashboard" />
+        <text name="rhm_help_hud_1" text="Boarding a combine activates a modern telemetry capsule at the bottom of the screen. It provides real-time readouts: current and target speed, live engine load percentage, instantaneous field yield (t/ha or bu/ac), crop throughput (t/h), grain moisture percentage, and cleaning shoe loss rate (%)." />
+        <text name="rhm_help_hud_sub2" text="Free Mouse Dragging (LMB) &amp; Magnetic Docking" />
+        <text name="rhm_help_hud_2" text="You can reposition the HUD anywhere across your screen. Hold Left Mouse Button (LMB) directly on the HUD capsule and drag it to your preferred position. Moving close to screen edges or the bottom boundary of the F1 help menu triggers magnetic docking, perfectly snapping the panel in place." />
+        <text name="rhm_help_hud_sub3" text="In-Cab Field Trip Mini-Badge" />
+        <text name="rhm_help_hud_3" text="A compact telemetry mini-badge inside the cab gives an immediate overview of your current run: harvested hectares, total tonnage, average loss percentage, and operator skill rating from [A] (expert) to [E] (heavy losses)." />
+
+        <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
+        <text name="rhm_help_calibration_title" text="3. In-Cab Calibration Tablet (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Field Touchscreen Tablet" />
+        <text name="rhm_help_calibration_main_text" text="Press Right Shift + K in the combine cab to deploy the touchscreen calibration tablet. The header displays rated engine horsepower, attached cutter width, and active crop. Fine-tuning threshing and separation parameters maximizes crop throughput while maintaining near-zero grain loss." />
+        <text name="rhm_help_calibration_rotor_sub" text="Threshing Drum &amp; Cleaning Fan" />
+        <text name="rhm_help_calibration_rotor_text" text="Rotor/drum RPM and concave clearance govern threshing thoroughness. Excessive RPM shatters fragile grain, while insufficient RPM leaves unthreshed grain in the straw. The cleaning fan blows chaff out of the rear: excessive airflow blows grain onto the ground, while weak airflow clogs the sieves with trash." />
+        <text name="rhm_help_calibration_presets_sub" text="Factory Presets &amp; Combine Memory" />
+        <text name="rhm_help_calibration_presets_text" text="The tablet includes pre-configured factory presets for over 25 base game and modded crops. Click 'Load Preset' to apply proven baseline settings. On combines equipped with Tier 2+ electronics, you can also save and load custom field profiles directly into combine memory." />
+
+        <!-- PAGE 4: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
+        <text name="rhm_help_trip_title" text="4. Field Job Counter &amp; Fleet Records (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Field Harvest Command Center (Shift+J)" />
+        <text name="rhm_help_trip_1" text="Press Right Shift + J to open the full harvest accounting hub featuring 4 tabs: 'Current Field', 'Farm Fields', 'Season Analytics', and 'Combine Fleet'." />
+        <text name="rhm_help_trip_sub2" text="Current Field Trip Odometer &amp; Operator Rank" />
+        <text name="rhm_help_trip_2" text="The first tab functions as a digital field odometer: tracking harvested area (ha/ac), grain yield and mass (t/l), net harvest time, field crop losses, financial loss ($/€/£), root-cause loss breakdown (Speed, Moisture, Wear, Slope), and driver efficiency rank." />
+        <text name="rhm_help_trip_sub3" text="Quick In-Cab Reset (Right Shift + R)" />
+        <text name="rhm_help_trip_3" text="When entering a new field or starting a test run, hold Right Shift + R for 1 second directly from the cab. The field odometer instantly resets with an on-screen toast confirmation—no need to open the menu!" />
+        <text name="rhm_help_trip_sub4" text="Farm Fields, Seasonal History &amp; Fleet Telemetry" />
+        <text name="rhm_help_trip_4" text="Review area and crop status for all owned fields in Tab 2, multi-season yield and financial history in Tab 3, and monitor hired AI workers in Tab 4: active operator, crop, throughput (t/h), cutter width, and knife wear." />
+
+        <!-- PAGE 5: CROP LOSSES & ROOT CAUSES -->
+        <text name="rhm_help_croploss_title" text="5. Crop Losses &amp; Root Causes" />
+        <text name="rhm_help_croploss_sub1" text="Physical Grain Tank Liter Deduction" />
+        <text name="rhm_help_croploss_1" text="In Realistic Harvesting, crop losses are not an abstract statistic. Grain lost over the sieves or blown out the rear is physically subtracted directly from the combine grain tank in real time or deducted from straw windrow volume, directly impacting farm finances." />
+        <text name="rhm_help_croploss_sub2" text="Four Primary Loss Root Causes" />
+        <text name="rhm_help_croploss_2" text="- Speed &amp; Overload: Excessive throughput overwhelms sieves, carrying grain out the back.&#xA;- Moisture &amp; Dew: Damp straw clumps together, trapping kernels inside.&#xA;- Knife Wear: Blunt cutterbar knives shatter standing heads onto the ground instead of cutting.&#xA;- Ground Slope: Steep side-hills shift crop mats to one side of the cleaning shoe." />
+        <text name="rhm_help_croploss_sub3" text="Acoustic Overload Warning (Smart Buzzer)" />
+        <text name="rhm_help_croploss_3" text="When engine load exceeds 105% or sieve loss exceeds 5%, the in-cab chime sounds. In Smart Mode, the terminal sounds a cluster of 3 soft alerts spaced 1.8 seconds apart, followed by an 18-second rest interval." />
+
+        <!-- PAGE 6: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
+        <text name="rhm_help_upgrades_title" text="6. Electronics Packages (Tiers 1–4)" />
+        <text name="rhm_help_upgrades_sub1" text="Harvester Workshop Upgrades" />
+        <text name="rhm_help_upgrades_1" text="Every harvester can be upgraded at the vehicle dealer or farm workshop with four distinct electronics packages tailored to your farm budget and operating style." />
+        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Base Mechanical) &amp; Tier 2 (Sensors &amp; Profiles)" />
+        <text name="rhm_help_upgrades_2" text="- Tier 1: Factory mechanical baseline. No electronic sensors; operator gauges speed by engine sound.&#xA;- Tier 2: Adds piezoelectric sieve loss sensors (loss % on HUD) and unlocks saving custom calibration profiles into combine memory." />
+        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Telemetry) &amp; Tier 4 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="- Tier 3: Equips an optical moisture meter, field trip odometer, financial loss tracking, and fleet telemetry.&#xA;- Tier 4: Unlocks the flagship Opti-Harvest AI autopilot, automatically tuning drum RPM and fan speed on the fly and eliminating hired worker tuning errors (0% deviation)." />
+
+        <!-- PAGE 7: AI WORKERS & AUTOPILOTS -->
+        <text name="rhm_help_ai_workers_title" text="7. AI Workers &amp; Autopilots" />
+        <text name="rhm_help_ai_workers_sub1" text="Intelligent AI Speed Regulation" />
+        <text name="rhm_help_ai_workers_1" text="Giants AI helpers, Courseplay (v7+), and AutoDrive never run at artificial flat-out speeds. RHM enforces speed limits directly at the engine server level, keeping helpers safely within the optimal 85–95% load sweet spot." />
+        <text name="rhm_help_ai_workers_sub2" text="Electronics Package Impact on AI Quality" />
+        <text name="rhm_help_ai_workers_2" text="- Tier 1 Combines: Hired workers suffer setup deviations of up to ±18%.&#xA;- Tier 2 Combines: Tuning error drops to ±10%.&#xA;- Tier 3 Combines: Tuning error is reduced to ±4%.&#xA;- Tier 4 Combines: Opti-Harvest AI achieves 0% error, delivering flawless factory-spec harvesting." />
+        <text name="rhm_help_ai_workers_sub3" text="Courseplay &amp; AutoDrive Unloading on the Move" />
+        <text name="rhm_help_ai_workers_3" text="Unloading on the move is fully accounted for: the extra mechanical drag of the unloading auger is calculated dynamically so the combine never stalls when a chase tractor pulls alongside." />
+
+        <!-- PAGE 8: CROP MOISTURE & DIURNAL WEATHER -->
+        <text name="rhm_help_moisture_title" text="8. Crop Moisture &amp; Diurnal Weather" />
+        <text name="rhm_help_moisture_sub1" text="Diurnal Moisture Cycle" />
+        <text name="rhm_help_moisture_1" text="Crop moisture naturally peaks in early morning hours (04:00–08:00) due to heavy dew. The prime harvesting window occurs between 11:30 and 18:30 when ambient warmth and sunlight thoroughly dry grain and straw." />
+        <text name="rhm_help_moisture_sub2" text="Moisture Impact on Power &amp; Speed" />
+        <text name="rhm_help_moisture_2" text="Damp straw increases internal rotor friction by up to +35%, substantially lowering harvesting cruise speed and increasing fuel consumption." />
+        <text name="rhm_help_moisture_sub3" text="Rain, Night Dew &amp; Wet Straw" />
+        <text name="rhm_help_moisture_3" text="Harvesting in active rain causes a sharp spike in moisture, overloading cleaning sieves, inducing heavy grain loss, and risking threshing drum choking." />
+
+        <!-- PAGE 9: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
+        <text name="rhm_help_special_title" text="9. Forage, Root Crops &amp; Special Machinery" />
+        <text name="rhm_help_special_sub1" text="Self-Propelled Forage Harvesters" />
+        <text name="rhm_help_special_1" text="Forage harvesters utilize a specialized 3-stage mechanical model: feed intake rollers, chopping drum, and discharge accelerator blower. Grass windrow pickers dynamically assess swath density for smooth intake." />
+        <text name="rhm_help_special_sub2" text="Sugar Beet &amp; Potato Harvesters" />
+        <text name="rhm_help_special_2" text="Root crop harvesters must overcome substantial soil lifting drag (approx. 7 HP per meter of working width), naturally constraining field speeds to a realistic 5–8 km/h." />
+        <text name="rhm_help_special_sub3" text="Grapes, Olives &amp; NEXAT Carrier Platform" />
+        <text name="rhm_help_special_3" text="Grape and olive harvesters feature customized separation curves. The 1,100 HP NEXAT modular wide-span carrier and its NEXCO combine module are fully supported with phantom load suppression." />
+
+        <!-- PAGE 10: DIFFICULTY MODES & SETTINGS -->
+        <text name="rhm_help_difficulty_title" text="10. Difficulty Modes &amp; Settings" />
+        <text name="rhm_help_difficulty_sub1" text="Realistic vs. Arcade Modes" />
+        <text name="rhm_help_difficulty_1" text="Choose your preferred gameplay experience in the ESC pause menu:&#xA;- Realistic: Full ASABE/DLG physics, hydrostatic braking, physical tank loss deduction, knife wear, and diurnal moisture.&#xA;- Arcade: 0% engine overload, unrestricted speed limits, and zero crop losses for relaxed, casual harvesting." />
+        <text name="rhm_help_difficulty_sub2" text="Acoustic &amp; Display Settings" />
+        <text name="rhm_help_difficulty_2" text="Adjust the overload warning buzzer volume (0%–100%) with an instant sound test, select your buzzer trigger mode (Smart, Continuous, Disabled), and customize HUD transparency and units." />
+        <text name="rhm_help_difficulty_sub3" text="Interactive Tutorial Hints" />
+        <text name="rhm_help_difficulty_3" text="Click 'Reset Hints' in the settings menu at any time to re-enable on-screen tutorial hints and refresh your knowledge of all mod features." />
         <text name="rhm_ui_section_separation" text="PERONTOKAN &amp; PEMISAHAN" />
         <text name="rhm_ui_section_cleaning" text="PEMBERSIHAN" />
         <text name="rhm_ui_section_discharge" text="PEMBUANGAN &amp; JERAMI" />
@@ -252,6 +286,12 @@
         <text name="rhm_tut_headland_msg" text="Saat header diangkat di ujung ladang, combine menyimpan kecepatan kerja. Di baris berikutnya, akselerasi berlangsung mulus tanpa hentakan." />
         <text name="rhm_tut_upgrade_title" text="Peningkatan Combine" />
         <text name="rhm_tut_upgrade_msg" text="Combine dasar memerlukan penyesuaian manual. Tingkatkan elektronik di bengkel untuk membuka Paket Sensor (Tingkat 2), Monitor Hasil (Tingkat 3), atau Opti-Harvest AI (Tingkat 4)." />
+        <text name="rhm_tut_hud_drag_title" text="Interactive HUD" />
+        <text name="rhm_tut_hud_drag_msg" text="You can reposition the HUD anywhere across your screen by holding Left Mouse Button (LMB) on the panel, or magnetically dock it cleanly beneath the F1 menu and screen edges." />
+        <text name="rhm_tut_trip_title" text="Field Job Counter &amp; Log" />
+        <text name="rhm_tut_trip_msg" text="Press Shift+J to review your field yield summary, financial loss analysis, and fleet status. To quickly reset the counter for a new field, hold Shift+R for 1 second in the cab!" />
+        <text name="rhm_tut_chopper_title" text="Straw Chopper Power Load" />
+        <text name="rhm_tut_chopper_msg" text="Chopping straw consumes an extra 15â€“20% of engine power compared to laying a swath. If you need more harvesting speed on dense crops, switch to laying a swath." />
         <text name="rhm_setting_wear_loss_short" text="Susut Keausan Mekanis" />
         <text name="rhm_setting_wear_loss_long" text="Mensimulasikan kehilangan hasil akibat keausan alat. Pisau header yang tumpul merontokkan bulir tanaman (hingga +3% susut dan +15% hambatan tenaga). Drum perontok dan ayakan aus membuang biji yang belum terontok (hingga +3% susut)." />
         <text name="rhm_ui_wear_loss" text="Susut Keausan" />

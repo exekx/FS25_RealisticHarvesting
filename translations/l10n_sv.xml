@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulering" />
@@ -128,72 +128,106 @@
         <text name="rhm_msg_req_level_4" text="Kräver Opti-Harvest AI Autopilot (Nivå 4) installerad i verkstaden." />
         <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Kör några meter in i grödan för att starta autokalibrering!" />
         <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Vellyckad autokalibrering för %s!" />
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-9)                       -->
+        <!-- ================================================================= -->
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
+        <!-- ================================================================= -->
         <text name="rhm_help_category" text="Realistic Harvesting" />
-        <text name="rhm_help_title" text="Realistic Harvesting Handbok" />
-        <text name="rhm_help_overview_title" text="Översikt &amp; Fysik" />
-        <text name="rhm_help_overview_sub1" text="Motorbelastning &amp; Genomströmning" />
-        <text name="rhm_help_overview_1" text="Realistic Harvesting ersätter fast arbetshastighet med en fysikbaserad genomströmningsmodell. Motorbelastningen beräknas ur grödmassa per sekund, fukthalt, skärbordsbredd och halmhack. Vid tät gröda sänks farten för att hindra trumstopp." />
-        <text name="rhm_help_overview_sub2" text="Hastighetsreglering" />
-        <text name="rhm_help_overview_2" text="Den hydrostatiska hastighetsregulatorn anpassar farten för att hålla motorn i optimalt effektområde (80–95%). På vändteigen sparas farten för mjuk acceleration in i nästa drag." />
-        <text name="rhm_help_hud_title" text="HUD &amp; Telemetri" />
-        <text name="rhm_help_hud_sub1" text="Skörde-HUD" />
-        <text name="rhm_help_hud_1" text="HUD visar realtidsdata: aktuell och rekommenderad hastighet, motorbelastning i procent, genomströmning i ton per timme (t/h), realtidsskörd och spillprocent." />
-        <text name="rhm_help_hud_sub2" text="Varningar &amp; Färgkoder" />
-        <text name="rhm_help_hud_2" text="Grönt indikerar optimal belastning. Gult visar måttlig belastning. Rött blinkar vid kritisk överbelastning (&gt;95%), där maskinen automatiskt bromsar in." />
-        <text name="rhm_help_hud_sub3" text="Telemetrimått" />
-        <text name="rhm_help_hud_3_load" text="BELASTN: Motorbelastningsprocent från framdrivning, tröskverk och hack." />
-        <text name="rhm_help_hud_3_yield" text="SKÖRD: Realtidsskörd på det skördade fältet (t/ha eller bu/ac)." />
-        <text name="rhm_help_hud_3_productivity" text="PROD: Materialflöde genom maskinen i ton per timme (t/h)." />
-        <text name="rhm_help_hud_3_moisture" text="FUKT: Grödans fukthalt. Fuktig gröda kräver betydligt mer motoreffekt." />
-        <text name="rhm_help_hud_3_loss" text="FÖRLUST: Procentuellt spill från tröskcylinder och såll." />
-        <text name="rhm_help_hud_3_speed" text="FART: Nuvarande hastighet mot beräknad optimal hastighet." />
-        <text name="rhm_help_calibration_title" text="Kalibreringsterminal" />
-        <text name="rhm_help_calibration_main_sub" text="Terminal (Höger Shift + K)" />
-        <text name="rhm_help_calibration_main_text" text="Öppna kalibreringsterminalen med Höger Shift + K. Här justeras cylinder- och fläkthastighet, slagskoavstånd och sållöppningar för varje gröda." />
-        <text name="rhm_help_calibration_rotor_sub" text="Cylindervarvtal &amp; Slagsko" />
-        <text name="rhm_help_calibration_rotor_text" text="För högt varvtal krossar kärnor och ökar belastning. För lågt varvtal ger otröskade kärnor i halmen." />
-        <text name="rhm_help_calibration_fan_sub" text="Fläkt &amp; Såll" />
-        <text name="rhm_help_calibration_fan_text" text="Fläkten separerar agnar från kärnor. För stark luft blåser ut kärnor bakom tröskan. För svag luft sätter igen sållen." />
-        <text name="rhm_help_calibration_perf_sub" text="Prestandaoptimering" />
-        <text name="rhm_help_calibration_perf_text" text="Rätt inställningar minskar förlusterna till under 0,5% och medger högre körhastighet utan överbelastning." />
-        <text name="rhm_help_special_title" text="Specialmaskiner" />
-        <text name="rhm_help_special_sub1" text="Exakthackar &amp; Strängupplockning" />
-        <text name="rhm_help_special_1" text="Självgående exakthackar hanteras med dedikerad snittlängdsfysik. Vid pickup beräknas belastningen från strängens volym." />
-        <text name="rhm_help_special_sub2" text="Rotfruktsupptagare, Bomull &amp; NEXAT Plattform" />
-        <text name="rhm_help_special_2" text="Potatis- och betupptagare upplever stort markmotstånd. Majsplockare kräver lägre cylindervarvtal." />
-        <text name="rhm_help_loss_title" text="Skördeförluster &amp; Spill" />
-        <text name="rhm_help_loss_sub1" text="Fysiskt Kärnspill" />
-        <text name="rhm_help_loss_1" text="Skördeförlust dras direkt från tankinnehållet och utgör en reell ekonomisk förlust." />
-        <text name="rhm_help_loss_sub2" text="Orsaker till spill" />
-        <text name="rhm_help_loss_2" text="Huvudorsaker: För hög körhastighet, felaktig sållinställning, våt gröda eller slöa knivar på skärbordet." />
-        <text name="rhm_help_loss_sub3" text="Sidolutning" />
-        <text name="rhm_help_loss_3" text="I lutningar förskjuts materialet på sållen vilket ökar spillet kraftigt om inte farten sänks." />
-        <text name="rhm_help_difficulty_title" text="Svårighetsgrader" />
-        <text name="rhm_help_difficulty_sub1" text="Val av läge" />
-        <text name="rhm_help_difficulty_1" text="Välj mellan Arkad, Normal och Realistisk nivå oberoende för motorbelastning och skördeförlust." />
-        <text name="rhm_help_difficulty_sub2" text="Nivåskillnader" />
-        <text name="rhm_help_difficulty_2" text="Arkad stänger av motorbromsning. Normal ger balanserad spelkänsla. Realistisk ger 100% oförfalskad simulering." />
-        <text name="rhm_help_upgrades_title" text="Elektronikuppgraderingar" />
-        <text name="rhm_help_upgrades_sub1" text="Nivå 1: Manuell mekanisk" />
-        <text name="rhm_help_upgrades_1" text="Grundläggande mekanisk tröska. Kräver manuell inställning av alla parametrar." />
-        <text name="rhm_help_upgrades_sub2" text="Nivå 2: Sensorpaket" />
-        <text name="rhm_help_upgrades_2" text="Ger elektroniska spillsensorer och realtidsbelastning för enklare optimering." />
-        <text name="rhm_help_upgrades_sub3" text="Nivå 3: Telemetrimonitor" />
-        <text name="rhm_help_upgrades_3" text="Fullständig skördemätare med ytmätning och möjlighet att spara och ladda grödprofiler." />
-        <text name="rhm_help_upgrades_sub4" text="Nivå 4: Opti-Harvest AI Autopilot" />
-        <text name="rhm_help_upgrades_4" text="Avancerad datorstyrning som autokalibrerar tröskans inställningar under körning." />
-        <text name="rhm_help_moisture_title" text="Fuktsystem" />
-        <text name="rhm_help_moisture_sub1" text="Dygnsvariation &amp; Morgondagg" />
-        <text name="rhm_help_moisture_1" text="Morgondagg gör halmen seg. Tröskning vid fuktigt väder kräver markant mer motoreffekt." />
-        <text name="rhm_help_moisture_sub2" text="Fuktstraff" />
-        <text name="rhm_help_moisture_2" text="Över 18% fukthalt minskar tröskkapaciteten och risken för cylinderstopp ökar." />
-        <text name="rhm_help_cropsettings_title" text="Grödguide" />
-        <text name="rhm_help_cropsettings_grain_sub" text="Spannmål (Vete, Korn, Havre, Råg)" />
-        <text name="rhm_help_cropsettings_grain_text" text="Högt cylindervarvtal (700–850 RPM) och måttligt slagskoavstånd (10–15 mm)." />
-        <text name="rhm_help_cropsettings_forage_sub" text="Majs &amp; Solrosor" />
-        <text name="rhm_help_cropsettings_forage_text" text="Lågt varvtal (350–450 RPM) och stort slagskoavstånd (25–35 mm) för skonsam tröskning." />
-        <text name="rhm_help_cropsettings_root_sub" text="Baljväxter &amp; Raps" />
-        <text name="rhm_help_cropsettings_root_text" text="Raps kräver låg fläkthastighet så de lätta fröna inte blåses ut bakom maskinen." />
+        <text name="rhm_help_title" text="Realistic Harvesting Guide" />
+
+        <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
+        <text name="rhm_help_overview_title" text="1. Realistic Engine Physics &amp; Speed" />
+        <text name="rhm_help_overview_sub1" text="How Engine Load is Calculated" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting replaces artificial hard-coded speed limits with an honest, physics-based crop throughput model. Engine power is dynamically allocated between base vehicle locomotion, mechanical cutterbar drive, threshing drum and rotor friction, straw chopper load, and crop mass flow (t/h) calibrated to ASABE/DLG agricultural standards. When encountering dense swaths, the combine automatically and smoothly decelerates to prevent drum choking." />
+        <text name="rhm_help_overview_sub2" text="Automated Hydrostatic Speed Control" />
+        <text name="rhm_help_overview_2" text="The RHM hydrostatic controller continuously monitors threshing mechanism strain. The optimal operational window is 85–95% engine load. As strain approaches 100%, the combine gently trims forward cruise speed to protect internal components, then smoothly accelerates back to cruising pace in lighter crop stands." />
+        <text name="rhm_help_overview_sub3" text="Straw Chopper Strain &amp; Slope Dynamics" />
+        <text name="rhm_help_overview_3" text="An active straw chopper demands an extra 15–20% of rated engine horsepower compared to laying straw swaths. In dense grain crops, switching to swathing frees substantial horsepower, significantly boosting working speed. Harvesting uphill also imposes extra gravitational climb resistance, naturally moderating field speed." />
+
+        <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
+        <text name="rhm_help_hud_title" text="2. Interactive HUD &amp; Controls" />
+        <text name="rhm_help_hud_sub1" text="Live Telemetry Dashboard" />
+        <text name="rhm_help_hud_1" text="Boarding a combine activates a modern telemetry capsule at the bottom of the screen. It provides real-time readouts: current and target speed, live engine load percentage, instantaneous field yield (t/ha or bu/ac), crop throughput (t/h), grain moisture percentage, and cleaning shoe loss rate (%)." />
+        <text name="rhm_help_hud_sub2" text="Free Mouse Dragging (LMB) &amp; Magnetic Docking" />
+        <text name="rhm_help_hud_2" text="You can reposition the HUD anywhere across your screen. Hold Left Mouse Button (LMB) directly on the HUD capsule and drag it to your preferred position. Moving close to screen edges or the bottom boundary of the F1 help menu triggers magnetic docking, perfectly snapping the panel in place." />
+        <text name="rhm_help_hud_sub3" text="In-Cab Field Trip Mini-Badge" />
+        <text name="rhm_help_hud_3" text="A compact telemetry mini-badge inside the cab gives an immediate overview of your current run: harvested hectares, total tonnage, average loss percentage, and operator skill rating from [A] (expert) to [E] (heavy losses)." />
+
+        <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
+        <text name="rhm_help_calibration_title" text="3. In-Cab Calibration Tablet (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Field Touchscreen Tablet" />
+        <text name="rhm_help_calibration_main_text" text="Press Right Shift + K in the combine cab to deploy the touchscreen calibration tablet. The header displays rated engine horsepower, attached cutter width, and active crop. Fine-tuning threshing and separation parameters maximizes crop throughput while maintaining near-zero grain loss." />
+        <text name="rhm_help_calibration_rotor_sub" text="Threshing Drum &amp; Cleaning Fan" />
+        <text name="rhm_help_calibration_rotor_text" text="Rotor/drum RPM and concave clearance govern threshing thoroughness. Excessive RPM shatters fragile grain, while insufficient RPM leaves unthreshed grain in the straw. The cleaning fan blows chaff out of the rear: excessive airflow blows grain onto the ground, while weak airflow clogs the sieves with trash." />
+        <text name="rhm_help_calibration_presets_sub" text="Factory Presets &amp; Combine Memory" />
+        <text name="rhm_help_calibration_presets_text" text="The tablet includes pre-configured factory presets for over 25 base game and modded crops. Click 'Load Preset' to apply proven baseline settings. On combines equipped with Tier 2+ electronics, you can also save and load custom field profiles directly into combine memory." />
+
+        <!-- PAGE 4: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
+        <text name="rhm_help_trip_title" text="4. Field Job Counter &amp; Fleet Records (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Field Harvest Command Center (Shift+J)" />
+        <text name="rhm_help_trip_1" text="Press Right Shift + J to open the full harvest accounting hub featuring 4 tabs: 'Current Field', 'Farm Fields', 'Season Analytics', and 'Combine Fleet'." />
+        <text name="rhm_help_trip_sub2" text="Current Field Trip Odometer &amp; Operator Rank" />
+        <text name="rhm_help_trip_2" text="The first tab functions as a digital field odometer: tracking harvested area (ha/ac), grain yield and mass (t/l), net harvest time, field crop losses, financial loss ($/€/£), root-cause loss breakdown (Speed, Moisture, Wear, Slope), and driver efficiency rank." />
+        <text name="rhm_help_trip_sub3" text="Quick In-Cab Reset (Right Shift + R)" />
+        <text name="rhm_help_trip_3" text="When entering a new field or starting a test run, hold Right Shift + R for 1 second directly from the cab. The field odometer instantly resets with an on-screen toast confirmation—no need to open the menu!" />
+        <text name="rhm_help_trip_sub4" text="Farm Fields, Seasonal History &amp; Fleet Telemetry" />
+        <text name="rhm_help_trip_4" text="Review area and crop status for all owned fields in Tab 2, multi-season yield and financial history in Tab 3, and monitor hired AI workers in Tab 4: active operator, crop, throughput (t/h), cutter width, and knife wear." />
+
+        <!-- PAGE 5: CROP LOSSES & ROOT CAUSES -->
+        <text name="rhm_help_croploss_title" text="5. Crop Losses &amp; Root Causes" />
+        <text name="rhm_help_croploss_sub1" text="Physical Grain Tank Liter Deduction" />
+        <text name="rhm_help_croploss_1" text="In Realistic Harvesting, crop losses are not an abstract statistic. Grain lost over the sieves or blown out the rear is physically subtracted directly from the combine grain tank in real time or deducted from straw windrow volume, directly impacting farm finances." />
+        <text name="rhm_help_croploss_sub2" text="Four Primary Loss Root Causes" />
+        <text name="rhm_help_croploss_2" text="- Speed &amp; Overload: Excessive throughput overwhelms sieves, carrying grain out the back.&#xA;- Moisture &amp; Dew: Damp straw clumps together, trapping kernels inside.&#xA;- Knife Wear: Blunt cutterbar knives shatter standing heads onto the ground instead of cutting.&#xA;- Ground Slope: Steep side-hills shift crop mats to one side of the cleaning shoe." />
+        <text name="rhm_help_croploss_sub3" text="Acoustic Overload Warning (Smart Buzzer)" />
+        <text name="rhm_help_croploss_3" text="When engine load exceeds 105% or sieve loss exceeds 5%, the in-cab chime sounds. In Smart Mode, the terminal sounds a cluster of 3 soft alerts spaced 1.8 seconds apart, followed by an 18-second rest interval." />
+
+        <!-- PAGE 6: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
+        <text name="rhm_help_upgrades_title" text="6. Electronics Packages (Tiers 1–4)" />
+        <text name="rhm_help_upgrades_sub1" text="Harvester Workshop Upgrades" />
+        <text name="rhm_help_upgrades_1" text="Every harvester can be upgraded at the vehicle dealer or farm workshop with four distinct electronics packages tailored to your farm budget and operating style." />
+        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Base Mechanical) &amp; Tier 2 (Sensors &amp; Profiles)" />
+        <text name="rhm_help_upgrades_2" text="- Tier 1: Factory mechanical baseline. No electronic sensors; operator gauges speed by engine sound.&#xA;- Tier 2: Adds piezoelectric sieve loss sensors (loss % on HUD) and unlocks saving custom calibration profiles into combine memory." />
+        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Telemetry) &amp; Tier 4 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="- Tier 3: Equips an optical moisture meter, field trip odometer, financial loss tracking, and fleet telemetry.&#xA;- Tier 4: Unlocks the flagship Opti-Harvest AI autopilot, automatically tuning drum RPM and fan speed on the fly and eliminating hired worker tuning errors (0% deviation)." />
+
+        <!-- PAGE 7: AI WORKERS & AUTOPILOTS -->
+        <text name="rhm_help_ai_workers_title" text="7. AI Workers &amp; Autopilots" />
+        <text name="rhm_help_ai_workers_sub1" text="Intelligent AI Speed Regulation" />
+        <text name="rhm_help_ai_workers_1" text="Giants AI helpers, Courseplay (v7+), and AutoDrive never run at artificial flat-out speeds. RHM enforces speed limits directly at the engine server level, keeping helpers safely within the optimal 85–95% load sweet spot." />
+        <text name="rhm_help_ai_workers_sub2" text="Electronics Package Impact on AI Quality" />
+        <text name="rhm_help_ai_workers_2" text="- Tier 1 Combines: Hired workers suffer setup deviations of up to ±18%.&#xA;- Tier 2 Combines: Tuning error drops to ±10%.&#xA;- Tier 3 Combines: Tuning error is reduced to ±4%.&#xA;- Tier 4 Combines: Opti-Harvest AI achieves 0% error, delivering flawless factory-spec harvesting." />
+        <text name="rhm_help_ai_workers_sub3" text="Courseplay &amp; AutoDrive Unloading on the Move" />
+        <text name="rhm_help_ai_workers_3" text="Unloading on the move is fully accounted for: the extra mechanical drag of the unloading auger is calculated dynamically so the combine never stalls when a chase tractor pulls alongside." />
+
+        <!-- PAGE 8: CROP MOISTURE & DIURNAL WEATHER -->
+        <text name="rhm_help_moisture_title" text="8. Crop Moisture &amp; Diurnal Weather" />
+        <text name="rhm_help_moisture_sub1" text="Diurnal Moisture Cycle" />
+        <text name="rhm_help_moisture_1" text="Crop moisture naturally peaks in early morning hours (04:00–08:00) due to heavy dew. The prime harvesting window occurs between 11:30 and 18:30 when ambient warmth and sunlight thoroughly dry grain and straw." />
+        <text name="rhm_help_moisture_sub2" text="Moisture Impact on Power &amp; Speed" />
+        <text name="rhm_help_moisture_2" text="Damp straw increases internal rotor friction by up to +35%, substantially lowering harvesting cruise speed and increasing fuel consumption." />
+        <text name="rhm_help_moisture_sub3" text="Rain, Night Dew &amp; Wet Straw" />
+        <text name="rhm_help_moisture_3" text="Harvesting in active rain causes a sharp spike in moisture, overloading cleaning sieves, inducing heavy grain loss, and risking threshing drum choking." />
+
+        <!-- PAGE 9: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
+        <text name="rhm_help_special_title" text="9. Forage, Root Crops &amp; Special Machinery" />
+        <text name="rhm_help_special_sub1" text="Self-Propelled Forage Harvesters" />
+        <text name="rhm_help_special_1" text="Forage harvesters utilize a specialized 3-stage mechanical model: feed intake rollers, chopping drum, and discharge accelerator blower. Grass windrow pickers dynamically assess swath density for smooth intake." />
+        <text name="rhm_help_special_sub2" text="Sugar Beet &amp; Potato Harvesters" />
+        <text name="rhm_help_special_2" text="Root crop harvesters must overcome substantial soil lifting drag (approx. 7 HP per meter of working width), naturally constraining field speeds to a realistic 5–8 km/h." />
+        <text name="rhm_help_special_sub3" text="Grapes, Olives &amp; NEXAT Carrier Platform" />
+        <text name="rhm_help_special_3" text="Grape and olive harvesters feature customized separation curves. The 1,100 HP NEXAT modular wide-span carrier and its NEXCO combine module are fully supported with phantom load suppression." />
+
+        <!-- PAGE 10: DIFFICULTY MODES & SETTINGS -->
+        <text name="rhm_help_difficulty_title" text="10. Difficulty Modes &amp; Settings" />
+        <text name="rhm_help_difficulty_sub1" text="Realistic vs. Arcade Modes" />
+        <text name="rhm_help_difficulty_1" text="Choose your preferred gameplay experience in the ESC pause menu:&#xA;- Realistic: Full ASABE/DLG physics, hydrostatic braking, physical tank loss deduction, knife wear, and diurnal moisture.&#xA;- Arcade: 0% engine overload, unrestricted speed limits, and zero crop losses for relaxed, casual harvesting." />
+        <text name="rhm_help_difficulty_sub2" text="Acoustic &amp; Display Settings" />
+        <text name="rhm_help_difficulty_2" text="Adjust the overload warning buzzer volume (0%–100%) with an instant sound test, select your buzzer trigger mode (Smart, Continuous, Disabled), and customize HUD transparency and units." />
+        <text name="rhm_help_difficulty_sub3" text="Interactive Tutorial Hints" />
+        <text name="rhm_help_difficulty_3" text="Click 'Reset Hints' in the settings menu at any time to re-enable on-screen tutorial hints and refresh your knowledge of all mod features." />
         <text name="rhm_ui_section_separation" text="TRÖSKNING &amp; SEPARERING" />
         <text name="rhm_ui_section_cleaning" text="RENSNING" />
         <text name="rhm_ui_section_discharge" text="UTKAST &amp; HACKNING" />
@@ -252,6 +286,12 @@
         <text name="rhm_tut_headland_msg" text="När skärbordet lyfts på vändteigen sparas arbetshastigheten. Vid nästa drag accelererar maskinen mjukt utan ryck." />
         <text name="rhm_tut_upgrade_title" text="Tröskuppgraderingar" />
         <text name="rhm_tut_upgrade_msg" text="Grundläggande tröskor kräver manuell inställning. Uppgradera elektroniken i verkstaden för Sensorpaket (Nivå 2), Skördemätare (Nivå 3) eller Opti-Harvest AI (Nivå 4)." />
+        <text name="rhm_tut_hud_drag_title" text="Interactive HUD" />
+        <text name="rhm_tut_hud_drag_msg" text="You can reposition the HUD anywhere across your screen by holding Left Mouse Button (LMB) on the panel, or magnetically dock it cleanly beneath the F1 menu and screen edges." />
+        <text name="rhm_tut_trip_title" text="Field Job Counter &amp; Log" />
+        <text name="rhm_tut_trip_msg" text="Press Shift+J to review your field yield summary, financial loss analysis, and fleet status. To quickly reset the counter for a new field, hold Shift+R for 1 second in the cab!" />
+        <text name="rhm_tut_chopper_title" text="Straw Chopper Power Load" />
+        <text name="rhm_tut_chopper_msg" text="Chopping straw consumes an extra 15â€“20% of engine power compared to laying a swath. If you need more harvesting speed on dense crops, switch to laying a swath." />
         <text name="rhm_setting_wear_loss_short" text="Mekaniskt slitageförlust" />
         <text name="rhm_setting_wear_loss_long" text="Simulerar kornspill från utrustningsslitage. Slöa knivar på skärbordet krossar ax (upp till +3% spill och +15% motstånd). Sliten tröskcylinder och såll tappar otröskat korn (upp till +3% spill)." />
         <text name="rhm_ui_wear_loss" text="Slitageförlust" />

@@ -51,6 +51,18 @@ end
 
 function RHM_HarvestHistoryFleet:onFrameClose()
     RHM_HarvestHistoryFleet:superClass().onFrameClose(self)
+    self.refreshTimer = 0
+end
+
+function RHM_HarvestHistoryFleet:update(dt)
+    RHM_HarvestHistoryFleet:superClass().update(self, dt)
+    self.refreshTimer = (self.refreshTimer or 0) + dt
+    if self.refreshTimer >= 1000 then
+        self.refreshTimer = 0
+        if self.viewMode == "fleet" then
+            self:updateTables()
+        end
+    end
 end
 
 function RHM_HarvestHistoryFleet:onClickSubTabFleet()
@@ -130,6 +142,17 @@ end
 local function isHarvesterVehicle(vehicle)
     if not vehicle then return false end
 
+    -- Strictly exclude forage wagons, loader wagons, balers, bale loaders, and windrowers
+    if vehicle.spec_forageWagon ~= nil 
+       or vehicle.spec_loaderWagon ~= nil 
+       or vehicle.spec_baler ~= nil 
+       or vehicle.spec_baleWrapper ~= nil 
+       or vehicle.spec_baleLoader ~= nil
+       or vehicle.spec_tedder ~= nil
+       or vehicle.spec_windrower ~= nil then
+        return false
+    end
+
     -- Avoid pure standalone cutterbars / headers
     if vehicle.spec_cutter ~= nil and vehicle.spec_motorized == nil and vehicle.spec_drivable == nil and vehicle.spec_fillUnit == nil then
         return false
@@ -172,12 +195,13 @@ local function isHarvesterVehicle(vehicle)
         local item = g_storeManager:getItemByXMLFilename(vehicle.configFileName)
         if item and item.categoryName then
             local cat = string.lower(tostring(item.categoryName))
-            -- Exclude pure headers / cutterbars
-            if not cat:find("cutter") and not cat:find("header") then
-                if cat:find("combine") or cat:find("harvester") or cat:find("harvest") 
-                   or cat:find("forage") or cat:find("beet") or cat:find("potato") 
-                   or cat:find("cotton") or cat:find("grape") or cat:find("olive") 
-                   or cat:find("cane") or cat:find("carrot") or cat:find("parsnip") then
+            -- Exclude pure headers / cutterbars, trailers, and wagons
+            if not cat:find("cutter") and not cat:find("header") and not cat:find("wagon") and not cat:find("trailer") and not cat:find("baler") and not cat:find("mower") then
+                if cat:find("combine") or cat:find("forageharvester")
+                   or cat:find("beetharvest") or cat:find("potatoharvest") 
+                   or cat:find("cottonharvest") or cat:find("grapeharvest") or cat:find("oliveharvest") 
+                   or cat:find("caneharvest") or cat:find("carrotharvest") or cat:find("parsnipharvest")
+                   or cat:find("woodharvest") or (cat:find("harvester") and not cat:find("foragewagon")) then
                     return true, vehicle
                 end
             end
@@ -187,8 +211,8 @@ local function isHarvesterVehicle(vehicle)
     -- 5. Vehicle typeName check
     if vehicle.typeName then
         local tn = string.lower(tostring(vehicle.typeName))
-        if not tn:find("cutter") and not tn:find("header") then
-            if tn:find("combine") or tn:find("harvester") or tn:find("forage") then
+        if not tn:find("cutter") and not tn:find("header") and not tn:find("wagon") and not tn:find("trailer") and not tn:find("baler") then
+            if tn:find("combine") or tn:find("forageharvester") or (tn:find("harvester") and not tn:find("wagon")) then
                 return true, vehicle
             end
         end
@@ -352,10 +376,32 @@ function RHM_HarvestHistoryFleet:updateTables()
                         machineName = string.format("%s #%d", baseName, modelCount[baseName])
                     end
 
-                    -- Driver status
-                    local driverStr = g_i18n:getText("rhm_driver_parked") or "Parked"
-                    local isControlled = (vehicle.getIsControlled and vehicle:getIsControlled()) 
+                    -- Driver status & entered detection
+                    local isEntered = (vehicle.getIsEntered and vehicle:getIsEntered())
+                                   or (targetHarv.getIsEntered and targetHarv:getIsEntered())
+                                   or (vehicle.rootVehicle and vehicle.rootVehicle.getIsEntered and vehicle.rootVehicle:getIsEntered())
+                                   or (targetHarv.rootVehicle and targetHarv.rootVehicle.getIsEntered and targetHarv.rootVehicle:getIsEntered())
+                                   or (vehicle.spec_enterable and vehicle.spec_enterable.isEntered)
+                                   or (targetHarv.spec_enterable and targetHarv.spec_enterable.isEntered) or false
+
+                    local isControlled = isEntered 
+                                      or (vehicle.getIsControlled and vehicle:getIsControlled()) 
                                       or (targetHarv.getIsControlled and targetHarv:getIsControlled())
+
+                    local isMotorRunning = false
+                    if vehicle.getIsMotorStarted and vehicle:getIsMotorStarted() then
+                        isMotorRunning = true
+                    elseif targetHarv.getIsMotorStarted and targetHarv:getIsMotorStarted() then
+                        isMotorRunning = true
+                    elseif vehicle.spec_motorized and vehicle.spec_motorized.isMotorStarted then
+                        isMotorRunning = true
+                    elseif targetHarv.spec_motorized and targetHarv.spec_motorized.isMotorStarted then
+                        isMotorRunning = true
+                    end
+
+                    local isThresherOn = ((vehicle.getIsTurnedOn and vehicle:getIsTurnedOn()) or (targetHarv.getIsTurnedOn and targetHarv:getIsTurnedOn())) or false
+                    local isTurnedOn = isThresherOn or isMotorRunning
+
                     local isAiActive = false
                     if rhm_Combine and rhm_Combine.isAiWorkerActive then
                         isAiActive = rhm_Combine.isAiWorkerActive(vehicle) or rhm_Combine.isAiWorkerActive(targetHarv)
@@ -363,76 +409,139 @@ function RHM_HarvestHistoryFleet:updateTables()
                         isAiActive = (vehicle.getIsAIActive and vehicle:getIsAIActive()) or (targetHarv.getIsAIActive and targetHarv:getIsAIActive())
                     end
 
+                    local driverStr = (g_i18n and g_i18n:hasText("rhm_driver_parked") and g_i18n:getText("rhm_driver_parked")) or "Parked"
                     if isAiActive then
                         local isCp = (vehicle.getIsCpActive and vehicle:getIsCpActive()) 
                                   or (vehicle.cp and (vehicle.cp.isDriving or vehicle.cp.isFieldWorkActive))
                                   or (targetHarv.getIsCpActive and targetHarv:getIsCpActive())
                         if isCp then
-                            driverStr = g_i18n:getText("rhm_driver_cp_ai") or "AI Worker"
+                            driverStr = (g_i18n and g_i18n:hasText("rhm_driver_cp_ai") and g_i18n:getText("rhm_driver_cp_ai")) or "AI Worker"
                         else
-                            driverStr = g_i18n:getText("rhm_driver_hired_ai") or "AI Worker"
+                            driverStr = (g_i18n and g_i18n:hasText("rhm_driver_hired_ai") and g_i18n:getText("rhm_driver_hired_ai")) or "AI Worker"
                         end
                     elseif isControlled then
-                        driverStr = g_i18n:getText("rhm_driver_player") or "Player"
-                    elseif (vehicle.getIsTurnedOn and vehicle:getIsTurnedOn()) or (targetHarv.getIsTurnedOn and targetHarv:getIsTurnedOn()) then
-                        driverStr = g_i18n:getText("rhm_driver_idle_on") or "Running (Idle)"
+                        driverStr = (g_i18n and g_i18n:hasText("rhm_driver_player") and g_i18n:getText("rhm_driver_player")) or "Player"
+                    elseif isTurnedOn then
+                        driverStr = (g_i18n and g_i18n:hasText("rhm_driver_idle_on") and g_i18n:getText("rhm_driver_idle_on")) or "Running (Idle)"
+                    end
+
+                    -- Machine trip resolution from tracker or vehicle spec
+                    local mTrip = nil
+                    if farm and farm.combineTrips then
+                        mTrip = farm.combineTrips[machineKey] or farm.combineTrips[vehicle.configFileName] or farm.combineTrips[targetHarv.configFileName] or farm.combineTrips[baseName]
+                        if not mTrip then
+                            local nBase = string.gsub(string.lower(tostring(baseName or "harvester")), "\\", "/")
+                            for k, tr in pairs(farm.combineTrips) do
+                                if string.gsub(string.lower(tostring(k)), "\\", "/"):find(nBase, 1, true) then
+                                    mTrip = tr
+                                    break
+                                end
+                            end
+                        end
+                    end
+                    if not mTrip and targetHarv.spec_rhm_Combine and targetHarv.spec_rhm_Combine.trip then
+                        mTrip = targetHarv.spec_rhm_Combine.trip
+                    end
+                    if not mTrip and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.trip then
+                        mTrip = vehicle.spec_rhm_Combine.trip
+                    end
+                    if not mTrip and isControlled and farm and farm.currentTrip then
+                        mTrip = farm.currentTrip
                     end
 
                     -- Field location & status
                     local fieldStr = g_i18n:getText("rhm_field_yard") or "Yard / Base"
                     local onField = false
                     local checkNode = vehicle.rootNode or targetHarv.rootNode
+                    local fId, fmlId = 0, 0
                     if checkNode then
                         local wx, _, wz = getWorldTranslation(checkNode)
-                        local fId = 0
-                        if g_fieldManager then
-                            local f = nil
-                            if g_fieldManager.getFieldAtWorldPosition then
-                                f = g_fieldManager:getFieldAtWorldPosition(wx, wz)
-                            elseif g_fieldManager.getFieldByWorldPosition then
-                                f = g_fieldManager:getFieldByWorldPosition(wx, wz)
-                            end
-                            if f and (f.fieldId or f.id) then
-                                fId = f.fieldId or f.id
-                            end
-                        end
-                        if fId == 0 and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
-                            local farmLandId = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
-                            if farmLandId and farmLandId > 0 then fId = farmLandId end
-                        end
-                        if fId > 0 then
-                            onField = true
-                            fieldStr = string.format(g_i18n:getText("rhm_field_format") or "Field %d", fId)
+                        if RHM_HarvestTracker and RHM_HarvestTracker.getFieldAtWorldPosition then
+                            _, fId, fmlId = RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, targetHarv or vehicle)
                         end
                     end
 
-                    local isTurnedOn = ((vehicle.getIsTurnedOn and vehicle:getIsTurnedOn()) or (targetHarv.getIsTurnedOn and targetHarv:getIsTurnedOn())) or false
+                    if fId and fId > 0 then
+                        onField = true
+                        fieldStr = string.format(g_i18n:getText("rhm_field_format") or "Field %d", fId)
+                    else
+                        onField = false
+                        local isOwnedLand = false
+                        if fmlId and fmlId > 0 and g_farmlandManager and g_farmlandManager.getFarmlandOwner then
+                            isOwnedLand = (g_farmlandManager:getFarmlandOwner(fmlId) == farmId)
+                        end
+                        if isOwnedLand then
+                            fieldStr = g_i18n:getText("rhm_field_yard") or "Yard / Base"
+                        else
+                            fieldStr = g_i18n:getText("rhm_field_transit") or "In Transit"
+                        end
+                    end
+
                     local speedKmh = (vehicle.getLastSpeed and vehicle:getLastSpeed()) or (targetHarv.getLastSpeed and targetHarv:getLastSpeed()) or 0
+
+                    -- Check cutter active attachment state
+                    local hasCutterOn = false
+                    if targetHarv.spec_combine and targetHarv.spec_combine.attachedCutters then
+                        for cutter, _ in pairs(targetHarv.spec_combine.attachedCutters) do
+                            if cutter.getIsTurnedOn and cutter:getIsTurnedOn() then
+                                hasCutterOn = true
+                                break
+                            end
+                        end
+                    end
+                    if not hasCutterOn and vehicle.getAttachedImplements then
+                        for _, impl in pairs(vehicle:getAttachedImplements()) do
+                            if impl.object and impl.object.getIsTurnedOn and impl.object:getIsTurnedOn() and impl.object.spec_cutter then
+                                hasCutterOn = true
+                                break
+                            end
+                        end
+                    end
+
+                    local rhmSpec = targetHarv.spec_rhm_Combine or vehicle.spec_rhm_Combine
+                    local liveTph = (rhmSpec and rhmSpec.loadCalculator and rhmSpec.loadCalculator.tonPerHour) or 0
+                    local liveAvgTph = (rhmSpec and rhmSpec.loadCalculator and rhmSpec.loadCalculator.avgTonPerHour) or 0
 
                     -- Real-time Activity Status
                     local statusText = ""
                     local isCutting = false
-                    local rhmSpec = targetHarv.spec_rhm_Combine or vehicle.spec_rhm_Combine
-                    if rhmSpec and rhmSpec.lastRawArea and rhmSpec.lastRawArea > 0 then
+                    if liveTph > 0.5 or liveAvgTph > 0.5 then
+                        isCutting = true
+                    elseif rhmSpec and rhmSpec.lastRawArea and rhmSpec.lastRawArea > 0 then
                         isCutting = true
                     elseif targetHarv.spec_combine and targetHarv.spec_combine.lastArea and targetHarv.spec_combine.lastArea > 0 then
                         isCutting = true
-                    elseif isTurnedOn and speedKmh > 0.5 and onField then
+                    elseif hasCutterOn and (isThresherOn or isAiActive) and speedKmh > 0.5 and onField then
                         isCutting = true
                     end
 
+                    -- If actively harvesting, vehicle is operating on field
                     if isCutting then
-                        statusText = g_i18n:getText("rhm_status_harvesting") or "Harvesting"
-                    elseif onField and isTurnedOn then
-                        statusText = g_i18n:getText("rhm_status_on_field_idle") or "On Field (Idling)"
+                        if not onField or (fId <= 0) then
+                            onField = true
+                            if mTrip and mTrip.fieldId and mTrip.fieldId > 0 then
+                                fId = mTrip.fieldId
+                                fieldStr = string.format((g_i18n and g_i18n:hasText("rhm_field_format") and g_i18n:getText("rhm_field_format")) or "Field %d", fId)
+                            elseif fmlId and fmlId > 0 then
+                                fId = fmlId
+                                fieldStr = string.format((g_i18n and g_i18n:hasText("rhm_field_format") and g_i18n:getText("rhm_field_format")) or "Field %d", fId)
+                            end
+                        end
+                        statusText = (g_i18n and g_i18n:hasText("rhm_status_harvesting") and g_i18n:getText("rhm_status_harvesting")) or "Harvesting"
+                    elseif onField and isTurnedOn and speedKmh <= 0.5 then
+                        statusText = (g_i18n and g_i18n:hasText("rhm_status_on_field_idle") and g_i18n:getText("rhm_status_on_field_idle")) or "On Field (Idling)"
                     elseif onField and not isTurnedOn then
-                        statusText = g_i18n:getText("rhm_status_on_field_stopped") or "On Field (Stopped)"
-                    elseif not onField and speedKmh > 2.0 then
-                        statusText = g_i18n:getText("rhm_status_in_transit") or "In Transit"
+                        statusText = (g_i18n and g_i18n:hasText("rhm_status_on_field_stopped") and g_i18n:getText("rhm_status_on_field_stopped")) or "On Field (Stopped)"
+                    elseif onField and speedKmh > 0.5 then
+                        statusText = (g_i18n and g_i18n:hasText("rhm_status_in_transit") and g_i18n:getText("rhm_status_in_transit")) or "In Transit"
+                    elseif not onField and speedKmh > 0.5 then
+                        statusText = (g_i18n and g_i18n:hasText("rhm_status_in_transit") and g_i18n:getText("rhm_status_in_transit")) or "In Transit"
+                    elseif not onField and isTurnedOn then
+                        statusText = (g_i18n and g_i18n:hasText("rhm_status_idle_yard") and g_i18n:getText("rhm_status_idle_yard")) or "At Base (Idling)"
                     elseif isControlled then
-                        statusText = g_i18n:getText("rhm_status_in_cab") or "Occupied"
+                        statusText = (g_i18n and g_i18n:hasText("rhm_status_in_cab") and g_i18n:getText("rhm_status_in_cab")) or "Occupied"
                     else
-                        statusText = g_i18n:getText("rhm_status_parked_yard") or "Parked at Base"
+                        statusText = (g_i18n and g_i18n:hasText("rhm_status_parked_yard") and g_i18n:getText("rhm_status_parked_yard")) or "Parked at Base"
                     end
 
                     -- Header working width
@@ -510,25 +619,9 @@ function RHM_HarvestHistoryFleet:updateTables()
                         end
                     end
 
-                    -- 2. Direct from machine's active or recent trip in harvest tracker
-                    local mTrip = nil
-                    if farm and farm.combineTrips then
+                    -- 2. Direct from machine's active or recent trip in harvest tracker (already resolved in mTrip)
+                    if not mTrip and farm and farm.combineTrips then
                         mTrip = farm.combineTrips[machineKey] or farm.combineTrips[vehicle.configFileName] or farm.combineTrips[targetHarv.configFileName] or farm.combineTrips[baseName]
-                        if not mTrip then
-                            local nBase = string.gsub(string.lower(tostring(baseName or "harvester")), "\\", "/")
-                            for k, tr in pairs(farm.combineTrips) do
-                                if string.gsub(string.lower(tostring(k)), "\\", "/"):find(nBase, 1, true) then
-                                    mTrip = tr
-                                    break
-                                end
-                            end
-                        end
-                    end
-                    if not mTrip and targetHarv.spec_rhm_Combine and targetHarv.spec_rhm_Combine.trip then
-                        mTrip = targetHarv.spec_rhm_Combine.trip
-                    end
-                    if not mTrip and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.trip then
-                        mTrip = vehicle.spec_rhm_Combine.trip
                     end
 
                     if cropStr == "--" and mTrip then
@@ -961,6 +1054,9 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
     if self.seasonCardEfficiencyRank then self.seasonCardEfficiencyRank:setText(string.format("[%s]", summary.efficiencyRank or "A")) end
 
     local reasonKey = "rhm_cause_" .. tostring(summary.dominantReason or "speed")
+    if (summary.lostTons or 0) <= 0.001 then
+        reasonKey = "rhm_cause_none"
+    end
     local reasonName = (g_i18n and g_i18n:hasText(reasonKey) and g_i18n:getText(reasonKey)) or summary.dominantReason or "speed"
     if self.seasonCardDominantCause then self.seasonCardDominantCause:setText(reasonName) end
 

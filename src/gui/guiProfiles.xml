@@ -3,30 +3,33 @@
     <!-- Table Header Profile -->
     <Profile name="rhmTableHeader" extends="baseReference" with="anchorTopLeft">
         <imageColor value="0 0 0 0" />
-        <textFocusedColor value="0.61 0.91 0.15 1.0" />
-        <textHighlightedColor value="0.61 0.91 0.15 1.0" />
+        <textFocusedColor value="$preset_fs25_colorMainHighlight" />
+        <textHighlightedColor value="$preset_fs25_colorMainHighlight" />
         <textSize value="13px" />
         <textBold value="true" />
         <textUpperCase value="true" />
-        <textColor value="0.75 0.75 0.75 1.0" />
+        <textColor value="$preset_fs25_colorGreyLight" />
         <textAlignment value="left" />
         <textDisabledColor value="$preset_colorDisabled" />
     </Profile>
 
-    <!-- Table Header Bar Container -->
+    <!-- Table Header Bar Container (Native procedural rounded strip) -->
     <Profile name="rhmTableHeaderBox" extends="baseReference" with="anchorTopLeft">
-        <imageColor value="0.10 0.10 0.10 0.90" />
+        <color value="$preset_fs25_colorGreyDark_50" />
+        <cornerSize value="0.10" />
     </Profile>
 
     <!-- Table Container -->
     <Profile name="rhmTable" extends="emptyPanel" with="anchorTopLeft" />
 
-    <!-- List Row Item Profile (Clean neutral dark alternating rows) -->
+    <!-- List Row Item Profile (FS25 Clean Alternating Neutral Rows & Neon-Lime Selection) -->
     <Profile name="rhmListItem" extends="baseReference" with="anchorTopLeft alternating">
         <height value="38px"/>
-        <imageColor value="0.08 0.08 0.08 0.85" />
-        <imageSelectedColor value="0.16 0.22 0.12 0.95" />
-        <alternateBackgroundColor value="0.05 0.05 0.05 0.85" />
+        <imageColor value="$preset_fs25_colorGreyDark_50" />
+        <alternateBackgroundColor value="$preset_colorBlack50" />
+        <imageSelectedColor value="$preset_fs25_colorMainHighlight" />
+        <imageFocusedColor value="$preset_fs25_colorMainHighlight" />
+        <imageHighlightedColor value="$preset_fs25_colorMainHighlight" />
     </Profile>
 
     <!-- Row Cell Profiles -->
@@ -34,8 +37,11 @@
         <textBold value="false" />
         <textSize value="14px" />
         <textAlignment value="left" />
-        <textColor value="0.90 0.90 0.90 1.0" />
-        <textSelectedColor value="0.61 0.91 0.15 1.0" />
+        <textVerticalAlignment value="middle" />
+        <textColor value="$preset_fs25_colorMainLight" />
+        <textSelectedColor value="$preset_fs25_colorMainDark" />
+        <textFocusedColor value="$preset_fs25_colorMainDark" />
+        <textHighlightedColor value="$preset_fs25_colorMainDark" />
         <textDisabledColor value="$preset_colorDisabled" />
     </Profile>
 
@@ -43,8 +49,11 @@
         <textBold value="false" />
         <textSize value="14px" />
         <textAlignment value="right" />
-        <textColor value="0.90 0.90 0.90 1.0" />
-        <textSelectedColor value="0.61 0.91 0.15 1.0" />
+        <textVerticalAlignment value="middle" />
+        <textColor value="$preset_fs25_colorMainLight" />
+        <textSelectedColor value="$preset_fs25_colorMainDark" />
+        <textFocusedColor value="$preset_fs25_colorMainDark" />
+        <textHighlightedColor value="$preset_fs25_colorMainDark" />
         <textDisabledColor value="$preset_colorDisabled" />
     </Profile>
 
@@ -52,206 +61,254 @@
         <textBold value="true" />
         <textSize value="14px" />
         <textAlignment value="center" />
-        <textColor value="0.61 0.91 0.15 1.0" />
-        <textSelectedColor value="0.61 0.91 0.15 1.0" />
+        <textVerticalAlignment value="middle" />
+        <textColor value="$preset_fs25_colorMainHighlight" />
+        <textSelectedColor value="$preset_fs25_colorMainDark" />
+        <textFocusedColor value="$preset_fs25_colorMainDark" />
+        <textHighlightedColor value="$preset_fs25_colorMainDark" />
         <textDisabledColor value="$preset_colorDisabled" />
     </Profile>
 
-    <!-- Metric Card Profiles (Pure neutral dark charcoal - ZERO texture stretch artifacts!) -->
-    <Profile name="rhmCardContainer" extends="baseReference" with="anchorTopLeft">
-        <imageColor value="0.07 0.07 0.07 0.95" />
+    <!-- Clean FS25 RoundCorner Profiles (Hardware-Antialiased, Borderless, Official Dark Graphite) -->
+    <!-- Container Profiles with explicit Top-Left Anchoring -->
+    <Profile name="rhmCardContainer" extends="emptyPanel" with="anchorTopLeft" />
+    <Profile name="rhmStatusBandContainer" extends="emptyPanel" with="anchorTopLeft" />
+    <Profile name="rhmTableHeaderContainer" extends="emptyPanel" with="anchorTopLeft" />
+
+    <Profile name="rhmCardSurface" extends="baseReference" with="anchorTopLeft">
+        <color value="$preset_fs25_colorGreyDark_50"/>
+        <cornerSize value="0.06"/>
+    </Profile>
+
+    <Profile name="rhmSurfaceBand" extends="baseReference" with="anchorTopLeft">
+        <color value="$preset_colorBlack50"/>
+        <cornerSize value="0.08"/>
+    </Profile>
+
+    <Profile name="rhmSectionAccent" extends="baseReference" with="anchorTopLeft">
+        <size value="4px 20px"/>
+        <color value="$preset_fs25_colorMainHighlight"/>
+        <cornerSize value="0.05"/>
+    </Profile>
+
+    <Profile name="rhmSectionLine" extends="baseReference" with="anchorTopLeft">
+        <color value="$preset_fs25_colorGreyLight_50"/>
+        <cornerSize value="0"/>
     </Profile>
 
     <Profile name="rhmMachineHeaderBox" extends="baseReference" with="anchorTopLeft">
-        <imageColor value="0.09 0.09 0.09 0.95" />
+        <color value="$preset_fs25_colorGreyDark_50"/>
+        <cornerSize value="0.10"/>
     </Profile>
 
     <Profile name="rhmInnerPanel" extends="baseReference" with="anchorTopLeft">
-        <imageColor value="0.05 0.05 0.05 0.85" />
+        <color value="$preset_colorBlack50"/>
+        <cornerSize value="0.06"/>
     </Profile>
 
-    <!-- Card Text Profiles -->
-    <Profile name="rhmCardTitle" extends="fs25_textGrey" with="anchorTopLeft">
-        <textSize value="13px" />
-        <textBold value="true" />
-        <textUpperCase value="true" />
-        <textColor value="0.80 0.80 0.80 1.0" />
-        <textAlignment value="left" />
+    <!-- Modern Typography Profiles -->
+    <Profile name="rhmSectionTitle" extends="baseReference" with="anchorTopLeft">
+        <textSize value="14px"/>
+        <textBold value="true"/>
+        <textUpperCase value="true"/>
+        <textColor value="$preset_fs25_colorMainLight"/>
+        <textAlignment value="left"/>
+        <textVerticalAlignment value="middle"/>
     </Profile>
 
-    <Profile name="rhmCardValue" extends="fs25_textDefault" with="anchorTopLeft">
-        <textSize value="24px" />
-        <textBold value="true" />
-        <textColor value="1.0 1.0 1.0 1.0" />
-        <textAlignment value="left" />
-    </Profile>
-
-    <Profile name="rhmCardHighlightValue" extends="fs25_textDefault" with="anchorTopLeft">
-        <textSize value="24px" />
-        <textBold value="true" />
-        <textColor value="0.61 0.91 0.15 1.0" />
-        <textAlignment value="left" />
-    </Profile>
-
-    <Profile name="rhmCardWarningValue" extends="fs25_textDefault" with="anchorTopLeft">
-        <textSize value="24px" />
-        <textBold value="true" />
-        <textColor value="0.98 0.55 0.15 1.0" />
-        <textAlignment value="left" />
-    </Profile>
-
-    <Profile name="rhmCardAlertValue" extends="fs25_textDefault" with="anchorTopLeft">
-        <textSize value="24px" />
-        <textBold value="true" />
-        <textColor value="0.96 0.28 0.28 1.0" />
-        <textAlignment value="left" />
-    </Profile>
-
-    <Profile name="rhmCardValueRight" extends="fs25_textDefault" with="anchorTopLeft">
+    <Profile name="rhmCardTitle" extends="baseReference" with="anchorTopLeft">
         <textSize value="14px" />
         <textBold value="true" />
-        <textColor value="0.95 0.95 0.95 1.0" />
-        <textAlignment value="right" />
+        <textUpperCase value="true" />
+        <textColor value="$preset_fs25_colorMainLight" />
+        <textAlignment value="left" />
     </Profile>
 
-    <Profile name="rhmCardSubValue" extends="fs25_textDefault" with="anchorTopLeft">
+    <Profile name="rhmCardSubValue" extends="baseReference" with="anchorTopLeft">
         <textSize value="12px" />
         <textBold value="true" />
         <textUpperCase value="true" />
-        <textColor value="0.55 0.55 0.55 1.0" />
+        <textColor value="$preset_colorDisabled" />
         <textAlignment value="left" />
     </Profile>
 
-    <Profile name="rhmCardDetailText" extends="fs25_textDefault" with="anchorTopLeft">
+    <Profile name="rhmCardValue" extends="baseReference" with="anchorTopLeft">
+        <textSize value="26px" />
+        <textBold value="true" />
+        <textColor value="$preset_fs25_colorMainLight" />
+        <textAlignment value="left" />
+    </Profile>
+
+    <Profile name="rhmCardHighlightValue" extends="baseReference" with="anchorTopLeft">
+        <textSize value="26px" />
+        <textBold value="true" />
+        <textColor value="$preset_fs25_colorMainHighlight" />
+        <textAlignment value="left" />
+    </Profile>
+
+    <Profile name="rhmCardWarningValue" extends="baseReference" with="anchorTopLeft">
+        <textSize value="26px" />
+        <textBold value="true" />
+        <textColor value="$preset_fs25_colorOrangeDark" />
+        <textAlignment value="left" />
+    </Profile>
+
+    <Profile name="rhmCardAlertValue" extends="baseReference" with="anchorTopLeft">
+        <textSize value="26px" />
+        <textBold value="true" />
+        <textColor value="$preset_fs25_colorRed" />
+        <textAlignment value="left" />
+    </Profile>
+
+    <Profile name="rhmCardDetailText" extends="baseReference" with="anchorTopLeft">
         <textSize value="12px" />
         <textBold value="false" />
-        <textColor value="0.50 0.50 0.50 1.0" />
+        <textColor value="$preset_fs25_colorGreyLight" />
         <textAlignment value="left" />
     </Profile>
 
-    <!-- Progress Bar Profiles -->
-    <Profile name="rhmProgressBarBg" extends="baseReference" with="anchorTopLeft">
-        <imageColor value="0.12 0.12 0.12 0.95" />
+    <Profile name="rhmStatusText" extends="baseReference" with="anchorTopLeft">
+        <textSize value="14px"/>
+        <textBold value="true"/>
+        <textUpperCase value="true"/>
+        <textColor value="$preset_fs25_colorMainLight"/>
+        <textAlignment value="left"/>
+        <textVerticalAlignment value="middle"/>
     </Profile>
+
+    <Profile name="rhmCardHeaderVehicle" extends="baseReference" with="anchorTopLeft">
+        <textSize value="14px"/>
+        <textBold value="true"/>
+        <textColor value="$preset_fs25_colorMainHighlight"/>
+        <textAlignment value="right"/>
+        <textVerticalAlignment value="middle"/>
+    </Profile>
+
+    <!-- Native Flat Progress Bar Profiles (gui.colorPreset - Crisp, No Distortion) -->
+    <Profile name="rhmProgressBarBg" extends="baseReference" with="anchorTopLeft">
+        <imageSliceId value="gui.colorPreset"/>
+        <imageColor value="$preset_fs25_colorGrey"/>
+    </Profile>
+    <Profile name="rhmGaugeTrack" extends="rhmProgressBarBg"/>
 
     <Profile name="rhmProgressBarFill" extends="baseReference" with="anchorTopLeft">
-        <imageColor value="0.61 0.91 0.15 1.0" />
+        <imageSliceId value="gui.colorPreset"/>
+        <imageColor value="$preset_fs25_colorMainHighlight"/>
+    </Profile>
+    <Profile name="rhmGaugeFill" extends="rhmProgressBarFill"/>
+
+    <Profile name="rhmGaugeEdgeLabel" extends="baseReference" with="anchorTopLeft">
+        <textSize value="11px"/>
+        <textBold value="true"/>
+        <textColor value="$preset_colorDisabled"/>
+        <textVerticalAlignment value="middle"/>
     </Profile>
 
-    <!-- Action Button Profiles (Base game neutral dark styling) -->
+    <!-- Action Button (Base game clean dark button with neon highlight) -->
     <Profile name="rhmActionButton" extends="baseReference" with="anchorTopLeft">
-        <imageColor value="0.09 0.09 0.09 0.95" />
-        <imageSelectedColor value="0.16 0.16 0.16 1.0" />
+        <imageSliceId value="gui.colorPreset" />
+        <imageColor value="$preset_fs25_colorGreyDark_50" />
+        <imageFocusedColor value="$preset_fs25_colorMainHighlight" />
+        <imageHighlightedColor value="$preset_fs25_colorMainHighlight" />
+        <imageSelectedColor value="$preset_fs25_colorMainHighlight" />
         <textSize value="14px" />
         <textBold value="true" />
-        <textColor value="0.80 0.80 0.80 1.0" />
-        <textFocusedColor value="0.70 0.98 0.20 1.0" />
-        <textHighlightedColor value="0.70 0.98 0.20 1.0" />
+        <textUpperCase value="true" />
+        <textColor value="$preset_fs25_colorMainLight" />
+        <textFocusedColor value="$preset_fs25_colorMainDark" />
+        <textHighlightedColor value="$preset_fs25_colorMainDark" />
+        <textSelectedColor value="$preset_fs25_colorMainDark" />
         <textDisabledColor value="$preset_colorDisabled" />
         <textAlignment value="center" />
     </Profile>
 
-    <!-- Sub-Tab Button Profiles (Fixed Dimensions - NEVER stretch or desync text!) -->
+    <!-- Sub-Tab Button Profiles -->
     <Profile name="rhmSubTabFleet" extends="baseReference" with="anchorTopLeft">
         <size value="260px 34px" />
-        <imageColor value="0.09 0.09 0.09 0.95" />
-        <imageSelectedColor value="0.16 0.16 0.16 1.0" />
+        <imageSliceId value="gui.colorPreset" />
+        <imageColor value="$preset_fs25_colorGreyDark_50" />
+        <imageSelectedColor value="$preset_fs25_colorMainHighlight" />
         <textSize value="13px" />
         <textBold value="true" />
         <textUpperCase value="true" />
-        <textColor value="0.75 0.75 0.75 1.0" />
-        <textFocusedColor value="0.70 0.98 0.20 1.0" />
-        <textHighlightedColor value="0.70 0.98 0.20 1.0" />
+        <textColor value="$preset_fs25_colorMainLight" />
+        <textFocusedColor value="$preset_fs25_colorMainHighlight" />
+        <textHighlightedColor value="$preset_fs25_colorMainHighlight" />
         <textDisabledColor value="$preset_colorDisabled" />
         <textAlignment value="center" />
     </Profile>
 
-    <Profile name="rhmSubTabFleetActive" extends="rhmSubTabFleet" with="anchorTopLeft">
-        <size value="260px 34px" />
-        <imageColor value="0.14 0.22 0.08 0.95" />
-        <imageSelectedColor value="0.20 0.30 0.12 1.0" />
-        <textColor value="0.70 0.98 0.20 1.0" />
-        <textFocusedColor value="0.85 1.0 0.35 1.0" />
-        <textHighlightedColor value="0.85 1.0 0.35 1.0" />
+    <Profile name="rhmSubTabFleetActive" extends="rhmSubTabFleet">
+        <imageColor value="$preset_fs25_colorMainHighlight" />
+        <textColor value="$preset_fs25_colorMainDark" />
+        <textFocusedColor value="$preset_fs25_colorMainDark" />
+        <textHighlightedColor value="$preset_fs25_colorMainDark" />
     </Profile>
 
     <Profile name="rhmSubTabHistory" extends="baseReference" with="anchorTopLeft">
         <size value="330px 34px" />
-        <imageColor value="0.09 0.09 0.09 0.95" />
-        <imageSelectedColor value="0.16 0.16 0.16 1.0" />
+        <imageSliceId value="gui.colorPreset" />
+        <imageColor value="$preset_fs25_colorGreyDark_50" />
+        <imageSelectedColor value="$preset_fs25_colorMainHighlight" />
         <textSize value="13px" />
         <textBold value="true" />
         <textUpperCase value="true" />
-        <textColor value="0.75 0.75 0.75 1.0" />
-        <textFocusedColor value="0.70 0.98 0.20 1.0" />
-        <textHighlightedColor value="0.70 0.98 0.20 1.0" />
+        <textColor value="$preset_fs25_colorMainLight" />
+        <textFocusedColor value="$preset_fs25_colorMainHighlight" />
+        <textHighlightedColor value="$preset_fs25_colorMainHighlight" />
         <textDisabledColor value="$preset_colorDisabled" />
         <textAlignment value="center" />
     </Profile>
 
-    <Profile name="rhmSubTabHistoryActive" extends="rhmSubTabHistory" with="anchorTopLeft">
-        <size value="330px 34px" />
-        <imageColor value="0.14 0.22 0.08 0.95" />
-        <imageSelectedColor value="0.20 0.30 0.12 1.0" />
-        <textColor value="0.70 0.98 0.20 1.0" />
-        <textFocusedColor value="0.85 1.0 0.35 1.0" />
-        <textHighlightedColor value="0.85 1.0 0.35 1.0" />
+    <Profile name="rhmSubTabHistoryActive" extends="rhmSubTabHistory">
+        <imageColor value="$preset_fs25_colorMainHighlight" />
+        <textColor value="$preset_fs25_colorMainDark" />
+        <textFocusedColor value="$preset_fs25_colorMainDark" />
+        <textHighlightedColor value="$preset_fs25_colorMainDark" />
     </Profile>
 
     <!-- Header Machine Carousel Prev/Next Buttons -->
     <Profile name="rhmSelectorButton" extends="baseReference" with="anchorTopLeft">
         <size value="32px 30px" />
-        <imageColor value="0.12 0.12 0.12 0.95" />
-        <imageSelectedColor value="0.22 0.22 0.22 1.0" />
+        <imageSliceId value="gui.colorPreset" />
+        <imageColor value="$preset_colorBlack50" />
+        <imageFocusedColor value="$preset_fs25_colorMainHighlight" />
+        <imageHighlightedColor value="$preset_fs25_colorMainHighlight" />
         <textSize value="14px" />
         <textBold value="true" />
-        <textColor value="0.85 0.85 0.85 1.0" />
-        <textFocusedColor value="0.70 0.98 0.20 1.0" />
-        <textHighlightedColor value="0.70 0.98 0.20 1.0" />
-        <textDisabledColor value="$preset_colorDisabled" />
+        <textColor value="$preset_fs25_colorMainLight" />
+        <textFocusedColor value="$preset_fs25_colorMainDark" />
+        <textHighlightedColor value="$preset_fs25_colorMainDark" />
         <textAlignment value="center" />
     </Profile>
-
-    <!-- Setting Selector Profile -->
-    <Profile name="rhmSettingSelector" extends="uiInGameMenuHeaderSelector" with="anchorTopLeft" />
 
     <!-- Text Description Profiles -->
     <Profile name="rhmDescriptiveText" extends="fs25_textGrey" with="anchorTopLeft">
         <textSize value="14px"/>
         <textMaxNumLines value="4"/>
         <textVerticalAlignment value="top"/>
-        <textColor value="0.65 0.65 0.65 1.0" />
+        <textColor value="$preset_fs25_colorGreyLight" />
     </Profile>
 
     <Profile name="rhmFooterText" extends="fs25_textGrey" with="anchorTopLeft">
         <textSize value="13px"/>
-        <textVerticalAlignment value="center"/>
-        <textColor value="0.55 0.55 0.55 1.0" />
+        <textVerticalAlignment value="middle"/>
+        <textColor value="$preset_colorDisabled" />
     </Profile>
 
     <Profile name="rhmTopNavContainer" extends="emptyPanel" with="anchorTopLeft" />
     <Profile name="rhmSubPanel" extends="emptyPanel" with="anchorTopLeft" />
     <Profile name="rhmDividerLine" extends="baseReference" with="anchorTopLeft">
-        <imageColor value="0.18 0.18 0.18 0.85" />
+        <imageSliceId value="gui.colorPreset" />
+        <imageColor value="$preset_fs25_colorGreyLight_50" />
     </Profile>
 
-    <Profile name="rhmSliderBox" extends="fs25_listSliderBox" with="anchorTopLeft" />
-
-    <!-- UI & Card Icon Profile (Strict Top-Left Alignment) -->
-    <Profile name="rhmIcon" extends="baseReference" with="anchorTopLeft" />
-
-    <!-- Season History KPI Chip Profiles -->
-    <Profile name="rhmKpiBar" extends="baseReference" with="anchorTopLeft">
-        <imageColor value="0 0 0 0" />
+    <!-- General Icon Style -->
+    <Profile name="rhmIcon" extends="baseReference" with="anchorTopLeft">
+        <imageColor value="$preset_fs25_colorMainLight" />
     </Profile>
-    <Profile name="rhmKpiChip" extends="baseReference" with="anchorTopLeft">
-        <imageColor value="0.07 0.07 0.07 0.95" />
-    </Profile>
-    <Profile name="rhmKpiLabel" extends="fs25_textGrey" with="anchorTopLeft">
-        <textSize value="12px" />
-        <textBold value="true" />
-        <textUpperCase value="true" />
-        <textColor value="0.55 0.55 0.55 1.0" />
-        <textAlignment value="left" />
+
+    <Profile name="rhmSliderBox" extends="baseReference" with="anchorTopLeft">
+        <imageColor value="$preset_colorTransparent" />
     </Profile>
 </GUIProfiles>
