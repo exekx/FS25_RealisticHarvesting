@@ -80,21 +80,28 @@ function RHM_HarvestHistoryAnalytics:updateData()
     local trip = self:getActiveTrip()
     if not trip then return end
 
+    local isLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
+
     local r = trip.reasons or { speed = 0, moisture = 0, wear = 0, slope = 0 }
-    local totalLost = trip.lostLiters or 0
+    local totalLost = isLossEnabled and (trip.lostLiters or 0) or 0
     local sumReasons = (r.speed or 0) + (r.moisture or 0) + (r.wear or 0) + (r.slope or 0)
     if sumReasons <= 0.001 then sumReasons = 1.0 end
 
-    local speedPct = math.min(100, ((r.speed or 0) / sumReasons) * 100.0)
-    local moisturePct = math.min(100, ((r.moisture or 0) / sumReasons) * 100.0)
-    local wearPct = math.min(100, ((r.wear or 0) / sumReasons) * 100.0)
-    local slopePct = math.min(100, ((r.slope or 0) / sumReasons) * 100.0)
+    local speedPct = isLossEnabled and math.min(100, ((r.speed or 0) / sumReasons) * 100.0) or 0
+    local moisturePct = isLossEnabled and math.min(100, ((r.moisture or 0) / sumReasons) * 100.0) or 0
+    local wearPct = isLossEnabled and math.min(100, ((r.wear or 0) / sumReasons) * 100.0) or 0
+    local slopePct = isLossEnabled and math.min(100, ((r.slope or 0) / sumReasons) * 100.0) or 0
 
     -- Update Values & Subtexts
-    if self.speedValText then self.speedValText:setText(string.format("%.1f%% (%.0f L)", speedPct, r.speed or 0)) end
-    if self.moistureValText then self.moistureValText:setText(string.format("%.1f%% (%.0f L)", moisturePct, r.moisture or 0)) end
-    if self.wearValText then self.wearValText:setText(string.format("%.1f%% (%.0f L)", wearPct, r.wear or 0)) end
-    if self.slopeValText then self.slopeValText:setText(string.format("%.1f%% (%.0f L)", slopePct, r.slope or 0)) end
+    local speedL = isLossEnabled and (r.speed or 0) or 0
+    local moistL = isLossEnabled and (r.moisture or 0) or 0
+    local wearL = isLossEnabled and (r.wear or 0) or 0
+    local slopeL = isLossEnabled and (r.slope or 0) or 0
+
+    if self.speedValText then self.speedValText:setText(string.format("%.1f%% (%.0f L)", speedPct, speedL)) end
+    if self.moistureValText then self.moistureValText:setText(string.format("%.1f%% (%.0f L)", moisturePct, moistL)) end
+    if self.wearValText then self.wearValText:setText(string.format("%.1f%% (%.0f L)", wearPct, wearL)) end
+    if self.slopeValText then self.slopeValText:setText(string.format("%.1f%% (%.0f L)", slopePct, slopeL)) end
 
     -- Update Progress Bar widths (proportional to background size)
     local function setBarFillWidth(fillElem, bgElem, pct)
@@ -110,7 +117,7 @@ function RHM_HarvestHistoryAnalytics:updateData()
     setBarFillWidth(self.slopeBarFill, self.slopeBarBg, slopePct)
 
     -- Scorecard Badge
-    local rank = trip.efficiencyRank or "A"
+    local rank = isLossEnabled and (trip.efficiencyRank or "A") or "A"
     local rCol, gCol, bCol = 0.58, 0.77, 0.11
     if rank == "B" then
         rCol, gCol, bCol = 0.75, 0.85, 0.15
@@ -131,15 +138,25 @@ function RHM_HarvestHistoryAnalytics:updateData()
     if self.rankTitleText and g_i18n and g_i18n:hasText(rankTitleKey) then
         self.rankTitleText:setText(g_i18n:getText(rankTitleKey))
     end
-    if self.rankDescText and g_i18n and g_i18n:hasText(rankDescKey) then
-        self.rankDescText:setText(g_i18n:getText(rankDescKey))
+    if self.rankDescText and g_i18n then
+        if not isLossEnabled then
+            local desc = g_i18n:hasText("rhm_loss_disabled_desc") and g_i18n:getText("rhm_loss_disabled_desc") or "Loss simulation is disabled in mod settings."
+            self.rankDescText:setText(desc)
+        elseif g_i18n:hasText(rankDescKey) then
+            self.rankDescText:setText(g_i18n:getText(rankDescKey))
+        end
     end
 
     -- Contextual Guidance
-    local dominant = RHM_HarvestTracker.getDominantLossFactor(r)
-    local adviceKey = "rhm_advice_" .. dominant
-    if totalLost < 5 then
-        adviceKey = "rhm_advice_perfect"
+    local adviceKey = "rhm_advice_perfect"
+    if not isLossEnabled then
+        adviceKey = "rhm_cause_none"
+    else
+        local dominant = RHM_HarvestTracker.getDominantLossFactor(r)
+        adviceKey = "rhm_advice_" .. dominant
+        if totalLost < 5 then
+            adviceKey = "rhm_advice_perfect"
+        end
     end
     if self.adviceText and g_i18n and g_i18n:hasText(adviceKey) then
         self.adviceText:setText(g_i18n:getText(adviceKey))

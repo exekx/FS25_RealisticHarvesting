@@ -314,7 +314,7 @@
         <text name="rhm_tab_fleet" text="Mietitrebbiatrici in campo" />
         <text name="rhm_tab_fleet_desc" text="Telemetria in tempo reale, rendimento e stato di tutte le mietitrebbiatrici dell'azienda." />
         <text name="rhm_tab_settings" text="Impostazioni Azienda &amp; IA" />
-        <text name="rhm_tab_settings_desc" text="Configura il limitatore di velocitÃ  per aiutanti IA, generazione di rinascite e opzioni di azzeramento." />
+        <text name="rhm_tab_settings_desc" text="Configura il limitatore di velocità per aiutanti IA, generazione di rinascite e opzioni di azzeramento." />
         <text name="rhm_driver_parked" text="Parcheggiato" />
         <text name="rhm_driver_cp_ai" text="IA (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="Aiutante IA" />
@@ -367,38 +367,38 @@
         <text name="rhm_loss_share" text="Perdita % della resa" />
         <text name="rhm_financial_loss" text="Perdita finanziaria" />
         <text name="rhm_card_performance" text="PRESTAZIONI &amp; TEMPO" />
-        <text name="rhm_avg_working_speed" text="VelocitÃ  media di lavoro" />
+        <text name="rhm_avg_working_speed" text="Velocità media di lavoro" />
         <text name="rhm_avg_engine_load" text="Carico medio motore" />
         <text name="rhm_session_duration" text="Durata sessione" />
         <text name="rhm_btn_reset_trip" text="Azzera contatore di campo" />
         <text name="rhm_causes_title" text="CAUSE PRINCIPALI DELLE PERDITE" />
-        <text name="rhm_cause_speed" text="VelocitÃ  e sovraccarico battitore" />
-        <text name="rhm_cause_moisture" text="UmiditÃ  della coltura e rugiada" />
+        <text name="rhm_cause_speed" text="Velocità e sovraccarico battitore" />
+        <text name="rhm_cause_moisture" text="Umidità della coltura e rugiada" />
         <text name="rhm_cause_wear" text="Usura barra falciante e battitore" />
         <text name="rhm_cause_slope" text="Pendenza del campo e dislivelli" />
         <text name="rhm_scorecard_title" text="SCHEDA DI EFFICIENZA DELL'OPERATORE" />
         <text name="rhm_rank_title_a" text="Grado A: Ottimale" />
-        <text name="rhm_rank_desc_a" text="Tasso di perdita inferiore all'1,5%. Impostazione della macchina e velocitÃ  perfettamente bilanciate." />
+        <text name="rhm_rank_desc_a" text="Tasso di perdita inferiore all'1,5%. Impostazione della macchina e velocità perfettamente bilanciate." />
         <text name="rhm_rank_title_b" text="Grado B: Accettabile" />
-        <text name="rhm_rank_desc_b" text="Tasso di perdita compreso tra 1,5% e 3,0%. Si consigliano lievi regolazioni di velocitÃ  o controbattitore." />
+        <text name="rhm_rank_desc_b" text="Tasso di perdita compreso tra 1,5% e 3,0%. Si consigliano lievi regolazioni di velocità o controbattitore." />
         <text name="rhm_rank_title_c" text="Grado C: Perdite elevate" />
-        <text name="rhm_rank_desc_c" text="Tasso di perdita compreso tra 3,0% e 4,5%. Riduci la velocitÃ  o controlla l'affilatura delle lame." />
+        <text name="rhm_rank_desc_c" text="Tasso di perdita compreso tra 3,0% e 4,5%. Riduci la velocità o controlla l'affilatura delle lame." />
         <text name="rhm_rank_title_d" text="Grado D: Perdite critiche" />
         <text name="rhm_rank_desc_d" text="Il tasso di perdita supera il 4,5%! Grave sovraccarico dei crivelli o calibrazione errata." />
         <text name="rhm_guidance_title" text="RACCOMANDAZIONI DEL COMPUTER DI BORDO" />
-        <text name="rhm_advice_perfect" text="L'efficienza di raccolta Ã¨ ottimale. Tutti i parametri di trebbiatura e velocitÃ  sono ben bilanciati." />
-        <text name="rhm_advice_speed" text="Perdite causate principalmente dalla velocitÃ  eccessiva. Rallenta per scaricare i crivelli." />
-        <text name="rhm_advice_moisture" text="Perdite dovute a elevata umiditÃ  o rugiada mattutina. Attendi che il campo asciughi o riduci la velocitÃ ." />
+        <text name="rhm_advice_perfect" text="L'efficienza di raccolta è ottimale. Tutti i parametri di trebbiatura e velocità sono ben bilanciati." />
+        <text name="rhm_advice_speed" text="Perdite causate principalmente dalla velocità eccessiva. Rallenta per scaricare i crivelli." />
+        <text name="rhm_advice_moisture" text="Perdite dovute a elevata umidità o rugiada mattutina. Attendi che il campo asciughi o riduci la velocità." />
         <text name="rhm_advice_wear" text="Perdite elevate per usura di lame o spranghe del battitore. Effettua la manutenzione in officina." />
-        <text name="rhm_advice_slope" text="L'inclinazione laterale in pendenza sbilancia i crivelli. Riduci la velocitÃ  lungo le pendenze." />
+        <text name="rhm_advice_slope" text="L'inclinazione laterale in pendenza sbilancia i crivelli. Riduci la velocità lungo le pendenze." />
         <text name="rhm_col_machine" text="Macchina" />
         <text name="rhm_col_hours" text="Ore lavorative" />
         <text name="rhm_col_harvested" text="Raccolto" />
         <text name="rhm_col_lost" text="Perdite" />
         <text name="rhm_col_rank" text="Grado" />
         <text name="rhm_fleet_no_combines" text="Nessuna mietitrebbiatrice trovata" />
-        <text name="rhm_setting_ai_limiter_title" text="LIMITATORE DI VELOCITÃ€ IA" />
-        <text name="rhm_setting_ai_limiter_desc" text="Limita automaticamente la velocitÃ  di crociera degli aiutanti quando le perdite superano la soglia." />
+        <text name="rhm_setting_ai_limiter_title" text="LIMITATORE DI VELOCITÀ IA" />
+        <text name="rhm_setting_ai_limiter_desc" text="Limita automaticamente la velocità di crociera degli aiutanti quando le perdite superano la soglia." />
         <text name="rhm_setting_ai_threshold_title" text="SOGLIA DI PERDITA IA" />
         <text name="rhm_setting_ai_threshold_desc" text="Percentuale massima di perdita tollerata prima che l'aiutante IA rallenti automaticamente." />
         <text name="rhm_setting_volunteer_title" text="ERBE INFESTANTI / RINASCITE" />
@@ -453,5 +453,29 @@
         <text name="rhm_fields_no_data" text="Nessun campo registrato" />
         <text name="rhm_contract_tag" text="(Contratto)" />
         <text name="rhm_status_completed" text="Raccolto" />
+        <text name="rhm_status_idle_yard" text="In fattoria (in attesa)" />
+        <text name="rhm_fields_external" text="Esterno" />
+        <text name="rhm_field_transit" text="In transito / Strada" />
+        <text name="rhm_detail_loss_money" text="Impatto finanziario delle perdite di raccolto" />
+        <text name="rhm_cause_none" text="Funzionamento ottimale (nessuna perdita)" />
+        <text name="rhm_fields_all_overview" text="[*] Panoramica fattoria (tutti i campi)" />
+        <text name="rhm_field_operations" text="Operazioni di raccolta" />
+        <text name="rhm_fields_nominal_area" text="Area nominale" />
+        <text name="rhm_status_in_progress" text="In corso" />
+        <text name="rhm_fields_harvested_area" text="Area raccolta" />
+        <text name="rhm_ops_one" text="raccolta" />
+        <text name="rhm_ops_few" text="raccolte" />
+        <text name="rhm_ops_many" text="raccolte" />
+        <text name="rhm_loss_disabled" text="Simulazione disattivata" />
+        <text name="rhm_loss_disabled_desc" text="La simulazione delle perdite di raccolto è disattivata nelle impostazioni della mod." />
+        <text name="rhm_filter_active" text="In servizio" />
+        <text name="rhm_filter_all" text="Tutte" />
+        <text name="rhm_filter_sold" text="Vendute" />
+        <text name="rhm_status_sold" text="Venduta (Archivio)" />
+        <text name="rhm_field_sold" text="[Venduta]" />
+        <text name="rhm_driver_sold" text="Dismesso" />
+        <text name="rhm_fleet_no_sold_combines" text="Nessuna mietitrebbia venduta in archivio" />
+        <text name="rhm_fleet_total_count_active" text="Mietitrebbie attive" />
+        <text name="rhm_fleet_total_count_sold" text="Mietitrebbie vendute" />
     </texts>
 </l10n>

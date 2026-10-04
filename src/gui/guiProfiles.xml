@@ -156,7 +156,7 @@
     <Profile name="rhmCardAlertValue" extends="baseReference" with="anchorTopLeft">
         <textSize value="26px" />
         <textBold value="true" />
-        <textColor value="$preset_fs25_colorRed" />
+        <textColor value="0.95 0.25 0.22 1.0" />
         <textAlignment value="left" />
     </Profile>
 
@@ -265,6 +265,37 @@
         <textColor value="$preset_fs25_colorMainDark" />
         <textFocusedColor value="$preset_fs25_colorMainDark" />
         <textHighlightedColor value="$preset_fs25_colorMainDark" />
+    </Profile>
+
+    <!-- Sub-Tab Filter Button Profiles (For Active / All / Sold fleet filters) -->
+    <Profile name="rhmSubTabFilter" extends="baseReference" with="anchorTopLeft">
+        <size value="116px 34px" />
+        <imageSliceId value="gui.colorPreset" />
+        <imageColor value="$preset_fs25_colorGreyDark_50" />
+        <imageFocusedColor value="$preset_fs25_colorGreyDark_50" />
+        <imageHighlightedColor value="$preset_fs25_colorGreyLight_50" />
+        <imageSelectedColor value="$preset_fs25_colorGreyDark_50" />
+        <textSize value="12px" />
+        <textBold value="true" />
+        <textUpperCase value="true" />
+        <textColor value="$preset_fs25_colorMainLight" />
+        <textFocusedColor value="$preset_fs25_colorMainHighlight" />
+        <textHighlightedColor value="$preset_fs25_colorMainHighlight" />
+        <textSelectedColor value="$preset_fs25_colorMainLight" />
+        <textDisabledColor value="$preset_colorDisabled" />
+        <textAlignment value="center" />
+    </Profile>
+
+    <Profile name="rhmSubTabFilterActive" extends="rhmSubTabFilter">
+        <size value="116px 34px" />
+        <imageColor value="$preset_fs25_colorMainHighlight" />
+        <imageFocusedColor value="$preset_fs25_colorMainHighlight" />
+        <imageHighlightedColor value="$preset_fs25_colorMainHighlight" />
+        <imageSelectedColor value="$preset_fs25_colorMainHighlight" />
+        <textColor value="$preset_fs25_colorMainDark" />
+        <textFocusedColor value="$preset_fs25_colorMainDark" />
+        <textHighlightedColor value="$preset_fs25_colorMainDark" />
+        <textSelectedColor value="$preset_fs25_colorMainDark" />
     </Profile>
 
     <!-- Header Machine Carousel Prev/Next Buttons -->

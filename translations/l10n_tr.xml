@@ -307,29 +307,29 @@
         <text name="rhm_trip_reset_done" text="Tarla sayacı sıfırlandı!" />
         <text name="rhm_tab_trip" text="Mevcut Tarla / Sayaç" />
         <text name="rhm_tab_trip_desc" text="Mevcut tarla çalışması için hasat edilen miktar, işlenen alan, ortalama verim ve kayıpların canlı telemetrisi." />
-        <text name="rhm_tab_analytics" text="KayÄ±p Nedenleri ve DeÄŸerlendirme" />
-        <text name="rhm_tab_analytics_desc" text="KayÄ±p faktÃ¶rlerinin daÄŸÄ±lÄ±mÄ±, operatÃ¶r verimlilik derecesi ve araÃ§ iÃ§i bilgisayar tavsiyeleri." />
-        <text name="rhm_tab_fleet" text="Tarladaki BiÃ§erdÃ¶verler" />
-        <text name="rhm_tab_fleet_desc" text="Ã‡iftliÄŸinizdeki tÃ¼m biÃ§erdÃ¶verlerin gerÃ§ek zamanlÄ± telemetrisi, kapasitesi ve durumu." />
-        <text name="rhm_tab_settings" text="Ã‡iftlik ve Yapay Zeka AyarlarÄ±" />
-        <text name="rhm_tab_settings_desc" text="Yapay zeka iÅŸÃ§i hÄ±z sÄ±nÄ±rlayÄ±cÄ±, dÃ¶kÃ¼len tohum/yabancÄ± ot ve otomatik sÄ±fÄ±rlama seÃ§enekleri." />
+        <text name="rhm_tab_analytics" text="Kayıp Nedenleri ve Değerlendirme" />
+        <text name="rhm_tab_analytics_desc" text="Kayıp faktörlerinin dağılımı, operatör verimlilik derecesi ve araç içi bilgisayar tavsiyeleri." />
+        <text name="rhm_tab_fleet" text="Tarladaki Biçerdöverler" />
+        <text name="rhm_tab_fleet_desc" text="Çiftliğinizdeki tüm biçerdöverlerin gerçek zamanlı telemetrisi, kapasitesi ve durumu." />
+        <text name="rhm_tab_settings" text="Çiftlik ve Yapay Zeka Ayarları" />
+        <text name="rhm_tab_settings_desc" text="Yapay zeka işçi hız sınırlayıcı, dökülen tohum/yabancı ot ve otomatik sıfırlama seçenekleri." />
         <text name="rhm_driver_parked" text="Park Halinde" />
         <text name="rhm_driver_cp_ai" text="YZ (Courseplay)" />
-        <text name="rhm_driver_hired_ai" text="YZ Ä°ÅŸÃ§i" />
+        <text name="rhm_driver_hired_ai" text="YZ İşçi" />
         <text name="rhm_driver_player" text="Oyuncu" />
-        <text name="rhm_driver_idle_on" text="RÃ¶lanti" />
-        <text name="rhm_field_yard" text="Ã‡iftlik / Tesis" />
+        <text name="rhm_driver_idle_on" text="Rölanti" />
+        <text name="rhm_field_yard" text="Çiftlik / Tesis" />
         <text name="rhm_field_format" text="Tarla %d" />
-        <text name="rhm_fleet_driver" text="SÃ¼rÃ¼cÃ¼ / OperatÃ¶r" />
-        <text name="rhm_fleet_cutter" text="Tabla GeniÅŸliÄŸi" />
-        <text name="rhm_fleet_grain_tank" text="Tane Deposu DoluluÄŸu" />
+        <text name="rhm_fleet_driver" text="Sürücü / Operatör" />
+        <text name="rhm_fleet_cutter" text="Tabla Genişliği" />
+        <text name="rhm_fleet_grain_tank" text="Tane Deposu Doluluğu" />
         <text name="rhm_fleet_throughput" text="Verim Kapasitesi" />
-        <text name="rhm_fleet_realtime_yield" text="AnlÄ±k Verim" />
-        <text name="rhm_fleet_crop_loss" text="KayÄ±p OranÄ±" />
-        <text name="rhm_fleet_wear_state" text="Makine AÅŸÄ±nmasÄ±" />
-        <text name="rhm_fleet_total_count" text="Toplam BiÃ§erdÃ¶ver" />
-        <text name="rhm_btn_subtab_fleet" text="BÄ°Ã‡ERDÃ–VER FÄ°LOSU" />
-        <text name="rhm_btn_subtab_history" text="SEZON GEÃ‡MÄ°ÅžÄ° / TÃœM TARLALAR" />
+        <text name="rhm_fleet_realtime_yield" text="Anlık Verim" />
+        <text name="rhm_fleet_crop_loss" text="Kayıp Oranı" />
+        <text name="rhm_fleet_wear_state" text="Makine Aşınması" />
+        <text name="rhm_fleet_total_count" text="Toplam Biçerdöver" />
+        <text name="rhm_btn_subtab_fleet" text="BİÇERDÖVER FİLOSU" />
+        <text name="rhm_btn_subtab_history" text="SEZON GEÇMİŞİ / TÜM TARLALAR" />
         <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
         <text name="rhm_season_format" text="Season %d (Year %d)" />
         <text name="rhm_season_current_suffix" text="[Current]" />
@@ -342,65 +342,65 @@
         <text name="rhm_season_all_time_status" text="All-Time History" />
         <text name="rhm_hist_total_area" text="Toplam Hasat Edilen Alan" />
         <text name="rhm_hist_total_harvest" text="Toplam Temiz Hasat" />
-        <text name="rhm_hist_avg_loss" text="Ortalama KayÄ±p" />
-        <text name="rhm_hist_total_money" text="Toplam Mali KayÄ±p" />
+        <text name="rhm_hist_avg_loss" text="Ortalama Kayıp" />
+        <text name="rhm_hist_total_money" text="Toplam Mali Kayıp" />
         <text name="rhm_col_season" text="Sezon" />
         <text name="rhm_col_status" text="Durum" />
-        <text name="rhm_hist_empty" text="HenÃ¼z sezon kaydÄ± bulunmuyor" />
-        <text name="rhm_status_harvesting" text="BiÃ§iyor (aktif)" />
-        <text name="rhm_status_on_field_idle" text="Tarlada (rÃ¶lanti)" />
+        <text name="rhm_hist_empty" text="Henüz sezon kaydı bulunmuyor" />
+        <text name="rhm_status_harvesting" text="Biçiyor (aktif)" />
+        <text name="rhm_status_on_field_idle" text="Tarlada (rölanti)" />
         <text name="rhm_status_on_field_stopped" text="Tarlada (durdu)" />
-        <text name="rhm_status_in_transit" text="Yolda / Ä°ntikal" />
+        <text name="rhm_status_in_transit" text="Yolda / İntikal" />
         <text name="rhm_status_in_cab" text="Dolu (Oyuncu)" />
         <text name="rhm_status_parked_yard" text="Tesiste park halinde" />
         <text name="rhm_card_field_harvest" text="MEVCUT TARLA VE HASAT" />
-        <text name="rhm_field_number" text="Tarla NumarasÄ±" />
-        <text name="rhm_trip_no_field" text="Tarla DÄ±ÅŸÄ±" />
-        <text name="rhm_crop_type" text="Ekin TÃ¼rÃ¼" />
+        <text name="rhm_field_number" text="Tarla Numarası" />
+        <text name="rhm_trip_no_field" text="Tarla Dışı" />
+        <text name="rhm_crop_type" text="Ekin Türü" />
         <text name="rhm_harvested_area" text="Hasat Edilen Alan" />
         <text name="rhm_clean_harvest" text="Temiz Hasat" />
         <text name="rhm_average_yield" text="Ortalama Verim" />
-        <text name="rhm_card_loss_finances" text="KAYIPLAR VE MALÄ° DURUM" />
-        <text name="rhm_loss_volume" text="KayÄ±p Hacim" />
-        <text name="rhm_loss_share" text="KayÄ±p % Verim OranÄ±" />
-        <text name="rhm_financial_loss" text="Mali KayÄ±p" />
+        <text name="rhm_card_loss_finances" text="KAYIPLAR VE MALİ DURUM" />
+        <text name="rhm_loss_volume" text="Kayıp Hacim" />
+        <text name="rhm_loss_share" text="Kayıp % Verim Oranı" />
+        <text name="rhm_financial_loss" text="Mali Kayıp" />
         <text name="rhm_card_performance" text="PERFORMANS VE ZAMAN" />
-        <text name="rhm_avg_working_speed" text="Ortalama Ã‡alÄ±ÅŸma HÄ±zÄ±" />
-        <text name="rhm_avg_engine_load" text="Ortalama Motor YÃ¼kÃ¼" />
-        <text name="rhm_session_duration" text="Oturum SÃ¼resi" />
+        <text name="rhm_avg_working_speed" text="Ortalama Çalışma Hızı" />
+        <text name="rhm_avg_engine_load" text="Ortalama Motor Yükü" />
+        <text name="rhm_session_duration" text="Oturum Süresi" />
         <text name="rhm_btn_reset_trip" text="Tarla sayacını sıfırla" />
-        <text name="rhm_causes_title" text="HASAT KAYBININ BAÅžLICA NEDENLERÄ°" />
-        <text name="rhm_cause_speed" text="AÅŸÄ±rÄ± hÄ±z ve batÃ¶r aÅŸÄ±rÄ± yÃ¼klenmesi" />
-        <text name="rhm_cause_moisture" text="Ekin nemi ve sabah Ã§iÄŸi" />
-        <text name="rhm_cause_wear" text="Tabla bÄ±Ã§aklarÄ± ve batÃ¶r aÅŸÄ±nmasÄ±" />
-        <text name="rhm_cause_slope" text="Tarla eÄŸimi ve engebe" />
-        <text name="rhm_scorecard_title" text="OPERATÃ–R VERÄ°MLÄ°LÄ°K RAPORU" />
+        <text name="rhm_causes_title" text="HASAT KAYBININ BAŞLICA NEDENLERİ" />
+        <text name="rhm_cause_speed" text="Aşırı hız ve batör aşırı yüklenmesi" />
+        <text name="rhm_cause_moisture" text="Ekin nemi ve sabah çiği" />
+        <text name="rhm_cause_wear" text="Tabla bıçakları ve batör aşınması" />
+        <text name="rhm_cause_slope" text="Tarla eğimi ve engebe" />
+        <text name="rhm_scorecard_title" text="OPERATÖR VERİMLİLİK RAPORU" />
         <text name="rhm_rank_title_a" text="Derece A: Kusursuz" />
-        <text name="rhm_rank_desc_a" text="KayÄ±p oranÄ± %1,5'in altÄ±nda. BiÃ§erdÃ¶ver ayarlarÄ± ve Ã§alÄ±ÅŸma hÄ±zÄ± mÃ¼kemmel dengelenmiÅŸ." />
+        <text name="rhm_rank_desc_a" text="Kayıp oranı %1,5'in altında. Biçerdöver ayarları ve çalışma hızı mükemmel dengelenmiş." />
         <text name="rhm_rank_title_b" text="Derece B: Kabul Edilebilir" />
-        <text name="rhm_rank_desc_b" text="KayÄ±p oranÄ± %1,5 ile %3,0 arasÄ±nda. HÄ±z veya kontra ayarÄ±nda ufak dÃ¼zeltmeler Ã¶nerilir." />
-        <text name="rhm_rank_title_c" text="Derece C: YÃ¼ksek KayÄ±p" />
-        <text name="rhm_rank_desc_c" text="KayÄ±p oranÄ± %3,0 ile %4,5 arasÄ±nda. HÄ±zÄ± dÃ¼ÅŸÃ¼rÃ¼n veya bÄ±Ã§ak keskinliÄŸini kontrol edin." />
-        <text name="rhm_rank_title_d" text="Derece D: Kritik KayÄ±p" />
-        <text name="rhm_rank_desc_d" text="KayÄ±p oranÄ± %4,5'in Ã¼zerinde! Ciddi elek aÅŸÄ±rÄ± yÃ¼klenmesi veya yanlÄ±ÅŸ kalibrasyon tespit edildi." />
-        <text name="rhm_guidance_title" text="ARAÃ‡ Ä°Ã‡Ä° BÄ°LGÄ°SAYAR TAVSÄ°YELERÄ°" />
-        <text name="rhm_advice_perfect" text="Hasat verimliliÄŸi optimum seviyede. TÃ¼m ayÄ±rma parametreleri dengeli Ã§alÄ±ÅŸÄ±yor." />
-        <text name="rhm_advice_speed" text="Temel kayÄ±p aÅŸÄ±rÄ± seyir hÄ±zÄ±ndan kaynaklanÄ±yor. Elekleri rahatlatmak iÃ§in yavaÅŸlayÄ±n." />
-        <text name="rhm_advice_moisture" text="KayÄ±plar yÃ¼ksek ekin nemi veya Ã§iÄŸden kaynaklanÄ±yor. TarlanÄ±n kurumasÄ±nÄ± bekleyin veya yavaÅŸlayÄ±n." />
-        <text name="rhm_advice_wear" text="AÅŸÄ±nmÄ±ÅŸ bÄ±Ã§aklar veya batÃ¶r Ã§Ä±talarÄ± nedeniyle kayÄ±p yÃ¼ksek. AtÃ¶lyede bakÄ±m yaptÄ±rÄ±n." />
-        <text name="rhm_advice_slope" text="EÄŸimli arazide yan yatma elek yÃ¼kÃ¼nÃ¼ dengesizleÅŸtiriyor. EÄŸimli yerlerde hÄ±zÄ± dÃ¼ÅŸÃ¼rÃ¼n." />
+        <text name="rhm_rank_desc_b" text="Kayıp oranı %1,5 ile %3,0 arasında. Hız veya kontra ayarında ufak düzeltmeler önerilir." />
+        <text name="rhm_rank_title_c" text="Derece C: Yüksek Kayıp" />
+        <text name="rhm_rank_desc_c" text="Kayıp oranı %3,0 ile %4,5 arasında. Hızı düşürün veya bıçak keskinliğini kontrol edin." />
+        <text name="rhm_rank_title_d" text="Derece D: Kritik Kayıp" />
+        <text name="rhm_rank_desc_d" text="Kayıp oranı %4,5'in üzerinde! Ciddi elek aşırı yüklenmesi veya yanlış kalibrasyon tespit edildi." />
+        <text name="rhm_guidance_title" text="ARAÇ İÇİ BİLGİSAYAR TAVSİYELERİ" />
+        <text name="rhm_advice_perfect" text="Hasat verimliliği optimum seviyede. Tüm ayırma parametreleri dengeli çalışıyor." />
+        <text name="rhm_advice_speed" text="Temel kayıp aşırı seyir hızından kaynaklanıyor. Elekleri rahatlatmak için yavaşlayın." />
+        <text name="rhm_advice_moisture" text="Kayıplar yüksek ekin nemi veya çiğden kaynaklanıyor. Tarlanın kurumasını bekleyin veya yavaşlayın." />
+        <text name="rhm_advice_wear" text="Aşınmış bıçaklar veya batör çıtaları nedeniyle kayıp yüksek. Atölyede bakım yaptırın." />
+        <text name="rhm_advice_slope" text="Eğimli arazide yan yatma elek yükünü dengesizleştiriyor. Eğimli yerlerde hızı düşürün." />
         <text name="rhm_col_machine" text="Makine" />
-        <text name="rhm_col_hours" text="Ã‡alÄ±ÅŸma Saati" />
+        <text name="rhm_col_hours" text="Çalışma Saati" />
         <text name="rhm_col_harvested" text="Hasat Edilen" />
-        <text name="rhm_col_lost" text="KayÄ±plar" />
+        <text name="rhm_col_lost" text="Kayıplar" />
         <text name="rhm_col_rank" text="Derece" />
-        <text name="rhm_fleet_no_combines" text="BiÃ§erdÃ¶ver bulunamadÄ±" />
+        <text name="rhm_fleet_no_combines" text="Biçerdöver bulunamadı" />
         <text name="rhm_setting_ai_limiter_title" text="YZ HIZ SINIRLAYICI" />
-        <text name="rhm_setting_ai_limiter_desc" text="KayÄ±plar belirlenen eÅŸiÄŸi aÅŸtÄ±ÄŸÄ±nda yapay zeka iÅŸÃ§ilerinin hÄ±zÄ±nÄ± otomatik olarak sÄ±nÄ±rlar." />
-        <text name="rhm_setting_ai_threshold_title" text="YZ KAYIP EÅžÄ°ÄžÄ°" />
-        <text name="rhm_setting_ai_threshold_desc" text="YZ iÅŸÃ§isinin otomatik olarak fren yapmaya baÅŸlayacaÄŸÄ± maksimum kabul edilebilir kayÄ±p yÃ¼zdesi." />
-        <text name="rhm_setting_volunteer_title" text="DÃ–KÃœLEN TOHUM VE YABANCI OT" />
-        <text name="rhm_setting_volunteer_desc" text="YÃ¼ksek kayÄ±plÄ± alanlarda (&gt;%3) biÃ§erdÃ¶verin arkasÄ±nda yabancÄ± ot ve dÃ¶kÃ¼len tohum filizleri oluÅŸturur." />
+        <text name="rhm_setting_ai_limiter_desc" text="Kayıplar belirlenen eşiği aştığında yapay zeka işçilerinin hızını otomatik olarak sınırlar." />
+        <text name="rhm_setting_ai_threshold_title" text="YZ KAYIP EŞİĞİ" />
+        <text name="rhm_setting_ai_threshold_desc" text="YZ işçisinin otomatik olarak fren yapmaya başlayacağı maksimum kabul edilebilir kayıp yüzdesi." />
+        <text name="rhm_setting_volunteer_title" text="DÖKÜLEN TOHUM VE YABANCI OT" />
+        <text name="rhm_setting_volunteer_desc" text="Yüksek kayıplı alanlarda (&gt;%3) biçerdöverin arkasında yabancı ot ve dökülen tohum filizleri oluşturur." />
         <text name="rhm_setting_autoreset_title" text="TARLA DEĞİŞİNCE OTO-SIFIRLA" />
         <text name="rhm_setting_autoreset_desc" text="Farklı bir tarlaya geçildiğinde mevcut çalışmayı otomatik arşivler ve tarla sayacını sıfırlar." />
         <text name="rhm_col_field" text="Tarla" />
@@ -451,5 +451,29 @@
         <text name="rhm_fields_no_data" text="Kayıtlı Tarla Yok" />
         <text name="rhm_contract_tag" text="(Sözleşme)" />
         <text name="rhm_status_completed" text="Hasat Edildi" />
+        <text name="rhm_status_idle_yard" text="Çiftlikte (Bekliyor)" />
+        <text name="rhm_fields_external" text="Harici" />
+        <text name="rhm_field_transit" text="Yolda / İntikal" />
+        <text name="rhm_detail_loss_money" text="Ürün kaybından kaynaklanan mali zarar" />
+        <text name="rhm_cause_none" text="Optimal Çalışma (Kayıp Yok)" />
+        <text name="rhm_fields_all_overview" text="[*] Çiftlik Genel Bakışı (Tüm Tarlalar)" />
+        <text name="rhm_field_operations" text="Hasat İşlemleri" />
+        <text name="rhm_fields_nominal_area" text="Nominal Alan" />
+        <text name="rhm_status_in_progress" text="Devam Ediyor" />
+        <text name="rhm_fields_harvested_area" text="Hasat Edilen Alan" />
+        <text name="rhm_ops_one" text="hasat" />
+        <text name="rhm_ops_few" text="hasat" />
+        <text name="rhm_ops_many" text="hasat" />
+        <text name="rhm_loss_disabled" text="Simülasyon Devre Dışı" />
+        <text name="rhm_loss_disabled_desc" text="Ürün kaybı simülasyonu mod ayarlarından kapatıldı." />
+        <text name="rhm_filter_active" text="Aktif" />
+        <text name="rhm_filter_all" text="Tümü" />
+        <text name="rhm_filter_sold" text="Satılan" />
+        <text name="rhm_status_sold" text="Satıldı (Arşiv)" />
+        <text name="rhm_field_sold" text="[Satıldı]" />
+        <text name="rhm_driver_sold" text="Hizmet Dışı" />
+        <text name="rhm_fleet_no_sold_combines" text="Arşivde satılan biçerdöver yok" />
+        <text name="rhm_fleet_total_count_active" text="Aktif Biçerdöverler" />
+        <text name="rhm_fleet_total_count_sold" text="Satılan Biçerdöverler" />
     </texts>
 </l10n>

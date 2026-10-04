@@ -303,29 +303,29 @@
         <text name="rhm_trip_reset_done" text="Åkerteller er nullstilt!" />
         <text name="rhm_tab_trip" text="Gjeldende åker / Teller" />
         <text name="rhm_tab_trip_desc" text="Sanntids telemetri for høstet volum, bearbeidet areal, gjennomsnittsavling og tap for feltet." />
-        <text name="rhm_tab_analytics" text="TapsÃ¥rsaker &amp; Vurderingskort" />
-        <text name="rhm_tab_analytics_desc" text="Tapsfordeling, fÃ¸rerens effektivitetskarakter og rÃ¥d fra maskincomputeren." />
-        <text name="rhm_tab_fleet" text="Treskere pÃ¥ Ã¥keren" />
-        <text name="rhm_tab_fleet_desc" text="Sanntids telemetri, kapasitet og status for alle treskere pÃ¥ gÃ¥rden." />
-        <text name="rhm_tab_settings" text="GÃ¥rds- &amp; AI-innstillinger" />
+        <text name="rhm_tab_analytics" text="Tapsårsaker &amp; Vurderingskort" />
+        <text name="rhm_tab_analytics_desc" text="Tapsfordeling, førerens effektivitetskarakter og råd fra maskincomputeren." />
+        <text name="rhm_tab_fleet" text="Treskere på åkeren" />
+        <text name="rhm_tab_fleet_desc" text="Sanntids telemetri, kapasitet og status for alle treskere på gården." />
+        <text name="rhm_tab_settings" text="Gårds- &amp; AI-innstillinger" />
         <text name="rhm_tab_settings_desc" text="Konfigurer fartsbegrenser for AI-hjelpere, ugras/spillkorn og automatisk nullstilling." />
         <text name="rhm_driver_parked" text="Parkert" />
         <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="AI-arbeider" />
         <text name="rhm_driver_player" text="Spiller" />
         <text name="rhm_driver_idle_on" text="Tomgang" />
-        <text name="rhm_field_yard" text="GÃ¥rd / Tun" />
-        <text name="rhm_field_format" text="Ã…ker %d" />
-        <text name="rhm_fleet_driver" text="FÃ¸rer / OperatÃ¸r" />
-        <text name="rhm_fleet_cutter" text="SkjÃ¦rebordbredde" />
-        <text name="rhm_fleet_grain_tank" text="KorntanknivÃ¥" />
+        <text name="rhm_field_yard" text="Gård / Tun" />
+        <text name="rhm_field_format" text="Åker %d" />
+        <text name="rhm_fleet_driver" text="Fører / Operatør" />
+        <text name="rhm_fleet_cutter" text="Skjærebordbredde" />
+        <text name="rhm_fleet_grain_tank" text="Korntanknivå" />
         <text name="rhm_fleet_throughput" text="Kapasitet" />
         <text name="rhm_fleet_realtime_yield" text="Aktuell avling" />
         <text name="rhm_fleet_crop_loss" text="Tapsrate" />
         <text name="rhm_fleet_wear_state" text="Maskinslitasje" />
         <text name="rhm_fleet_total_count" text="Treskere totalt" />
-        <text name="rhm_btn_subtab_fleet" text="TRESKERFLÃ…TE" />
-        <text name="rhm_btn_subtab_history" text="SESONGHISTORIKK / ALLE Ã…KRE" />
+        <text name="rhm_btn_subtab_fleet" text="TRESKERFLÅTE" />
+        <text name="rhm_btn_subtab_history" text="SESONGHISTORIKK / ALLE ÅKRE" />
         <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
         <text name="rhm_season_format" text="Season %d (Year %d)" />
         <text name="rhm_season_current_suffix" text="[Current]" />
@@ -336,65 +336,65 @@
         <text name="rhm_season_active_status" text="Active Season" />
         <text name="rhm_season_archived_status" text="Archived Season" />
         <text name="rhm_season_all_time_status" text="All-Time History" />
-        <text name="rhm_hist_total_area" text="Totalt hÃ¸stet areal" />
+        <text name="rhm_hist_total_area" text="Totalt høstet areal" />
         <text name="rhm_hist_total_harvest" text="Totalt ren avling" />
         <text name="rhm_hist_avg_loss" text="Gjennomsnittlig tap" />
-        <text name="rhm_hist_total_money" text="Totalt Ã¸konomisk tap" />
+        <text name="rhm_hist_total_money" text="Totalt økonomisk tap" />
         <text name="rhm_col_season" text="Sesong" />
         <text name="rhm_col_status" text="Status" />
-        <text name="rhm_hist_empty" text="Ingen sesonglogger ennÃ¥" />
+        <text name="rhm_hist_empty" text="Ingen sesonglogger ennå" />
         <text name="rhm_status_harvesting" text="Tresker (aktiv)" />
-        <text name="rhm_status_on_field_idle" text="PÃ¥ Ã¥keren (tomgang)" />
-        <text name="rhm_status_on_field_stopped" text="PÃ¥ Ã¥keren (stoppet)" />
-        <text name="rhm_status_in_transit" text="PÃ¥ vei / Forflytning" />
+        <text name="rhm_status_on_field_idle" text="På åkeren (tomgang)" />
+        <text name="rhm_status_on_field_stopped" text="På åkeren (stoppet)" />
+        <text name="rhm_status_in_transit" text="På vei / Forflytning" />
         <text name="rhm_status_in_cab" text="Opptatt (Spiller)" />
-        <text name="rhm_status_parked_yard" text="Parkert pÃ¥ tunet" />
-        <text name="rhm_card_field_harvest" text="AKTUELL Ã…KER OG HÃ˜STING" />
-        <text name="rhm_field_number" text="Ã…kernummer" />
-        <text name="rhm_trip_no_field" text="Utenfor Ã¥ker" />
+        <text name="rhm_status_parked_yard" text="Parkert på tunet" />
+        <text name="rhm_card_field_harvest" text="AKTUELL ÅKER OG HØSTING" />
+        <text name="rhm_field_number" text="Åkernummer" />
+        <text name="rhm_trip_no_field" text="Utenfor åker" />
         <text name="rhm_crop_type" text="Vekst" />
-        <text name="rhm_harvested_area" text="HÃ¸stet areal" />
+        <text name="rhm_harvested_area" text="Høstet areal" />
         <text name="rhm_clean_harvest" text="Ren avling" />
         <text name="rhm_average_yield" text="Gjennomsnittsavling" />
-        <text name="rhm_card_loss_finances" text="TAP &amp; Ã˜KONOMI" />
+        <text name="rhm_card_loss_finances" text="TAP &amp; ØKONOMI" />
         <text name="rhm_loss_volume" text="Tapt volum" />
         <text name="rhm_loss_share" text="Tap % av avling" />
-        <text name="rhm_financial_loss" text="Ã˜konomisk tap" />
+        <text name="rhm_financial_loss" text="Økonomisk tap" />
         <text name="rhm_card_performance" text="YTELSE &amp; TID" />
         <text name="rhm_avg_working_speed" text="Gj.snitt arbeidshastighet" />
         <text name="rhm_avg_engine_load" text="Gj.snitt motorbelastning" />
-        <text name="rhm_session_duration" text="Ã˜ktens varighet" />
+        <text name="rhm_session_duration" text="Øktens varighet" />
         <text name="rhm_btn_reset_trip" text="Nullstill åkerteller" />
-        <text name="rhm_causes_title" text="HOVEDÃ…RSAKER TIL KORNTAP" />
+        <text name="rhm_causes_title" text="HOVEDÅRSAKER TIL KORNTAP" />
         <text name="rhm_cause_speed" text="Fart &amp; Overbelastning av treskeverk" />
         <text name="rhm_cause_moisture" text="Kornfuktighet &amp; Dogg" />
-        <text name="rhm_cause_wear" text="Slitasje pÃ¥ skjÃ¦rebord og slager" />
+        <text name="rhm_cause_wear" text="Slitasje på skjærebord og slager" />
         <text name="rhm_cause_slope" text="Helning og sideterreng" />
-        <text name="rhm_scorecard_title" text="FÃ˜RERENS EFFEKTIVITETSKORT" />
+        <text name="rhm_scorecard_title" text="FØRERENS EFFEKTIVITETSKORT" />
         <text name="rhm_rank_title_a" text="Klasse A: Optimalt" />
         <text name="rhm_rank_desc_a" text="Tap under 1,5%. Innstillinger og arbeidshastighet er i perfekt balanse." />
         <text name="rhm_rank_title_b" text="Klasse B: Akseptabelt" />
-        <text name="rhm_rank_desc_b" text="Tap mellom 1,5% og 3,0%. SmÃ¥ justeringer av fart eller bro anbefales." />
-        <text name="rhm_rank_title_c" text="Klasse C: ForhÃ¸yet tap" />
+        <text name="rhm_rank_desc_b" text="Tap mellom 1,5% og 3,0%. Små justeringer av fart eller bro anbefales." />
+        <text name="rhm_rank_title_c" text="Klasse C: Forhøyet tap" />
         <text name="rhm_rank_desc_c" text="Tap mellom 3,0% og 4,5%. Senk farten eller kontroller knivene." />
         <text name="rhm_rank_title_d" text="Klasse D: Kritiske tap" />
-        <text name="rhm_rank_desc_d" text="Tapet overstiger 4,5%! Alvorlig overbelastning av sÃ¥ldene eller feilkalibrering." />
-        <text name="rhm_guidance_title" text="RÃ…D FRA MASKINCOMPUTEREN" />
-        <text name="rhm_advice_perfect" text="HÃ¸steffektiviteten er optimal. Alle treskeparametere er godt tilpasset." />
-        <text name="rhm_advice_speed" text="Hovedtap skyldes for hÃ¸y fart. KjÃ¸r saktere for Ã¥ avlaste sÃ¥ldkassen." />
-        <text name="rhm_advice_moisture" text="Tap skyldes fuktig korn eller morgendogg. Vent til det tÃ¸rker eller kjÃ¸r saktere." />
-        <text name="rhm_advice_wear" text="Ã˜kt tap pga. slitte kniver eller slagere. UtfÃ¸r vedlikehold pÃ¥ verkstedet." />
-        <text name="rhm_advice_slope" text="Sidehelling gir ujevn belastning pÃ¥ sÃ¥ldene. Senk farten i hellinger." />
+        <text name="rhm_rank_desc_d" text="Tapet overstiger 4,5%! Alvorlig overbelastning av såldene eller feilkalibrering." />
+        <text name="rhm_guidance_title" text="RÅD FRA MASKINCOMPUTEREN" />
+        <text name="rhm_advice_perfect" text="Høsteffektiviteten er optimal. Alle treskeparametere er godt tilpasset." />
+        <text name="rhm_advice_speed" text="Hovedtap skyldes for høy fart. Kjør saktere for å avlaste såldkassen." />
+        <text name="rhm_advice_moisture" text="Tap skyldes fuktig korn eller morgendogg. Vent til det tørker eller kjør saktere." />
+        <text name="rhm_advice_wear" text="Økt tap pga. slitte kniver eller slagere. Utfør vedlikehold på verkstedet." />
+        <text name="rhm_advice_slope" text="Sidehelling gir ujevn belastning på såldene. Senk farten i hellinger." />
         <text name="rhm_col_machine" text="Maskin" />
         <text name="rhm_col_hours" text="Driftstimer" />
-        <text name="rhm_col_harvested" text="HÃ¸stet" />
+        <text name="rhm_col_harvested" text="Høstet" />
         <text name="rhm_col_lost" text="Tapt" />
         <text name="rhm_col_rank" text="Klasse" />
         <text name="rhm_fleet_no_combines" text="Ingen treskere funnet" />
         <text name="rhm_setting_ai_limiter_title" text="AI-FARTSBEGRENSER" />
         <text name="rhm_setting_ai_limiter_desc" text="Begrenser automatisk hastigheten for hjelpere hvis tapet overstiger terskelen." />
         <text name="rhm_setting_ai_threshold_title" text="AI-TAPSTERSKEL" />
-        <text name="rhm_setting_ai_threshold_desc" text="Maksimalt akseptabel tapsprosent fÃ¸r AI-hjelperen bremser automatisk." />
+        <text name="rhm_setting_ai_threshold_desc" text="Maksimalt akseptabel tapsprosent før AI-hjelperen bremser automatisk." />
         <text name="rhm_setting_volunteer_title" text="SPILLKORN OG UGRAS" />
         <text name="rhm_setting_volunteer_desc" text="Genererer ugras og spillkorn bak treskeren i soner med store tap (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-NULLSTILL VED ÅKERSKIFTE" />
@@ -447,5 +447,29 @@
         <text name="rhm_fields_no_data" text="Ingen jorder registrert" />
         <text name="rhm_contract_tag" text="(Kontrakt)" />
         <text name="rhm_status_completed" text="Innhøstet" />
+        <text name="rhm_status_idle_yard" text="På gården (venter)" />
+        <text name="rhm_fields_external" text="Ekstern" />
+        <text name="rhm_field_transit" text="Underveis / Transport" />
+        <text name="rhm_detail_loss_money" text="Økonomisk tap fra avlingstap" />
+        <text name="rhm_cause_none" text="Optimal drift (ingen tap)" />
+        <text name="rhm_fields_all_overview" text="[*] Gårdsoversikt (alle jorder)" />
+        <text name="rhm_field_operations" text="Innhøstingsoperasjoner" />
+        <text name="rhm_fields_nominal_area" text="Nominelt areal" />
+        <text name="rhm_status_in_progress" text="Pågår" />
+        <text name="rhm_fields_harvested_area" text="Høstet areal" />
+        <text name="rhm_ops_one" text="innhøsting" />
+        <text name="rhm_ops_few" text="innhøstinger" />
+        <text name="rhm_ops_many" text="innhøstinger" />
+        <text name="rhm_loss_disabled" text="Simulering deaktivert" />
+        <text name="rhm_loss_disabled_desc" text="Avlingstapssimulering er deaktivert i mod-innstillingene." />
+        <text name="rhm_filter_active" text="Aktiv" />
+        <text name="rhm_filter_all" text="Alle" />
+        <text name="rhm_filter_sold" text="Solgt" />
+        <text name="rhm_status_sold" text="Solgt (Arkiv)" />
+        <text name="rhm_field_sold" text="[Solgt]" />
+        <text name="rhm_driver_sold" text="Avregistrert" />
+        <text name="rhm_fleet_no_sold_combines" text="Ingen solgte treskere i arkivet" />
+        <text name="rhm_fleet_total_count_active" text="Aktive treskere" />
+        <text name="rhm_fleet_total_count_sold" text="Solgte treskere" />
     </texts>
 </l10n>

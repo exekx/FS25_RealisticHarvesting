@@ -379,6 +379,8 @@
     <text name="rhm_cause_moisture" text="Влажность культуры и роса" />
     <text name="rhm_cause_wear" text="Механический износ жатки и комбайна" />
     <text name="rhm_cause_slope" text="Склоны поля и рельеф" />
+    <text name="rhm_loss_disabled" text="Симуляция отключена" />
+    <text name="rhm_loss_disabled_desc" text="Расчет потерь отключен в настройках мода." />
     <text name="rhm_scorecard_title" text="РЕЙТИНГ ЭФФЕКТИВНОСТИ КОМБАЙНЕРА" />
     <text name="rhm_rank_title_a" text="Ранг A: Отличная работа" />
     <text name="rhm_rank_desc_a" text="Потери менее 1.5%. Комбайн и скорость идеально сбалансированы." />
@@ -466,5 +468,15 @@
     <text name="rhm_ops_one" text="сбор" />
     <text name="rhm_ops_few" text="сбора" />
     <text name="rhm_ops_many" text="сборов" />
+    <text name="rhm_filter_active" text="В строю" />
+    <text name="rhm_filter_all" text="Все" />
+    <text name="rhm_filter_sold" text="Продано" />
+    <text name="rhm_status_sold" text="Продано (Архив)" />
+    <text name="rhm_field_sold" text="[Продано]" />
+    <text name="rhm_driver_sold" text="Снят с учета" />
+    <text name="rhm_fleet_no_sold_combines" text="Нет проданных комбайнов в архиве" />
+    <text name="rhm_fleet_total_count_active" text="Комбайнов в строю" />
+    <text name="rhm_fleet_total_count_sold" text="Проданных комбайнов" />
+
   </texts>
 </l10n>

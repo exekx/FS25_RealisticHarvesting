@@ -265,13 +265,18 @@ function RHM_HarvestHistoryTrip:updateData()
         self.tripSummaryHeaderTitle:setText(string.format("%s: %s   |   %s   ·   %s", fieldLabel, fieldStr, cropStr, statusLabel))
     end
 
+    local sys = (RHM_UnitConverter and RHM_UnitConverter.getActiveSystem and RHM_UnitConverter.getActiveSystem()) or 1
+    local isCropLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
+
     -- Harvested Area & Volume
     local areaHa = trip.harvestedAreaHa or 0
     local harvestedL = trip.harvestedLiters or 0
     local harvestedTons = (trip.harvestedMassKg and trip.harvestedMassKg > 0) and (trip.harvestedMassKg / 1000.0) or (harvestedL * 0.00075)
-    if self.harvestedAreaText then self.harvestedAreaText:setText(string.format("%.2f ha", areaHa)) end
+    if self.harvestedAreaText then
+        self.harvestedAreaText:setText(RHM_UnitConverter.formatArea(areaHa, sys))
+    end
     if self.harvestedVolumeText then
-        self.harvestedVolumeText:setText(string.format("%.1f t", harvestedTons))
+        self.harvestedVolumeText:setText(RHM_UnitConverter.formatMass(harvestedTons, sys, trip.fillTypeIndex, harvestedL))
     end
     if self.harvestedVolumeSubText then
         local detailCleanKey = "rhm_detail_clean_grain"
@@ -281,40 +286,62 @@ function RHM_HarvestHistoryTrip:updateData()
 
     -- Average Yield
     local avgYield = (areaHa > 0.01) and (harvestedTons / areaHa) or 0
-    if self.avgYieldText then self.avgYieldText:setText(string.format("%.2f t/ha", avgYield)) end
+    if self.avgYieldText then
+        self.avgYieldText:setText(RHM_UnitConverter.formatYield(avgYield, sys, trip.fillTypeIndex))
+    end
 
     -- Losses & Finances
-    local lostL = trip.lostLiters or 0
+    local lostL = isCropLossEnabled and (trip.lostLiters or 0) or 0
     local lostTons = 0
-    if trip.harvestedLiters and trip.harvestedLiters > 0 and harvestedTons > 0 then
+    if isCropLossEnabled and trip.harvestedLiters and trip.harvestedLiters > 0 and harvestedTons > 0 then
         lostTons = (lostL / trip.harvestedLiters) * harvestedTons
-    else
+    elseif isCropLossEnabled then
         lostTons = lostL * 0.00075
     end
     local totalBio = harvestedL + lostL
-    local lossPct = (totalBio > 0) and ((lostL / totalBio) * 100.0) or 0
+    local lossPct = (isCropLossEnabled and totalBio > 0) and ((lostL / totalBio) * 100.0) or 0
 
-    if self.lossVolumeText then self.lossVolumeText:setText(string.format("%.1f t", lostTons)) end
-    if self.lossVolumeSubText then
-        local detailLostKey = "rhm_detail_lost_grain"
-        local lostGrainStr = (g_i18n and g_i18n:hasText(detailLostKey)) and g_i18n:getText(detailLostKey) or "grain lost"
-        self.lossVolumeSubText:setText(string.format("%.0f L %s", lostL, lostGrainStr))
-    end
-    if self.lossPercentText then self.lossPercentText:setText(string.format("%.2f%%", lossPct)) end
-    if self.lossRatingSubText then
-        local ratingKey = "rhm_rating_normal"
-        if lossPct >= 4.5 then ratingKey = "rhm_rating_critical"
-        elseif lossPct >= 3.0 then ratingKey = "rhm_rating_elevated"
-        elseif lossPct >= 1.5 then ratingKey = "rhm_rating_moderate"
+    if self.lossVolumeText then
+        if isCropLossEnabled then
+            self.lossVolumeText:setText(RHM_UnitConverter.formatMass(lostTons, sys, trip.fillTypeIndex, lostL))
+        else
+            self.lossVolumeText:setText("--")
         end
-        local ratingStr = (g_i18n and g_i18n:hasText(ratingKey)) and g_i18n:getText(ratingKey) or "< 1.5%"
-        self.lossRatingSubText:setText(ratingStr)
+    end
+    if self.lossVolumeSubText then
+        if isCropLossEnabled then
+            local detailLostKey = "rhm_detail_lost_grain"
+            local lostGrainStr = (g_i18n and g_i18n:hasText(detailLostKey)) and g_i18n:getText(detailLostKey) or "grain lost"
+            self.lossVolumeSubText:setText(string.format("%.0f L %s", lostL, lostGrainStr))
+        else
+            self.lossVolumeSubText:setText(g_i18n:getText("rhm_loss_disabled") or "Disabled")
+        end
+    end
+    if self.lossPercentText then
+        if isCropLossEnabled then
+            self.lossPercentText:setText(string.format("%.2f%%", lossPct))
+        else
+            self.lossPercentText:setText("OFF")
+        end
+    end
+    if self.lossRatingSubText then
+        if isCropLossEnabled then
+            local ratingKey = "rhm_rating_normal"
+            if lossPct >= 4.5 then ratingKey = "rhm_rating_critical"
+            elseif lossPct >= 3.0 then ratingKey = "rhm_rating_elevated"
+            elseif lossPct >= 1.5 then ratingKey = "rhm_rating_moderate"
+            end
+            local ratingStr = (g_i18n and g_i18n:hasText(ratingKey)) and g_i18n:getText(ratingKey) or "< 1.5%"
+            self.lossRatingSubText:setText(ratingStr)
+        else
+            self.lossRatingSubText:setText(g_i18n:getText("rhm_loss_disabled") or "Disabled")
+        end
     end
 
     -- Loss Progress Bar (normalized width, untouched height)
     if self.lossBarFill and self.lossBarBg and self.lossBarBg.size then
         local bgW = self.lossBarBg.size[1] or (308 / 1920)
-        local lossRatio = math.min(1.0, math.max(0.0, lossPct / 5.0))
+        local lossRatio = isCropLossEnabled and math.min(1.0, math.max(0.0, lossPct / 5.0)) or 0
         local fillW = math.max(0.002, lossRatio * bgW)
         self.lossBarFill:setSize(fillW, nil)
         if lossPct >= 4.5 then
@@ -326,7 +353,7 @@ function RHM_HarvestHistoryTrip:updateData()
         end
     end
 
-    local moneyVal = trip.lossMoney or 0
+    local moneyVal = isCropLossEnabled and (trip.lossMoney or 0) or 0
     local moneyStr = "-$0"
     if g_i18n and g_i18n.formatMoney then
         moneyStr = "-" .. g_i18n:formatMoney(moneyVal, nil, true, true)
@@ -336,7 +363,7 @@ function RHM_HarvestHistoryTrip:updateData()
     if self.lossMoneyText then self.lossMoneyText:setText(moneyStr) end
 
     -- Efficiency Rank & Emblem
-    local rank = trip.efficiencyRank or "A"
+    local rank = isCropLossEnabled and (trip.efficiencyRank or "A") or "A"
     local r, g, b = 0.58, 0.77, 0.11
     if rank == "B" then
         r, g, b = 0.75, 0.85, 0.15
@@ -356,20 +383,25 @@ function RHM_HarvestHistoryTrip:updateData()
     local rankTitleKey = "rhm_rank_title_" .. string.lower(rank)
     local rankTitle = (g_i18n and g_i18n:hasText(rankTitleKey)) and g_i18n:getText(rankTitleKey) or ("Rank " .. rank)
     local rankDesc = (g_i18n and g_i18n:hasText(rankKey)) and g_i18n:getText(rankKey) or ""
+    if not isCropLossEnabled then
+        rankDesc = (g_i18n and g_i18n:hasText("rhm_loss_disabled_desc")) and g_i18n:getText("rhm_loss_disabled_desc") or "Loss simulation is disabled in mod settings."
+    end
     if self.efficiencyRankTitle then self.efficiencyRankTitle:setText(rankTitle) end
     if self.efficiencyRankDesc then self.efficiencyRankDesc:setText(rankDesc) end
 
     -- Dominant Cause / Advice
     if self.dominantCauseText then
         local adviceKey = "rhm_advice_perfect"
-        if lossPct >= 1.5 and trip.reasons then
-            local r = trip.reasons
-            local maxVal = math.max(r.speed or 0, r.moisture or 0, r.wear or 0, r.slope or 0)
+        if not isCropLossEnabled then
+            adviceKey = "rhm_cause_none"
+        elseif lossPct >= 1.5 and trip.reasons then
+            local r_reasons = trip.reasons
+            local maxVal = math.max(r_reasons.speed or 0, r_reasons.moisture or 0, r_reasons.wear or 0, r_reasons.slope or 0)
             if maxVal > 0 then
-                if maxVal == (r.speed or 0) then adviceKey = "rhm_advice_speed"
-                elseif maxVal == (r.moisture or 0) then adviceKey = "rhm_advice_moisture"
-                elseif maxVal == (r.wear or 0) then adviceKey = "rhm_advice_wear"
-                elseif maxVal == (r.slope or 0) then adviceKey = "rhm_advice_slope"
+                if maxVal == (r_reasons.speed or 0) then adviceKey = "rhm_advice_speed"
+                elseif maxVal == (r_reasons.moisture or 0) then adviceKey = "rhm_advice_moisture"
+                elseif maxVal == (r_reasons.wear or 0) then adviceKey = "rhm_advice_wear"
+                elseif maxVal == (r_reasons.slope or 0) then adviceKey = "rhm_advice_slope"
                 end
             end
         end
@@ -386,7 +418,9 @@ function RHM_HarvestHistoryTrip:updateData()
     local durSecRem = math.floor(durSec % 60)
     local durStr = (durHours > 0) and string.format("%02d:%02d:%02d", durHours, durMin, durSecRem) or string.format("%02d:%02d", durMin, durSecRem)
 
-    if self.avgSpeedText then self.avgSpeedText:setText(string.format("%.1f km/h", avgSpeed)) end
+    if self.avgSpeedText then
+        self.avgSpeedText:setText(RHM_UnitConverter.formatSpeed(avgSpeed, sys))
+    end
     if self.avgLoadText then self.avgLoadText:setText(string.format("%.0f%%", avgLoad)) end
     local durElem = self.durationText or self.sessionDurationText
     if durElem then durElem:setText(durStr) end
@@ -419,7 +453,9 @@ function RHM_HarvestHistoryTrip:updateData()
 
     -- Throughput
     local throughput = (durSec > 10) and (harvestedTons / (durSec / 3600.0)) or 0
-    if self.avgThroughputText then self.avgThroughputText:setText(string.format("%.1f t/h", throughput)) end
+    if self.avgThroughputText then
+        self.avgThroughputText:setText(RHM_UnitConverter.formatProductivity(throughput, sys, trip.fillTypeIndex))
+    end
 
     -- Machine Wear
     local wearVal = (activeCombine and activeCombine.getDamageAmount and activeCombine:getDamageAmount()) or 0

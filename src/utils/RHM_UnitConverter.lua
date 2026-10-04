@@ -66,13 +66,37 @@ end
 -- UA: Коефіцієнт бушеля за замовчуванням, якщо культура не знайдена в таблиці (еквівалент пшениці).
 RHM_UnitConverter.BUSHEL_DEFAULT = 36.76
 
+RHM_UnitConverter.METER_TO_FEET = 3.28084
+
+-- EN: Returns the currently active unit system (1=Metric, 2=Imperial, 3=Bushels).
+--     Checks mod settings first, then falls back to base game settings.
+-- UA: Повертає поточно активну систему одиниць (1=Метрична, 2=Імперська, 3=Бушелі).
+--     Спочатку перевіряє налаштування мода, потім звертається до налаштувань гри.
+function RHM_UnitConverter.getActiveSystem()
+    if g_realisticHarvestManager and g_realisticHarvestManager.settings then
+        local sys = g_realisticHarvestManager.settings.unitSystem
+        if sys and sys >= 1 and sys <= 3 then
+            return sys
+        end
+    end
+    if g_gameSettings and g_gameSettings.getValue and GameSettings and GameSettings.SETTING then
+        local useMiles = g_gameSettings:getValue(GameSettings.SETTING.USE_MILES)
+        local useAcre = g_gameSettings:getValue(GameSettings.SETTING.USE_ACRE)
+        if useMiles or useAcre then
+            return RHM_UnitConverter.SYSTEM_IMPERIAL
+        end
+    end
+    return RHM_UnitConverter.SYSTEM_METRIC
+end
+
 -- EN: Converts a speed value from km/h to the active unit system.
 -- UA: Конвертує значення швидкості з км/год у поточну систему одиниць.
 function RHM_UnitConverter.convertSpeed(kmh, system)
+    system = system or RHM_UnitConverter.getActiveSystem()
     if system == RHM_UnitConverter.SYSTEM_IMPERIAL or system == RHM_UnitConverter.SYSTEM_BUSHELS then
-        return kmh * RHM_UnitConverter.KMH_TO_MPH, "mph"
+        return (kmh or 0) * RHM_UnitConverter.KMH_TO_MPH, "mph"
     else
-        return kmh, "km/h"
+        return (kmh or 0), "km/h"
     end
 end
 
@@ -82,6 +106,7 @@ end
 --     EN: Preferred method uses liters/h directly for bushel conversion (avoids density approximation).
 --     UA: Переважний метод використовує літри/год напряму для бушельної конвертації (уникає наближення густини).
 function RHM_UnitConverter.convertProductivity(tonnesPerHour, system, fruitType, litersPerHour)
+    system = system or RHM_UnitConverter.getActiveSystem()
     if system == RHM_UnitConverter.SYSTEM_BUSHELS then
         -- EN: Direct conversion from liters to bushels (1 US Bushel = 35.2391 L).
         -- UA: Пряма конвертація з літрів у бушелі (1 американський бушель = 35.2391 л).
@@ -95,23 +120,73 @@ function RHM_UnitConverter.convertProductivity(tonnesPerHour, system, fruitType,
         if fruitType and RHM_UnitConverter.BUSHEL_COEFFICIENTS[fruitType] then
             coefficient = RHM_UnitConverter.BUSHEL_COEFFICIENTS[fruitType]
         end
-        return tonnesPerHour * coefficient, "bu/h"
+        return (tonnesPerHour or 0) * coefficient, "bu/h"
 
     elseif system == RHM_UnitConverter.SYSTEM_IMPERIAL then
-        return tonnesPerHour * RHM_UnitConverter.TONNE_TO_TON, "ton/h"
+        return (tonnesPerHour or 0) * RHM_UnitConverter.TONNE_TO_TON, "ton/h"
     else
-        return tonnesPerHour, "t/h"
+        return (tonnesPerHour or 0), "t/h"
     end
 end
 
 -- EN: Converts an area value from hectares to the active unit system.
 -- UA: Конвертує значення площі з гектарів у поточну систему одиниць.
 function RHM_UnitConverter.convertArea(hectares, system)
+    system = system or RHM_UnitConverter.getActiveSystem()
     if system == RHM_UnitConverter.SYSTEM_IMPERIAL or system == RHM_UnitConverter.SYSTEM_BUSHELS then
-        return hectares * RHM_UnitConverter.HECTARE_TO_ACRE, "ac"
+        return (hectares or 0) * RHM_UnitConverter.HECTARE_TO_ACRE, "ac"
     else
-        return hectares, "ha"
+        return (hectares or 0), "ha"
     end
+end
+
+-- EN: Converts mass (metric tonnes) to active unit system (tonnes, US short tons, or bushels).
+-- UA: Конвертує масу (метричні тонни) у активну систему (тонни, короткі тонни США або бушелі).
+function RHM_UnitConverter.convertMass(tonnes, system, fruitType, liters)
+    system = system or RHM_UnitConverter.getActiveSystem()
+    if system == RHM_UnitConverter.SYSTEM_BUSHELS then
+        if liters and liters > 0 then
+            return liters / 35.2391, "bu"
+        end
+        local coefficient = RHM_UnitConverter.BUSHEL_DEFAULT
+        if fruitType and RHM_UnitConverter.BUSHEL_COEFFICIENTS[fruitType] then
+            coefficient = RHM_UnitConverter.BUSHEL_COEFFICIENTS[fruitType]
+        end
+        return (tonnes or 0) * coefficient, "bu"
+    elseif system == RHM_UnitConverter.SYSTEM_IMPERIAL then
+        return (tonnes or 0) * RHM_UnitConverter.TONNE_TO_TON, "tn"
+    else
+        return (tonnes or 0), "t"
+    end
+end
+
+-- EN: Formats a mass value with its unit suffix.
+-- UA: Форматує значення маси з позначенням одиниці.
+function RHM_UnitConverter.formatMass(tonnes, system, fruitType, liters)
+    local val, suffix = RHM_UnitConverter.convertMass(tonnes, system, fruitType, liters)
+    if suffix == "bu" then
+        return string.format("%.0f %s", val, suffix)
+    else
+        return string.format("%.1f %s", val, suffix)
+    end
+end
+
+-- EN: Converts cutter/header width from meters to feet when using imperial/bushel units.
+-- UA: Конвертує ширину жатки з метрів у фути при використанні імперської/бушельної системи.
+function RHM_UnitConverter.convertWidth(meters, system)
+    system = system or RHM_UnitConverter.getActiveSystem()
+    if system == RHM_UnitConverter.SYSTEM_IMPERIAL or system == RHM_UnitConverter.SYSTEM_BUSHELS then
+        return (meters or 0) * RHM_UnitConverter.METER_TO_FEET, "ft"
+    else
+        return (meters or 0), "m"
+    end
+end
+
+-- EN: Formats a header width value with its unit suffix.
+-- UA: Форматує ширину жатки з позначенням одиниці.
+function RHM_UnitConverter.formatWidth(meters, system)
+    local val, suffix = RHM_UnitConverter.convertWidth(meters, system)
+    return string.format("%.1f %s", val, suffix)
 end
 
 -- EN: Formats a speed value with its unit suffix.
@@ -138,6 +213,7 @@ end
 -- EN: Returns a human-readable name for the unit system.
 -- UA: Повертає зрозумілу назву системи одиниць.
 function RHM_UnitConverter.getSystemName(system)
+    system = system or RHM_UnitConverter.getActiveSystem()
     if system == RHM_UnitConverter.SYSTEM_METRIC then
         return "Metric"
     elseif system == RHM_UnitConverter.SYSTEM_IMPERIAL then
@@ -158,21 +234,22 @@ end
 --     EN: For US: t/ha -> t/acre.
 --     UA: Для американської: т/га -> т/акр.
 function RHM_UnitConverter.convertYield(tPerHa, system, fruitType)
+    system = system or RHM_UnitConverter.getActiveSystem()
     if system == RHM_UnitConverter.SYSTEM_BUSHELS then
         local buPerTonne = RHM_UnitConverter.BUSHEL_DEFAULT
         if fruitType and RHM_UnitConverter.BUSHEL_COEFFICIENTS[fruitType] then
             buPerTonne = RHM_UnitConverter.BUSHEL_COEFFICIENTS[fruitType]
         end
 
-        local buPerHa = tPerHa * buPerTonne
+        local buPerHa = (tPerHa or 0) * buPerTonne
         local buPerAc = buPerHa / RHM_UnitConverter.HECTARE_TO_ACRE
 
         return buPerAc, "bu/ac"
 
     elseif system == RHM_UnitConverter.SYSTEM_IMPERIAL then
-        return tPerHa / RHM_UnitConverter.HECTARE_TO_ACRE, "t/ac"
+        return (tPerHa or 0) / RHM_UnitConverter.HECTARE_TO_ACRE, "t/ac"
     else
-        return tPerHa, "t/ha"
+        return (tPerHa or 0), "t/ha"
     end
 end
 

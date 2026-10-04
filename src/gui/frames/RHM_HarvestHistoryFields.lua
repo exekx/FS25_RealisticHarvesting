@@ -156,11 +156,14 @@ function RHM_HarvestHistoryFields:updateData()
             moneyStr = string.format("-$%.0f", money)
         end
 
+        local sys = (RHM_UnitConverter and RHM_UnitConverter.getActiveSystem and RHM_UnitConverter.getActiveSystem()) or 1
+        local isLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
+
         -- Field-specific dominant cause
         local fieldDominant = RHM_HarvestTracker.getDominantLossFactor(f.reasons)
         local fieldReasonKey = "rhm_cause_" .. tostring(fieldDominant or "speed")
         local sumReasons = (f.reasons and (f.reasons.speed + f.reasons.moisture + f.reasons.wear + f.reasons.slope)) or 0
-        if lostL <= 0.001 and sumReasons <= 0.001 then
+        if (not isLossEnabled) or (lostL <= 0.001 and sumReasons <= 0.001) then
             fieldReasonKey = "rhm_cause_none"
         end
         local fieldDominantText = (g_i18n and g_i18n:hasText(fieldReasonKey) and g_i18n:getText(fieldReasonKey)) or fieldDominant or "Speed"
@@ -174,21 +177,21 @@ function RHM_HarvestHistoryFields:updateData()
             isContract = f.isContract,
             nominalAreaHa = f.nominalAreaHa or 0,
             harvestedAreaHa = hArea,
-            area = string.format("%.2f ha", (f.nominalAreaHa and f.nominalAreaHa > 0 and f.nominalAreaHa) or hArea),
+            area = RHM_UnitConverter.formatArea((f.nominalAreaHa and f.nominalAreaHa > 0 and f.nominalAreaHa) or hArea, sys),
             crop = cropDisplay,
             harvestedLiters = harvL,
             harvestedTons = harvT,
-            harvested = (harvL > 0) and string.format("%.1f t (%.0f L)", harvT, harvL) or "--",
+            harvested = (harvL > 0) and string.format("%s (%.0f L)", RHM_UnitConverter.formatMass(harvT, sys), harvL) or "--",
             yieldTha = yieldTha,
-            yield = (yieldTha > 0) and string.format("%.2f t/ha", yieldTha) or "--",
-            lostLiters = lostL,
-            lostTons = (lostL > 0) and (lostL * 0.00075) or 0,
-            lossPct = lossPct,
-            loss = (bioVol > 0) and string.format("%.2f%%", lossPct) or "--",
-            money = (money > 0) and moneyStr or "--",
-            rawMoney = money,
-            rank = rank,
-            rankDisplay = (bioVol > 0) and string.format("[%s]", rank) or "--",
+            yield = (yieldTha > 0) and RHM_UnitConverter.formatYield(yieldTha, sys) or "--",
+            lostLiters = isLossEnabled and lostL or 0,
+            lostTons = (isLossEnabled and lostL > 0) and (lostL * 0.00075) or 0,
+            lossPct = isLossEnabled and lossPct or 0,
+            loss = isLossEnabled and ((bioVol > 0) and string.format("%.2f%%", lossPct) or "--") or "OFF",
+            money = isLossEnabled and ((money > 0) and moneyStr or "--") or "-$0",
+            rawMoney = isLossEnabled and money or 0,
+            rank = isLossEnabled and rank or "A",
+            rankDisplay = isLossEnabled and ((bioVol > 0) and string.format("[%s]", rank) or "--") or "[A]",
             operationsCount = f.operationsCount or 1,
             sessionDuration = f.sessionDuration or 0,
             dominantCauseText = fieldDominantText,
@@ -221,23 +224,28 @@ function RHM_HarvestHistoryFields:updateData()
         reasonSums.slope = reasonSums.slope + (farmData.currentTrip.reasons.slope or 0)
     end
 
+    local sys = (RHM_UnitConverter and RHM_UnitConverter.getActiveSystem and RHM_UnitConverter.getActiveSystem()) or 1
+    local isLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
+
     local totalBioAll = totalHarvestL + totalLostL
-    local overallLossPct = (totalBioAll > 0) and ((totalLostL / totalBioAll) * 100.0) or 0
+    local overallLossPct = (isLossEnabled and totalBioAll > 0) and ((totalLostL / totalBioAll) * 100.0) or 0
     local overallHarvestTons = totalHarvestL * 0.00075
-    local overallLostTons = totalLostL * 0.00075
+    local overallLostTons = isLossEnabled and (totalLostL * 0.00075) or 0
     local overallYield = (totalHarvestedArea > 0.001) and (overallHarvestTons / totalHarvestedArea) or 0
-    local overallRank = RHM_HarvestTracker.calculateEfficiencyRank(overallLossPct)
+    local overallRank = isLossEnabled and RHM_HarvestTracker.calculateEfficiencyRank(overallLossPct) or "A"
 
     local totalMoneyStr = "-$0"
-    if g_i18n and g_i18n.formatMoney then
-        totalMoneyStr = "-" .. g_i18n:formatMoney(totalMoney, nil, true, true)
-    else
-        totalMoneyStr = string.format("-$%.0f", totalMoney)
+    if isLossEnabled and totalMoney > 0 then
+        if g_i18n and g_i18n.formatMoney then
+            totalMoneyStr = "-" .. g_i18n:formatMoney(totalMoney, nil, true, true)
+        else
+            totalMoneyStr = string.format("-$%.0f", totalMoney)
+        end
     end
 
     local farmDominantFactor = RHM_HarvestTracker.getDominantLossFactor(reasonSums)
     local farmReasonKey = "rhm_cause_" .. tostring(farmDominantFactor or "speed")
-    if (totalLostL <= 0.001) and (reasonSums.speed + reasonSums.moisture + reasonSums.wear + reasonSums.slope <= 0.001) then
+    if (not isLossEnabled) or ((totalLostL <= 0.001) and (reasonSums.speed + reasonSums.moisture + reasonSums.wear + reasonSums.slope <= 0.001)) then
         farmReasonKey = "rhm_cause_none"
     end
     local farmDominantText = (g_i18n and g_i18n:hasText(farmReasonKey) and g_i18n:getText(farmReasonKey)) or farmDominantFactor or "Speed"
@@ -247,14 +255,14 @@ function RHM_HarvestHistoryFields:updateData()
         isOverview = true,
         field = g_i18n:getText("rhm_fields_all_overview") or "[*] Farm Overview",
         status = string.format("%d %s", totalOwnedCount, g_i18n:getText("rhm_fields_owned") or "Owned"),
-        area = string.format("%.2f ha", (totalNominalArea > 0 and totalNominalArea) or totalHarvestedArea),
+        area = RHM_UnitConverter.formatArea((totalNominalArea > 0 and totalNominalArea) or totalHarvestedArea, sys),
         crop = topCropName,
-        harvested = (totalHarvestL > 0) and string.format("%.1f t", overallHarvestTons) or "--",
-        yield = (overallYield > 0) and string.format("%.2f t/ha", overallYield) or "--",
-        loss = (totalBioAll > 0) and string.format("%.2f%%", overallLossPct) or "--",
-        money = (totalMoney > 0) and totalMoneyStr or "--",
-        rank = (totalBioAll > 0) and string.format("[%s]", overallRank) or "--",
-        rankDisplay = (totalBioAll > 0) and string.format("[%s]", overallRank) or "--",
+        harvested = (totalHarvestL > 0) and RHM_UnitConverter.formatMass(overallHarvestTons, sys) or "--",
+        yield = (overallYield > 0) and RHM_UnitConverter.formatYield(overallYield, sys) or "--",
+        loss = isLossEnabled and ((totalBioAll > 0) and string.format("%.2f%%", overallLossPct) or "--") or "OFF",
+        money = isLossEnabled and ((totalMoney > 0) and totalMoneyStr or "--") or "-$0",
+        rank = isLossEnabled and ((totalBioAll > 0) and string.format("[%s]", overallRank) or "--") or "[A]",
+        rankDisplay = isLossEnabled and ((totalBioAll > 0) and string.format("[%s]", overallRank) or "--") or "[A]",
         totalFieldsCount = #fieldList,
         totalOwnedCount = totalOwnedCount,
         totalContractCount = totalContractCount,
@@ -313,6 +321,9 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
     local entry = self.fieldsData[self.selectedIndex] or self.fieldsData[1]
     if not entry then return end
 
+    local sys = (RHM_UnitConverter and RHM_UnitConverter.getActiveSystem and RHM_UnitConverter.getActiveSystem()) or 1
+    local isLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
+
     if entry.isOverview then
         -- --------------------------------------------------------------------
         -- FARM OVERVIEW CARDS
@@ -321,7 +332,7 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
             self.fieldsSummaryTitle:setText(g_i18n:getText("rhm_tab_fields") or "FARM FIELDS OVERVIEW")
         end
         if self.fieldsSummaryCountText then
-            local countStr = string.format("%d %s  |  %.2f ha", entry.totalFieldsCount or 0, g_i18n:getText("rhm_col_field") or "Fields", entry.totalNominalArea or 0)
+            local countStr = string.format("%d %s  |  %s", entry.totalFieldsCount or 0, g_i18n:getText("rhm_col_field") or "Fields", RHM_UnitConverter.formatArea(entry.totalNominalArea or 0, sys))
             self.fieldsSummaryCountText:setText(countStr)
         end
 
@@ -330,9 +341,9 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
         if self.fieldSummaryLabel1_1 then self.fieldSummaryLabel1_1:setText(g_i18n:getText("rhm_fields_total_owned") or "Owned Fields") end
         if self.fieldSummaryOwnedCount then self.fieldSummaryOwnedCount:setText(tostring(entry.totalOwnedCount or 0)) end
         if self.fieldSummaryLabel1_2 then self.fieldSummaryLabel1_2:setText(g_i18n:getText("rhm_hist_total_area") or "Total Area") end
-        if self.fieldSummaryTotalArea then self.fieldSummaryTotalArea:setText(string.format("%.2f ha", entry.totalNominalArea or 0)) end
+        if self.fieldSummaryTotalArea then self.fieldSummaryTotalArea:setText(RHM_UnitConverter.formatArea(entry.totalNominalArea or 0, sys)) end
         if self.fieldSummaryLabel1_3 then self.fieldSummaryLabel1_3:setText((g_i18n and g_i18n:hasText("rhm_fields_harvested_area") and g_i18n:getText("rhm_fields_harvested_area")) or "Harvested Area") end
-        if self.fieldSummaryHarvestedArea then self.fieldSummaryHarvestedArea:setText(string.format("%.2f ha", entry.totalHarvestedArea or 0)) end
+        if self.fieldSummaryHarvestedArea then self.fieldSummaryHarvestedArea:setText(RHM_UnitConverter.formatArea(entry.totalHarvestedArea or 0, sys)) end
         if self.fieldSummaryLabel1_4 then self.fieldSummaryLabel1_4:setText(g_i18n:getText("rhm_contract_tag") or "Contract") end
         if self.fieldSummaryContractCount then self.fieldSummaryContractCount:setText(tostring(entry.totalContractCount or 0)) end
         if self.fieldSummaryLabel1_5 then self.fieldSummaryLabel1_5:setText(g_i18n:getText("rhm_col_status") or "Status") end
@@ -344,9 +355,9 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
         -- CARD 2: Production & Yield
         if self.fieldSummaryCard2Title then self.fieldSummaryCard2Title:setText(g_i18n:getText("rhm_card_field_yield") or "PRODUCTION & YIELD") end
         if self.fieldSummaryLabel2_1 then self.fieldSummaryLabel2_1:setText(g_i18n:getText("rhm_clean_harvest") or "Clean Harvest") end
-        if self.fieldSummaryTotalHarvest then self.fieldSummaryTotalHarvest:setText(string.format("%.1f t", entry.overallHarvestTons or 0)) end
+        if self.fieldSummaryTotalHarvest then self.fieldSummaryTotalHarvest:setText(RHM_UnitConverter.formatMass(entry.overallHarvestTons or 0, sys)) end
         if self.fieldSummaryLabel2_2 then self.fieldSummaryLabel2_2:setText(g_i18n:getText("rhm_col_yield") or "Average Yield") end
-        if self.fieldSummaryAvgYield then self.fieldSummaryAvgYield:setText(string.format("%.2f t/ha", entry.overallYield or 0)) end
+        if self.fieldSummaryAvgYield then self.fieldSummaryAvgYield:setText(RHM_UnitConverter.formatYield(entry.overallYield or 0, sys)) end
         if self.fieldSummaryLabel2_3 then self.fieldSummaryLabel2_3:setText(g_i18n:getText("rhm_fields_best_yield") or "Best Field") end
         if self.fieldSummaryBestField then self.fieldSummaryBestField:setText(entry.bestYieldField or "--") end
         if self.fieldSummaryLabel2_4 then self.fieldSummaryLabel2_4:setText(g_i18n:getText("rhm_kpi_crop") or "Dominant Crop") end
@@ -362,16 +373,41 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
         -- CARD 3: Losses & Quality Grade
         if self.fieldSummaryCard3Title then self.fieldSummaryCard3Title:setText(g_i18n:getText("rhm_card_field_losses") or "LOSSES & QUALITY") end
         if self.fieldSummaryLabel3_1 then self.fieldSummaryLabel3_1:setText(g_i18n:getText("rhm_loss_volume") or "Loss Volume") end
-        if self.fieldSummaryTotalLost then self.fieldSummaryTotalLost:setText(string.format("%.1f t", entry.overallLostTons or 0)) end
+        if self.fieldSummaryTotalLost then
+            if isLossEnabled then
+                self.fieldSummaryTotalLost:setText(RHM_UnitConverter.formatMass(entry.overallLostTons or 0, sys))
+            else
+                self.fieldSummaryTotalLost:setText("--")
+            end
+        end
         if self.fieldSummaryLabel3_2 then self.fieldSummaryLabel3_2:setText(g_i18n:getText("rhm_loss_share") or "Loss Share") end
-        if self.fieldSummaryAvgLossPct then self.fieldSummaryAvgLossPct:setText(string.format("%.2f%%", entry.overallLossPct or 0)) end
+        if self.fieldSummaryAvgLossPct then
+            if isLossEnabled then
+                self.fieldSummaryAvgLossPct:setText(string.format("%.2f%%", entry.overallLossPct or 0))
+            else
+                self.fieldSummaryAvgLossPct:setText("OFF")
+            end
+        end
         if self.fieldSummaryLabel3_3 then self.fieldSummaryLabel3_3:setText(g_i18n:getText("rhm_financial_loss") or "Financial Losses") end
-        if self.fieldSummaryTotalMoney then self.fieldSummaryTotalMoney:setText(entry.totalMoneyStr or "-$0") end
+        if self.fieldSummaryTotalMoney then
+            if isLossEnabled then
+                self.fieldSummaryTotalMoney:setText(entry.totalMoneyStr or "-$0")
+            else
+                self.fieldSummaryTotalMoney:setText("-$0")
+            end
+        end
         if self.fieldSummaryLabel3_4 then self.fieldSummaryLabel3_4:setText(g_i18n:getText("rhm_efficiency_index") or "Efficiency Class") end
-        if self.fieldSummaryEfficiencyRank then self.fieldSummaryEfficiencyRank:setText(string.format("[%s]", entry.overallRank or "A")) end
+        if self.fieldSummaryEfficiencyRank then
+            local rk = isLossEnabled and (entry.overallRank or "A") or "A"
+            self.fieldSummaryEfficiencyRank:setText(string.format("[%s]", rk))
+        end
         if self.fieldSummaryLabel3_5 then self.fieldSummaryLabel3_5:setText(g_i18n:getText("rhm_causes_title") or "Crop Loss Cause") end
         if self.fieldSummaryDominantCause then
-            self.fieldSummaryDominantCause:setText(entry.dominantCauseText or "--")
+            if isLossEnabled then
+                self.fieldSummaryDominantCause:setText(entry.dominantCauseText or "--")
+            else
+                self.fieldSummaryDominantCause:setText(g_i18n:getText("rhm_cause_none") or "Losses Disabled")
+            end
         end
     else
         -- --------------------------------------------------------------------
@@ -382,7 +418,7 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
             self.fieldsSummaryTitle:setText(titleText)
         end
         if self.fieldsSummaryCountText then
-            local subText = string.format("%s  |  %.2f ha", entry.status or "--", entry.nominalAreaHa or 0)
+            local subText = string.format("%s  |  %s", entry.status or "--", RHM_UnitConverter.formatArea(entry.nominalAreaHa or 0, sys))
             self.fieldsSummaryCountText:setText(subText)
         end
 
@@ -391,9 +427,9 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
         if self.fieldSummaryLabel1_1 then self.fieldSummaryLabel1_1:setText(g_i18n:getText("rhm_col_field") or "Field Number") end
         if self.fieldSummaryOwnedCount then self.fieldSummaryOwnedCount:setText(tostring(entry.fieldId or entry.field or "--")) end
         if self.fieldSummaryLabel1_2 then self.fieldSummaryLabel1_2:setText(g_i18n:getText("rhm_fields_nominal_area") or "Nominal Area") end
-        if self.fieldSummaryTotalArea then self.fieldSummaryTotalArea:setText(string.format("%.2f ha", entry.nominalAreaHa or 0)) end
+        if self.fieldSummaryTotalArea then self.fieldSummaryTotalArea:setText(RHM_UnitConverter.formatArea(entry.nominalAreaHa or 0, sys)) end
         if self.fieldSummaryLabel1_3 then self.fieldSummaryLabel1_3:setText((g_i18n and g_i18n:hasText("rhm_fields_harvested_area") and g_i18n:getText("rhm_fields_harvested_area")) or "Harvested Area") end
-        if self.fieldSummaryHarvestedArea then self.fieldSummaryHarvestedArea:setText(string.format("%.2f ha", entry.harvestedAreaHa or 0)) end
+        if self.fieldSummaryHarvestedArea then self.fieldSummaryHarvestedArea:setText(RHM_UnitConverter.formatArea(entry.harvestedAreaHa or 0, sys)) end
         if self.fieldSummaryLabel1_4 then self.fieldSummaryLabel1_4:setText(g_i18n:getText("rhm_col_status") or "Ownership") end
         if self.fieldSummaryContractCount then self.fieldSummaryContractCount:setText(entry.status or "--") end
         if self.fieldSummaryLabel1_5 then self.fieldSummaryLabel1_5:setText(g_i18n:getText("rhm_col_status") or "Status") end
@@ -408,11 +444,11 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
         if self.fieldSummaryCard2Title then self.fieldSummaryCard2Title:setText(g_i18n:getText("rhm_card_field_yield") or "PRODUCTION & YIELD") end
         if self.fieldSummaryLabel2_1 then self.fieldSummaryLabel2_1:setText(g_i18n:getText("rhm_clean_harvest") or "Clean Harvest") end
         if self.fieldSummaryTotalHarvest then
-            self.fieldSummaryTotalHarvest:setText((entry.harvestedTons and entry.harvestedTons > 0 and string.format("%.1f t", entry.harvestedTons)) or "--")
+            self.fieldSummaryTotalHarvest:setText((entry.harvestedTons and entry.harvestedTons > 0 and RHM_UnitConverter.formatMass(entry.harvestedTons, sys)) or "--")
         end
         if self.fieldSummaryLabel2_2 then self.fieldSummaryLabel2_2:setText(g_i18n:getText("rhm_col_yield") or "Average Yield") end
         if self.fieldSummaryAvgYield then
-            self.fieldSummaryAvgYield:setText((entry.yieldTha and entry.yieldTha > 0 and string.format("%.2f t/ha", entry.yieldTha)) or "--")
+            self.fieldSummaryAvgYield:setText((entry.yieldTha and entry.yieldTha > 0 and RHM_UnitConverter.formatYield(entry.yieldTha, sys)) or "--")
         end
         if self.fieldSummaryLabel2_3 then self.fieldSummaryLabel2_3:setText(g_i18n:getText("rhm_field_operations") or "Operations") end
         local ops = entry.operationsCount or 0
@@ -451,23 +487,40 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
         if self.fieldSummaryCard3Title then self.fieldSummaryCard3Title:setText(g_i18n:getText("rhm_card_field_losses") or "LOSSES & QUALITY") end
         if self.fieldSummaryLabel3_1 then self.fieldSummaryLabel3_1:setText(g_i18n:getText("rhm_loss_volume") or "Loss Volume") end
         if self.fieldSummaryTotalLost then
-            self.fieldSummaryTotalLost:setText(string.format("%.1f t", entry.lostTons or 0))
+            if isLossEnabled then
+                self.fieldSummaryTotalLost:setText(RHM_UnitConverter.formatMass(entry.lostTons or 0, sys))
+            else
+                self.fieldSummaryTotalLost:setText("--")
+            end
         end
         if self.fieldSummaryLabel3_2 then self.fieldSummaryLabel3_2:setText(g_i18n:getText("rhm_loss_share") or "Loss Share") end
         if self.fieldSummaryAvgLossPct then
-            self.fieldSummaryAvgLossPct:setText(string.format("%.2f%%", entry.lossPct or 0))
+            if isLossEnabled then
+                self.fieldSummaryAvgLossPct:setText(string.format("%.2f%%", entry.lossPct or 0))
+            else
+                self.fieldSummaryAvgLossPct:setText("OFF")
+            end
         end
         if self.fieldSummaryLabel3_3 then self.fieldSummaryLabel3_3:setText(g_i18n:getText("rhm_financial_loss") or "Financial Losses") end
         if self.fieldSummaryTotalMoney then
-            self.fieldSummaryTotalMoney:setText(entry.money or "-$0")
+            if isLossEnabled then
+                self.fieldSummaryTotalMoney:setText(entry.money or "-$0")
+            else
+                self.fieldSummaryTotalMoney:setText("-$0")
+            end
         end
         if self.fieldSummaryLabel3_4 then self.fieldSummaryLabel3_4:setText(g_i18n:getText("rhm_efficiency_index") or "Efficiency Class") end
         if self.fieldSummaryEfficiencyRank then
-            self.fieldSummaryEfficiencyRank:setText((entry.rank and string.format("[%s]", entry.rank)) or "[A]")
+            local rk = isLossEnabled and (entry.rank or "A") or "A"
+            self.fieldSummaryEfficiencyRank:setText(string.format("[%s]", rk))
         end
         if self.fieldSummaryLabel3_5 then self.fieldSummaryLabel3_5:setText(g_i18n:getText("rhm_causes_title") or "Crop Loss Cause") end
         if self.fieldSummaryDominantCause then
-            self.fieldSummaryDominantCause:setText(entry.dominantCauseText or "--")
+            if isLossEnabled then
+                self.fieldSummaryDominantCause:setText(entry.dominantCauseText or "--")
+            else
+                self.fieldSummaryDominantCause:setText(g_i18n:getText("rhm_cause_none") or "Losses Disabled")
+            end
         end
     end
 end

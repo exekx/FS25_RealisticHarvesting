@@ -67,12 +67,14 @@ function RHM_HarvestSyncInitialEvent:writeStream(streamId, connection)
     streamWriteBool(streamId, set.volunteerCrops ~= false)
     streamWriteBool(streamId, set.autoResetOnFieldChange == true)
 
-    -- Fleet Stats count & entries (capped at 30)
+    -- Fleet Stats count & entries (capped at 30, exclude contract/mission combines)
     local fleet = farm.fleetStats or {}
     local fleetList = {}
     for key, v in pairs(fleet) do
-        table.insert(fleetList, { key = key, name = v.name or "Harvester", workSeconds = v.workSeconds or 0, totalHarvested = v.totalHarvested or 0, totalLost = v.totalLost or 0 })
-        if #fleetList >= 30 then break end
+        if not (RHM_HarvestTracker and RHM_HarvestTracker.isMissionCombine and RHM_HarvestTracker.isMissionCombine(nil, v.name, key)) then
+            table.insert(fleetList, { key = key, name = v.name or "Harvester", workSeconds = v.workSeconds or 0, totalHarvested = v.totalHarvested or 0, totalLost = v.totalLost or 0 })
+            if #fleetList >= 30 then break end
+        end
     end
     streamWriteUInt16(streamId, #fleetList)
     for _, v in ipairs(fleetList) do
@@ -240,12 +242,14 @@ function RHM_HarvestSyncInitialEvent:readStream(streamId, connection)
         local workSeconds = streamReadFloat32(streamId)
         local totalHarvested = streamReadFloat32(streamId)
         local totalLost = streamReadFloat32(streamId)
-        farm.fleetStats[key] = {
-            name = name,
-            workSeconds = workSeconds,
-            totalHarvested = totalHarvested,
-            totalLost = totalLost
-        }
+        if not (RHM_HarvestTracker and RHM_HarvestTracker.isMissionCombine and RHM_HarvestTracker.isMissionCombine(nil, name, key)) then
+            farm.fleetStats[key] = {
+                name = name,
+                workSeconds = workSeconds,
+                totalHarvested = totalHarvested,
+                totalLost = totalLost
+            }
+        end
     end
 
     -- Season History

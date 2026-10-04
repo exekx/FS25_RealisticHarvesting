@@ -311,10 +311,10 @@
         <text name="rhm_tab_trip_desc" text="Echtzeit-Messwerte für Erntemenge, bearbeitete Fläche, Durchschnittsertrag und finanzielle Verluste für den aktuellen Feldeinsatz." />
         <text name="rhm_tab_analytics" text="Verlustursachen &amp; Bewertungsbogen" />
         <text name="rhm_tab_analytics_desc" text="Verlustverteilung, Effizienzrang des Fahrers und Empfehlungen des integrierten Diagnose-Bordcomputers." />
-        <text name="rhm_tab_fleet" text="MÃ¤hdrescher auf dem Feld" />
-        <text name="rhm_tab_fleet_desc" text="Echtzeit-Telemetrie, Durchsatz und Status aller MÃ¤hdrescher Ihres Betriebs." />
+        <text name="rhm_tab_fleet" text="Mähdrescher auf dem Feld" />
+        <text name="rhm_tab_fleet_desc" text="Echtzeit-Telemetrie, Durchsatz und Status aller Mähdrescher Ihres Betriebs." />
         <text name="rhm_tab_settings" text="Betriebs- &amp; KI-Einstellungen" />
-        <text name="rhm_tab_settings_desc" text="Geschwindigkeitsbegrenzer fÃ¼r Helfer, Auswuchsgetreide/Unkraut und automatische RÃ¼cksetzoptionen konfigurieren." />
+        <text name="rhm_tab_settings_desc" text="Geschwindigkeitsbegrenzer für Helfer, Auswuchsgetreide/Unkraut und automatische Rücksetzoptionen konfigurieren." />
         <text name="rhm_driver_parked" text="Geparkt" />
         <text name="rhm_driver_cp_ai" text="KI (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="KI-Helfer" />
@@ -324,13 +324,13 @@
         <text name="rhm_field_format" text="Feld %d" />
         <text name="rhm_fleet_driver" text="Fahrer / Bediener" />
         <text name="rhm_fleet_cutter" text="Schneidwerksbreite" />
-        <text name="rhm_fleet_grain_tank" text="KorntankfÃ¼llung" />
+        <text name="rhm_fleet_grain_tank" text="Korntankfüllung" />
         <text name="rhm_fleet_throughput" text="Durchsatz" />
         <text name="rhm_fleet_realtime_yield" text="Echtzeit-Ertrag" />
         <text name="rhm_fleet_crop_loss" text="Verlustrate" />
-        <text name="rhm_fleet_wear_state" text="MaschinenverschleiÃŸ" />
-        <text name="rhm_fleet_total_count" text="Gesamtzahl MÃ¤hdrescher" />
-        <text name="rhm_btn_subtab_fleet" text="MÃ„HDRESCHER-FLOTTE" />
+        <text name="rhm_fleet_wear_state" text="Maschinenverschleiß" />
+        <text name="rhm_fleet_total_count" text="Gesamtzahl Mähdrescher" />
+        <text name="rhm_btn_subtab_fleet" text="MÄHDRESCHER-FLOTTE" />
         <text name="rhm_btn_subtab_history" text="SAISON-HISTORIE / ALLE FELDER" />
         <text name="rhm_season_all_time" text="Alle Saisons (Gesamt)" />
         <text name="rhm_season_format" text="Saison %d (Jahr %d)" />
@@ -352,14 +352,14 @@
         <text name="rhm_status_harvesting" text="Erntet (aktiv)" />
         <text name="rhm_status_on_field_idle" text="Auf Feld (Leerlauf)" />
         <text name="rhm_status_on_field_stopped" text="Auf Feld (Gestoppt)" />
-        <text name="rhm_status_in_transit" text="Auf der StraÃŸe / Transport" />
+        <text name="rhm_status_in_transit" text="Auf der Straße / Transport" />
         <text name="rhm_status_in_cab" text="Besetzt (Spieler)" />
         <text name="rhm_status_parked_yard" text="Auf dem Hof geparkt" />
         <text name="rhm_card_field_harvest" text="AKTUELLES FELD &amp; ERNTE" />
         <text name="rhm_field_number" text="Feldnummer" />
-        <text name="rhm_trip_no_field" text="AuÃŸerhalb des Feldes" />
+        <text name="rhm_trip_no_field" text="Außerhalb des Feldes" />
         <text name="rhm_crop_type" text="Fruchtart" />
-        <text name="rhm_harvested_area" text="Abgeerntete FlÃ¤che" />
+        <text name="rhm_harvested_area" text="Abgeerntete Fläche" />
         <text name="rhm_clean_harvest" text="Saubere Ernte" />
         <text name="rhm_average_yield" text="Durchschnittsertrag" />
         <text name="rhm_card_loss_finances" text="VERLUSTE &amp; FINANZEN" />
@@ -371,38 +371,38 @@
         <text name="rhm_avg_engine_load" text="Mittlere Motorlast" />
         <text name="rhm_session_duration" text="Sitzungsdauer" />
         <text name="rhm_btn_reset_trip" text="Feldzähler zurücksetzen" />
-        <text name="rhm_causes_title" text="URSACHEN FÃœR ERNTEVERLUSTE" />
-        <text name="rhm_cause_speed" text="Geschwindigkeit &amp; DrescherÃ¼berlastung" />
+        <text name="rhm_causes_title" text="URSACHEN FÜR ERNTEVERLUSTE" />
+        <text name="rhm_cause_speed" text="Geschwindigkeit &amp; Drescherüberlastung" />
         <text name="rhm_cause_moisture" text="Erntefeuchte &amp; Tau" />
-        <text name="rhm_cause_wear" text="Schneidwerks- &amp; DreschwerkverschleiÃŸ" />
+        <text name="rhm_cause_wear" text="Schneidwerks- &amp; Dreschwerkverschleiß" />
         <text name="rhm_cause_slope" text="Feldneigung &amp; Hanglage" />
         <text name="rhm_scorecard_title" text="FAHREREFFIZIENZ-BEWERTUNGSBOGEN" />
         <text name="rhm_rank_title_a" text="Klasse A: Optimal" />
         <text name="rhm_rank_desc_a" text="Verlustrate unter 1,5%. Dreschereinstellung und Arbeitsgeschwindigkeit sind perfekt ausbalanciert." />
         <text name="rhm_rank_title_b" text="Klasse B: Akzeptabel" />
         <text name="rhm_rank_desc_b" text="Verlustrate zwischen 1,5% und 3,0%. Kleine Geschwindigkeits- oder Korbanpassungen empfohlen." />
-        <text name="rhm_rank_title_c" text="Klasse C: ErhÃ¶hte Verluste" />
-        <text name="rhm_rank_desc_c" text="Verlustrate zwischen 3,0% und 4,5%. Geschwindigkeit reduzieren oder Schneidwerksmesser prÃ¼fen." />
+        <text name="rhm_rank_title_c" text="Klasse C: Erhöhte Verluste" />
+        <text name="rhm_rank_desc_c" text="Verlustrate zwischen 3,0% und 4,5%. Geschwindigkeit reduzieren oder Schneidwerksmesser prüfen." />
         <text name="rhm_rank_title_d" text="Klasse D: Kritische Verluste" />
-        <text name="rhm_rank_desc_d" text="Verlustrate Ã¼bersteigt 4,5%! Starke SiebÃ¼berladung oder falsche Kalibrierung festgestellt." />
+        <text name="rhm_rank_desc_d" text="Verlustrate übersteigt 4,5%! Starke Siebüberladung oder falsche Kalibrierung festgestellt." />
         <text name="rhm_guidance_title" text="HINWEISE DES BORDCOMPUTERS" />
         <text name="rhm_advice_perfect" text="Ernteeffizienz ist optimal. Alle Abscheideparameter sind bestens abgestimmt." />
-        <text name="rhm_advice_speed" text="Hauptverlust durch Ã¼berhÃ¶hte Fahrgeschwindigkeit. Verlangsamen, um die Siebbelastung zu verringern." />
+        <text name="rhm_advice_speed" text="Hauptverlust durch überhöhte Fahrgeschwindigkeit. Verlangsamen, um die Siebbelastung zu verringern." />
         <text name="rhm_advice_moisture" text="Verluste durch hohe Fruchtfeuchte oder Morgentau. Warten auf Abtrocknung oder Tempo drosseln." />
-        <text name="rhm_advice_wear" text="ErhÃ¶hte Verluste durch verschlissene Messer oder Schlagleisten. Wartung in der Werkstatt durchfÃ¼hren." />
-        <text name="rhm_advice_slope" text="Seitenneigung am Hang fÃ¼hrt zu ungleichmÃ¤ÃŸiger Siebkastenbelastung. Geschwindigkeit an Hanglagen reduzieren." />
+        <text name="rhm_advice_wear" text="Erhöhte Verluste durch verschlissene Messer oder Schlagleisten. Wartung in der Werkstatt durchführen." />
+        <text name="rhm_advice_slope" text="Seitenneigung am Hang führt zu ungleichmäßiger Siebkastenbelastung. Geschwindigkeit an Hanglagen reduzieren." />
         <text name="rhm_col_machine" text="Maschine" />
         <text name="rhm_col_hours" text="Betriebsstunden" />
         <text name="rhm_col_harvested" text="Geerntet" />
         <text name="rhm_col_lost" text="Verluste" />
         <text name="rhm_col_rank" text="Klasse" />
-        <text name="rhm_fleet_no_combines" text="Keine MÃ¤hdrescher gefunden" />
+        <text name="rhm_fleet_no_combines" text="Keine Mähdrescher gefunden" />
         <text name="rhm_setting_ai_limiter_title" text="KI-GESCHWINDIGKEITSBEGRENZER" />
-        <text name="rhm_setting_ai_limiter_desc" text="Begrenzt automatisch die Tempomat-Geschwindigkeit fÃ¼r Helfer, wenn der Verlust den Schwellenwert Ã¼berschreitet." />
+        <text name="rhm_setting_ai_limiter_desc" text="Begrenzt automatisch die Tempomat-Geschwindigkeit für Helfer, wenn der Verlust den Schwellenwert überschreitet." />
         <text name="rhm_setting_ai_threshold_title" text="KI-VERLUSTSCHWELLE" />
-        <text name="rhm_setting_ai_threshold_desc" text="Maximal zulÃ¤ssiger Verlustprozentsatz, bevor der KI-Helfer automatisch bremst." />
+        <text name="rhm_setting_ai_threshold_desc" text="Maximal zulässiger Verlustprozentsatz, bevor der KI-Helfer automatisch bremst." />
         <text name="rhm_setting_volunteer_title" text="AUSWUCHSGETREIDE / UNKRAUT" />
-        <text name="rhm_setting_volunteer_desc" text="Erzeugt Unkraut- und Auswuchssprossen hinter MÃ¤hdreschern in Zonen mit hohem Verlust (&gt;3%)." />
+        <text name="rhm_setting_volunteer_desc" text="Erzeugt Unkraut- und Auswuchssprossen hinter Mähdreschern in Zonen mit hohem Verlust (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-RESET BEI FELDWECHSEL" />
         <text name="rhm_setting_autoreset_desc" text="Aktuellen Feldeinsatz automatisch archivieren und den Feldzähler zurücksetzen, wenn zu einem anderen Feld gewechselt wird." />
         <text name="rhm_col_field" text="Feld" />
@@ -453,5 +453,29 @@
         <text name="rhm_fields_no_data" text="Keine Felder erfasst" />
         <text name="rhm_contract_tag" text="(Lohnarbeit)" />
         <text name="rhm_status_completed" text="Geerntet" />
+        <text name="rhm_status_idle_yard" text="Am Hof (Bereitschaft)" />
+        <text name="rhm_fields_external" text="Extern" />
+        <text name="rhm_field_transit" text="Unterwegs / Straßenfahrt" />
+        <text name="rhm_detail_loss_money" text="Finanzieller Verlust durch Ernteverluste" />
+        <text name="rhm_cause_none" text="Optimaler Betrieb (Keine Verluste)" />
+        <text name="rhm_fields_all_overview" text="[*] Hofübersicht (Alle Felder)" />
+        <text name="rhm_field_operations" text="Erntevorgänge" />
+        <text name="rhm_fields_nominal_area" text="Nennfläche" />
+        <text name="rhm_status_in_progress" text="In Bearbeitung" />
+        <text name="rhm_fields_harvested_area" text="Bearbeitete Fläche" />
+        <text name="rhm_ops_one" text="Ernte" />
+        <text name="rhm_ops_few" text="Ernten" />
+        <text name="rhm_ops_many" text="Ernten" />
+        <text name="rhm_loss_disabled" text="Simulation deaktiviert" />
+        <text name="rhm_loss_disabled_desc" text="Die Ernteverlust-Simulation ist in den Mod-Einstellungen deaktiviert." />
+        <text name="rhm_filter_active" text="Aktiv" />
+        <text name="rhm_filter_all" text="Alle" />
+        <text name="rhm_filter_sold" text="Verkauft" />
+        <text name="rhm_status_sold" text="Verkauft (Archiv)" />
+        <text name="rhm_field_sold" text="[Verkauft]" />
+        <text name="rhm_driver_sold" text="Abgemeldet" />
+        <text name="rhm_fleet_no_sold_combines" text="Keine verkauften Mähdrescher im Archiv" />
+        <text name="rhm_fleet_total_count_active" text="Aktive Mähdrescher" />
+        <text name="rhm_fleet_total_count_sold" text="Verkaufte Mähdrescher" />
     </texts>
 </l10n>

@@ -70,7 +70,7 @@ function rhm_Combine.registerXMLPaths(schema, basePath)
     schema:register(XMLValueType.INT,    cur .. "#lowerSieve",      "Lower sieve", 50)
     schema:register(XMLValueType.INT,    cur .. "#rotor",           "Rotor", 50)
     schema:register(XMLValueType.INT,    cur .. "#feeder",          "Feeder", 50)
-    schema:register(XMLValueType.INT,    cur .. "#targetEngineLoad", "Target engine load", 88)
+    schema:register(XMLValueType.INT,    cur .. "#targetEngineLoad", "Target engine load", 80)
     schema:register(XMLValueType.BOOL,   cur .. "#isCalibrated",    "Combine calibration status", true)
     schema:register(XMLValueType.STRING, cur .. "#calibratedCrops", "List of calibrated crops", "")
 end
@@ -2315,7 +2315,7 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     xmlFile:setValue(cur .. "#lowerSieve",         settings.lowerSieve or 50)
     xmlFile:setValue(cur .. "#rotor",              settings.rotor or 50)
     xmlFile:setValue(cur .. "#feeder",             settings.feeder or 50)
-    xmlFile:setValue(cur .. "#targetEngineLoad",   settings.targetEngineLoad or 95)
+    xmlFile:setValue(cur .. "#targetEngineLoad",   settings.targetEngineLoad or 80)
     
     local isCalib = mem.isCalibrated == true or mem.hasManualTuning == true or (mem.calibratedCrops and mem.currentCrop and mem.calibratedCrops[mem.currentCrop] == true)
     xmlFile:setValue(cur .. "#isCalibrated", isCalib)
@@ -2535,7 +2535,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteUInt8(streamId, 50)  -- upperSieve
         streamWriteUInt8(streamId, 50)  -- lowerSieve
         streamWriteUInt8(streamId, 50)  -- feeder
-        streamWriteUInt8(streamId, 95)  -- targetEngineLoad
+        streamWriteUInt8(streamId, 80)  -- targetEngineLoad
         streamWriteString(streamId, "AUTO")  -- mode
         streamWriteString(streamId, "")      -- currentCrop (empty = nil)
         return
@@ -2561,7 +2561,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteUInt8(streamId, mem.currentSettings.upperSieve or 50)
         streamWriteUInt8(streamId, mem.currentSettings.lowerSieve or 50)
         streamWriteUInt8(streamId, mem.currentSettings.feeder or 50)
-        streamWriteUInt8(streamId, mem.currentSettings.targetEngineLoad or 95)
+        streamWriteUInt8(streamId, mem.currentSettings.targetEngineLoad or 80)
         streamWriteString(streamId, isTier4 and (mem.mode or "MANUAL") or "MANUAL")
         streamWriteString(streamId, mem.currentCrop or "")
     else
@@ -2570,7 +2570,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteUInt8(streamId, 50)
         streamWriteUInt8(streamId, 50)
         streamWriteUInt8(streamId, 50)
-        streamWriteUInt8(streamId, 95)
+        streamWriteUInt8(streamId, 80)
         streamWriteString(streamId, "MANUAL")
         streamWriteString(streamId, "")
     end
@@ -2634,7 +2634,7 @@ function rhm_Combine:onReadStream(streamId, connection)
         spec.combineMemory.currentSettings.upperSieve = upperSieve
         spec.combineMemory.currentSettings.lowerSieve = lowerSieve
         spec.combineMemory.currentSettings.feeder = feeder
-        spec.combineMemory.currentSettings.targetEngineLoad = targetEngineLoad or 95
+        spec.combineMemory.currentSettings.targetEngineLoad = targetEngineLoad or 80
         local isTier4 = (spec.packageLevel or 1) >= 4
         if isTier4 then
             spec.combineMemory.mode = mode or "MANUAL"
@@ -2693,7 +2693,7 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
                 spec.combineMemory.currentSettings.upperSieve = upperSieve
                 spec.combineMemory.currentSettings.lowerSieve = lowerSieve
                 spec.combineMemory.currentSettings.feeder = feeder
-                spec.combineMemory.currentSettings.targetEngineLoad = targetEngineLoad or 95
+                spec.combineMemory.currentSettings.targetEngineLoad = targetEngineLoad or 80
                 local isTier4 = (spec.packageLevel or 1) >= 4
                 if isTier4 then
                     spec.combineMemory.mode = mode or "MANUAL"
@@ -2747,7 +2747,7 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
                 streamWriteUInt8(streamId, mem.currentSettings.upperSieve or 50)
                 streamWriteUInt8(streamId, mem.currentSettings.lowerSieve or 50)
                 streamWriteUInt8(streamId, mem.currentSettings.feeder or 50)
-                streamWriteUInt8(streamId, mem.currentSettings.targetEngineLoad or 95)
+                streamWriteUInt8(streamId, mem.currentSettings.targetEngineLoad or 80)
                 local isTier4 = (spec.packageLevel or 1) >= 4
                 streamWriteString(streamId, isTier4 and (mem.mode or "MANUAL") or "MANUAL")
                 streamWriteString(streamId, mem.currentCrop or "")
@@ -2757,7 +2757,7 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
                 streamWriteUInt8(streamId, 50)
                 streamWriteUInt8(streamId, 50)
                 streamWriteUInt8(streamId, 50)
-                streamWriteUInt8(streamId, 95)
+                streamWriteUInt8(streamId, 80)
                 streamWriteString(streamId, "MANUAL")
                 streamWriteString(streamId, "")
             end

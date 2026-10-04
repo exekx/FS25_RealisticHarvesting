@@ -310,27 +310,27 @@
         <text name="rhm_tab_trip" text="Bieżące pole / Licznik" />
         <text name="rhm_tab_trip_desc" text="Telemetria na żywo: zebrana ilość, skoszona powierzchnia, średni plon i straty z bieżącej pracy." />
         <text name="rhm_tab_analytics" text="Przyczyny strat &amp; Ocena operatora" />
-        <text name="rhm_tab_analytics_desc" text="Struktura strat, ocena wydajnoÅ›ci pracy operatora oraz zalecenia komputera pokÅ‚adowego." />
+        <text name="rhm_tab_analytics_desc" text="Struktura strat, ocena wydajności pracy operatora oraz zalecenia komputera pokładowego." />
         <text name="rhm_tab_fleet" text="Kombajny na polu" />
-        <text name="rhm_tab_fleet_desc" text="Telemetria w czasie rzeczywistym, przepustowoÅ›Ä‡ i status wszystkich kombajnÃ³w w gospodarstwie." />
+        <text name="rhm_tab_fleet_desc" text="Telemetria w czasie rzeczywistym, przepustowość i status wszystkich kombajnów w gospodarstwie." />
         <text name="rhm_tab_settings" text="Ustawienia gospodarstwa i SI" />
-        <text name="rhm_tab_settings_desc" text="Konfiguracja ogranicznika prÄ™dkoÅ›ci pracownikÃ³w SI, samosiewÃ³w i automatycznego resetowania." />
+        <text name="rhm_tab_settings_desc" text="Konfiguracja ogranicznika prędkości pracowników SI, samosiewów i automatycznego resetowania." />
         <text name="rhm_driver_parked" text="Zaparkowany" />
         <text name="rhm_driver_cp_ai" text="SI (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="Pracownik SI" />
         <text name="rhm_driver_player" text="Gracz" />
-        <text name="rhm_driver_idle_on" text="Bieg jaÅ‚owy" />
+        <text name="rhm_driver_idle_on" text="Bieg jałowy" />
         <text name="rhm_field_yard" text="Gospodarstwo / Baza" />
         <text name="rhm_field_format" text="Pole %d" />
         <text name="rhm_fleet_driver" text="Kierowca / Operator" />
-        <text name="rhm_fleet_cutter" text="SzerokoÅ›Ä‡ hedera" />
-        <text name="rhm_fleet_grain_tank" text="NapeÅ‚nienie zbiornika" />
-        <text name="rhm_fleet_throughput" text="PrzepustowoÅ›Ä‡" />
-        <text name="rhm_fleet_realtime_yield" text="BieÅ¼Ä…cy plon" />
+        <text name="rhm_fleet_cutter" text="Szerokość hedera" />
+        <text name="rhm_fleet_grain_tank" text="Napełnienie zbiornika" />
+        <text name="rhm_fleet_throughput" text="Przepustowość" />
+        <text name="rhm_fleet_realtime_yield" text="Bieżący plon" />
         <text name="rhm_fleet_crop_loss" text="Poziom strat" />
-        <text name="rhm_fleet_wear_state" text="ZuÅ¼ycie maszyny" />
-        <text name="rhm_fleet_total_count" text="ÅÄ…cznie kombajnÃ³w" />
-        <text name="rhm_btn_subtab_fleet" text="FLOTA KOMBAJNÃ“W" />
+        <text name="rhm_fleet_wear_state" text="Zużycie maszyny" />
+        <text name="rhm_fleet_total_count" text="Łącznie kombajnów" />
+        <text name="rhm_btn_subtab_fleet" text="FLOTA KOMBAJNÓW" />
         <text name="rhm_btn_subtab_history" text="HISTORIA SEZONU / WSZYSTKIE POLA" />
         <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
         <text name="rhm_season_format" text="Season %d (Year %d)" />
@@ -342,67 +342,67 @@
         <text name="rhm_season_active_status" text="Active Season" />
         <text name="rhm_season_archived_status" text="Archived Season" />
         <text name="rhm_season_all_time_status" text="All-Time History" />
-        <text name="rhm_hist_total_area" text="ÅÄ…cznie skoszona powierzchnia" />
-        <text name="rhm_hist_total_harvest" text="ÅÄ…czny zbiÃ³r netto" />
-        <text name="rhm_hist_avg_loss" text="Åšrednie straty" />
-        <text name="rhm_hist_total_money" text="ÅÄ…czna strata finansowa" />
+        <text name="rhm_hist_total_area" text="Łącznie skoszona powierzchnia" />
+        <text name="rhm_hist_total_harvest" text="Łączny zbiór netto" />
+        <text name="rhm_hist_avg_loss" text="Średnie straty" />
+        <text name="rhm_hist_total_money" text="Łączna strata finansowa" />
         <text name="rhm_col_season" text="Sezon" />
         <text name="rhm_col_status" text="Status" />
-        <text name="rhm_hist_empty" text="Brak wpisÃ³w sezonowych" />
+        <text name="rhm_hist_empty" text="Brak wpisów sezonowych" />
         <text name="rhm_status_harvesting" text="Kosi (aktywny)" />
         <text name="rhm_status_on_field_idle" text="Na polu (oczekiwanie)" />
         <text name="rhm_status_on_field_stopped" text="Na polu (zatrzymany)" />
         <text name="rhm_status_in_transit" text="W trasie / Przejazd" />
         <text name="rhm_status_in_cab" text="Gracz w kabinie" />
         <text name="rhm_status_parked_yard" text="Zaparkowany w bazie" />
-        <text name="rhm_card_field_harvest" text="BIEÅ»Ä„CE POLE I ZBIORY" />
+        <text name="rhm_card_field_harvest" text="BIEŻĄCE POLE I ZBIORY" />
         <text name="rhm_field_number" text="Numer pola" />
         <text name="rhm_trip_no_field" text="Poza polem" />
         <text name="rhm_crop_type" text="Uprawa" />
         <text name="rhm_harvested_area" text="Skoszona powierzchnia" />
-        <text name="rhm_clean_harvest" text="ZbiÃ³r netto" />
-        <text name="rhm_average_yield" text="Åšredni plon" />
+        <text name="rhm_clean_harvest" text="Zbiór netto" />
+        <text name="rhm_average_yield" text="Średni plon" />
         <text name="rhm_card_loss_finances" text="STRATY I FINANSE" />
-        <text name="rhm_loss_volume" text="Utracona objÄ™toÅ›Ä‡" />
+        <text name="rhm_loss_volume" text="Utracona objętość" />
         <text name="rhm_loss_share" text="Strata % plonu" />
         <text name="rhm_financial_loss" text="Strata finansowa" />
-        <text name="rhm_card_performance" text="WYDAJNOÅšÄ† I CZAS" />
-        <text name="rhm_avg_working_speed" text="Åšrednia prÄ™dkoÅ›Ä‡ pracy" />
-        <text name="rhm_avg_engine_load" text="Åšrednie obciÄ…Å¼enie silnika" />
+        <text name="rhm_card_performance" text="WYDAJNOŚĆ I CZAS" />
+        <text name="rhm_avg_working_speed" text="Średnia prędkość pracy" />
+        <text name="rhm_avg_engine_load" text="Średnie obciążenie silnika" />
         <text name="rhm_session_duration" text="Czas trwania sesji" />
         <text name="rhm_btn_reset_trip" text="Zresetuj licznik pola" />
-        <text name="rhm_causes_title" text="GÅÃ“WNE PRZYCZYNY STRAT" />
-        <text name="rhm_cause_speed" text="PrÄ™dkoÅ›Ä‡ i przeciÄ…Å¼enie mÅ‚ocarni" />
-        <text name="rhm_cause_moisture" text="WilgotnoÅ›Ä‡ uprawy i rosa" />
-        <text name="rhm_cause_wear" text="ZuÅ¼ycie hedera i mÅ‚ocarni" />
-        <text name="rhm_cause_slope" text="Nachylenie pola i uksztaÅ‚towanie terenu" />
+        <text name="rhm_causes_title" text="GŁÓWNE PRZYCZYNY STRAT" />
+        <text name="rhm_cause_speed" text="Prędkość i przeciążenie młocarni" />
+        <text name="rhm_cause_moisture" text="Wilgotność uprawy i rosa" />
+        <text name="rhm_cause_wear" text="Zużycie hedera i młocarni" />
+        <text name="rhm_cause_slope" text="Nachylenie pola i ukształtowanie terenu" />
         <text name="rhm_scorecard_title" text="KARTA OCENY OPERATORA" />
         <text name="rhm_rank_title_a" text="Klasa A: Optymalnie" />
-        <text name="rhm_rank_desc_a" text="Poziom strat poniÅ¼ej 1,5%. Ustawienia kombajnu i prÄ™dkoÅ›Ä‡ pracy sÄ… idealnie dopasowane." />
+        <text name="rhm_rank_desc_a" text="Poziom strat poniżej 1,5%. Ustawienia kombajnu i prędkość pracy są idealnie dopasowane." />
         <text name="rhm_rank_title_b" text="Klasa B: Akceptowalnie" />
-        <text name="rhm_rank_desc_b" text="Poziom strat miÄ™dzy 1,5% a 3,0%. Zalecana drobna korekta prÄ™dkoÅ›ci lub szczeliny klepiska." />
-        <text name="rhm_rank_title_c" text="Klasa C: PodwyÅ¼szone straty" />
-        <text name="rhm_rank_desc_c" text="Poziom strat miÄ™dzy 3,0% a 4,5%. Zmniejsz prÄ™dkoÅ›Ä‡ lub sprawdÅº ostroÅ›Ä‡ noÅ¼y hedera." />
+        <text name="rhm_rank_desc_b" text="Poziom strat między 1,5% a 3,0%. Zalecana drobna korekta prędkości lub szczeliny klepiska." />
+        <text name="rhm_rank_title_c" text="Klasa C: Podwyższone straty" />
+        <text name="rhm_rank_desc_c" text="Poziom strat między 3,0% a 4,5%. Zmniejsz prędkość lub sprawdź ostrość noży hedera." />
         <text name="rhm_rank_title_d" text="Klasa D: Krytyczne straty" />
-        <text name="rhm_rank_desc_d" text="Poziom strat przekracza 4,5%! PowaÅ¼ne przeciÄ…Å¼enie sit lub bÅ‚Ä™dna kalibracja." />
-        <text name="rhm_guidance_title" text="WSKAZÃ“WKI KOMPUTERA POKÅADOWEGO" />
-        <text name="rhm_advice_perfect" text="WydajnoÅ›Ä‡ zbioru jest optymalna. Wszystkie parametry separacji sÄ… zrÃ³wnowaÅ¼one." />
-        <text name="rhm_advice_speed" text="GÅ‚Ã³wnÄ… przyczynÄ… strat jest zbyt duÅ¼a prÄ™dkoÅ›Ä‡. Zwolnij, aby odciÄ…Å¼yÄ‡ kosz sitowy." />
-        <text name="rhm_advice_moisture" text="Straty spowodowane wysokÄ… wilgotnoÅ›ciÄ… lub porannÄ… rosÄ…. Poczekaj na wyschniÄ™cie pola lub zwolnij." />
-        <text name="rhm_advice_wear" text="PodwyÅ¼szone straty przez zuÅ¼yte noÅ¼e hedera lub cepy mÅ‚ocarni. PrzeprowadÅº serwis w warsztacie." />
-        <text name="rhm_advice_slope" text="PrzechyÅ‚ boczny na zboczu powoduje nierÃ³wnomierne obciÄ…Å¼enie sit. Zmniejsz prÄ™dkoÅ›Ä‡ na pochyÅ‚oÅ›ciach." />
+        <text name="rhm_rank_desc_d" text="Poziom strat przekracza 4,5%! Poważne przeciążenie sit lub błędna kalibracja." />
+        <text name="rhm_guidance_title" text="WSKAZÓWKI KOMPUTERA POKŁADOWEGO" />
+        <text name="rhm_advice_perfect" text="Wydajność zbioru jest optymalna. Wszystkie parametry separacji są zrównoważone." />
+        <text name="rhm_advice_speed" text="Główną przyczyną strat jest zbyt duża prędkość. Zwolnij, aby odciążyć kosz sitowy." />
+        <text name="rhm_advice_moisture" text="Straty spowodowane wysoką wilgotnością lub poranną rosą. Poczekaj na wyschnięcie pola lub zwolnij." />
+        <text name="rhm_advice_wear" text="Podwyższone straty przez zużyte noże hedera lub cepy młocarni. Przeprowadź serwis w warsztacie." />
+        <text name="rhm_advice_slope" text="Przechył boczny na zboczu powoduje nierównomierne obciążenie sit. Zmniejsz prędkość na pochyłościach." />
         <text name="rhm_col_machine" text="Maszyna" />
         <text name="rhm_col_hours" text="Motogodziny" />
         <text name="rhm_col_harvested" text="Zebrano" />
         <text name="rhm_col_lost" text="Straty" />
         <text name="rhm_col_rank" text="Ocena" />
-        <text name="rhm_fleet_no_combines" text="Nie znaleziono kombajnÃ³w" />
-        <text name="rhm_setting_ai_limiter_title" text="OGRANICZNIK PRÄ˜DKOÅšCI SI" />
-        <text name="rhm_setting_ai_limiter_desc" text="Automatycznie ogranicza prÄ™dkoÅ›Ä‡ tempomatu pracownikÃ³w SI, gdy straty przekraczajÄ… prÃ³g." />
-        <text name="rhm_setting_ai_threshold_title" text="PRÃ“G STRAT DLA SI" />
-        <text name="rhm_setting_ai_threshold_desc" text="Maksymalny dopuszczalny procent strat, przy ktÃ³rym pomocnik SI zaczyna automatycznie zwalniaÄ‡." />
+        <text name="rhm_fleet_no_combines" text="Nie znaleziono kombajnów" />
+        <text name="rhm_setting_ai_limiter_title" text="OGRANICZNIK PRĘDKOŚCI SI" />
+        <text name="rhm_setting_ai_limiter_desc" text="Automatycznie ogranicza prędkość tempomatu pracowników SI, gdy straty przekraczają próg." />
+        <text name="rhm_setting_ai_threshold_title" text="PRÓG STRAT DLA SI" />
+        <text name="rhm_setting_ai_threshold_desc" text="Maksymalny dopuszczalny procent strat, przy którym pomocnik SI zaczyna automatycznie zwalniać." />
         <text name="rhm_setting_volunteer_title" text="SAMOSIEWY / CHWASTY" />
-        <text name="rhm_setting_volunteer_desc" text="Tworzy ogniska chwastÃ³w i samosiewÃ³w za kombajnem w miejscach duÅ¼ych strat (&gt;3%)." />
+        <text name="rhm_setting_volunteer_desc" text="Tworzy ogniska chwastów i samosiewów za kombajnem w miejscach dużych strat (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMATYCZNY RESET PRZY ZMIANIE POLA" />
         <text name="rhm_setting_autoreset_desc" text="Automatycznie archiwizuje bieżący pomiar i resetuje licznik po przejechaniu na inne pole." />
         <text name="rhm_col_field" text="Pole" />
@@ -453,5 +453,29 @@
         <text name="rhm_fields_no_data" text="Brak zarejestrowanych pól" />
         <text name="rhm_contract_tag" text="(Zlecenie)" />
         <text name="rhm_status_completed" text="Zebrane" />
+        <text name="rhm_status_idle_yard" text="W gospodarstwie (oczekiwanie)" />
+        <text name="rhm_fields_external" text="Zewnętrzne" />
+        <text name="rhm_field_transit" text="W trasie / Przejazd" />
+        <text name="rhm_detail_loss_money" text="Straty finansowe z utraty plonu" />
+        <text name="rhm_cause_none" text="Optymalna praca (brak strat)" />
+        <text name="rhm_fields_all_overview" text="[*] Przegląd gospodarstwa (wszystkie pola)" />
+        <text name="rhm_field_operations" text="Operacje zbioru" />
+        <text name="rhm_fields_nominal_area" text="Powierzchnia nominalna" />
+        <text name="rhm_status_in_progress" text="W trakcie" />
+        <text name="rhm_fields_harvested_area" text="Powierzchnia zebrana" />
+        <text name="rhm_ops_one" text="zbiór" />
+        <text name="rhm_ops_few" text="zbiory" />
+        <text name="rhm_ops_many" text="zbiorów" />
+        <text name="rhm_loss_disabled" text="Symulacja wyłączona" />
+        <text name="rhm_loss_disabled_desc" text="Symulacja strat plonów jest wyłączona w ustawieniach modu." />
+        <text name="rhm_filter_active" text="W eksploatacji" />
+        <text name="rhm_filter_all" text="Wszystkie" />
+        <text name="rhm_filter_sold" text="Sprzedane" />
+        <text name="rhm_status_sold" text="Sprzedany (Archiwum)" />
+        <text name="rhm_field_sold" text="[Sprzedany]" />
+        <text name="rhm_driver_sold" text="Wycofany" />
+        <text name="rhm_fleet_no_sold_combines" text="Brak sprzedanych kombajnów w archiwum" />
+        <text name="rhm_fleet_total_count_active" text="Aktywne kombajny" />
+        <text name="rhm_fleet_total_count_sold" text="Sprzedane kombajny" />
     </texts>
 </l10n>

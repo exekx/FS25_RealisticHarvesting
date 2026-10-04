@@ -983,7 +983,11 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
 
     -- 3. MOISTURE FACTOR
     local moistureFactor = 1.0
-    if rhmSpec and rhmSpec.data and rhmSpec.data.moisture and rhmSpec.data.moisture > 0 then
+    local isMoistureEnabled = true
+    if g_realisticHarvestManager and g_realisticHarvestManager.settings then
+        isMoistureEnabled = (g_realisticHarvestManager.settings.enableMoisture ~= false)
+    end
+    if isMoistureEnabled and rhmSpec and rhmSpec.data and rhmSpec.data.moisture and rhmSpec.data.moisture > 0 then
         local currentMoisture = rhmSpec.data.moisture
         local moistureLimit = 14 -- Default general limit
         
@@ -1306,8 +1310,8 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         return
     end
 
-    -- Target engine load from combine settings or default to 88%
-    local targetLoad = 0.88
+    -- Target engine load from combine settings or default to 80%
+    local targetLoad = 0.80
     if self.combineMemory and self.combineMemory.currentSettings and self.combineMemory.currentSettings.targetEngineLoad then
         targetLoad = self.combineMemory.currentSettings.targetEngineLoad / 100.0
     end
@@ -1744,13 +1748,18 @@ function RHM_LoadCalculator:calculateWearLoss(vehicle)
 end
 
 function RHM_LoadCalculator:calculateTotalCropLoss(vehicle)
-    -- EN: In Arcade Loss mode, strictly 0% total loss
-    -- UA: В режимі втрат Аркада 0% загальних втрат
-    if g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.difficultyLoss == 1 then
+    -- EN: If crop loss simulation is disabled or Arcade loss mode, strictly 0% total loss
+    -- UA: Якщо симуляцію втрат вимкнено або режим Аркада — строго 0% втрат
+    if not g_realisticHarvestManager or not g_realisticHarvestManager.settings or not g_realisticHarvestManager.settings.enableCropLoss or g_realisticHarvestManager.settings.difficultyLoss == 1 then
         self.cropLoss = 0
+        self.baseLoss = 0
+        self.settingsAddedLoss = 0
+        self.wearLoss = 0
         self.cutterWearLoss = 0
         self.combineWearLoss = 0
         self.totalWearLoss = 0
+        self.slopeLoss = 0
+        self.moistureLoss = 0
         return 0
     end
 
@@ -1758,9 +1767,14 @@ function RHM_LoadCalculator:calculateTotalCropLoss(vehicle)
     -- UA: Силосні та бавовняні комбайни ніколи не мають втрат врожаю — пропускаємо всі розрахунки.
     if self.combineMemory and (self.combineMemory.machineType == "forage" or self.combineMemory.machineType == "cotton") then
         self.cropLoss = 0
+        self.baseLoss = 0
+        self.settingsAddedLoss = 0
+        self.wearLoss = 0
         self.cutterWearLoss = 0
         self.combineWearLoss = 0
         self.totalWearLoss = 0
+        self.slopeLoss = 0
+        self.moistureLoss = 0
         return 0
     end
     if self.combineMemory and self.combineMemory.currentCrop then

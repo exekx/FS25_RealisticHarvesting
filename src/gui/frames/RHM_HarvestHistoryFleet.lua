@@ -10,9 +10,13 @@ function RHM_HarvestHistoryFleet.new(l18n)
     local self = TabbedMenuFrameElement.new(nil, HarvestHistoryFleet_mt)
     self.l18n = l18n
     self.fleetData = {}
+    self.rawFleetData = {}
+    self.fleetFilterMode = "active" -- "active" (default), "all", "sold"
+    self.activeCombinesCount = 0
+    self.soldCombinesCount = 0
     self.historyData = {}
     self.selectedIndex = 1
-    self.selectedSeasonIndex = 1
+    self.selectedSeasonIndex = nil
     self.seasonYearList = {}
     self.viewMode = "fleet" -- "fleet" or "history"
     return self
@@ -81,6 +85,7 @@ function RHM_HarvestHistoryFleet:updateViewModeUI()
     local isFleet = (self.viewMode == "fleet")
     if self.fleetPanel then self.fleetPanel:setVisible(isFleet) end
     if self.historyPanel then self.historyPanel:setVisible(not isFleet) end
+    if self.fleetFilterBar then self.fleetFilterBar:setVisible(isFleet) end
 
     -- Visual button highlight feedback (dedicated fixed-size subtab profiles)
     if self.btnSubTabFleet and self.btnSubTabFleet.applyProfile then
@@ -89,6 +94,55 @@ function RHM_HarvestHistoryFleet:updateViewModeUI()
     if self.btnSubTabHistory and self.btnSubTabHistory.applyProfile then
         self.btnSubTabHistory:applyProfile(isFleet and "rhmSubTabHistory" or "rhmSubTabHistoryActive")
     end
+    if isFleet then
+        self:updateFilterUI()
+    end
+end
+
+function RHM_HarvestHistoryFleet:updateFilterUI()
+    local mode = self.fleetFilterMode or "active"
+    if self.btnFilterActive and self.btnFilterActive.applyProfile then
+        self.btnFilterActive:applyProfile(mode == "active" and "rhmSubTabFilterActive" or "rhmSubTabFilter")
+        if self.btnFilterActive.setSelected then
+            self.btnFilterActive:setSelected(mode == "active")
+        end
+    end
+    if self.btnFilterAll and self.btnFilterAll.applyProfile then
+        self.btnFilterAll:applyProfile(mode == "all" and "rhmSubTabFilterActive" or "rhmSubTabFilter")
+        if self.btnFilterAll.setSelected then
+            self.btnFilterAll:setSelected(mode == "all")
+        end
+    end
+    if self.btnFilterSold and self.btnFilterSold.applyProfile then
+        self.btnFilterSold:applyProfile(mode == "sold" and "rhmSubTabFilterActive" or "rhmSubTabFilter")
+        if self.btnFilterSold.setSelected then
+            self.btnFilterSold:setSelected(mode == "sold")
+        end
+    end
+end
+
+function RHM_HarvestHistoryFleet:onClickFilterActive()
+    if self.fleetFilterMode == "active" then return end
+    self.fleetFilterMode = "active"
+    self.selectedIndex = 1
+    self:updateFilterUI()
+    self:updateTables()
+end
+
+function RHM_HarvestHistoryFleet:onClickFilterAll()
+    if self.fleetFilterMode == "all" then return end
+    self.fleetFilterMode = "all"
+    self.selectedIndex = 1
+    self:updateFilterUI()
+    self:updateTables()
+end
+
+function RHM_HarvestHistoryFleet:onClickFilterSold()
+    if self.fleetFilterMode == "sold" then return end
+    self.fleetFilterMode = "sold"
+    self.selectedIndex = 1
+    self:updateFilterUI()
+    self:updateTables()
 end
 
 -- ============================================================================
@@ -113,23 +167,44 @@ local function getActivePlayerFarmId()
 end
 
 local function isFarmVehicle(vehicle, farmId)
-    if not vehicle then return false end
+    if not vehicle or vehicle.isDeleted then return false end
 
-    local isMultiplayer = (g_currentMission and g_currentMission.isMultiplayer) or false
-    -- In singleplayer, all player-operated / hired machines on the map belong to the fleet
-    if not isMultiplayer then
+    -- Strictly exclude any mission/contract rental machine from the permanent fleet
+    if RHM_HarvestTracker and RHM_HarvestTracker.isMissionCombine and RHM_HarvestTracker.isMissionCombine(vehicle) then
+        return false
+    end
+    if VehiclePropertyState ~= nil and vehicle.propertyState ~= nil and vehicle.propertyState == VehiclePropertyState.MISSION then
+        return false
+    end
+    if vehicle.getIsMissionWork and vehicle:getIsMissionWork() then
+        return false
+    end
+    if vehicle.isMissionWork or vehicle.isMissionVehicle then
+        return false
+    end
+
+    local vFarmId = (vehicle.getOwnerFarmId and vehicle:getOwnerFarmId()) or (vehicle.ownerFarmId) or 0
+    if vFarmId == 0 or (FarmManager and vFarmId == FarmManager.SPECTATOR_FARM_ID) then
+        return false
+    end
+
+    if vFarmId == farmId then
         return true
     end
 
-    local vFarmId = (vehicle.getOwnerFarmId and vehicle:getOwnerFarmId()) or 0
-    if vFarmId == farmId then return true end
+    local isMultiplayer = (g_currentMission and g_currentMission.isMultiplayer) or false
+    if not isMultiplayer then
+        -- In singleplayer, only vehicles owned by the active farm or currently operated by player belong to fleet
+        if vehicle.getIsControlled and vehicle:getIsControlled() then
+            return true
+        end
+        return (vFarmId == farmId)
+    end
 
-    -- Controlled vehicle (player currently inside or hired worker active)
+    -- In multiplayer:
     if vehicle.getIsControlled and vehicle:getIsControlled() then
         return true
     end
-
-    -- Access handler permission check (covers contractors and shared fleet permissions in MP)
     if g_currentMission and g_currentMission.accessHandler and g_currentMission.accessHandler.canPlayerAccess then
         if g_currentMission.accessHandler:canPlayerAccess(vehicle) then
             return true
@@ -347,9 +422,13 @@ function RHM_HarvestHistoryFleet:updateTables()
 
     local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
     local farm = tracker and tracker:getFarmData(farmId)
+    if tracker and tracker.pruneMissionFleetStats then
+        tracker:pruneMissionFleetStats(farmId)
+    end
     local fleetStats = (farm and farm.fleetStats) or {}
 
     self.fleetData = {}
+    local rawFleet = {}
     local seenVehicles = {}
     local modelCount = {}
 
@@ -747,8 +826,10 @@ function RHM_HarvestHistoryFleet:updateTables()
                     local rank = RHM_HarvestTracker.calculateEfficiencyRank(fleetLossPct)
                     local opHours = ((vehicle.operatingTime or 0) / 3600000.0)
 
-                    table.insert(self.fleetData, {
+                    table.insert(rawFleet, {
                         vehicle = vehicle,
+                        isSold = false,
+                        machineKey = machineKey,
                         name = machineName,
                         field = fieldStr,
                         crop = cropStr,
@@ -775,49 +856,102 @@ function RHM_HarvestHistoryFleet:updateTables()
             end
         end
 
-    -- Incorporate offline stored fleet stats if machine was sold/despawned
+    -- Incorporate offline stored fleet stats for SOLD/ARCHIVED farm combines (strictly excluding contract/mission machines)
     for mKey, v in pairs(fleetStats) do
         local mName = v.name or "Harvester"
-        local alreadyListed = false
-        for _, entry in ipairs(self.fleetData) do
-            if entry.name:find(mName, 1, true) then alreadyListed = true; break end
-        end
+        local isMission = (RHM_HarvestTracker and RHM_HarvestTracker.isMissionCombine and RHM_HarvestTracker.isMissionCombine(nil, mName, mKey)) or false
+        if not isMission then
+            local alreadyListed = false
+            for _, entry in ipairs(rawFleet) do
+                if not entry.isSold and (entry.machineKey == mKey or entry.name == mName) then
+                    alreadyListed = true
+                    break
+                end
+            end
 
-        if not alreadyListed then
-            local totalBio = (v.totalHarvested or 0) + (v.totalLost or 0)
-            local lossPct = (totalBio > 0) and (((v.totalLost or 0) / totalBio) * 100.0) or 0
-            local rank = RHM_HarvestTracker.calculateEfficiencyRank(lossPct)
+            if not alreadyListed then
+                local totalBio = (v.totalHarvested or 0) + (v.totalLost or 0)
+                local lossPct = (totalBio > 0) and (((v.totalLost or 0) / totalBio) * 100.0) or 0
+                local rank = RHM_HarvestTracker.calculateEfficiencyRank(lossPct)
 
-            table.insert(self.fleetData, {
-                vehicle = nil,
-                name = mName,
-                field = "--",
-                crop = "--",
-                driver = g_i18n:getText("rhm_driver_parked") or "Stored",
-                status = g_i18n:getText("rhm_status_parked_yard") or "Stored",
-                cutterWidth = 0,
-                fillLevel = 0,
-                capacity = 0,
-                tankPct = 0,
-                speed = 0,
-                throughput = 0,
-                totalHarvestedL = v.totalHarvested or 0,
-                totalLostL = v.totalLost or 0,
-                currentYield = 0,
-                hours = (v.workSeconds or 0) / 3600.0,
-                engineLoad = 0,
-                cropLoss = 0,
-                rank = rank,
-                damage = 0
-            })
+                local soldBadge = (g_i18n and g_i18n:hasText("rhm_field_sold") and g_i18n:getText("rhm_field_sold")) or "[Sold]"
+                local soldDriver = (g_i18n and g_i18n:hasText("rhm_driver_sold") and g_i18n:getText("rhm_driver_sold")) or "Decommissioned"
+                local soldStatus = (g_i18n and g_i18n:hasText("rhm_status_sold") and g_i18n:getText("rhm_status_sold")) or "Sold (Archived)"
+
+                table.insert(rawFleet, {
+                    vehicle = nil,
+                    isSold = true,
+                    machineKey = mKey,
+                    name = mName,
+                    field = soldBadge,
+                    crop = "--",
+                    driver = soldDriver,
+                    status = soldStatus,
+                    cutterWidth = 0,
+                    fillLevel = 0,
+                    capacity = 0,
+                    tankPct = 0,
+                    speed = 0,
+                    throughput = 0,
+                    totalHarvestedL = v.totalHarvested or 0,
+                    totalLostL = v.totalLost or 0,
+                    currentYield = 0,
+                    hours = (v.workSeconds or 0) / 3600.0,
+                    engineLoad = 0,
+                    cropLoss = lossPct,
+                    rank = rank,
+                    damage = 0
+                })
+            end
         end
     end
 
-    table.sort(self.fleetData, function(a, b) return a.name < b.name end)
+    -- Count active vs sold combines
+    local activeCount = 0
+    local soldCount = 0
+    for _, entry in ipairs(rawFleet) do
+        if entry.isSold then
+            soldCount = soldCount + 1
+        else
+            activeCount = activeCount + 1
+        end
+    end
+    self.activeCombinesCount = activeCount
+    self.soldCombinesCount = soldCount
+    self.rawFleetData = rawFleet
+
+    -- Filter according to active mode ("active", "all", "sold")
+    self.fleetData = {}
+    local mode = self.fleetFilterMode or "active"
+    for _, entry in ipairs(rawFleet) do
+        if mode == "active" then
+            if not entry.isSold then
+                table.insert(self.fleetData, entry)
+            end
+        elseif mode == "sold" then
+            if entry.isSold then
+                table.insert(self.fleetData, entry)
+            end
+        else -- "all"
+            table.insert(self.fleetData, entry)
+        end
+    end
+
+    -- Sort: In "all" mode, active combines come first, followed by sold combines. Within each group, sort by name.
+    table.sort(self.fleetData, function(a, b)
+        if a.isSold ~= b.isSold then
+            return not a.isSold
+        end
+        return a.name < b.name
+    end)
 
     if #self.fleetData == 0 then
+        local emptyMsg = (g_i18n and g_i18n:hasText("rhm_fleet_no_combines") and g_i18n:getText("rhm_fleet_no_combines")) or "No Harvesters Found"
+        if mode == "sold" then
+            emptyMsg = (g_i18n and g_i18n:hasText("rhm_fleet_no_sold_combines") and g_i18n:getText("rhm_fleet_no_sold_combines")) or "No Sold Harvesters in Archive"
+        end
         table.insert(self.fleetData, {
-            name = (g_i18n and g_i18n:hasText("rhm_fleet_no_combines") and g_i18n:getText("rhm_fleet_no_combines")) or "No Harvesters Found",
+            name = emptyMsg,
             field = "--",
             crop = "--",
             driver = "--",
@@ -835,7 +969,8 @@ function RHM_HarvestHistoryFleet:updateTables()
             engineLoad = 0,
             cropLoss = 0,
             rank = "A",
-            damage = 0
+            damage = 0,
+            isEmpty = true
         })
     end
 
@@ -858,6 +993,7 @@ function RHM_HarvestHistoryFleet:updateTables()
         self.selectedIndex = 1
     end
 
+    self:updateFilterUI()
     self:updateSelectedCardData()
 
     if self.fleetTable then
@@ -869,11 +1005,36 @@ function RHM_HarvestHistoryFleet:updateSelectedCardData()
     local entry = self.fleetData[self.selectedIndex] or self.fleetData[1]
     if not entry then return end
 
+    local sys = (RHM_UnitConverter and RHM_UnitConverter.getActiveSystem and RHM_UnitConverter.getActiveSystem()) or 1
+    local isLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
+
     -- Machine Switcher Header
-    local titleStr = string.format("[%d/%d]  %s", self.selectedIndex, #self.fleetData, entry.name)
+    local titleStr = ""
+    if entry.isEmpty then
+        titleStr = entry.name
+    elseif entry.isSold then
+        local soldTag = (g_i18n and g_i18n:hasText("rhm_field_sold") and g_i18n:getText("rhm_field_sold")) or "[SOLD]"
+        titleStr = string.format("[%d/%d]  %s  %s", self.selectedIndex, #self.fleetData, entry.name, soldTag)
+    else
+        titleStr = string.format("[%d/%d]  %s", self.selectedIndex, #self.fleetData, entry.name)
+    end
     if self.selectedCombineTitle then self.selectedCombineTitle:setText(titleStr) end
 
-    local countStr = string.format("%s: %d", g_i18n:getText("rhm_fleet_total_count") or "Harvesters", #self.fleetData)
+    -- Counter text on right of header band
+    local countStr = ""
+    local mode = self.fleetFilterMode or "active"
+    if mode == "active" then
+        local lbl = (g_i18n and g_i18n:hasText("rhm_fleet_total_count_active") and g_i18n:getText("rhm_fleet_total_count_active")) or "Active Harvesters"
+        countStr = string.format("%s: %d", lbl, self.activeCombinesCount or #self.fleetData)
+    elseif mode == "sold" then
+        local lbl = (g_i18n and g_i18n:hasText("rhm_fleet_total_count_sold") and g_i18n:getText("rhm_fleet_total_count_sold")) or "Sold Harvesters"
+        countStr = string.format("%s: %d", lbl, self.soldCombinesCount or #self.fleetData)
+    else
+        local lblAll = (g_i18n and g_i18n:hasText("rhm_fleet_total_count") and g_i18n:getText("rhm_fleet_total_count")) or "Total"
+        local lblAct = (g_i18n and g_i18n:hasText("rhm_filter_active") and g_i18n:getText("rhm_filter_active")) or "Active"
+        local lblSold = (g_i18n and g_i18n:hasText("rhm_filter_sold") and g_i18n:getText("rhm_filter_sold")) or "Sold"
+        countStr = string.format("%s: %d  (%s: %d | %s: %d)", lblAll, #self.fleetData, lblAct, self.activeCombinesCount or 0, lblSold, self.soldCombinesCount or 0)
+    end
     if self.fleetCountText then self.fleetCountText:setText(countStr) end
 
     -- CARD 1: Status & Field
@@ -881,14 +1042,14 @@ function RHM_HarvestHistoryFleet:updateSelectedCardData()
     if self.card1CropType then self.card1CropType:setText(entry.crop or "--") end
     if self.card1DriverText then self.card1DriverText:setText(entry.driver or "--") end
     if self.card1CutterWidth then
-        if entry.cutterWidth and entry.cutterWidth > 0 then
-            self.card1CutterWidth:setText(string.format("%.1f m", entry.cutterWidth))
+        if not entry.isSold and entry.cutterWidth and entry.cutterWidth > 0 then
+            self.card1CutterWidth:setText(RHM_UnitConverter.formatWidth(entry.cutterWidth, sys))
         else
             self.card1CutterWidth:setText("--")
         end
     end
     if self.card1GrainTank then
-        if entry.capacity and entry.capacity > 0 then
+        if not entry.isSold and entry.capacity and entry.capacity > 0 then
             local cropSuffix = (entry.crop and entry.crop ~= "--") and (" " .. entry.crop) or ""
             self.card1GrainTank:setText(string.format("%.0f L (%.0f%%)%s", entry.fillLevel or 0, entry.tankPct or 0, cropSuffix))
         else
@@ -897,19 +1058,31 @@ function RHM_HarvestHistoryFleet:updateSelectedCardData()
     end
 
     -- CARD 2: Performance & Harvest
-    if self.card2SpeedText then self.card2SpeedText:setText(string.format("%.1f km/h", entry.speed or 0)) end
-    if self.card2ThroughputText then self.card2ThroughputText:setText(string.format("%.1f t/h", entry.throughput or 0)) end
+    if self.card2SpeedText then
+        if entry.isSold then
+            self.card2SpeedText:setText("--")
+        else
+            self.card2SpeedText:setText(RHM_UnitConverter.formatSpeed(entry.speed or 0, sys))
+        end
+    end
+    if self.card2ThroughputText then
+        if entry.isSold then
+            self.card2ThroughputText:setText("--")
+        else
+            self.card2ThroughputText:setText(RHM_UnitConverter.formatProductivity(entry.throughput or 0, sys))
+        end
+    end
     if self.card2HarvestedText then
         local harvTons = (entry.totalHarvestedL or 0) * 0.00075
-        self.card2HarvestedText:setText(string.format("%.1f t", harvTons))
+        self.card2HarvestedText:setText(RHM_UnitConverter.formatMass(harvTons, sys))
     end
     if self.card2YieldText then
-        if entry.currentYield and entry.currentYield > 0.01 then
-            self.card2YieldText:setText(string.format("%.2f t/ha", entry.currentYield))
-        elseif entry.lastYield and entry.lastYield > 0.01 then
-            self.card2YieldText:setText(string.format("%.2f t/ha", entry.lastYield))
-        elseif entry.avgYield and entry.avgYield > 0.01 then
-            self.card2YieldText:setText(string.format("%.2f t/ha", entry.avgYield))
+        if not entry.isSold and entry.currentYield and entry.currentYield > 0.01 then
+            self.card2YieldText:setText(RHM_UnitConverter.formatYield(entry.currentYield, sys))
+        elseif not entry.isSold and entry.lastYield and entry.lastYield > 0.01 then
+            self.card2YieldText:setText(RHM_UnitConverter.formatYield(entry.lastYield, sys))
+        elseif not entry.isSold and entry.avgYield and entry.avgYield > 0.01 then
+            self.card2YieldText:setText(RHM_UnitConverter.formatYield(entry.avgYield, sys))
         else
             self.card2YieldText:setText("--")
         end
@@ -919,18 +1092,38 @@ function RHM_HarvestHistoryFleet:updateSelectedCardData()
     end
 
     -- CARD 3: Load & Losses
-    if self.card3EngineLoad then self.card3EngineLoad:setText(string.format("%.0f%%", (entry.engineLoad or 0) * 100.0)) end
-    if self.card3LossPct then self.card3LossPct:setText(string.format("%.2f%%", entry.cropLoss or 0)) end
+    if self.card3EngineLoad then
+        if entry.isSold then
+            self.card3EngineLoad:setText("--")
+        else
+            self.card3EngineLoad:setText(string.format("%.0f%%", (entry.engineLoad or 0) * 100.0))
+        end
+    end
+    if self.card3LossPct then
+        if isLossEnabled then
+            self.card3LossPct:setText(string.format("%.2f%%", entry.cropLoss or 0))
+        else
+            self.card3LossPct:setText("OFF")
+        end
+    end
     if self.card3LossVolume then
-        local lostTons = (entry.totalLostL or 0) * 0.00075
-        self.card3LossVolume:setText(string.format("%.1f t", lostTons))
+        if isLossEnabled then
+            local lostTons = (entry.totalLostL or 0) * 0.00075
+            self.card3LossVolume:setText(RHM_UnitConverter.formatMass(lostTons, sys))
+        else
+            self.card3LossVolume:setText("--")
+        end
     end
     if self.card3RankText then
-        local rank = entry.rank or "A"
+        local rank = isLossEnabled and (entry.rank or "A") or "A"
         self.card3RankText:setText(string.format("[%s]", rank))
     end
     if self.card3WearText then
-        self.card3WearText:setText(string.format("%.0f%%", (entry.damage or 0) * 100.0))
+        if entry.isSold then
+            self.card3WearText:setText("--")
+        else
+            self.card3WearText:setText(string.format("%.0f%%", (entry.damage or 0) * 100.0))
+        end
     end
 end
 
@@ -988,8 +1181,20 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
     local rawHistory = (farm and farm.seasonHistory) or {}
 
     self.seasonYearList = (tracker and tracker.getAvailableYears and tracker:getAvailableYears(farmId)) or { 1, "ALL" }
+
+    local currentYear = 1
+    if g_currentMission and g_currentMission.environment and g_currentMission.environment.currentYear then
+        currentYear = g_currentMission.environment.currentYear
+    end
+
     if self.selectedSeasonIndex == nil or self.selectedSeasonIndex > #self.seasonYearList or self.selectedSeasonIndex < 1 then
         self.selectedSeasonIndex = 1
+        for idx, y in ipairs(self.seasonYearList) do
+            if tonumber(y) == currentYear then
+                self.selectedSeasonIndex = idx
+                break
+            end
+        end
     end
 
     local selectedYear = self.seasonYearList[self.selectedSeasonIndex]
@@ -1027,41 +1232,63 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
     end
     if self.selectedSeasonTitle then self.selectedSeasonTitle:setText(titleStr) end
 
+    local sys = (RHM_UnitConverter and RHM_UnitConverter.getActiveSystem and RHM_UnitConverter.getActiveSystem()) or 1
+    local isLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
+
     local opLabel = g_i18n:getText("rhm_season_operations") or "Operations"
-    local countStr = string.format("%s: %d  |  %.2f ha", opLabel, summary.fieldOperations or 0, summary.harvestedAreaHa or 0)
+    local countStr = string.format("%s: %d  |  %s", opLabel, summary.fieldOperations or 0, RHM_UnitConverter.formatArea(summary.harvestedAreaHa or 0, sys))
     if self.seasonSummaryCountText then self.seasonSummaryCountText:setText(countStr) end
 
     -- CARD 1: Season Harvest & Area
-    if self.seasonCardArea then self.seasonCardArea:setText(string.format("%.2f ha", summary.harvestedAreaHa or 0)) end
-    if self.seasonCardYield then self.seasonCardYield:setText(string.format("%.2f t/ha", summary.avgYield or 0)) end
+    if self.seasonCardArea then self.seasonCardArea:setText(RHM_UnitConverter.formatArea(summary.harvestedAreaHa or 0, sys)) end
+    if self.seasonCardYield then self.seasonCardYield:setText(RHM_UnitConverter.formatYield(summary.avgYield or 0, sys)) end
     if self.seasonCardHarvestVolume then
-        self.seasonCardHarvestVolume:setText(string.format("%.1f t", summary.harvestedTons or 0))
+        self.seasonCardHarvestVolume:setText(RHM_UnitConverter.formatMass(summary.harvestedTons or 0, sys))
     end
-    if self.seasonCardThroughput then self.seasonCardThroughput:setText(string.format("%.1f t/h", summary.throughput or 0)) end
+    if self.seasonCardThroughput then self.seasonCardThroughput:setText(RHM_UnitConverter.formatProductivity(summary.throughput or 0, sys)) end
     if self.seasonCardTopCrops then self.seasonCardTopCrops:setText(summary.topCropsText or "--") end
 
     -- CARD 2: Season Losses & Finances
-    if self.seasonCardLossVolume then self.seasonCardLossVolume:setText(string.format("%.1f t", summary.lostTons or 0)) end
-    if self.seasonCardLossPercent then self.seasonCardLossPercent:setText(string.format("%.2f%%", summary.lossPct or 0)) end
+    if self.seasonCardLossVolume then
+        if isLossEnabled then
+            self.seasonCardLossVolume:setText(RHM_UnitConverter.formatMass(summary.lostTons or 0, sys))
+        else
+            self.seasonCardLossVolume:setText("--")
+        end
+    end
+    if self.seasonCardLossPercent then
+        if isLossEnabled then
+            self.seasonCardLossPercent:setText(string.format("%.2f%%", summary.lossPct or 0))
+        else
+            self.seasonCardLossPercent:setText("OFF")
+        end
+    end
 
     local moneyStr = "-$0"
-    if g_i18n and g_i18n.formatMoney then
-        moneyStr = "-" .. g_i18n:formatMoney(summary.lossMoney or 0, nil, true, true)
-    else
-        moneyStr = string.format("-$%.0f", summary.lossMoney or 0)
+    if isLossEnabled then
+        if g_i18n and g_i18n.formatMoney then
+            moneyStr = "-" .. g_i18n:formatMoney(summary.lossMoney or 0, nil, true, true)
+        else
+            moneyStr = string.format("-$%.0f", summary.lossMoney or 0)
+        end
     end
     if self.seasonCardLossMoney then self.seasonCardLossMoney:setText(moneyStr) end
-    if self.seasonCardEfficiencyRank then self.seasonCardEfficiencyRank:setText(string.format("[%s]", summary.efficiencyRank or "A")) end
+    if self.seasonCardEfficiencyRank then
+        local rk = isLossEnabled and (summary.efficiencyRank or "A") or "A"
+        self.seasonCardEfficiencyRank:setText(string.format("[%s]", rk))
+    end
 
     local reasonKey = "rhm_cause_" .. tostring(summary.dominantReason or "speed")
-    if (summary.lostTons or 0) <= 0.001 then
+    if (not isLossEnabled) or ((summary.lostTons or 0) <= 0.001) then
         reasonKey = "rhm_cause_none"
     end
     local reasonName = (g_i18n and g_i18n:hasText(reasonKey) and g_i18n:getText(reasonKey)) or summary.dominantReason or "speed"
     if self.seasonCardDominantCause then self.seasonCardDominantCause:setText(reasonName) end
 
     -- CARD 3: Season Performance & Working Time
-    if self.seasonCardAvgSpeed then self.seasonCardAvgSpeed:setText(string.format("%.1f km/h", summary.avgSpeed or 0)) end
+    if self.seasonCardAvgSpeed then
+        self.seasonCardAvgSpeed:setText(RHM_UnitConverter.formatSpeed(summary.avgSpeed or 0, sys))
+    end
     if self.seasonCardAvgLoad then self.seasonCardAvgLoad:setText(string.format("%.0f%%", summary.avgLoad or 0)) end
 
     local totalSecs = math.floor(summary.sessionDuration or 0)
@@ -1089,13 +1316,13 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
         if include then
             local area = rec.areaHa or 0
             local harvL = rec.harvested or 0
-            local lostL = rec.lost or 0
-            local money = rec.lossMoney or 0
+            local lostL = isLossEnabled and (rec.lost or 0) or 0
+            local money = isLossEnabled and (rec.lossMoney or 0) or 0
             local harvT = harvL * 0.00075
             local yieldTha = (area > 0.001) and (harvT / area) or 0
 
             local bioVol = harvL + lostL
-            local lossPct = (bioVol > 0) and ((lostL / bioVol) * 100.0) or 0
+            local lossPct = (isLossEnabled and bioVol > 0) and ((lostL / bioVol) * 100.0) or 0
 
             local fieldLabel = "--"
             if rec.fieldId and rec.fieldId > 0 then
@@ -1107,10 +1334,12 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
             end
 
             local rowMoney = "-$0"
-            if g_i18n and g_i18n.formatMoney then
-                rowMoney = "-" .. g_i18n:formatMoney(money, nil, true, true)
-            else
-                rowMoney = string.format("-$%.0f", money)
+            if isLossEnabled and money > 0 then
+                if g_i18n and g_i18n.formatMoney then
+                    rowMoney = "-" .. g_i18n:formatMoney(money, nil, true, true)
+                else
+                    rowMoney = string.format("-$%.0f", money)
+                end
             end
 
             local cropDisplay = rec.cropName or "UNKNOWN"
@@ -1125,12 +1354,77 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
                 year = string.format("Y%d", recYear),
                 field = fieldLabel,
                 crop = cropDisplay,
-                area = string.format("%.2f ha", area),
-                harvested = string.format("%.1f t (%.0f L)", harvT, harvL),
-                yield = string.format("%.2f t/ha", yieldTha),
-                loss = string.format("%.2f%%", lossPct),
+                area = RHM_UnitConverter.formatArea(area, sys),
+                harvested = string.format("%s (%.0f L)", RHM_UnitConverter.formatMass(harvT, sys), harvL),
+                yield = RHM_UnitConverter.formatYield(yieldTha, sys),
+                loss = isLossEnabled and string.format("%.2f%%", lossPct) or "OFF",
                 money = rowMoney
             })
+        end
+    end
+
+    if #self.historyData == 0 then
+        -- If season has aggregate data from yearlyStats, generate summary breakdown rows from cropVolumes
+        if (summary.harvestedAreaHa and summary.harvestedAreaHa > 0.01) or (summary.harvestedLiters and summary.harvestedLiters > 50) then
+            local yTag = string.format("Y%s", tostring(selectedYear or 1))
+            local sumFieldLabel = (g_i18n and g_i18n:hasText("rhm_fields_all_overview") and g_i18n:getText("rhm_fields_all_overview")) or "[*] Farm Overview"
+            local totalL = summary.harvestedLiters or 0
+            local lostL = isLossEnabled and (summary.lostLiters or 0) or 0
+            local money = isLossEnabled and (summary.lossMoney or 0) or 0
+            local bioVol = totalL + lostL
+            local lossPct = (isLossEnabled and bioVol > 0) and ((lostL / bioVol) * 100.0) or 0
+            local rowMoney = "-$0"
+            if isLossEnabled and money > 0 then
+                if g_i18n and g_i18n.formatMoney then
+                    rowMoney = "-" .. g_i18n:formatMoney(money, nil, true, true)
+                else
+                    rowMoney = string.format("-$%.0f", money)
+                end
+            end
+
+            local hasCrops = false
+            if summary.cropVolumes then
+                for cName, cVol in pairs(summary.cropVolumes) do
+                    if cVol > 10 then
+                        hasCrops = true
+                        local cTons = cVol * 0.00075
+                        local cDisplay = cName
+                        if g_fillTypeManager then
+                            local ft = g_fillTypeManager:getFillTypeByName(cName)
+                            if ft and ft.title and ft.title ~= "" then
+                                cDisplay = ft.title
+                            end
+                        end
+                        local propArea = (totalL > 0) and (summary.harvestedAreaHa * (cVol / totalL)) or 0
+                        local cYield = (propArea > 0.001) and (cTons / propArea) or (summary.avgYield or 0)
+
+                        table.insert(self.historyData, {
+                            year = yTag,
+                            field = sumFieldLabel,
+                            crop = cDisplay,
+                            area = (propArea > 0.001) and RHM_UnitConverter.formatArea(propArea, sys) or "--",
+                            harvested = string.format("%s (%.0f L)", RHM_UnitConverter.formatMass(cTons, sys), cVol),
+                            yield = (cYield > 0.01) and RHM_UnitConverter.formatYield(cYield, sys) or "--",
+                            loss = isLossEnabled and string.format("%.2f%%", lossPct) or "OFF",
+                            money = rowMoney
+                        })
+                    end
+                end
+            end
+
+            if not hasCrops then
+                local harvT = totalL * 0.00075
+                table.insert(self.historyData, {
+                    year = yTag,
+                    field = sumFieldLabel,
+                    crop = summary.topCropsText or "--",
+                    area = RHM_UnitConverter.formatArea(summary.harvestedAreaHa, sys),
+                    harvested = string.format("%s (%.0f L)", RHM_UnitConverter.formatMass(harvT, sys), totalL),
+                    yield = (summary.avgYield and summary.avgYield > 0.01) and RHM_UnitConverter.formatYield(summary.avgYield, sys) or "--",
+                    loss = isLossEnabled and string.format("%.2f%%", lossPct) or "OFF",
+                    money = rowMoney
+                })
+            end
         end
     end
 
@@ -1215,24 +1509,39 @@ function RHM_HarvestHistoryFleet:populateCellForItemInSection(list, section, ind
     local statElem = cell:getDescendantByName("statusStr")
     if statElem and statElem.setText then statElem:setText(entry.status or "--") end
 
+    local sys = (RHM_UnitConverter and RHM_UnitConverter.getActiveSystem and RHM_UnitConverter.getActiveSystem()) or 1
+    local isLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
+
     local speedElem = cell:getDescendantByName("speedStr")
     if speedElem and speedElem.setText then
-        speedElem:setText(string.format("%.1f km/h", entry.speed or 0))
+        if entry.isSold then
+            speedElem:setText("--")
+        else
+            speedElem:setText(RHM_UnitConverter.formatSpeed(entry.speed or 0, sys))
+        end
     end
 
     local loadElem = cell:getDescendantByName("loadStr")
     if loadElem and loadElem.setText then
-        loadElem:setText(string.format("%.0f%%", (entry.engineLoad or 0) * 100.0))
+        if entry.isSold then
+            loadElem:setText("--")
+        else
+            loadElem:setText(string.format("%.0f%%", (entry.engineLoad or 0) * 100.0))
+        end
     end
 
     local lossElem = cell:getDescendantByName("lossStr")
     if lossElem and lossElem.setText then
-        lossElem:setText(string.format("%.2f%%", entry.cropLoss or 0))
+        if isLossEnabled then
+            lossElem:setText(string.format("%.2f%%", entry.cropLoss or 0))
+        else
+            lossElem:setText("OFF")
+        end
     end
 
     local tankElem = cell:getDescendantByName("tankStr")
     if tankElem and tankElem.setText then
-        if entry.capacity and entry.capacity > 0 then
+        if not entry.isSold and entry.capacity and entry.capacity > 0 then
             local cropSuffix = (entry.fillLevel and entry.fillLevel > 0 and entry.crop and entry.crop ~= "--") and (" " .. entry.crop) or ""
             tankElem:setText(string.format("%.0f L (%.0f%%)%s", entry.fillLevel or 0, entry.tankPct or 0, cropSuffix))
         else

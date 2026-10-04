@@ -308,7 +308,7 @@
         <text name="rhm_tab_trip" text="Huidig veld / Teller" />
         <text name="rhm_tab_trip_desc" text="Live telemetrie voor geoogst volume, bewerkte oppervlakte, gemiddelde opbrengst en verliezen." />
         <text name="rhm_tab_analytics" text="Verliesoorzaken &amp; Scorekaart" />
-        <text name="rhm_tab_analytics_desc" text="Verliesverdeling, efficiÃ«ntiescore van de bestuurder en aanbevelingen van de boordcomputer." />
+        <text name="rhm_tab_analytics_desc" text="Verliesverdeling, efficiëntiescore van de bestuurder en aanbevelingen van de boordcomputer." />
         <text name="rhm_tab_fleet" text="Maaidorsers op het veld" />
         <text name="rhm_tab_fleet_desc" text="Realtime telemetrie, capaciteit en status van alle maaidorsers op uw bedrijf." />
         <text name="rhm_tab_settings" text="Boerderij- &amp; AI-instellingen" />
@@ -360,7 +360,7 @@
         <text name="rhm_harvested_area" text="Geoogste oppervlakte" />
         <text name="rhm_clean_harvest" text="Schone oogst" />
         <text name="rhm_average_yield" text="Gemiddelde opbrengst" />
-        <text name="rhm_card_loss_finances" text="VERLIEZEN &amp; FINANCIÃ‹N" />
+        <text name="rhm_card_loss_finances" text="VERLIEZEN &amp; FINANCIËN" />
         <text name="rhm_loss_volume" text="Verloren volume" />
         <text name="rhm_loss_share" text="Verlies % van opbrengst" />
         <text name="rhm_financial_loss" text="Financieel verlies" />
@@ -374,7 +374,7 @@
         <text name="rhm_cause_moisture" text="Gewasvocht &amp; Dauw" />
         <text name="rhm_cause_wear" text="Maaibord- &amp; Dorsterslijtage" />
         <text name="rhm_cause_slope" text="Veldhelling &amp; Glooiing" />
-        <text name="rhm_scorecard_title" text="SCOREKAART BESTUURDERSEFFICIÃ‹NTIE" />
+        <text name="rhm_scorecard_title" text="SCOREKAART BESTUURDERSEFFICIËNTIE" />
         <text name="rhm_rank_title_a" text="Klasse A: Optimaal" />
         <text name="rhm_rank_desc_a" text="Verliespercentage onder 1,5%. Instellingen en rijsnelheid zijn perfect in balans." />
         <text name="rhm_rank_title_b" text="Klasse B: Acceptabel" />
@@ -384,7 +384,7 @@
         <text name="rhm_rank_title_d" text="Klasse D: Kritiek verlies" />
         <text name="rhm_rank_desc_d" text="Verliespercentage overschrijdt 4,5%! Ernstige zeefoverbelasting of verkeerde afstelling." />
         <text name="rhm_guidance_title" text="AANBEVELINGEN BOORDCOMPUTER" />
-        <text name="rhm_advice_perfect" text="OogstefficiÃ«ntie is optimaal. Alle dorsparameters zijn uitstekend afgestemd." />
+        <text name="rhm_advice_perfect" text="Oogstefficiëntie is optimaal. Alle dorsparameters zijn uitstekend afgestemd." />
         <text name="rhm_advice_speed" text="Verlies voornamelijk door te hoge rijsnelheid. Rijd langzamer om de zeven te ontlasten." />
         <text name="rhm_advice_moisture" text="Verliezen door hoog gewasvocht of ochtenddauw. Wacht tot het droogt of verlaag de snelheid." />
         <text name="rhm_advice_wear" text="Verhoogd verlies door versleten messen of slaglijsten. Voer onderhoud uit in de werkplaats." />
@@ -451,5 +451,29 @@
         <text name="rhm_fields_no_data" text="Geen velden geregistreerd" />
         <text name="rhm_contract_tag" text="(Contract)" />
         <text name="rhm_status_completed" text="Geoogst" />
+        <text name="rhm_status_idle_yard" text="Op het erf (in wacht)" />
+        <text name="rhm_fields_external" text="Extern" />
+        <text name="rhm_field_transit" text="Onderweg / Transport" />
+        <text name="rhm_detail_loss_money" text="Financiële impact van oogstverliezen" />
+        <text name="rhm_cause_none" text="Optimale werking (geen verliezen)" />
+        <text name="rhm_fields_all_overview" text="[*] Boerderijoverzicht (alle velden)" />
+        <text name="rhm_field_operations" text="Oogstbewerkingen" />
+        <text name="rhm_fields_nominal_area" text="Nominale oppervlakte" />
+        <text name="rhm_status_in_progress" text="Bezig" />
+        <text name="rhm_fields_harvested_area" text="Geoogste oppervlakte" />
+        <text name="rhm_ops_one" text="oogst" />
+        <text name="rhm_ops_few" text="oogsten" />
+        <text name="rhm_ops_many" text="oogsten" />
+        <text name="rhm_loss_disabled" text="Simulatie uitgeschakeld" />
+        <text name="rhm_loss_disabled_desc" text="Oogstverliessimulatie is uitgeschakeld in de mod-instellingen." />
+        <text name="rhm_filter_active" text="Actief" />
+        <text name="rhm_filter_all" text="Alle" />
+        <text name="rhm_filter_sold" text="Verkocht" />
+        <text name="rhm_status_sold" text="Verkocht (Archief)" />
+        <text name="rhm_field_sold" text="[Verkocht]" />
+        <text name="rhm_driver_sold" text="Afgeschreven" />
+        <text name="rhm_fleet_no_sold_combines" text="Geen verkochte maaidorsers in archief" />
+        <text name="rhm_fleet_total_count_active" text="Actieve maaidorsers" />
+        <text name="rhm_fleet_total_count_sold" text="Verkochte maaidorsers" />
     </texts>
 </l10n>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Симуляція" />
@@ -454,14 +454,27 @@
         <text name="rhm_fields_owned" text="Власне" />
         <text name="rhm_fields_contract" text="Контракт" />
         <text name="rhm_fields_no_data" text="Немає записів полів" />
+        <text name="rhm_contract_tag" text="(Контракт)" />
         <text name="rhm_cause_none" text="Оптимальний режим (Без втрат)" />
         <text name="rhm_fields_all_overview" text="[*] Огляд ферми (Усі поля)" />
         <text name="rhm_field_operations" text="Операцій збору" />
         <text name="rhm_fields_nominal_area" text="Номінальна площа" />
         <text name="rhm_fields_harvested_area" text="Оброблена площа" />
         <text name="rhm_status_in_progress" text="У процесі" />
+        <text name="rhm_status_completed" text="Зібрано" />
         <text name="rhm_ops_one" text="збір" />
         <text name="rhm_ops_few" text="збори" />
         <text name="rhm_ops_many" text="зборів" />
+        <text name="rhm_loss_disabled" text="Симуляцію вимкнено" />
+        <text name="rhm_loss_disabled_desc" text="Симуляцію втрат врожаю вимкнено в налаштуваннях мода." />
+        <text name="rhm_filter_active" text="В строю" />
+        <text name="rhm_filter_all" text="Всі" />
+        <text name="rhm_filter_sold" text="Продані" />
+        <text name="rhm_status_sold" text="Продано (Архів)" />
+        <text name="rhm_field_sold" text="[Продано]" />
+        <text name="rhm_driver_sold" text="Знято з обліку" />
+        <text name="rhm_fleet_no_sold_combines" text="Немає проданих комбайнів в архіві" />
+        <text name="rhm_fleet_total_count_active" text="Комбайнів у строю" />
+        <text name="rhm_fleet_total_count_sold" text="Проданих комбайнів" />
     </texts>
 </l10n>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulation" />
@@ -461,9 +461,21 @@
         <text name="rhm_field_operations" text="Field Operations" />
         <text name="rhm_fields_nominal_area" text="Nominal Area" />
         <text name="rhm_status_in_progress" text="In Progress" />
+        <text name="rhm_status_completed" text="Harvested" />
         <text name="rhm_fields_harvested_area" text="Worked Area" />
         <text name="rhm_ops_one" text="harvest" />
         <text name="rhm_ops_few" text="harvests" />
         <text name="rhm_ops_many" text="harvests" />
+        <text name="rhm_loss_disabled" text="Simulation Disabled" />
+        <text name="rhm_loss_disabled_desc" text="Crop loss simulation is disabled in mod settings." />
+        <text name="rhm_filter_active" text="Active" />
+        <text name="rhm_filter_all" text="All" />
+        <text name="rhm_filter_sold" text="Sold" />
+        <text name="rhm_status_sold" text="Sold (Archived)" />
+        <text name="rhm_field_sold" text="[Sold]" />
+        <text name="rhm_driver_sold" text="Decommissioned" />
+        <text name="rhm_fleet_no_sold_combines" text="No Sold Harvesters in Archive" />
+        <text name="rhm_fleet_total_count_active" text="Active Harvesters" />
+        <text name="rhm_fleet_total_count_sold" text="Sold Harvesters" />
     </texts>
 </l10n>

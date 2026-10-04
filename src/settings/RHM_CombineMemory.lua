@@ -47,7 +47,7 @@ function RHM_CombineMemory.new(combine, machineType)
         local offset = math.random(-8, 8)
         self.currentSettings[paramName] = math.max(25, math.min(75, 50 + offset))
     end
-    self.currentSettings["targetEngineLoad"] = 88
+    self.currentSettings["targetEngineLoad"] = 80
 
     self.currentYieldCalibration = 1.0
 
@@ -557,7 +557,7 @@ function RHM_CombineMemory:loadUserPreset()
                     self.currentSettings[paramName] = profile[paramName]
                 end
             end
-            self.currentSettings.targetEngineLoad = profile.targetEngineLoad or 88
+            self.currentSettings.targetEngineLoad = profile.targetEngineLoad or 80
             self.mode = "MANUAL"
             self.autoSwitchEnabled = false
             self.isCalibrated = true
@@ -721,7 +721,7 @@ end
 function RHM_CombineMemory:setParameter(paramName, value)
     if self.currentSettings[paramName] ~= nil then
         if paramName == "targetEngineLoad" then
-            self.currentSettings[paramName] = math.max(70, math.min(110, value))
+            self.currentSettings[paramName] = math.max(70, math.min(100, value))
             return true
         end
         self.currentSettings[paramName] = math.max(0, math.min(100, value))

@@ -79,9 +79,17 @@ function RHMSettings.new(manager)
     self.hudPosX = nil
     self.hudPosY = nil
 
-    -- EN: Display unit system preference (client-side).
-    -- UA: Перевага системи одиниць відображення (клієнтська).
-    self.unitSystem = RHMSettings.UNIT_METRIC
+    -- EN: Display unit system preference (client-side). Auto-detect from game settings if unset.
+    -- UA: Перевага системи одиниць відображення (клієнтська). Авто-визначення з налаштувань гри.
+    local defaultUnit = RHMSettings.UNIT_METRIC
+    if g_gameSettings and g_gameSettings.getValue and GameSettings and GameSettings.SETTING then
+        local useMiles = g_gameSettings:getValue(GameSettings.SETTING.USE_MILES)
+        local useAcre = g_gameSettings:getValue(GameSettings.SETTING.USE_ACRE)
+        if useMiles or useAcre then
+            defaultUnit = RHMSettings.UNIT_IMPERIAL
+        end
+    end
+    self.unitSystem = defaultUnit
 
     Logging.info("RHM: RHMSettings initialized (Split Difficulty)")
 

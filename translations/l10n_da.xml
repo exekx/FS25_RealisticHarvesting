@@ -303,29 +303,29 @@
         <text name="rhm_trip_reset_done" text="Mark-tæller nulstillet!" />
         <text name="rhm_tab_trip" text="Nuværende mark / Tæller" />
         <text name="rhm_tab_trip_desc" text="Live telemetri for høstet mængde, bearbejdet areal, gennemsnitligt udbytte og tab for marken." />
-        <text name="rhm_tab_analytics" text="Ã…rsager til tab &amp; Evalueringsskema" />
-        <text name="rhm_tab_analytics_desc" text="Tabsfordeling, fÃ¸rerens effektivitetskarakter og anbefalinger fra maskincomputeren." />
-        <text name="rhm_tab_fleet" text="MejetÃ¦rskere i marken" />
-        <text name="rhm_tab_fleet_desc" text="Realtids telemetri, kapacitet og status for alle mejetÃ¦rskere pÃ¥ din bedrift." />
-        <text name="rhm_tab_settings" text="GÃ¥rds- &amp; AI-indstillinger" />
-        <text name="rhm_tab_settings_desc" text="Konfigurer hastighedsbegrÃ¦nser for AI-medhjÃ¦lpere, spildfrÃ¸/ukrudt og automatisk nulstilling." />
+        <text name="rhm_tab_analytics" text="Årsager til tab &amp; Evalueringsskema" />
+        <text name="rhm_tab_analytics_desc" text="Tabsfordeling, førerens effektivitetskarakter og anbefalinger fra maskincomputeren." />
+        <text name="rhm_tab_fleet" text="Mejetærskere i marken" />
+        <text name="rhm_tab_fleet_desc" text="Realtids telemetri, kapacitet og status for alle mejetærskere på din bedrift." />
+        <text name="rhm_tab_settings" text="Gårds- &amp; AI-indstillinger" />
+        <text name="rhm_tab_settings_desc" text="Konfigurer hastighedsbegrænser for AI-medhjælpere, spildfrø/ukrudt og automatisk nulstilling." />
         <text name="rhm_driver_parked" text="Parkeret" />
         <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
-        <text name="rhm_driver_hired_ai" text="AI-medhjÃ¦lper" />
+        <text name="rhm_driver_hired_ai" text="AI-medhjælper" />
         <text name="rhm_driver_player" text="Spiller" />
         <text name="rhm_driver_idle_on" text="Tomgang" />
-        <text name="rhm_field_yard" text="GÃ¥rd / Plads" />
+        <text name="rhm_field_yard" text="Gård / Plads" />
         <text name="rhm_field_format" text="Mark %d" />
-        <text name="rhm_fleet_driver" text="FÃ¸rer / OperatÃ¸r" />
-        <text name="rhm_fleet_cutter" text="SkÃ¦rebordbredde" />
+        <text name="rhm_fleet_driver" text="Fører / Operatør" />
+        <text name="rhm_fleet_cutter" text="Skærebordbredde" />
         <text name="rhm_fleet_grain_tank" text="Kornbeholder" />
         <text name="rhm_fleet_throughput" text="Kapacitet" />
         <text name="rhm_fleet_realtime_yield" text="Aktuelt udbytte" />
         <text name="rhm_fleet_crop_loss" text="Tabsrate" />
         <text name="rhm_fleet_wear_state" text="Maskinslid" />
-        <text name="rhm_fleet_total_count" text="MejetÃ¦rskere i alt" />
-        <text name="rhm_btn_subtab_fleet" text="MEJETÃ†RSKER-FLÃ…DE" />
-        <text name="rhm_btn_subtab_history" text="SÃ†SONHISTORIK / ALLE MARKER" />
+        <text name="rhm_fleet_total_count" text="Mejetærskere i alt" />
+        <text name="rhm_btn_subtab_fleet" text="MEJETÆRSKER-FLÅDE" />
+        <text name="rhm_btn_subtab_history" text="SÆSONHISTORIK / ALLE MARKER" />
         <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
         <text name="rhm_season_format" text="Season %d (Year %d)" />
         <text name="rhm_season_current_suffix" text="[Current]" />
@@ -336,67 +336,67 @@
         <text name="rhm_season_active_status" text="Active Season" />
         <text name="rhm_season_archived_status" text="Archived Season" />
         <text name="rhm_season_all_time_status" text="All-Time History" />
-        <text name="rhm_hist_total_area" text="Samlet hÃ¸stet areal" />
-        <text name="rhm_hist_total_harvest" text="Samlet ren hÃ¸st" />
+        <text name="rhm_hist_total_area" text="Samlet høstet areal" />
+        <text name="rhm_hist_total_harvest" text="Samlet ren høst" />
         <text name="rhm_hist_avg_loss" text="Gennemsnitligt tab" />
-        <text name="rhm_hist_total_money" text="Samlet Ã¸konomisk tab" />
-        <text name="rhm_col_season" text="SÃ¦son" />
+        <text name="rhm_hist_total_money" text="Samlet økonomisk tab" />
+        <text name="rhm_col_season" text="Sæson" />
         <text name="rhm_col_status" text="Status" />
-        <text name="rhm_hist_empty" text="Ingen sÃ¦sonoptegnelser endnu" />
-        <text name="rhm_status_harvesting" text="HÃ¸ster (aktiv)" />
+        <text name="rhm_hist_empty" text="Ingen sæsonoptegnelser endnu" />
+        <text name="rhm_status_harvesting" text="Høster (aktiv)" />
         <text name="rhm_status_on_field_idle" text="I marken (tomgang)" />
         <text name="rhm_status_on_field_stopped" text="I marken (stoppet)" />
-        <text name="rhm_status_in_transit" text="PÃ¥ vejen / Transport" />
+        <text name="rhm_status_in_transit" text="På vejen / Transport" />
         <text name="rhm_status_in_cab" text="Optaget (Spiller)" />
-        <text name="rhm_status_parked_yard" text="Parkeret pÃ¥ gÃ¥rden" />
-        <text name="rhm_card_field_harvest" text="NUVÃ†RENDE MARK OG HÃ˜ST" />
+        <text name="rhm_status_parked_yard" text="Parkeret på gården" />
+        <text name="rhm_card_field_harvest" text="NUVÆRENDE MARK OG HØST" />
         <text name="rhm_field_number" text="Marknummer" />
         <text name="rhm_trip_no_field" text="Uden for marken" />
-        <text name="rhm_crop_type" text="AfgrÃ¸de" />
-        <text name="rhm_harvested_area" text="HÃ¸stet areal" />
-        <text name="rhm_clean_harvest" text="Ren hÃ¸st" />
+        <text name="rhm_crop_type" text="Afgrøde" />
+        <text name="rhm_harvested_area" text="Høstet areal" />
+        <text name="rhm_clean_harvest" text="Ren høst" />
         <text name="rhm_average_yield" text="Gennemsnitligt udbytte" />
-        <text name="rhm_card_loss_finances" text="TAB &amp; Ã˜KONOMI" />
+        <text name="rhm_card_loss_finances" text="TAB &amp; ØKONOMI" />
         <text name="rhm_loss_volume" text="Tabt volumen" />
         <text name="rhm_loss_share" text="Tab % af udbyttet" />
-        <text name="rhm_financial_loss" text="Ã˜konomisk tab" />
+        <text name="rhm_financial_loss" text="Økonomisk tab" />
         <text name="rhm_card_performance" text="YDEEVNE &amp; TID" />
         <text name="rhm_avg_working_speed" text="Gns. arbejdshastighed" />
         <text name="rhm_avg_engine_load" text="Gns. motorbelastning" />
         <text name="rhm_session_duration" text="Sessionsvarighed" />
         <text name="rhm_btn_reset_trip" text="Nulstil mark-tæller" />
-        <text name="rhm_causes_title" text="HOVEDÃ…RSAGER TIL HÃ˜STTAB" />
-        <text name="rhm_cause_speed" text="Hastighed &amp; Overbelastning af tÃ¦rskeri" />
-        <text name="rhm_cause_moisture" text="AfgrÃ¸defugtighed &amp; Morgendug" />
-        <text name="rhm_cause_wear" text="Slid pÃ¥ skÃ¦rebord og tÃ¦rskeri" />
-        <text name="rhm_cause_slope" text="MarkhÃ¦ldning &amp; TerrÃ¦n" />
-        <text name="rhm_scorecard_title" text="FÃ˜RERENS EFFEKTIVITETSSKEMA" />
+        <text name="rhm_causes_title" text="HOVEDÅRSAGER TIL HØSTTAB" />
+        <text name="rhm_cause_speed" text="Hastighed &amp; Overbelastning af tærskeri" />
+        <text name="rhm_cause_moisture" text="Afgrødefugtighed &amp; Morgendug" />
+        <text name="rhm_cause_wear" text="Slid på skærebord og tærskeri" />
+        <text name="rhm_cause_slope" text="Markhældning &amp; Terræn" />
+        <text name="rhm_scorecard_title" text="FØRERENS EFFEKTIVITETSSKEMA" />
         <text name="rhm_rank_title_a" text="Klasse A: Optimal" />
         <text name="rhm_rank_desc_a" text="Tabsrate under 1,5%. Maskinindstillinger og arbejdshastighed er perfekt afstemt." />
         <text name="rhm_rank_title_b" text="Klasse B: Acceptabel" />
-        <text name="rhm_rank_desc_b" text="Tabsrate mellem 1,5% og 3,0%. Mindre justeringer af hastighed eller tÃ¦rskeafstand anbefales." />
-        <text name="rhm_rank_title_c" text="Klasse C: ForhÃ¸jet tab" />
-        <text name="rhm_rank_desc_c" text="Tabsrate mellem 3,0% og 4,5%. SÃ¦nk hastigheden eller tjek skÃ¦rebordets knive." />
+        <text name="rhm_rank_desc_b" text="Tabsrate mellem 1,5% og 3,0%. Mindre justeringer af hastighed eller tærskeafstand anbefales." />
+        <text name="rhm_rank_title_c" text="Klasse C: Forhøjet tab" />
+        <text name="rhm_rank_desc_c" text="Tabsrate mellem 3,0% og 4,5%. Sænk hastigheden eller tjek skærebordets knive." />
         <text name="rhm_rank_title_d" text="Klasse D: Kritiske tab" />
         <text name="rhm_rank_desc_d" text="Tabsrate overstiger 4,5%! Alvorlig overbelastning af soldene eller forkert kalibrering." />
         <text name="rhm_guidance_title" text="MASKINCOMPUTERENS ANBEFALINGER" />
-        <text name="rhm_advice_perfect" text="HÃ¸steffektiviteten er optimal. Alle tÃ¦rskeparametre og hastighed er i fin balance." />
-        <text name="rhm_advice_speed" text="Tab skyldes primÃ¦rt for hÃ¸j hastighed. SÃ¦nk farten for at aflaste soldene." />
-        <text name="rhm_advice_moisture" text="Tab forÃ¥rsaget af hÃ¸j fugtighed eller dug. Vent pÃ¥ at marken tÃ¸rrer eller sÃ¦nk farten." />
-        <text name="rhm_advice_wear" text="Ã˜get tab pga. slidte knive eller slagler. Foretag service pÃ¥ vÃ¦rkstedet." />
-        <text name="rhm_advice_slope" text="SidehÃ¦ldning i kuperet terrÃ¦n belaster soldene ujÃ¦vnt. SÃ¦nk farten pÃ¥ skrÃ¥ninger." />
+        <text name="rhm_advice_perfect" text="Høsteffektiviteten er optimal. Alle tærskeparametre og hastighed er i fin balance." />
+        <text name="rhm_advice_speed" text="Tab skyldes primært for høj hastighed. Sænk farten for at aflaste soldene." />
+        <text name="rhm_advice_moisture" text="Tab forårsaget af høj fugtighed eller dug. Vent på at marken tørrer eller sænk farten." />
+        <text name="rhm_advice_wear" text="Øget tab pga. slidte knive eller slagler. Foretag service på værkstedet." />
+        <text name="rhm_advice_slope" text="Sidehældning i kuperet terræn belaster soldene ujævnt. Sænk farten på skråninger." />
         <text name="rhm_col_machine" text="Maskine" />
         <text name="rhm_col_hours" text="Driftstimer" />
-        <text name="rhm_col_harvested" text="HÃ¸stet" />
+        <text name="rhm_col_harvested" text="Høstet" />
         <text name="rhm_col_lost" text="Tabt" />
         <text name="rhm_col_rank" text="Klasse" />
-        <text name="rhm_fleet_no_combines" text="Ingen mejetÃ¦rskere fundet" />
-        <text name="rhm_setting_ai_limiter_title" text="AI-HASTIGHEDSBEGRÃ†NSER" />
-        <text name="rhm_setting_ai_limiter_desc" text="BegrÃ¦nser automatisk arbejdshastigheden for hjÃ¦lpere, hvis tabet overskrider grÃ¦nsen." />
-        <text name="rhm_setting_ai_threshold_title" text="AI-TABSGRÃ†NSE" />
-        <text name="rhm_setting_ai_threshold_desc" text="Maksimalt acceptabelt tabsprocent fÃ¸r AI-hjÃ¦lperen automatisk bremser." />
+        <text name="rhm_fleet_no_combines" text="Ingen mejetærskere fundet" />
+        <text name="rhm_setting_ai_limiter_title" text="AI-HASTIGHEDSBEGRÆNSER" />
+        <text name="rhm_setting_ai_limiter_desc" text="Begrænser automatisk arbejdshastigheden for hjælpere, hvis tabet overskrider grænsen." />
+        <text name="rhm_setting_ai_threshold_title" text="AI-TABSGRÆNSE" />
+        <text name="rhm_setting_ai_threshold_desc" text="Maksimalt acceptabelt tabsprocent før AI-hjælperen automatisk bremser." />
         <text name="rhm_setting_volunteer_title" text="SPILDPLANTER OG UKRUDT" />
-        <text name="rhm_setting_volunteer_desc" text="Danner spildplanter og ukrudt bag mejetÃ¦rskeren i omrÃ¥der med hÃ¸jt tab (&gt;3%)." />
+        <text name="rhm_setting_volunteer_desc" text="Danner spildplanter og ukrudt bag mejetærskeren i områder med højt tab (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-NULSTIL VED MARKSKIFT" />
         <text name="rhm_setting_autoreset_desc" text="Arkiverer og nulstiller automatisk mark-tælleren ved kørsel til en anden mark." />
         <text name="rhm_col_field" text="Mark" />
@@ -447,5 +447,29 @@
         <text name="rhm_fields_no_data" text="Ingen marker registreret" />
         <text name="rhm_contract_tag" text="(Kontrakt)" />
         <text name="rhm_status_completed" text="Høstet" />
+        <text name="rhm_status_idle_yard" text="På gården (afventer)" />
+        <text name="rhm_fields_external" text="Ekstern" />
+        <text name="rhm_field_transit" text="Undervejs / Kørsel" />
+        <text name="rhm_detail_loss_money" text="Økonomisk tab fra høsttab" />
+        <text name="rhm_cause_none" text="Optimal drift (intet tab)" />
+        <text name="rhm_fields_all_overview" text="[*] Gårdoverblik (alle marker)" />
+        <text name="rhm_field_operations" text="Høstoperationer" />
+        <text name="rhm_fields_nominal_area" text="Nominelt areal" />
+        <text name="rhm_status_in_progress" text="I gang" />
+        <text name="rhm_fields_harvested_area" text="Høstet areal" />
+        <text name="rhm_ops_one" text="høst" />
+        <text name="rhm_ops_few" text="høster" />
+        <text name="rhm_ops_many" text="høster" />
+        <text name="rhm_loss_disabled" text="Simulering deaktiveret" />
+        <text name="rhm_loss_disabled_desc" text="Høsttabssimulering er deaktiveret i mod-indstillingerne." />
+        <text name="rhm_filter_active" text="Aktiv" />
+        <text name="rhm_filter_all" text="Alle" />
+        <text name="rhm_filter_sold" text="Solgt" />
+        <text name="rhm_status_sold" text="Solgt (Arkiv)" />
+        <text name="rhm_field_sold" text="[Solgt]" />
+        <text name="rhm_driver_sold" text="Afmeldt" />
+        <text name="rhm_fleet_no_sold_combines" text="Ingen solgte mejetærskere i arkivet" />
+        <text name="rhm_fleet_total_count_active" text="Aktive mejetærskere" />
+        <text name="rhm_fleet_total_count_sold" text="Solgte mejetærskere" />
     </texts>
 </l10n>

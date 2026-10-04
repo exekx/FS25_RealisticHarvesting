@@ -298,128 +298,128 @@
         <text name="rhm_ui_cutter_wear" text="割台磨損" />
         <text name="rhm_ui_combine_wear" text="脫粒機構磨損" />
         <!-- Harvest History & Field Trip Telemetry -->
-        <text name="input_RHM_OPEN_HARVEST_MENU" text="採收歷史與農田計數器" />
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="採收記錄與農田計數器" />
         <text name="input_RHM_QUICK_RESET_TRIP" text="重設農田計數器（長按）" />
         <text name="rhm_trip_reset_done" text="農田計數器已重設！" />
-        <text name="rhm_tab_trip" text="目前作業 / 計數器" />
-        <text name="rhm_tab_trip_desc" text="即時顯示當前農田作業的採收量、作業面積、平均產量及財務損失。" />
-        <text name="rhm_tab_analytics" text="æå¤±æˆå› èˆ‡è©- ä¼°è¨ˆåˆ†å¡" />
-        <text name="rhm_tab_analytics_desc" text="æå¤±åŽŸå› åˆ†ä½ˆã€æ“ä½œå“¡æ- ˆçŽ‡è©- ç´šä»¥åŠè¡Œè»Šé›»è…¦å»ºè­°ã€‚" />
-        <text name="rhm_tab_fleet" text="ç”°é–“è¯åˆæ”¶å‰²æ©Ÿ" />
-        <text name="rhm_tab_fleet_desc" text="è¾²å ´æ‰€æœ‰è¯åˆæ”¶å‰²æ©Ÿçš„å³æ™‚é™æ¸¬ã€è™- ç†èƒ½åŠ›èˆ‡é‹ä½œç‹€æ…‹ã€‚" />
-        <text name="rhm_tab_settings" text="è¾²å ´èˆ‡AIè¨­å®š" />
-        <text name="rhm_tab_settings_desc" text="é…ç½®åƒ±ç”¨å·¥äººé€Ÿåº¦é™åˆ¶å™¨ã€è‡ªç”Ÿè½ç²’é›œè‰ç”¢ç”Ÿèˆ‡è‡ªå‹- é‡è¨­é¸é …ã€‚" />
-        <text name="rhm_driver_parked" text="å·²åœæ³Š" />
-        <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
-        <text name="rhm_driver_hired_ai" text="åƒ±ç”¨å·¥äºº" />
-        <text name="rhm_driver_player" text="çŽ©å®¶" />
-        <text name="rhm_driver_idle_on" text="æ€ é€Ÿä¸­" />
-        <text name="rhm_field_yard" text="è¾²å ´ / åŸºåœ°" />
-        <text name="rhm_field_format" text="è¾²ç”° %d" />
-        <text name="rhm_fleet_driver" text="é§- é§›å“¡ / æ“ä½œå“¡" />
-        <text name="rhm_fleet_cutter" text="å‰²å°å¯¬åº¦" />
-        <text name="rhm_fleet_grain_tank" text="ç³§å€‰è£è¼‰é‡" />
-        <text name="rhm_fleet_throughput" text="è™- ç†ç”¢èƒ½" />
-        <text name="rhm_fleet_realtime_yield" text="å³æ™‚ç”¢é‡" />
-        <text name="rhm_fleet_crop_loss" text="æå¤±çŽ‡" />
-        <text name="rhm_fleet_wear_state" text="æ©Ÿå™¨ç£¨æåº¦" />
-        <text name="rhm_fleet_total_count" text="æ”¶å‰²æ©Ÿç¸½æ- ¸" />
-        <text name="rhm_btn_subtab_fleet" text="æ”¶å‰²æ©Ÿè»ŠéšŠ" />
-        <text name="rhm_btn_subtab_history" text="å­£åº¦æ­·å² / å…¨éƒ¨è¾²ç”°" />
-        <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
-        <text name="rhm_season_format" text="Season %d (Year %d)" />
-        <text name="rhm_season_current_suffix" text="[Current]" />
-        <text name="rhm_card_season_harvest" text="SEASON HARVEST &amp; AREA" />
-        <text name="rhm_card_season_losses" text="SEASON LOSSES &amp; FINANCES" />
-        <text name="rhm_card_season_telemetry" text="SEASON METRICS &amp; HARVEST TIME" />
-        <text name="rhm_season_operations" text="Completed Operations" />
-        <text name="rhm_season_active_status" text="Active Season" />
-        <text name="rhm_season_archived_status" text="Archived Season" />
-        <text name="rhm_season_all_time_status" text="All-Time History" />
-        <text name="rhm_hist_total_area" text="ç¸½æŽ¡æ”¶é¢ç©" />
-        <text name="rhm_hist_total_harvest" text="ç¸½æ·¨æŽ¡æ”¶é‡" />
-        <text name="rhm_hist_avg_loss" text="å¹³å‡æå¤±çŽ‡" />
-        <text name="rhm_hist_total_money" text="ç¸½è²¡å‹™æå¤±" />
-        <text name="rhm_col_season" text="å­£åº¦" />
-        <text name="rhm_col_status" text="ç‹€æ…‹" />
-        <text name="rhm_hist_empty" text="å°šç„¡å­£åº¦è¨˜éŒ„" />
-        <text name="rhm_status_harvesting" text="æŽ¡æ”¶ä¸­ï¼ˆä½œæ¥­ï¼‰" />
-        <text name="rhm_status_on_field_idle" text="ç”°é–“å¾…å‘½ï¼ˆæ€ é€Ÿï¼‰" />
-        <text name="rhm_status_on_field_stopped" text="ç”°é–“åœæ³Šï¼ˆç†„ç«ï¼‰" />
-        <text name="rhm_status_in_transit" text="å…¬è·¯è¡Œé§› / é‹è¼¸ä¸­" />
-        <text name="rhm_status_in_cab" text="æœ‰äººä¹˜åï¼ˆçŽ©å®¶ï¼‰" />
-        <text name="rhm_status_parked_yard" text="åŸºåœ°åœæ³Šä¸­" />
-        <text name="rhm_card_field_harvest" text="ç›®å‰è¾²ç”°èˆ‡æŽ¡æ”¶æƒ…æ³" />
-        <text name="rhm_field_number" text="è¾²ç”°ç·¨è™Ÿ" />
-        <text name="rhm_trip_no_field" text="ç”°å¤–å€åŸŸ" />
-        <text name="rhm_crop_type" text="ä½œç‰©é¡žåž‹" />
-        <text name="rhm_harvested_area" text="å·²æŽ¡æ”¶é¢ç©" />
-        <text name="rhm_clean_harvest" text="æ·¨æŽ¡æ”¶é‡" />
-        <text name="rhm_average_yield" text="å¹³å‡ç”¢é‡" />
-        <text name="rhm_card_loss_finances" text="æå¤±èˆ‡è²¡å‹™çµ±è¨ˆ" />
-        <text name="rhm_loss_volume" text="æå¤±é«”ç©" />
-        <text name="rhm_loss_share" text="ç›¸å°æ–¼ç”¢é‡ä¹‹æå¤± %" />
-        <text name="rhm_financial_loss" text="è²¡å‹™æå¤±" />
-        <text name="rhm_card_performance" text="ä½œæ¥­æ€§èƒ½èˆ‡æ™‚é–“" />
-        <text name="rhm_avg_working_speed" text="å¹³å‡å·¥ä½œé€Ÿåº¦" />
-        <text name="rhm_avg_engine_load" text="å¹³å‡å¼- æ“Žè² è·" />
-        <text name="rhm_session_duration" text="ä½œæ¥­æ™‚é–“" />
+        <text name="rhm_tab_trip" text="當前農田 / 作業計數器" />
+        <text name="rhm_tab_trip_desc" text="當前農田作業之採收量、作業面積、平均產量及財務損失即時遙測。" />
+        <text name="rhm_tab_analytics" text="損失成因與評分卡" />
+        <text name="rhm_tab_analytics_desc" text="損失分佈、操作員效率評級及車載電腦診斷建議。" />
+        <text name="rhm_tab_fleet" text="作業中收割機" />
+        <text name="rhm_tab_fleet_desc" text="農場內所有收割機之即時遙測、處理量及作業狀態。" />
+        <text name="rhm_tab_settings" text="農場與AI設定" />
+        <text name="rhm_tab_settings_desc" text="設定AI僱員速度限制器、自生雜草生成及自動重設選項。" />
+        <text name="rhm_driver_parked" text="已停泊" />
+        <text name="rhm_driver_cp_ai" text="AI（Courseplay）" />
+        <text name="rhm_driver_hired_ai" text="AI僱員" />
+        <text name="rhm_driver_player" text="玩家" />
+        <text name="rhm_driver_idle_on" text="怠速運轉" />
+        <text name="rhm_field_yard" text="基地 / 庭院" />
+        <text name="rhm_field_format" text="農田 %d" />
+        <text name="rhm_fleet_driver" text="操作員" />
+        <text name="rhm_fleet_cutter" text="割台寬度" />
+        <text name="rhm_fleet_grain_tank" text="糧倉容量" />
+        <text name="rhm_fleet_throughput" text="處理能力" />
+        <text name="rhm_fleet_realtime_yield" text="即時產量" />
+        <text name="rhm_fleet_crop_loss" text="損失率" />
+        <text name="rhm_fleet_wear_state" text="機器磨損" />
+        <text name="rhm_fleet_total_count" text="收割機總數" />
+        <text name="rhm_btn_subtab_fleet" text="收割機車隊" />
+        <text name="rhm_btn_subtab_history" text="季度歷史 / 所有農田" />
+        <text name="rhm_season_all_time" text="所有季度（歷史總計）" />
+        <text name="rhm_season_format" text="第 %d 季（第 %d 年）" />
+        <text name="rhm_season_current_suffix" text="[當前]" />
+        <text name="rhm_card_season_harvest" text="季度採收與面積" />
+        <text name="rhm_card_season_losses" text="季度損失與財務" />
+        <text name="rhm_card_season_telemetry" text="季度指標與作業時間" />
+        <text name="rhm_season_operations" text="已完成作業" />
+        <text name="rhm_season_active_status" text="進行中季度" />
+        <text name="rhm_season_archived_status" text="已封存季度" />
+        <text name="rhm_season_all_time_status" text="歷史總計" />
+        <text name="rhm_hist_total_area" text="總採收面積" />
+        <text name="rhm_hist_total_harvest" text="總淨採收量" />
+        <text name="rhm_hist_avg_loss" text="平均損失率" />
+        <text name="rhm_hist_total_money" text="總財務損失" />
+        <text name="rhm_col_season" text="季度" />
+        <text name="rhm_col_status" text="狀態" />
+        <text name="rhm_hist_empty" text="尚無季度記錄" />
+        <text name="rhm_status_harvesting" text="採收中（作業）" />
+        <text name="rhm_status_on_field_idle" text="田間待命（怠速）" />
+        <text name="rhm_status_on_field_stopped" text="田間停泊（熄火）" />
+        <text name="rhm_status_in_transit" text="行駛中" />
+        <text name="rhm_status_in_cab" text="有人駕駛" />
+        <text name="rhm_status_parked_yard" text="停放於基地" />
+        <text name="rhm_card_field_harvest" text="當前農田與採收情況" />
+        <text name="rhm_field_number" text="農田編號" />
+        <text name="rhm_trip_no_field" text="田外區域" />
+        <text name="rhm_crop_type" text="作物類型" />
+        <text name="rhm_harvested_area" text="已採收面積" />
+        <text name="rhm_clean_harvest" text="淨採收量" />
+        <text name="rhm_average_yield" text="平均產量" />
+        <text name="rhm_card_loss_finances" text="損失與財務統計" />
+        <text name="rhm_loss_volume" text="損失體積" />
+        <text name="rhm_loss_share" text="損失佔比 %" />
+        <text name="rhm_financial_loss" text="財務損失" />
+        <text name="rhm_card_performance" text="作業性能與時間" />
+        <text name="rhm_avg_working_speed" text="平均作業速度" />
+        <text name="rhm_avg_engine_load" text="平均引擎負荷" />
+        <text name="rhm_session_duration" text="作業時間" />
         <text name="rhm_btn_reset_trip" text="重設農田計數器" />
-        <text name="rhm_causes_title" text="ä½œç‰©æå¤±ä¸»è¦æˆå› " />
-        <text name="rhm_cause_speed" text="é€Ÿåº¦éŽå¿«èˆ‡è„«ç²’ç­’éŽè¼‰" />
-        <text name="rhm_cause_moisture" text="ä½œç‰©æ¿- åº¦èˆ‡æ™¨éœ²" />
-        <text name="rhm_cause_wear" text="å‰²åˆ€èˆ‡è„«ç²’éƒ¨ä»¶ç£¨æ" />
-        <text name="rhm_cause_slope" text="ç”°é–“å¡åº¦èˆ‡åœ°å½¢èµ·ä¼" />
-        <text name="rhm_scorecard_title" text="æ“ä½œå“¡æ- ˆçŽ‡è©- ä¼°è¨ˆåˆ†å¡" />
-        <text name="rhm_rank_title_a" text="ç­‰ç´š Aï¼šæœ€ä½³" />
-        <text name="rhm_rank_desc_a" text="æå¤±çŽ‡ä½Žæ–¼ 1.5%ã€‚æ©Ÿå™¨è¨­å®šèˆ‡è¡Œé€²é€Ÿåº¦é”åˆ°å®Œç¾Žå¹³è¡¡ã€‚" />
-        <text name="rhm_rank_title_b" text="ç­‰ç´š Bï¼šè‰¯å¥½" />
-        <text name="rhm_rank_desc_b" text="æå¤±çŽ‡ä»‹æ–¼ 1.5% èˆ‡ 3.0% ä¹‹é–“ã€‚å»ºè­°å¾®èª¿é€Ÿåº¦æˆ–è„«ç²’å‡¹æ¿é–“éš™ã€‚" />
-        <text name="rhm_rank_title_c" text="ç­‰ç´š Cï¼šæå¤±åé«˜" />
-        <text name="rhm_rank_desc_c" text="æå¤±çŽ‡ä»‹æ–¼ 3.0% èˆ‡ 4.5% ä¹‹é–“ã€‚è«‹æ¸›é€Ÿæˆ–æª¢æŸ¥å‰²åˆ€é‹’åˆ©åº¦ã€‚" />
-        <text name="rhm_rank_title_d" text="ç­‰ç´š Dï¼šåš´é‡æå¤±" />
-        <text name="rhm_rank_desc_d" text="æå¤±çŽ‡è¶…éŽ 4.5%ï¼ç¯©å­åš´é‡éŽè¼‰æˆ–æ©Ÿå™¨èª¿æ ¡å¤±èª¤ã€‚" />
-        <text name="rhm_guidance_title" text="è¡Œè»Šé›»è…¦æŒ‡å¼- å»ºè­°" />
-        <text name="rhm_advice_perfect" text="æŽ¡æ”¶æ- ˆçŽ‡è™- æ–¼æœ€ä½³ç‹€æ…‹ã€‚è„«ç²’èˆ‡åˆ†é›¢å„é …åƒæ- ¸å¹³è¡¡å”èª¿ã€‚" />
-        <text name="rhm_advice_speed" text="ä¸»è¦æå¤±ç”±è»Šé€ŸéŽå¿«å¼- èµ·ã€‚è«‹æ¸›é€Ÿä»¥æ¸›è¼- æ¸…é¸ç¯©çš„è² è·ã€‚" />
-        <text name="rhm_advice_moisture" text="ä½œç‰©é«˜æ¿- åº¦æˆ–æ™¨éœ²å°Žè‡´æå¤±å¢žåŠ ã€‚è«‹ç­‰å¾…æ›¬ä¹¾æˆ–æ”¾æ…¢è»Šé€Ÿã€‚" />
-        <text name="rhm_advice_wear" text="å‰²åˆ€æˆ–è„«ç²’æ¡¿ç£¨æå°Žè‡´æå¤±ä¸Šå‡ã€‚è«‹è‡³ç¶­ä¿®ç«™é€²è¡Œä¿é¤Šç¶­è­·ã€‚" />
-        <text name="rhm_advice_slope" text="æ–œå¡æ©«å‘å‚¾æ–œå°Žè‡´æ¸…é¸ç¯©å—è¼‰ä¸å‡ã€‚å¡åœ°è¡Œé§›æ™‚è«‹é™ä½Žè»Šé€Ÿã€‚" />
-        <text name="rhm_col_machine" text="æ©Ÿæ¢°" />
-        <text name="rhm_col_hours" text="ä½œæ¥­æ™‚æ- ¸" />
-        <text name="rhm_col_harvested" text="å·²æŽ¡æ”¶" />
-        <text name="rhm_col_lost" text="æå¤±" />
-        <text name="rhm_col_rank" text="è©- ç´š" />
-        <text name="rhm_fleet_no_combines" text="æœªæ‰¾åˆ°æ”¶å‰²æ©Ÿ" />
-        <text name="rhm_setting_ai_limiter_title" text="AI é€Ÿåº¦é™åˆ¶å™¨" />
-        <text name="rhm_setting_ai_limiter_desc" text="ç- ¶æå¤±çŽ‡è¶…éŽè‡¨ç- Œå€¼æ™‚ï¼Œè‡ªå‹- é™åˆ¶åƒ±ç”¨å·¥äººçš„å·¡èˆªä½œæ¥­é€Ÿåº¦ã€‚" />
-        <text name="rhm_setting_ai_threshold_title" text="AI æå¤±è‡¨ç- Œé–€æª»" />
-        <text name="rhm_setting_ai_threshold_desc" text="AI åŠ©æ‰‹é–‹å§‹è‡ªå‹- æ¸›é€Ÿå‰æ‰€å…è¨±çš„æœ€å¤§æå¤±ç™¾åˆ†æ¯”ï¼ˆ%ï¼‰ã€‚" />
-        <text name="rhm_setting_volunteer_title" text="è½ç²’é›œè‰è‡ªç”Ÿ" />
-        <text name="rhm_setting_volunteer_desc" text="åœ¨é‡åº¦æå¤±å€åŸŸï¼ˆ&gt;3%ï¼‰æ”¶å‰²æ©Ÿå¾Œæ–¹ç”Ÿæˆé›œè‰èˆ‡è½ç²’å¹¼è‹—ã€‚" />
+        <text name="rhm_causes_title" text="作物損失主要成因" />
+        <text name="rhm_cause_speed" text="速度過快與脫粒筒過載" />
+        <text name="rhm_cause_moisture" text="作物濕度與晨露" />
+        <text name="rhm_cause_wear" text="割台與脫粒部件磨損" />
+        <text name="rhm_cause_slope" text="田地坡度與傾斜" />
+        <text name="rhm_scorecard_title" text="操作員效率評分卡" />
+        <text name="rhm_rank_title_a" text="等級 A: 最佳" />
+        <text name="rhm_rank_desc_a" text="損失率低於 1.5%。收割機設定與行駛速度完美契合。" />
+        <text name="rhm_rank_title_b" text="等級 B: 良好" />
+        <text name="rhm_rank_desc_b" text="損失率介於 1.5% 至 3.0% 之間。建議微調速度或凹板間隙。" />
+        <text name="rhm_rank_title_c" text="等級 C: 偏高" />
+        <text name="rhm_rank_desc_c" text="損失率介於 3.0% 至 4.5% 之間。請減速或檢查割刀鋒利度。" />
+        <text name="rhm_rank_title_d" text="等級 D: 嚴重" />
+        <text name="rhm_rank_desc_d" text="損失率超過 4.5%！篩網嚴重過載或設定嚴重偏差。" />
+        <text name="rhm_guidance_title" text="車載電腦診斷建議" />
+        <text name="rhm_advice_perfect" text="採收效率極佳。所有分離參數均處於最佳平衡狀態。" />
+        <text name="rhm_advice_speed" text="主要損失成因為速度過快。請減速以降低篩網負擔。" />
+        <text name="rhm_advice_moisture" text="高作物濕度或晨露導致損失。請等待田間乾燥或適當減速。" />
+        <text name="rhm_advice_wear" text="刀片或脫粒紋桿磨損導致損失增加。請至維修站進行保養。" />
+        <text name="rhm_advice_slope" text="坡地側向傾斜導致篩網負載不均。於坡地作業時請減速。" />
+        <text name="rhm_col_machine" text="機器" />
+        <text name="rhm_col_hours" text="作業時數" />
+        <text name="rhm_col_harvested" text="採收量" />
+        <text name="rhm_col_lost" text="損失量" />
+        <text name="rhm_col_rank" text="等級" />
+        <text name="rhm_fleet_no_combines" text="未找到收割機" />
+        <text name="rhm_setting_ai_limiter_title" text="AI速度限制器" />
+        <text name="rhm_setting_ai_limiter_desc" text="當損失超過閥值時，自動限制AI僱員巡航速度。" />
+        <text name="rhm_setting_ai_threshold_title" text="AI損失容許閥值" />
+        <text name="rhm_setting_ai_threshold_desc" text="AI僱員開始自動煞車減速之最大容許損失百分比。" />
+        <text name="rhm_setting_volunteer_title" text="自生雜草生成" />
+        <text name="rhm_setting_volunteer_desc" text="在嚴重損失區域（>3%）於收割機後方生成雜草與自生幼苗。" />
         <text name="rhm_setting_autoreset_title" text="更換農田時自動重設" />
-        <text name="rhm_setting_autoreset_desc" text="行駛至另一塊農田時，自動封存記錄並重設農田計數器。" />
-        <text name="rhm_col_field" text="田地" />
+        <text name="rhm_setting_autoreset_desc" text="行駛至其他農田時，自動封存當前測量並重設計數器。" />
+        <text name="rhm_col_field" text="農田" />
         <text name="rhm_col_speed" text="速度" />
-        <text name="rhm_col_load" text="負載" />
+        <text name="rhm_col_load" text="負荷" />
         <text name="rhm_col_loss" text="損失" />
-        <text name="rhm_col_tank" text="糧箱" />
+        <text name="rhm_col_tank" text="糧倉" />
         <text name="rhm_col_area" text="面積" />
-        <text name="rhm_col_money" text="損失 ($)" />
-        <text name="rhm_col_driver" text="駕駛員" />
+        <text name="rhm_col_money" text="損失金額" />
+        <text name="rhm_col_driver" text="操作員" />
         <text name="rhm_col_cutter" text="割台" />
-        <text name="rhm_col_throughput" text="產能" />
+        <text name="rhm_col_throughput" text="處理量" />
         <text name="rhm_col_yield" text="產量" />
         <text name="rhm_col_wear" text="磨損" />
-        <text name="rhm_kpi_field" text="田地" />
+        <text name="rhm_kpi_field" text="農田" />
         <text name="rhm_kpi_crop" text="作物" />
         <text name="rhm_kpi_area" text="面積" />
-        <text name="rhm_kpi_harvest" text="收穫" />
+        <text name="rhm_kpi_harvest" text="採收量" />
         <text name="rhm_kpi_yield" text="產量" />
         <text name="rhm_kpi_loss" text="損失" />
         <text name="rhm_kpi_speed" text="速度" />
         <text name="rhm_efficiency_index" text="效率等級" />
-        <text name="rhm_trip_footer_hint" text="作業計程表追蹤當前田地的收穫面積與淨糧體積。您可以隨時重置計數。" />
+        <text name="rhm_trip_footer_hint" text="農田計數器記錄當前農田的採收面積和淨糧食量。隨時可進行重設。" />
         <text name="rhm_detail_area" text="總收穫田地面積" />
         <text name="rhm_detail_clean_grain" text="淨糧" />
         <text name="rhm_detail_yield" text="收穫面積平均產量" />
@@ -447,5 +447,29 @@
         <text name="rhm_fields_no_data" text="無田地記錄" />
         <text name="rhm_contract_tag" text="(合約)" />
         <text name="rhm_status_completed" text="已收穫" />
+        <text name="rhm_status_idle_yard" text="基地待命" />
+        <text name="rhm_fields_external" text="外部" />
+        <text name="rhm_field_transit" text="行駛中" />
+        <text name="rhm_detail_loss_money" text="產量損失帶來的經濟損失" />
+        <text name="rhm_cause_none" text="最佳作業 (無損失)" />
+        <text name="rhm_fields_all_overview" text="[*] 農場總覽 (所有田地)" />
+        <text name="rhm_field_operations" text="收穫作業次數" />
+        <text name="rhm_fields_nominal_area" text="標稱面積" />
+        <text name="rhm_status_in_progress" text="進行中" />
+        <text name="rhm_fields_harvested_area" text="已收穫面積" />
+        <text name="rhm_ops_one" text="次" />
+        <text name="rhm_ops_few" text="次" />
+        <text name="rhm_ops_many" text="次" />
+        <text name="rhm_loss_disabled" text="模擬已停用" />
+        <text name="rhm_loss_disabled_desc" text="模組設定中已停用產量損失模擬。" />
+        <text name="rhm_filter_active" text="運作中" />
+        <text name="rhm_filter_all" text="全部" />
+        <text name="rhm_filter_sold" text="已售出" />
+        <text name="rhm_status_sold" text="已售出 (存檔)" />
+        <text name="rhm_field_sold" text="[已售出]" />
+        <text name="rhm_driver_sold" text="已退役" />
+        <text name="rhm_fleet_no_sold_combines" text="存檔中沒有已售出的收割機" />
+        <text name="rhm_fleet_total_count_active" text="運作中的收割機" />
+        <text name="rhm_fleet_total_count_sold" text="已售出收割機" />
     </texts>
 </l10n>

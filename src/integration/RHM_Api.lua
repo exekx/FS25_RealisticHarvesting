@@ -181,7 +181,7 @@ function RHM_Api.getNormalizedEngineLoad(vehicle)
     return math.max(0.0, math.min(1.0, raw / 100.0))
 end
 
----EN: Returns user-configured target engine load percentage (e.g., 88%).
+---EN: Returns user-configured target engine load percentage (e.g., 80%).
 ---UA: Повертає задане цільове навантаження у відсотках.
 ---@param vehicle table|nil
 ---@return number|nil targetLoadPct or nil if unmanaged
@@ -962,6 +962,97 @@ function RHM_Api.getFieldAtWorldPosition(wx, wz, vehicle)
         return RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, vehicle)
     end
     return nil, 0, 0
+end
+
+-- ============================================================================
+-- 10. UNIT SYSTEM & FORMATTING HELPERS
+-- ============================================================================
+
+---EN: Returns the currently active unit system (1=Metric, 2=Imperial, 3=Bushels).
+---UA: Повертає поточно активну систему одиниць вимірювання (1=Метрична, 2=Імперська, 3=Бушелі).
+---@return number
+function RHM_Api.getUnitSystem()
+    if RHM_UnitConverter and RHM_UnitConverter.getActiveSystem then
+        return RHM_UnitConverter.getActiveSystem()
+    end
+    return 1
+end
+
+---EN: Formats a speed value with unit label ("km/h" or "mph").
+---UA: Форматує швидкість з підписом одиниці ("км/год" або "миль/год").
+function RHM_Api.formatSpeed(kmh, system)
+    if RHM_UnitConverter and RHM_UnitConverter.formatSpeed then
+        return RHM_UnitConverter.formatSpeed(kmh, system)
+    end
+    return string.format("%.1f km/h", kmh or 0)
+end
+
+---EN: Formats an area value with unit label ("ha" or "ac").
+---UA: Форматує площу з підписом одиниці ("га" або "акр").
+function RHM_Api.formatArea(hectares, system)
+    if RHM_UnitConverter and RHM_UnitConverter.formatArea then
+        return RHM_UnitConverter.formatArea(hectares, system)
+    end
+    return string.format("%.2f ha", hectares or 0)
+end
+
+---EN: Formats a yield value with unit label ("t/ha", "t/ac", or "bu/ac").
+---UA: Форматує врожайність з підписом одиниці ("т/га", "т/акр" або "буш/акр").
+function RHM_Api.formatYield(tPerHa, system, fruitType)
+    if RHM_UnitConverter and RHM_UnitConverter.formatYield then
+        return RHM_UnitConverter.formatYield(tPerHa, system, fruitType)
+    end
+    return string.format("%.2f t/ha", tPerHa or 0)
+end
+
+---EN: Formats a mass value with unit label ("t", "tn", or "bu").
+---UA: Форматує масу з підписом одиниці ("т", "тон" або "буш").
+function RHM_Api.formatMass(tonnes, system, fruitType, liters)
+    if RHM_UnitConverter and RHM_UnitConverter.formatMass then
+        return RHM_UnitConverter.formatMass(tonnes, system, fruitType, liters)
+    end
+    return string.format("%.1f t", tonnes or 0)
+end
+
+---EN: Formats a cutter/header width with unit label ("m" or "ft").
+---UA: Форматує ширину жатки з підписом одиниці ("м" або "фут").
+function RHM_Api.formatWidth(meters, system)
+    if RHM_UnitConverter and RHM_UnitConverter.formatWidth then
+        return RHM_UnitConverter.formatWidth(meters, system)
+    end
+    return string.format("%.1f m", meters or 0)
+end
+
+-- ============================================================================
+-- 11. FEATURE TOGGLES & CONFIGURATION STATE
+-- ============================================================================
+
+---EN: Returns true if dynamic crop loss simulation is enabled in mod settings.
+---UA: Повертає true, якщо симуляція втрат врожаю увімкнена в налаштуваннях.
+---@return boolean
+function RHM_Api.isCropLossEnabled()
+    return (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss ~= false) or false
+end
+
+---EN: Returns true if moisture difficulty simulation is enabled.
+---UA: Повертає true, якщо симуляція вологості увімкнена.
+---@return boolean
+function RHM_Api.isMoistureEnabled()
+    return (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableMoisture ~= false) or false
+end
+
+---EN: Returns true if dynamic motor speed limit enforcement is enabled.
+---UA: Повертає true, якщо динамічне обмеження швидкості увімкнено.
+---@return boolean
+function RHM_Api.isSpeedLimitEnabled()
+    return (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableSpeedLimit ~= false) or false
+end
+
+---EN: Returns true if mechanical wear loss simulation is enabled.
+---UA: Повертає true, якщо додаткові втрати від зносу техніки увімкнені.
+---@return boolean
+function RHM_Api.isWearLossEnabled()
+    return (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableWearLoss ~= false) or false
 end
 
 

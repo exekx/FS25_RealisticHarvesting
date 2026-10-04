@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulasi" />
@@ -447,5 +447,29 @@
         <text name="rhm_fields_no_data" text="Tidak Ada Data Lahan" />
         <text name="rhm_contract_tag" text="(Kontrak)" />
         <text name="rhm_status_completed" text="Dipanen" />
+        <text name="rhm_status_idle_yard" text="Di Pertanian (Menunggu)" />
+        <text name="rhm_fields_external" text="Eksternal" />
+        <text name="rhm_field_transit" text="Dalam Perjalanan" />
+        <text name="rhm_detail_loss_money" text="Kerugian finansial akibat kehilangan panen" />
+        <text name="rhm_cause_none" text="Operasi Optimal (Tanpa Kehilangan)" />
+        <text name="rhm_fields_all_overview" text="[*] Ikhtisar Pertanian (Semua Ladang)" />
+        <text name="rhm_field_operations" text="Operasi Panen" />
+        <text name="rhm_fields_nominal_area" text="Luas Nominal" />
+        <text name="rhm_status_in_progress" text="Sedang Berlangsung" />
+        <text name="rhm_fields_harvested_area" text="Luas Terpanen" />
+        <text name="rhm_ops_one" text="panen" />
+        <text name="rhm_ops_few" text="panen" />
+        <text name="rhm_ops_many" text="panen" />
+        <text name="rhm_loss_disabled" text="Simulasi Dinonaktifkan" />
+        <text name="rhm_loss_disabled_desc" text="Simulasi kehilangan panen dinonaktifkan di pengaturan mod." />
+        <text name="rhm_filter_active" text="Aktif" />
+        <text name="rhm_filter_all" text="Semua" />
+        <text name="rhm_filter_sold" text="Terjual" />
+        <text name="rhm_status_sold" text="Terjual (Arsip)" />
+        <text name="rhm_field_sold" text="[Terjual]" />
+        <text name="rhm_driver_sold" text="Dinonaktifkan" />
+        <text name="rhm_fleet_no_sold_combines" text="Tidak ada pemanen terjual di arsip" />
+        <text name="rhm_fleet_total_count_active" text="Pemanen Aktif" />
+        <text name="rhm_fleet_total_count_sold" text="Pemanen Terjual" />
     </texts>
 </l10n>

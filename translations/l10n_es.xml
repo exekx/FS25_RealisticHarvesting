@@ -309,17 +309,17 @@
         <text name="rhm_trip_reset_done" text="¡Contador de campo reiniciado!" />
         <text name="rhm_tab_trip" text="Campo actual / Contador" />
         <text name="rhm_tab_trip_desc" text="Telemetría en tiempo real de volumen cosechado, área trabajada, rendimiento promedio y pérdidas." />
-        <text name="rhm_tab_analytics" text="Causas de pÃ©rdidas y EvaluaciÃ³n" />
-        <text name="rhm_tab_analytics_desc" text="DistribuciÃ³n de pÃ©rdidas, calificaciÃ³n de eficiencia del operador y recomendaciones del ordenador de a bordo." />
+        <text name="rhm_tab_analytics" text="Causas de pérdidas y Evaluación" />
+        <text name="rhm_tab_analytics_desc" text="Distribución de pérdidas, calificación de eficiencia del operador y recomendaciones del ordenador de a bordo." />
         <text name="rhm_tab_fleet" text="Cosechadoras en campo" />
-        <text name="rhm_tab_fleet_desc" text="TelemetrÃ­a en tiempo real, rendimiento y estado de todas las cosechadoras de su explotaciÃ³n." />
+        <text name="rhm_tab_fleet_desc" text="Telemetría en tiempo real, rendimiento y estado de todas las cosechadoras de su explotación." />
         <text name="rhm_tab_settings" text="Ajustes de granja e IA" />
-        <text name="rhm_tab_settings_desc" text="ConfiguraciÃ³n del limitador de velocidad para trabajadores IA, rebrotes y reinicio automÃ¡tico." />
+        <text name="rhm_tab_settings_desc" text="Configuración del limitador de velocidad para trabajadores IA, rebrotes y reinicio automático." />
         <text name="rhm_driver_parked" text="Estacionado" />
         <text name="rhm_driver_cp_ai" text="IA (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="Trabajador IA" />
         <text name="rhm_driver_player" text="Jugador" />
-        <text name="rhm_driver_idle_on" text="RalentÃ­" />
+        <text name="rhm_driver_idle_on" text="Ralentí" />
         <text name="rhm_field_yard" text="Granja / Base" />
         <text name="rhm_field_format" text="Campo %d" />
         <text name="rhm_fleet_driver" text="Conductor / Operador" />
@@ -327,8 +327,8 @@
         <text name="rhm_fleet_grain_tank" text="Llenado de tolva" />
         <text name="rhm_fleet_throughput" text="Caudal" />
         <text name="rhm_fleet_realtime_yield" text="Rendimiento en tiempo real" />
-        <text name="rhm_fleet_crop_loss" text="Tasa de pÃ©rdidas" />
-        <text name="rhm_fleet_wear_state" text="Desgaste de mÃ¡quina" />
+        <text name="rhm_fleet_crop_loss" text="Tasa de pérdidas" />
+        <text name="rhm_fleet_wear_state" text="Desgaste de máquina" />
         <text name="rhm_fleet_total_count" text="Total cosechadoras" />
         <text name="rhm_btn_subtab_fleet" text="FLOTA DE COSECHADORAS" />
         <text name="rhm_btn_subtab_history" text="HISTORIAL DE TEMPORADA / TODOS LOS CAMPOS" />
@@ -342,67 +342,67 @@
         <text name="rhm_season_active_status" text="Active Season" />
         <text name="rhm_season_archived_status" text="Archived Season" />
         <text name="rhm_season_all_time_status" text="All-Time History" />
-        <text name="rhm_hist_total_area" text="Ãrea total cosechada" />
+        <text name="rhm_hist_total_area" text="Área total cosechada" />
         <text name="rhm_hist_total_harvest" text="Cosecha limpia total" />
-        <text name="rhm_hist_avg_loss" text="PÃ©rdidas promedio" />
-        <text name="rhm_hist_total_money" text="PÃ©rdida financiera total" />
+        <text name="rhm_hist_avg_loss" text="Pérdidas promedio" />
+        <text name="rhm_hist_total_money" text="Pérdida financiera total" />
         <text name="rhm_col_season" text="Temporada" />
         <text name="rhm_col_status" text="Estado" />
-        <text name="rhm_hist_empty" text="Sin registros de temporada todavÃ­a" />
+        <text name="rhm_hist_empty" text="Sin registros de temporada todavía" />
         <text name="rhm_status_harvesting" text="Cosechando (activo)" />
-        <text name="rhm_status_on_field_idle" text="En campo (ralentÃ­)" />
+        <text name="rhm_status_on_field_idle" text="En campo (ralentí)" />
         <text name="rhm_status_on_field_stopped" text="En campo (detenido)" />
-        <text name="rhm_status_in_transit" text="En carretera / TrÃ¡nsito" />
+        <text name="rhm_status_in_transit" text="En carretera / Tránsito" />
         <text name="rhm_status_in_cab" text="Ocupado (Jugador)" />
         <text name="rhm_status_parked_yard" text="Estacionado en la base" />
         <text name="rhm_card_field_harvest" text="CAMPO ACTUAL Y COSECHA" />
-        <text name="rhm_field_number" text="NÃºmero de campo" />
+        <text name="rhm_field_number" text="Número de campo" />
         <text name="rhm_trip_no_field" text="Fuera de campo" />
         <text name="rhm_crop_type" text="Cultivo" />
-        <text name="rhm_harvested_area" text="Ãrea cosechada" />
+        <text name="rhm_harvested_area" text="Área cosechada" />
         <text name="rhm_clean_harvest" text="Cosecha limpia" />
         <text name="rhm_average_yield" text="Rendimiento medio" />
-        <text name="rhm_card_loss_finances" text="PÃ‰RDIDAS Y FINANZAS" />
+        <text name="rhm_card_loss_finances" text="PÉRDIDAS Y FINANZAS" />
         <text name="rhm_loss_volume" text="Volumen perdido" />
-        <text name="rhm_loss_share" text="PÃ©rdida % del rendimiento" />
-        <text name="rhm_financial_loss" text="PÃ©rdida financiera" />
+        <text name="rhm_loss_share" text="Pérdida % del rendimiento" />
+        <text name="rhm_financial_loss" text="Pérdida financiera" />
         <text name="rhm_card_performance" text="RENDIMIENTO Y TIEMPO" />
         <text name="rhm_avg_working_speed" text="Velocidad media de trabajo" />
         <text name="rhm_avg_engine_load" text="Carga media de motor" />
-        <text name="rhm_session_duration" text="DuraciÃ³n de sesiÃ³n" />
+        <text name="rhm_session_duration" text="Duración de sesión" />
         <text name="rhm_btn_reset_trip" text="Reiniciar contador de campo" />
-        <text name="rhm_causes_title" text="CAUSAS PRINCIPALES DE PÃ‰RDIDAS" />
+        <text name="rhm_causes_title" text="CAUSAS PRINCIPALES DE PÉRDIDAS" />
         <text name="rhm_cause_speed" text="Velocidad y sobrecarga del cilindro" />
-        <text name="rhm_cause_moisture" text="Humedad del cultivo y rocÃ­o" />
+        <text name="rhm_cause_moisture" text="Humedad del cultivo y rocío" />
         <text name="rhm_cause_wear" text="Desgaste de corte y trilla" />
         <text name="rhm_cause_slope" text="Pendiente del campo y desnivel" />
         <text name="rhm_scorecard_title" text="TARJETA DE EFICIENCIA DEL OPERADOR" />
-        <text name="rhm_rank_title_a" text="Grado A: Ã“ptimo" />
-        <text name="rhm_rank_desc_a" text="PÃ©rdidas inferiores al 1,5%. ConfiguraciÃ³n de mÃ¡quina y velocidad perfectamente equilibradas." />
+        <text name="rhm_rank_title_a" text="Grado A: Óptimo" />
+        <text name="rhm_rank_desc_a" text="Pérdidas inferiores al 1,5%. Configuración de máquina y velocidad perfectamente equilibradas." />
         <text name="rhm_rank_title_b" text="Grado B: Aceptable" />
-        <text name="rhm_rank_desc_b" text="PÃ©rdidas entre 1,5% y 3,0%. Se recomiendan pequeÃ±os ajustes de velocidad o cÃ³ncavo." />
-        <text name="rhm_rank_title_c" text="Grado C: PÃ©rdidas elevadas" />
-        <text name="rhm_rank_desc_c" text="PÃ©rdidas entre 3,0% y 4,5%. Reduzca la velocidad o revise el afilado de las cuchillas." />
-        <text name="rhm_rank_title_d" text="Grado D: PÃ©rdidas crÃ­ticas" />
-        <text name="rhm_rank_desc_d" text="Â¡Las pÃ©rdidas superan el 4,5%! Sobrecarga severa de cribas o descalibraciÃ³n detectada." />
+        <text name="rhm_rank_desc_b" text="Pérdidas entre 1,5% y 3,0%. Se recomiendan pequeños ajustes de velocidad o cóncavo." />
+        <text name="rhm_rank_title_c" text="Grado C: Pérdidas elevadas" />
+        <text name="rhm_rank_desc_c" text="Pérdidas entre 3,0% y 4,5%. Reduzca la velocidad o revise el afilado de las cuchillas." />
+        <text name="rhm_rank_title_d" text="Grado D: Pérdidas críticas" />
+        <text name="rhm_rank_desc_d" text="¡Las pérdidas superan el 4,5%! Sobrecarga severa de cribas o descalibración detectada." />
         <text name="rhm_guidance_title" text="CONSEJOS DEL ORDENADOR DE A BORDO" />
-        <text name="rhm_advice_perfect" text="La eficiencia de cosecha es Ã³ptima. Todos los parÃ¡metros de trilla y separaciÃ³n estÃ¡n equilibrados." />
-        <text name="rhm_advice_speed" text="PÃ©rdida principal por exceso de velocidad. Reduzca la marcha para desahogar las cribas." />
-        <text name="rhm_advice_moisture" text="PÃ©rdidas debidas a alta humedad o rocÃ­o matutino. Espere a que seque o baje la velocidad." />
-        <text name="rhm_advice_wear" text="PÃ©rdidas elevadas por desgaste en cuchillas o barras del cilindro. Realice mantenimiento en taller." />
-        <text name="rhm_advice_slope" text="La inclinaciÃ³n lateral en pendientes desequilibra la carga de las cribas. Reduzca la velocidad en laderas." />
-        <text name="rhm_col_machine" text="MÃ¡quina" />
+        <text name="rhm_advice_perfect" text="La eficiencia de cosecha es óptima. Todos los parámetros de trilla y separación están equilibrados." />
+        <text name="rhm_advice_speed" text="Pérdida principal por exceso de velocidad. Reduzca la marcha para desahogar las cribas." />
+        <text name="rhm_advice_moisture" text="Pérdidas debidas a alta humedad o rocío matutino. Espere a que seque o baje la velocidad." />
+        <text name="rhm_advice_wear" text="Pérdidas elevadas por desgaste en cuchillas o barras del cilindro. Realice mantenimiento en taller." />
+        <text name="rhm_advice_slope" text="La inclinación lateral en pendientes desequilibra la carga de las cribas. Reduzca la velocidad en laderas." />
+        <text name="rhm_col_machine" text="Máquina" />
         <text name="rhm_col_hours" text="Horas de trabajo" />
         <text name="rhm_col_harvested" text="Cosechado" />
-        <text name="rhm_col_lost" text="PÃ©rdidas" />
+        <text name="rhm_col_lost" text="Pérdidas" />
         <text name="rhm_col_rank" text="Grado" />
         <text name="rhm_fleet_no_combines" text="No se encontraron cosechadoras" />
         <text name="rhm_setting_ai_limiter_title" text="LIMITADOR DE VELOCIDAD IA" />
-        <text name="rhm_setting_ai_limiter_desc" text="Limita automÃ¡ticamente la velocidad de crucero de los trabajadores contratados cuando las pÃ©rdidas superan el lÃ­mite." />
-        <text name="rhm_setting_ai_threshold_title" text="UMBRAL DE PÃ‰RDIDAS IA" />
-        <text name="rhm_setting_ai_threshold_desc" text="Porcentaje mÃ¡ximo de pÃ©rdidas tolerable antes de que el ayudante IA frene automÃ¡ticamente." />
-        <text name="rhm_setting_volunteer_title" text="REBROTES ESPONTÃNEOS / MALAS HIERBAS" />
-        <text name="rhm_setting_volunteer_desc" text="Genera brotes de maleza y rebrotes tras la cosechadora en zonas con pÃ©rdidas elevadas (&gt;3%)." />
+        <text name="rhm_setting_ai_limiter_desc" text="Limita automáticamente la velocidad de crucero de los trabajadores contratados cuando las pérdidas superan el límite." />
+        <text name="rhm_setting_ai_threshold_title" text="UMBRAL DE PÉRDIDAS IA" />
+        <text name="rhm_setting_ai_threshold_desc" text="Porcentaje máximo de pérdidas tolerable antes de que el ayudante IA frene automáticamente." />
+        <text name="rhm_setting_volunteer_title" text="REBROTES ESPONTÁNEOS / MALAS HIERBAS" />
+        <text name="rhm_setting_volunteer_desc" text="Genera brotes de maleza y rebrotes tras la cosechadora en zonas con pérdidas elevadas (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="REINICIO AUTOMÁTICO AL CAMBIAR DE CAMPO" />
         <text name="rhm_setting_autoreset_desc" text="Archiva y reinicia automáticamente el contador de campo al desplazarse a otro campo." />
         <text name="rhm_col_field" text="Campo" />
@@ -453,5 +453,29 @@
         <text name="rhm_fields_no_data" text="Sin campos registrados" />
         <text name="rhm_contract_tag" text="(Contrato)" />
         <text name="rhm_status_completed" text="Cosechado" />
+        <text name="rhm_status_idle_yard" text="En la granja (esperando)" />
+        <text name="rhm_fields_external" text="Externo" />
+        <text name="rhm_field_transit" text="En tránsito / Camino" />
+        <text name="rhm_detail_loss_money" text="Impacto financiero por pérdidas de cosecha" />
+        <text name="rhm_cause_none" text="Operación óptima (sin pérdidas)" />
+        <text name="rhm_fields_all_overview" text="[*] Resumen de la granja (todos los campos)" />
+        <text name="rhm_field_operations" text="Operaciones de cosecha" />
+        <text name="rhm_fields_nominal_area" text="Área nominal" />
+        <text name="rhm_status_in_progress" text="En progreso" />
+        <text name="rhm_fields_harvested_area" text="Área cosechada" />
+        <text name="rhm_ops_one" text="cosecha" />
+        <text name="rhm_ops_few" text="cosechas" />
+        <text name="rhm_ops_many" text="cosechas" />
+        <text name="rhm_loss_disabled" text="Simulación desactivada" />
+        <text name="rhm_loss_disabled_desc" text="La simulación de pérdidas de cosecha está desactivada en la configuración del mod." />
+        <text name="rhm_filter_active" text="Activas" />
+        <text name="rhm_filter_all" text="Todas" />
+        <text name="rhm_filter_sold" text="Vendidas" />
+        <text name="rhm_status_sold" text="Vendida (Archivo)" />
+        <text name="rhm_field_sold" text="[Vendida]" />
+        <text name="rhm_driver_sold" text="Dado de baja" />
+        <text name="rhm_fleet_no_sold_combines" text="No hay cosechadoras vendidas en el archivo" />
+        <text name="rhm_fleet_total_count_active" text="Cosechadoras activas" />
+        <text name="rhm_fleet_total_count_sold" text="Cosechadoras vendidas" />
     </texts>
 </l10n>

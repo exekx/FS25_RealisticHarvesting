@@ -823,7 +823,7 @@ end
 
 function RHMDraggableHUD:buildActiveCells()
     local cells = {}
-    local unitSystem = self.settings.unitSystem or 1
+    local unitSystem = (RHM_UnitConverter and RHM_UnitConverter.getActiveSystem and RHM_UnitConverter.getActiveSystem()) or (self.settings and self.settings.unitSystem) or 1
     local fruitType = nil
     if self.vehicle and self.vehicle.spec_combine then
         fruitType = self.vehicle.spec_combine.lastValidInputFruitType
@@ -880,7 +880,11 @@ function RHMDraggableHUD:buildActiveCells()
 
         local massKg = trip.harvestedMassKg or (trip.harvestedLiters * 0.75)
         local tripTons = massKg * 0.001
-        tripHarvestSubStr = string.format("%.1ft", tripTons)
+        if RHM_UnitConverter and RHM_UnitConverter.formatMass then
+            tripHarvestSubStr = RHM_UnitConverter.formatMass(tripTons, unitSystem, fruitType, trip.harvestedLiters)
+        else
+            tripHarvestSubStr = string.format("%.1ft", tripTons)
+        end
     end
 
     -- 1. Engine Load Cell
@@ -896,9 +900,10 @@ function RHMDraggableHUD:buildActiveCells()
         })
     end
 
-    -- 2. Crop Loss Cell (requires Tier >= 2; falls back to Speed if Tier 1, toggled, forage, or cotton)
+    -- 2. Crop Loss Cell (requires Tier >= 2; falls back to Speed if Tier 1, toggled, disabled, forage, or cotton)
+    local isCropLossEnabled = (self.settings and self.settings.enableCropLoss ~= false)
     local hasLossSensor = (packageLevel >= 2) and (machineType ~= "forage" and machineType ~= "cotton")
-    local showLossMode = (self.displayModes.cell2 == "loss") and hasLossSensor
+    local showLossMode = (self.displayModes.cell2 == "loss") and hasLossSensor and isCropLossEnabled
     if showLossMode and self.settings.showCropLoss then
         local lossVal = self.data.cropLoss or 0
         local lossStr = (lossVal > 0.05) and string.format("%.1f%%", lossVal) or "0.0%"
@@ -1011,7 +1016,7 @@ function RHMDraggableHUD:buildActiveCells()
             end
             local unitLabel = (suffixStr == "t/h" and g_i18n:hasText("rhm_unit_t_per_hour")) and g_i18n:getText("rhm_unit_t_per_hour") or suffixStr
             if tripHarvestSubStr then
-                unitLabel = string.format("%s • %s", unitLabel, tripHarvestSubStr)
+                unitLabel = string.format("%s | %s", unitLabel, tripHarvestSubStr)
             end
             table.insert(cells, {
                 iconName = "productivity",

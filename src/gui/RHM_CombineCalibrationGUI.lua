@@ -725,7 +725,7 @@ function RHMCombineCalibrationGUI:draw()
         cutterWidth = resolveCutterWidth(v)
     end
 
-    local widthStr = (cutterWidth and cutterWidth > 0) and string.format("%.1f m", cutterWidth) or "—"
+    local widthStr = (cutterWidth and cutterWidth > 0) and string.format("%.1f m", cutterWidth) or "--"
 
     -- Engine Horsepower Telemetry
     local engineHp = nil
@@ -758,7 +758,7 @@ function RHMCombineCalibrationGUI:draw()
             end
         end
     end
-    local hpStr = engineHp and string.format("%.0f HP", engineHp) or "—"
+    local hpStr = engineHp and string.format("%.0f HP", engineHp) or "--"
 
     -- Telemetry Badges (Cutter Width & Horsepower)
     local infoCapsuleH = 0.018
@@ -896,9 +896,11 @@ function RHMCombineCalibrationGUI:draw()
         local cardLossText = g_i18n:hasText("rhm_ui_card_predicted_loss") and g_i18n:getText("rhm_ui_card_predicted_loss") or "PREDICTED LOSS"
         setTextColor(unpack(ui.colors.textDim))
         renderText(cx3 + cardW * 0.5, cy + cardH * 0.56, ui.statusSize * 0.85, cardLossText)
-        if isForage then
+        local isCropLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
+        if isForage or (not isCropLossEnabled) then
             setTextColor(unpack(ui.colors.textDim))
-            renderText(cx3 + cardW * 0.5, cy + cardH * 0.14, ui.fontSize, "N/A")
+            local offLabel = (not isCropLossEnabled) and "OFF" or "N/A"
+            renderText(cx3 + cardW * 0.5, cy + cardH * 0.14, ui.fontSize, offLabel)
         else
             local settingsLoss = math.max(0, lossPenalty)
             local wearLoss = (spec.loadCalculator and spec.loadCalculator.totalWearLoss) or 0
@@ -1324,54 +1326,14 @@ function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory
         param = param
     })
 
-    -- Smart Step Function
-    local function performSmartStep(direction)
-        if param == "targetEngineLoad" then
-            local newLoad = math.max(50, math.min(100, val + (direction * 5)))
-            memory:updateSetting(param, newLoad)
-            return
-        end
-
-        if RHM_UnitConverter and RHM_UnitConverter.percentToPhysical then
-            local physVal = RHM_UnitConverter.percentToPhysical(param, val, machineType)
-            local range = RHM_UnitConverter.getPhysicalRange(param, machineType)
-
-            if range then
-                local stepValue = (range.unit == "RPM") and 10 or 0.5
-                local targetPhysVal = physVal
-
-                local snapped = math.floor((physVal / stepValue) + 0.5) * stepValue
-                if math.abs(physVal - snapped) > 0.01 then
-                    if direction > 0 then
-                        targetPhysVal = math.ceil(physVal / stepValue) * stepValue
-                    else
-                        targetPhysVal = math.floor(physVal / stepValue) * stepValue
-                    end
-                else
-                    targetPhysVal = snapped + (stepValue * direction)
-                end
-
-                local targetPercent = RHM_UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
-                if math.abs(targetPercent - val) < 0.5 then
-                    targetPercent = val + direction
-                end
-                memory:updateSetting(param, math.floor(targetPercent + 0.5))
-            else
-                memory:updateSetting(param, val + direction)
-            end
-        else
-            memory:updateSetting(param, val + direction)
-        end
-    end
-
     -- Micro Fine-Tuning Buttons [-] and [+]
     local btnY = y + (ui.lineHeight - microBtnH) * 0.5
     self:drawButton(btnStartX, btnY, microBtnW, microBtnH, "-", function()
-        performSmartStep(-1)
+        self:stepParameter(param, -1, false)
     end)
 
     self:drawButton(btnStartX + microBtnW + 0.003, btnY, microBtnW, microBtnH, "+", function()
-        performSmartStep(1)
+        self:stepParameter(param, 1, false)
     end)
 end
 
@@ -1570,6 +1532,64 @@ function RHMCombineCalibrationGUI:checkHover(x, y, w, h)
     return mx >= x and mx <= x + w and my >= y and my <= y + h
 end
 
+---EN: Steps a parameter value up or down according to physical step size and alignment grid.
+---UA: Змінює значення параметра на один крок відповідно до фізичного кроку та сітки вирівнювання.
+function RHMCombineCalibrationGUI:stepParameter(param, direction, isFast)
+    local spec = self.activeVehicle and self.activeVehicle.spec_rhm_Combine
+    if not spec or not spec.combineMemory or not param then return end
+
+    local memory = spec.combineMemory
+    local val = memory.currentSettings[param] or 0
+    local machineType = spec.machineType or "grain"
+
+    if param == "targetEngineLoad" then
+        local step = isFast and 10 or 5
+        local snapped = math.floor((val / step) + 0.5) * step
+        local newLoad
+        if math.abs(val - snapped) > 0.01 then
+            if direction > 0 then
+                newLoad = math.ceil(val / step) * step
+            else
+                newLoad = math.floor(val / step) * step
+            end
+        else
+            newLoad = snapped + (direction * step)
+        end
+        newLoad = math.max(70, math.min(100, newLoad))
+        memory:updateSetting(param, newLoad)
+        return
+    end
+
+    if RHM_UnitConverter and RHM_UnitConverter.percentToPhysical and RHM_UnitConverter.getPhysicalRange then
+        local physVal = RHM_UnitConverter.percentToPhysical(param, val, machineType)
+        local range = RHM_UnitConverter.getPhysicalRange(param, machineType)
+        if range then
+            local stepValue = (range.step or ((range.unit == "RPM") and 10 or 1.0)) * (isFast and 5 or 1)
+            local targetPhysVal = physVal
+
+            local snapped = math.floor((physVal / stepValue) + 0.5) * stepValue
+            if math.abs(physVal - snapped) > 0.01 then
+                if direction > 0 then
+                    targetPhysVal = math.ceil(physVal / stepValue) * stepValue
+                else
+                    targetPhysVal = math.floor(physVal / stepValue) * stepValue
+                end
+            else
+                targetPhysVal = snapped + (stepValue * direction)
+            end
+
+            local targetPercent = RHM_UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
+            if math.abs(targetPercent - val) < 0.5 then
+                targetPercent = val + (direction * (isFast and 5 or 1))
+            end
+            memory:updateSetting(param, math.max(0, math.min(100, math.floor(targetPercent + 0.5))))
+            return
+        end
+    end
+
+    memory:updateSetting(param, math.max(0, math.min(100, val + (direction * (isFast and 5 or 1)))))
+end
+
 function RHMCombineCalibrationGUI:updateSliderFromMouse(slider, posX)
     local param = slider.param
     local spec = self.activeVehicle and self.activeVehicle.spec_rhm_Combine
@@ -1580,7 +1600,7 @@ function RHMCombineCalibrationGUI:updateSliderFromMouse(slider, posX)
 
     if param == "targetEngineLoad" then
         percent = math.floor(percent / 5 + 0.5) * 5
-        percent = math.max(50, math.min(100, percent))
+        percent = math.max(70, math.min(100, percent))
         spec.combineMemory:updateSetting(param, percent)
         return
     end
@@ -1590,15 +1610,15 @@ function RHMCombineCalibrationGUI:updateSliderFromMouse(slider, posX)
         local physVal = RHM_UnitConverter.percentToPhysical(param, percent, machineType)
         local range = RHM_UnitConverter.getPhysicalRange(param, machineType)
         if range then
-            local step = (range.unit == "RPM") and 10 or 0.5
+            local step = range.step or ((range.unit == "RPM") and 10 or 1.0)
             local snappedPhys = math.floor((physVal / step) + 0.5) * step
             local snappedPercent = RHM_UnitConverter.physicalToPercent(param, snappedPhys, machineType)
-            spec.combineMemory:updateSetting(param, math.floor(snappedPercent + 0.5))
+            spec.combineMemory:updateSetting(param, math.max(0, math.min(100, math.floor(snappedPercent + 0.5))))
             return
         end
     end
 
-    spec.combineMemory:updateSetting(param, percent)
+    spec.combineMemory:updateSetting(param, math.max(0, math.min(100, percent)))
 end
 
 function RHMCombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
@@ -1639,22 +1659,9 @@ function RHMCombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
         if isDown then
             local wheelUp = button == Input.MOUSE_BUTTON_WHEEL_UP
             local delta = wheelUp and 1 or -1
-            if Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift) then
-                delta = delta * 5
-            end
-
-            local param = self.hoveredParameter
-            if param and self.activeVehicle and self.activeVehicle.spec_rhm_Combine then
-                local spec = self.activeVehicle.spec_rhm_Combine
-                if spec.combineMemory then
-                    local currentVal = spec.combineMemory.currentSettings[param] or 50
-                    if param == "targetEngineLoad" then
-                        local newLoad = math.max(50, math.min(100, currentVal + (delta * 5)))
-                        spec.combineMemory:updateSetting(param, newLoad)
-                    else
-                        spec.combineMemory:updateSetting(param, math.max(0, math.min(100, currentVal + delta)))
-                    end
-                end
+            local isFast = Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift)
+            if self.hoveredParameter then
+                self:stepParameter(self.hoveredParameter, delta, isFast)
             end
         end
         return true
@@ -1717,23 +1724,9 @@ function RHMCombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
 end
 
 function RHMCombineCalibrationGUI:handleWheelScroll(direction, posX, posY)
-    local delta = direction
-    if Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift) then
-        delta = delta * 5
-    end
-
-    if self.activeVehicle and self.activeVehicle.spec_rhm_Combine then
-        local spec = self.activeVehicle.spec_rhm_Combine
-        if spec.combineMemory and self.hoveredParameter then
-            local currentVal = spec.combineMemory.currentSettings[self.hoveredParameter] or 50
-            if self.hoveredParameter == "targetEngineLoad" then
-                local newLoad = math.max(50, math.min(100, currentVal + (delta * 5)))
-                spec.combineMemory:updateSetting(self.hoveredParameter, newLoad)
-            else
-                spec.combineMemory:updateSetting(self.hoveredParameter, math.max(0, math.min(100, currentVal + delta)))
-            end
-        end
-    end
+    if not self.hoveredParameter then return end
+    local isFast = Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift)
+    self:stepParameter(self.hoveredParameter, direction, isFast)
 end
 
 function RHMCombineCalibrationGUI:getHarvestContext(machineType)

@@ -306,24 +306,24 @@
         <text name="rhm_tab_analytics" text="Tappioiden syyt &amp; Arviointikortti" />
         <text name="rhm_tab_analytics_desc" text="Tappioiden jakautuminen, kuljettajan tehokkuusluokitus ja ajotietokoneen ohjeet." />
         <text name="rhm_tab_fleet" text="Puimurit lohkolla" />
-        <text name="rhm_tab_fleet_desc" text="Reaaliaikainen telemetria, lÃ¤pÃ¤isyteho ja tila tilan kaikille leikkuupuimureille." />
-        <text name="rhm_tab_settings" text="Tilan ja tekoÃ¤lyn asetukset" />
+        <text name="rhm_tab_fleet_desc" text="Reaaliaikainen telemetria, läpäisyteho ja tila tilan kaikille leikkuupuimureille." />
+        <text name="rhm_tab_settings" text="Tilan ja tekoälyn asetukset" />
         <text name="rhm_tab_settings_desc" text="Apulaisen nopeudenrajoitin, rikkakasvien/karistuman synty ja automaattinollaus." />
-        <text name="rhm_driver_parked" text="PysÃ¤kÃ¶ity" />
-        <text name="rhm_driver_cp_ai" text="TekoÃ¤ly (Courseplay)" />
+        <text name="rhm_driver_parked" text="Pysäköity" />
+        <text name="rhm_driver_cp_ai" text="Tekoäly (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="Palkattu apulainen" />
         <text name="rhm_driver_player" text="Pelaaja" />
-        <text name="rhm_driver_idle_on" text="JoutokÃ¤ynti" />
+        <text name="rhm_driver_idle_on" text="Joutokäynti" />
         <text name="rhm_field_yard" text="Tila / Piha" />
         <text name="rhm_field_format" text="Pelto %d" />
-        <text name="rhm_fleet_driver" text="Kuljettaja / KÃ¤yttÃ¤jÃ¤" />
-        <text name="rhm_fleet_cutter" text="LeikkuupÃ¶ydÃ¤n leveys" />
-        <text name="rhm_fleet_grain_tank" text="ViljasÃ¤iliÃ¶n tÃ¤yttÃ¶" />
-        <text name="rhm_fleet_throughput" text="LÃ¤pÃ¤isykyky" />
+        <text name="rhm_fleet_driver" text="Kuljettaja / Käyttäjä" />
+        <text name="rhm_fleet_cutter" text="Leikkuupöydän leveys" />
+        <text name="rhm_fleet_grain_tank" text="Viljasäiliön täyttö" />
+        <text name="rhm_fleet_throughput" text="Läpäisykyky" />
         <text name="rhm_fleet_realtime_yield" text="Hetkellinen sato" />
         <text name="rhm_fleet_crop_loss" text="Tappioprosentti" />
         <text name="rhm_fleet_wear_state" text="Koneen kuluma" />
-        <text name="rhm_fleet_total_count" text="Puimureita yhteensÃ¤" />
+        <text name="rhm_fleet_total_count" text="Puimureita yhteensä" />
         <text name="rhm_btn_subtab_fleet" text="PUIMURIKALUSTO" />
         <text name="rhm_btn_subtab_history" text="KAUSIHISTORIA / KAIKKI PELLOT" />
         <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
@@ -336,19 +336,19 @@
         <text name="rhm_season_active_status" text="Active Season" />
         <text name="rhm_season_archived_status" text="Archived Season" />
         <text name="rhm_season_all_time_status" text="All-Time History" />
-        <text name="rhm_hist_total_area" text="Puitu pinta-ala yhteensÃ¤" />
+        <text name="rhm_hist_total_area" text="Puitu pinta-ala yhteensä" />
         <text name="rhm_hist_total_harvest" text="Puhdas kokonaissato" />
-        <text name="rhm_hist_avg_loss" text="KeskimÃ¤Ã¤rÃ¤iset tappiot" />
+        <text name="rhm_hist_avg_loss" text="Keskimääräiset tappiot" />
         <text name="rhm_hist_total_money" text="Taloudellinen kokonaistappio" />
         <text name="rhm_col_season" text="Kausi" />
         <text name="rhm_col_status" text="Tila" />
-        <text name="rhm_hist_empty" text="Ei vielÃ¤ kausitietoja" />
+        <text name="rhm_hist_empty" text="Ei vielä kausitietoja" />
         <text name="rhm_status_harvesting" text="Pui (aktiivinen)" />
-        <text name="rhm_status_on_field_idle" text="Pellolla (joutokÃ¤ynti)" />
-        <text name="rhm_status_on_field_stopped" text="Pellolla (pysÃ¤hdyksissÃ¤)" />
-        <text name="rhm_status_in_transit" text="TiellÃ¤ / Siirtoajo" />
+        <text name="rhm_status_on_field_idle" text="Pellolla (joutokäynti)" />
+        <text name="rhm_status_on_field_stopped" text="Pellolla (pysähdyksissä)" />
+        <text name="rhm_status_in_transit" text="Tiellä / Siirtoajo" />
         <text name="rhm_status_in_cab" text="Miehitetty (Pelaaja)" />
-        <text name="rhm_status_parked_yard" text="PysÃ¤kÃ¶ity pihalle" />
+        <text name="rhm_status_parked_yard" text="Pysäköity pihalle" />
         <text name="rhm_card_field_harvest" text="NYKYINEN PELTO JA PUINTI" />
         <text name="rhm_field_number" text="Pellon numero" />
         <text name="rhm_trip_no_field" text="Pellon ulkopuolella" />
@@ -361,40 +361,40 @@
         <text name="rhm_loss_share" text="Tappio % sadosta" />
         <text name="rhm_financial_loss" text="Taloudellinen tappio" />
         <text name="rhm_card_performance" text="SUORITUSKYKY JA AIKA" />
-        <text name="rhm_avg_working_speed" text="KeskityÃ¶nopeus" />
+        <text name="rhm_avg_working_speed" text="Keskityönopeus" />
         <text name="rhm_avg_engine_load" text="Moottorin keskikuormitus" />
         <text name="rhm_session_duration" text="Puintiaika" />
         <text name="rhm_btn_reset_trip" text="Nollaa peltolaskuri" />
         <text name="rhm_causes_title" text="PUINTITAPPIOIDEN SYYT" />
         <text name="rhm_cause_speed" text="Nopeus ja puintikoneiston ylikuormitus" />
         <text name="rhm_cause_moisture" text="Kasvuston kosteus ja kaste" />
-        <text name="rhm_cause_wear" text="PÃ¶ydÃ¤n terien ja kelan kuluminen" />
+        <text name="rhm_cause_wear" text="Pöydän terien ja kelan kuluminen" />
         <text name="rhm_cause_slope" text="Pellon kaltevuus ja maastonmuodot" />
         <text name="rhm_scorecard_title" text="KULJETTAJAN TEHOKKUUSARVIOINTI" />
         <text name="rhm_rank_title_a" text="Luokka A: Ihanteellinen" />
-        <text name="rhm_rank_desc_a" text="Tappiot alle 1,5%. Puimurin sÃ¤Ã¤dÃ¶t ja ajonopeus ovat tÃ¤ydellisesti tasapainossa." />
-        <text name="rhm_rank_title_b" text="Luokka B: HyvÃ¤ksyttÃ¤vÃ¤" />
-        <text name="rhm_rank_desc_b" text="Tappiot 1,5% ja 3,0% vÃ¤lillÃ¤. Pieni nopeuden tai varstasilan sÃ¤Ã¤tÃ¶ suositeltavaa." />
+        <text name="rhm_rank_desc_a" text="Tappiot alle 1,5%. Puimurin säädöt ja ajonopeus ovat täydellisesti tasapainossa." />
+        <text name="rhm_rank_title_b" text="Luokka B: Hyväksyttävä" />
+        <text name="rhm_rank_desc_b" text="Tappiot 1,5% ja 3,0% välillä. Pieni nopeuden tai varstasilan säätö suositeltavaa." />
         <text name="rhm_rank_title_c" text="Luokka C: Kohonneet tappiot" />
-        <text name="rhm_rank_desc_c" text="Tappiot 3,0% ja 4,5% vÃ¤lillÃ¤. Laske nopeutta tai tarkista terien terÃ¤vyys." />
+        <text name="rhm_rank_desc_c" text="Tappiot 3,0% ja 4,5% välillä. Laske nopeutta tai tarkista terien terävyys." />
         <text name="rhm_rank_title_d" text="Luokka D: Kriittiset tappiot" />
-        <text name="rhm_rank_desc_d" text="Tappiot ylittÃ¤vÃ¤t 4,5%! Seulaston vakava ylikuormitus tai virheelliset sÃ¤Ã¤dÃ¶t." />
+        <text name="rhm_rank_desc_d" text="Tappiot ylittävät 4,5%! Seulaston vakava ylikuormitus tai virheelliset säädöt." />
         <text name="rhm_guidance_title" text="AJOTIETOKONEEN SUOSITUKSET" />
         <text name="rhm_advice_perfect" text="Puinnin tehokkuus on optimaalinen. Kaikki parametrit ovat tasapainossa." />
-        <text name="rhm_advice_speed" text="Tappiot johtuvat liiallisesta ajonopeudesta. Hidasta seulaston keventÃ¤miseksi." />
-        <text name="rhm_advice_moisture" text="Korkea kosteus tai aamukaste lisÃ¤Ã¤ tappioita. Odota kuivumista tai hidasta." />
-        <text name="rhm_advice_wear" text="Kuluneet terÃ¤t tai varstat lisÃ¤Ã¤vÃ¤t tappioita. Huolla kone pajalla." />
-        <text name="rhm_advice_slope" text="Sivukaltevuus kuormittaa seuloja epÃ¤tasaisesti. PienennÃ¤ nopeutta rinteissÃ¤." />
+        <text name="rhm_advice_speed" text="Tappiot johtuvat liiallisesta ajonopeudesta. Hidasta seulaston keventämiseksi." />
+        <text name="rhm_advice_moisture" text="Korkea kosteus tai aamukaste lisää tappioita. Odota kuivumista tai hidasta." />
+        <text name="rhm_advice_wear" text="Kuluneet terät tai varstat lisäävät tappioita. Huolla kone pajalla." />
+        <text name="rhm_advice_slope" text="Sivukaltevuus kuormittaa seuloja epätasaisesti. Pienennä nopeutta rinteissä." />
         <text name="rhm_col_machine" text="Kone" />
-        <text name="rhm_col_hours" text="KÃ¤yttÃ¶tunnit" />
+        <text name="rhm_col_hours" text="Käyttötunnit" />
         <text name="rhm_col_harvested" text="Puitu" />
         <text name="rhm_col_lost" text="Tappiot" />
         <text name="rhm_col_rank" text="Luokka" />
-        <text name="rhm_fleet_no_combines" text="Puimureita ei lÃ¶ytynyt" />
-        <text name="rhm_setting_ai_limiter_title" text="TEKOÃ„LYN NOPEUDENRAJOITIN" />
-        <text name="rhm_setting_ai_limiter_desc" text="Rajoittaa automaattisesti apulaisen nopeutta, jos tappiot ylittÃ¤vÃ¤t asetetun rajan." />
-        <text name="rhm_setting_ai_threshold_title" text="TEKOÃ„LYN TAPPIORAJA" />
-        <text name="rhm_setting_ai_threshold_desc" text="Suurin sallittu tappioprosentti ennen kuin tekoÃ¤ly hidastaa automaattisesti." />
+        <text name="rhm_fleet_no_combines" text="Puimureita ei löytynyt" />
+        <text name="rhm_setting_ai_limiter_title" text="TEKOÄLYN NOPEUDENRAJOITIN" />
+        <text name="rhm_setting_ai_limiter_desc" text="Rajoittaa automaattisesti apulaisen nopeutta, jos tappiot ylittävät asetetun rajan." />
+        <text name="rhm_setting_ai_threshold_title" text="TEKOÄLYN TAPPIORAJA" />
+        <text name="rhm_setting_ai_threshold_desc" text="Suurin sallittu tappioprosentti ennen kuin tekoäly hidastaa automaattisesti." />
         <text name="rhm_setting_volunteer_title" text="KARISTUMA JA RIKKAKASVIT" />
         <text name="rhm_setting_volunteer_desc" text="Luo karistumaa ja rikkoja puimurin taakse suurten tappioiden alueille (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMAATTINOLLAUS LOHKOVAIHDOSSA" />
@@ -447,5 +447,29 @@
         <text name="rhm_fields_no_data" text="Ei tallennettuja peltoja" />
         <text name="rhm_contract_tag" text="(Urakka)" />
         <text name="rhm_status_completed" text="Korjattu" />
+        <text name="rhm_status_idle_yard" text="Tilalla (odottaa)" />
+        <text name="rhm_fields_external" text="Ulkopuolinen" />
+        <text name="rhm_field_transit" text="Matkalla / Ajo" />
+        <text name="rhm_detail_loss_money" text="Satohävikin taloudellinen menetys" />
+        <text name="rhm_cause_none" text="Optimaalinen toiminta (ei hävikkiä)" />
+        <text name="rhm_fields_all_overview" text="[*] Tilan yleiskatsaus (kaikki pellot)" />
+        <text name="rhm_field_operations" text="Puintikerrat" />
+        <text name="rhm_fields_nominal_area" text="Nimellispinta-ala" />
+        <text name="rhm_status_in_progress" text="Käynnissä" />
+        <text name="rhm_fields_harvested_area" text="Puitu ala" />
+        <text name="rhm_ops_one" text="puinti" />
+        <text name="rhm_ops_few" text="puintia" />
+        <text name="rhm_ops_many" text="puintia" />
+        <text name="rhm_loss_disabled" text="Simulaatio poistettu käytöstä" />
+        <text name="rhm_loss_disabled_desc" text="Satohävikin simulaatio on poistettu käytöstä modin asetuksissa." />
+        <text name="rhm_filter_active" text="Käytössä" />
+        <text name="rhm_filter_all" text="Kaikki" />
+        <text name="rhm_filter_sold" text="Myydyt" />
+        <text name="rhm_status_sold" text="Myyty (Arkistoitu)" />
+        <text name="rhm_field_sold" text="[Myyty]" />
+        <text name="rhm_driver_sold" text="Poistettu käytöstä" />
+        <text name="rhm_fleet_no_sold_combines" text="Ei myytyjä puimureita arkistossa" />
+        <text name="rhm_fleet_total_count_active" text="Aktiiviset puimurit" />
+        <text name="rhm_fleet_total_count_sold" text="Myydyt puimurit" />
     </texts>
 </l10n>

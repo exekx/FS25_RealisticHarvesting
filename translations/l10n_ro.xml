@@ -307,28 +307,28 @@
         <text name="rhm_trip_reset_done" text="Contor de parcelă resetat!" />
         <text name="rhm_tab_trip" text="Parcelă actuală / Contor" />
         <text name="rhm_tab_trip_desc" text="Telemetrie în direct pentru volumul recoltat, suprafața lucrată, randamentul mediu și pierderi." />
-        <text name="rhm_tab_analytics" text="Cauze pierderi &amp; FiÅŸÄƒ de evaluare" />
-        <text name="rhm_tab_analytics_desc" text="DistribuÈ›ia factorilor de pierdere, nota de eficienÈ›Äƒ a operatorului È™i recomandÄƒrile computerului de bord." />
-        <text name="rhm_tab_fleet" text="Combine pe cÃ¢mp" />
-        <text name="rhm_tab_fleet_desc" text="Telemetrie Ã®n timp real, productivitate È™i starea tuturor combinelor din fermÄƒ." />
-        <text name="rhm_tab_settings" text="SetÄƒri FermÄƒ &amp; AI" />
-        <text name="rhm_tab_settings_desc" text="Configurare limitator de vitezÄƒ pentru muncitori AI, generare samulastrÄƒ È™i resetare automatÄƒ." />
+        <text name="rhm_tab_analytics" text="Cauze pierderi &amp; Fişă de evaluare" />
+        <text name="rhm_tab_analytics_desc" text="Distribuția factorilor de pierdere, nota de eficiență a operatorului și recomandările computerului de bord." />
+        <text name="rhm_tab_fleet" text="Combine pe câmp" />
+        <text name="rhm_tab_fleet_desc" text="Telemetrie în timp real, productivitate și starea tuturor combinelor din fermă." />
+        <text name="rhm_tab_settings" text="Setări Fermă &amp; AI" />
+        <text name="rhm_tab_settings_desc" text="Configurare limitator de viteză pentru muncitori AI, generare samulastră și resetare automată." />
         <text name="rhm_driver_parked" text="Parcat" />
         <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="Muncitor AI" />
-        <text name="rhm_driver_player" text="JucÄƒtor" />
+        <text name="rhm_driver_player" text="Jucător" />
         <text name="rhm_driver_idle_on" text="Ralanti" />
-        <text name="rhm_field_yard" text="FermÄƒ / BazÄƒ" />
+        <text name="rhm_field_yard" text="Fermă / Bază" />
         <text name="rhm_field_format" text="Parcela %d" />
-        <text name="rhm_fleet_driver" text="ConducÄƒtor / Operator" />
-        <text name="rhm_fleet_cutter" text="LÄƒÈ›ime heder" />
-        <text name="rhm_fleet_grain_tank" text="Umplere buncÄƒr" />
+        <text name="rhm_fleet_driver" text="Conducător / Operator" />
+        <text name="rhm_fleet_cutter" text="Lățime heder" />
+        <text name="rhm_fleet_grain_tank" text="Umplere buncăr" />
         <text name="rhm_fleet_throughput" text="Productivitate" />
         <text name="rhm_fleet_realtime_yield" text="Randament instantaneu" />
-        <text name="rhm_fleet_crop_loss" text="RatÄƒ de pierdere" />
-        <text name="rhm_fleet_wear_state" text="UzurÄƒ utilaj" />
+        <text name="rhm_fleet_crop_loss" text="Rată de pierdere" />
+        <text name="rhm_fleet_wear_state" text="Uzură utilaj" />
         <text name="rhm_fleet_total_count" text="Total combine" />
-        <text name="rhm_btn_subtab_fleet" text="FLOTÄ‚ COMBINE" />
+        <text name="rhm_btn_subtab_fleet" text="FLOTĂ COMBINE" />
         <text name="rhm_btn_subtab_history" text="ISTORIC SEZON / TOATE PARCELELE" />
         <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
         <text name="rhm_season_format" text="Season %d (Year %d)" />
@@ -340,67 +340,67 @@
         <text name="rhm_season_active_status" text="Active Season" />
         <text name="rhm_season_archived_status" text="Archived Season" />
         <text name="rhm_season_all_time_status" text="All-Time History" />
-        <text name="rhm_hist_total_area" text="SuprafaÈ›Äƒ totalÄƒ recoltatÄƒ" />
-        <text name="rhm_hist_total_harvest" text="RecoltÄƒ curatÄƒ totalÄƒ" />
+        <text name="rhm_hist_total_area" text="Suprafață totală recoltată" />
+        <text name="rhm_hist_total_harvest" text="Recoltă curată totală" />
         <text name="rhm_hist_avg_loss" text="Pierderi medii" />
-        <text name="rhm_hist_total_money" text="Pierdere financiarÄƒ totalÄƒ" />
+        <text name="rhm_hist_total_money" text="Pierdere financiară totală" />
         <text name="rhm_col_season" text="Sezon" />
         <text name="rhm_col_status" text="Stare" />
-        <text name="rhm_hist_empty" text="Nu existÄƒ Ã®ncÄƒ Ã®nregistrÄƒri de sezon" />
-        <text name="rhm_status_harvesting" text="RecolteazÄƒ (activ)" />
-        <text name="rhm_status_on_field_idle" text="Pe parcelÄƒ (ralanti)" />
-        <text name="rhm_status_on_field_stopped" text="Pe parcelÄƒ (oprit)" />
+        <text name="rhm_hist_empty" text="Nu există încă înregistrări de sezon" />
+        <text name="rhm_status_harvesting" text="Recoltează (activ)" />
+        <text name="rhm_status_on_field_idle" text="Pe parcelă (ralanti)" />
+        <text name="rhm_status_on_field_stopped" text="Pe parcelă (oprit)" />
         <text name="rhm_status_in_transit" text="Pe drum / Deplasare" />
-        <text name="rhm_status_in_cab" text="Ocupat (JucÄƒtor)" />
-        <text name="rhm_status_parked_yard" text="Parcat Ã®n bazÄƒ" />
-        <text name="rhm_card_field_harvest" text="PARCELÄ‚ ACTUALÄ‚ &amp; RECOLTARE" />
-        <text name="rhm_field_number" text="NumÄƒr parcelÄƒ" />
-        <text name="rhm_trip_no_field" text="ÃŽn afara parcelei" />
-        <text name="rhm_crop_type" text="CulturÄƒ" />
-        <text name="rhm_harvested_area" text="SuprafaÈ›Äƒ recoltatÄƒ" />
-        <text name="rhm_clean_harvest" text="RecoltÄƒ curatÄƒ" />
+        <text name="rhm_status_in_cab" text="Ocupat (Jucător)" />
+        <text name="rhm_status_parked_yard" text="Parcat în bază" />
+        <text name="rhm_card_field_harvest" text="PARCELĂ ACTUALĂ &amp; RECOLTARE" />
+        <text name="rhm_field_number" text="Număr parcelă" />
+        <text name="rhm_trip_no_field" text="În afara parcelei" />
+        <text name="rhm_crop_type" text="Cultură" />
+        <text name="rhm_harvested_area" text="Suprafață recoltată" />
+        <text name="rhm_clean_harvest" text="Recoltă curată" />
         <text name="rhm_average_yield" text="Randament mediu" />
-        <text name="rhm_card_loss_finances" text="PIERDERI &amp; FINANÈšE" />
+        <text name="rhm_card_loss_finances" text="PIERDERI &amp; FINANȚE" />
         <text name="rhm_loss_volume" text="Volum pierdut" />
         <text name="rhm_loss_share" text="Pierdere % din randament" />
-        <text name="rhm_financial_loss" text="Pierdere financiarÄƒ" />
-        <text name="rhm_card_performance" text="PERFORMANÈšÄ‚ &amp; TIMP" />
-        <text name="rhm_avg_working_speed" text="VitezÄƒ medie de lucru" />
-        <text name="rhm_avg_engine_load" text="SarcinÄƒ medie motor" />
-        <text name="rhm_session_duration" text="DuratÄƒ sesiune" />
+        <text name="rhm_financial_loss" text="Pierdere financiară" />
+        <text name="rhm_card_performance" text="PERFORMANȚĂ &amp; TIMP" />
+        <text name="rhm_avg_working_speed" text="Viteză medie de lucru" />
+        <text name="rhm_avg_engine_load" text="Sarcină medie motor" />
+        <text name="rhm_session_duration" text="Durată sesiune" />
         <text name="rhm_btn_reset_trip" text="Resetare contor parcelă" />
         <text name="rhm_causes_title" text="CAUZE PRINCIPALE ALE PIERDERILOR" />
-        <text name="rhm_cause_speed" text="VitezÄƒ È™i supraÃ®ncÄƒrcare bÄƒtÄƒtor" />
-        <text name="rhm_cause_moisture" text="Umiditate culturÄƒ È™i rouÄƒ" />
-        <text name="rhm_cause_wear" text="UzurÄƒ heder È™i aparat de treierat" />
-        <text name="rhm_cause_slope" text="Pante parcelÄƒ È™i denivelÄƒri" />
-        <text name="rhm_scorecard_title" text="EVALUAREA EFICIENÈšEI OPERATORULUI" />
+        <text name="rhm_cause_speed" text="Viteză și supraîncărcare bătător" />
+        <text name="rhm_cause_moisture" text="Umiditate cultură și rouă" />
+        <text name="rhm_cause_wear" text="Uzură heder și aparat de treierat" />
+        <text name="rhm_cause_slope" text="Pante parcelă și denivelări" />
+        <text name="rhm_scorecard_title" text="EVALUAREA EFICIENȚEI OPERATORULUI" />
         <text name="rhm_rank_title_a" text="Grad A: Optim" />
-        <text name="rhm_rank_desc_a" text="Pierderi sub 1,5%. Reglajul combinei È™i viteza de lucru sunt perfect echilibrate." />
+        <text name="rhm_rank_desc_a" text="Pierderi sub 1,5%. Reglajul combinei și viteza de lucru sunt perfect echilibrate." />
         <text name="rhm_rank_title_b" text="Grad B: Acceptabil" />
-        <text name="rhm_rank_desc_b" text="Pierderi Ã®ntre 1,5% È™i 3,0%. Se recomandÄƒ mici ajustÄƒri de vitezÄƒ sau bÄƒtÄƒtor." />
+        <text name="rhm_rank_desc_b" text="Pierderi între 1,5% și 3,0%. Se recomandă mici ajustări de viteză sau bătător." />
         <text name="rhm_rank_title_c" text="Grad C: Pierderi ridicate" />
-        <text name="rhm_rank_desc_c" text="Pierderi Ã®ntre 3,0% È™i 4,5%. ReduceÈ›i viteza sau verificaÈ›i ascuÈ›irea cuÈ›itelor." />
+        <text name="rhm_rank_desc_c" text="Pierderi între 3,0% și 4,5%. Reduceți viteza sau verificați ascuțirea cuțitelor." />
         <text name="rhm_rank_title_d" text="Grad D: Pierderi critice" />
-        <text name="rhm_rank_desc_d" text="Pierderile depÄƒÈ™esc 4,5%! SupraÃ®ncÄƒrcare severÄƒ a sitelor sau calibrare defectuoasÄƒ." />
-        <text name="rhm_guidance_title" text="RECOMANDÄ‚RILE COMPUTERULUI DE BORD" />
-        <text name="rhm_advice_perfect" text="EficienÈ›a recoltÄƒrii este optimÄƒ. ToÈ›i parametrii de separare sunt echilibraÈ›i." />
-        <text name="rhm_advice_speed" text="Pierderi cauzate de viteza excesivÄƒ. ÃŽncetiniÈ›i pentru a reduce Ã®ncÄƒrcarea sitelor." />
-        <text name="rhm_advice_moisture" text="Pierderi cauzate de umiditate mare sau rouÄƒ. AÈ™teptaÈ›i uscarea sau reduceÈ›i viteza." />
-        <text name="rhm_advice_wear" text="Pierderi ridicate din cauza uzurii cuÈ›itelor sau bÄƒtÄƒtoarelor. EfectuaÈ›i mentenanÈ›a Ã®n atelier." />
-        <text name="rhm_advice_slope" text="ÃŽnclinaÈ›ia lateralÄƒ pe pante provoacÄƒ Ã®ncÄƒrcare inegalÄƒ a sitelor. ÃŽncetiniÈ›i pe pante." />
+        <text name="rhm_rank_desc_d" text="Pierderile depășesc 4,5%! Supraîncărcare severă a sitelor sau calibrare defectuoasă." />
+        <text name="rhm_guidance_title" text="RECOMANDĂRILE COMPUTERULUI DE BORD" />
+        <text name="rhm_advice_perfect" text="Eficiența recoltării este optimă. Toți parametrii de separare sunt echilibrați." />
+        <text name="rhm_advice_speed" text="Pierderi cauzate de viteza excesivă. Încetiniți pentru a reduce încărcarea sitelor." />
+        <text name="rhm_advice_moisture" text="Pierderi cauzate de umiditate mare sau rouă. Așteptați uscarea sau reduceți viteza." />
+        <text name="rhm_advice_wear" text="Pierderi ridicate din cauza uzurii cuțitelor sau bătătoarelor. Efectuați mentenanța în atelier." />
+        <text name="rhm_advice_slope" text="Înclinația laterală pe pante provoacă încărcare inegală a sitelor. Încetiniți pe pante." />
         <text name="rhm_col_machine" text="Utilaj" />
         <text name="rhm_col_hours" text="Ore de lucru" />
         <text name="rhm_col_harvested" text="Recoltat" />
         <text name="rhm_col_lost" text="Pierderi" />
         <text name="rhm_col_rank" text="Grad" />
-        <text name="rhm_fleet_no_combines" text="Nu s-au gÄƒsit combine" />
-        <text name="rhm_setting_ai_limiter_title" text="LIMITATOR VITEZÄ‚ AI" />
-        <text name="rhm_setting_ai_limiter_desc" text="LimiteazÄƒ automat viteza de lucru a muncitorilor cÃ¢nd pierderile depÄƒÈ™esc pragul." />
+        <text name="rhm_fleet_no_combines" text="Nu s-au găsit combine" />
+        <text name="rhm_setting_ai_limiter_title" text="LIMITATOR VITEZĂ AI" />
+        <text name="rhm_setting_ai_limiter_desc" text="Limitează automat viteza de lucru a muncitorilor când pierderile depășesc pragul." />
         <text name="rhm_setting_ai_threshold_title" text="PRAG DE PIERDERE AI" />
-        <text name="rhm_setting_ai_threshold_desc" text="Procentul maxim de pierderi acceptat Ã®nainte ca muncitorul AI sÄƒ frÃ¢neze automat." />
-        <text name="rhm_setting_volunteer_title" text="SAMULASTRÄ‚ È˜I BURUIENI" />
-        <text name="rhm_setting_volunteer_desc" text="GenereazÄƒ samulastrÄƒ È™i buruieni Ã®n spatele combinei Ã®n zonele cu pierderi mari (&gt;3%)." />
+        <text name="rhm_setting_ai_threshold_desc" text="Procentul maxim de pierderi acceptat înainte ca muncitorul AI să frâneze automat." />
+        <text name="rhm_setting_volunteer_title" text="SAMULASTRĂ ȘI BURUIENI" />
+        <text name="rhm_setting_volunteer_desc" text="Generează samulastră și buruieni în spatele combinei în zonele cu pierderi mari (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTORESETARE LA SCHIMBAREA PARCELEI" />
         <text name="rhm_setting_autoreset_desc" text="Arhivează și resetează automat contorul de parcelă la intrarea pe altă parcelă." />
         <text name="rhm_col_field" text="Câmp" />
@@ -451,5 +451,29 @@
         <text name="rhm_fields_no_data" text="Niciun câmp înregistrat" />
         <text name="rhm_contract_tag" text="(Contract)" />
         <text name="rhm_status_completed" text="Recoltat" />
+        <text name="rhm_status_idle_yard" text="La fermă (în așteptare)" />
+        <text name="rhm_fields_external" text="Extern" />
+        <text name="rhm_field_transit" text="În tranzit / Pe drum" />
+        <text name="rhm_detail_loss_money" text="Pierdere financiară din pierderea recoltei" />
+        <text name="rhm_cause_none" text="Funcționare optimă (fără pierderi)" />
+        <text name="rhm_fields_all_overview" text="[*] Prezentare generală fermă (toate câmpurile)" />
+        <text name="rhm_field_operations" text="Operațiuni de recoltare" />
+        <text name="rhm_fields_nominal_area" text="Suprafață nominală" />
+        <text name="rhm_status_in_progress" text="În desfășurare" />
+        <text name="rhm_fields_harvested_area" text="Suprafață recoltată" />
+        <text name="rhm_ops_one" text="recoltare" />
+        <text name="rhm_ops_few" text="recoltări" />
+        <text name="rhm_ops_many" text="recoltări" />
+        <text name="rhm_loss_disabled" text="Simulare dezactivată" />
+        <text name="rhm_loss_disabled_desc" text="Simularea pierderilor de recoltă este dezactivată în setările modului." />
+        <text name="rhm_filter_active" text="Active" />
+        <text name="rhm_filter_all" text="Toate" />
+        <text name="rhm_filter_sold" text="Vândute" />
+        <text name="rhm_status_sold" text="Vândut (Arhivă)" />
+        <text name="rhm_field_sold" text="[Vândut]" />
+        <text name="rhm_driver_sold" text="Radiat" />
+        <text name="rhm_fleet_no_sold_combines" text="Nicio combină vândută în arhivă" />
+        <text name="rhm_fleet_total_count_active" text="Combine active" />
+        <text name="rhm_fleet_total_count_sold" text="Combine vândute" />
     </texts>
 </l10n>

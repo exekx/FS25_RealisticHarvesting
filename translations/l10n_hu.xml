@@ -309,29 +309,29 @@
         <text name="rhm_trip_reset_done" text="Mezei számláló nullázva!" />
         <text name="rhm_tab_trip" text="Aktuális tábla / Számláló" />
         <text name="rhm_tab_trip_desc" text="Élő telemetria a betakarított mennyiségről, a művelt területről, az átlaghozamról és a veszteségekről." />
-        <text name="rhm_tab_analytics" text="VesztesÃ©gek okai &amp; Ã‰rtÃ©kelÃ©s" />
-        <text name="rhm_tab_analytics_desc" text="VesztesÃ©gtÃ©nyezÅ‘k megoszlÃ¡sa, gÃ©pkezelÅ‘i hatÃ©konysÃ¡gi fokozat Ã©s fedÃ©lzeti tanÃ¡csok." />
-        <text name="rhm_tab_fleet" text="KombÃ¡jnok a tÃ¡blÃ¡n" />
-        <text name="rhm_tab_fleet_desc" text="ValÃ³s idejÅ± telemetria, Ã¡teresztÅ‘kÃ©pessÃ©g Ã©s Ã¡llapot a gazdasÃ¡g Ã¶sszes kombÃ¡jnjÃ¡rÃ³l." />
-        <text name="rhm_tab_settings" text="GazdasÃ¡g Ã©s AI beÃ¡llÃ­tÃ¡sok" />
-        <text name="rhm_tab_settings_desc" text="MunkÃ¡s sebessÃ©gkorlÃ¡tozÃ³, Ã¡rvakelÃ©s generÃ¡lÃ¡s Ã©s automatikus nullÃ¡zÃ¡si lehetÅ‘sÃ©gek." />
+        <text name="rhm_tab_analytics" text="Veszteségek okai &amp; Értékelés" />
+        <text name="rhm_tab_analytics_desc" text="Veszteségtényezők megoszlása, gépkezelői hatékonysági fokozat és fedélzeti tanácsok." />
+        <text name="rhm_tab_fleet" text="Kombájnok a táblán" />
+        <text name="rhm_tab_fleet_desc" text="Valós idejű telemetria, áteresztőképesség és állapot a gazdaság összes kombájnjáról." />
+        <text name="rhm_tab_settings" text="Gazdaság és AI beállítások" />
+        <text name="rhm_tab_settings_desc" text="Munkás sebességkorlátozó, árvakelés generálás és automatikus nullázási lehetőségek." />
         <text name="rhm_driver_parked" text="Parkol" />
         <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
-        <text name="rhm_driver_hired_ai" text="AI segÃ©dmunkÃ¡s" />
-        <text name="rhm_driver_player" text="JÃ¡tÃ©kos" />
-        <text name="rhm_driver_idle_on" text="AlapjÃ¡rat" />
+        <text name="rhm_driver_hired_ai" text="AI segédmunkás" />
+        <text name="rhm_driver_player" text="Játékos" />
+        <text name="rhm_driver_idle_on" text="Alapjárat" />
         <text name="rhm_field_yard" text="Telephely / Udvar" />
-        <text name="rhm_field_format" text="MezÅ‘ %d" />
-        <text name="rhm_fleet_driver" text="KezelÅ‘ / SofÅ‘r" />
-        <text name="rhm_fleet_cutter" text="VÃ¡gÃ³asztal szÃ©lessÃ©g" />
-        <text name="rhm_fleet_grain_tank" text="MagtartÃ¡ly szint" />
-        <text name="rhm_fleet_throughput" text="ÃteresztÅ‘kÃ©pessÃ©g" />
+        <text name="rhm_field_format" text="Mező %d" />
+        <text name="rhm_fleet_driver" text="Kezelő / Sofőr" />
+        <text name="rhm_fleet_cutter" text="Vágóasztal szélesség" />
+        <text name="rhm_fleet_grain_tank" text="Magtartály szint" />
+        <text name="rhm_fleet_throughput" text="Áteresztőképesség" />
         <text name="rhm_fleet_realtime_yield" text="Pillanatnyi hozam" />
-        <text name="rhm_fleet_crop_loss" text="VesztesÃ©garÃ¡ny" />
-        <text name="rhm_fleet_wear_state" text="GÃ©p kopÃ¡sa" />
-        <text name="rhm_fleet_total_count" text="Ã–sszes kombÃ¡jn" />
-        <text name="rhm_btn_subtab_fleet" text="KOMBÃJN FLOTTA" />
-        <text name="rhm_btn_subtab_history" text="SZEZONNAPLÃ“ / MINDEN MEZÅ" />
+        <text name="rhm_fleet_crop_loss" text="Veszteségarány" />
+        <text name="rhm_fleet_wear_state" text="Gép kopása" />
+        <text name="rhm_fleet_total_count" text="Összes kombájn" />
+        <text name="rhm_btn_subtab_fleet" text="KOMBÁJN FLOTTA" />
+        <text name="rhm_btn_subtab_history" text="SZEZONNAPLÓ / MINDEN MEZŐ" />
         <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
         <text name="rhm_season_format" text="Season %d (Year %d)" />
         <text name="rhm_season_current_suffix" text="[Current]" />
@@ -342,67 +342,67 @@
         <text name="rhm_season_active_status" text="Active Season" />
         <text name="rhm_season_archived_status" text="Archived Season" />
         <text name="rhm_season_all_time_status" text="All-Time History" />
-        <text name="rhm_hist_total_area" text="Ã–sszes betakarÃ­tott terÃ¼let" />
-        <text name="rhm_hist_total_harvest" text="Ã–sszes tiszta termÃ©s" />
-        <text name="rhm_hist_avg_loss" text="Ãtlagos vesztesÃ©g" />
-        <text name="rhm_hist_total_money" text="Ã–sszes pÃ©nzÃ¼gyi vesztesÃ©g" />
+        <text name="rhm_hist_total_area" text="Összes betakarított terület" />
+        <text name="rhm_hist_total_harvest" text="Összes tiszta termés" />
+        <text name="rhm_hist_avg_loss" text="Átlagos veszteség" />
+        <text name="rhm_hist_total_money" text="Összes pénzügyi veszteség" />
         <text name="rhm_col_season" text="Szezon" />
-        <text name="rhm_col_status" text="Ãllapot" />
-        <text name="rhm_hist_empty" text="MÃ©g nincsenek szezonrekordok" />
-        <text name="rhm_status_harvesting" text="BetakarÃ­tÃ¡s (aktÃ­v)" />
-        <text name="rhm_status_on_field_idle" text="TÃ¡blÃ¡n (alapjÃ¡rat)" />
-        <text name="rhm_status_on_field_stopped" text="TÃ¡blÃ¡n (leÃ¡llÃ­tva)" />
-        <text name="rhm_status_in_transit" text="Ãšton / SzÃ¡llÃ­tÃ¡s" />
-        <text name="rhm_status_in_cab" text="Foglalt (JÃ¡tÃ©kos)" />
+        <text name="rhm_col_status" text="Állapot" />
+        <text name="rhm_hist_empty" text="Még nincsenek szezonrekordok" />
+        <text name="rhm_status_harvesting" text="Betakarítás (aktív)" />
+        <text name="rhm_status_on_field_idle" text="Táblán (alapjárat)" />
+        <text name="rhm_status_on_field_stopped" text="Táblán (leállítva)" />
+        <text name="rhm_status_in_transit" text="Úton / Szállítás" />
+        <text name="rhm_status_in_cab" text="Foglalt (Játékos)" />
         <text name="rhm_status_parked_yard" text="Telephelyen parkol" />
-        <text name="rhm_card_field_harvest" text="AKTUÃLIS MEZÅ Ã‰S BETAKARÃTÃS" />
-        <text name="rhm_field_number" text="MezÅ‘szÃ¡m" />
-        <text name="rhm_trip_no_field" text="MezÅ‘n kÃ­vÃ¼l" />
-        <text name="rhm_crop_type" text="NÃ¶vÃ©nykultÃºra" />
-        <text name="rhm_harvested_area" text="BetakarÃ­tott terÃ¼let" />
-        <text name="rhm_clean_harvest" text="Tiszta termÃ©s" />
-        <text name="rhm_average_yield" text="Ãtlagos hozam" />
-        <text name="rhm_card_loss_finances" text="VESZTESÃ‰GEK Ã‰S PÃ‰NZÃœGYEK" />
-        <text name="rhm_loss_volume" text="Elveszett mennyisÃ©g" />
-        <text name="rhm_loss_share" text="VesztesÃ©g a hozambÃ³l %" />
-        <text name="rhm_financial_loss" text="PÃ©nzÃ¼gyi vesztesÃ©g" />
-        <text name="rhm_card_performance" text="TELJESÃTMÃ‰NY Ã‰S IDÅ" />
-        <text name="rhm_avg_working_speed" text="Ãtlagos munkasebessÃ©g" />
-        <text name="rhm_avg_engine_load" text="Ãtlagos motorterhelÃ©s" />
-        <text name="rhm_session_duration" text="MÅ±velet idÅ‘tartama" />
+        <text name="rhm_card_field_harvest" text="AKTUÁLIS MEZŐ ÉS BETAKARÍTÁS" />
+        <text name="rhm_field_number" text="Mezőszám" />
+        <text name="rhm_trip_no_field" text="Mezőn kívül" />
+        <text name="rhm_crop_type" text="Növénykultúra" />
+        <text name="rhm_harvested_area" text="Betakarított terület" />
+        <text name="rhm_clean_harvest" text="Tiszta termés" />
+        <text name="rhm_average_yield" text="Átlagos hozam" />
+        <text name="rhm_card_loss_finances" text="VESZTESÉGEK ÉS PÉNZÜGYEK" />
+        <text name="rhm_loss_volume" text="Elveszett mennyiség" />
+        <text name="rhm_loss_share" text="Veszteség a hozamból %" />
+        <text name="rhm_financial_loss" text="Pénzügyi veszteség" />
+        <text name="rhm_card_performance" text="TELJESÍTMÉNY ÉS IDŐ" />
+        <text name="rhm_avg_working_speed" text="Átlagos munkasebesség" />
+        <text name="rhm_avg_engine_load" text="Átlagos motorterhelés" />
+        <text name="rhm_session_duration" text="Művelet időtartama" />
         <text name="rhm_btn_reset_trip" text="Mezei számláló nullázása" />
-        <text name="rhm_causes_title" text="BETAKARÃTÃSI VESZTESÃ‰GEK OKAI" />
-        <text name="rhm_cause_speed" text="SebessÃ©g Ã©s csÃ©plÅ‘rendszer tÃºlterhelÃ©s" />
-        <text name="rhm_cause_moisture" text="NedvessÃ©g Ã©s reggeli harmat" />
-        <text name="rhm_cause_wear" text="VÃ¡gÃ³asztal Ã©s csÃ©plÅ‘szerkezet kopÃ¡sa" />
-        <text name="rhm_cause_slope" text="DÅ‘lÃ©sszÃ¶g Ã©s terepviszonyok" />
-        <text name="rhm_scorecard_title" text="KEZELÅI HATÃ‰KONYSÃGI Ã‰RTÃ‰KELÅ" />
-        <text name="rhm_rank_title_a" text="A fokozat: OptimÃ¡lis" />
-        <text name="rhm_rank_desc_a" text="A vesztesÃ©g 1,5% alatti. A kombÃ¡jn beÃ¡llÃ­tÃ¡sa Ã©s sebessÃ©ge tÃ¶kÃ©letes Ã¶sszhangban van." />
-        <text name="rhm_rank_title_b" text="B fokozat: ElfogadhatÃ³" />
-        <text name="rhm_rank_desc_b" text="A vesztesÃ©g 1,5% Ã©s 3,0% kÃ¶zÃ¶tt van. Kisebb sebessÃ©g- vagy kosÃ¡rhÃ©zag-mÃ³dosÃ­tÃ¡s javasolt." />
-        <text name="rhm_rank_title_c" text="C fokozat: MegnÃ¶vekedett vesztesÃ©g" />
-        <text name="rhm_rank_desc_c" text="A vesztesÃ©g 3,0% Ã©s 4,5% kÃ¶zÃ¶tt van. CsÃ¶kkentse a sebessÃ©get vagy ellenÅ‘rizze a kÃ©seket." />
-        <text name="rhm_rank_title_d" text="D fokozat: Kritikus vesztesÃ©g" />
-        <text name="rhm_rank_desc_d" text="A vesztesÃ©g meghaladja a 4,5%-ot! SÃºlyos rostatÃºlterhelÃ©s vagy hibÃ¡s kalibrÃ¡ciÃ³." />
-        <text name="rhm_guidance_title" text="FEDÃ‰LZETI SZÃMÃTÃ“GÃ‰P JAVASLATAI" />
-        <text name="rhm_advice_perfect" text="A betakarÃ­tÃ¡s hatÃ©konysÃ¡ga optimÃ¡lis. A csÃ©plÃ©si Ã©s szÃ©tvÃ¡lasztÃ¡si paramÃ©terek kivÃ¡lÃ³ak." />
-        <text name="rhm_advice_speed" text="A vesztesÃ©get elsÅ‘sorban a tÃºl nagy sebessÃ©g okozza. LassÃ­tson a rostÃ¡k tehermentesÃ­tÃ©sÃ©hez." />
-        <text name="rhm_advice_moisture" text="A vesztesÃ©get a magas nedvessÃ©g vagy harmat okozza. VÃ¡rja meg a szÃ¡radÃ¡st vagy lassÃ­tson." />
-        <text name="rhm_advice_wear" text="MegnÃ¶vekedett vesztesÃ©g kopott pengÃ©k vagy verÅ‘lÃ©cek miatt. VÃ©gezzen szervizelÃ©st a mÅ±helyben." />
-        <text name="rhm_advice_slope" text="Az oldalirÃ¡nyÃº lejtÃ©s egyenetlen rostaterhelÃ©st okoz. CsÃ¶kkentse a sebessÃ©get lejtÅ‘s terepen." />
-        <text name="rhm_col_machine" text="GÃ©p" />
-        <text name="rhm_col_hours" text="ÃœzemÃ³rÃ¡k" />
-        <text name="rhm_col_harvested" text="LekaszÃ¡lva" />
-        <text name="rhm_col_lost" text="VesztesÃ©g" />
+        <text name="rhm_causes_title" text="BETAKARÍTÁSI VESZTESÉGEK OKAI" />
+        <text name="rhm_cause_speed" text="Sebesség és cséplőrendszer túlterhelés" />
+        <text name="rhm_cause_moisture" text="Nedvesség és reggeli harmat" />
+        <text name="rhm_cause_wear" text="Vágóasztal és cséplőszerkezet kopása" />
+        <text name="rhm_cause_slope" text="Dőlésszög és terepviszonyok" />
+        <text name="rhm_scorecard_title" text="KEZELŐI HATÉKONYSÁGI ÉRTÉKELŐ" />
+        <text name="rhm_rank_title_a" text="A fokozat: Optimális" />
+        <text name="rhm_rank_desc_a" text="A veszteség 1,5% alatti. A kombájn beállítása és sebessége tökéletes összhangban van." />
+        <text name="rhm_rank_title_b" text="B fokozat: Elfogadható" />
+        <text name="rhm_rank_desc_b" text="A veszteség 1,5% és 3,0% között van. Kisebb sebesség- vagy kosárhézag-módosítás javasolt." />
+        <text name="rhm_rank_title_c" text="C fokozat: Megnövekedett veszteség" />
+        <text name="rhm_rank_desc_c" text="A veszteség 3,0% és 4,5% között van. Csökkentse a sebességet vagy ellenőrizze a késeket." />
+        <text name="rhm_rank_title_d" text="D fokozat: Kritikus veszteség" />
+        <text name="rhm_rank_desc_d" text="A veszteség meghaladja a 4,5%-ot! Súlyos rostatúlterhelés vagy hibás kalibráció." />
+        <text name="rhm_guidance_title" text="FEDÉLZETI SZÁMÍTÓGÉP JAVASLATAI" />
+        <text name="rhm_advice_perfect" text="A betakarítás hatékonysága optimális. A cséplési és szétválasztási paraméterek kiválóak." />
+        <text name="rhm_advice_speed" text="A veszteséget elsősorban a túl nagy sebesség okozza. Lassítson a rosták tehermentesítéséhez." />
+        <text name="rhm_advice_moisture" text="A veszteséget a magas nedvesség vagy harmat okozza. Várja meg a száradást vagy lassítson." />
+        <text name="rhm_advice_wear" text="Megnövekedett veszteség kopott pengék vagy verőlécek miatt. Végezzen szervizelést a műhelyben." />
+        <text name="rhm_advice_slope" text="Az oldalirányú lejtés egyenetlen rostaterhelést okoz. Csökkentse a sebességet lejtős terepen." />
+        <text name="rhm_col_machine" text="Gép" />
+        <text name="rhm_col_hours" text="Üzemórák" />
+        <text name="rhm_col_harvested" text="Lekaszálva" />
+        <text name="rhm_col_lost" text="Veszteség" />
         <text name="rhm_col_rank" text="Fokozat" />
-        <text name="rhm_fleet_no_combines" text="Nem talÃ¡lhatÃ³ kombÃ¡jn" />
-        <text name="rhm_setting_ai_limiter_title" text="AI SEBESSÃ‰GKORLÃTOZÃ“" />
-        <text name="rhm_setting_ai_limiter_desc" text="Automatikusan korlÃ¡tozza a munkÃ¡s tempomatjÃ¡t, ha a vesztesÃ©g meghaladja a kÃ¼szÃ¶bÃ©rtÃ©ket." />
-        <text name="rhm_setting_ai_threshold_title" text="AI VESZTESÃ‰GI KÃœSZÃ–B" />
-        <text name="rhm_setting_ai_threshold_desc" text="MaximÃ¡lisan megengedett vesztesÃ©g, amely felett az AI segÃ©dmunkÃ¡s automatikusan fÃ©kez." />
-        <text name="rhm_setting_volunteer_title" text="ÃRVAKELÃ‰S Ã‰S GYOM" />
-        <text name="rhm_setting_volunteer_desc" text="Gyom- Ã©s Ã¡rvakelÃ©sfoltokat hoz lÃ©tre a kombÃ¡jn mÃ¶gÃ¶tt a nagy vesztesÃ©gÅ± zÃ³nÃ¡kban (&gt;3%)." />
+        <text name="rhm_fleet_no_combines" text="Nem található kombájn" />
+        <text name="rhm_setting_ai_limiter_title" text="AI SEBESSÉGKORLÁTOZÓ" />
+        <text name="rhm_setting_ai_limiter_desc" text="Automatikusan korlátozza a munkás tempomatját, ha a veszteség meghaladja a küszöbértéket." />
+        <text name="rhm_setting_ai_threshold_title" text="AI VESZTESÉGI KÜSZÖB" />
+        <text name="rhm_setting_ai_threshold_desc" text="Maximálisan megengedett veszteség, amely felett az AI segédmunkás automatikusan fékez." />
+        <text name="rhm_setting_volunteer_title" text="ÁRVAKELÉS ÉS GYOM" />
+        <text name="rhm_setting_volunteer_desc" text="Gyom- és árvakelésfoltokat hoz létre a kombájn mögött a nagy veszteségű zónákban (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMATIKUS NULLÁZÁS TÁBLAVÁLTÁSKOR" />
         <text name="rhm_setting_autoreset_desc" text="Automatikusan archiválja és nullázza a mezei számlálót másik táblára hajtáskor." />
         <text name="rhm_col_field" text="Mező" />
@@ -453,5 +453,29 @@
         <text name="rhm_fields_no_data" text="Nincsenek rögzített mezők" />
         <text name="rhm_contract_tag" text="(Szerződés)" />
         <text name="rhm_status_completed" text="Betakarítva" />
+        <text name="rhm_status_idle_yard" text="Az udvarban (várakozik)" />
+        <text name="rhm_fields_external" text="Külső" />
+        <text name="rhm_field_transit" text="Úton / Átállás" />
+        <text name="rhm_detail_loss_money" text="Betakarítási veszteség pénzügyi hatása" />
+        <text name="rhm_cause_none" text="Optimális működés (nincs veszteség)" />
+        <text name="rhm_fields_all_overview" text="[*] Gazdaság áttekintése (minden mező)" />
+        <text name="rhm_field_operations" text="Betakarítási műveletek" />
+        <text name="rhm_fields_nominal_area" text="Névleges terület" />
+        <text name="rhm_status_in_progress" text="Folyamatban" />
+        <text name="rhm_fields_harvested_area" text="Levágott terület" />
+        <text name="rhm_ops_one" text="aratás" />
+        <text name="rhm_ops_few" text="aratás" />
+        <text name="rhm_ops_many" text="aratás" />
+        <text name="rhm_loss_disabled" text="Szimuláció kikapcsolva" />
+        <text name="rhm_loss_disabled_desc" text="A termésveszteség szimulációja ki van kapcsolva a mod beállításaiban." />
+        <text name="rhm_filter_active" text="Aktív" />
+        <text name="rhm_filter_all" text="Mind" />
+        <text name="rhm_filter_sold" text="Eladott" />
+        <text name="rhm_status_sold" text="Eladva (Archívum)" />
+        <text name="rhm_field_sold" text="[Eladva]" />
+        <text name="rhm_driver_sold" text="Kivonva" />
+        <text name="rhm_fleet_no_sold_combines" text="Nincs eladott kombájn az archívumban" />
+        <text name="rhm_fleet_total_count_active" text="Aktív kombájnok" />
+        <text name="rhm_fleet_total_count_sold" text="Eladott kombájnok" />
     </texts>
 </l10n>

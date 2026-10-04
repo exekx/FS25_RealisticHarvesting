@@ -298,117 +298,117 @@
         <text name="rhm_ui_cutter_wear" text="Độ mòn hàm cắt" />
         <text name="rhm_ui_combine_wear" text="Độ mòn buồng đập" />
         <!-- Harvest History & Field Trip Telemetry -->
-        <text name="input_RHM_OPEN_HARVEST_MENU" text="Nhật ký thu hoạch &amp; Bộ đếm ruộng" />
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="Hồ sơ thu hoạch &amp; Bộ đếm ruộng" />
         <text name="input_RHM_QUICK_RESET_TRIP" text="Đặt lại bộ đếm ruộng (Giữ)" />
         <text name="rhm_trip_reset_done" text="Đã đặt lại bộ đếm ruộng!" />
-        <text name="rhm_tab_trip" text="Ruộng hiện tại / Bộ đếm" />
-        <text name="rhm_tab_trip_desc" text="Dữ liệu đo trực tiếp sản lượng thu hoạch, diện tích canh tác, năng suất trung bình và thiệt hại." />
-        <text name="rhm_tab_analytics" text="NguyÃªn nhÃ¢n tháº¥t thoÃ¡t &amp; Báº£ng Ä‘Ã¡nh giÃ¡" />
-        <text name="rhm_tab_analytics_desc" text="PhÃ¢n bá»- nguyÃªn nhÃ¢n hao há»¥t, Ä‘iá»ƒm hiá»‡u quáº£ cá»§a ngÆ°á»i váº­n hÃ nh vÃ  khuyáº¿n nghá»‹ mÃ¡y tÃ­nh." />
-        <text name="rhm_tab_fleet" text="MÃ¡y gáº·t trÃªn cÃ¡nh Ä‘á»“ng" />
-        <text name="rhm_tab_fleet_desc" text="ThÃ´ng sá»‘ trá»±c tiáº¿p, cÃ´ng suáº¥t xá»­ lÃ½ vÃ  tráº¡ng thÃ¡i cá»§a toÃ n bá»™ mÃ¡y gáº·t trong trang tráº¡i." />
-        <text name="rhm_tab_settings" text="CÃ i Ä‘áº·t Trang tráº¡i &amp; AI" />
-        <text name="rhm_tab_settings_desc" text="Cáº¥u hÃ¬nh giá»›i háº¡n tá»‘c Ä‘á»™ phá»¥ tÃ¡ AI, cá» má»c tá»« háº¡t rÆ¡i vÃ  tá»± Ä‘á»™ng Ä‘áº·t láº¡i khi Ä‘á»- i ruá»™ng." />
-        <text name="rhm_driver_parked" text="Äang Ä‘á»—" />
+        <text name="rhm_tab_trip" text="Ruộng hiện tại / Bộ đếm công việc" />
+        <text name="rhm_tab_trip_desc" text="Đo từ xa thời gian thực về sản lượng, diện tích, năng suất trung bình và thiệt hại tài chính cho hoạt động thu hoạch." />
+        <text name="rhm_tab_analytics" text="Nguyên nhân thất thoát &amp; Thẻ điểm" />
+        <text name="rhm_tab_analytics_desc" text="Phân bổ hao hụt, xếp hạng hiệu quả của người vận hành và khuyến nghị từ máy tính chẩn đoán." />
+        <text name="rhm_tab_fleet" text="Máy gặt trên ruộng" />
+        <text name="rhm_tab_fleet_desc" text="Đo từ xa thời gian thực, công suất xử lý và trạng thái của tất cả máy gặt đập trong trang trại." />
+        <text name="rhm_tab_settings" text="Cài đặt trang trại &amp; AI" />
+        <text name="rhm_tab_settings_desc" text="Cấu hình giới hạn tốc độ cho người làm thuê AI, cỏ dại tự mọc và tùy chọn tự động đặt lại." />
+        <text name="rhm_driver_parked" text="Đã đỗ" />
         <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
-        <text name="rhm_driver_hired_ai" text="Phá»¥ tÃ¡ AI" />
-        <text name="rhm_driver_player" text="NgÆ°á»i chÆ¡i" />
-        <text name="rhm_driver_idle_on" text="Cháº¡y khÃ´ng táº£i" />
-        <text name="rhm_field_yard" text="Trang tráº¡i / BÃ£i xe" />
-        <text name="rhm_field_format" text="Ruá»™ng %d" />
-        <text name="rhm_fleet_driver" text="TÃ i xáº¿ / Váº­n hÃ nh" />
-        <text name="rhm_fleet_cutter" text="Chiá»u rá»™ng hÃ m cáº¯t" />
-        <text name="rhm_fleet_grain_tank" text="Dung tÃ­ch thÃ¹ng chá»©a" />
-        <text name="rhm_fleet_throughput" text="NÄƒng suáº¥t xá»­ lÃ½" />
-        <text name="rhm_fleet_realtime_yield" text="NÄƒng suáº¥t tá»©c thá»i" />
-        <text name="rhm_fleet_crop_loss" text="Tá»· lá»‡ tháº¥t thoÃ¡t" />
-        <text name="rhm_fleet_wear_state" text="Äá»™ hao mÃ²n mÃ¡y" />
-        <text name="rhm_fleet_total_count" text="Tá»- ng sá»‘ mÃ¡y gáº·t" />
-        <text name="rhm_btn_subtab_fleet" text="Äá»˜I XE MÃY Gáº¶T" />
-        <text name="rhm_btn_subtab_history" text="Lá»ŠCH Sá»¬ MÃ™A Vá»¤ / Má»ŒI CÃNH Äá»’NG" />
-        <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
-        <text name="rhm_season_format" text="Season %d (Year %d)" />
-        <text name="rhm_season_current_suffix" text="[Current]" />
-        <text name="rhm_card_season_harvest" text="SEASON HARVEST &amp; AREA" />
-        <text name="rhm_card_season_losses" text="SEASON LOSSES &amp; FINANCES" />
-        <text name="rhm_card_season_telemetry" text="SEASON METRICS &amp; HARVEST TIME" />
-        <text name="rhm_season_operations" text="Completed Operations" />
-        <text name="rhm_season_active_status" text="Active Season" />
-        <text name="rhm_season_archived_status" text="Archived Season" />
-        <text name="rhm_season_all_time_status" text="All-Time History" />
-        <text name="rhm_hist_total_area" text="Tá»- ng diá»‡n tÃ­ch thu hoáº¡ch" />
-        <text name="rhm_hist_total_harvest" text="Tá»- ng thu hoáº¡ch sáº¡ch" />
-        <text name="rhm_hist_avg_loss" text="Hao há»¥t trung bÃ¬nh" />
-        <text name="rhm_hist_total_money" text="Tá»- ng thiá»‡t háº¡i tÃ i chÃ­nh" />
-        <text name="rhm_col_season" text="MÃ¹a vá»¥" />
-        <text name="rhm_col_status" text="Tráº¡ng thÃ¡i" />
-        <text name="rhm_hist_empty" text="ChÆ°a cÃ³ dá»¯ liá»‡u mÃ¹a vá»¥ nÃ o" />
-        <text name="rhm_status_harvesting" text="Äang gáº·t (hoáº¡t Ä‘á»™ng)" />
-        <text name="rhm_status_on_field_idle" text="Táº¡i ruá»™ng (khÃ´ng táº£i)" />
-        <text name="rhm_status_on_field_stopped" text="Táº¡i ruá»™ng (Ä‘Ã£ dá»«ng)" />
-        <text name="rhm_status_in_transit" text="TrÃªn Ä‘Æ°á»ng / Di chuyá»ƒn" />
-        <text name="rhm_status_in_cab" text="CÃ³ ngÆ°á»i (NgÆ°á»i chÆ¡i)" />
-        <text name="rhm_status_parked_yard" text="Äá»— táº¡i trang tráº¡i" />
-        <text name="rhm_card_field_harvest" text="RUá»˜NG HIá»†N Táº I &amp; THU HOáº CH" />
-        <text name="rhm_field_number" text="Sá»‘ thá»­a ruá»™ng" />
-        <text name="rhm_trip_no_field" text="NgoÃ i ruá»™ng" />
-        <text name="rhm_crop_type" text="Loáº¡i cÃ¢y trá»“ng" />
-        <text name="rhm_harvested_area" text="Diá»‡n tÃ­ch Ä‘Ã£ gáº·t" />
-        <text name="rhm_clean_harvest" text="Thu hoáº¡ch sáº¡ch" />
-        <text name="rhm_average_yield" text="NÄƒng suáº¥t trung bÃ¬nh" />
-        <text name="rhm_card_loss_finances" text="THáº¤T THOÃT &amp; TÃ€I CHÃNH" />
-        <text name="rhm_loss_volume" text="Khá»‘i lÆ°á»£ng hao há»¥t" />
-        <text name="rhm_loss_share" text="Tá»· lá»‡ % tháº¥t thoÃ¡t" />
-        <text name="rhm_financial_loss" text="Thiá»‡t háº¡i tÃ i chÃ­nh" />
-        <text name="rhm_card_performance" text="HIá»†U SUáº¤T &amp; THá»œI GIAN" />
-        <text name="rhm_avg_working_speed" text="Tá»‘c Ä‘á»™ lÃ m viá»‡c TB" />
-        <text name="rhm_avg_engine_load" text="Táº£i Ä‘á»™ng cÆ¡ TB" />
-        <text name="rhm_session_duration" text="Thá»i lÆ°á»£ng phiÃªn" />
+        <text name="rhm_driver_hired_ai" text="Người làm thuê AI" />
+        <text name="rhm_driver_player" text="Người chơi" />
+        <text name="rhm_driver_idle_on" text="Chạy không tải" />
+        <text name="rhm_field_yard" text="Khu trang trại / Sân" />
+        <text name="rhm_field_format" text="Ruộng %d" />
+        <text name="rhm_fleet_driver" text="Người vận hành" />
+        <text name="rhm_fleet_cutter" text="Chiều rộng hàm cắt" />
+        <text name="rhm_fleet_grain_tank" text="Dung tích thùng chứa" />
+        <text name="rhm_fleet_throughput" text="Công suất xử lý" />
+        <text name="rhm_fleet_realtime_yield" text="Năng suất thời gian thực" />
+        <text name="rhm_fleet_crop_loss" text="Tỷ lệ thất thoát" />
+        <text name="rhm_fleet_wear_state" text="Độ hao mòn máy" />
+        <text name="rhm_fleet_total_count" text="Tổng số máy gặt" />
+        <text name="rhm_btn_subtab_fleet" text="ĐỘI MÁY GẶT" />
+        <text name="rhm_btn_subtab_history" text="LỊCH SỬ MÙA VỤ / TẤT CẢ RUỘNG" />
+        <text name="rhm_season_all_time" text="Tất cả mùa vụ (Toàn thời gian)" />
+        <text name="rhm_season_format" text="Mùa %d (Năm %d)" />
+        <text name="rhm_season_current_suffix" text="[Hiện tại]" />
+        <text name="rhm_card_season_harvest" text="SẢN LƯỢNG &amp; DIỆN TÍCH MÙA" />
+        <text name="rhm_card_season_losses" text="HAO HỤT &amp; TÀI CHÍNH MÙA" />
+        <text name="rhm_card_season_telemetry" text="CHỈ SỐ &amp; THỜI GIAN THU HOẠCH" />
+        <text name="rhm_season_operations" text="Công việc đã hoàn thành" />
+        <text name="rhm_season_active_status" text="Mùa vụ đang hoạt động" />
+        <text name="rhm_season_archived_status" text="Mùa vụ đã lưu trữ" />
+        <text name="rhm_season_all_time_status" text="Lịch sử toàn thời gian" />
+        <text name="rhm_hist_total_area" text="Tổng diện tích thu hoạch" />
+        <text name="rhm_hist_total_harvest" text="Tổng thu hoạch sạch" />
+        <text name="rhm_hist_avg_loss" text="Hao hụt trung bình" />
+        <text name="rhm_hist_total_money" text="Tổng thiệt hại tài chính" />
+        <text name="rhm_col_season" text="Mùa vụ" />
+        <text name="rhm_col_status" text="Trạng thái" />
+        <text name="rhm_hist_empty" text="Chưa có dữ liệu mùa vụ nào" />
+        <text name="rhm_status_harvesting" text="Đang gặt (Hoạt động)" />
+        <text name="rhm_status_on_field_idle" text="Tại ruộng (Chờ)" />
+        <text name="rhm_status_on_field_stopped" text="Tại ruộng (Đã dừng)" />
+        <text name="rhm_status_in_transit" text="Đang di chuyển" />
+        <text name="rhm_status_in_cab" text="Có người lái" />
+        <text name="rhm_status_parked_yard" text="Đỗ tại trang trại" />
+        <text name="rhm_card_field_harvest" text="RUỘNG HIỆN TẠI &amp; THU HOẠCH" />
+        <text name="rhm_field_number" text="Số thửa ruộng" />
+        <text name="rhm_trip_no_field" text="Ngoài ruộng" />
+        <text name="rhm_crop_type" text="Loại cây trồng" />
+        <text name="rhm_harvested_area" text="Diện tích đã gặt" />
+        <text name="rhm_clean_harvest" text="Thu hoạch sạch" />
+        <text name="rhm_average_yield" text="Năng suất trung bình" />
+        <text name="rhm_card_loss_finances" text="THẤT THOÁT &amp; TÀI CHÍNH" />
+        <text name="rhm_loss_volume" text="Khối lượng hao hụt" />
+        <text name="rhm_loss_share" text="Tỷ lệ % thất thoát" />
+        <text name="rhm_financial_loss" text="Thiệt hại tài chính" />
+        <text name="rhm_card_performance" text="HIỆU SUẤT &amp; THỜI GIAN" />
+        <text name="rhm_avg_working_speed" text="Tốc độ làm việc TB" />
+        <text name="rhm_avg_engine_load" text="Tải động cơ TB" />
+        <text name="rhm_session_duration" text="Thời lượng phiên" />
         <text name="rhm_btn_reset_trip" text="Đặt lại bộ đếm ruộng" />
-        <text name="rhm_causes_title" text="NGUYÃŠN NHÃ‚N GÃ‚Y THáº¤T THOÃT" />
-        <text name="rhm_cause_speed" text="Tá»‘c Ä‘á»™ &amp; QuÃ¡ táº£i guá»“ng Ä‘áº­p" />
-        <text name="rhm_cause_moisture" text="Äá»™ áº©m cÃ¢y trá»“ng &amp; SÆ°Æ¡ng mai" />
-        <text name="rhm_cause_wear" text="Hao mÃ²n hÃ m cáº¯t &amp; MÃ¡y Ä‘áº­p" />
-        <text name="rhm_cause_slope" text="Äá»™ dá»‘c ruá»™ng &amp; Äá»‹a hÃ¬nh" />
-        <text name="rhm_scorecard_title" text="ÄÃNH GIÃ HIá»†U QUáº¢ Váº¬N HÃ€NH" />
-        <text name="rhm_rank_title_a" text="Háº¡ng A: Tá»‘i Æ°u" />
-        <text name="rhm_rank_desc_a" text="Tá»· lá»‡ hao há»¥t dÆ°á»›i 1,5%. CÃ i Ä‘áº·t mÃ¡y vÃ  tá»‘c Ä‘á»™ gáº·t hoÃ n toÃ n cÃ¢n báº±ng." />
-        <text name="rhm_rank_title_b" text="Háº¡ng B: Cháº¥p nháº­n Ä‘Æ°á»£c" />
-        <text name="rhm_rank_desc_b" text="Hao há»¥t tá»« 1,5% Ä‘áº¿n 3,0%. NÃªn Ä‘iá»u chá»‰nh nháº¹ tá»‘c Ä‘á»™ hoáº·c khe há»Ÿ Ä‘áº­p." />
-        <text name="rhm_rank_title_c" text="Háº¡ng C: Hao há»¥t tÄƒng cao" />
-        <text name="rhm_rank_desc_c" text="Hao há»¥t tá»« 3,0% Ä‘áº¿n 4,5%. Giáº£m tá»‘c Ä‘á»™ hoáº·c kiá»ƒm tra Ä‘á»™ bÃ©n cá»§a dao cáº¯t." />
-        <text name="rhm_rank_title_d" text="Háº¡ng D: Hao há»¥t nghiÃªm trá»ng" />
-        <text name="rhm_rank_desc_d" text="Hao há»¥t vÆ°á»£t quÃ¡ 4,5%! SÃ ng sáº©y bá»‹ quÃ¡ táº£i náº·ng hoáº·c hiá»‡u chá»‰nh sai lá»‡ch." />
-        <text name="rhm_guidance_title" text="HÆ¯á»šNG DáºªN Tá»ª MÃY TÃNH TRÃŠN XE" />
-        <text name="rhm_advice_perfect" text="Hiá»‡u quáº£ thu hoáº¡ch Ä‘áº¡t má»©c tá»‘i Æ°u. CÃ¡c thÃ´ng sá»‘ tÃ¡ch háº¡t hoáº¡t Ä‘á»™ng ráº¥t tá»‘t." />
-        <text name="rhm_advice_speed" text="Hao há»¥t do cháº¡y quÃ¡ nhanh. HÃ£y giáº£m tá»‘c Ä‘á»™ Ä‘á»ƒ trÃ¡nh lÃ m ngháº½n sÃ ng sáº©y." />
-        <text name="rhm_advice_moisture" text="Hao há»¥t do Ä‘á»™ áº©m cao hoáº·c sÆ°Æ¡ng sá»›m. Chá» ruá»™ng khÃ´ rÃ¡o hoáº·c giáº£m tá»‘c Ä‘á»™." />
-        <text name="rhm_advice_wear" text="Hao há»¥t tÄƒng do dao cáº¯t hoáº·c thanh Ä‘áº­p bá»‹ mÃ²n. HÃ£y Ä‘Æ°a vÃ o xÆ°á»Ÿng báº£o dÆ°á»¡ng." />
-        <text name="rhm_advice_slope" text="Äá»™ nghiÃªng sÆ°á»n dá»‘c lÃ m sÃ ng sáº©y dá»“n háº¡t khÃ´ng Ä‘á»u. Giáº£m tá»‘c Ä‘á»™ á»Ÿ sÆ°á»n dá»‘c." />
-        <text name="rhm_col_machine" text="MÃ¡y mÃ³c" />
-        <text name="rhm_col_hours" text="Giá» mÃ¡y cháº¡y" />
-        <text name="rhm_col_harvested" text="ÄÃ£ gáº·t" />
-        <text name="rhm_col_lost" text="Hao há»¥t" />
-        <text name="rhm_col_rank" text="Háº¡ng" />
-        <text name="rhm_fleet_no_combines" text="KhÃ´ng tÃ¬m tháº¥y mÃ¡y gáº·t" />
-        <text name="rhm_setting_ai_limiter_title" text="GIá»šI Háº N Tá»C Äá»˜ AI" />
-        <text name="rhm_setting_ai_limiter_desc" text="Tá»± Ä‘á»™ng giá»›i háº¡n tá»‘c Ä‘á»™ cá»§a phá»¥ tÃ¡ AI khi tá»· lá»‡ hao há»¥t vÆ°á»£t quÃ¡ ngÆ°á»¡ng." />
-        <text name="rhm_setting_ai_threshold_title" text="NGÆ¯á» NG HAO Há»¤T AI" />
-        <text name="rhm_setting_ai_threshold_desc" text="Tá»· lá»‡ hao há»¥t tá»‘i Ä‘a cho phÃ©p trÆ°á»›c khi trá»£ lÃ½ AI tá»± Ä‘á»™ng giáº£m tá»‘c Ä‘á»™." />
-        <text name="rhm_setting_volunteer_title" text="Cá»Ž Dáº I Tá»ª Háº T RÆ I VÃƒI" />
-        <text name="rhm_setting_volunteer_desc" text="Táº¡o cá» dáº¡i sau Ä‘uÃ´i mÃ¡y gáº·t táº¡i cÃ¡c khu vá»±c cÃ³ tá»· lá»‡ tháº¥t thoÃ¡t cao (&gt;3%)." />
+        <text name="rhm_causes_title" text="NGUYÊN NHÂN GÂY THẤT THOÁT" />
+        <text name="rhm_cause_speed" text="Tốc độ &amp; Quá tải guồng đập" />
+        <text name="rhm_cause_moisture" text="Độ ẩm cây trồng &amp; Sương mai" />
+        <text name="rhm_cause_wear" text="Mòn dao cắt &amp; guồng đập" />
+        <text name="rhm_cause_slope" text="Độ dốc ruộng &amp; Địa hình" />
+        <text name="rhm_scorecard_title" text="THẺ ĐIỂM HIỆU QUẢ VẬN HÀNH" />
+        <text name="rhm_rank_title_a" text="Hạng A: Tối ưu" />
+        <text name="rhm_rank_desc_a" text="Tỷ lệ hao hụt dưới 1.5%. Cài đặt máy và tốc độ gặt hoàn hảo." />
+        <text name="rhm_rank_title_b" text="Hạng B: Chấp nhận được" />
+        <text name="rhm_rank_desc_b" text="Hao hụt từ 1.5% đến 3.0%. Nên điều chỉnh nhẹ tốc độ hoặc khe đập." />
+        <text name="rhm_rank_title_c" text="Hạng C: Hao hụt cao" />
+        <text name="rhm_rank_desc_c" text="Hao hụt từ 3.0% đến 4.5%. Hãy giảm tốc độ hoặc kiểm tra độ sắc của dao cắt." />
+        <text name="rhm_rank_title_d" text="Hạng D: Nghiêm trọng" />
+        <text name="rhm_rank_desc_d" text="Hao hụt vượt quá 4.5%! Quá tải sàng lọc nghiêm trọng hoặc sai hiệu chuẩn." />
+        <text name="rhm_guidance_title" text="HƯỚNG DẪN TỪ MÁY TÍNH TRÊN XE" />
+        <text name="rhm_advice_perfect" text="Hiệu suất thu hoạch tối ưu. Tất cả các thông số phân tách đều cân bằng." />
+        <text name="rhm_advice_speed" text="Thất thoát chủ yếu do tốc độ quá cao. Hãy giảm tốc để giảm tải sàng." />
+        <text name="rhm_advice_moisture" text="Thất thoát do độ ẩm cây trồng cao hoặc sương mai. Hãy chờ ruộng khô hoặc giảm tốc." />
+        <text name="rhm_advice_wear" text="Thất thoát tăng do dao cắt hoặc thanh đập bị mòn. Hãy bảo dưỡng tại xưởng." />
+        <text name="rhm_advice_slope" text="Độ nghiêng sườn dốc làm tải sàng không đều. Hãy giảm tốc độ trên dốc." />
+        <text name="rhm_col_machine" text="Máy" />
+        <text name="rhm_col_hours" text="Giờ làm việc" />
+        <text name="rhm_col_harvested" text="Thu hoạch" />
+        <text name="rhm_col_lost" text="Hao hụt" />
+        <text name="rhm_col_rank" text="Hạng" />
+        <text name="rhm_fleet_no_combines" text="Không tìm thấy máy gặt" />
+        <text name="rhm_setting_ai_limiter_title" text="GIỚI HẠN TỐC ĐỘ AI" />
+        <text name="rhm_setting_ai_limiter_desc" text="Tự động giới hạn tốc độ người làm thuê AI khi hao hụt vượt ngưỡng." />
+        <text name="rhm_setting_ai_threshold_title" text="NGƯỠNG HAO HỤT AI" />
+        <text name="rhm_setting_ai_threshold_desc" text="Tỷ lệ phần trăm hao hụt tối đa cho phép trước khi AI tự động phanh." />
+        <text name="rhm_setting_volunteer_title" text="CÂY TỰ MỌC &amp; CỎ DẠI" />
+        <text name="rhm_setting_volunteer_desc" text="Tạo cỏ dại và cây tự mọc phía sau máy gặt ở những vùng hao hụt cao (>3%)." />
         <text name="rhm_setting_autoreset_title" text="TỰ ĐỘNG ĐẶT LẠI KHI ĐỔI RUỘNG" />
-        <text name="rhm_setting_autoreset_desc" text="Tự động lưu trữ và đặt lại bộ đếm khi di chuyển sang một cánh đồng khác." />
+        <text name="rhm_setting_autoreset_desc" text="Tự động lưu trữ đo lường hiện tại và đặt lại bộ đếm khi sang ruộng khác." />
         <text name="rhm_col_field" text="Ruộng" />
         <text name="rhm_col_speed" text="Tốc độ" />
-        <text name="rhm_col_load" text="Tải trọng" />
+        <text name="rhm_col_load" text="Tải" />
         <text name="rhm_col_loss" text="Hao hụt" />
-        <text name="rhm_col_tank" text="Thùng chứa" />
+        <text name="rhm_col_tank" text="Thùng" />
         <text name="rhm_col_area" text="Diện tích" />
-        <text name="rhm_col_money" text="Hao hụt ($)" />
-        <text name="rhm_col_driver" text="Người lái" />
+        <text name="rhm_col_money" text="Thiệt hại ($)" />
+        <text name="rhm_col_driver" text="Người vận hành" />
         <text name="rhm_col_cutter" text="Hàm cắt" />
-        <text name="rhm_col_throughput" text="Năng suất gặt" />
+        <text name="rhm_col_throughput" text="Công suất" />
         <text name="rhm_col_yield" text="Năng suất" />
         <text name="rhm_col_wear" text="Hao mòn" />
         <text name="rhm_kpi_field" text="RUỘNG" />
@@ -419,7 +419,7 @@
         <text name="rhm_kpi_loss" text="HAO HỤT" />
         <text name="rhm_kpi_speed" text="TỐC ĐỘ" />
         <text name="rhm_efficiency_index" text="Hạng hiệu quả" />
-        <text name="rhm_trip_footer_hint" text="Đồng hồ đo theo dõi diện tích thu hoạch và khối lượng thóc sạch cho thửa ruộng đang làm việc. Có thể đặt lại bất cứ lúc nào." />
+        <text name="rhm_trip_footer_hint" text="Bộ đếm ruộng ghi lại diện tích và lượng hạt sạch cho ruộng đang hoạt động. Có thể đặt lại bất cứ lúc nào." />
         <text name="rhm_detail_area" text="Tổng diện tích ruộng đã thu hoạch" />
         <text name="rhm_detail_clean_grain" text="hạt sạch" />
         <text name="rhm_detail_yield" text="Năng suất trung bình trên diện tích thu hoạch" />
@@ -447,5 +447,29 @@
         <text name="rhm_fields_no_data" text="Chưa có dữ liệu đồng ruộng" />
         <text name="rhm_contract_tag" text="(Hợp đồng)" />
         <text name="rhm_status_completed" text="Đã thu hoạch" />
+        <text name="rhm_status_idle_yard" text="Tại trang trại (Chờ)" />
+        <text name="rhm_fields_external" text="Bên ngoài" />
+        <text name="rhm_field_transit" text="Đang di chuyển" />
+        <text name="rhm_detail_loss_money" text="Tổn thất tài chính do mất mùa" />
+        <text name="rhm_cause_none" text="Hoạt động tối ưu (Không tổn thất)" />
+        <text name="rhm_fields_all_overview" text="[*] Tổng quan trang trại (Tất cả cánh đồng)" />
+        <text name="rhm_field_operations" text="Số lần thu hoạch" />
+        <text name="rhm_fields_nominal_area" text="Diện tích danh định" />
+        <text name="rhm_status_in_progress" text="Đang tiến hành" />
+        <text name="rhm_fields_harvested_area" text="Diện tích đã gặt" />
+        <text name="rhm_ops_one" text="lần" />
+        <text name="rhm_ops_few" text="lần" />
+        <text name="rhm_ops_many" text="lần" />
+        <text name="rhm_loss_disabled" text="Đã tắt mô phỏng" />
+        <text name="rhm_loss_disabled_desc" text="Mô phỏng tổn thất thu hoạch đã bị tắt trong cài đặt bản mod." />
+        <text name="rhm_filter_active" text="Đang hoạt động" />
+        <text name="rhm_filter_all" text="Tất cả" />
+        <text name="rhm_filter_sold" text="Đã bán" />
+        <text name="rhm_status_sold" text="Đã bán (Lưu trữ)" />
+        <text name="rhm_field_sold" text="[Đã bán]" />
+        <text name="rhm_driver_sold" text="Đã thanh lý" />
+        <text name="rhm_fleet_no_sold_combines" text="Không có máy gặt đã bán trong lưu trữ" />
+        <text name="rhm_fleet_total_count_active" text="Máy gặt đang hoạt động" />
+        <text name="rhm_fleet_total_count_sold" text="Máy gặt đã bán" />
     </texts>
 </l10n>

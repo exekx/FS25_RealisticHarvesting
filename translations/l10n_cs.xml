@@ -309,29 +309,29 @@
         <text name="rhm_trip_reset_done" text="Polní počítadlo bylo resetováno!" />
         <text name="rhm_tab_trip" text="Aktuální pole / Počítadlo" />
         <text name="rhm_tab_trip_desc" text="Živá telemetrie sklizeného objemu, obdělané plochy, průměrného výnosu a ztrát pro aktuální práci." />
-        <text name="rhm_tab_analytics" text="PÅ™Ã­Äiny ztrÃ¡t &amp; HodnocenÃ­" />
-        <text name="rhm_tab_analytics_desc" text="RozdÄ›lenÃ­ ztrÃ¡t, hodnocenÃ­ efektivity obsluhy a doporuÄenÃ­ palubnÃ­ho diagnostickÃ©ho poÄÃ­taÄe." />
+        <text name="rhm_tab_analytics" text="Příčiny ztrát &amp; Hodnocení" />
+        <text name="rhm_tab_analytics_desc" text="Rozdělení ztrát, hodnocení efektivity obsluhy a doporučení palubního diagnostického počítače." />
         <text name="rhm_tab_fleet" text="Kombajny na poli" />
-        <text name="rhm_tab_fleet_desc" text="Telemetrie v reÃ¡lnÃ©m Äase, prÅ¯chodnost a stav vÅ¡ech sklÃ­zecÃ­ch mlÃ¡tiÄek vaÅ¡Ã­ farmy." />
-        <text name="rhm_tab_settings" text="NastavenÃ­ farmy a AI" />
-        <text name="rhm_tab_settings_desc" text="Konfigurace omezovaÄe rychlosti pomocnÃ­kÅ¯, generovÃ¡nÃ­ vÃ½drolu a moÅ¾nosti automatickÃ©ho resetu." />
-        <text name="rhm_driver_parked" text="ZaparkovÃ¡no" />
+        <text name="rhm_tab_fleet_desc" text="Telemetrie v reálném čase, průchodnost a stav všech sklízecích mlátiček vaší farmy." />
+        <text name="rhm_tab_settings" text="Nastavení farmy a AI" />
+        <text name="rhm_tab_settings_desc" text="Konfigurace omezovače rychlosti pomocníků, generování výdrolu a možnosti automatického resetu." />
+        <text name="rhm_driver_parked" text="Zaparkováno" />
         <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
-        <text name="rhm_driver_hired_ai" text="PomocnÃ­k AI" />
-        <text name="rhm_driver_player" text="HrÃ¡Ä" />
-        <text name="rhm_driver_idle_on" text="VolnobÄ›h" />
-        <text name="rhm_field_yard" text="Farma / DvÅ¯r" />
+        <text name="rhm_driver_hired_ai" text="Pomocník AI" />
+        <text name="rhm_driver_player" text="Hráč" />
+        <text name="rhm_driver_idle_on" text="Volnoběh" />
+        <text name="rhm_field_yard" text="Farma / Dvůr" />
         <text name="rhm_field_format" text="Pole %d" />
-        <text name="rhm_fleet_driver" text="Å˜idiÄ / Obsluha" />
-        <text name="rhm_fleet_cutter" text="Å Ã­Å™ka liÅ¡ty" />
-        <text name="rhm_fleet_grain_tank" text="NaplnÄ›nÃ­ zÃ¡sobnÃ­ku" />
-        <text name="rhm_fleet_throughput" text="PrÅ¯chodnost" />
-        <text name="rhm_fleet_realtime_yield" text="OkamÅ¾itÃ½ vÃ½nos" />
-        <text name="rhm_fleet_crop_loss" text="MÃ­ra ztrÃ¡t" />
-        <text name="rhm_fleet_wear_state" text="OpotÅ™ebenÃ­ stroje" />
-        <text name="rhm_fleet_total_count" text="Celkem kombajnÅ¯" />
-        <text name="rhm_btn_subtab_fleet" text="FLOTILA KOMBAJNÅ®" />
-        <text name="rhm_btn_subtab_history" text="HISTORIE SEZÃ“NY / VÅ ECHNA POLE" />
+        <text name="rhm_fleet_driver" text="Řidič / Obsluha" />
+        <text name="rhm_fleet_cutter" text="Šířka lišty" />
+        <text name="rhm_fleet_grain_tank" text="Naplnění zásobníku" />
+        <text name="rhm_fleet_throughput" text="Průchodnost" />
+        <text name="rhm_fleet_realtime_yield" text="Okamžitý výnos" />
+        <text name="rhm_fleet_crop_loss" text="Míra ztrát" />
+        <text name="rhm_fleet_wear_state" text="Opotřebení stroje" />
+        <text name="rhm_fleet_total_count" text="Celkem kombajnů" />
+        <text name="rhm_btn_subtab_fleet" text="FLOTILA KOMBAJNŮ" />
+        <text name="rhm_btn_subtab_history" text="HISTORIE SEZÓNY / VŠECHNA POLE" />
         <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
         <text name="rhm_season_format" text="Season %d (Year %d)" />
         <text name="rhm_season_current_suffix" text="[Current]" />
@@ -342,67 +342,67 @@
         <text name="rhm_season_active_status" text="Active Season" />
         <text name="rhm_season_archived_status" text="Archived Season" />
         <text name="rhm_season_all_time_status" text="All-Time History" />
-        <text name="rhm_hist_total_area" text="CelkovÃ¡ sklizenÃ¡ plocha" />
-        <text name="rhm_hist_total_harvest" text="ÄŒistÃ¡ sklizeÅˆ celkem" />
-        <text name="rhm_hist_avg_loss" text="PrÅ¯mÄ›rnÃ© ztrÃ¡ty" />
-        <text name="rhm_hist_total_money" text="CelkovÃ¡ finanÄnÃ­ ztrÃ¡ta" />
-        <text name="rhm_col_season" text="SezÃ³na" />
+        <text name="rhm_hist_total_area" text="Celková sklizená plocha" />
+        <text name="rhm_hist_total_harvest" text="Čistá sklizeň celkem" />
+        <text name="rhm_hist_avg_loss" text="Průměrné ztráty" />
+        <text name="rhm_hist_total_money" text="Celková finanční ztráta" />
+        <text name="rhm_col_season" text="Sezóna" />
         <text name="rhm_col_status" text="Stav" />
-        <text name="rhm_hist_empty" text="ZatÃ­m Å¾Ã¡dnÃ© sezÃ³nnÃ­ zÃ¡znamy" />
-        <text name="rhm_status_harvesting" text="SklÃ­zÃ­ (aktivnÃ­)" />
-        <text name="rhm_status_on_field_idle" text="Na poli (volnobÄ›h)" />
+        <text name="rhm_hist_empty" text="Zatím žádné sezónní záznamy" />
+        <text name="rhm_status_harvesting" text="Sklízí (aktivní)" />
+        <text name="rhm_status_on_field_idle" text="Na poli (volnoběh)" />
         <text name="rhm_status_on_field_stopped" text="Na poli (zastaveno)" />
-        <text name="rhm_status_in_transit" text="Na cestÄ› / PÅ™esun" />
-        <text name="rhm_status_in_cab" text="Obsazeno (HrÃ¡Ä)" />
-        <text name="rhm_status_parked_yard" text="ZaparkovÃ¡no na dvoÅ™e" />
-        <text name="rhm_card_field_harvest" text="AKTUÃLNÃ POLE A SKLIZEÅ‡" />
-        <text name="rhm_field_number" text="ÄŒÃ­slo pole" />
+        <text name="rhm_status_in_transit" text="Na cestě / Přesun" />
+        <text name="rhm_status_in_cab" text="Obsazeno (Hráč)" />
+        <text name="rhm_status_parked_yard" text="Zaparkováno na dvoře" />
+        <text name="rhm_card_field_harvest" text="AKTUÁLNÍ POLE A SKLIZEŇ" />
+        <text name="rhm_field_number" text="Číslo pole" />
         <text name="rhm_trip_no_field" text="Mimo pole" />
         <text name="rhm_crop_type" text="Plodina" />
-        <text name="rhm_harvested_area" text="SklizenÃ¡ plocha" />
-        <text name="rhm_clean_harvest" text="ÄŒistÃ¡ sklizeÅˆ" />
-        <text name="rhm_average_yield" text="PrÅ¯mÄ›rnÃ½ vÃ½nos" />
-        <text name="rhm_card_loss_finances" text="ZTRÃTY A FINANCE" />
-        <text name="rhm_loss_volume" text="ZtracenÃ½ objem" />
-        <text name="rhm_loss_share" text="ZtrÃ¡ta % vÃ½nosu" />
-        <text name="rhm_financial_loss" text="FinanÄnÃ­ ztrÃ¡ta" />
-        <text name="rhm_card_performance" text="VÃKON A ÄŒAS" />
-        <text name="rhm_avg_working_speed" text="PrÅ¯mÄ›rnÃ¡ pracovnÃ­ rychlost" />
-        <text name="rhm_avg_engine_load" text="PrÅ¯mÄ›rnÃ© zatÃ­Å¾enÃ­ motoru" />
-        <text name="rhm_session_duration" text="Doba trvÃ¡nÃ­ relace" />
+        <text name="rhm_harvested_area" text="Sklizená plocha" />
+        <text name="rhm_clean_harvest" text="Čistá sklizeň" />
+        <text name="rhm_average_yield" text="Průměrný výnos" />
+        <text name="rhm_card_loss_finances" text="ZTRÁTY A FINANCE" />
+        <text name="rhm_loss_volume" text="Ztracený objem" />
+        <text name="rhm_loss_share" text="Ztráta % výnosu" />
+        <text name="rhm_financial_loss" text="Finanční ztráta" />
+        <text name="rhm_card_performance" text="VÝKON A ČAS" />
+        <text name="rhm_avg_working_speed" text="Průměrná pracovní rychlost" />
+        <text name="rhm_avg_engine_load" text="Průměrné zatížení motoru" />
+        <text name="rhm_session_duration" text="Doba trvání relace" />
         <text name="rhm_btn_reset_trip" text="Resetovat polní počítadlo" />
-        <text name="rhm_causes_title" text="HLAVNÃ PÅ˜ÃÄŒINY ZTRÃT" />
-        <text name="rhm_cause_speed" text="Rychlost a pÅ™etÃ­Å¾enÃ­ mlÃ¡ticÃ­ho ÃºstrojÃ­" />
+        <text name="rhm_causes_title" text="HLAVNÍ PŘÍČINY ZTRÁT" />
+        <text name="rhm_cause_speed" text="Rychlost a přetížení mláticího ústrojí" />
         <text name="rhm_cause_moisture" text="Vlhkost plodiny a rosa" />
-        <text name="rhm_cause_wear" text="OpotÅ™ebenÃ­ Å¾acÃ­ liÅ¡ty a mlÃ¡tiÄky" />
-        <text name="rhm_cause_slope" text="SvaÅ¾itost pole a sklon" />
-        <text name="rhm_scorecard_title" text="HODNOCENÃ EFEKTIVITY OBSLUHY" />
-        <text name="rhm_rank_title_a" text="TÅ™Ã­da A: OptimÃ¡lnÃ­" />
-        <text name="rhm_rank_desc_a" text="MÃ­ra ztrÃ¡t pod 1,5%. NastavenÃ­ mlÃ¡tiÄky i pracovnÃ­ rychlost jsou v dokonalÃ© rovnovÃ¡ze." />
-        <text name="rhm_rank_title_b" text="TÅ™Ã­da B: PÅ™ijatelnÃ©" />
-        <text name="rhm_rank_desc_b" text="MÃ­ra ztrÃ¡t mezi 1,5% a 3,0%. DoporuÄuje se mÃ­rnÃ¡ Ãºprava rychlosti nebo koÅ¡e." />
-        <text name="rhm_rank_title_c" text="TÅ™Ã­da C: ZvÃ½Å¡enÃ© ztrÃ¡ty" />
-        <text name="rhm_rank_desc_c" text="MÃ­ra ztrÃ¡t mezi 3,0% a 4,5%. SniÅ¾te rychlost nebo zkontrolujte ostrost Å¾acÃ­ liÅ¡ty." />
-        <text name="rhm_rank_title_d" text="TÅ™Ã­da D: KritickÃ© ztrÃ¡ty" />
-        <text name="rhm_rank_desc_d" text="MÃ­ra ztrÃ¡t pÅ™esahuje 4,5%! ZjiÅ¡tÄ›no vÃ¡Å¾nÃ© pÅ™etÃ­Å¾enÃ­ sÃ­t nebo nesprÃ¡vnÃ¡ kalibrace." />
-        <text name="rhm_guidance_title" text="DOPORUÄŒENÃ PALUBNÃHO POÄŒÃTAÄŒE" />
-        <text name="rhm_advice_perfect" text="Efektivita skliznÄ› je optimÃ¡lnÃ­. VÅ¡echny parametry separace jsou vyvÃ¡Å¾enÃ©." />
-        <text name="rhm_advice_speed" text="HlavnÃ­ pÅ™Ã­Äinou ztrÃ¡t je nadmÄ›rnÃ¡ rychlost. Zpomalte pro odlehÄenÃ­ sÃ­tovÃ© skÅ™Ã­nÄ›." />
-        <text name="rhm_advice_moisture" text="ZtrÃ¡ty zpÅ¯sobenÃ© vysokou vlhkostÃ­ nebo rannÃ­ rosou. PoÄkejte na proschnutÃ­ nebo zpomalte." />
-        <text name="rhm_advice_wear" text="ZvÃ½Å¡enÃ© ztrÃ¡ty vlivem opotÅ™ebenÃ­ noÅ¾Å¯ nebo mlatek. ProveÄte ÃºdrÅ¾bu v dÃ­lnÄ›." />
-        <text name="rhm_advice_slope" text="BoÄnÃ­ nÃ¡klon na svahu zpÅ¯sobuje nerovnomÄ›rnÃ© zatÃ­Å¾enÃ­ sÃ­t. SniÅ¾te rychlost ve svazÃ­ch." />
+        <text name="rhm_cause_wear" text="Opotřebení žací lišty a mlátičky" />
+        <text name="rhm_cause_slope" text="Svažitost pole a sklon" />
+        <text name="rhm_scorecard_title" text="HODNOCENÍ EFEKTIVITY OBSLUHY" />
+        <text name="rhm_rank_title_a" text="Třída A: Optimální" />
+        <text name="rhm_rank_desc_a" text="Míra ztrát pod 1,5%. Nastavení mlátičky i pracovní rychlost jsou v dokonalé rovnováze." />
+        <text name="rhm_rank_title_b" text="Třída B: Přijatelné" />
+        <text name="rhm_rank_desc_b" text="Míra ztrát mezi 1,5% a 3,0%. Doporučuje se mírná úprava rychlosti nebo koše." />
+        <text name="rhm_rank_title_c" text="Třída C: Zvýšené ztráty" />
+        <text name="rhm_rank_desc_c" text="Míra ztrát mezi 3,0% a 4,5%. Snižte rychlost nebo zkontrolujte ostrost žací lišty." />
+        <text name="rhm_rank_title_d" text="Třída D: Kritické ztráty" />
+        <text name="rhm_rank_desc_d" text="Míra ztrát přesahuje 4,5%! Zjištěno vážné přetížení sít nebo nesprávná kalibrace." />
+        <text name="rhm_guidance_title" text="DOPORUČENÍ PALUBNÍHO POČÍTAČE" />
+        <text name="rhm_advice_perfect" text="Efektivita sklizně je optimální. Všechny parametry separace jsou vyvážené." />
+        <text name="rhm_advice_speed" text="Hlavní příčinou ztrát je nadměrná rychlost. Zpomalte pro odlehčení sítové skříně." />
+        <text name="rhm_advice_moisture" text="Ztráty způsobené vysokou vlhkostí nebo ranní rosou. Počkejte na proschnutí nebo zpomalte." />
+        <text name="rhm_advice_wear" text="Zvýšené ztráty vlivem opotřebení nožů nebo mlatek. Proveďte údržbu v dílně." />
+        <text name="rhm_advice_slope" text="Boční náklon na svahu způsobuje nerovnoměrné zatížení sít. Snižte rychlost ve svazích." />
         <text name="rhm_col_machine" text="Stroj" />
         <text name="rhm_col_hours" text="Motohodiny" />
         <text name="rhm_col_harvested" text="Sklizeno" />
-        <text name="rhm_col_lost" text="ZtrÃ¡ty" />
-        <text name="rhm_col_rank" text="TÅ™Ã­da" />
-        <text name="rhm_fleet_no_combines" text="Nebyly nalezeny Å¾Ã¡dnÃ© kombajny" />
-        <text name="rhm_setting_ai_limiter_title" text="AI OMEZOVAÄŒ RYCHLOSTI" />
-        <text name="rhm_setting_ai_limiter_desc" text="Automaticky omezuje pracovnÃ­ rychlost najatÃ½ch pracovnÃ­kÅ¯, pokud ztrÃ¡ty pÅ™ekroÄÃ­ limit." />
-        <text name="rhm_setting_ai_threshold_title" text="AI LIMIT ZTRÃT" />
-        <text name="rhm_setting_ai_threshold_desc" text="MaximÃ¡lnÃ­ pÅ™Ã­pustnÃ© procento ztrÃ¡t, neÅ¾ AI pomocnÃ­k automaticky zpomalÃ­." />
-        <text name="rhm_setting_volunteer_title" text="VÃDROL A PLEVEL" />
-        <text name="rhm_setting_volunteer_desc" text="VytvÃ¡Å™Ã­ loÅ¾iska plevele a vÃ½drolu za kombajnem v mÃ­stech vysokÃ½ch ztrÃ¡t (&gt;3%)." />
+        <text name="rhm_col_lost" text="Ztráty" />
+        <text name="rhm_col_rank" text="Třída" />
+        <text name="rhm_fleet_no_combines" text="Nebyly nalezeny žádné kombajny" />
+        <text name="rhm_setting_ai_limiter_title" text="AI OMEZOVAČ RYCHLOSTI" />
+        <text name="rhm_setting_ai_limiter_desc" text="Automaticky omezuje pracovní rychlost najatých pracovníků, pokud ztráty překročí limit." />
+        <text name="rhm_setting_ai_threshold_title" text="AI LIMIT ZTRÁT" />
+        <text name="rhm_setting_ai_threshold_desc" text="Maximální přípustné procento ztrát, než AI pomocník automaticky zpomalí." />
+        <text name="rhm_setting_volunteer_title" text="VÝDROL A PLEVEL" />
+        <text name="rhm_setting_volunteer_desc" text="Vytváří ložiska plevele a výdrolu za kombajnem v místech vysokých ztrát (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMATICKÝ RESET PŘI ZMĚNĚ POLE" />
         <text name="rhm_setting_autoreset_desc" text="Automaticky archivovat a resetovat polní počítadlo při přejezdu na jiné pole." />
         <text name="rhm_col_field" text="Pole" />
@@ -453,5 +453,29 @@
         <text name="rhm_fields_no_data" text="Žádná pole nezaznamenána" />
         <text name="rhm_contract_tag" text="(Smlouva)" />
         <text name="rhm_status_completed" text="Sklizeno" />
+        <text name="rhm_status_idle_yard" text="Na dvoře (čeká)" />
+        <text name="rhm_fields_external" text="Externí" />
+        <text name="rhm_field_transit" text="Na cestě / Přejezd" />
+        <text name="rhm_detail_loss_money" text="Finanční dopad ztrát úrody" />
+        <text name="rhm_cause_none" text="Optimální provoz (žádné ztráty)" />
+        <text name="rhm_fields_all_overview" text="[*] Přehled farmy (všechna pole)" />
+        <text name="rhm_field_operations" text="Sklizňové operace" />
+        <text name="rhm_fields_nominal_area" text="Nominální výměra" />
+        <text name="rhm_status_in_progress" text="Probíhá" />
+        <text name="rhm_fields_harvested_area" text="Sklizená výměra" />
+        <text name="rhm_ops_one" text="sklizeň" />
+        <text name="rhm_ops_few" text="sklizně" />
+        <text name="rhm_ops_many" text="sklizní" />
+        <text name="rhm_loss_disabled" text="Simulace vypnuta" />
+        <text name="rhm_loss_disabled_desc" text="Simulace ztrát úrody je v nastavení modu vypnuta." />
+        <text name="rhm_filter_active" text="V provozu" />
+        <text name="rhm_filter_all" text="Vše" />
+        <text name="rhm_filter_sold" text="Prodané" />
+        <text name="rhm_status_sold" text="Prodáno (Archiv)" />
+        <text name="rhm_field_sold" text="[Prodáno]" />
+        <text name="rhm_driver_sold" text="Odhlášeno" />
+        <text name="rhm_fleet_no_sold_combines" text="V archivu nejsou žádné prodané kombajny" />
+        <text name="rhm_fleet_total_count_active" text="Aktivní kombajny" />
+        <text name="rhm_fleet_total_count_sold" text="Prodané kombajny" />
     </texts>
 </l10n>

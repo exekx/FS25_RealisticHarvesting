@@ -303,29 +303,29 @@
         <text name="rhm_trip_reset_done" text="Fälträknaren är återställd!" />
         <text name="rhm_tab_trip" text="Aktuellt fält / Räknare" />
         <text name="rhm_tab_trip_desc" text="Realtidstelemetri för skördad volym, bearbetad areal, genomsnittlig avkastning och förluster." />
-        <text name="rhm_tab_analytics" text="FÃ¶rlustorsaker &amp; Betygskort" />
-        <text name="rhm_tab_analytics_desc" text="FÃ¶rlustfÃ¶rdelning, fÃ¶rarens effektivitetsbetyg och rekommendationer frÃ¥n fordonsdatorn." />
-        <text name="rhm_tab_fleet" text="TrÃ¶skor pÃ¥ fÃ¤ltet" />
-        <text name="rhm_tab_fleet_desc" text="Realtidstelemetri, kapacitet och status fÃ¶r alla skÃ¶rdetrÃ¶skor pÃ¥ gÃ¥rden." />
-        <text name="rhm_tab_settings" text="GÃ¥rds- &amp; AI-instÃ¤llningar" />
-        <text name="rhm_tab_settings_desc" text="Konfigurera hastighetsbegrÃ¤nsare fÃ¶r AI-hjÃ¤lpare, spillsÃ¤d/ogrÃ¤s och automatisk Ã¥terstÃ¤llning." />
+        <text name="rhm_tab_analytics" text="Förlustorsaker &amp; Betygskort" />
+        <text name="rhm_tab_analytics_desc" text="Förlustfördelning, förarens effektivitetsbetyg och rekommendationer från fordonsdatorn." />
+        <text name="rhm_tab_fleet" text="Tröskor på fältet" />
+        <text name="rhm_tab_fleet_desc" text="Realtidstelemetri, kapacitet och status för alla skördetröskor på gården." />
+        <text name="rhm_tab_settings" text="Gårds- &amp; AI-inställningar" />
+        <text name="rhm_tab_settings_desc" text="Konfigurera hastighetsbegränsare för AI-hjälpare, spillsäd/ogräs och automatisk återställning." />
         <text name="rhm_driver_parked" text="Parkerad" />
         <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="AI-arbetare" />
         <text name="rhm_driver_player" text="Spelare" />
-        <text name="rhm_driver_idle_on" text="TomgÃ¥ng" />
-        <text name="rhm_field_yard" text="GÃ¥rd / Plan" />
-        <text name="rhm_field_format" text="FÃ¤lt %d" />
-        <text name="rhm_fleet_driver" text="FÃ¶rare / OperatÃ¶r" />
-        <text name="rhm_fleet_cutter" text="SkÃ¤rbordsbredd" />
-        <text name="rhm_fleet_grain_tank" text="SpannmÃ¥lstank" />
+        <text name="rhm_driver_idle_on" text="Tomgång" />
+        <text name="rhm_field_yard" text="Gård / Plan" />
+        <text name="rhm_field_format" text="Fält %d" />
+        <text name="rhm_fleet_driver" text="Förare / Operatör" />
+        <text name="rhm_fleet_cutter" text="Skärbordsbredd" />
+        <text name="rhm_fleet_grain_tank" text="Spannmålstank" />
         <text name="rhm_fleet_throughput" text="Kapacitet" />
         <text name="rhm_fleet_realtime_yield" text="Aktuell avkastning" />
-        <text name="rhm_fleet_crop_loss" text="FÃ¶rlustgrad" />
+        <text name="rhm_fleet_crop_loss" text="Förlustgrad" />
         <text name="rhm_fleet_wear_state" text="Maskinslitage" />
-        <text name="rhm_fleet_total_count" text="Totalt trÃ¶skor" />
-        <text name="rhm_btn_subtab_fleet" text="TRÃ–SKFLOTTA" />
-        <text name="rhm_btn_subtab_history" text="SÃ„SONGSHISTORIK / ALLA FÃ„LT" />
+        <text name="rhm_fleet_total_count" text="Totalt tröskor" />
+        <text name="rhm_btn_subtab_fleet" text="TRÖSKFLOTTA" />
+        <text name="rhm_btn_subtab_history" text="SÄSONGSHISTORIK / ALLA FÄLT" />
         <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
         <text name="rhm_season_format" text="Season %d (Year %d)" />
         <text name="rhm_season_current_suffix" text="[Current]" />
@@ -336,67 +336,67 @@
         <text name="rhm_season_active_status" text="Active Season" />
         <text name="rhm_season_archived_status" text="Archived Season" />
         <text name="rhm_season_all_time_status" text="All-Time History" />
-        <text name="rhm_hist_total_area" text="Totalt skÃ¶rdad areal" />
-        <text name="rhm_hist_total_harvest" text="Totalt ren skÃ¶rd" />
-        <text name="rhm_hist_avg_loss" text="Genomsnittliga fÃ¶rluster" />
-        <text name="rhm_hist_total_money" text="Total ekonomisk fÃ¶rlust" />
-        <text name="rhm_col_season" text="SÃ¤song" />
+        <text name="rhm_hist_total_area" text="Totalt skördad areal" />
+        <text name="rhm_hist_total_harvest" text="Totalt ren skörd" />
+        <text name="rhm_hist_avg_loss" text="Genomsnittliga förluster" />
+        <text name="rhm_hist_total_money" text="Total ekonomisk förlust" />
+        <text name="rhm_col_season" text="Säsong" />
         <text name="rhm_col_status" text="Status" />
-        <text name="rhm_hist_empty" text="Inga sÃ¤songsposter Ã¤nnu" />
-        <text name="rhm_status_harvesting" text="SkÃ¶rdar (aktiv)" />
-        <text name="rhm_status_on_field_idle" text="PÃ¥ fÃ¤ltet (tomgÃ¥ng)" />
-        <text name="rhm_status_on_field_stopped" text="PÃ¥ fÃ¤ltet (stannad)" />
-        <text name="rhm_status_in_transit" text="PÃ¥ vÃ¤g / Transport" />
+        <text name="rhm_hist_empty" text="Inga säsongsposter ännu" />
+        <text name="rhm_status_harvesting" text="Skördar (aktiv)" />
+        <text name="rhm_status_on_field_idle" text="På fältet (tomgång)" />
+        <text name="rhm_status_on_field_stopped" text="På fältet (stannad)" />
+        <text name="rhm_status_in_transit" text="På väg / Transport" />
         <text name="rhm_status_in_cab" text="Upptagen (Spelare)" />
-        <text name="rhm_status_parked_yard" text="Parkerad pÃ¥ gÃ¥rden" />
-        <text name="rhm_card_field_harvest" text="AKTUELLT FÃ„LT OCH SKÃ–RD" />
-        <text name="rhm_field_number" text="FÃ¤ltnummer" />
-        <text name="rhm_trip_no_field" text="UtanfÃ¶r fÃ¤lt" />
-        <text name="rhm_crop_type" text="GrÃ¶da" />
-        <text name="rhm_harvested_area" text="SkÃ¶rdad areal" />
-        <text name="rhm_clean_harvest" text="Ren skÃ¶rd" />
+        <text name="rhm_status_parked_yard" text="Parkerad på gården" />
+        <text name="rhm_card_field_harvest" text="AKTUELLT FÄLT OCH SKÖRD" />
+        <text name="rhm_field_number" text="Fältnummer" />
+        <text name="rhm_trip_no_field" text="Utanför fält" />
+        <text name="rhm_crop_type" text="Gröda" />
+        <text name="rhm_harvested_area" text="Skördad areal" />
+        <text name="rhm_clean_harvest" text="Ren skörd" />
         <text name="rhm_average_yield" text="Genomsnittlig avkastning" />
-        <text name="rhm_card_loss_finances" text="FÃ–RLUSTER &amp; EKONOMI" />
-        <text name="rhm_loss_volume" text="FÃ¶rlorad volym" />
-        <text name="rhm_loss_share" text="FÃ¶rlust % av avkastning" />
-        <text name="rhm_financial_loss" text="Ekonomisk fÃ¶rlust" />
+        <text name="rhm_card_loss_finances" text="FÖRLUSTER &amp; EKONOMI" />
+        <text name="rhm_loss_volume" text="Förlorad volym" />
+        <text name="rhm_loss_share" text="Förlust % av avkastning" />
+        <text name="rhm_financial_loss" text="Ekonomisk förlust" />
         <text name="rhm_card_performance" text="PRESTANDA &amp; TID" />
         <text name="rhm_avg_working_speed" text="Snittarbetshastighet" />
         <text name="rhm_avg_engine_load" text="Snittmotorbelastning" />
-        <text name="rhm_session_duration" text="SessionslÃ¤ngd" />
+        <text name="rhm_session_duration" text="Sessionslängd" />
         <text name="rhm_btn_reset_trip" text="Återställ fälträknare" />
-        <text name="rhm_causes_title" text="ORSAKER TILL SKÃ–RDEFÃ–RLUST" />
-        <text name="rhm_cause_speed" text="Hastighet &amp; Ã–verbelastning av trÃ¶skverk" />
-        <text name="rhm_cause_moisture" text="GrÃ¶dfuktighet &amp; Morgondagg" />
-        <text name="rhm_cause_wear" text="Slitage pÃ¥ skÃ¤rbord och trÃ¶ska" />
-        <text name="rhm_cause_slope" text="FÃ¤ltlutning &amp; TerrÃ¤ng" />
-        <text name="rhm_scorecard_title" text="FÃ–RARENS EFFEKTIVITETSBETYG" />
+        <text name="rhm_causes_title" text="ORSAKER TILL SKÖRDEFÖRLUST" />
+        <text name="rhm_cause_speed" text="Hastighet &amp; Överbelastning av tröskverk" />
+        <text name="rhm_cause_moisture" text="Grödfuktighet &amp; Morgondagg" />
+        <text name="rhm_cause_wear" text="Slitage på skärbord och tröska" />
+        <text name="rhm_cause_slope" text="Fältlutning &amp; Terräng" />
+        <text name="rhm_scorecard_title" text="FÖRARENS EFFEKTIVITETSBETYG" />
         <text name="rhm_rank_title_a" text="Klass A: Optimal" />
-        <text name="rhm_rank_desc_a" text="FÃ¶rlustgrad under 1,5%. InstÃ¤llningar och hastighet Ã¤r i perfekt balans." />
+        <text name="rhm_rank_desc_a" text="Förlustgrad under 1,5%. Inställningar och hastighet är i perfekt balans." />
         <text name="rhm_rank_title_b" text="Klass B: Acceptabel" />
-        <text name="rhm_rank_desc_b" text="FÃ¶rlustgrad mellan 1,5% och 3,0%. SmÃ¥ justeringar av fart eller slagsko rekommenderas." />
-        <text name="rhm_rank_title_c" text="Klass C: FÃ¶rhÃ¶jd fÃ¶rlust" />
-        <text name="rhm_rank_desc_c" text="FÃ¶rlustgrad mellan 3,0% och 4,5%. SÃ¤nk hastigheten eller kontrollera knivarna." />
-        <text name="rhm_rank_title_d" text="Klass D: Kritiska fÃ¶rluster" />
-        <text name="rhm_rank_desc_d" text="FÃ¶rlustgraden Ã¶verstiger 4,5%! Allvarlig sÃ¥llÃ¶verbelastning eller felinstÃ¤llning." />
-        <text name="rhm_guidance_title" text="FORDONSDATORNS RÃ…D" />
-        <text name="rhm_advice_perfect" text="SkÃ¶rdeeffektiviteten Ã¤r optimal. Alla trÃ¶skparametrar Ã¤r vÃ¤l avstÃ¤mda." />
-        <text name="rhm_advice_speed" text="FÃ¶rlusten orsakas frÃ¤mst av fÃ¶r hÃ¶g fart. Sakta ner fÃ¶r att avlasta sÃ¥llkistan." />
-        <text name="rhm_advice_moisture" text="FÃ¶rluster orsakade av hÃ¶g fukt eller dagg. VÃ¤nta pÃ¥ upptorkning eller sakta ner." />
-        <text name="rhm_advice_wear" text="Ã–kade fÃ¶rluster pÃ¥ grund av slitna knivar eller slagor. UtfÃ¶r service i verkstaden." />
-        <text name="rhm_advice_slope" text="Sidolutning ger ojÃ¤mn belastning pÃ¥ sÃ¥llen. Minska hastigheten i sluttningar." />
+        <text name="rhm_rank_desc_b" text="Förlustgrad mellan 1,5% och 3,0%. Små justeringar av fart eller slagsko rekommenderas." />
+        <text name="rhm_rank_title_c" text="Klass C: Förhöjd förlust" />
+        <text name="rhm_rank_desc_c" text="Förlustgrad mellan 3,0% och 4,5%. Sänk hastigheten eller kontrollera knivarna." />
+        <text name="rhm_rank_title_d" text="Klass D: Kritiska förluster" />
+        <text name="rhm_rank_desc_d" text="Förlustgraden överstiger 4,5%! Allvarlig sållöverbelastning eller felinställning." />
+        <text name="rhm_guidance_title" text="FORDONSDATORNS RÅD" />
+        <text name="rhm_advice_perfect" text="Skördeeffektiviteten är optimal. Alla tröskparametrar är väl avstämda." />
+        <text name="rhm_advice_speed" text="Förlusten orsakas främst av för hög fart. Sakta ner för att avlasta sållkistan." />
+        <text name="rhm_advice_moisture" text="Förluster orsakade av hög fukt eller dagg. Vänta på upptorkning eller sakta ner." />
+        <text name="rhm_advice_wear" text="Ökade förluster på grund av slitna knivar eller slagor. Utför service i verkstaden." />
+        <text name="rhm_advice_slope" text="Sidolutning ger ojämn belastning på sållen. Minska hastigheten i sluttningar." />
         <text name="rhm_col_machine" text="Maskin" />
         <text name="rhm_col_hours" text="Drifttimmar" />
-        <text name="rhm_col_harvested" text="SkÃ¶rdat" />
-        <text name="rhm_col_lost" text="FÃ¶rluster" />
+        <text name="rhm_col_harvested" text="Skördat" />
+        <text name="rhm_col_lost" text="Förluster" />
         <text name="rhm_col_rank" text="Klass" />
-        <text name="rhm_fleet_no_combines" text="Inga trÃ¶skor hittades" />
-        <text name="rhm_setting_ai_limiter_title" text="AI-HASTIGHETSBEGRÃ„NSARE" />
-        <text name="rhm_setting_ai_limiter_desc" text="BegrÃ¤nsar automatiskt hastigheten fÃ¶r hjÃ¤lpare nÃ¤r fÃ¶rlusten Ã¶verskrider grÃ¤nsen." />
-        <text name="rhm_setting_ai_threshold_title" text="AI-FÃ–RLUSTGRÃ„NS" />
-        <text name="rhm_setting_ai_threshold_desc" text="HÃ¶gsta acceptabla fÃ¶rlustprocent innan AI-hjÃ¤lparen bromsar automatiskt." />
-        <text name="rhm_setting_volunteer_title" text="SPILLSÃ„D OCH OGRÃ„S" />
-        <text name="rhm_setting_volunteer_desc" text="Skapar ogrÃ¤s och spillsÃ¤d bakom trÃ¶skan i omrÃ¥den med hÃ¶ga fÃ¶rluster (&gt;3%)." />
+        <text name="rhm_fleet_no_combines" text="Inga tröskor hittades" />
+        <text name="rhm_setting_ai_limiter_title" text="AI-HASTIGHETSBEGRÄNSARE" />
+        <text name="rhm_setting_ai_limiter_desc" text="Begränsar automatiskt hastigheten för hjälpare när förlusten överskrider gränsen." />
+        <text name="rhm_setting_ai_threshold_title" text="AI-FÖRLUSTGRÄNS" />
+        <text name="rhm_setting_ai_threshold_desc" text="Högsta acceptabla förlustprocent innan AI-hjälparen bromsar automatiskt." />
+        <text name="rhm_setting_volunteer_title" text="SPILLSÄD OCH OGRÄS" />
+        <text name="rhm_setting_volunteer_desc" text="Skapar ogräs och spillsäd bakom tröskan i områden med höga förluster (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-ÅTERSTÄLL VID FÄLTBYTE" />
         <text name="rhm_setting_autoreset_desc" text="Arkiverar och nollställer automatiskt fälträknaren vid förflyttning till ett annat fält." />
         <text name="rhm_col_field" text="Fält" />
@@ -447,5 +447,29 @@
         <text name="rhm_fields_no_data" text="Inga fält registrerade" />
         <text name="rhm_contract_tag" text="(Kontrakt)" />
         <text name="rhm_status_completed" text="Skördat" />
+        <text name="rhm_status_idle_yard" text="På gården (väntar)" />
+        <text name="rhm_fields_external" text="Extern" />
+        <text name="rhm_field_transit" text="Under transport / Väg" />
+        <text name="rhm_detail_loss_money" text="Ekonomisk förlust från skördeförlust" />
+        <text name="rhm_cause_none" text="Optimal drift (inga förluster)" />
+        <text name="rhm_fields_all_overview" text="[*] Gårdsöversikt (alla fält)" />
+        <text name="rhm_field_operations" text="Skördeoperationer" />
+        <text name="rhm_fields_nominal_area" text="Nominell areal" />
+        <text name="rhm_status_in_progress" text="Pågår" />
+        <text name="rhm_fields_harvested_area" text="Skördad areal" />
+        <text name="rhm_ops_one" text="skörd" />
+        <text name="rhm_ops_few" text="skördar" />
+        <text name="rhm_ops_many" text="skördar" />
+        <text name="rhm_loss_disabled" text="Simulering inaktiverad" />
+        <text name="rhm_loss_disabled_desc" text="Skördeförlustsimulering är inaktiverad i mod-inställningarna." />
+        <text name="rhm_filter_active" text="Aktiv" />
+        <text name="rhm_filter_all" text="Alla" />
+        <text name="rhm_filter_sold" text="Sålda" />
+        <text name="rhm_status_sold" text="Såld (Arkiv)" />
+        <text name="rhm_field_sold" text="[Såld]" />
+        <text name="rhm_driver_sold" text="Avställd" />
+        <text name="rhm_fleet_no_sold_combines" text="Inga sålda tröskor i arkivet" />
+        <text name="rhm_fleet_total_count_active" text="Aktiva tröskor" />
+        <text name="rhm_fleet_total_count_sold" text="Sålda tröskor" />
     </texts>
 </l10n>
