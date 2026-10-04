@@ -41,8 +41,8 @@
         <text name="rhm_show_croploss_short" text="Näytä hävikki" />
         <text name="rhm_show_moisture_short" text="Näytä kosteus" />
         <text name="rhm_show_moisture_long" text="Näytä kasvin kosteusprosentti HUDissa" />
-        <text name="rhm_moisture_enable_short" text="Kosteusvastus" />
-        <text name="rhm_moisture_enable_long" text="Aseta kuormitussakko viljan kosteuden perusteella (vaatii Moisture System -modin)" />
+        <text name="rhm_moisture_enable_short" text="Kosteusvaikutus" />
+        <text name="rhm_moisture_enable_long" text="Simuloi lisääntynyttä puintivastusta ja erotteluhäviöitä märästä oljesta kasteen, sateen tai korkean kosteuden aikana. Kytke pois korjataksesi ilman sääsakkoja." />
         <text name="rhm_ui_title_main" text="LEIKKUUPUIMURIN KALIBROINTIPÄÄTE" />
         <text name="rhm_ui_page_settings" text="Asetukset" />
         <text name="rhm_ui_page_profiles" text="Profiilit" />
@@ -250,6 +250,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMAALINEN" />
         <text name="rhm_ui_status_low" text="LIIAN MATALA" />
         <text name="rhm_ui_status_high" text="LIIAN KORKEA" />
+        <text name="rhm_ui_env_optimal" text="OPTIMAALISET OLOSUHTEET" />
+        <text name="rhm_ui_env_moisture" text="KORKEA KOSTEUS" />
+        <text name="rhm_ui_env_weeds" text="RIKKAKASVIEN RUNSAUS" />
+        <text name="rhm_ui_env_damp_weeds" text="KOSTEA JA RIKKAKASVEJA" />
         <text name="rhm_msg_req_tier4" text="Vaatii Opti-Harvest AI Autopilotin (Taso 4)" />
         <text name="rhm_msg_req_tier3" text="Profiilit vaativat Telemetrianäytön (Taso 3)" />
         <text name="rhm_msg_req_tier2" text="Profiilit vaativat Anturipaketin (Taso 2 tai korkeampi)" />
@@ -399,6 +403,9 @@
         <text name="rhm_setting_volunteer_desc" text="Luo karistumaa ja rikkoja puimurin taakse suurten tappioiden alueille (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMAATTINOLLAUS LOHKOVAIHDOSSA" />
         <text name="rhm_setting_autoreset_desc" text="Arkistoi ja nollaa peltolaskurin automaattisesti siirryttäessä toiselle pellolle." />
+        <text name="rhm_setting_autoreset_smart" text="Älykäs (Lohko / Kasvi)" />
+        <text name="rhm_setting_autoreset_crop" text="Vain kasvin vaihtuessa" />
+        <text name="rhm_setting_autoreset_disabled" text="Pois käytöstä (Manuaalinen)" />
         <text name="rhm_col_field" text="Pelto" />
         <text name="rhm_col_speed" text="Nopeus" />
         <text name="rhm_col_load" text="Kuormitus" />
@@ -471,5 +478,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Ei myytyjä puimureita arkistossa" />
         <text name="rhm_fleet_total_count_active" text="Aktiiviset puimurit" />
         <text name="rhm_fleet_total_count_sold" text="Myydyt puimurit" />
+        <text name="rhm_slopeloss_short" text="Rinnehäviöt" />
+        <text name="rhm_slopeloss_long" text="Simuloi viljan kasautumista seulaston toiselle puolelle yli 4° rinteissä (jopa 5% häviö). Kytke pois poistaaksesi maaston kallistushäviöt." />
+        <text name="rhm_weedload_short" text="Rikkakasvien vastus" />
+        <text name="rhm_weedload_long" text="Mehevät ja sitkeät rikkakasvit kietoutuvat puintikelan ympärille lisäten moottorin kuormitusta (jopa +25%). Kytke pois estääksesi tehohäviöt." />
     </texts>
 </l10n>

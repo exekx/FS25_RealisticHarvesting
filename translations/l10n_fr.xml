@@ -45,10 +45,8 @@
         <text name="rhm_show_croploss_short" text="Afficher perte" />
         <text name="rhm_show_moisture_short" text="Afficher l'humidité" />
         <text name="rhm_show_moisture_long" text="Afficher le pourcentage d'humidité dans le HUD" />
-        <text name="rhm_moisture_enable_short" text="Pénalité d'humidité" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Appliquer une pénalité de charge selon l'humidité (Nécessite Moisture System)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Impact d'humidité" />
+        <text name="rhm_moisture_enable_long" text="Simule la résistance accrue au battage et les pertes de séparation par temps humide, rosée ou pluie. Désactiver pour récolter sans pénalités météo." />
         <text name="rhm_ui_title_main" text="Calibrage Moissonneuse" />
         <text name="rhm_ui_page_settings" text="Paramètres" />
         <text name="rhm_ui_page_profiles" text="Profils" />
@@ -258,6 +256,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMAL" />
         <text name="rhm_ui_status_low" text="TROP BAS" />
         <text name="rhm_ui_status_high" text="TROP HAUT" />
+        <text name="rhm_ui_env_optimal" text="CONDITIONS OPTIMALES" />
+        <text name="rhm_ui_env_moisture" text="HUMIDITÉ ÉLEVÉE" />
+        <text name="rhm_ui_env_weeds" text="INFESTATION DE MAUVAISES HERBES" />
+        <text name="rhm_ui_env_damp_weeds" text="HUMIDE ET ENHERBÉ" />
         <text name="rhm_msg_req_tier4" text="Nécessite IA Opti-Harvest (Tier 4)" />
         <text name="rhm_msg_req_tier3" text="Les profils nécessitent l'Écran de télémétrie (Tier 3)" />
         <text name="rhm_msg_req_tier2" text="Les profils nécessitent le Pack Capteurs (Tier 2 ou supérieur)" />
@@ -407,6 +409,9 @@
         <text name="rhm_setting_volunteer_desc" text="Génère des repousses spontanées et mauvaises herbes derrière la batteuse en zone de fortes pertes (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="RÉINITIALISATION AUTO AU CHANGEMENT DE CHAMP" />
         <text name="rhm_setting_autoreset_desc" text="Archive et réinitialise automatiquement le compteur de champ en passant à un autre champ." />
+        <text name="rhm_setting_autoreset_smart" text="Intelligent (Champ / Culture)" />
+        <text name="rhm_setting_autoreset_crop" text="Changement de culture uniquement" />
+        <text name="rhm_setting_autoreset_disabled" text="Désactivé (Manuel)" />
         <text name="rhm_col_field" text="Champ" />
         <text name="rhm_col_speed" text="Vitesse" />
         <text name="rhm_col_load" text="Charge" />
@@ -479,5 +484,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Aucune moissonneuse vendue dans les archives" />
         <text name="rhm_fleet_total_count_active" text="Batteuses actives" />
         <text name="rhm_fleet_total_count_sold" text="Batteuses vendues" />
+        <text name="rhm_slopeloss_short" text="Pertes en dévers" />
+        <text name="rhm_slopeloss_long" text="Simule l'accumulation du grain d'un côté des grilles sur les pentes et coteaux de plus de 4° (jusqu'à 5% de pertes). Désactiver pour ignorer l'inclinaison du terrain." />
+        <text name="rhm_weedload_short" text="Résistance des adventices" />
+        <text name="rhm_weedload_long" text="Les adventices fibreuses et humides s'enroulent autour du rotor et augmentent la charge moteur et la résistance mécanique (jusqu'à +25%). Désactiver pour annuler l'impact des mauvaises herbes." />
     </texts>
 </l10n>

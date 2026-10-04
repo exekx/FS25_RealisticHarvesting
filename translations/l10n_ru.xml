@@ -45,10 +45,8 @@
     <text name="rhm_show_croploss_short" text="Показывать потери" />
     <text name="rhm_show_moisture_short" text="Показывать влажность" />
     <text name="rhm_show_moisture_long" text="Отображать процент влажности культуры в HUD" />
-    <text name="rhm_moisture_enable_short" text="Штраф влажности" />
-    <text name="rhm_moisture_enable_long"><![CDATA[
-            Применять штраф нагрузки в зависимости от влажности (Требует Moisture System)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Влияние влажности" />
+        <text name="rhm_moisture_enable_long" text="Имитирует повышенное сопротивление обмолоту и потери сепарации от влажной соломы при росе, дожде или высокой влажности. Отключите для уборки без штрафов погоды." />
     <text name="rhm_ui_title_main" text="Калибровка Комбайна" />
     <text name="rhm_ui_page_settings" text="Настройки" />
     <text name="rhm_ui_page_profiles" text="Профили" />
@@ -256,6 +254,10 @@
     <text name="rhm_ui_status_optimal" text="ОПТИМАЛЬНО" />
     <text name="rhm_ui_status_low" text="НИЗКО" />
     <text name="rhm_ui_status_high" text="ВЫСОКО" />
+    <text name="rhm_ui_env_optimal" text="ИДЕАЛЬНЫЕ УСЛОВИЯ" />
+    <text name="rhm_ui_env_moisture" text="ВЫСОКАЯ ВЛАЖНОСТЬ" />
+    <text name="rhm_ui_env_weeds" text="ЗАСОРЕННОСТЬ СОРНЯКАМИ" />
+    <text name="rhm_ui_env_damp_weeds" text="ВЛАЖНО И СОРНЯКИ" />
     <text name="rhm_msg_req_tier4" text="Требуется Автопилот AI Opti-Harvest (Tier 4)" />
     <text name="rhm_msg_req_tier3" text="Для профилей требуется Телеметрия и мониторинг (Tier 3)" />
     <text name="rhm_msg_req_tier2" text="Для профилей требуется Сенсорный экеран (Tier 2 или выше)" />
@@ -410,6 +412,9 @@
     <text name="rhm_setting_volunteer_desc" text="Создает очаги сорняков/падалицы позади комбайна в зонах критических потерь (&gt;3%)." />
     <text name="rhm_setting_autoreset_title" text="АВТО-СБРОС ПРИ СМЕНЕ ПОЛЯ" />
     <text name="rhm_setting_autoreset_desc" text="Автоматически архивировать текущие замеры и сбрасывать счетчик при переходе на другое поле." />
+    <text name="rhm_setting_autoreset_smart" text="Умный (Поле / Культура)" />
+    <text name="rhm_setting_autoreset_crop" text="Только при смене культуры" />
+    <text name="rhm_setting_autoreset_disabled" text="Выключено (Вручную)" />
     <text name="rhm_col_field" text="Поле" />
     <text name="rhm_col_speed" text="Скорость" />
     <text name="rhm_col_load" text="Нагрузка" />
@@ -478,5 +483,9 @@
     <text name="rhm_fleet_total_count_active" text="Комбайнов в строю" />
     <text name="rhm_fleet_total_count_sold" text="Проданных комбайнов" />
 
+        <text name="rhm_slopeloss_short" text="Потери на уклонах" />
+        <text name="rhm_slopeloss_long" text="Имитирует сползание зерновой массы на один бок решетного стана на склонах свыше 4° (до 5% потерь). Отключите для одинаковых потерь на любом рельефе." />
+        <text name="rhm_weedload_short" text="Сопротивление сорняков" />
+        <text name="rhm_weedload_long" text="Зеленые и волокнистые сорняки наматываются на барабан и увеличивают механическое сопротивление и нагрузку на двигатель (до +25%). Отключите, чтобы сорняки не влияли на мощность." />
   </texts>
 </l10n>

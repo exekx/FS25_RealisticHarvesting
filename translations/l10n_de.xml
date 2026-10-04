@@ -43,10 +43,8 @@
         <text name="rhm_show_croploss_short" text="Verlust anzeigen" />
         <text name="rhm_show_moisture_short" text="Feuchtigkeit anzeigen" />
         <text name="rhm_show_moisture_long" text="Erntefeuchtigkeits-Prozentsatz im HUD anzeigen" />
-        <text name="rhm_moisture_enable_short" text="Feuchtigkeits-Strafe" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Laststrafe basierend auf Erntefeuchtigkeit anwenden (Erfordert Moisture System Mod)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Feuchtigkeitseinfluss" />
+        <text name="rhm_moisture_enable_long" text="Simuliert erhöhten Dreschwiderstand und Abscheideverluste durch feuchtes Stroh bei Tau, Regen oder hoher Feuchte. Ausschalten für Ernte ohne Wettereinfluss." />
         <text name="rhm_ui_title_main" text="Mähdrescher-Kalibrierung" />
         <text name="rhm_ui_page_settings" text="Einstellungen" />
         <text name="rhm_ui_page_profiles" text="Profile" />
@@ -256,6 +254,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMAL" />
         <text name="rhm_ui_status_low" text="ZU NIEDRIG" />
         <text name="rhm_ui_status_high" text="ZU HOCH" />
+        <text name="rhm_ui_env_optimal" text="OPTIMALE BEDINGUNGEN" />
+        <text name="rhm_ui_env_moisture" text="HOHE FEUCHTIGKEIT" />
+        <text name="rhm_ui_env_weeds" text="UNKRAUTBEFALL" />
+        <text name="rhm_ui_env_damp_weeds" text="FEUCHT &amp; VERUNKRAUTET" />
         <text name="rhm_msg_req_tier4" text="Erfordert Opti-Harvest KI (Stufe 4)" />
         <text name="rhm_msg_req_tier3" text="Profile erfordern Telemetrie-Monitor (Stufe 3)" />
         <text name="rhm_msg_profile_saved" text="Profil gespeichert: %s" />
@@ -405,6 +407,9 @@
         <text name="rhm_setting_volunteer_desc" text="Erzeugt Unkraut- und Auswuchssprossen hinter Mähdreschern in Zonen mit hohem Verlust (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-RESET BEI FELDWECHSEL" />
         <text name="rhm_setting_autoreset_desc" text="Aktuellen Feldeinsatz automatisch archivieren und den Feldzähler zurücksetzen, wenn zu einem anderen Feld gewechselt wird." />
+        <text name="rhm_setting_autoreset_smart" text="Smart (Feld / Frucht)" />
+        <text name="rhm_setting_autoreset_crop" text="Nur Fruchtwechsel" />
+        <text name="rhm_setting_autoreset_disabled" text="Deaktiviert (Manuell)" />
         <text name="rhm_col_field" text="Feld" />
         <text name="rhm_col_speed" text="Geschwindigkeit" />
         <text name="rhm_col_load" text="Auslastung" />
@@ -477,5 +482,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Keine verkauften Mähdrescher im Archiv" />
         <text name="rhm_fleet_total_count_active" text="Aktive Mähdrescher" />
         <text name="rhm_fleet_total_count_sold" text="Verkaufte Mähdrescher" />
+        <text name="rhm_slopeloss_short" text="Hangverluste" />
+        <text name="rhm_slopeloss_long" text="Simuliert die ungleichmäßige Gutverteilung auf den Sieben an Hängen und Steigungen über 4° (bis zu 5% Verlust). Ausschalten, um Geländeneigungsverluste zu deaktivieren." />
+        <text name="rhm_weedload_short" text="Unkrautwiderstand" />
+        <text name="rhm_weedload_long" text="Saftige und faserige Unkräuter wickeln sich um Dreschorgane und erhöhen den mechanischen Widerstand sowie die Motorlast (bis zu +25%). Ausschalten, damit Unkraut die Leistung nicht beeinträchtigt." />
     </texts>
 </l10n>

@@ -880,14 +880,14 @@ function RHMCombineCalibrationGUI:draw()
         local cx2 = cx1 + cardW + cardGap
         self:drawRect(cx2, cy, cardW, cardH, ui.colors.statsCardBg)
         self:drawBorder(cx2, cy, cardW, cardH, ui.colors.statsCardBorder, 1)
-        local speedVal = math.max(0, effPenalty)
-        local speedColor = (speedVal <= 0.05) and ui.colors.success or ((speedVal <= 2.0) and ui.colors.warning or ui.colors.error)
-        local speedPrefix = (speedVal <= 0.05) and "" or "-"
+        local penaltyVal = math.max(0, effPenalty)
+        local efficiencyVal = math.max(0, 100.0 - penaltyVal)
+        local speedColor = (penaltyVal <= 0.05) and ui.colors.success or ((penaltyVal <= 2.0) and ui.colors.warning or ui.colors.error)
         local cardEffText = g_i18n:hasText("rhm_ui_card_efficiency") and g_i18n:getText("rhm_ui_card_efficiency") or "EFFICIENCY"
         setTextColor(unpack(ui.colors.textDim))
         renderText(cx2 + cardW * 0.5, cy + cardH * 0.56, ui.statusSize * 0.85, cardEffText)
         setTextColor(unpack(speedColor))
-        renderText(cx2 + cardW * 0.5, cy + cardH * 0.14, ui.fontSize, string.format("%s%.1f%%", speedPrefix, speedVal))
+        renderText(cx2 + cardW * 0.5, cy + cardH * 0.14, ui.fontSize, string.format("%.1f%%", efficiencyVal))
 
         -- Card 3: Predicted Loss
         local cx3 = cx2 + cardW + cardGap
@@ -938,30 +938,100 @@ function RHMCombineCalibrationGUI:draw()
 
     -- [<] CROP NAME [>]
     local cropNavX = x + ui.margin
-    local arrowW = 0.020
+    local arrowW = 0.018
     self:drawButton(cropNavX, cy + 0.004, arrowW, ui.buttonH + 0.004, "<", function()
         self:cycleCrop(-1)
     end)
 
     local cropName = getLocalizedCropName(memory.currentCrop)
-    local cropBoxW = 0.135
-    local cropBoxX = cropNavX + arrowW + 0.004
+    local cropBoxW = 0.110
+    local cropBoxX = cropNavX + arrowW + 0.003
     self:drawRect(cropBoxX, cy + 0.004, cropBoxW, ui.buttonH + 0.004, {0.0, 0.0, 0.0, 0.50})
     self:drawBorder(cropBoxX, cy + 0.004, cropBoxW, ui.buttonH + 0.004, {1.0, 1.0, 1.0, 0.12}, 1)
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(ui.colors.text))
-    renderText(cropBoxX + cropBoxW * 0.5, cy + 0.009, ui.fontSize, cropName)
+    renderText(cropBoxX + cropBoxW * 0.5, cy + 0.009, ui.fontSize * 0.95, cropName)
     setTextBold(false)
 
-    self:drawButton(cropBoxX + cropBoxW + 0.004, cy + 0.004, arrowW, ui.buttonH + 0.004, ">", function()
+    self:drawButton(cropBoxX + cropBoxW + 0.003, cy + 0.004, arrowW, ui.buttonH + 0.004, ">", function()
         self:cycleCrop(1)
     end)
 
-    -- AUTO Calibration Button
-    local autoBtnW = 0.115
+    -- Environmental Condition Indicator Badge
+    local autoBtnW = 0.110
     local autoBtnX = x + w - ui.margin - autoBtnW
     local autoBtnH = ui.buttonH + 0.004
+
+    local rightArrowEnd = cropBoxX + cropBoxW + 0.003 + arrowW
+    local badgeX = rightArrowEnd + 0.006
+    local badgeW = autoBtnX - badgeX - 0.006
+
+    if badgeW > 0.04 then
+        local liveMoisture = (spec and spec.data and spec.data.moisture) or 0
+        local liveWeed = (spec and spec.data and spec.data.weedRatio) or 0
+
+        -- Ambient standing crop moisture fallback when stationary / cutter off
+        if liveMoisture <= 0 then
+            if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive and self.activeVehicle then
+                local fillType = spec.lastFillType or (spec.combineMemory and spec.combineMemory.currentCrop)
+                if fillType then
+                    liveMoisture = RHM_MoistureAdapter.getObjectMoisture(self.activeVehicle, fillType) or 0
+                end
+                if liveMoisture <= 0 and self.activeVehicle.components and self.activeVehicle.components[1] then
+                    local mx, _, mz = getWorldTranslation(self.activeVehicle.components[1].node)
+                    liveMoisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz) or 0
+                end
+            end
+            if liveMoisture <= 0 then
+                local dayTimeHours, isRaining = getEnvironmentContext()
+                local diurnalFactor = math.cos(((dayTimeHours or 12.0) - 3.0) * 0.2617993877991494)
+                local baseM = 12.5 + (diurnalFactor > 0 and (diurnalFactor * 5.5) or (diurnalFactor * 1.5))
+                if isRaining then baseM = math.max(baseM, 22.0) end
+                liveMoisture = baseM
+            end
+        end
+
+        local envText = ""
+        local envColor = ui.colors.textDim
+        local envBg = {0.0, 0.0, 0.0, 0.45}
+        local envBorder = {1.0, 1.0, 1.0, 0.10}
+
+        if liveWeed > 0.03 and liveMoisture > 14.5 then
+            local label = g_i18n:hasText("rhm_ui_env_damp_weeds") and g_i18n:getText("rhm_ui_env_damp_weeds") or "DAMP & WEEDY"
+            envText = string.format("%s (%.0f%% / %.0f%%)", label, liveMoisture, liveWeed * 100)
+            envColor = ui.colors.warning
+            envBorder = {ui.colors.warning[1], ui.colors.warning[2], ui.colors.warning[3], 0.35}
+        elseif liveWeed > 0.03 then
+            local label = g_i18n:hasText("rhm_ui_env_weeds") and g_i18n:getText("rhm_ui_env_weeds") or "WEEDS"
+            envText = string.format("%s: %.0f%%", label, liveWeed * 100)
+            envColor = ui.colors.warning
+            envBorder = {ui.colors.warning[1], ui.colors.warning[2], ui.colors.warning[3], 0.35}
+        elseif liveMoisture > 14.5 then
+            local label = g_i18n:hasText("rhm_ui_env_moisture") and g_i18n:getText("rhm_ui_env_moisture") or "HIGH MOISTURE"
+            envText = string.format("%s: %.1f%%", label, liveMoisture)
+            envColor = ui.colors.warning
+            envBorder = {ui.colors.warning[1], ui.colors.warning[2], ui.colors.warning[3], 0.35}
+        elseif liveMoisture > 0 then
+            local label = g_i18n:hasText("rhm_ui_env_optimal") and g_i18n:getText("rhm_ui_env_optimal") or "OPTIMAL"
+            envText = string.format("%s (%.1f%%)", label, liveMoisture)
+            envColor = ui.colors.success
+            envBorder = {ui.colors.success[1], ui.colors.success[2], ui.colors.success[3], 0.25}
+        else
+            local label = g_i18n:hasText("rhm_ui_env_optimal") and g_i18n:getText("rhm_ui_env_optimal") or "OPTIMAL CONDITIONS"
+            envText = label
+            envColor = ui.colors.success
+            envBorder = {ui.colors.success[1], ui.colors.success[2], ui.colors.success[3], 0.25}
+        end
+
+        self:drawRect(badgeX, cy + 0.004, badgeW, ui.buttonH + 0.004, envBg)
+        self:drawBorder(badgeX, cy + 0.004, badgeW, ui.buttonH + 0.004, envBorder, 1)
+        setTextBold(true)
+        setTextAlignment(RenderText.ALIGN_CENTER)
+        setTextColor(unpack(envColor))
+        renderText(badgeX + badgeW * 0.5, cy + 0.009, ui.fontSize * 0.80, envText)
+        setTextBold(false)
+    end
 
     if packageLevel >= 4 then
         local btnAutoText = g_i18n:hasText("rhm_ui_btn_ai_auto") and g_i18n:getText("rhm_ui_btn_ai_auto") or "AI AUTO-CALIB"
@@ -1748,6 +1818,7 @@ function RHMCombineCalibrationGUI:getHarvestContext(machineType)
         return {
             machineType = machineType or rhmSpec.machineType or "grain",
             moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0,
+            weedRatio = (rhmSpec.data and rhmSpec.data.weedRatio) or (rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentWeedRatio) or 0,
             yield = (rhmSpec.data and rhmSpec.data.yield) or 0,
             isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,
             fillType = rhmSpec.lastFillType,

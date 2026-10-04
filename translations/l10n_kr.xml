@@ -41,8 +41,8 @@
         <text name="rhm_show_croploss_short" text="손실 표시" />
         <text name="rhm_show_moisture_short" text="수분 표시" />
         <text name="rhm_show_moisture_long" text="HUD에 작물 수분 함량(%) 표시" />
-        <text name="rhm_moisture_enable_short" text="수분 저항" />
-        <text name="rhm_moisture_enable_long" text="작물 수분에 따라 부하 페널티 적용 (Moisture System 모드 필요)" />
+        <text name="rhm_moisture_enable_short" text="수분 영향" />
+        <text name="rhm_moisture_enable_long" text="이슬, 비 또는 높은 작물 수분으로 인한 탈곡 저항 증가 및 젖은 짚 분리 손실을 시뮬레이션합니다. 날씨 페널티 없이 수확하려면 끄십시오." />
         <text name="rhm_ui_title_main" text="콤바인 캘리브레이션 터미널" />
         <text name="rhm_ui_page_settings" text="설정" />
         <text name="rhm_ui_page_profiles" text="프로필" />
@@ -250,6 +250,10 @@
         <text name="rhm_ui_status_optimal" text="최적" />
         <text name="rhm_ui_status_low" text="너무 낮음" />
         <text name="rhm_ui_status_high" text="너무 높음" />
+        <text name="rhm_ui_env_optimal" text="최적 조건" />
+        <text name="rhm_ui_env_moisture" text="높은 수분" />
+        <text name="rhm_ui_env_weeds" text="잡초 발생" />
+        <text name="rhm_ui_env_damp_weeds" text="습기 및 잡초" />
         <text name="rhm_msg_req_tier4" text="Opti-Harvest AI(4단계)가 필요합니다" />
         <text name="rhm_msg_req_tier3" text="프로필 저장은 텔레메트리 모니터(3단계)가 필요합니다" />
         <text name="rhm_msg_req_tier2" text="프로필 저장은 센서 키트(2단계 이상)가 필요합니다" />
@@ -399,6 +403,9 @@
         <text name="rhm_setting_volunteer_desc" text="손실이 큰 구역(3% 초과)에서 콤바인 뒤로 잡초 및 자생 작물을 생성합니다." />
         <text name="rhm_setting_autoreset_title" text="필드 변경 시 자동 초기화" />
         <text name="rhm_setting_autoreset_desc" text="다른 필드로 이동할 때 현재 기록을 자동으로 보관하고 카운터를 초기화합니다." />
+        <text name="rhm_setting_autoreset_smart" text="스마트 (필드 / 작물)" />
+        <text name="rhm_setting_autoreset_crop" text="작물 변경 시에만" />
+        <text name="rhm_setting_autoreset_disabled" text="비활성화 (수동)" />
         <text name="rhm_col_field" text="필드" />
         <text name="rhm_col_speed" text="속도" />
         <text name="rhm_col_load" text="부하" />
@@ -471,5 +478,9 @@
         <text name="rhm_fleet_no_sold_combines" text="보관함에 판매된 콤바인이 없습니다" />
         <text name="rhm_fleet_total_count_active" text="운행 중인 콤바인" />
         <text name="rhm_fleet_total_count_sold" text="판매된 콤바인" />
+        <text name="rhm_slopeloss_short" text="경사 손실" />
+        <text name="rhm_slopeloss_long" text="4° 초과의 경사지에서 체의 한쪽으로 곡물이 쏠리는 현상을 시뮬레이션합니다 (최대 5% 손실). 지형 경사 페널티를 없애려면 끄십시오." />
+        <text name="rhm_weedload_short" text="잡초 저항" />
+        <text name="rhm_weedload_long" text="수분이 많고 질긴 잡초가 탈곡 드럼에 감겨 기계적 저항과 엔진 부하를 증가시킵니다 (최대 +25%). 잡초가 엔진 출력에 영향을 주지 않도록 하려면 끄십시오." />
     </texts>
 </l10n>

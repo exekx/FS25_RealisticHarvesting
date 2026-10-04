@@ -18,8 +18,8 @@ function RHM_LoadCalculator.new(modDirectory)
     self.totalDistance = 0
     self.totalArea = 0
     self.currentTime = 0
-    self.avgTime = 1500  -- EN: 1.5 seconds between measuring / UA: 1.5 секунди між вимірами
-    self.distanceForMeasuring = 3  -- EN: 3 meters / UA: 3 метри
+    self.avgTime = 400  -- EN: 400ms between measuring / UA: 400мс між вимірами
+    self.distanceForMeasuring = 1.0  -- EN: 1.0 meter / UA: 1.0 метр
     
     -- EN: Base perf (will be set in onLoad) / UA: Базова продуктивність (оновиться в onLoad)
     self.basePerfMass = 0  -- EN: kg per second / UA: кг на секунду
@@ -644,18 +644,22 @@ function RHM_LoadCalculator:getCropSpecificEnergy(fruitTypeIndex, fillTypeIndex,
         elseif isPickup then
             -- Swath pickup headers (e.g. EasyFlow, Pick Up 300): pre-wilted windrow, cracker rolls disengaged
             if cropName:find("STRAW") or cropName:find("HAY") or cropName:find("DRYGRASS") then
-                baseESpec = 1.05 -- Dry windrow pickup: brittle, easy shearing
+                -- EN: Dry fibrous windrows (85-90% dry matter): high shearing resistance per ton of dry fiber (ASABE D497)
+                -- UA: Сухі волокнисті валки (85-90% сухої речовини): високий питомий опір різанню сухої маси
+                baseESpec = 2.75
             else
-                baseESpec = 1.18 -- Wilted grass / alfalfa / clover / whole-crop windrow pickup (ASABE D497 ~1.1-1.3 kWh/t FM at 15-25mm LOC)
+                -- EN: Wilted grass / alfalfa / clover / whole-crop windrow (ASABE D497 ~1.3-1.6 kWh/t FM * 1.341 HP/kW)
+                -- UA: Пров'ялена трава / сінаж / конюшина у валках
+                baseESpec = 1.95
             end
         elseif cropName:find("MAIZE") or cropName:find("CORN") or cropName:find("SILAGE") or cropName:find("CHAFF") or cropName:find("GPS") then
             -- Standing whole corn silage or direct-cut sorghum: heavy woody stalk + active corn cracker roller mills (ASABE EP496)
-            baseESpec = 2.10
+            baseESpec = 2.70
         elseif cropName:find("GRASS") or cropName:find("MEADOW") or cropName:find("ALFALFA") or cropName:find("LUCERNE") or cropName:find("CLOVER") then
             -- Direct-cut standing fresh grass disc header (e.g. XDisc): tough elastic standing stems
-            baseESpec = 2.60
+            baseESpec = 3.10
         else
-            baseESpec = 2.10 -- Universal direct-cut forage fallback
+            baseESpec = 2.60 -- Universal direct-cut forage fallback
         end
 
     -- 2. ROOT & SPECIALIZED VEGETABLE HARVESTERS (Lifting, cleaning, pod stripping, stalk cutting)
@@ -902,13 +906,13 @@ function RHM_LoadCalculator:update(vehicle, dt, mass)
         end
     end
 
-    -- EN: Fast first reaction on entering crop from empty (300ms / 0.8m instead of 1500ms / 3m)
-    -- UA: Швидка перша реакція при заході в загонку (300мс / 0.8м замість 1500мс / 3м)
+    -- EN: Fast continuous measurement window (400ms / 1.0m) for smooth load transitions
+    -- UA: Швидке вікно вимірювання (400мс / 1.0м) для плавних перехідних процесів навантаження
     local targetInterval = self.avgTime
     local targetDistance = self.distanceForMeasuring
     if (self.harvestActiveTime or 0) < 1200 and (self.lastAvgMass or 0) < 0.1 then
-        targetInterval = 300
-        targetDistance = 0.8
+        targetInterval = 250
+        targetDistance = 0.6
     end
     
     self.currentTime = self.currentTime + dt
@@ -1015,12 +1019,15 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     local rawKgPerSec = (self.loadAccumulatedMass or 0) * (1000 / safeTime)
     local rawTph = rawKgPerSec * 3.6
 
-    -- Adaptive smoothing for mass flow
-    -- Adaptive smoothing for mass flow
-    local smoothFactor = 0.40
+    -- Mechanical drum / rotor flywheel inertia:
+    -- Massive rotating assemblies (cylinder, rotor, beaters, chopper) store angular momentum.
+    -- High inertia dampens high-frequency crop density spikes across the field.
+    local dtSec = safeTime / 1000.0
+    local tauInertia = 1.3 -- seconds (mechanical dampening time constant)
+    local blend = 1.0 - math.exp(-dtSec / tauInertia)
     local avgMass = rawKgPerSec
     if self.currentAvgMass > 0 then
-        avgMass = (1 - smoothFactor) * rawKgPerSec + smoothFactor * self.currentAvgMass
+        avgMass = self.currentAvgMass + (rawKgPerSec - self.currentAvgMass) * blend
     else
         -- Field entry: Feederhouse filling ramp (don't shock drum with 100% of raw mass on tick 1)
         avgMass = rawKgPerSec * 0.40
@@ -1077,6 +1084,12 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
             local speedRatio = math.min(1.0, math.max(0.0, currentSpeed / refSpeed))
             local dullCutterFactor = 1.0 + 0.15 * math.max(0.0, math.min(1.0, self.lastCutterDamage or 0))
             pHeader = headerHp * (0.20 + 0.80 * speedRatio) * dullCutterFactor
+
+            -- Weed resistance at cutterbar: heavy weeds resist knife stroke (+0..15%)
+            local isWeedLoadEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableWeedLoad ~= false)
+            if isWeedLoadEnabled and self.currentWeedRatio and self.currentWeedRatio > 0.02 then
+                pHeader = pHeader * (1.0 + math.min(0.15, self.currentWeedRatio * 0.15))
+            end
         end
     end
 
@@ -1123,7 +1136,43 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     if isActivelyHarvesting then
         -- Crop processing power: Threshing/chopping/cleaning scaled by settings efficiency
         local eff = math.max(0.25, self.settingsEfficiency or 1.0)
-        pProcess = (avgTph * eSpec * moistureFactor) / eff
+        local procMoisture = moistureFactor
+        local pRotorExtra = 1.0
+
+        if machineType == "grain" and rhmSpec and rhmSpec.combineMemory and rhmSpec.combineMemory.currentSettings then
+            local currentRotor = rhmSpec.combineMemory.currentSettings.rotor
+            if currentRotor and currentRotor > 0 then
+                local optRotor = 55
+                if self.currentCrop and RHM_CombineSettingsDatabase then
+                    local cropOpt = RHM_CombineSettingsDatabase:getSettingsForCrop(self.currentCrop)
+                    if cropOpt and cropOpt.rotor then
+                        optRotor = cropOpt.rotor.optimal or 55
+                    end
+                end
+
+                if currentRotor > optRotor then
+                    -- Elevated rotor speed increases mechanical power consumption (+0..10% at max over-rev)
+                    local overRevRatio = math.min(1.0, (currentRotor - optRotor) / 45.0)
+                    pRotorExtra = 1.0 + (0.10 * overRevRatio)
+
+                    -- On damp crops (moisture above limit), elevated rotor RPM provides mechanical relief,
+                    -- helping push tough wet straw through the threshing cylinder with reduced drag penalty.
+                    if procMoisture > 1.0 then
+                        local dampRelief = math.min(0.40, overRevRatio * 0.35)
+                        procMoisture = 1.0 + (procMoisture - 1.0) * (1.0 - dampRelief)
+                    end
+                end
+            end
+        end
+
+        -- Weed resistance factor: succulent fibrous weeds wrap around drum and increase mechanical drag (up to +25%)
+        local weedFactor = 1.0
+        local isWeedLoadEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableWeedLoad ~= false)
+        if isWeedLoadEnabled and self.currentWeedRatio and self.currentWeedRatio > 0.02 then
+            weedFactor = 1.0 + math.min(0.25, self.currentWeedRatio * 0.25)
+        end
+
+        pProcess = ((avgTph * eSpec * procMoisture * weedFactor) / eff) * pRotorExtra
 
         -- Forage harvester stage power decomposition (ASABE S497 / EP496):
         -- 1. Feed rolls (intake compression): ~18%
@@ -1138,10 +1187,11 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
             -- In heavy swaths, pickup auger & feed rolls have an intake capacity limit.
             -- When fresh mass exceeds nominal feed capacity, intake resistance rises sharply.
             if isPickup then
-                local pickupIntakeLimitTph = math.max(320.0, (effectiveEngineHp * 0.45) + 80.0)
+                local isDryWindrow = (self.currentCrop and (string.find(string.upper(self.currentCrop), "HAY") or string.find(string.upper(self.currentCrop), "STRAW") or string.find(string.upper(self.currentCrop), "DRYGRASS")))
+                local pickupIntakeLimitTph = isDryWindrow and math.max(160.0, (effectiveEngineHp * 0.24) + 40.0) or math.max(280.0, (effectiveEngineHp * 0.40) + 60.0)
                 if avgTph > pickupIntakeLimitTph then
                     local surgeRatio = (avgTph - pickupIntakeLimitTph) / pickupIntakeLimitTph
-                    local feedChokePenalty = pForageFeed * math.min(1.5, surgeRatio * 2.0)
+                    local feedChokePenalty = pForageFeed * math.min(1.8, surgeRatio * 2.5)
                     pForageFeed = pForageFeed + feedChokePenalty
                     pProcess = pProcess + feedChokePenalty
                 end
@@ -1216,8 +1266,12 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
         elseif self.engineLoad == 0 then
             self.engineLoad = math.min(0.60, loadRatio)
         else
-            local loadSmoothing = 0.35
-            self.engineLoad = (1 - loadSmoothing) * loadRatio + loadSmoothing * self.engineLoad
+            -- Asymmetric governor & hydrostatic load smoothing:
+            -- Load surges are absorbed smoothly by rotor inertia (tau = 0.70s),
+            -- easing off is cushioned as kinetic energy dissipates (tau = 1.10s).
+            local tauLoad = (loadRatio > self.engineLoad) and 0.70 or 1.10
+            local loadBlend = 1.0 - math.exp(-dtSec / tauLoad)
+            self.engineLoad = self.engineLoad + (loadRatio - self.engineLoad) * loadBlend
         end
     end
 
@@ -1356,8 +1410,8 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     -- ASYMMETRIC DUAL-LOOP CONTROLLER:
     -- Check if we are in the initial entry phase of a new pass (< 2.8s)
     local isEntry = (self.harvestActiveTime or 0) < 2800
-    local isSurge = not isEntry and (self.rawAvgMass or 0) > ((self.currentAvgMass or 0) * 1.15) and (self.rawAvgMass or 0) > 0.5
-    if self.isPickup and not isEntry and (self.rawAvgMass or 0) > ((self.currentAvgMass or 0) * 1.10) and (self.rawAvgMass or 0) > 0.4 then
+    local isSurge = not isEntry and (self.rawAvgMass or 0) > ((self.currentAvgMass or 0) * 1.35) and (self.rawAvgMass or 0) > 0.8
+    if self.isPickup and not isEntry and (self.rawAvgMass or 0) > ((self.currentAvgMass or 0) * 1.25) and (self.rawAvgMass or 0) > 0.6 then
         isSurge = true
     end
 
@@ -1689,6 +1743,8 @@ function RHM_LoadCalculator:calculateWearLoss(vehicle)
         self.cutterWearLoss = 0
         self.combineWearLoss = 0
         self.totalWearLoss = 0
+        self.lastCutterDamage = 0
+        self.lastCombineDamage = 0
         return 0, 0, 0
     end
 
@@ -1793,14 +1849,25 @@ function RHM_LoadCalculator:calculateTotalCropLoss(vehicle)
     end
 
     -- 4. Slope Loss: Lateral tilt causes grain pooling on one side of cleaning shoe sieves
+    -- Damped with low-pass filter (tau = 1.8s) so terrain suspension bumps don't flicker the loss gauge
     local slopeLoss = 0
-    if vehicle and vehicle.rootNode then
+    local isSlopeLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableSlopeLoss ~= false)
+    if isSlopeLossEnabled and vehicle and vehicle.rootNode then
         local _, upY, _ = localDirectionToWorld(vehicle.rootNode, 0, 1, 0)
         upY = math.min(1.0, math.max(-1.0, upY))
         local angleDeg = math.deg(math.acos(upY))
-        if angleDeg > 4.0 then
-            slopeLoss = math.min(5.0, (angleDeg - 4.0) * 0.35)
+        if not self.smoothedSlopeAngle then
+            self.smoothedSlopeAngle = angleDeg
+        else
+            local dtSec = math.min(0.2, (self.lastUpdateInterval or 300) / 1000.0)
+            local blendSlope = 1.0 - math.exp(-dtSec / 1.8)
+            self.smoothedSlopeAngle = self.smoothedSlopeAngle + (angleDeg - self.smoothedSlopeAngle) * blendSlope
         end
+        if self.smoothedSlopeAngle > 4.0 then
+            slopeLoss = math.min(5.0, (self.smoothedSlopeAngle - 4.0) * 0.35)
+        end
+    else
+        self.smoothedSlopeAngle = 0
     end
 
     -- 5. Moisture & Dew Loss: High moisture causes straw matting and walker/rotor grain adhesion
@@ -1914,21 +1981,45 @@ function RHM_LoadCalculator:updateProductivity(mass, liters, dt, area)
 
     self.prodRingHead = (head % self.prodRingSize) + 1
 
-    if self.prodSumTime > 100 then
+    local dtSec = math.min(0.2, math.max(0.001, (dt or 16) / 1000.0))
+    if self.prodSumTime > 100 and self.prodSumMass > 0.001 then
         local hours = self.prodSumTime / 3600000
         local rawTonPerHour = (self.prodSumMass / 1000) / hours
-        self.litersPerHour = self.prodSumLiters / hours
+        local rawLitersPerHour = self.prodSumLiters / hours
         local rawHectaresPerHour = (self.prodSumArea / 10000) / hours
-        local alpha = 0.05
-        if self.tonPerHour == 0 then self.tonPerHour = rawTonPerHour end
-        self.tonPerHour = self.tonPerHour * (1 - alpha) + rawTonPerHour * alpha
+        
+        -- Physical inertia time constant for grain separator, sieves, and elevator (tau = 1.8s)
+        local tauTph = 1.8
+        local blendTph = 1.0 - math.exp(-dtSec / tauTph)
+        
+        if (self.tonPerHour or 0) <= 0.01 then
+            self.tonPerHour = rawTonPerHour * 0.5
+        else
+            self.tonPerHour = self.tonPerHour + (rawTonPerHour - self.tonPerHour) * blendTph
+        end
 
-        if self.hectaresPerHour == 0 then self.hectaresPerHour = rawHectaresPerHour end
-        self.hectaresPerHour = self.hectaresPerHour * (1 - alpha) + rawHectaresPerHour * alpha
+        if (self.litersPerHour or 0) <= 0.1 then
+            self.litersPerHour = rawLitersPerHour * 0.5
+        else
+            self.litersPerHour = self.litersPerHour + (rawLitersPerHour - self.litersPerHour) * blendTph
+        end
+
+        if (self.hectaresPerHour or 0) <= 0.001 then
+            self.hectaresPerHour = rawHectaresPerHour * 0.5
+        else
+            self.hectaresPerHour = self.hectaresPerHour + (rawHectaresPerHour - self.hectaresPerHour) * blendTph
+        end
     else
-        self.tonPerHour = 0
-        self.litersPerHour = 0
-        self.hectaresPerHour = 0
+        -- Smooth fade-out between passes / headland turns
+        local fadeBlend = 1.0 - math.exp(-dtSec / 0.8)
+        self.tonPerHour = (self.tonPerHour or 0) * (1.0 - fadeBlend)
+        self.litersPerHour = (self.litersPerHour or 0) * (1.0 - fadeBlend)
+        self.hectaresPerHour = (self.hectaresPerHour or 0) * (1.0 - fadeBlend)
+        if (self.tonPerHour or 0) < 0.05 then
+            self.tonPerHour = 0
+            self.litersPerHour = 0
+            self.hectaresPerHour = 0
+        end
     end
 end
 

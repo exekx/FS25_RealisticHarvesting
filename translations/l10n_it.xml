@@ -43,10 +43,8 @@
         <text name="rhm_show_croploss_short" text="Mostra perdita" />
         <text name="rhm_show_moisture_short" text="Mostra umidità" />
         <text name="rhm_show_moisture_long" text="Mostra la percentuale di umidità del raccolto nell'HUD" />
-        <text name="rhm_moisture_enable_short" text="Penalità umidità" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Applica penalità di carico in base all'umidità (Richiede Moisture System)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Impatto umidità" />
+        <text name="rhm_moisture_enable_long" text="Simula maggiore resistenza alla trebbiatura e perdite con paglia bagnata in presenza di rugiada o pioggia. Disattiva per mietere senza penalità meteo." />
         <text name="rhm_ui_title_main" text="Calibrazione Mietitrebbia" />
         <text name="rhm_ui_page_settings" text="Impostazioni" />
         <text name="rhm_ui_page_profiles" text="Profili" />
@@ -256,6 +254,10 @@
         <text name="rhm_ui_status_optimal" text="OTTIMALE" />
         <text name="rhm_ui_status_low" text="BASSO" />
         <text name="rhm_ui_status_high" text="ALTO" />
+        <text name="rhm_ui_env_optimal" text="CONDIZIONI OTTIMALI" />
+        <text name="rhm_ui_env_moisture" text="ELEVATA UMIDITÀ" />
+        <text name="rhm_ui_env_weeds" text="INFESTAZIONE DI ERBACCE" />
+        <text name="rhm_ui_env_damp_weeds" text="UMIDO ED ERBOSO" />
         <text name="rhm_msg_req_tier4" text="Richiede IA Opti-Harvest (Livello 4)" />
         <text name="rhm_msg_req_tier3" text="I profili richiedono il Monitor Telemetria (Livello 3)" />
         <text name="rhm_msg_req_tier2" text="I profili richiedono il Pacchetto Sensori (Tier 2 o superiore)" />
@@ -405,6 +407,9 @@
         <text name="rhm_setting_volunteer_desc" text="Genera rinascite spontanee e infestanti dietro alla mietitrebbiatrice nelle zone a perdita elevata (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AZZERAMENTO AUTOMATICO AL CAMBIO CAMPO" />
         <text name="rhm_setting_autoreset_desc" text="Archivia e azzera automaticamente il contatore di campo quando ci si sposta su un altro campo." />
+        <text name="rhm_setting_autoreset_smart" text="Intelligente (Campo / Coltura)" />
+        <text name="rhm_setting_autoreset_crop" text="Solo cambio coltura" />
+        <text name="rhm_setting_autoreset_disabled" text="Disattivato (Manuale)" />
         <text name="rhm_col_field" text="Campo" />
         <text name="rhm_col_speed" text="Velocità" />
         <text name="rhm_col_load" text="Carico" />
@@ -477,5 +482,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Nessuna mietitrebbia venduta in archivio" />
         <text name="rhm_fleet_total_count_active" text="Mietitrebbie attive" />
         <text name="rhm_fleet_total_count_sold" text="Mietitrebbie vendute" />
+        <text name="rhm_slopeloss_short" text="Perdite in pendenza" />
+        <text name="rhm_slopeloss_long" text="Simula l'accumulo di granella su un lato dei crivelli sui pendii oltre 4° (fino al 5% di perdita). Disattiva per eliminare le penalità di pendenza." />
+        <text name="rhm_weedload_short" text="Resistenza infestanti" />
+        <text name="rhm_weedload_long" text="Le infestanti verdi e fibrose aumentano la resistenza meccanica e il carico del motore (fino a +25%). Disattiva per escludere l'impatto delle infestanti sulla potenza." />
     </texts>
 </l10n>

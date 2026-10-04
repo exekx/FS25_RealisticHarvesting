@@ -33,6 +33,21 @@ function RHMDraggableHUD.new(modDirectory, settings)
         hectaresPerHour = 0
     }
 
+    self.displayData = {
+        load = 0,
+        yield = 0,
+        speed = 0,
+        cropLoss = 0,
+        tonPerHour = 0,
+        litersPerHour = 0,
+        recommendedSpeed = 0,
+        moisture = 0,
+        hectaresPerHour = 0
+    }
+
+    self.displayTimer = 0
+    self.cachedCells = nil
+
     self.displayModes = {
         cell1 = "load",
         cell2 = "loss",
@@ -548,19 +563,23 @@ function RHMDraggableHUD:setPosition(x, y)
 end
 
 function RHMDraggableHUD:setVehicle(vehicle)
+    if self.vehicle ~= vehicle then
+        self.cachedCells = nil
+        self.displayTimer = 0
+    end
     self.vehicle = vehicle
     if vehicle then
         self:update(0)
     else
-        self.data.load = 0
-        self.data.yield = 0
-        self.data.speed = 0
-        self.data.cropLoss = 0
-        self.data.tonPerHour = 0
-        self.data.litersPerHour = 0
-        self.data.recommendedSpeed = 0
-        self.data.moisture = 0
-        self.data.hectaresPerHour = 0
+        for k, _ in pairs(self.data) do
+            self.data[k] = 0
+        end
+        if self.displayData then
+            for k, _ in pairs(self.displayData) do
+                self.displayData[k] = 0
+            end
+        end
+        self.cachedCells = nil
     end
 end
 
@@ -571,6 +590,7 @@ function RHMDraggableHUD:update(dt)
     local spec = vehicle.spec_rhm_Combine
     if not spec or not spec.data then return end
 
+    -- Raw synced data from combine
     self.data.load             = spec.data.load or 0
     self.data.yield            = spec.data.yield or 0
     self.data.cropLoss         = spec.data.cropLoss or 0
@@ -580,7 +600,62 @@ function RHMDraggableHUD:update(dt)
     self.data.targetSpeed      = spec.data.targetSpeed or spec.data.recommendedSpeed or 0
     self.data.moisture         = spec.data.moisture or 0
     self.data.hectaresPerHour  = spec.data.hectaresPerHour or 0
-    self.data.speed            = vehicle:getLastSpeed() or 0
+    self.data.speed            = (vehicle.getLastSpeed and vehicle:getLastSpeed()) or 0
+
+    if not self.displayData then
+        self.displayData = {}
+        for k, v in pairs(self.data) do
+            self.displayData[k] = v
+        end
+    end
+
+    -- Visual display smoothing (simulates CEBIS / CommandCenter LCD filter)
+    local dtSec = math.min(0.2, math.max(0.001, (dt or 16) / 1000.0))
+    local isStationary = (self.data.speed < 0.4)
+    if isStationary then
+        self.data.tonPerHour = 0
+        self.data.litersPerHour = 0
+        self.data.hectaresPerHour = 0
+    end
+
+    local function smoothField(curr, target, tauHarvest, tauStop)
+        curr = curr or 0
+        target = target or 0
+        if isStationary and target <= 0.01 then
+            local tau = tauStop or 0.15
+            local b = 1.0 - math.exp(-dtSec / tau)
+            local res = curr + (0 - curr) * b
+            return (res < 0.02) and 0 or res
+        end
+        local tau = tauHarvest or 0.60
+        local b = 1.0 - math.exp(-dtSec / tau)
+        return curr + (target - curr) * b
+    end
+
+    self.displayData.load            = smoothField(self.displayData.load, self.data.load, 0.45, 0.20)
+    self.displayData.cropLoss        = smoothField(self.displayData.cropLoss, self.data.cropLoss, 0.60, 0.15)
+    self.displayData.tonPerHour      = smoothField(self.displayData.tonPerHour, self.data.tonPerHour, 0.70, 0.15)
+    self.displayData.litersPerHour   = smoothField(self.displayData.litersPerHour, self.data.litersPerHour, 0.70, 0.15)
+    self.displayData.hectaresPerHour = smoothField(self.displayData.hectaresPerHour, self.data.hectaresPerHour, 0.70, 0.15)
+    self.displayData.yield           = smoothField(self.displayData.yield, self.data.yield, 0.70, 0.25)
+    
+    -- EN: Moisture should not decay to 0 simply because combine stopped at headland or paused.
+    -- UA: Вологість не повинна зникати до 0 тільки через те, що комбайн зупинився або очікує.
+    if (self.data.moisture or 0) > 0 then
+        local tauM = 0.80
+        local bM = 1.0 - math.exp(-dtSec / tauM)
+        self.displayData.moisture = (self.displayData.moisture or self.data.moisture) + (self.data.moisture - (self.displayData.moisture or self.data.moisture)) * bM
+    end
+    self.displayData.speed           = self.data.speed
+    self.displayData.recommendedSpeed= self.data.recommendedSpeed
+    self.displayData.targetSpeed     = self.data.targetSpeed
+
+    -- Digital refresh cadence: refresh cell strings at 4 Hz (every 250ms)
+    self.displayTimer = (self.displayTimer or 0) + (dt or 16)
+    if self.displayTimer >= 250 or not self.cachedCells then
+        self.displayTimer = 0
+        self.cachedCells = self:buildActiveCells()
+    end
 end
 
 function RHMDraggableHUD:drawPanelBackground(x, y, w, h, color)
@@ -720,7 +795,7 @@ function RHMDraggableHUD:draw()
     self:drawPanelBackground(x, y, w, h, {0.0, 0.0, 0.0, 0.72})
 
     -- ── Build 4-Column PF-Style Stacked Cells ───────────────────────────────
-    local cells = self:buildActiveCells()
+    local cells = self.cachedCells or self:buildActiveCells()
     local numCells = #cells
     if numCells == 0 then return end
 
@@ -887,9 +962,11 @@ function RHMDraggableHUD:buildActiveCells()
         end
     end
 
+    local d = self.displayData or self.data
+
     -- 1. Engine Load Cell
     if self.settings.showLoad then
-        local loadVal = self.data.load or 0
+        local loadVal = d.load or 0
         local loadColor, indColor = self:getLoadColors(loadVal)
         table.insert(cells, {
             iconName = "load",
@@ -905,7 +982,7 @@ function RHMDraggableHUD:buildActiveCells()
     local hasLossSensor = (packageLevel >= 2) and (machineType ~= "forage" and machineType ~= "cotton")
     local showLossMode = (self.displayModes.cell2 == "loss") and hasLossSensor and isCropLossEnabled
     if showLossMode and self.settings.showCropLoss then
-        local lossVal = self.data.cropLoss or 0
+        local lossVal = d.cropLoss or 0
         local lossStr = (lossVal > 0.05) and string.format("%.1f%%", lossVal) or "0.0%"
         local lossColor, indColor = self:getLossColors(lossVal)
         local lossUnit = tripLossSubStr or ""
@@ -918,8 +995,8 @@ function RHMDraggableHUD:buildActiveCells()
             indicatorColor = indColor
         })
     else
-        local curSpeed = self.data.speed or 0
-        local targetSpeed = (self.data.recommendedSpeed and self.data.recommendedSpeed > 0) and self.data.recommendedSpeed or (self.data.targetSpeed or 0)
+        local curSpeed = d.speed or 0
+        local targetSpeed = (d.recommendedSpeed and d.recommendedSpeed > 0) and d.recommendedSpeed or (d.targetSpeed or 0)
         -- EN: Convert speed value and unit label to the active unit system (km/h → mph for Imperial/Bushels).
         -- UA: Конвертуємо значення та підпис швидкості відповідно до активної системи одиниць.
         local dispSpeed = curSpeed
@@ -947,7 +1024,7 @@ function RHMDraggableHUD:buildActiveCells()
     local hasMoistureSensor = (packageLevel >= 3) and (hasPF or (RHM_MoistureAdapter and RHM_MoistureAdapter.isActive))
     local showMoistMode = (self.displayModes.cell3 == "moisture") and hasMoistureSensor
     if showMoistMode and self.settings.showMoisture then
-        local mVal = self.data.moisture or 0
+        local mVal = d.moisture or 0
         local valStr = (mVal <= 0.1) and "--" or string.format("%.1f%%", mVal)
         local mColor = {0.45, 0.80, 0.98, 1.0}
         if mVal > 20 then
@@ -962,7 +1039,7 @@ function RHMDraggableHUD:buildActiveCells()
             color = mColor
         })
     else
-        local yieldVal = self.data.yield or 0
+        local yieldVal = d.yield or 0
         local valStr, suffixStr
         if RHM_UnitConverter then
             local val, suffix = RHM_UnitConverter.convertYield(yieldVal, unitSystem, fruitType)
@@ -983,7 +1060,7 @@ function RHMDraggableHUD:buildActiveCells()
     -- 4. Productivity Cell: Tons/hour (t/h) or Hectares/hour (ha/h)
     if self.settings.showProductivity then
         if self.displayModes.cell4 == "hectaresPerHour" then
-            local haVal = self.data.hectaresPerHour or 0
+            local haVal = d.hectaresPerHour or 0
             -- EN: Convert area from ha to ac for Imperial/Bushels unit systems.
             -- UA: Конвертуємо площу з га в акри для систем Imperial/Bushels.
             local dispArea = haVal
@@ -995,7 +1072,8 @@ function RHMDraggableHUD:buildActiveCells()
                 -- UA: Додаємо "/h" до суфіксу площі ("га" → "га/год", "акр" → "акр/год").
                 areaUnit = areaSuffix .. "/h"
             end
-            local valStr = (dispArea <= 0.05 and (self.data.speed or 0) < 0.5) and "0.0" or string.format("%.1f", dispArea)
+            local isStationary = (d.speed or 0) < 0.5
+            local valStr = (isStationary or dispArea <= 0.05) and "0.0" or string.format("%.1f", dispArea)
             local unitLabel = areaUnit
             table.insert(cells, {
                 iconName = "yield",
@@ -1004,14 +1082,15 @@ function RHMDraggableHUD:buildActiveCells()
                 color = {0.98, 0.98, 0.98, 1.0}
             })
         else
-            local prodVal = self.data.tonPerHour or 0
+            local prodVal = d.tonPerHour or 0
+            local isStationary = (d.speed or 0) < 0.5
             local valStr, suffixStr
             if RHM_UnitConverter then
-                local val, suffix = RHM_UnitConverter.convertProductivity(prodVal, unitSystem, fruitType, self.data.litersPerHour)
-                valStr = (prodVal <= 0.05 and (self.data.speed or 0) < 0.5) and "0.0" or string.format("%.1f", val)
+                local val, suffix = RHM_UnitConverter.convertProductivity(prodVal, unitSystem, fruitType, d.litersPerHour)
+                valStr = (isStationary or prodVal <= 0.05) and "0.0" or string.format("%.1f", val)
                 suffixStr = suffix or "t/h"
             else
-                valStr = string.format("%.1f", prodVal)
+                valStr = (isStationary or prodVal <= 0.05) and "0.0" or string.format("%.1f", prodVal)
                 suffixStr = "t/h"
             end
             local unitLabel = (suffixStr == "t/h" and g_i18n:hasText("rhm_unit_t_per_hour")) and g_i18n:getText("rhm_unit_t_per_hour") or suffixStr
@@ -1066,6 +1145,7 @@ function RHMDraggableHUD:isMouseOver(posX, posY)
 end
 
 function RHMDraggableHUD:handleCellClick(clickedCol)
+    local handled = false
     if clickedCol == 4 then
         -- Toggle between tons/h and ha/h
         if self.displayModes.cell4 == "tonPerHour" then
@@ -1073,7 +1153,7 @@ function RHMDraggableHUD:handleCellClick(clickedCol)
         else
             self.displayModes.cell4 = "tonPerHour"
         end
-        return true
+        handled = true
     elseif clickedCol == 2 then
         -- Toggle between grain loss (%) and current speed (km/h) (Loss requires Tier >= 2)
         local pkgLevel = (self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.packageLevel) or 1
@@ -1085,7 +1165,7 @@ function RHMDraggableHUD:handleCellClick(clickedCol)
             else
                 self.displayModes.cell2 = "loss"
             end
-            return true
+            handled = true
         end
     elseif clickedCol == 3 then
         -- Toggle between moisture (%) and yield (t/ha) (Moisture requires Tier >= 3)
@@ -1101,8 +1181,13 @@ function RHMDraggableHUD:handleCellClick(clickedCol)
             else
                 self.displayModes.cell3 = "moisture"
             end
-            return true
+            handled = true
         end
+    end
+    if handled then
+        self.cachedCells = nil
+        self.displayTimer = 9999
+        return true
     end
     return false
 end

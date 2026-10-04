@@ -36,7 +36,10 @@ function RHM_MoistureAdapter.getObjectMoisture(vehicle, fillType)
     
     if uniqueId and ms.objectInfo then
         if ms.ensureObjectMoistureLoaded and type(vehicle) == "table" then
-            pcall(function() ms:ensureObjectMoistureLoaded(vehicle) end)
+            local ok, err = pcall(function() ms:ensureObjectMoistureLoaded(vehicle) end)
+            if not ok then
+                rhm_log(string.format("RHM [Moisture Adapter Error] ensureObjectMoistureLoaded: %s", tostring(err)))
+            end
         end
         
         local objectData = ms.objectInfo[uniqueId]

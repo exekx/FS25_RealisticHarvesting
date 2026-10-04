@@ -105,6 +105,7 @@ function RHM_CombineMemory:autoConfigureForCrop(cropName, forceOptimal, context)
             machineType = self.machineType,
             moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0,
             yield = (rhmSpec.data and rhmSpec.data.yield) or 0,
+            weedRatio = (rhmSpec.data and rhmSpec.data.weedRatio) or (rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentWeedRatio) or 0,
             isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,
             fillType = rhmSpec.lastFillType,
             fruitType = rhmSpec.lastFruitType,
@@ -333,6 +334,7 @@ function RHM_CombineMemory:applyAiWorkerTuning(cropName, context)
             machineType = self.machineType,
             moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0,
             yield = (rhmSpec.data and rhmSpec.data.yield) or 0,
+            weedRatio = (rhmSpec.data and rhmSpec.data.weedRatio) or (rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentWeedRatio) or 0,
             isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,
             fillType = rhmSpec.lastFillType,
             fruitType = rhmSpec.lastFruitType,
@@ -592,6 +594,7 @@ function RHM_CombineMemory:checkSettingsForCrop(cropName, context, returnWarning
         ctx.machineType = self.machineType
         ctx.moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0
         ctx.yield = (rhmSpec.data and rhmSpec.data.yield) or 0
+        ctx.weedRatio = (rhmSpec.data and rhmSpec.data.weedRatio) or (rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentWeedRatio) or 0
         ctx.isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false
         ctx.fillType = rhmSpec.lastFillType
         ctx.fruitType = rhmSpec.lastFruitType
@@ -996,6 +999,15 @@ function RHM_CombineMemory:updateAutoTrim(dt)
         return
     end
 
+    -- EN: Auto-trim ONLY when the combine is actively harvesting in motion (speed >= 1.0 km/h).
+    --     When stationary, waiting for unloader, or paused, settings remain rock-solid.
+    -- UA: Підлаштовуємо налаштування ТІЛЬКИ під час реального руху та збирання (швидкість >= 1.0 км/год).
+    --     Коли комбайн стоїть, чекає розвантаження або на паузі — налаштування зафіксовані.
+    local speed = (self.combine and self.combine.getLastSpeed and self.combine:getLastSpeed()) or 0
+    if speed < 1.0 then
+        return
+    end
+
     self.autoTrimTimer = (self.autoTrimTimer or 0) + dt
     if self.autoTrimTimer < 2000 then
         return
@@ -1007,6 +1019,7 @@ function RHM_CombineMemory:updateAutoTrim(dt)
         machineType = self.machineType,
         moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0,
         yield = (rhmSpec.data and rhmSpec.data.yield) or 0,
+        weedRatio = (rhmSpec.data and rhmSpec.data.weedRatio) or (rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentWeedRatio) or 0,
         isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,
         fillType = rhmSpec.lastFillType,
         fruitType = rhmSpec.lastFruitType,

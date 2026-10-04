@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulasi" />
@@ -41,8 +41,8 @@
         <text name="rhm_show_croploss_short" text="Tampilkan Susut" />
         <text name="rhm_show_moisture_short" text="Tampilkan Kelembaban" />
         <text name="rhm_show_moisture_long" text="Tampilkan persentase kelembaban tanaman di HUD" />
-        <text name="rhm_moisture_enable_short" text="Hambatan Kelembaban" />
-        <text name="rhm_moisture_enable_long" text="Terapkan penalti beban berdasarkan kelembaban tanaman (memerlukan mod Moisture System)" />
+        <text name="rhm_moisture_enable_short" text="Dampak Kelembapan" />
+        <text name="rhm_moisture_enable_long" text="Mensimulasikan peningkatan resistensi perontokan dan kehilangan jerami basah saat berembun atau hujan. Matikan untuk panen tanpa penalti cuaca." />
         <text name="rhm_ui_title_main" text="TERMINAL KALIBRASI COMBINE" />
         <text name="rhm_ui_page_settings" text="Pengaturan" />
         <text name="rhm_ui_page_profiles" text="Profil" />
@@ -250,6 +250,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMAL" />
         <text name="rhm_ui_status_low" text="TERLALU RENDAH" />
         <text name="rhm_ui_status_high" text="TERLALU TINGGI" />
+        <text name="rhm_ui_env_optimal" text="KONDISI OPTIMAL" />
+        <text name="rhm_ui_env_moisture" text="KELEMBABAN TINGGI" />
+        <text name="rhm_ui_env_weeds" text="SERANGAN GULMA" />
+        <text name="rhm_ui_env_damp_weeds" text="LEMBAB DAN BERGULMA" />
         <text name="rhm_msg_req_tier4" text="Memerlukan Autopilot AI Opti-Harvest (Tingkat 4)" />
         <text name="rhm_msg_req_tier3" text="Profil memerlukan Monitor Telemetri (Tingkat 3)" />
         <text name="rhm_msg_req_tier2" text="Profil memerlukan Paket Sensor (Tingkat 2 atau lebih tinggi)" />
@@ -399,6 +403,9 @@
         <text name="rhm_setting_volunteer_desc" text="Menumbuhkan gulma di belakang pemanen pada area dengan tingkat kehilangan tinggi (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="RESET OTOMATIS GANTI LAHAN" />
         <text name="rhm_setting_autoreset_desc" text="Arsipkan dan reset penghitung lahan secara otomatis saat berpindah ke lahan lain." />
+        <text name="rhm_setting_autoreset_smart" text="Pintar (Lahan / Tanaman)" />
+        <text name="rhm_setting_autoreset_crop" text="Hanya ganti tanaman" />
+        <text name="rhm_setting_autoreset_disabled" text="Nonaktif (Manual)" />
         <text name="rhm_col_field" text="Lahan" />
         <text name="rhm_col_speed" text="Kecepatan" />
         <text name="rhm_col_load" text="Beban" />
@@ -471,5 +478,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Tidak ada pemanen terjual di arsip" />
         <text name="rhm_fleet_total_count_active" text="Pemanen Aktif" />
         <text name="rhm_fleet_total_count_sold" text="Pemanen Terjual" />
+        <text name="rhm_slopeloss_short" text="Kehilangan di Lereng" />
+        <text name="rhm_slopeloss_long" text="Mensimulasikan penumpukan gabah pada satu sisi ayakan di lereng lebih dari 4° (hingga 5% kehilangan). Matikan untuk menghilangkan penalti kemiringan." />
+        <text name="rhm_weedload_short" text="Resistensi Gulma" />
+        <text name="rhm_weedload_long" text="Gulma berserat dan basah melilit silinder perontok sehingga meningkatkan beban mesin (hingga +25%). Matikan agar gulma tidak membebani mesin." />
     </texts>
 </l10n>

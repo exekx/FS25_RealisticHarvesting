@@ -560,14 +560,16 @@ function RHM_CombineSettingsDatabase:applyEnvironmentalOffsets(baseTemplate, con
     -- EN: High-performance bucketed caching (Rule 7: zero allocations in hot onDraw/onUpdate loops)
     -- UA: Високопродуктивне кешування за бакетами (нуль алокацій таблиць у гарячих циклах)
     local rainKey = isRaining and 1 or 0
+    local weedRatio = context.weedRatio or 0
     local timeBucket = math.floor(dayTimeHours * 30) -- 2 in-game minutes granularity
     local moistBucket = math.floor(moisture * 5)     -- 0.2% moisture granularity
     local yieldBucket = math.floor(yield * 5)        -- 0.2 t/ha yield granularity
+    local weedBucket = math.floor(weedRatio * 10)    -- 10% weed granularity
 
     self._envCache = self._envCache or {}
     local cKey = tostring(cropName or "GENERIC") .. "_" .. tostring(machineType)
     local cached = self._envCache[cKey]
-    if cached and cached.timeBucket == timeBucket and cached.moistBucket == moistBucket and cached.yieldBucket == yieldBucket and cached.rainKey == rainKey then
+    if cached and cached.timeBucket == timeBucket and cached.moistBucket == moistBucket and cached.yieldBucket == yieldBucket and cached.rainKey == rainKey and cached.weedBucket == weedBucket then
         return cached.template
     end
 
@@ -647,6 +649,14 @@ function RHM_CombineSettingsDatabase:applyEnvironmentalOffsets(baseTemplate, con
             end
         end
 
+        -- E. Active Weed Infestation (Живі зелені бур'яни)
+        -- Green weeds introduce moist leaves, stems, and weed seeds that overload the cleaning shoe.
+        -- Requires higher cleaning fan speed to blow green chaff out and slightly wider top sieve.
+        if weedRatio > 0.01 then
+            fanOffset = fanOffset + (weedRatio * 7.0)     -- e.g. +40 to +70 RPM fan for green weed separation
+            upperOffset = upperOffset + (weedRatio * 3.5) -- open upper chaffer slightly to avoid shoe plugging
+        end
+
     elseif machineType == "forage" then
         if diurnalFactor > 0 then
             rotorOffset = rotorOffset + (diurnalFactor * 3.0)
@@ -718,6 +728,7 @@ function RHM_CombineSettingsDatabase:applyEnvironmentalOffsets(baseTemplate, con
         moistBucket = moistBucket,
         yieldBucket = yieldBucket,
         rainKey = rainKey,
+        weedBucket = weedBucket,
     }
 
     return adjusted

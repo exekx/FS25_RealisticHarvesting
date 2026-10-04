@@ -43,10 +43,8 @@
         <text name="rhm_show_croploss_short" text="Zobrazit ztrátu" />
         <text name="rhm_show_moisture_short" text="Zobrazit vlhkost" />
         <text name="rhm_show_moisture_long" text="Zobrazit procento vlhkosti plodin na HUDu" />
-        <text name="rhm_moisture_enable_short" text="Postih za vlhkost" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Aplikovat postih zatížení podle vlhkosti plodin (Vyžaduje Moisture System)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Vliv vlhkosti" />
+        <text name="rhm_moisture_enable_long" text="Simuluje zvýšený odpor výmlatu a ztráty na separaci z vlhké slámy při rose, dešti či vlhkém zrnu. Vypněte pro sklizeň bez povětrnostních postihů." />
         <text name="rhm_ui_title_main" text="Kalibrace Kombajnu" />
         <text name="rhm_ui_page_settings" text="Nastavení" />
         <text name="rhm_ui_page_profiles" text="Profily" />
@@ -256,6 +254,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMÁLNÍ" />
         <text name="rhm_ui_status_low" text="NÍZKÉ" />
         <text name="rhm_ui_status_high" text="VYSOKÉ" />
+        <text name="rhm_ui_env_optimal" text="OPTIMÁLNÍ PODMÍNKY" />
+        <text name="rhm_ui_env_moisture" text="VYSOKÁ VLHKOST" />
+        <text name="rhm_ui_env_weeds" text="ZAPLEVELENÍ" />
+        <text name="rhm_ui_env_damp_weeds" text="VLHKO A PLEVEL" />
         <text name="rhm_msg_req_tier4" text="Vyžaduje AI Opti-Harvest (Úroveň 4)" />
         <text name="rhm_msg_req_tier3" text="Profily vyžadují Monitor Telemetrie (Úroveň 3)" />
         <text name="rhm_msg_req_tier2" text="Profily vyžadují Balíček Senzorů (Tier 2 nebo vyšší)" />
@@ -405,6 +407,9 @@
         <text name="rhm_setting_volunteer_desc" text="Vytváří ložiska plevele a výdrolu za kombajnem v místech vysokých ztrát (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMATICKÝ RESET PŘI ZMĚNĚ POLE" />
         <text name="rhm_setting_autoreset_desc" text="Automaticky archivovat a resetovat polní počítadlo při přejezdu na jiné pole." />
+        <text name="rhm_setting_autoreset_smart" text="Inteligentní (Pole / Plodina)" />
+        <text name="rhm_setting_autoreset_crop" text="Pouze změna plodiny" />
+        <text name="rhm_setting_autoreset_disabled" text="Vypnuto (Ručně)" />
         <text name="rhm_col_field" text="Pole" />
         <text name="rhm_col_speed" text="Rychlost" />
         <text name="rhm_col_load" text="Zatížení" />
@@ -477,5 +482,9 @@
         <text name="rhm_fleet_no_sold_combines" text="V archivu nejsou žádné prodané kombajny" />
         <text name="rhm_fleet_total_count_active" text="Aktivní kombajny" />
         <text name="rhm_fleet_total_count_sold" text="Prodané kombajny" />
+        <text name="rhm_slopeloss_short" text="Ztráty ve svahu" />
+        <text name="rhm_slopeloss_long" text="Simuluje sesouvání zrna k jedné straně sít na svazích nad 4° (až 5% ztrát). Vypněte, pokud nechcete penalizaci za sklon terénu." />
+        <text name="rhm_weedload_short" text="Odpor plevelů" />
+        <text name="rhm_weedload_long" text="Šťavnatý a vláknitý plevel se namotává na mláticí buben a zvyšuje mechanický odpor i zatížení motoru (až +25%). Vypněte pro eliminaci vlivu plevelů na výkon." />
     </texts>
 </l10n>

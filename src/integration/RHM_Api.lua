@@ -391,6 +391,10 @@ end
 function RHM_Api.getTonPerHour(vehicle)
     local combine = RHM_Api.findCombine(vehicle)
     if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.loadCalculator then
+        local currentSpeed = (combine.getLastSpeed and combine:getLastSpeed()) or 0
+        if currentSpeed < 0.5 then
+            return 0.0
+        end
         return combine.spec_rhm_Combine.loadCalculator:getTonPerHour() or 0.0
     end
     return nil
@@ -403,6 +407,10 @@ end
 function RHM_Api.getLitersPerHour(vehicle)
     local combine = RHM_Api.findCombine(vehicle)
     if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.loadCalculator then
+        local currentSpeed = (combine.getLastSpeed and combine:getLastSpeed()) or 0
+        if currentSpeed < 0.5 then
+            return 0.0
+        end
         return combine.spec_rhm_Combine.loadCalculator:getLitersPerHour() or 0.0
     end
     return nil
@@ -415,6 +423,10 @@ end
 function RHM_Api.getHectaresPerHour(vehicle)
     local combine = RHM_Api.findCombine(vehicle)
     if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.loadCalculator then
+        local currentSpeed = (combine.getLastSpeed and combine:getLastSpeed()) or 0
+        if currentSpeed < 0.5 then
+            return 0.0
+        end
         return combine.spec_rhm_Combine.loadCalculator:getHectaresPerHour() or 0.0
     end
     return nil
@@ -526,6 +538,18 @@ function RHM_Api.isMoistureExceeded(vehicle)
     return m > lim
 end
 
+---EN: Returns current live weed infestation ratio at cutterbar (0.00 to 1.00).
+---UA: Повертає поточний рівень забур'яненості на жатці (від 0.00 до 1.00).
+---@param vehicle table|nil
+---@return number|nil weedRatio or nil if unmanaged
+function RHM_Api.getWeedRatio(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.data then
+        return combine.spec_rhm_Combine.data.weedRatio or 0.0
+    end
+    return nil
+end
+
 -- ============================================================================
 -- 7. CROP LOSSES
 -- ============================================================================
@@ -577,6 +601,18 @@ function RHM_Api.getWearLoss(vehicle)
         return calc.totalWearLoss or 0.0, calc.cutterWearLoss or 0.0, calc.combineWearLoss or 0.0
     end
     return nil, nil, nil
+end
+
+---EN: Returns instantaneous slope-induced crop loss percentage (%).
+---UA: Повертає моментальні втрати від нахилу комбайна (%).
+---@param vehicle table|nil
+---@return number|nil slopeLossPct or nil if unmanaged
+function RHM_Api.getSlopeLoss(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.loadCalculator then
+        return combine.spec_rhm_Combine.loadCalculator.slopeLoss or 0.0
+    end
+    return nil
 end
 
 ---EN: Returns attached cutter mechanical damage amount (0.0 to 1.0).
@@ -1053,6 +1089,20 @@ end
 ---@return boolean
 function RHM_Api.isWearLossEnabled()
     return (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableWearLoss ~= false) or false
+end
+
+---EN: Returns true if slope loss simulation is enabled.
+---UA: Повертає true, якщо симуляція втрат від нахилу рельєфу увімкнена.
+---@return boolean
+function RHM_Api.isSlopeLossEnabled()
+    return (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableSlopeLoss ~= false) or false
+end
+
+---EN: Returns true if weed resistance on engine load is enabled.
+---UA: Повертає true, якщо опір та додаткове навантаження від бур'янів увімкнені.
+---@return boolean
+function RHM_Api.isWeedLoadEnabled()
+    return (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableWeedLoad ~= false) or false
 end
 
 

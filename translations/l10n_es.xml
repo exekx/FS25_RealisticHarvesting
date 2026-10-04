@@ -43,10 +43,8 @@
         <text name="rhm_show_croploss_short" text="Mostrar pérdida" />
         <text name="rhm_show_moisture_short" text="Mostrar humedad" />
         <text name="rhm_show_moisture_long" text="Mostrar porcentaje de humedad del cultivo en HUD" />
-        <text name="rhm_moisture_enable_short" text="Penalización por humedad" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Aplicar penalización de carga basada en humedad (Requiere Moisture System)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Impacto de humedad" />
+        <text name="rhm_moisture_enable_long" text="Simula mayor resistencia de trilla y pérdidas por paja húmeda durante rocío, lluvia o alta humedad. Desactiva para cosechar sin penalizaciones climáticas." />
         <text name="rhm_ui_title_main" text="Calibración Cosechadora" />
         <text name="rhm_ui_page_settings" text="Ajustes" />
         <text name="rhm_ui_page_profiles" text="Perfiles" />
@@ -256,6 +254,10 @@
         <text name="rhm_ui_status_optimal" text="ÓPTIMO" />
         <text name="rhm_ui_status_low" text="BAJO" />
         <text name="rhm_ui_status_high" text="ALTO" />
+        <text name="rhm_ui_env_optimal" text="CONDICIONES ÓPTIMAS" />
+        <text name="rhm_ui_env_moisture" text="HUMEDAD ELEVADA" />
+        <text name="rhm_ui_env_weeds" text="INFESTACIÓN DE MALAS HIERBAS" />
+        <text name="rhm_ui_env_damp_weeds" text="HÚMEDO Y CON MALEZA" />
         <text name="rhm_msg_req_tier4" text="Requiere IA Opti-Harvest (Nivel 4)" />
         <text name="rhm_msg_req_tier3" text="Los perfiles requieren Monitor de Telemetría (Nivel 3)" />
         <text name="rhm_msg_req_tier2" text="Los perfiles requieren el Paquete de Sensores (Tier 2 o superior)" />
@@ -405,6 +407,9 @@
         <text name="rhm_setting_volunteer_desc" text="Genera brotes de maleza y rebrotes tras la cosechadora en zonas con pérdidas elevadas (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="REINICIO AUTOMÁTICO AL CAMBIAR DE CAMPO" />
         <text name="rhm_setting_autoreset_desc" text="Archiva y reinicia automáticamente el contador de campo al desplazarse a otro campo." />
+        <text name="rhm_setting_autoreset_smart" text="Inteligente (Campo / Cultivo)" />
+        <text name="rhm_setting_autoreset_crop" text="Solo cambio de cultivo" />
+        <text name="rhm_setting_autoreset_disabled" text="Desactivado (Manual)" />
         <text name="rhm_col_field" text="Campo" />
         <text name="rhm_col_speed" text="Velocidad" />
         <text name="rhm_col_load" text="Carga" />
@@ -477,5 +482,9 @@
         <text name="rhm_fleet_no_sold_combines" text="No hay cosechadoras vendidas en el archivo" />
         <text name="rhm_fleet_total_count_active" text="Cosechadoras activas" />
         <text name="rhm_fleet_total_count_sold" text="Cosechadoras vendidas" />
+        <text name="rhm_slopeloss_short" text="Pérdidas por pendiente" />
+        <text name="rhm_slopeloss_long" text="Simula el desplazamiento del grano hacia un lado de las cribas en laderas y pendientes mayores a 4° (hasta 5% de pérdida). Desactiva para evitar penalizaciones por inclinación." />
+        <text name="rhm_weedload_short" text="Resistencia de malezas" />
+        <text name="rhm_weedload_long" text="Las malezas verdes y fibrosas se enrollan en los cilindros y aumentan la resistencia mecánica y la carga del motor (hasta +25%). Desactiva para anular el impacto de la maleza." />
     </texts>
 </l10n>

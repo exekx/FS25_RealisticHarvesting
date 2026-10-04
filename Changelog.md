@@ -1,14 +1,24 @@
 # Realistic Harvesting - Changelog
 
 Changelog 1.6.2.0:
+- ADDED: Independent simulation setting toggles in pause menu for Slope Losses and Weed Resistance.
+- ADDED: Smart field trip odometer auto-reset controller with seamless merged fields protection (Smart, Crop Change Only, Manual).
 - ADDED: Authentic agricultural on-board computer terminal warning chime (Deutz-Fahr iMonitor profile) replacing harsh piezo buzzer.
 - ADDED: Precision single-pulse alert chime (0.30s) harmonized with rhythmic Smart Mode bursts (3 beeps followed by an 18s grace period).
 - ADDED: Live 1-second GUI telemetry refresh loop for Fleet and Trip frames (updating speed, motor load, tank level, and active status in real time).
+- IMPROVED: Environmental moisture simulation settings and HUD display now accessible universally without requiring external mods.
+- IMPROVED: Mechanical wear power decoupling ensuring blunt cutter extra PTO drag is deactivated when wear losses are disabled.
+- IMPROVED: Onboarding tutorial hints reliably enabled by default on initial profile setup.
+- IMPROVED: Forage harvester and windrow pickup specific energy and volumetric intake bottleneck calibration (ASABE S497/EP496).
 - IMPROVED: In-cab player detection during menu pause (using enterable state to reliably maintain Player operator status).
 - IMPROVED: Engine running state recognition (accurately differentiating between idling motors and active threshing tools).
 - IMPROVED: Farm Fields overview table (SmoothList) rendering and robust multi-strategy farmland ownership resolution.
 - IMPROVED: AI Worker speed limiter logic separating controllable machine losses from ambient weather moisture.
 - IMPROVED: Mini HUD typography baseline elevation and rank indicator clearance in compact view.
+- FIXED: ESC Help Menu tab icons rendering black squares due to truncated 8-level mipmap chains (re-encoded full 9-level mipmaps).
+- FIXED: In-cab calibration terminal Efficiency card display inversion (now rendering authentic 100% operating efficiency).
+- FIXED: Stationary calibration slider oscillating and unwanted auto-trim adjustments while parked.
+- FIXED: Continuous ambient field moisture retention preventing HUD display intermittently dropping to empty on stops.
 - FIXED: Spatial field coordinate resolution eliminating false field assignments for parked machinery at the farm yard.
 - FIXED: Field area double-counting bug on active harvest fields, capping progress accurately to 100.0%.
 - FIXED: Machine trip odometer isolation preventing unharvested machines from inheriting active field records from other harvesters.

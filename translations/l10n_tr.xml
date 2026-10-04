@@ -43,10 +43,8 @@
         <text name="rhm_show_croploss_short" text="Show Crop Loss" />
         <text name="rhm_show_moisture_short" text="Nem Göster" />
         <text name="rhm_show_moisture_long" text="Nem modülü etkinse ekin nem oranını gösterir." />
-        <text name="rhm_moisture_enable_short" text="Moisture Penalty" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Apply load penalty based on crop moisture (Requires Moisture System mod)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Nem Etkisi" />
+        <text name="rhm_moisture_enable_long" text="Çiy, yağmur veya yüksek nemde artan harmanlama direncini ve ıslak sap kayıplarını simüle eder. Hava durumu cezası olmadan hasat için kapatın." />
         <text name="rhm_ui_title_main" text="Combine Calibration" />
         <text name="rhm_ui_page_settings" text="Settings" />
         <text name="rhm_ui_page_profiles" text="Profiles" />
@@ -254,6 +252,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMAL" />
         <text name="rhm_ui_status_low" text="LOW" />
         <text name="rhm_ui_status_high" text="HIGH" />
+        <text name="rhm_ui_env_optimal" text="OPTİMAL KOŞULLAR" />
+        <text name="rhm_ui_env_moisture" text="YÜKSEK NEM" />
+        <text name="rhm_ui_env_weeds" text="YABANCI OT İSTİLASI" />
+        <text name="rhm_ui_env_damp_weeds" text="NEMLİ VE OTLU" />
         <text name="rhm_msg_req_tier4" text="Requires Opti-Harvest AI (Tier 4)" />
         <text name="rhm_msg_req_tier3" text="Profiles require Telemetry Monitor (Tier 3)" />
         <text name="rhm_msg_req_tier2" text="Profiller Sensör Paketi gerektirir (Tier 2 veya üzeri)" />
@@ -403,6 +405,9 @@
         <text name="rhm_setting_volunteer_desc" text="Yüksek kayıplı alanlarda (&gt;%3) biçerdöverin arkasında yabancı ot ve dökülen tohum filizleri oluşturur." />
         <text name="rhm_setting_autoreset_title" text="TARLA DEĞİŞİNCE OTO-SIFIRLA" />
         <text name="rhm_setting_autoreset_desc" text="Farklı bir tarlaya geçildiğinde mevcut çalışmayı otomatik arşivler ve tarla sayacını sıfırlar." />
+        <text name="rhm_setting_autoreset_smart" text="Akıllı (Tarla / Ürün)" />
+        <text name="rhm_setting_autoreset_crop" text="Yalnızca ürün değişiminde" />
+        <text name="rhm_setting_autoreset_disabled" text="Devre Dışı (Manuel)" />
         <text name="rhm_col_field" text="Tarla" />
         <text name="rhm_col_speed" text="Hız" />
         <text name="rhm_col_load" text="Yük" />
@@ -475,5 +480,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Arşivde satılan biçerdöver yok" />
         <text name="rhm_fleet_total_count_active" text="Aktif Biçerdöverler" />
         <text name="rhm_fleet_total_count_sold" text="Satılan Biçerdöverler" />
+        <text name="rhm_slopeloss_short" text="Eğim Kayıpları" />
+        <text name="rhm_slopeloss_long" text="4° üzerindeki eğimlerde eleklerin bir tarafında ürün birikmesini simüle eder (%5'e kadar kayıp). Eğim cezalarını kaldırmak için kapatın." />
+        <text name="rhm_weedload_short" text="Yabancı Ot Direnci" />
+        <text name="rhm_weedload_long" text="Lifli ve sulu yabancı otlar batöre sarılarak mekanik direnci ve motor yükünü artırır (+%25'e kadar). Otların gücü etkilemesini önlemek için kapatın." />
     </texts>
 </l10n>

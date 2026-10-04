@@ -43,10 +43,8 @@
         <text name="rhm_show_croploss_short" text="Pokaż straty" />
         <text name="rhm_show_moisture_short" text="Pokaż wilgotność" />
         <text name="rhm_show_moisture_long" text="Wyświetlaj procent wilgotności plonów w HUD" />
-        <text name="rhm_moisture_enable_short" text="Kara za wilgotność" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Zastosuj karę obciążenia w zależności od wilgotności (Wymaga Moisture System)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Wpływ wilgotności" />
+        <text name="rhm_moisture_enable_long" text="Symuluje zwiększony opór omłotu i straty separacji przez wilgotną słomę podczas rosy, deszczu lub wilgotnego ziarna. Wyłącz dla zbioru bez kar pogodowych." />
         <text name="rhm_ui_title_main" text="Kalibracja Kombajnu" />
         <text name="rhm_ui_page_settings" text="Ustawienia" />
         <text name="rhm_ui_page_profiles" text="Profile" />
@@ -256,6 +254,10 @@
         <text name="rhm_ui_status_optimal" text="OPTYMALNIE" />
         <text name="rhm_ui_status_low" text="ZA NISKO" />
         <text name="rhm_ui_status_high" text="ZA WYSOKO" />
+        <text name="rhm_ui_env_optimal" text="OPTYMALNE WARUNKI" />
+        <text name="rhm_ui_env_moisture" text="WYSOKA WILGOTNOŚĆ" />
+        <text name="rhm_ui_env_weeds" text="ZACHWASZCZENIE" />
+        <text name="rhm_ui_env_damp_weeds" text="WILGOĆ I CHWASTY" />
         <text name="rhm_msg_req_tier4" text="Wymaga AI Opti-Harvest (Poziom 4)" />
         <text name="rhm_msg_req_tier3" text="Profile wymagają Monitora Telemetrii (Poziom 3)" />
         <text name="rhm_msg_req_tier2" text="Profile wymagają Pakietu Czujników (Poziom 2 lub wyższy)" />
@@ -405,6 +407,9 @@
         <text name="rhm_setting_volunteer_desc" text="Tworzy ogniska chwastów i samosiewów za kombajnem w miejscach dużych strat (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMATYCZNY RESET PRZY ZMIANIE POLA" />
         <text name="rhm_setting_autoreset_desc" text="Automatycznie archiwizuje bieżący pomiar i resetuje licznik po przejechaniu na inne pole." />
+        <text name="rhm_setting_autoreset_smart" text="Inteligentny (Pole / Uprawa)" />
+        <text name="rhm_setting_autoreset_crop" text="Tylko zmiana uprawy" />
+        <text name="rhm_setting_autoreset_disabled" text="Wyłączone (Ręcznie)" />
         <text name="rhm_col_field" text="Pole" />
         <text name="rhm_col_speed" text="Prędkość" />
         <text name="rhm_col_load" text="Obciążenie" />
@@ -477,5 +482,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Brak sprzedanych kombajnów w archiwum" />
         <text name="rhm_fleet_total_count_active" text="Aktywne kombajny" />
         <text name="rhm_fleet_total_count_sold" text="Sprzedane kombajny" />
+        <text name="rhm_slopeloss_short" text="Straty na pochyłościach" />
+        <text name="rhm_slopeloss_long" text="Symuluje zsuwanie się ziarna na jedną stronę sit na zboczach i stokach powyżej 4° (do 5% strat). Wyłącz, aby zniwelować wpływ nachylenia terenu." />
+        <text name="rhm_weedload_short" text="Opór od chwastów" />
+        <text name="rhm_weedload_long" text="Soczyste i włókniste chwasty owijają się wokół bębna i zwiększają opór mechaniczny oraz obciążenie silnika (do +25%). Wyłącz, aby chwasty nie obciążały silnika." />
     </texts>
 </l10n>

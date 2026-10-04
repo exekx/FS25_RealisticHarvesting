@@ -43,10 +43,8 @@
         <text name="rhm_show_croploss_short" text="Veszteség megjelenítése" />
         <text name="rhm_show_moisture_short" text="Nedvesség mutatása" />
         <text name="rhm_show_moisture_long" text="Termés nedvességtartalmának megjelenítése a HUD-on" />
-        <text name="rhm_moisture_enable_short" text="Nedvesség büntetés" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Terhelés-büntetés alkalmazása a nedvesség alapján (Moisture System szükséges)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Nedvesség hatása" />
+        <text name="rhm_moisture_enable_long" text="Szimulálja a megnövekedett cséplési ellenállást és a nedves szalma miatti veszteségeket harmat vagy eső idején. Kapcsolja ki az időjárási büntetések nélkül." />
         <text name="rhm_ui_title_main" text="Kombájn Kalibrálás" />
         <text name="rhm_ui_page_settings" text="Beállítások" />
         <text name="rhm_ui_page_profiles" text="Profilok" />
@@ -256,6 +254,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMÁLIS" />
         <text name="rhm_ui_status_low" text="ALACSONY" />
         <text name="rhm_ui_status_high" text="MAGAS" />
+        <text name="rhm_ui_env_optimal" text="OPTIMÁLIS KÖRÜLMÉNYEK" />
+        <text name="rhm_ui_env_moisture" text="MAGAS NEDVESSÉG" />
+        <text name="rhm_ui_env_weeds" text="GYOMOSSÁG" />
+        <text name="rhm_ui_env_damp_weeds" text="NEDVES ÉS GYOMOS" />
         <text name="rhm_msg_req_tier4" text="Opti-Harvest MI szükséges (4. Szint)" />
         <text name="rhm_msg_req_tier3" text="A profilokhoz Telemetria Monitor szükséges (3. Szint)" />
         <text name="rhm_msg_req_tier2" text="A profilokhoz Árzékelőcsomag szükséges (Tier 2 vagy magasabb)" />
@@ -405,6 +407,9 @@
         <text name="rhm_setting_volunteer_desc" text="Gyom- és árvakelésfoltokat hoz létre a kombájn mögött a nagy veszteségű zónákban (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOMATIKUS NULLÁZÁS TÁBLAVÁLTÁSKOR" />
         <text name="rhm_setting_autoreset_desc" text="Automatikusan archiválja és nullázza a mezei számlálót másik táblára hajtáskor." />
+        <text name="rhm_setting_autoreset_smart" text="Intelligens (Tábla / Növény)" />
+        <text name="rhm_setting_autoreset_crop" text="Csak növényváltáskor" />
+        <text name="rhm_setting_autoreset_disabled" text="Kikapcsolva (Kézi)" />
         <text name="rhm_col_field" text="Mező" />
         <text name="rhm_col_speed" text="Sebesség" />
         <text name="rhm_col_load" text="Terhelés" />
@@ -477,5 +482,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Nincs eladott kombájn az archívumban" />
         <text name="rhm_fleet_total_count_active" text="Aktív kombájnok" />
         <text name="rhm_fleet_total_count_sold" text="Eladott kombájnok" />
+        <text name="rhm_slopeloss_short" text="Lejtési veszteség" />
+        <text name="rhm_slopeloss_long" text="Szimulálja a magok félrecsúszását a rostákon 4°-nál nagyobb lejtőkön (akár 5% veszteség). Kapcsolja ki a terep dőléséből eredő veszteségek törléséhez." />
+        <text name="rhm_weedload_short" text="Gyom-ellenállás" />
+        <text name="rhm_weedload_long" text="A nedvdús és rostos gyomok a dobra tekerednek, növelve a mechanikai ellenállást és a motorterhelést (akár +25%). Kapcsolja ki a motorterhelés mellőzéséhez." />
     </texts>
 </l10n>

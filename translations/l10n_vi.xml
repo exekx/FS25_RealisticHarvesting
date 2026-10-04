@@ -41,8 +41,8 @@
         <text name="rhm_show_croploss_short" text="Hiện thất thoát" />
         <text name="rhm_show_moisture_short" text="Hiện độ ẩm" />
         <text name="rhm_show_moisture_long" text="Hiển thị phần trăm độ ẩm cây trồng trên HUD" />
-        <text name="rhm_moisture_enable_short" text="Lực cản độ ẩm" />
-        <text name="rhm_moisture_enable_long" text="Áp dụng tải phụ dựa trên độ ẩm nông sản (yêu cầu mod Moisture System)" />
+        <text name="rhm_moisture_enable_short" text="Tác động độ ẩm" />
+        <text name="rhm_moisture_enable_long" text="Mô phỏng lực cản đập tăng lên và tổn thất sàng do rơm ẩm trong sương, mưa hoặc độ ẩm cao. Tắt để thu hoạch không chịu phạt thời tiết." />
         <text name="rhm_ui_title_main" text="BẢNG ĐIỀU KHIỂN HIỆU CHUẨN MÁY GẶT" />
         <text name="rhm_ui_page_settings" text="Cài đặt" />
         <text name="rhm_ui_page_profiles" text="Cấu hình" />
@@ -250,6 +250,10 @@
         <text name="rhm_ui_status_optimal" text="TỐI ƯU" />
         <text name="rhm_ui_status_low" text="QUÁ THẤP" />
         <text name="rhm_ui_status_high" text="QUÁ CAO" />
+        <text name="rhm_ui_env_optimal" text="ĐIỀU KIỆN TỐI ƯU" />
+        <text name="rhm_ui_env_moisture" text="ĐỘ ẨM CAO" />
+        <text name="rhm_ui_env_weeds" text="NHIỄM CỎ DẠI" />
+        <text name="rhm_ui_env_damp_weeds" text="ẨM ƯỚT VÀ CỎ DẠI" />
         <text name="rhm_msg_req_tier4" text="Yêu cầu gói tự lái Opti-Harvest AI (Cấp 4)" />
         <text name="rhm_msg_req_tier3" text="Cấu hình yêu cầu Màn hình đo từ xa (Cấp 3)" />
         <text name="rhm_msg_req_tier2" text="Cấu hình yêu cầu Bộ cảm biến (Cấp 2 trở lên)" />
@@ -399,6 +403,9 @@
         <text name="rhm_setting_volunteer_desc" text="Tạo cỏ dại và cây tự mọc phía sau máy gặt ở những vùng hao hụt cao (>3%)." />
         <text name="rhm_setting_autoreset_title" text="TỰ ĐỘNG ĐẶT LẠI KHI ĐỔI RUỘNG" />
         <text name="rhm_setting_autoreset_desc" text="Tự động lưu trữ đo lường hiện tại và đặt lại bộ đếm khi sang ruộng khác." />
+        <text name="rhm_setting_autoreset_smart" text="Thông minh (Ruộng / Cây trồng)" />
+        <text name="rhm_setting_autoreset_crop" text="Chỉ khi đổi cây trồng" />
+        <text name="rhm_setting_autoreset_disabled" text="Tắt (Thủ công)" />
         <text name="rhm_col_field" text="Ruộng" />
         <text name="rhm_col_speed" text="Tốc độ" />
         <text name="rhm_col_load" text="Tải" />
@@ -471,5 +478,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Không có máy gặt đã bán trong lưu trữ" />
         <text name="rhm_fleet_total_count_active" text="Máy gặt đang hoạt động" />
         <text name="rhm_fleet_total_count_sold" text="Máy gặt đã bán" />
+        <text name="rhm_slopeloss_short" text="Hao hụt do dốc" />
+        <text name="rhm_slopeloss_long" text="Mô phỏng hạt dồn về một bên sàng trên các sườn dốc hơn 4° (hao hụt đến 5%). Tắt để loại bỏ tổn thất do nghiêng địa hình." />
+        <text name="rhm_weedload_short" text="Sức cản cỏ dại" />
+        <text name="rhm_weedload_long" text="Cỏ dại mọng nước và nhiều xơ quấn vào trống đập làm tăng lực cản cơ học và tải động cơ (lên tới +25%). Tắt để cỏ dại không ảnh hưởng công suất." />
     </texts>
 </l10n>

@@ -41,8 +41,8 @@
         <text name="rhm_show_croploss_short" text="Vis spild" />
         <text name="rhm_show_moisture_short" text="Vis fugtighed" />
         <text name="rhm_show_moisture_long" text="Vis afgrødens fugtprocent i HUD" />
-        <text name="rhm_moisture_enable_short" text="Fugtighedsmodstand" />
-        <text name="rhm_moisture_enable_long" text="Anvend belastningsstraf baseret på afgrødefugtighed (kræver Moisture System)" />
+        <text name="rhm_moisture_enable_short" text="Fugtpåvirkning" />
+        <text name="rhm_moisture_enable_long" text="Simulerer øget tærskemodstand og udskillelsestab fra vådt halm under dug, regn eller høj fugtighed. Slå fra for høst uden vejrmæssige straffe." />
         <text name="rhm_ui_title_main" text="MEJETÆRSKER-KALIBRERINGSTERMINAL" />
         <text name="rhm_ui_page_settings" text="Indstillinger" />
         <text name="rhm_ui_page_profiles" text="Profiler" />
@@ -250,6 +250,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMAL" />
         <text name="rhm_ui_status_low" text="FOR LAV" />
         <text name="rhm_ui_status_high" text="FOR HØJ" />
+        <text name="rhm_ui_env_optimal" text="OPTIMALE FORHOLD" />
+        <text name="rhm_ui_env_moisture" text="HØJ FUGTIGHED" />
+        <text name="rhm_ui_env_weeds" text="UKRUDTSFOREKOMST" />
+        <text name="rhm_ui_env_damp_weeds" text="FUGTIGT OG UKRUDT" />
         <text name="rhm_msg_req_tier4" text="Kræver Opti-Harvest AI Autopilot (Niveau 4)" />
         <text name="rhm_msg_req_tier3" text="Profiler kræver Telemetrimonitor (Niveau 3)" />
         <text name="rhm_msg_req_tier2" text="Profiler kræver Sensorpakke (Niveau 2 eller højere)" />
@@ -399,6 +403,9 @@
         <text name="rhm_setting_volunteer_desc" text="Danner spildplanter og ukrudt bag mejetærskeren i områder med højt tab (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-NULSTIL VED MARKSKIFT" />
         <text name="rhm_setting_autoreset_desc" text="Arkiverer og nulstiller automatisk mark-tælleren ved kørsel til en anden mark." />
+        <text name="rhm_setting_autoreset_smart" text="Smart (Mark / Afgrøde)" />
+        <text name="rhm_setting_autoreset_crop" text="Kun ved afgrødeskift" />
+        <text name="rhm_setting_autoreset_disabled" text="Deaktiveret (Manuel)" />
         <text name="rhm_col_field" text="Mark" />
         <text name="rhm_col_speed" text="Hastighed" />
         <text name="rhm_col_load" text="Belastning" />
@@ -471,5 +478,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Ingen solgte mejetærskere i arkivet" />
         <text name="rhm_fleet_total_count_active" text="Aktive mejetærskere" />
         <text name="rhm_fleet_total_count_sold" text="Solgte mejetærskere" />
+        <text name="rhm_slopeloss_short" text="Skråningstab" />
+        <text name="rhm_slopeloss_long" text="Simulerer kornophobning på den ene side af såldene på skråninger over 4° (op til 5% tab). Slå fra for at fjerne terrænhældningstab." />
+        <text name="rhm_weedload_short" text="Ukrudtsmodstand" />
+        <text name="rhm_weedload_long" text="Fugtigt og trægt ukrudt øger den mekaniske modstand og motorbelastningen (op til +25%). Slå fra for at forhindre, at ukrudt påvirker motoreffekten." />
     </texts>
 </l10n>

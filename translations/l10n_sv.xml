@@ -41,8 +41,8 @@
         <text name="rhm_show_croploss_short" text="Visa spill" />
         <text name="rhm_show_moisture_short" text="Visa fukthalt" />
         <text name="rhm_show_moisture_long" text="Visa grödans fukthalt i HUD" />
-        <text name="rhm_moisture_enable_short" text="Fuktighetsmotstånd" />
-        <text name="rhm_moisture_enable_long" text="Applicera belastningsstraff baserat på grödans fukthalt (kräver Moisture System)" />
+        <text name="rhm_moisture_enable_short" text="Fuktpåverkan" />
+        <text name="rhm_moisture_enable_long" text="Simulerar ökat tröskmotstånd och separationsförluster från fuktig halm vid dagg, regn eller hög fuktighet. Slå av för skörd utan väderstraff." />
         <text name="rhm_ui_title_main" text="SKÖRDETRÖSKANS KALIBRERINGSTERMINAL" />
         <text name="rhm_ui_page_settings" text="Inställningar" />
         <text name="rhm_ui_page_profiles" text="Profiler" />
@@ -250,6 +250,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMAL" />
         <text name="rhm_ui_status_low" text="FÖR LÅG" />
         <text name="rhm_ui_status_high" text="FÖR HÖG" />
+        <text name="rhm_ui_env_optimal" text="OPTIMALA FÖRHÅLLANDEN" />
+        <text name="rhm_ui_env_moisture" text="HÖG FUKTIGHET" />
+        <text name="rhm_ui_env_weeds" text="OGRÄSFÖREKOMST" />
+        <text name="rhm_ui_env_damp_weeds" text="FUKTIGT OCH OGRÄS" />
         <text name="rhm_msg_req_tier4" text="Kräver Opti-Harvest AI Autopilot (Nivå 4)" />
         <text name="rhm_msg_req_tier3" text="Profiler kräver Telemetrimonitor (Nivå 3)" />
         <text name="rhm_msg_req_tier2" text="Profiler kräver Sensorpaket (Nivå 2 eller högre)" />
@@ -399,6 +403,9 @@
         <text name="rhm_setting_volunteer_desc" text="Skapar ogräs och spillsäd bakom tröskan i områden med höga förluster (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-ÅTERSTÄLL VID FÄLTBYTE" />
         <text name="rhm_setting_autoreset_desc" text="Arkiverar och nollställer automatiskt fälträknaren vid förflyttning till ett annat fält." />
+        <text name="rhm_setting_autoreset_smart" text="Smart (Fält / Gröda)" />
+        <text name="rhm_setting_autoreset_crop" text="Endast vid grödbyte" />
+        <text name="rhm_setting_autoreset_disabled" text="Inaktiverad (Manuell)" />
         <text name="rhm_col_field" text="Fält" />
         <text name="rhm_col_speed" text="Hastighet" />
         <text name="rhm_col_load" text="Belastning" />
@@ -471,5 +478,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Inga sålda tröskor i arkivet" />
         <text name="rhm_fleet_total_count_active" text="Aktiva tröskor" />
         <text name="rhm_fleet_total_count_sold" text="Sålda tröskor" />
+        <text name="rhm_slopeloss_short" text="Lutningsförluster" />
+        <text name="rhm_slopeloss_long" text="Simulerar spannmålsansamling på ena sidan av sållen i backar över 4° (upp till 5% förlust). Slå av för att inaktivera lutningsförluster." />
+        <text name="rhm_weedload_short" text="Ogräsmotstånd" />
+        <text name="rhm_weedload_long" text="Saftigt och trådigt ogräs virar sig runt tröskverket och ökar mekaniskt motstånd samt motorbelastning (upp till +25%). Slå av för att ta bort ogräspåverkan." />
     </texts>
 </l10n>

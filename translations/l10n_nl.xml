@@ -43,10 +43,8 @@
         <text name="rhm_show_croploss_short" text="Show Crop Loss" />
         <text name="rhm_show_moisture_short" text="Vochtigheid Weergeven" />
         <text name="rhm_show_moisture_long" text="Toont gewasvochtigheid bij actieve Moisture-mod." />
-        <text name="rhm_moisture_enable_short" text="Moisture Penalty" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Apply load penalty based on crop moisture (Requires Moisture System mod)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Vochtigheidsinvloed" />
+        <text name="rhm_moisture_enable_long" text="Simuleert verhoogde dorsweerstand en verliezen door vochtig stro bij dauw, regen of hoog vochtgehalte. Uitschakelen voor oogst zonder weersinvloed." />
         <text name="rhm_ui_title_main" text="Combine Calibration" />
         <text name="rhm_ui_page_settings" text="Settings" />
         <text name="rhm_ui_page_profiles" text="Profiles" />
@@ -254,6 +252,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMAL" />
         <text name="rhm_ui_status_low" text="LOW" />
         <text name="rhm_ui_status_high" text="HIGH" />
+        <text name="rhm_ui_env_optimal" text="OPTIMALE OMSTANDIGHEDEN" />
+        <text name="rhm_ui_env_moisture" text="HOGE VOCHTIGHEID" />
+        <text name="rhm_ui_env_weeds" text="ONKRUIDAANTASTING" />
+        <text name="rhm_ui_env_damp_weeds" text="VOCHTIG EN ONKRUID" />
         <text name="rhm_msg_req_tier4" text="Requires Opti-Harvest AI (Tier 4)" />
         <text name="rhm_msg_req_tier3" text="Profiles require Telemetry Monitor (Tier 3)" />
         <text name="rhm_msg_req_tier2" text="Profielen vereisen Sensorpakket (Tier 2 of hoger)" />
@@ -403,6 +405,9 @@
         <text name="rhm_setting_volunteer_desc" text="Veroorzaakt opslag en onkruid achter de maaidorser in zones met hoge verliezen (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-RESET BIJ VELDWISSEL" />
         <text name="rhm_setting_autoreset_desc" text="Huidige meting automatisch archiveren en veldteller resetten bij het betreden van een ander veld." />
+        <text name="rhm_setting_autoreset_smart" text="Slim (Veld / Gewas)" />
+        <text name="rhm_setting_autoreset_crop" text="Alleen bij gewaswissel" />
+        <text name="rhm_setting_autoreset_disabled" text="Uitgeschakeld (Handmatig)" />
         <text name="rhm_col_field" text="Veld" />
         <text name="rhm_col_speed" text="Snelheid" />
         <text name="rhm_col_load" text="Belasting" />
@@ -475,5 +480,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Geen verkochte maaidorsers in archief" />
         <text name="rhm_fleet_total_count_active" text="Actieve maaidorsers" />
         <text name="rhm_fleet_total_count_sold" text="Verkochte maaidorsers" />
+        <text name="rhm_slopeloss_short" text="Hellingverliezen" />
+        <text name="rhm_slopeloss_long" text="Simuleert ophoping van graan aan één kant van de zeven op hellingen van meer dan 4° (tot 5% verlies). Uitschakelen om hellingverliezen uit te zetten." />
+        <text name="rhm_weedload_short" text="Onkruidweerstand" />
+        <text name="rhm_weedload_long" text="Vezelig onkruid wikkelt zich om de dorscilinder en verhoogt de mechanische weerstand en motorbelasting (tot +25%). Uitschakelen om invloed op motorvermogen te voorkomen." />
     </texts>
 </l10n>

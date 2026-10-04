@@ -262,7 +262,8 @@ function RHM_HarvestTracker:createDefaultFarmData()
             aiSpeedLimiter = true,
             aiMaxLossPct = 2.0,
             volunteerCrops = true,
-            autoResetOnFieldChange = true
+            autoResetOnFieldChange = true,
+            autoResetMode = 1
         }
     }
 end
@@ -644,13 +645,71 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
     local updateFarmTrip = isPlayerInThisCombine or (trip.lastMachineKey == nil) or (trip.lastMachineKey == machineKey)
 
     -- Auto-reset: Check for automatic field or crop transition for THIS specific combine
-    local autoResetEnabled = farm.farmSettings.autoResetOnFieldChange ~= false
-    if autoResetEnabled and mTrip then
-        local currentFillType = (combine.spec_rhm_Combine and combine.spec_rhm_Combine.lastFillType) or FillType.UNKNOWN
-        local fieldChanged = (fieldId > 0 and mTrip.fieldId > 0 and mTrip.fieldId ~= fieldId and ((mTrip.harvestedLiters or 0) > 50 or (mTrip.harvestedAreaHa or 0) > 0.01))
-        local cropChanged = (currentFillType ~= FillType.UNKNOWN and mTrip.fillTypeIndex ~= FillType.UNKNOWN and mTrip.fillTypeIndex ~= currentFillType and (mTrip.harvestedLiters or 0) > 50)
+    local autoResetMode = 1
+    if g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.autoResetTripMode then
+        autoResetMode = g_realisticHarvestManager.settings.autoResetTripMode
+    elseif farm.farmSettings and farm.farmSettings.autoResetMode ~= nil then
+        autoResetMode = farm.farmSettings.autoResetMode
+    elseif farm.farmSettings and farm.farmSettings.autoResetOnFieldChange == false then
+        autoResetMode = 3
+    end
 
-        if fieldChanged or cropChanged then
+    if mTrip then
+        local currentFillType = (combine.spec_rhm_Combine and combine.spec_rhm_Combine.lastFillType) or FillType.UNKNOWN
+        local cropChanged = (currentFillType ~= FillType.UNKNOWN 
+                            and mTrip.fillTypeIndex ~= FillType.UNKNOWN 
+                            and mTrip.fillTypeIndex ~= currentFillType 
+                            and (mTrip.harvestedLiters or 0) > 50)
+        local fieldChanged = (fieldId > 0 and mTrip.fieldId > 0 and mTrip.fieldId ~= fieldId and ((mTrip.harvestedLiters or 0) > 50 or (mTrip.harvestedAreaHa or 0) > 0.01))
+
+        local shouldReset = false
+
+        if autoResetMode == 1 then -- Mode 1: Smart (Merged fields protected)
+            if cropChanged then
+                shouldReset = true
+            elseif fieldChanged then
+                local isTransit = false
+                local combineSpec = combine.spec_rhm_Combine
+                if combineSpec then
+                    -- Transit condition 1: combine spent significant time outside field ground (> 15s)
+                    if (combineSpec._rhmTimeOutsideField or 0) > 15.0 then
+                        isTransit = true
+                    -- Transit condition 2: cutter was disengaged/raised AND combine hasn't harvested for > 25 seconds
+                    elseif combineSpec._rhmCutterWasDisengaged and (combineSpec._rhmTimeSinceLastHarvest or 0) > 25.0 then
+                        isTransit = true
+                    end
+                end
+
+                if isTransit then
+                    shouldReset = true
+                else
+                    -- Merged fields: Continuous harvesting across boundaries or short headland turn
+                    -- Update fieldId seamlessly without wiping trip odometer
+                    mTrip.fieldId = fieldId
+                    if updateFarmTrip then
+                        trip.fieldId = fieldId
+                    end
+                end
+            end
+        elseif autoResetMode == 2 then -- Mode 2: Crop Change Only
+            if cropChanged then
+                shouldReset = true
+            elseif fieldId > 0 and mTrip.fieldId ~= fieldId then
+                mTrip.fieldId = fieldId
+                if updateFarmTrip then
+                    trip.fieldId = fieldId
+                end
+            end
+        elseif autoResetMode == 3 then -- Mode 3: Disabled (Manual Only)
+            if fieldId > 0 and mTrip.fieldId ~= fieldId then
+                mTrip.fieldId = fieldId
+                if updateFarmTrip then
+                    trip.fieldId = fieldId
+                end
+            end
+        end
+
+        if shouldReset then
             self:archiveAndResetCombineTrip(farmId, machineKey, combine)
             mTrip = farm.combineTrips[machineKey]
             trip = farm.currentTrip
@@ -1127,6 +1186,9 @@ function RHM_HarvestTracker:archiveAndResetCombineTrip(farmId, machineKey, combi
     if combine and combine.spec_rhm_Combine then
         combine.spec_rhm_Combine.trip = mTrip
         combine.spec_rhm_Combine.fieldDepartureTimer = 0
+        combine.spec_rhm_Combine._rhmTimeOutsideField = 0
+        combine.spec_rhm_Combine._rhmTimeSinceLastHarvest = 0
+        combine.spec_rhm_Combine._rhmCutterWasDisengaged = false
     end
 
     -- If farm.currentTrip belongs to this machine, also reset farm.currentTrip
@@ -1835,7 +1897,13 @@ function RHM_HarvestTracker:updateFarmSettings(farmId, newSettings, user)
     if newSettings.aiSpeedLimiter ~= nil then farm.farmSettings.aiSpeedLimiter = newSettings.aiSpeedLimiter end
     if newSettings.aiMaxLossPct ~= nil then farm.farmSettings.aiMaxLossPct = newSettings.aiMaxLossPct end
     if newSettings.volunteerCrops ~= nil then farm.farmSettings.volunteerCrops = newSettings.volunteerCrops end
-    if newSettings.autoResetOnFieldChange ~= nil then farm.farmSettings.autoResetOnFieldChange = newSettings.autoResetOnFieldChange end
+    if newSettings.autoResetMode ~= nil then
+        farm.farmSettings.autoResetMode = newSettings.autoResetMode
+        farm.farmSettings.autoResetOnFieldChange = (newSettings.autoResetMode ~= 3)
+    elseif newSettings.autoResetOnFieldChange ~= nil then
+        farm.farmSettings.autoResetOnFieldChange = newSettings.autoResetOnFieldChange
+        farm.farmSettings.autoResetMode = newSettings.autoResetOnFieldChange and 1 or 3
+    end
 
     if g_currentMission:getIsServer() and g_server then
         g_server:broadcastEvent(RHM_HarvestFarmSettingsEvent.new(farmId, farm.farmSettings), nil, nil, nil)
@@ -1931,6 +1999,7 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
         setXMLFloat(xmlFile, setKey .. "#aiMaxLossPct", farm.farmSettings.aiMaxLossPct)
         setXMLBool(xmlFile, setKey .. "#volunteerCrops", farm.farmSettings.volunteerCrops)
         setXMLBool(xmlFile, setKey .. "#autoResetOnFieldChange", farm.farmSettings.autoResetOnFieldChange)
+        setXMLInt(xmlFile, setKey .. "#autoResetMode", farm.farmSettings.autoResetMode or 1)
 
         -- Fleet Stats (exclude contract/mission combines)
         local fleetKey = farmKey .. ".fleetStats"
@@ -2128,6 +2197,12 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
             if vol ~= nil then farm.farmSettings.volunteerCrops = vol end
             local autoRes = getXMLBool(xmlFile, setKey .. "#autoResetOnFieldChange")
             if autoRes ~= nil then farm.farmSettings.autoResetOnFieldChange = autoRes end
+            local autoMode = getXMLInt(xmlFile, setKey .. "#autoResetMode")
+            if autoMode ~= nil then
+                farm.farmSettings.autoResetMode = autoMode
+            elseif autoRes ~= nil then
+                farm.farmSettings.autoResetMode = autoRes and 1 or 3
+            end
         end
 
         -- Fleet Stats

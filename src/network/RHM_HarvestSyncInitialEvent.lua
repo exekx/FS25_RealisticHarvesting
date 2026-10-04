@@ -65,7 +65,8 @@ function RHM_HarvestSyncInitialEvent:writeStream(streamId, connection)
     streamWriteBool(streamId, set.aiSpeedLimiter ~= false)
     streamWriteFloat32(streamId, set.aiMaxLossPct or 2.0)
     streamWriteBool(streamId, set.volunteerCrops ~= false)
-    streamWriteBool(streamId, set.autoResetOnFieldChange == true)
+    streamWriteBool(streamId, set.autoResetOnFieldChange ~= false)
+    streamWriteUInt8(streamId, set.autoResetMode or (set.autoResetOnFieldChange ~= false and 1 or 3))
 
     -- Fleet Stats count & entries (capped at 30, exclude contract/mission combines)
     local fleet = farm.fleetStats or {}
@@ -232,6 +233,7 @@ function RHM_HarvestSyncInitialEvent:readStream(streamId, connection)
     set.aiMaxLossPct = streamReadFloat32(streamId)
     set.volunteerCrops = streamReadBool(streamId)
     set.autoResetOnFieldChange = streamReadBool(streamId)
+    set.autoResetMode = streamReadUInt8(streamId)
 
     -- Fleet Stats
     local fleetCount = streamReadUInt16(streamId)

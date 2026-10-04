@@ -472,8 +472,10 @@ function rhm_Combine:onLoad(savegame)
         yield = 0,
         recommendedSpeed = 0,  -- EN: Updated by server tick, synced to clients / UA: Оновлюється сервером, синхронізується на клієнти
         overloadLevel = 0,     -- EN: 0=normal, 1=HIGH (120%+), 2=CRITICAL (150%+) — synced for warning display / UA: 0=норма, 1=ВИСОКЕ (120%+), 2=КРИТИЧНЕ (150%+)
-        moisture = 0           -- EN: Grain moisture (%) / UA: Вологість зерна (%)
+        moisture = 0,          -- EN: Grain moisture (%) / UA: Вологість зерна (%)
+        weedRatio = 0          -- EN: Active live weed ratio at cutter (0.00-1.00) / UA: Рівень живих бур'янів (0.00-1.00)
     }
+    spec.currentWeedRatio = 0
     
     -- Лічильник для збереження площі з addCutterArea
     spec.lastArea = 0
@@ -1117,6 +1119,136 @@ function rhm_Combine.getIsVehicleReversing(vehicle)
     return false
 end
 
+---EN: Samples live weed density at the cutterbar.
+---    Strictly ignores sprayed/withered dead weeds and unweeded/clean ground.
+---    Returns weed infestation ratio in range [0.00, 1.00].
+---UA: Зчитує щільність живих бур'янів перед ріжучим брусом жатки.
+---    Суворо ігнорує засохлі/оприскані бур'яни та чистий ґрунт без бур'янів.
+---    Повертає коефіцієнт забур'яненості в діапазоні [0.00, 1.00].
+function rhm_Combine.getLiveWeedRatio(vehicle)
+    local mission = g_currentMission
+    if not mission then
+        return 0.0
+    end
+    local weedSystem = mission.weedSystem
+    if not weedSystem or not weedSystem:getMapHasWeed() then
+        return 0.0
+    end
+    if mission.missionInfo and mission.missionInfo.weedsEnabled == false then
+        return 0.0
+    end
+
+    if rhm_Combine.weedLiveStates == nil then
+        local liveStates = {}
+        local deadStates = {}
+        local rep = weedSystem.getHerbicideReplacements and weedSystem:getHerbicideReplacements()
+        if rep and rep.weed and rep.weed.replacements then
+            for sourceState, targetState in pairs(rep.weed.replacements) do
+                -- In GIANTS Engine FS25:
+                -- sourceState represents active growing weed stages.
+                -- targetState represents withered/dead weed stages produced by herbicide application.
+                if targetState ~= 0 then
+                    liveStates[sourceState] = true
+                    deadStates[targetState] = true
+                end
+            end
+        end
+
+        -- Strictly remove any withered/dead/sprayed states from liveStates
+        for deadState, _ in pairs(deadStates) do
+            liveStates[deadState] = nil
+        end
+
+        -- Fallback: if replacements table is empty, query weedSystem factors
+        if not next(liveStates) and type(weedSystem.getFactors) == "function" then
+            local factors = weedSystem:getFactors()
+            if factors then
+                for st, f in pairs(factors) do
+                    if f and f > 0 then
+                        liveStates[st] = true
+                    end
+                end
+            end
+        end
+
+        -- Fallback default for FS25 standard weed density map
+        if not next(liveStates) then
+            liveStates[1] = true
+            liveStates[2] = true
+            liveStates[3] = true
+            liveStates[4] = true
+        end
+
+        local mapId, firstChannel, numChannels = weedSystem:getDensityMapData()
+        rhm_Combine.weedMapId = mapId
+        rhm_Combine.weedFirstChannel = firstChannel
+        rhm_Combine.weedNumChannels = numChannels
+        rhm_Combine.weedChannelMask = 2 ^ numChannels - 1
+        rhm_Combine.weedLiveStates = liveStates
+    end
+
+    local mapId = rhm_Combine.weedMapId
+    if not mapId or mapId == 0 then
+        return 0.0
+    end
+
+    local cutterNode = nil
+    local cutterWidth = 3.0
+
+    local spec_combine = vehicle.spec_combine
+    if spec_combine and spec_combine.attachedCutters then
+        for cutter, _ in pairs(spec_combine.attachedCutters) do
+            if cutter.rootNode or (cutter.components and cutter.components[1]) then
+                cutterNode = cutter.rootNode or cutter.components[1].node
+                if cutter.getWorkingWidth then
+                    cutterWidth = cutter:getWorkingWidth() or 3.0
+                elseif cutter.spec_cutter and cutter.spec_cutter.workingWidth then
+                    cutterWidth = cutter.spec_cutter.workingWidth
+                end
+                break
+            end
+        end
+    end
+
+    if not cutterNode then
+        if vehicle.components and vehicle.components[1] then
+            cutterNode = vehicle.components[1].node
+            if vehicle.getWorkingWidth then
+                cutterWidth = vehicle:getWorkingWidth() or 3.0
+            end
+        end
+    end
+
+    if not cutterNode then
+        return 0.0
+    end
+
+    local firstChan = rhm_Combine.weedFirstChannel
+    local mask = rhm_Combine.weedChannelMask
+    local liveStates = rhm_Combine.weedLiveStates
+
+    -- Sample 3 points along the cutting edge (center, left, right)
+    local halfW = math.max(0.5, cutterWidth * 0.35)
+    local liveCount = 0
+
+    local x0, y0, z0 = localToWorld(cutterNode, 0, 0, 0.5)
+    local d0 = getDensityAtWorldPos(mapId, x0, y0, z0)
+    local s0 = bit32.band(bit32.rshift(d0, firstChan), mask)
+    if liveStates[s0] then liveCount = liveCount + 1 end
+
+    local x1, y1, z1 = localToWorld(cutterNode, -halfW, 0, 0.5)
+    local d1 = getDensityAtWorldPos(mapId, x1, y1, z1)
+    local s1 = bit32.band(bit32.rshift(d1, firstChan), mask)
+    if liveStates[s1] then liveCount = liveCount + 1 end
+
+    local x2, y2, z2 = localToWorld(cutterNode, halfW, 0, 0.5)
+    local d2 = getDensityAtWorldPos(mapId, x2, y2, z2)
+    local s2 = bit32.band(bit32.rshift(d2, firstChan), mask)
+    if liveStates[s2] then liveCount = liveCount + 1 end
+
+    return liveCount / 3.0
+end
+
 -- EN: Override for getSpeedLimit. Returns a dynamically calculated speed cap from RHM_LoadCalculator
 --     that maintains ~90% engine load target. Disabled on clients (uses synced recommendedSpeed).
 --     Respects the Arcade difficulty mode (no speed limiting), the enableSpeedLimit setting,
@@ -1686,6 +1818,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- EN: Check if combine thresher is on and driving forward; reset load if not.
     -- UA: Перевіряємо чи молотарка увімкнена і рухається вперед; скидаємо навантаження якщо ні.
     if not self:getIsTurnedOn() or isReversing then
+        spec._rhmCutterWasDisengaged = true
+        spec._rhmTimeSinceLastHarvest = (spec._rhmTimeSinceLastHarvest or 0) + (dt * 0.001)
         -- EN: Thresher off or reversing — release motor limit and reset load calculation.
         -- UA: Молотарка вимкнена або рухається назад — відпускаємо ліміт мотора і скидаємо навантаження.
         if spec._rhmLastMotorSpeedLimit ~= nil then
@@ -1696,15 +1830,20 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             spec._rhmLastMotorSpeedLimit = nil
         end
         spec.loadCalculator:reset()
+        spec.currentWeedRatio = 0
         if spec.data then
             spec.data.load = 0
             spec.data.cropLoss = 0
             spec.data.tonPerHour = 0
             spec.data.litersPerHour = 0
             spec.data.yield = 0
-            spec.data.moisture = 0
+            -- Preserve moisture across stops / reversing
+            spec.data.weedRatio = 0
             spec.data.recommendedSpeed = 0
             spec.data.targetSpeed = spec.loadCalculator:getSpeedLimit() or 0
+        end
+        if spec.loadCalculator then
+            spec.loadCalculator.currentWeedRatio = 0
         end
         spec.isSpeedLimitActive = false
         if spec.dataDirtyFlag and type(spec.dataDirtyFlag) == "number" then
@@ -1749,6 +1888,40 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             cutterIsTurnedOn = true
         end
     end
+
+    -- EN: Field transit and road tracking for smart auto-reset of field trip odometer
+    -- UA: Відстеження переїздів та доріг для розумного авто-скидання лічильника поля
+    local dtSec = dt * 0.001
+    local isHarvestingNow = cutterIsTurnedOn and ((spec.lastLiters or 0) > 0 or (spec._fallbackLiters or 0) > 0)
+    if isHarvestingNow then
+        spec._rhmTimeSinceLastHarvest = 0
+        spec._rhmCutterWasDisengaged = false
+    else
+        spec._rhmTimeSinceLastHarvest = (spec._rhmTimeSinceLastHarvest or 0) + dtSec
+        if not cutterIsTurnedOn or not self:getIsTurnedOn() then
+            spec._rhmCutterWasDisengaged = true
+        end
+    end
+
+    spec._rhmRoadCheckTimer = (spec._rhmRoadCheckTimer or 0) + dt
+    if spec._rhmRoadCheckTimer >= 500 then
+        spec._rhmRoadCheckTimer = 0
+        if spec._rhmCutterWasDisengaged or (spec._rhmTimeSinceLastHarvest or 0) > 3.0 then
+            local wx, _, wz = getWorldTranslation(self.rootNode)
+            local fid = 0
+            if RHM_HarvestTracker and RHM_HarvestTracker.getFieldAtWorldPosition then
+                local _, detectedFid = RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, self)
+                fid = detectedFid or 0
+            end
+            if fid == 0 then
+                spec._rhmTimeOutsideField = (spec._rhmTimeOutsideField or 0) + 0.5
+            else
+                spec._rhmTimeOutsideField = 0
+            end
+        else
+            spec._rhmTimeOutsideField = 0
+        end
+    end
     
     if not cutterIsTurnedOn then
         -- EN: Preserve cruise speed before reset if active so headland turns don't wipe memory
@@ -1776,6 +1949,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             spec._rhmLastMotorSpeedLimit = nil
         end
         spec.loadCalculator:reset() 
+        spec.currentWeedRatio = 0
         if spec.data then
             spec.data.load = 0 
             spec.data.cropLoss = 0
@@ -1785,9 +1959,13 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             spec.data.tonPerHour = 0
             spec.data.litersPerHour = 0
             spec.data.yield = 0
-            spec.data.moisture = 0
+            -- Preserve valid measured moisture when cutter is off so gauges and terminal don't flicker
+            spec.data.weedRatio = 0
             spec.data.recommendedSpeed = 0 -- EN: Hide "/ X.X" from speed display / UA: Приховуємо "/ X.X" з відображення швидкості
             spec.data.targetSpeed = spec.loadCalculator:getSpeedLimit() or 0
+        end
+        if spec.loadCalculator then
+            spec.loadCalculator.currentWeedRatio = 0
         end
         spec.isSpeedLimitActive = false
         
@@ -1844,56 +2022,54 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     local moisture = 0
     if g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableMoisture ~= false then
         if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive then
-            if cutterIsTurnedOn then
-                local fillType = spec.lastFillType
-                if not fillType or fillType == FillType.UNKNOWN then
-                    if self.getFillUnitFillType and self.spec_combine and self.spec_combine.fillUnitIndex then
-                        fillType = self:getFillUnitFillType(self.spec_combine.fillUnitIndex)
-                    end
+            local fillType = spec.lastFillType
+            if not fillType or fillType == FillType.UNKNOWN then
+                if self.getFillUnitFillType and self.spec_combine and self.spec_combine.fillUnitIndex then
+                    fillType = self:getFillUnitFillType(self.spec_combine.fillUnitIndex)
                 end
-                if not fillType or fillType == FillType.UNKNOWN then
-                    fillType = (spec.combineMemory and spec.combineMemory.currentCrop) or FillType.UNKNOWN
-                end
-                
-                if fillType and fillType ~= FillType.UNKNOWN then
-                    moisture = RHM_MoistureAdapter.getObjectMoisture(self, fillType)
-                end
-                
-                -- Fallback to environmental position moisture only if vehicle crop moisture is not yet recorded
-                if (moisture == 0 or moisture == nil) and self.components and self.components[1] then
-                    local mx, _, mz = getWorldTranslation(self.components[1].node)
-                    local rawSoilMoisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz)
-                    if rawSoilMoisture and rawSoilMoisture > 0 then
-                        -- Soil/ground moisture in environmental provider is 18-35% baseline subterranean moisture.
-                        -- Standing grain in sunlight dries out; do not treat ground moisture as grain moisture.
-                        local isRaining = g_currentMission and g_currentMission.environment and g_currentMission.environment.weather and g_currentMission.environment.weather:getIsRaining()
-                        if isRaining then
-                            moisture = math.max(rawSoilMoisture, 22.0)
+            end
+            if not fillType or fillType == FillType.UNKNOWN then
+                fillType = (spec.combineMemory and spec.combineMemory.currentCrop) or FillType.UNKNOWN
+            end
+            
+            if fillType and fillType ~= FillType.UNKNOWN then
+                moisture = RHM_MoistureAdapter.getObjectMoisture(self, fillType)
+            end
+            
+            -- Fallback to environmental position moisture only if vehicle crop moisture is not yet recorded
+            if (moisture == 0 or moisture == nil) and self.components and self.components[1] then
+                local mx, _, mz = getWorldTranslation(self.components[1].node)
+                local rawSoilMoisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz)
+                if rawSoilMoisture and rawSoilMoisture > 0 then
+                    -- Soil/ground moisture in environmental provider is 18-35% baseline subterranean moisture.
+                    -- Standing grain in sunlight dries out; do not treat ground moisture as grain moisture.
+                    local isRaining = g_currentMission and g_currentMission.environment and g_currentMission.environment.weather and g_currentMission.environment.weather:getIsRaining()
+                    if isRaining then
+                        moisture = math.max(rawSoilMoisture, 22.0)
+                    else
+                        local dayTimeHours = 12.0
+                        if g_currentMission and g_currentMission.environment then
+                            if g_currentMission.environment.dayTime then
+                                dayTimeHours = g_currentMission.environment.dayTime / 3600000
+                            elseif g_currentMission.environment.currentHour then
+                                dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
+                            end
+                        end
+                        local diurnalFactor = math.cos((dayTimeHours - 3.0) * 0.2617993877991494)
+                        if diurnalFactor <= 0 then
+                            -- Warm daytime/afternoon (10:00 - 19:00): standing crop dries to safe levels
+                            local dryScale = 0.45 + (1.0 + diurnalFactor) * 0.20
+                            moisture = math.max(8.0, math.min(13.5, rawSoilMoisture * dryScale))
                         else
-                            local dayTimeHours = 12.0
-                            if g_currentMission and g_currentMission.environment then
-                                if g_currentMission.environment.dayTime then
-                                    dayTimeHours = g_currentMission.environment.dayTime / 3600000
-                                elseif g_currentMission.environment.currentHour then
-                                    dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
-                                end
-                            end
-                            local diurnalFactor = math.cos((dayTimeHours - 3.0) * 0.2617993877991494)
-                            if diurnalFactor <= 0 then
-                                -- Warm daytime/afternoon (10:00 - 19:00): standing crop dries to safe levels
-                                local dryScale = 0.45 + (1.0 + diurnalFactor) * 0.20
-                                moisture = math.max(8.0, math.min(13.5, rawSoilMoisture * dryScale))
-                            else
-                                -- Early morning dew or night: crop absorbs humidity
-                                moisture = math.max(12.0, math.min(25.0, rawSoilMoisture * (0.65 + diurnalFactor * 0.35)))
-                            end
+                            -- Early morning dew or night: crop absorbs humidity
+                            moisture = math.max(12.0, math.min(25.0, rawSoilMoisture * (0.65 + diurnalFactor * 0.35)))
                         end
                     end
                 end
             end
         end
         -- Fallback to environmental diurnal dew & weather simulation if adapter is absent or returned 0
-        if (not moisture or moisture <= 0) and cutterIsTurnedOn then
+        if (not moisture or moisture <= 0) then
             local dayTimeHours = 12.0
             if g_currentMission and g_currentMission.environment then
                 if g_currentMission.environment.dayTime then
@@ -1921,13 +2097,40 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             moisture = baseMoisture
         end
     end
+    if moisture and moisture > 0 then
+        if spec.data then
+            spec.data.moisture = moisture
+        end
+        if spec.loadCalculator then
+            spec.loadCalculator.currentMoisture = moisture
+        end
+    end
+
+    -- WEEDS: Retrieve live weed presence at cutter bar (strictly ignoring sprayed/withered dead weeds)
+    local rawWeed = rhm_Combine.getLiveWeedRatio(self)
+    local prevWeed = spec.currentWeedRatio or 0
+    local alphaWeed = 1.0 - math.exp(-dt / 1500.0)
+    local smoothedWeed = prevWeed + (rawWeed - prevWeed) * alphaWeed
+    if smoothedWeed < 0.02 and rawWeed == 0 then
+        smoothedWeed = 0.0
+    end
+    spec.currentWeedRatio = smoothedWeed
     if spec.data then
-        spec.data.moisture = moisture or 0
+        spec.data.weedRatio = smoothedWeed
     end
     if spec.loadCalculator then
-        spec.loadCalculator.currentMoisture = moisture or 0
+        spec.loadCalculator.currentWeedRatio = smoothedWeed
     end
     
+    -- EN: Suppress stationary mass flow (< 0.5 km/h) so lowering header while waiting doesn't generate false t/h
+    -- UA: Блокуємо розрахунок потоку при зупинці (< 0.5 км/год) щоб опускання жатки на місці не давало хибних т/год
+    local currentSpeed = (self.getLastSpeed and self:getLastSpeed()) or 0
+    if currentSpeed < 0.5 then
+        massKg = 0
+        liters = 0
+        areaForYield = 0
+    end
+
     -- EN: Pass accumulated MASS to RHM_LoadCalculator (not area) — mass is the main driver now.
     -- UA: Передаємо накопичену МАСУ в RHM_LoadCalculator (не площу) — маса тепер основний показник.
     spec.loadCalculator:update(self, dt, massKg)
@@ -1993,14 +2196,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             local areaHaThisTick = (areaForYield or 0) / 10000.0
 
             tracker:onCombineHarvestTick(self, farmId, liters, massKg, areaHaThisTick, fieldId, totalCropLossThisTick, lossReasons, speedKmh, loadRatio, dt)
-
-            -- VOLUNTEER CROPS (Падалиця): In zones of high losses (> 3.0%), generate weed sprouts behind the machine
-            local farmData = tracker:getFarmData(farmId)
-            if farmData and farmData.farmSettings and farmData.farmSettings.volunteerCrops and totalCropLossThisTick >= 3.0 then
-                if FSDensityMapUtil and FSDensityMapUtil.setWeedArea then
-                    FSDensityMapUtil.setWeedArea(wx - 1.2, wz - 1.2, wx + 1.2, wz - 1.2, wx - 1.2, wz + 1.2, 1)
-                end
-            end
         end
     end
     -- ========================================================================
@@ -2015,7 +2210,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- EN: Update HUD live data table from RHM_LoadCalculator outputs.
     -- UA: Оновлюємо таблицю живих даних HUD з виводів RHM_LoadCalculator.
     if spec.data then
-        spec.data.moisture = moisture or spec.data.moisture or 0
+        spec.data.moisture = (moisture and moisture > 0) and moisture or spec.data.moisture or 0
+        spec.data.weedRatio = spec.currentWeedRatio or spec.data.weedRatio or 0
         spec.data.load = spec.loadCalculator:getEngineLoad()
         spec.data.cropLoss = totalCropLossThisTick
         spec.data.cutterWearLoss = spec.loadCalculator.cutterWearLoss or 0
@@ -2023,9 +2219,15 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec.data.totalWearLoss = spec.loadCalculator.totalWearLoss or 0
         spec.data.cutterDamage = spec.loadCalculator.lastCutterDamage or 0
         spec.data.combineDamage = spec.loadCalculator.lastCombineDamage or 0
-        spec.data.tonPerHour = spec.loadCalculator:getTonPerHour()
-        spec.data.litersPerHour = spec.loadCalculator:getLitersPerHour() -- NEW: Volume flow
-        spec.data.hectaresPerHour = spec.loadCalculator:getHectaresPerHour() -- NEW: Area rate (ha/h)
+        if currentSpeed < 0.5 then
+            spec.data.tonPerHour = 0
+            spec.data.litersPerHour = 0
+            spec.data.hectaresPerHour = 0
+        else
+            spec.data.tonPerHour = spec.loadCalculator:getTonPerHour()
+            spec.data.litersPerHour = spec.loadCalculator:getLitersPerHour() -- NEW: Volume flow
+            spec.data.hectaresPerHour = spec.loadCalculator:getHectaresPerHour() -- NEW: Area rate (ha/h)
+        end
         local isArcade = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.difficultyMotor == 1)
         if isArcade then
             spec.data.load = 0
@@ -2529,6 +2731,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteFloat32(streamId, 0) -- yield
         streamWriteUInt8(streamId, 0)   -- overloadLevel
         streamWriteFloat32(streamId, 0) -- moisture
+        streamWriteUInt8(streamId, 0)   -- weedRatio
         -- RHM_CombineMemory: write defaults
         streamWriteUInt8(streamId, 50)  -- fan
         streamWriteUInt8(streamId, 50)  -- rotor
@@ -2551,6 +2754,7 @@ function rhm_Combine:onWriteStream(streamId, connection)
     streamWriteFloat32(streamId, spec.data.yield or 0)
     streamWriteUInt8(streamId, spec.data.overloadLevel or 0)
     streamWriteFloat32(streamId, spec.data.moisture or 0)
+    streamWriteUInt8(streamId, math.floor(math.min(100, math.max(0, (spec.data.weedRatio or 0) * 100)) + 0.5))
     
     -- RHM_CombineMemory settings (sync on initial connect)
     local mem = spec.combineMemory
@@ -2590,6 +2794,7 @@ function rhm_Combine:onReadStream(streamId, connection)
         streamReadFloat32(streamId) -- yield
         streamReadUInt8(streamId)   -- overloadLevel
         streamReadFloat32(streamId) -- moisture
+        streamReadUInt8(streamId)   -- weedRatio
         -- RHM_CombineMemory defaults (skip)
         streamReadUInt8(streamId)
         streamReadUInt8(streamId)
@@ -2616,6 +2821,7 @@ function rhm_Combine:onReadStream(streamId, connection)
     spec.data.yield = streamReadFloat32(streamId)
     spec.data.overloadLevel = streamReadUInt8(streamId)
     spec.data.moisture = streamReadFloat32(streamId)
+    spec.data.weedRatio = streamReadUInt8(streamId) / 100.0
     
     -- RHM_CombineMemory settings
     local fan = streamReadUInt8(streamId)
@@ -2674,6 +2880,7 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
             spec.data.yield = streamReadFloat32(streamId)
             spec.data.overloadLevel = streamReadUInt8(streamId)
             spec.data.moisture = streamReadFloat32(streamId)
+            spec.data.weedRatio = streamReadUInt8(streamId) / 100.0
         end
 
         if hasSettingsUpdate then
@@ -2736,6 +2943,7 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
             streamWriteFloat32(streamId, data.yield or 0)
             streamWriteUInt8(streamId, data.overloadLevel or 0)
             streamWriteFloat32(streamId, data.moisture or 0)
+            streamWriteUInt8(streamId, math.floor(math.min(100, math.max(0, (data.weedRatio or 0) * 100)) + 0.5))
         end
 
         if hasSettingsUpdate then

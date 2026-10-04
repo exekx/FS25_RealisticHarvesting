@@ -41,8 +41,8 @@
         <text name="rhm_show_croploss_short" text="Vis spill" />
         <text name="rhm_show_moisture_short" text="Vis fuktighet" />
         <text name="rhm_show_moisture_long" text="Vis avlingens fuktighetsprosent i HUD" />
-        <text name="rhm_moisture_enable_short" text="Fuktighetsmotstand" />
-        <text name="rhm_moisture_enable_long" text="Påfør belastningsstraff basert på avlingsfuktighet (krever Moisture System)" />
+        <text name="rhm_moisture_enable_short" text="Fuktighetspåvirkning" />
+        <text name="rhm_moisture_enable_long" text="Simulerer økt treskemotstand og utskillingstap fra fuktig halm ved dugg, regn eller høy fuktighet. Slå av for innhøsting uten værstraff." />
         <text name="rhm_ui_title_main" text="SKURTRESKER-KALIBRERINGSTERMINAL" />
         <text name="rhm_ui_page_settings" text="Innstillinger" />
         <text name="rhm_ui_page_profiles" text="Profiler" />
@@ -250,6 +250,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMAL" />
         <text name="rhm_ui_status_low" text="FOR LAV" />
         <text name="rhm_ui_status_high" text="FOR HØY" />
+        <text name="rhm_ui_env_optimal" text="OPTIMALE FORHOLD" />
+        <text name="rhm_ui_env_moisture" text="HØY FUKTIGHET" />
+        <text name="rhm_ui_env_weeds" text="UGRESSFOREKOMST" />
+        <text name="rhm_ui_env_damp_weeds" text="FUKTIG OG UGRESS" />
         <text name="rhm_msg_req_tier4" text="Krever Opti-Harvest AI Autopilot (Nivå 4)" />
         <text name="rhm_msg_req_tier3" text="Profiler krever Telemetrimonitor (Nivå 3)" />
         <text name="rhm_msg_req_tier2" text="Profiler krever Sensorpakke (Nivå 2 eller høyere)" />
@@ -399,6 +403,9 @@
         <text name="rhm_setting_volunteer_desc" text="Genererer ugras og spillkorn bak treskeren i soner med store tap (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-NULLSTILL VED ÅKERSKIFTE" />
         <text name="rhm_setting_autoreset_desc" text="Arkiverer og nullstiller automatisk åkertelleren når du kjører til en annen åker." />
+        <text name="rhm_setting_autoreset_smart" text="Smart (Åker / Avling)" />
+        <text name="rhm_setting_autoreset_crop" text="Kun ved avlingsskifte" />
+        <text name="rhm_setting_autoreset_disabled" text="Deaktivert (Manuell)" />
         <text name="rhm_col_field" text="Åker" />
         <text name="rhm_col_speed" text="Hastighet" />
         <text name="rhm_col_load" text="Belastning" />
@@ -471,5 +478,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Ingen solgte treskere i arkivet" />
         <text name="rhm_fleet_total_count_active" text="Aktive treskere" />
         <text name="rhm_fleet_total_count_sold" text="Solgte treskere" />
+        <text name="rhm_slopeloss_short" text="Helningstap" />
+        <text name="rhm_slopeloss_long" text="Simulerer kornansamling på den ene siden av såldene i skråninger over 4° (opptil 5% tap). Slå av for å fjerne helningsstraff." />
+        <text name="rhm_weedload_short" text="Ugrasresistanse" />
+        <text name="rhm_weedload_long" text="Saftig og trevlete ugras tvinner seg rundt tresketrommelen og øker motorbelastningen (opptil +25%). Slå av for å hindre ugrasets påvirkning på motoren." />
     </texts>
 </l10n>

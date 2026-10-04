@@ -43,10 +43,8 @@
         <text name="rhm_show_croploss_short" text="Mostrar perda" />
         <text name="rhm_show_moisture_short" text="Mostrar umidade" />
         <text name="rhm_show_moisture_long" text="Mostrar porcentagem de umidade no HUD" />
-        <text name="rhm_moisture_enable_short" text="Penalidade de umidade" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Aplicar penalidade de carga com base na umidade (Requer Moisture System Mod)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Impacto da umidade" />
+        <text name="rhm_moisture_enable_long" text="Simula maior resistência de trilha e perdas com palha úmida durante orvalho, chuva ou colheita úmida. Desative para colher sem penalidades climáticas." />
         <text name="rhm_ui_title_main" text="Calibração Colheitadeira" />
         <text name="rhm_ui_page_settings" text="Configurações" />
         <text name="rhm_ui_page_profiles" text="Perfis" />
@@ -254,6 +252,10 @@
         <text name="rhm_ui_status_optimal" text="IDEAL" />
         <text name="rhm_ui_status_low" text="BAIXO" />
         <text name="rhm_ui_status_high" text="ALTO" />
+        <text name="rhm_ui_env_optimal" text="CONDIÇÕES ÓTIMAS" />
+        <text name="rhm_ui_env_moisture" text="ALTA UMIDADE" />
+        <text name="rhm_ui_env_weeds" text="INFESTAÇÃO DE ERVAS DANINHAS" />
+        <text name="rhm_ui_env_damp_weeds" text="ÚMIDO E COM ERVAS" />
         <text name="rhm_msg_req_tier4" text="Requer IA Opti-Harvest (Nível 4)" />
         <text name="rhm_msg_req_tier3" text="Os perfis requerem Monitor de Telemetria (Nível 3)" />
         <text name="rhm_msg_req_tier2" text="Os perfis requerem o Pacote de Sensores (Tier 2 ou superior)" />
@@ -403,6 +405,9 @@
         <text name="rhm_setting_volunteer_desc" text="Gera brotos de plantas daninhas e repouses atrás da colheitadeira em áreas de alta perda (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTOREDEFINIÇÃO AO MUDAR DE CAMPO" />
         <text name="rhm_setting_autoreset_desc" text="Arquiva e redefine automaticamente o contador de campo ao mudar de campo." />
+        <text name="rhm_setting_autoreset_smart" text="Inteligente (Campo / Cultura)" />
+        <text name="rhm_setting_autoreset_crop" text="Apenas mudança de cultura" />
+        <text name="rhm_setting_autoreset_disabled" text="Desativado (Manual)" />
         <text name="rhm_col_field" text="Campo" />
         <text name="rhm_col_speed" text="Velocidade" />
         <text name="rhm_col_load" text="Carga" />
@@ -475,5 +480,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Nenhuma colheitadeira vendida no arquivo" />
         <text name="rhm_fleet_total_count_active" text="Colheitadeiras ativas" />
         <text name="rhm_fleet_total_count_sold" text="Colheitadeiras vendidas" />
+        <text name="rhm_slopeloss_short" text="Perdas em declive" />
+        <text name="rhm_slopeloss_long" text="Simula o acúmulo de grãos em um lado das peneiras em encostas e aclives superiores a 4° (até 5% de perda). Desative para eliminar penalidades por inclinação do terreno." />
+        <text name="rhm_weedload_short" text="Resistência de plantas daninhas" />
+        <text name="rhm_weedload_long" text="Plantas daninhas suculentas e fibrosas aumentam a resistência mecânica e a carga do motor (até +25%). Desative para que as daninhas não afetem a potência." />
     </texts>
 </l10n>

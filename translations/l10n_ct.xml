@@ -41,8 +41,8 @@
         <text name="rhm_show_croploss_short" text="顯示損失" />
         <text name="rhm_show_moisture_short" text="顯示濕度" />
         <text name="rhm_show_moisture_long" text="在 HUD 中顯示作物含水率百分比" />
-        <text name="rhm_moisture_enable_short" text="濕度阻力" />
-        <text name="rhm_moisture_enable_long" text="根據作物濕度施加負載懲罰（需要 Moisture System 模組）" />
+        <text name="rhm_moisture_enable_short" text="水分影響" />
+        <text name="rhm_moisture_enable_long" text="模擬在有露水、降雨或高水分作物收割時增加的脫粒阻力及分離損失。關閉以在無天氣懲罰下進行收割。" />
         <text name="rhm_ui_title_main" text="聯合收割機校準終端" />
         <text name="rhm_ui_page_settings" text="設置" />
         <text name="rhm_ui_page_profiles" text="配置存檔" />
@@ -250,6 +250,10 @@
         <text name="rhm_ui_status_optimal" text="最佳" />
         <text name="rhm_ui_status_low" text="過低" />
         <text name="rhm_ui_status_high" text="過高" />
+        <text name="rhm_ui_env_optimal" text="最佳條件" />
+        <text name="rhm_ui_env_moisture" text="高濕度" />
+        <text name="rhm_ui_env_weeds" text="雜草叢生" />
+        <text name="rhm_ui_env_damp_weeds" text="潮濕且多雜草" />
         <text name="rhm_msg_req_tier4" text="需要 Opti-Harvest AI 自動巡航（第 4 級）" />
         <text name="rhm_msg_req_tier3" text="配置存檔需要遙測監控儀（第 3 級）" />
         <text name="rhm_msg_req_tier2" text="配置存檔需要感測器套件（第 2 級或更高）" />
@@ -399,6 +403,9 @@
         <text name="rhm_setting_volunteer_desc" text="在嚴重損失區域（>3%）於收割機後方生成雜草與自生幼苗。" />
         <text name="rhm_setting_autoreset_title" text="更換農田時自動重設" />
         <text name="rhm_setting_autoreset_desc" text="行駛至其他農田時，自動封存當前測量並重設計數器。" />
+        <text name="rhm_setting_autoreset_smart" text="智慧 (農田 / 作物)" />
+        <text name="rhm_setting_autoreset_crop" text="僅限更換作物" />
+        <text name="rhm_setting_autoreset_disabled" text="停用 (手動)" />
         <text name="rhm_col_field" text="農田" />
         <text name="rhm_col_speed" text="速度" />
         <text name="rhm_col_load" text="負荷" />
@@ -471,5 +478,9 @@
         <text name="rhm_fleet_no_sold_combines" text="存檔中沒有已售出的收割機" />
         <text name="rhm_fleet_total_count_active" text="運作中的收割機" />
         <text name="rhm_fleet_total_count_sold" text="已售出收割機" />
+        <text name="rhm_slopeloss_short" text="坡度損失" />
+        <text name="rhm_slopeloss_long" text="模擬在超過4度的坡地上，穀物向篩網單側堆積的現象（最高5%損失）。關閉以移除地形傾斜懲罰。" />
+        <text name="rhm_weedload_short" text="雜草阻力" />
+        <text name="rhm_weedload_long" text="多汁且多纖維的雜草纏繞脫粒滾筒，增加機械阻力及引擎負載（最高+25%）。關閉以防止雜草影響引擎功率。" />
     </texts>
 </l10n>

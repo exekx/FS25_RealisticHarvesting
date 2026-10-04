@@ -20,9 +20,12 @@ RHMSettingsManager.SERVER_SETTINGS = {
     "difficultyMotor",
     "difficultyLoss",
     "aiHelperTuning",
+    "autoResetTripMode",
     "enableSpeedLimit",
     "enableCropLoss",
     "enableWearLoss",
+    "enableSlopeLoss",
+    "enableWeedLoad",
     "enableIndependentLaunch",
     "enableMoisture"
 }
@@ -53,11 +56,14 @@ RHMSettingsManager.defaultConfig = {
     difficultyMotor = 2,
     difficultyLoss = 2,
     aiHelperTuning = 1,
+    autoResetTripMode = 1,
     showHUD = true,
     showYield = true,
     enableSpeedLimit = true,
     enableCropLoss = false,
     enableWearLoss = true,
+    enableSlopeLoss = true,
+    enableWeedLoad = true,
     enableIndependentLaunch = true,
     enableMoisture = true,
     showMoisture = true,
@@ -134,8 +140,8 @@ function RHMSettingsManager:loadServerSettings(settingsObject)
         if xml then
             for _, key in ipairs(self.SERVER_SETTINGS) do
                 local xmlKey = self.XMLTAG.."."..key
-                if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" then
-                    settingsObject[key] = xml:getInt(xmlKey, self.defaultConfig[key])
+                if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" or key == "autoResetTripMode" then
+                    settingsObject[key] = xml:getInt(xmlKey, self.defaultConfig[key] or 1)
                 else
                     settingsObject[key] = xml:getBool(xmlKey, self.defaultConfig[key])
                 end
@@ -244,8 +250,8 @@ function RHMSettingsManager:saveServerSettings(settingsObject)
     if xml then
         for _, key in ipairs(self.SERVER_SETTINGS) do
             local xmlKey = self.XMLTAG.."."..key
-            if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" then
-                xml:setInt(xmlKey, settingsObject[key])
+            if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" or key == "autoResetTripMode" then
+                xml:setInt(xmlKey, settingsObject[key] or 1)
             else
                 xml:setBool(xmlKey, settingsObject[key])
             end

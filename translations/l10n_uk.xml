@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Симуляція" />
@@ -45,10 +45,8 @@
         <text name="rhm_show_croploss_short" text="Показувати втрати" />
         <text name="rhm_show_moisture_short" text="Показувати вологість" />
         <text name="rhm_show_moisture_long" text="Відображати відсоток вологості культури в HUD" />
-        <text name="rhm_moisture_enable_short" text="Штраф Вологості" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Застосовувати штраф навантаження залежно від вологості (Потрібен мод Moisture System)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Вплив вологості" />
+        <text name="rhm_moisture_enable_long" text="Симулює підвищений опір обмолоту та втрати від злипання вологої маси під час роси, опадів або збирання вологого зерна. Вимкніть для збирання без погодних штрафів." />
         <text name="rhm_ui_title_main" text="Калібрування Комбайна" />
         <text name="rhm_ui_page_settings" text="Налаштування" />
         <text name="rhm_ui_page_profiles" text="Профілі" />
@@ -255,6 +253,10 @@
         <text name="rhm_ui_status_optimal" text="ОПТИМАЛЬНО" />
         <text name="rhm_ui_status_low" text="НИЗЬКО" />
         <text name="rhm_ui_status_high" text="ВИСОКО" />
+        <text name="rhm_ui_env_optimal" text="ІДЕАЛЬНІ УМОВИ" />
+        <text name="rhm_ui_env_moisture" text="ПІДВИЩЕНА ВОЛОГІСТЬ" />
+        <text name="rhm_ui_env_weeds" text="ЗАБУР'ЯНЕНІСТЬ" />
+        <text name="rhm_ui_env_damp_weeds" text="ВОЛОГО ТА БУР'ЯНИ" />
         <text name="rhm_msg_req_tier4" text="Потрібен Автопілот AI Opti-Harvest (Tier 4)" />
         <text name="rhm_msg_req_tier3" text="Для профілів потрібна Телеметрія та моніторинг (Tier 3)" />
         <text name="rhm_msg_req_tier2" text="Для профілів потрібен Сенсорний пакет (Tier 2 або вище)" />
@@ -428,6 +430,9 @@
         <text name="rhm_setting_volunteer_desc" text="Створює осередки бур'янів/падалиці на полі позаду комбайна в зонах високих втрат (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="АВТО-СКИДАННЯ ПРИ ЗМІНІ ПОЛЯ" />
         <text name="rhm_setting_autoreset_desc" text="Автоматично архівувати поточний замір та скидати лічильник при переході на інше поле." />
+        <text name="rhm_setting_autoreset_smart" text="Розумний (Поле / Культура)" />
+        <text name="rhm_setting_autoreset_crop" text="Лише зміна культури" />
+        <text name="rhm_setting_autoreset_disabled" text="Вимкнено (Вручну)" />
         <text name="rhm_detail_area" text="Загальна обмолочена площа поля" />
         <text name="rhm_detail_clean_grain" text="чистого зерна" />
         <text name="rhm_detail_yield" text="Середня врожайність на обробленій площі" />
@@ -476,5 +481,9 @@
         <text name="rhm_fleet_no_sold_combines" text="Немає проданих комбайнів в архіві" />
         <text name="rhm_fleet_total_count_active" text="Комбайнів у строю" />
         <text name="rhm_fleet_total_count_sold" text="Проданих комбайнів" />
+        <text name="rhm_slopeloss_short" text="Втрати від нахилу" />
+        <text name="rhm_slopeloss_long" text="Симулює сповзання зернової маси на один бік решітного стану на пагорбах і схилах понад 4° (до 5% втрат). Вимкніть, якщо бажаєте однаковий рівень втрат на будь-якому рельєфі." />
+        <text name="rhm_weedload_short" text="Опір від бур'янів" />
+        <text name="rhm_weedload_long" text="Зелені бур'яни з високим вмістом соку та волокон намотуються на барабан і збільшують механічний опір та навантаження на двигун комбайна (до +25%). Вимкніть, якщо бур'яни не повинні впливати на потужність." />
     </texts>
 </l10n>

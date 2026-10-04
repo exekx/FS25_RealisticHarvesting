@@ -240,19 +240,67 @@ function RHMSettingsUI.inject(settings)
     if wearLossOpt and wearLossOpt.setDisabled then wearLossOpt:setDisabled(not isAdmin) end
     RHMSettingsUI.wearLossOption = wearLossOpt
 
-    if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive then
-        local moistureEnableOpt = addBinaryRow(settingsPage, gameLayout, "moisture_enable", "rhm_moisture_enable_short", "rhm_moisture_enable_long",
-            settings.enableMoisture,
-            function(val)
-                if not settings:canChangeServerSettings() then return end
-                settings.enableMoisture = val; settings:save()
-                if g_currentMission.missionDynamicInfo.isMultiplayer and RHM_SettingsSync then
-                    RHM_SettingsSync:sendToClients(settings)
+    local slopeLossOpt = addBinaryRow(settingsPage, gameLayout, "slope_loss", "rhm_slopeloss_short", "rhm_slopeloss_long",
+        settings.enableSlopeLoss ~= false,
+        function(val)
+            if not settings:canChangeServerSettings() then return end
+            settings.enableSlopeLoss = val; settings:save()
+            if g_currentMission.missionDynamicInfo.isMultiplayer and RHM_SettingsSync then
+                RHM_SettingsSync:sendToClients(settings)
+            end
+        end)
+    if slopeLossOpt and slopeLossOpt.setDisabled then slopeLossOpt:setDisabled(not isAdmin) end
+    RHMSettingsUI.slopeLossOption = slopeLossOpt
+
+    local weedLoadOpt = addBinaryRow(settingsPage, gameLayout, "weed_load", "rhm_weedload_short", "rhm_weedload_long",
+        settings.enableWeedLoad ~= false,
+        function(val)
+            if not settings:canChangeServerSettings() then return end
+            settings.enableWeedLoad = val; settings:save()
+            if g_currentMission.missionDynamicInfo.isMultiplayer and RHM_SettingsSync then
+                RHM_SettingsSync:sendToClients(settings)
+            end
+        end)
+    if weedLoadOpt and weedLoadOpt.setDisabled then weedLoadOpt:setDisabled(not isAdmin) end
+    RHMSettingsUI.weedLoadOption = weedLoadOpt
+
+    local moistureEnableOpt = addBinaryRow(settingsPage, gameLayout, "moisture_enable", "rhm_moisture_enable_short", "rhm_moisture_enable_long",
+        settings.enableMoisture,
+        function(val)
+            if not settings:canChangeServerSettings() then return end
+            settings.enableMoisture = val; settings:save()
+            if g_currentMission.missionDynamicInfo.isMultiplayer and RHM_SettingsSync then
+                RHM_SettingsSync:sendToClients(settings)
+            end
+        end)
+    if moistureEnableOpt and moistureEnableOpt.setDisabled then moistureEnableOpt:setDisabled(not isAdmin) end
+    RHMSettingsUI.moistureEnableOption = moistureEnableOpt
+
+    local autoResetOptions = {
+        g_i18n:hasText("rhm_setting_autoreset_smart") and g_i18n:getText("rhm_setting_autoreset_smart") or "Smart (Field/Crop)",
+        g_i18n:hasText("rhm_setting_autoreset_crop") and g_i18n:getText("rhm_setting_autoreset_crop") or "Crop Change Only",
+        g_i18n:hasText("rhm_setting_autoreset_disabled") and g_i18n:getText("rhm_setting_autoreset_disabled") or "Disabled (Manual)",
+    }
+    local autoResetOpt = addMultiRow(settingsPage, gameLayout, "autoreset_mode", "rhm_setting_autoreset_title", "rhm_setting_autoreset_desc",
+        autoResetOptions, settings.autoResetTripMode or 1,
+        function(val)
+            if not settings:canChangeServerSettings() then return end
+            settings.autoResetTripMode = val
+            settings:save()
+            if g_currentMission.missionDynamicInfo.isMultiplayer and RHM_SettingsSync then
+                RHM_SettingsSync:sendToClients(settings)
+            end
+            if g_currentMission:getIsServer() and g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker and g_realisticHarvestManager.harvestTracker.farms then
+                for _, farm in pairs(g_realisticHarvestManager.harvestTracker.farms) do
+                    if farm.farmSettings then
+                        farm.farmSettings.autoResetMode = val
+                        farm.farmSettings.autoResetOnFieldChange = (val ~= 3)
+                    end
                 end
-            end)
-        if moistureEnableOpt and moistureEnableOpt.setDisabled then moistureEnableOpt:setDisabled(not isAdmin) end
-        RHMSettingsUI.moistureEnableOption = moistureEnableOpt
-    end
+            end
+        end)
+    if autoResetOpt and autoResetOpt.setDisabled then autoResetOpt:setDisabled(not isAdmin) end
+    RHMSettingsUI.autoResetOption = autoResetOpt
 
     -- === SECTION: Visuals / HUD ===
     addSection(settingsPage, "rhm_section_visuals", generalLayout)
@@ -275,10 +323,8 @@ function RHMSettingsUI.inject(settings)
     RHMSettingsUI.cropLossVisOption = addBinaryRow(settingsPage, generalLayout, "show_croploss", "rhm_show_croploss_short", "rhm_show_croploss_long",
         settings.showCropLoss, function(val) settings.showCropLoss = val; settings:save() end)
 
-    if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive then
-        RHMSettingsUI.moistureVisOption = addBinaryRow(settingsPage, generalLayout, "show_moisture", "rhm_show_moisture_short", "rhm_show_moisture_long",
-            settings.showMoisture, function(val) settings.showMoisture = val; settings:save() end)
-    end
+    RHMSettingsUI.moistureVisOption = addBinaryRow(settingsPage, generalLayout, "show_moisture", "rhm_show_moisture_short", "rhm_show_moisture_long",
+        settings.showMoisture, function(val) settings.showMoisture = val; settings:save() end)
 
 
 
@@ -387,7 +433,10 @@ function RHMSettingsUI.refreshUI(settings)
     setOpt(RHMSettingsUI.speedLimitOption,      settings.enableSpeedLimit and 2 or 1, not isAdmin)
     setOpt(RHMSettingsUI.cropLossOption,        settings.enableCropLoss   and 2 or 1, not isAdmin)
     setOpt(RHMSettingsUI.wearLossOption,        (settings.enableWearLoss ~= false) and 2 or 1, not isAdmin)
+    setOpt(RHMSettingsUI.slopeLossOption,       (settings.enableSlopeLoss ~= false) and 2 or 1, not isAdmin)
+    setOpt(RHMSettingsUI.weedLoadOption,        (settings.enableWeedLoad ~= false) and 2 or 1,  not isAdmin)
     setOpt(RHMSettingsUI.aiTuningOption,        settings.aiHelperTuning or 1,        not isAdmin)
+    setOpt(RHMSettingsUI.autoResetOption,       settings.autoResetTripMode or 1,     not isAdmin)
     setOpt(RHMSettingsUI.moistureEnableOption,  settings.enableMoisture   and 2 or 1, not isAdmin)
 
     setOpt(RHMSettingsUI.hudOption,         settings.showHUD           and 2 or 1, false)

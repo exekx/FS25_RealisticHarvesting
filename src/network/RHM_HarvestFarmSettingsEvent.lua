@@ -30,7 +30,8 @@ function RHM_HarvestFarmSettingsEvent:writeStream(streamId, connection)
     streamWriteBool(streamId, self.settings.aiSpeedLimiter ~= false)
     streamWriteFloat32(streamId, self.settings.aiMaxLossPct or 2.0)
     streamWriteBool(streamId, self.settings.volunteerCrops ~= false)
-    streamWriteBool(streamId, self.settings.autoResetOnFieldChange == true)
+    streamWriteBool(streamId, self.settings.autoResetOnFieldChange ~= false)
+    streamWriteUInt8(streamId, self.settings.autoResetMode or (self.settings.autoResetOnFieldChange ~= false and 1 or 3))
 end
 
 function RHM_HarvestFarmSettingsEvent:readStream(streamId, connection)
@@ -39,7 +40,8 @@ function RHM_HarvestFarmSettingsEvent:readStream(streamId, connection)
         aiSpeedLimiter = streamReadBool(streamId),
         aiMaxLossPct = streamReadFloat32(streamId),
         volunteerCrops = streamReadBool(streamId),
-        autoResetOnFieldChange = streamReadBool(streamId)
+        autoResetOnFieldChange = streamReadBool(streamId),
+        autoResetMode = streamReadUInt8(streamId)
     }
     self:run(connection)
 end
@@ -58,6 +60,7 @@ function RHM_HarvestFarmSettingsEvent:run(connection)
             farm.farmSettings.aiMaxLossPct = self.settings.aiMaxLossPct
             farm.farmSettings.volunteerCrops = self.settings.volunteerCrops
             farm.farmSettings.autoResetOnFieldChange = self.settings.autoResetOnFieldChange
+            farm.farmSettings.autoResetMode = self.settings.autoResetMode or (self.settings.autoResetOnFieldChange and 1 or 3)
         end
 
         if g_realisticHarvestManager and g_realisticHarvestManager.harvestHistoryGUI and g_realisticHarvestManager.harvestHistoryGUI.isOpen then

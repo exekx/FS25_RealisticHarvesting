@@ -41,8 +41,8 @@
         <text name="rhm_show_croploss_short" text="ロス率を表示" />
         <text name="rhm_show_moisture_short" text="水分率を表示" />
         <text name="rhm_show_moisture_long" text="HUDで作物の水分含有率（%）を表示" />
-        <text name="rhm_moisture_enable_short" text="水分抵抗" />
-        <text name="rhm_moisture_enable_long" text="作物の水分率に応じて負荷を増加（Moisture System MODが必要）" />
+        <text name="rhm_moisture_enable_short" text="水分による影響" />
+        <text name="rhm_moisture_enable_long" text="夜露や降雨、高水分作物収穫時の脱穀抵抗増加と排塵損失をシミュレートします。天候ペナルティなしで収穫するにはオフにしてください。" />
         <text name="rhm_ui_title_main" text="コンバイン・キャリブレーション端末" />
         <text name="rhm_ui_page_settings" text="設定" />
         <text name="rhm_ui_page_profiles" text="プロファイル" />
@@ -250,6 +250,10 @@
         <text name="rhm_ui_status_optimal" text="最適" />
         <text name="rhm_ui_status_low" text="低すぎる" />
         <text name="rhm_ui_status_high" text="高すぎる" />
+        <text name="rhm_ui_env_optimal" text="最適条件" />
+        <text name="rhm_ui_env_moisture" text="高水分" />
+        <text name="rhm_ui_env_weeds" text="雑草混入" />
+        <text name="rhm_ui_env_damp_weeds" text="湿気と雑草" />
         <text name="rhm_msg_req_tier4" text="Opti-Harvest AI（Tier 4）が必要です" />
         <text name="rhm_msg_req_tier3" text="プロファイル保存にはテレメトリモニター（Tier 3）が必要です" />
         <text name="rhm_msg_req_tier2" text="プロファイル保存にはセンサーキット（Tier 2以上）が必要です" />
@@ -399,6 +403,9 @@
         <text name="rhm_setting_volunteer_desc" text="損失が大きいエリア（3%超）において、コンバイン後方に雑草・こぼれ種を発生させます。" />
         <text name="rhm_setting_autoreset_title" text="圃場変更時の自動リセット" />
         <text name="rhm_setting_autoreset_desc" text="別の圃場に移動した際、現在の記録を自動アーカイブしてカウンターをリセットします。" />
+        <text name="rhm_setting_autoreset_smart" text="スマート (圃場 / 作物)" />
+        <text name="rhm_setting_autoreset_crop" text="作物変更時のみ" />
+        <text name="rhm_setting_autoreset_disabled" text="無効 (手動)" />
         <text name="rhm_col_field" text="圃場" />
         <text name="rhm_col_speed" text="速度" />
         <text name="rhm_col_load" text="負荷" />
@@ -471,5 +478,9 @@
         <text name="rhm_fleet_no_sold_combines" text="アーカイブに売却済みのコンバインはありません" />
         <text name="rhm_fleet_total_count_active" text="稼働中のコンバイン" />
         <text name="rhm_fleet_total_count_sold" text="売却済みコンバイン" />
+        <text name="rhm_slopeloss_short" text="傾斜による損失" />
+        <text name="rhm_slopeloss_long" text="4度を超える傾斜地でチャフシーブの片側に穀粒が偏る現象を再現します（最大5%の損失）。地形による傾斜ペナルティを無効にするにはオフにしてください。" />
+        <text name="rhm_weedload_short" text="雑草抵抗" />
+        <text name="rhm_weedload_long" text="水分の多い繊維質の雑草が脱穀胴に巻き付き、機械的抵抗とエンジン負荷を増加させます（最大+25%）。雑草が動力に影響しないようにするにはオフにしてください。" />
     </texts>
 </l10n>

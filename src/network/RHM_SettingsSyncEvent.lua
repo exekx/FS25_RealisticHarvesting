@@ -24,9 +24,12 @@ function RHM_SettingsSyncEvent.new(settings)
     self.difficultyMotor = settings.difficultyMotor or 2
     self.difficultyLoss = settings.difficultyLoss or 2
     self.aiHelperTuning = settings.aiHelperTuning or 1
+    self.autoResetTripMode = settings.autoResetTripMode or 1
     self.enableSpeedLimit = settings.enableSpeedLimit
     self.enableCropLoss = settings.enableCropLoss
     self.enableWearLoss = settings.enableWearLoss ~= false
+    self.enableSlopeLoss = settings.enableSlopeLoss ~= false
+    self.enableWeedLoad = settings.enableWeedLoad ~= false
     self.enableIndependentLaunch = settings.enableIndependentLaunch
     self.enableMoisture = settings.enableMoisture ~= false
 
@@ -39,9 +42,12 @@ function RHM_SettingsSyncEvent:writeStream(streamId, connection)
     streamWriteUInt8(streamId, self.difficultyMotor)
     streamWriteUInt8(streamId, self.difficultyLoss)
     streamWriteUInt8(streamId, self.aiHelperTuning)
+    streamWriteUInt8(streamId, self.autoResetTripMode or 1)
     streamWriteBool(streamId, self.enableSpeedLimit)
     streamWriteBool(streamId, self.enableCropLoss)
     streamWriteBool(streamId, self.enableWearLoss)
+    streamWriteBool(streamId, self.enableSlopeLoss)
+    streamWriteBool(streamId, self.enableWeedLoad)
     streamWriteBool(streamId, self.enableIndependentLaunch)
     streamWriteBool(streamId, self.enableMoisture)
 end
@@ -52,9 +58,12 @@ function RHM_SettingsSyncEvent:readStream(streamId, connection)
     self.difficultyMotor = streamReadUInt8(streamId)
     self.difficultyLoss = streamReadUInt8(streamId)
     self.aiHelperTuning = streamReadUInt8(streamId)
+    self.autoResetTripMode = streamReadUInt8(streamId)
     self.enableSpeedLimit = streamReadBool(streamId)
     self.enableCropLoss = streamReadBool(streamId)
     self.enableWearLoss = streamReadBool(streamId)
+    self.enableSlopeLoss = streamReadBool(streamId)
+    self.enableWeedLoad = streamReadBool(streamId)
     self.enableIndependentLaunch = streamReadBool(streamId)
     self.enableMoisture = streamReadBool(streamId)
 
@@ -77,19 +86,33 @@ function RHM_SettingsSyncEvent:run(connection)
 
         local settings = g_realisticHarvestManager.settings
         if settings then
-            rhm_log(string.format("RHM [Network]: RHM: [Sync] Server APPLYING settings - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s, Moisture: %s",
-                    self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableIndependentLaunch), tostring(self.enableMoisture)))
+            rhm_log(string.format("RHM [Network]: RHM: [Sync] Server APPLYING settings - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s, Moisture: %s, AutoReset: %d",
+                    self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableIndependentLaunch), tostring(self.enableMoisture), self.autoResetTripMode or 1))
 
             -- EN: Apply the received split difficulty fields and feature flags.
             -- UA: Застосовуємо отримані розділені поля складності та прапорці функцій.
             settings.difficultyMotor = self.difficultyMotor
             settings.difficultyLoss = self.difficultyLoss
             settings.aiHelperTuning = self.aiHelperTuning
+            settings.autoResetTripMode = self.autoResetTripMode or 1
             settings.enableSpeedLimit = self.enableSpeedLimit
             settings.enableCropLoss = self.enableCropLoss
             settings.enableWearLoss = self.enableWearLoss
+            settings.enableSlopeLoss = self.enableSlopeLoss
+            settings.enableWeedLoad = self.enableWeedLoad
             settings.enableIndependentLaunch = self.enableIndependentLaunch
             settings.enableMoisture = self.enableMoisture
+
+            -- EN: Keep server farmSettings synchronized
+            -- UA: Синхронізуємо налаштування ферм на сервері
+            if g_realisticHarvestManager.harvestTracker and g_realisticHarvestManager.harvestTracker.farms then
+                for _, farm in pairs(g_realisticHarvestManager.harvestTracker.farms) do
+                    if farm.farmSettings then
+                        farm.farmSettings.autoResetMode = self.autoResetTripMode or 1
+                        farm.farmSettings.autoResetOnFieldChange = (self.autoResetTripMode ~= 3)
+                    end
+                end
+            end
 
             -- EN: Persist updated settings to disk on the server WITHOUT broadcasting (direct manager call).
             -- UA: Зберігаємо оновлені налаштування на диск (прямий виклик менеджера без трансляції).
@@ -116,14 +139,17 @@ function RHM_SettingsSyncEvent:run(connection)
             settings.difficultyMotor = self.difficultyMotor
             settings.difficultyLoss = self.difficultyLoss
             settings.aiHelperTuning = self.aiHelperTuning
+            settings.autoResetTripMode = self.autoResetTripMode or 1
             settings.enableSpeedLimit = self.enableSpeedLimit
             settings.enableCropLoss = self.enableCropLoss
             settings.enableWearLoss = self.enableWearLoss
+            settings.enableSlopeLoss = self.enableSlopeLoss
+            settings.enableWeedLoad = self.enableWeedLoad
             settings.enableIndependentLaunch = self.enableIndependentLaunch
             settings.enableMoisture = self.enableMoisture
             
-            rhm_log(string.format("RHM [Network]: RHM: [Sync] Client received update - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, IndLaunch: %s, Moisture: %s",
-                    self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableIndependentLaunch), tostring(self.enableMoisture)))
+            rhm_log(string.format("RHM [Network]: RHM: [Sync] Client received update - Motor: %d, Loss: %d, Speed: %s, CropLoss: %s, SlopeLoss: %s, WeedLoad: %s, IndLaunch: %s, Moisture: %s, AutoReset: %d",
+                    self.difficultyMotor, self.difficultyLoss, tostring(self.enableSpeedLimit), tostring(self.enableCropLoss), tostring(self.enableSlopeLoss), tostring(self.enableWeedLoad), tostring(self.enableIndependentLaunch), tostring(self.enableMoisture), self.autoResetTripMode or 1))
         end
     end
 end

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
         <text name="rhm_section_simulation" text="Realistic Harvesting - Simulation" />
@@ -43,10 +43,8 @@
         <text name="rhm_show_croploss_short" text="Show Crop Loss" />
         <text name="rhm_show_moisture_short" text="Show Moisture" />
         <text name="rhm_show_moisture_long" text="Display crop moisture percentage in HUD" />
-        <text name="rhm_moisture_enable_short" text="Moisture Penalty" />
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Apply load penalty based on crop moisture (Requires Moisture System mod)
-            ]]></text>
+        <text name="rhm_moisture_enable_short" text="Moisture Impact" />
+        <text name="rhm_moisture_enable_long" text="Simulates increased threshing resistance and separator straw matting losses during dew, rain, or high crop moisture. Turn off to harvest without weather penalties." />
         <text name="rhm_ui_title_main" text="Combine Calibration" />
         <text name="rhm_ui_page_settings" text="Settings" />
         <text name="rhm_ui_page_profiles" text="Profiles" />
@@ -256,6 +254,10 @@
         <text name="rhm_ui_status_optimal" text="OPTIMAL" />
         <text name="rhm_ui_status_low" text="LOW" />
         <text name="rhm_ui_status_high" text="HIGH" />
+        <text name="rhm_ui_env_optimal" text="OPTIMAL CONDITIONS" />
+        <text name="rhm_ui_env_moisture" text="HIGH MOISTURE" />
+        <text name="rhm_ui_env_weeds" text="WEED INFESTATION" />
+        <text name="rhm_ui_env_damp_weeds" text="DAMP &amp; WEEDY" />
         <text name="rhm_msg_req_tier4" text="Requires Opti-Harvest AI Autopilot (Tier 4)" />
         <text name="rhm_msg_req_tier3" text="Profiles require Telemetry &amp; Monitoring (Tier 3)" />
         <text name="rhm_msg_req_tier2" text="Profiles require Sensors Package (Tier 2 or higher)" />
@@ -429,6 +431,9 @@
         <text name="rhm_setting_volunteer_desc" text="Generates weed and volunteer sprouts behind combines in heavy loss zones (&gt;3%)." />
         <text name="rhm_setting_autoreset_title" text="AUTO-RESET ON FIELD CHANGE" />
         <text name="rhm_setting_autoreset_desc" text="Automatically archive the current operation and reset the field counter when moving to a different field." />
+        <text name="rhm_setting_autoreset_smart" text="Smart (Field / Crop)" />
+        <text name="rhm_setting_autoreset_crop" text="Crop Change Only" />
+        <text name="rhm_setting_autoreset_disabled" text="Disabled (Manual)" />
         <text name="rhm_detail_area" text="Total harvested field area" />
         <text name="rhm_detail_clean_grain" text="clean grain" />
         <text name="rhm_detail_yield" text="Average yield on harvested area" />
@@ -477,5 +482,9 @@
         <text name="rhm_fleet_no_sold_combines" text="No Sold Harvesters in Archive" />
         <text name="rhm_fleet_total_count_active" text="Active Harvesters" />
         <text name="rhm_fleet_total_count_sold" text="Sold Harvesters" />
+        <text name="rhm_slopeloss_short" text="Slope Losses" />
+        <text name="rhm_slopeloss_long" text="Simulates grain pooling on one side of cleaning shoe sieves on hillsides and slopes exceeding 4° (up to 5% loss). Turn off to eliminate terrain tilt penalties." />
+        <text name="rhm_weedload_short" text="Weed Resistance" />
+        <text name="rhm_weedload_long" text="Juicy and fibrous weeds wrap around threshing cylinders and increase mechanical resistance and engine load (up to +25%). Turn off to prevent weeds from affecting engine power." />
     </texts>
 </l10n>
