@@ -2079,80 +2079,18 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- MOISTURE: Retrieve from environmental moisture provider or internal diurnal simulation
     local moisture = 0
     if g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableMoisture ~= false then
-        if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive then
-            local fillType = spec.lastFillType
-            if not fillType or fillType == FillType.UNKNOWN then
-                if self.getFillUnitFillType and self.spec_combine and self.spec_combine.fillUnitIndex then
-                    fillType = self:getFillUnitFillType(self.spec_combine.fillUnitIndex)
-                end
-            end
-            if not fillType or fillType == FillType.UNKNOWN then
-                fillType = (spec.combineMemory and spec.combineMemory.currentCrop) or FillType.UNKNOWN
-            end
-            
-            if fillType and fillType ~= FillType.UNKNOWN then
-                moisture = RHM_MoistureAdapter.getObjectMoisture(self, fillType)
-            end
-            
-            -- Fallback to environmental position moisture only if vehicle crop moisture is not yet recorded
-            if (moisture == 0 or moisture == nil) and self.components and self.components[1] then
-                local mx, _, mz = getWorldTranslation(self.components[1].node)
-                local rawSoilMoisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz)
-                if rawSoilMoisture and rawSoilMoisture > 0 then
-                    -- Soil/ground moisture in environmental provider is 18-35% baseline subterranean moisture.
-                    -- Standing grain in sunlight dries out; do not treat ground moisture as grain moisture.
-                    local isRaining = g_currentMission and g_currentMission.environment and g_currentMission.environment.weather and g_currentMission.environment.weather:getIsRaining()
-                    if isRaining then
-                        moisture = math.max(rawSoilMoisture, 22.0)
-                    else
-                        local dayTimeHours = 12.0
-                        if g_currentMission and g_currentMission.environment then
-                            if g_currentMission.environment.dayTime then
-                                dayTimeHours = g_currentMission.environment.dayTime / 3600000
-                            elseif g_currentMission.environment.currentHour then
-                                dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
-                            end
-                        end
-                        local diurnalFactor = math.cos((dayTimeHours - 3.0) * 0.2617993877991494)
-                        if diurnalFactor <= 0 then
-                            -- Warm daytime/afternoon (10:00 - 19:00): standing crop dries to safe levels
-                            local dryScale = 0.45 + (1.0 + diurnalFactor) * 0.20
-                            moisture = math.max(8.0, math.min(13.5, rawSoilMoisture * dryScale))
-                        else
-                            -- Early morning dew or night: crop absorbs humidity
-                            moisture = math.max(12.0, math.min(25.0, rawSoilMoisture * (0.65 + diurnalFactor * 0.35)))
-                        end
-                    end
-                end
+        local fillType = spec.lastFillType
+        if not fillType or fillType == FillType.UNKNOWN then
+            if self.getFillUnitFillType and self.spec_combine and self.spec_combine.fillUnitIndex then
+                fillType = self:getFillUnitFillType(self.spec_combine.fillUnitIndex)
             end
         end
-        -- Fallback to environmental diurnal dew & weather simulation if adapter is absent or returned 0
-        if (not moisture or moisture <= 0) then
-            local dayTimeHours = 12.0
-            if g_currentMission and g_currentMission.environment then
-                if g_currentMission.environment.dayTime then
-                    dayTimeHours = g_currentMission.environment.dayTime / 3600000
-                elseif g_currentMission.environment.currentHour then
-                    dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
-                end
-            end
-            local isRaining = false
-            if g_currentMission and g_currentMission.environment and g_currentMission.environment.weather then
-                isRaining = g_currentMission.environment.weather:getIsRaining()
-            end
+        if not fillType or fillType == FillType.UNKNOWN then
+            fillType = (spec.combineMemory and spec.combineMemory.currentCrop) or FillType.UNKNOWN
+        end
 
-            -- Harmonic diurnal curve: peak dew at 03:00 (+1.0), dry sun at 15:00 (-1.0)
-            local diurnalFactor = math.cos((dayTimeHours - 3.0) * 0.2617993877991494)
-            local baseMoisture = 12.5
-            if diurnalFactor > 0 then
-                baseMoisture = baseMoisture + (diurnalFactor * 5.5) -- up to 18.0% at peak dew
-            else
-                baseMoisture = baseMoisture + (diurnalFactor * 1.5) -- down to 11.0% in hot sun
-            end
-            if isRaining then
-                baseMoisture = math.max(baseMoisture, 22.0)
-            end
-            moisture = baseMoisture
+        if RHM_MoistureAdapter and RHM_MoistureAdapter.getStandingCropMoisture then
+            moisture = RHM_MoistureAdapter.getStandingCropMoisture(self, fillType)
         end
     end
     if moisture and moisture > 0 then

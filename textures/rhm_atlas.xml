@@ -1,0 +1,59 @@
+<texture>
+  <meta>
+    <filename>rhm_atlas.dds</filename>
+    <size width="1024" height="1024"/>
+  </meta>
+  <slices>
+    <!-- Section 1: Help Menu Tabs (128x128) -->
+    <slice id="tab_overview" uvs="0px 0px 128px 128px"/>
+    <slice id="tab_hud" uvs="128px 0px 128px 128px"/>
+    <slice id="tab_calibration" uvs="256px 0px 128px 128px"/>
+    <slice id="tab_trip" uvs="384px 0px 128px 128px"/>
+    <slice id="tab_croploss" uvs="512px 0px 128px 128px"/>
+    <slice id="tab_upgrades" uvs="640px 0px 128px 128px"/>
+    <slice id="tab_ai_workers" uvs="768px 0px 128px 128px"/>
+    <slice id="tab_moisture" uvs="896px 0px 128px 128px"/>
+    <slice id="tab_special" uvs="0px 128px 128px 128px"/>
+    <slice id="tab_difficulty" uvs="128px 128px 128px 128px"/>
+
+    <!-- Section 2: In-Cab HUD Telemetry Icons (64x64) -->
+    <slice id="hud_load" uvs="0px 256px 64px 64px"/>
+    <slice id="hud_yield" uvs="64px 256px 64px 64px"/>
+    <slice id="hud_throughput" uvs="128px 256px 64px 64px"/>
+    <slice id="hud_moisture" uvs="192px 256px 64px 64px"/>
+    <slice id="hud_loss" uvs="256px 256px 64px 64px"/>
+    <slice id="hud_speed" uvs="320px 256px 64px 64px"/>
+    <slice id="hud_weed" uvs="384px 256px 64px 64px"/>
+    <slice id="hud_area_rate" uvs="448px 256px 64px 64px"/>
+    <slice id="solid_white" uvs="512px 256px 64px 64px"/>
+
+    <!-- Section 3: Shift+J Menu, Analytics & Fleet (64x64) -->
+    <slice id="icon_tab_trip" uvs="0px 320px 64px 64px"/>
+    <slice id="menu_tab_trip" uvs="0px 320px 64px 64px"/>
+    <slice id="icon_field" uvs="64px 320px 64px 64px"/>
+    <slice id="menu_tab_field" uvs="64px 320px 64px 64px"/>
+    <slice id="icon_tab_fleet" uvs="128px 320px 64px 64px"/>
+    <slice id="menu_tab_fleet" uvs="128px 320px 64px 64px"/>
+    <slice id="icon_tab_analytics" uvs="192px 320px 64px 64px"/>
+    <slice id="menu_tab_analytics" uvs="192px 320px 64px 64px"/>
+    <slice id="icon_tab_history" uvs="256px 320px 64px 64px"/>
+    <slice id="menu_tab_history" uvs="256px 320px 64px 64px"/>
+    <slice id="icon_cause_speed" uvs="320px 320px 64px 64px"/>
+    <slice id="cause_speed" uvs="320px 320px 64px 64px"/>
+    <slice id="icon_cause_moisture" uvs="384px 320px 64px 64px"/>
+    <slice id="cause_moisture" uvs="384px 320px 64px 64px"/>
+    <slice id="icon_cause_wear" uvs="448px 320px 64px 64px"/>
+    <slice id="cause_wear" uvs="448px 320px 64px 64px"/>
+    <slice id="icon_cause_slope" uvs="512px 320px 64px 64px"/>
+    <slice id="cause_slope" uvs="512px 320px 64px 64px"/>
+    <slice id="icon_reset" uvs="576px 320px 64px 64px"/>
+    <slice id="action_reset" uvs="576px 320px 64px 64px"/>
+    <slice id="icon_advice" uvs="640px 320px 64px 64px"/>
+    <slice id="action_advice" uvs="640px 320px 64px 64px"/>
+    <slice id="icon_combine_badge" uvs="704px 320px 64px 64px"/>
+    <slice id="badge_combine" uvs="704px 320px 64px 64px"/>
+
+    <!-- Section 4: 9-Slice Rounded Corner (64x64) -->
+    <slice id="panel_rounded" uvs="0px 384px 64px 64px"/>
+  </slices>
+</texture>

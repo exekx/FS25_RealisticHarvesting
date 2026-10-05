@@ -503,7 +503,12 @@ end
 function RHM_Api.getMoisture(vehicle)
     local combine = RHM_Api.findCombine(vehicle)
     if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.data then
-        return combine.spec_rhm_Combine.data.moisture or 0.0
+        local m = combine.spec_rhm_Combine.data.moisture or 0.0
+        if m <= 0.0 and RHM_MoistureAdapter and RHM_MoistureAdapter.getStandingCropMoisture then
+            local fillType = combine.spec_rhm_Combine.lastFillType or (combine.spec_rhm_Combine.combineMemory and combine.spec_rhm_Combine.combineMemory.currentCrop)
+            m = RHM_MoistureAdapter.getStandingCropMoisture(combine, fillType) or 0.0
+        end
+        return m
     end
     return nil
 end
@@ -671,21 +676,18 @@ function RHM_Api.getOptimalSettings(vehicle)
         local context = nil
         if combine and combine.spec_rhm_Combine then
             local rhmSpec = combine.spec_rhm_Combine
-            local dayTimeHours = 12.0
-            local isRaining = false
-            if g_currentMission and g_currentMission.environment then
-                if g_currentMission.environment.dayTime then
-                    dayTimeHours = g_currentMission.environment.dayTime / 3600000
-                elseif g_currentMission.environment.currentHour then
-                    dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
-                end
-                if g_currentMission.environment.weather then
-                    isRaining = g_currentMission.environment.weather:getIsRaining()
-                end
+            local dayTimeHours, isRaining = 12.0, false
+            if RHM_MoistureAdapter and RHM_MoistureAdapter.getEnvironmentContext then
+                dayTimeHours, isRaining = RHM_MoistureAdapter.getEnvironmentContext()
+            end
+            local m = (rhmSpec.data and rhmSpec.data.moisture) or 0
+            if m <= 0 and RHM_MoistureAdapter and RHM_MoistureAdapter.getStandingCropMoisture then
+                local fillType = rhmSpec.lastFillType or (rhmSpec.combineMemory and rhmSpec.combineMemory.currentCrop)
+                m = RHM_MoistureAdapter.getStandingCropMoisture(combine, fillType) or 0
             end
             context = {
                 machineType = rhmSpec.machineType or "grain",
-                moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0,
+                moisture = m,
                 yield = (rhmSpec.data and rhmSpec.data.yield) or 0,
                 isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,
                 fillType = rhmSpec.lastFillType,

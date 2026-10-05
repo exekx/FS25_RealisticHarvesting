@@ -116,7 +116,7 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
         <!-- Title category for GUI -->
         <category title="$l10n_rhm_help_category">
             <!-- ===== PAGE 1: ENGINE LOAD PHYSICS & SPEED ===== -->
-            <page title="$l10n_rhm_help_overview_title" iconSliceId="rhmHelp_overview.tab">
+            <page title="$l10n_rhm_help_overview_title" iconSliceId="rhmUi.tab_overview">
                 <paragraph>
                     <title text="$l10n_rhm_help_overview_sub1"/>
                     <text text="$l10n_rhm_help_overview_1"/>
@@ -132,7 +132,7 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
             </page>
 
             <!-- ===== PAGE 2: INTERACTIVE HUD & TELEMETRY ===== -->
-            <page title="$l10n_rhm_help_hud_title" iconSliceId="rhmHelp_hud.tab">
+            <page title="$l10n_rhm_help_hud_title" iconSliceId="rhmUi.tab_hud">
                 <paragraph>
                     <title text="$l10n_rhm_help_hud_sub1"/>
                     <text text="$l10n_rhm_help_hud_1"/>
@@ -148,7 +148,7 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
             </page>
 
             <!-- ===== PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) ===== -->
-            <page title="$l10n_rhm_help_calibration_title" iconSliceId="rhmHelp_calibration.tab">
+            <page title="$l10n_rhm_help_calibration_title" iconSliceId="rhmUi.tab_calibration">
                 <paragraph>
                     <title text="$l10n_rhm_help_calibration_main_sub"/>
                     <text text="$l10n_rhm_help_calibration_main_text"/>
@@ -163,8 +163,32 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 4: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) ===== -->
-            <page title="$l10n_rhm_help_trip_title" iconSliceId="rhmHelp_trip.tab">
+            <!-- ===== PAGE 4: CROP CALIBRATION HANDBOOK (RPM & MM) ===== -->
+            <page title="$l10n_rhm_help_presets_title" iconSliceId="rhmUi.tab_calibration">
+                <paragraph>
+                    <title text="$l10n_rhm_help_presets_sub1"/>
+                    <text text="$l10n_rhm_help_presets_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_presets_sub2"/>
+                    <text text="$l10n_rhm_help_presets_2"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_presets_sub3"/>
+                    <text text="$l10n_rhm_help_presets_3"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_presets_sub4"/>
+                    <text text="$l10n_rhm_help_presets_4"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_presets_sub5"/>
+                    <text text="$l10n_rhm_help_presets_5"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 5: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) ===== -->
+            <page title="$l10n_rhm_help_trip_title" iconSliceId="rhmUi.tab_trip">
                 <paragraph>
                     <title text="$l10n_rhm_help_trip_sub1"/>
                     <text text="$l10n_rhm_help_trip_1"/>
@@ -183,8 +207,8 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 5: CROP LOSSES & ROOT CAUSES ===== -->
-            <page title="$l10n_rhm_help_croploss_title" iconSliceId="rhmHelp_croploss.tab">
+            <!-- ===== PAGE 6: CROP LOSSES & ROOT CAUSES ===== -->
+            <page title="$l10n_rhm_help_croploss_title" iconSliceId="rhmUi.tab_croploss">
                 <paragraph>
                     <title text="$l10n_rhm_help_croploss_sub1"/>
                     <text text="$l10n_rhm_help_croploss_1"/>
@@ -199,8 +223,8 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 6: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) ===== -->
-            <page title="$l10n_rhm_help_upgrades_title" iconSliceId="rhmHelp_upgrades.tab">
+            <!-- ===== PAGE 7: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) ===== -->
+            <page title="$l10n_rhm_help_upgrades_title" iconSliceId="rhmUi.tab_upgrades">
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub1"/>
                     <text text="$l10n_rhm_help_upgrades_1"/>
@@ -215,8 +239,8 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 7: AI WORKERS & AUTOPILOTS ===== -->
-            <page title="$l10n_rhm_help_ai_workers_title" iconSliceId="rhmHelp_ai_workers.tab">
+            <!-- ===== PAGE 8: AI WORKERS & AUTOPILOTS ===== -->
+            <page title="$l10n_rhm_help_ai_workers_title" iconSliceId="rhmUi.tab_ai_workers">
                 <paragraph>
                     <title text="$l10n_rhm_help_ai_workers_sub1"/>
                     <text text="$l10n_rhm_help_ai_workers_1"/>
@@ -231,8 +255,8 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 8: CROP MOISTURE & DIURNAL WEATHER ===== -->
-            <page title="$l10n_rhm_help_moisture_title" iconSliceId="rhmHelp_moisture.tab">
+            <!-- ===== PAGE 9: CROP MOISTURE & DIURNAL WEATHER ===== -->
+            <page title="$l10n_rhm_help_moisture_title" iconSliceId="rhmUi.tab_moisture">
                 <paragraph>
                     <title text="$l10n_rhm_help_moisture_sub1"/>
                     <text text="$l10n_rhm_help_moisture_1"/>
@@ -247,8 +271,8 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 9: FORAGE, ROOT CROPS & SPECIAL MACHINERY ===== -->
-            <page title="$l10n_rhm_help_special_title" iconSliceId="rhmHelp_special.tab">
+            <!-- ===== PAGE 10: FORAGE, ROOT CROPS & SPECIAL MACHINERY ===== -->
+            <page title="$l10n_rhm_help_special_title" iconSliceId="rhmUi.tab_special">
                 <paragraph>
                     <title text="$l10n_rhm_help_special_sub1"/>
                     <text text="$l10n_rhm_help_special_1"/>
@@ -263,8 +287,8 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 10: DIFFICULTY MODES & SETTINGS ===== -->
-            <page title="$l10n_rhm_help_difficulty_title" iconSliceId="rhmHelp_difficulty.tab">
+            <!-- ===== PAGE 11: DIFFICULTY MODES & SETTINGS ===== -->
+            <page title="$l10n_rhm_help_difficulty_title" iconSliceId="rhmUi.tab_difficulty">
                 <paragraph>
                     <title text="$l10n_rhm_help_difficulty_sub1"/>
                     <text text="$l10n_rhm_help_difficulty_1"/>

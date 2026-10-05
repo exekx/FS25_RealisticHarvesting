@@ -51,29 +51,29 @@ end
 
 function RHM_NotificationManager:load()
     if not self.roundedOverlay then
-        local panelTexturePath = Utils.getFilename("textures/panelRounded.dds", self.modDirectory)
+        local panelTexturePath = Utils.getFilename("textures/rhm_atlas.dds", self.modDirectory)
         self.roundedOverlay = Overlay.new(panelTexturePath, 0, 0, 1, 1)
 
         local pxUVs = {
-            topLeft     = {  0,  0,  5,  5 },
-            top         = {  5,  0, 54,  5 },
-            topRight    = { 59,  0,  5,  5 },
-            left        = {  0,  5,  5, 54 },
-            center      = {  5,  5, 54, 54 },
-            right       = { 59,  5,  5, 54 },
-            bottomLeft  = {  0, 59,  5,  5 },
-            bottom      = {  5, 59, 54,  5 },
-            bottomRight = { 59, 59,  5,  5 }
+            topLeft     = {  0, 384,  5,  5 },
+            top         = {  5, 384, 54,  5 },
+            topRight    = { 59, 384,  5,  5 },
+            left        = {  0, 389,  5, 54 },
+            center      = {  5, 389, 54, 54 },
+            right       = { 59, 389,  5, 54 },
+            bottomLeft  = {  0, 443,  5,  5 },
+            bottom      = {  5, 443, 54,  5 },
+            bottomRight = { 59, 443,  5,  5 }
         }
         self.roundedUVs = {}
         for key, coords in pairs(pxUVs) do
-            self.roundedUVs[key] = GuiUtils.getUVs(coords, {64, 64})
+            self.roundedUVs[key] = GuiUtils.getUVs(coords, {1024, 1024})
         end
     end
 
     if not self.rectOverlay then
-        local atlasPath = Utils.getFilename("textures/hud_icons.dds", self.modDirectory)
-        local bgUVs = GuiUtils.getUVs({388, 4, 56, 56}, {512, 64})
+        local atlasPath = Utils.getFilename("textures/rhm_atlas.dds", self.modDirectory)
+        local bgUVs = GuiUtils.getUVs({516, 260, 56, 56}, {1024, 1024})
         self.rectOverlay = Overlay.new(atlasPath, 0, 0, 1, 1)
         if bgUVs then
             self.rectOverlay:setUVs(bgUVs)

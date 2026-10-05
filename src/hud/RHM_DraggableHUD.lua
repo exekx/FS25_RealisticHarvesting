@@ -1,11 +1,11 @@
 -- EN: Minimalist on-screen telemetry HUD for Realistic Harvesting.
---     Uses the authentic rounded capsule slices (ui_elements.dds) with 3-part border rendering.
+--     Uses the authentic rounded capsule slices (rhm_atlas.dds) with 3-part border rendering.
 --     Correctly tinted with dark obsidian glass color (0.028, 0.030, 0.036, 0.88).
 --     Docks dynamically beneath the auxiliary combine telemetry bar or F1 ControlsHelp menu.
 --     Dynamically tracks the F1 help menu toggle via g_gameSettings showHelpMenu.
 --     Supports interactive click-to-cycle metrics (t/h <-> ha/h, Loss <-> Speed, Moisture <-> Yield).
 -- UA: Мінімалістичний телеметричний HUD для Realistic Harvesting.
---     Використовує текстуру капсули (ui_elements.dds) з 3-компонентними заокругленими кутами.
+--     Використовує текстуру капсули (rhm_atlas.dds) з 3-компонентними заокругленими кутами.
 --     Тонований у глибокий колір темного скла (0.028, 0.030, 0.036, 0.88).
 --     Приліпає динамічно під смугу додаткової телеметрії комбайна або меню довідки F1 (ControlsHelp).
 --     Динамічно відстежує відкриття/закриття F1 через g_gameSettings showHelpMenu.
@@ -79,33 +79,34 @@ function RHMDraggableHUD:load()
     end
 
     self.height = 0.042 * self.uiScale
-    self.width  = 0.172 * self.uiScale
+    self.width  = 0.176 * self.uiScale
 
-    -- 1. Load authentic FS25 rounded panel texture
+    -- 1. Load authentic FS25 rounded panel texture from unified atlas
     if not self.roundedOverlay then
-        local panelTexturePath = self.modDirectory .. "textures/panelRounded.dds"
+        local panelTexturePath = self.modDirectory .. "textures/rhm_atlas.dds"
         self.roundedOverlay = Overlay.new(panelTexturePath, 0, 0, 1, 1)
 
+        -- 9-slice UVs from rhm_atlas.dds (panel_rounded slot at X: 0, Y: 384, Size: 64x64)
         local pxUVs = {
-            topLeft     = {  0,  0,  5,  5 },
-            top         = {  5,  0, 54,  5 },
-            topRight    = { 59,  0,  5,  5 },
-            left        = {  0,  5,  5, 54 },
-            center      = {  5,  5, 54, 54 },
-            right       = { 59,  5,  5, 54 },
-            bottomLeft  = {  0, 59,  5,  5 },
-            bottom      = {  5, 59, 54,  5 },
-            bottomRight = { 59, 59,  5,  5 }
+            topLeft     = {  0, 384,  5,  5 },
+            top         = {  5, 384, 54,  5 },
+            topRight    = { 59, 384,  5,  5 },
+            left        = {  0, 389,  5, 54 },
+            center      = {  5, 389, 54, 54 },
+            right       = { 59, 389,  5, 54 },
+            bottomLeft  = {  0, 443,  5,  5 },
+            bottom      = {  5, 443, 54,  5 },
+            bottomRight = { 59, 443,  5,  5 }
         }
         self.roundedUVs = {}
         for key, coords in pairs(pxUVs) do
-            self.roundedUVs[key] = GuiUtils.getUVs(coords, {64, 64})
+            self.roundedUVs[key] = GuiUtils.getUVs(coords, {1024, 1024})
         end
     end
 
-    -- 2. Solid 1x1 overlay for dividers and underline indicators
-    self.iconAtlasPath = self.modDirectory .. "textures/hud_icons.dds"
-    self.bgUVs = GuiUtils.getUVs({452, 4, 56, 56}, {512, 64})
+    -- 2. Solid 1x1 overlay for dividers and underline indicators (solid_white at X: 512, Y: 256)
+    self.iconAtlasPath = self.modDirectory .. "textures/rhm_atlas.dds"
+    self.bgUVs = GuiUtils.getUVs({516, 260, 56, 56}, {1024, 1024})
     self.rectOverlay = Overlay.new(self.iconAtlasPath, 0, 0, 1, 1)
     if self.bgUVs then
         self.rectOverlay:setUVs(self.bgUVs)
@@ -131,23 +132,24 @@ end
 
 function RHMDraggableHUD:loadIcons(uiScale)
     self.height = 0.042 * self.uiScale
-    self.width  = 0.172 * self.uiScale
+    self.width  = 0.176 * self.uiScale
 
     local iconHeight = 0.024 * self.uiScale
     local iconWidth  = iconHeight / g_screenAspectRatio
 
-    local atlasPath = self.iconAtlasPath or (self.modDirectory .. "textures/hud_icons.dds")
-    local atlasSize = {512, 64}
+    local atlasPath = self.iconAtlasPath or (self.modDirectory .. "textures/rhm_atlas.dds")
+    local atlasSize = {1024, 1024}
     local iconPx = 64
 
     local iconDefs = {
-        load         = {0,     0, iconPx, iconPx},
-        yield        = {64,    0, iconPx, iconPx},
-        productivity = {128,   0, iconPx, iconPx},
-        moisture     = {192,   0, iconPx, iconPx},
-        loss         = {256,   0, iconPx, iconPx},
-        speed        = {320,   0, iconPx, iconPx},
-        weed         = {384,   0, iconPx, iconPx}
+        load         = {0,     256, iconPx, iconPx},
+        yield        = {64,    256, iconPx, iconPx},
+        productivity = {128,   256, iconPx, iconPx},
+        moisture     = {192,   256, iconPx, iconPx},
+        loss         = {256,   256, iconPx, iconPx},
+        speed        = {320,   256, iconPx, iconPx},
+        weed         = {384,   256, iconPx, iconPx},
+        area_rate    = {448,   256, iconPx, iconPx}
     }
 
     for name, uvRect in pairs(iconDefs) do
@@ -391,7 +393,7 @@ function RHMDraggableHUD:getDockedPosition()
 
     local uiScale = self.uiScale or 1.0
     local defaultX = 0.016 * uiScale
-    local defaultW = 0.172 * uiScale
+    local defaultW = 0.176 * uiScale
 
     local ch = rhm_getInputHelpDisplay()
     local spacing = (ch and ch.lineOffsetY) or (0.0030 * uiScale)
@@ -822,7 +824,7 @@ function RHMDraggableHUD:draw()
 
         -- Icon (vertically centered on the left of cell)
         local icon = self.icons[cell.iconName]
-        local iconX = currentX + 0.0035 * self.uiScale
+        local iconX = currentX + 0.0022 * self.uiScale
         local iconY = y + (h - iconH) * 0.50
         if icon then
             icon:setPosition(iconX, iconY)
@@ -832,9 +834,10 @@ function RHMDraggableHUD:draw()
         end
 
         -- Two-line stacked typography: number on top, unit on bottom (or centered if no unit)
-        local textX = iconX + iconW + 0.0028 * self.uiScale
+        local textX = iconX + iconW + 0.0020 * self.uiScale
         local hasUnit = (cell.unitStr and cell.unitStr ~= "")
-        local topY = hasUnit and (y + h * 0.49) or (y + (h - numTextSize) * 0.50 + 0.0010 * self.uiScale)
+        local currentNumSize = (cell.numStr and #cell.numStr >= 5) and (numTextSize * 0.93) or numTextSize
+        local topY = hasUnit and (y + h * 0.49) or (y + (h - currentNumSize) * 0.50 + 0.0010 * self.uiScale)
         local botY = y + h * 0.17
 
         setTextBold(true)
@@ -844,7 +847,7 @@ function RHMDraggableHUD:draw()
         else
             setTextColor(0.98, 0.98, 0.98, 0.98)
         end
-        renderText(textX, topY, numTextSize, cell.numStr)
+        renderText(textX, topY, currentNumSize, cell.numStr)
 
         if hasUnit then
             if cell.rankColor and cell.unitStr and cell.unitStr:sub(1, 1) == "[" then
@@ -873,11 +876,12 @@ function RHMDraggableHUD:draw()
             end
         end
 
-        -- Dynamic Colored Underline Indicator (exact PF style: centered under text)
+        -- Dynamic Colored Underline Indicator (exact PF style: centered under text, strictly contained in cell)
         if cell.indicatorColor then
-            local numW = (getTextWidth and getTextWidth(numTextSize, cell.numStr)) or (0.020 * self.uiScale)
-            local indW = math.max(0.016 * self.uiScale, numW)
+            local numW = (getTextWidth and getTextWidth(currentNumSize, cell.numStr)) or (0.018 * self.uiScale)
             local indX = textX
+            local maxIndW = math.max(0.008 * self.uiScale, cellEndX - indX - 0.0020 * self.uiScale)
+            local indW = math.min(math.max(0.014 * self.uiScale, numW), maxIndW)
             local indH = 0.0020 * self.uiScale
             local indY = y + 0.0035 * self.uiScale
             local c = cell.indicatorColor
@@ -1093,7 +1097,7 @@ function RHMDraggableHUD:buildActiveCells()
 
     if mode3 == "weed" then
         local wVal = (d.weedRatio or 0) * 100
-        local valStr = (wVal <= 0.5) and "0%" or string.format("%.0f%%", wVal)
+        local valStr = (wVal <= 0.05) and "0.0%" or string.format("%.1f%%", wVal)
         local textColor = {0.98, 0.98, 0.98, 1.0}
         local indColor = {0.529, 0.706, 0.0, 1.0}
         if wVal > 20 then
@@ -1155,7 +1159,7 @@ function RHMDraggableHUD:buildActiveCells()
             unitLabel = string.format("%s | %s", locAreaUnit, tripAreaSubStr)
         end
         table.insert(cells, {
-            iconName = "yield",
+            iconName = "area_rate",
             numStr = valStr,
             unitStr = unitLabel,
             color = {0.98, 0.98, 0.98, 1.0}
@@ -1293,7 +1297,7 @@ function RHMDraggableHUD:handleCellClick(clickedCol)
         end
         handled = true
 
-    elseif clickedCol == 4 or clickedCol == #cells or cell.iconName == "productivity" or (cell.iconName == "yield" and clickedCol == 4) then
+    elseif clickedCol == 4 or clickedCol == #cells or cell.iconName == "productivity" or cell.iconName == "area_rate" or (cell.iconName == "yield" and clickedCol == 4) then
         -- Column 4: Cycle between yield (t/ha), throughput (t/h), and work rate (ha/h)
         local curMode = self.displayModes.cell4 or "yield"
         if curMode == "yield" then

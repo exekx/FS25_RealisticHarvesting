@@ -1,6 +1,10 @@
 # Realistic Harvesting - Changelog
 
 Changelog 1.6.2.0:
+- ADDED: Unified single-texture atlas (rhm_atlas) consolidating all scattered HUD, UI, and tab icons into an optimized 1024x1024 DXT5 texture with full 9-level mipmaps.
+- ADDED: Complete base game crop database physics presets (Sugarcane, Poplar, Beetroot, Green Bean) and calibration handbook entries across all 27 languages.
+- IMPROVED: Standardized HUD icon bounding box scale, enlarged weed canopy icon (+42%), and optimized cell layout eliminating text overflow on double-digit values.
+- FIXED: In-cab calibration terminal nil call crash on stationary combines by centralizing environmental context resolution into RHM_MoistureAdapter.
 - ADDED: Active rented (leased) and contract (mission) combine support in Fleet overview with localized status badges.
 - ADDED: Automatic clean pruning of returned rental and completed contract combines without polluting the sold machine archive.
 - ADDED: Dedicated live weed canopy density indicator on HUD with dynamic sampling across the entire cutterbar width.

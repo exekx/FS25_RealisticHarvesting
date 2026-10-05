@@ -119,6 +119,14 @@ RHM_CombineSettingsDatabase.canonicalCropNames = {
     ["OLIVES"]          = "OLIVE",
     ["WHITEGRAPE"]      = "GRAPE",
     ["REDGRAPE"]        = "GRAPE",
+    ["CANE"]            = "SUGARCANE",
+    ["SUGARCANE"]       = "SUGARCANE",
+    ["POPLAR"]          = "POPLAR",
+    ["WOODCHIPS"]       = "POPLAR",
+    ["RED_BEET"]        = "BEETROOT",
+    ["REDBEET"]         = "BEETROOT",
+    ["GREEN_BEAN"]      = "GREENBEAN",
+    ["GREENBEANS"]      = "GREENBEAN",
 }
 
 ---EN: Returns the canonical internal crop name for any given alias or variation.
@@ -152,6 +160,14 @@ RHM_CombineSettingsDatabase.cropAliases = {
     ["FIELD_BEAN"]      = "BEANS",
     ["PEAS"]            = "PEA",
     ["PEA"]             = "PEAS",
+    ["CANE"]            = "SUGARCANE",
+    ["SUGARCANE"]       = "CANE",
+    ["POPLAR"]          = "WOODCHIPS",
+    ["WOODCHIPS"]       = "POPLAR",
+    ["RED_BEET"]        = "BEETROOT",
+    ["REDBEET"]         = "BEETROOT",
+    ["GREEN_BEAN"]      = "GREENBEAN",
+    ["GREENBEANS"]      = "GREENBEAN",
 }
 
 RHM_CombineSettingsDatabase.crops = {
@@ -226,9 +242,13 @@ RHM_CombineSettingsDatabase.crops = {
     ["LUCERNE_WINDROW"]  = { machineType = "forage", group = "forage", fillType = safeFillType(FillType.ALFALFA_WINDROW) },
     ["CLOVER_WINDROW"]   = { machineType = "forage", group = "forage", fillType = safeFillType(FillType.CLOVER_WINDROW) },
     ["MAIZE_FORAGE"]     = { machineType = "forage", group = "forage", fillType = safeFillType(FillType.MAIZE) },
+    ["POPLAR"]           = { machineType = "forage", group = "forage", fillType = safeFillType(FillType.WOODCHIPS) },
 
     -- Бавовник (machineType = "cotton")
     ["COTTON"] = { machineType = "cotton", group = "cotton", fillType = safeFillType(FillType.COTTON) },
+
+    -- Цукрова тростина (machineType = "root")
+    ["SUGARCANE"] = { machineType = "root", group = "root", fillType = safeFillType(FillType.SUGARCANE) },
 
     -- Виноград та Оливки (machineType = "grape" / "olive")
     ["GRAPE"]  = { machineType = "grape", group = "grape", fillType = safeFillType(FillType.GRAPE) },
@@ -247,6 +267,8 @@ RHM_CombineSettingsDatabase.crops["GRAPES"] = RHM_CombineSettingsDatabase.crops[
 RHM_CombineSettingsDatabase.crops["OLIVES"] = RHM_CombineSettingsDatabase.crops["OLIVE"]
 RHM_CombineSettingsDatabase.crops["WHITEGRAPE"] = RHM_CombineSettingsDatabase.crops["GRAPE"]
 RHM_CombineSettingsDatabase.crops["REDGRAPE"] = RHM_CombineSettingsDatabase.crops["GRAPE"]
+RHM_CombineSettingsDatabase.crops["CANE"] = RHM_CombineSettingsDatabase.crops["SUGARCANE"]
+RHM_CombineSettingsDatabase.crops["WOODCHIPS"] = RHM_CombineSettingsDatabase.crops["POPLAR"]
 
 ---EN: Dynamically derives physical optimal settings for any crop (vanilla or modded) using FS25 properties & ASABE standards.
 ---UA: Динамічно розраховує фізичні оптимальні налаштування для будь-якої культури за властивостями FS25 та стандартами ASABE.
@@ -328,6 +350,14 @@ function RHM_CombineSettingsDatabase:calculatePhysicalOptimalSettings(cropName, 
                 feeder = {optimal = 65, min = 45, max = 85, tolerance = 8},
                 moistureLimit = 40,
             }
+        elseif cropName:find("POPLAR") or cropName:find("WOOD") then
+            -- Poplar woodchips: heavy chipper drum (85%), discharge accelerator blower (85%), feed rolls (50%)
+            template = {
+                fan    = {optimal = 85, min = 65, max = 100, tolerance = 8},
+                rotor  = {optimal = 85, min = 65, max = 100, tolerance = 8},
+                feeder = {optimal = 50, min = 30, max = 70,  tolerance = 8},
+                moistureLimit = 50,
+            }
         else
             -- Direct-cut standing grass/lucerne/clover: juicy long stems, high cut resistance
             template = {
@@ -339,7 +369,15 @@ function RHM_CombineSettingsDatabase:calculatePhysicalOptimalSettings(cropName, 
         end
 
     elseif machineType == "root" then
-        if cropName:find("SPINACH") or cropName:find("LEAF") or cropName:find("HERB") then
+        if cropName:find("SUGARCANE") or cropName:find("CANE") then
+            -- Sugar cane: primary extractor fan (80%), billet chopper drums (70%), elevator conveyor (65%)
+            template = {
+                fan    = {optimal = 80, min = 60, max = 100, tolerance = 8},
+                rotor  = {optimal = 70, min = 50, max = 90,  tolerance = 8},
+                feeder = {optimal = 65, min = 45, max = 85,  tolerance = 8},
+                moistureLimit = 75,
+            }
+        elseif cropName:find("SPINACH") or cropName:find("LEAF") or cropName:find("HERB") then
             template = {
                 fan    = {optimal = 20, min = 5,  max = 40, tolerance = 5},
                 rotor  = {optimal = 25, min = 10, max = 45, tolerance = 5},
@@ -539,19 +577,13 @@ function RHM_CombineSettingsDatabase:applyEnvironmentalOffsets(baseTemplate, con
     -- EN: Safely extract or resolve environmental factors
     -- UA: Безпечно витягуємо або визначаємо фактори навколишнього середовища
     local dayTimeHours = context.dayTime
-    if not dayTimeHours and g_currentMission and g_currentMission.environment then
-        if g_currentMission.environment.dayTime then
-            dayTimeHours = g_currentMission.environment.dayTime / 3600000
-        elseif g_currentMission.environment.currentHour then
-            dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
-        end
+    local isRaining = context.isRaining
+    if (dayTimeHours == nil or isRaining == nil) and RHM_MoistureAdapter and RHM_MoistureAdapter.getEnvironmentContext then
+        local envH, envR = RHM_MoistureAdapter.getEnvironmentContext()
+        dayTimeHours = dayTimeHours or envH
+        if isRaining == nil then isRaining = envR end
     end
     dayTimeHours = dayTimeHours or 12.0
-
-    local isRaining = context.isRaining
-    if isRaining == nil and g_currentMission and g_currentMission.environment and g_currentMission.environment.weather then
-        isRaining = g_currentMission.environment.weather:getIsRaining()
-    end
     isRaining = isRaining or false
 
     local moisture = context.moisture or 0

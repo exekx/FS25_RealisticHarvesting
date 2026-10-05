@@ -9,20 +9,12 @@ RHM_CombineMemory = {}
 local CombineMemory_mt = Class(RHM_CombineMemory)
 
 local function getEnvironmentContext()
-    local dayTimeHours = 12.0
-    local isRaining = false
-    if g_currentMission and g_currentMission.environment then
-        if g_currentMission.environment.dayTime then
-            dayTimeHours = g_currentMission.environment.dayTime / 3600000
-        elseif g_currentMission.environment.currentHour then
-            dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
-        end
-        if g_currentMission.environment.weather then
-            isRaining = g_currentMission.environment.weather:getIsRaining()
-        end
+    if RHM_MoistureAdapter and RHM_MoistureAdapter.getEnvironmentContext then
+        return RHM_MoistureAdapter.getEnvironmentContext()
     end
-    return dayTimeHours, isRaining
+    return 12.0, false
 end
+RHM_CombineMemory.getEnvironmentContext = getEnvironmentContext
 
 -- EN: Creates a new RHM_CombineMemory instance tied to a specific combine vehicle.
 --     Initializes all parameters to 50% and sets AUTO mode as default.

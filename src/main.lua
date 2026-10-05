@@ -31,6 +31,7 @@ source(modDirectory .. "src/network/RHM_SettingsSyncEvent.lua")
 source(modDirectory .. "src/network/RHM_SettingsSync.lua")
 source(modDirectory .. "src/utils/RHM_InputUtil.lua")
 source(modDirectory .. "src/utils/RHM_UnitConverter.lua")
+source(modDirectory .. "src/integration/RHM_MoistureAdapter.lua")
 source(modDirectory .. "src/settings/RHM_SettingsUI.lua")
 source(modDirectory .. "src/hud/RHM_NotificationManager.lua")
 source(modDirectory .. "src/hud/RHM_DraggableHUD.lua")
@@ -49,7 +50,6 @@ source(modDirectory .. "src/gui/frames/RHM_HarvestHistoryFields.lua")
 source(modDirectory .. "src/gui/frames/RHM_HarvestHistoryAnalytics.lua")
 source(modDirectory .. "src/gui/frames/RHM_HarvestHistoryFleet.lua")
 source(modDirectory .. "src/gui/RHM_HarvestHistoryGUI.lua")
-source(modDirectory .. "src/integration/RHM_MoistureAdapter.lua")
 source(modDirectory .. "src/integration/RHM_ModCompatibility.lua")
 source(modDirectory .. "src/integration/RHM_Api.lua")
 if RHM_Api then
@@ -107,13 +107,9 @@ local function loadedMission(mission, node)
         RHM_CombineSettingsDatabase:initMapCrops()
     end
 
-    -- EN: Register custom help menu tab icons & UI icon atlas
-    -- UA: Реєструємо власні іконки для вкладок меню довідки та атлас іконок інтерфейсу
-    local tabs = {"overview", "hud", "calibration", "trip", "croploss", "upgrades", "ai_workers", "moisture", "special", "difficulty"}
-    for _, tab in ipairs(tabs) do
-        g_overlayManager:addTextureConfigFile(modDirectory .. "textures/tab_icons/" .. tab .. ".xml", "rhmHelp_" .. tab)
-    end
-    g_overlayManager:addTextureConfigFile(modDirectory .. "textures/rhm_ui_icons.xml", "rhmUi")
+    -- EN: Register unified RHM texture atlas (Help tabs, HUD telemetry, and Shift+J UI icons)
+    -- UA: Реєструємо єдиний атлас іконок RHM (вкладки довідки, HUD телеметрія та іконки Shift+J)
+    g_overlayManager:addTextureConfigFile(modDirectory .. "textures/rhm_atlas.xml", "rhmUi")
 
     rhm:onMissionLoaded()
 

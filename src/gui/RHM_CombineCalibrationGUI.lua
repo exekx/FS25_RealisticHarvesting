@@ -131,31 +131,31 @@ function RHMCombineCalibrationGUI.new(modDirectory)
     self.dragOffsetTabletY = 0
     self.hasCustomPosition = false
 
-    local bgTexture = self.modDirectory .. "textures/hud_icons.dds"
+    local bgTexture = self.modDirectory .. "textures/rhm_atlas.dds"
     self.overlay = Overlay.new(bgTexture, 0, 0, 1, 1)
     if GuiUtils and GuiUtils.getUVs then
-        self.overlay:setUVs(GuiUtils.getUVs({388, 4, 56, 56}, {512, 64}))
+        self.overlay:setUVs(GuiUtils.getUVs({516, 260, 56, 56}, {1024, 1024}))
     else
-        self.overlay:setUVs({0.758, 0.062, 0.758, 0.937, 0.867, 0.062, 0.867, 0.937})
+        self.overlay:setUVs({0.5039, 0.2539, 0.5039, 0.3086, 0.5586, 0.2539, 0.5586, 0.3086})
     end
 
-    local panelTexturePath = Utils.getFilename("textures/panelRounded.dds", self.modDirectory)
+    local panelTexturePath = Utils.getFilename("textures/rhm_atlas.dds", self.modDirectory)
     self.roundedOverlay = Overlay.new(panelTexturePath, 0, 0, 1, 1)
 
     local pxUVs = {
-        topLeft     = {  0,  0,  5,  5 },
-        top         = {  5,  0, 54,  5 },
-        topRight    = { 59,  0,  5,  5 },
-        left        = {  0,  5,  5, 54 },
-        center      = {  5,  5, 54, 54 },
-        right       = { 59,  5,  5, 54 },
-        bottomLeft  = {  0, 59,  5,  5 },
-        bottom      = {  5, 59, 54,  5 },
-        bottomRight = { 59, 59,  5,  5 }
+        topLeft     = {  0, 384,  5,  5 },
+        top         = {  5, 384, 54,  5 },
+        topRight    = { 59, 384,  5,  5 },
+        left        = {  0, 389,  5, 54 },
+        center      = {  5, 389, 54, 54 },
+        right       = { 59, 389,  5, 54 },
+        bottomLeft  = {  0, 443,  5,  5 },
+        bottom      = {  5, 443, 54,  5 },
+        bottomRight = { 59, 443,  5,  5 }
     }
     self.roundedUVs = {}
     for key, coords in pairs(pxUVs) do
-        self.roundedUVs[key] = GuiUtils.getUVs(coords, {64, 64})
+        self.roundedUVs[key] = GuiUtils.getUVs(coords, {1024, 1024})
     end
 
     return self
@@ -501,7 +501,8 @@ function RHMCombineCalibrationGUI:draw()
         local sectionsShown = 0
         for _, section in ipairs(SECTIONS_ORDERED) do
             for _, p in ipairs(activeParams) do
-                if PARAM_SECTION_MAP[p] == section.key then
+                local sKey = PARAM_SECTION_MAP[p] or "SEPARATION"
+                if sKey == section.key then
                     sectionsShown = sectionsShown + 1
                     break
                 end
@@ -972,24 +973,9 @@ function RHMCombineCalibrationGUI:draw()
         local liveWeed = (spec and spec.data and spec.data.weedRatio) or 0
 
         -- Ambient standing crop moisture fallback when stationary / cutter off
-        if liveMoisture <= 0 then
-            if RHM_MoistureAdapter and RHM_MoistureAdapter.isActive and self.activeVehicle then
-                local fillType = spec.lastFillType or (spec.combineMemory and spec.combineMemory.currentCrop)
-                if fillType then
-                    liveMoisture = RHM_MoistureAdapter.getObjectMoisture(self.activeVehicle, fillType) or 0
-                end
-                if liveMoisture <= 0 and self.activeVehicle.components and self.activeVehicle.components[1] then
-                    local mx, _, mz = getWorldTranslation(self.activeVehicle.components[1].node)
-                    liveMoisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz) or 0
-                end
-            end
-            if liveMoisture <= 0 then
-                local dayTimeHours, isRaining = getEnvironmentContext()
-                local diurnalFactor = math.cos(((dayTimeHours or 12.0) - 3.0) * 0.2617993877991494)
-                local baseM = 12.5 + (diurnalFactor > 0 and (diurnalFactor * 5.5) or (diurnalFactor * 1.5))
-                if isRaining then baseM = math.max(baseM, 22.0) end
-                liveMoisture = baseM
-            end
+        if liveMoisture <= 0 and RHM_MoistureAdapter and RHM_MoistureAdapter.getStandingCropMoisture then
+            local fillType = spec and (spec.lastFillType or (spec.combineMemory and spec.combineMemory.currentCrop))
+            liveMoisture = RHM_MoistureAdapter.getStandingCropMoisture(self.activeVehicle, fillType) or 0
         end
 
         local envText = ""
@@ -1071,7 +1057,8 @@ function RHMCombineCalibrationGUI:draw()
     for _, section in ipairs(SECTIONS_ORDERED) do
         local hasAny = false
         for _, p in ipairs(activeParams) do
-            if PARAM_SECTION_MAP[p] == section.key then
+            local sKey = PARAM_SECTION_MAP[p] or "SEPARATION"
+            if sKey == section.key then
                 hasAny = true
                 break
             end
@@ -1091,7 +1078,8 @@ function RHMCombineCalibrationGUI:draw()
             renderText(x + ui.margin + 0.006, cy + 0.006, ui.sectionSize, sLabel)
 
             for _, p in ipairs(activeParams) do
-                if PARAM_SECTION_MAP[p] == section.key and not drawnParams[p] then
+                local sKey = PARAM_SECTION_MAP[p] or "SEPARATION"
+                if sKey == section.key and not drawnParams[p] then
                     cy = cy - ui.lineHeight
                     local labelKey = RHM_CombineSettingsDatabase:getParamLabel(machineType, p)
                     local label = g_i18n:hasText(labelKey) and g_i18n:getText(labelKey) or p
@@ -1800,24 +1788,22 @@ function RHMCombineCalibrationGUI:handleWheelScroll(direction, posX, posY)
 end
 
 function RHMCombineCalibrationGUI:getHarvestContext(machineType)
-    local dayTimeHours = nil
-    local isRaining = nil
-    if g_currentMission and g_currentMission.environment then
-        if g_currentMission.environment.dayTime then
-            dayTimeHours = g_currentMission.environment.dayTime / 3600000
-        elseif g_currentMission.environment.currentHour then
-            dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
-        end
-        if g_currentMission.environment.weather then
-            isRaining = g_currentMission.environment.weather:getIsRaining()
-        end
+    local dayTimeHours, isRaining = 12.0, false
+    if RHM_MoistureAdapter and RHM_MoistureAdapter.getEnvironmentContext then
+        dayTimeHours, isRaining = RHM_MoistureAdapter.getEnvironmentContext()
     end
 
     if self.activeVehicle and self.activeVehicle.spec_rhm_Combine then
         local rhmSpec = self.activeVehicle.spec_rhm_Combine
+        local m = (rhmSpec.data and rhmSpec.data.moisture) or 0
+        if m <= 0 and RHM_MoistureAdapter and RHM_MoistureAdapter.getStandingCropMoisture then
+            local fillType = rhmSpec.lastFillType or (rhmSpec.combineMemory and rhmSpec.combineMemory.currentCrop)
+            m = RHM_MoistureAdapter.getStandingCropMoisture(self.activeVehicle, fillType) or 0
+        end
+
         return {
             machineType = machineType or rhmSpec.machineType or "grain",
-            moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0,
+            moisture = m,
             weedRatio = (rhmSpec.data and rhmSpec.data.weedRatio) or (rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentWeedRatio) or 0,
             yield = (rhmSpec.data and rhmSpec.data.yield) or 0,
             isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,

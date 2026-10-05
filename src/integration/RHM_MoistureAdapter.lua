@@ -108,3 +108,95 @@ function RHM_MoistureAdapter.getMoistureAtPosition(x, z)
     
     return nil
 end
+
+---EN: Retrieves current environment daytime in hours (0.0 to 24.0) and precipitation status.
+---UA: Отримує поточний час доби в годинах (0.0 - 24.0) та статус опадів (чи йде дощ).
+---@return number dayTimeHours Current hour in mission time (default 12.0)
+---@return boolean isRaining True if precipitation is currently active
+function RHM_MoistureAdapter.getEnvironmentContext()
+    local dayTimeHours = 12.0
+    local isRaining = false
+    if g_currentMission and g_currentMission.environment then
+        if g_currentMission.environment.dayTime then
+            dayTimeHours = g_currentMission.environment.dayTime / 3600000
+        elseif g_currentMission.environment.currentHour then
+            dayTimeHours = g_currentMission.environment.currentHour + (g_currentMission.environment.currentMinute or 0) / 60
+        end
+        if g_currentMission.environment.weather then
+            isRaining = g_currentMission.environment.weather:getIsRaining()
+        end
+    end
+    return dayTimeHours, isRaining
+end
+
+---EN: Calculates ambient diurnal standing crop moisture based on daylight hours and rain.
+---    Uses harmonic diurnal curve: peak dew at 03:00 (+5.5%), dry sun at 15:00 (-1.5%), min 22% during rain.
+---UA: Розраховує добову фонову вологість незібраного врожаю на основі часу доби та опадів.
+---@param dayTimeHours number|nil Time of day in hours (0.0 - 24.0). If nil, auto-queried.
+---@param isRaining boolean|nil Rain status. If nil, auto-queried.
+---@return number moisturePct Ambient moisture percentage (approx 11.0% to 22.0+%)
+function RHM_MoistureAdapter.calculateAmbientMoisture(dayTimeHours, isRaining)
+    if dayTimeHours == nil or isRaining == nil then
+        local envHours, envRain = RHM_MoistureAdapter.getEnvironmentContext()
+        dayTimeHours = dayTimeHours or envHours
+        if isRaining == nil then
+            isRaining = envRain
+        end
+    end
+
+    local diurnalFactor = math.cos((dayTimeHours - 3.0) * 0.2617993877991494)
+    local baseMoisture = 12.5
+    if diurnalFactor > 0 then
+        baseMoisture = baseMoisture + (diurnalFactor * 5.5) -- Up to 18.0% at peak morning dew
+    else
+        baseMoisture = baseMoisture + (diurnalFactor * 1.5) -- Down to 11.0% in dry afternoon sun
+    end
+
+    if isRaining then
+        baseMoisture = math.max(baseMoisture, 22.0)
+    end
+
+    return baseMoisture
+end
+
+---EN: Resolves standing crop moisture for a combine vehicle (active provider -> ground position -> diurnal fallback).
+---UA: Визначає вологість незібраної культури для комбайна (провайдер -> позиція на полі -> добова симуляція).
+---@param vehicle table|nil Target combine vehicle
+---@param fillType number|string|nil Target crop fill type
+---@return number moisturePct Calculated or measured moisture percentage
+function RHM_MoistureAdapter.getStandingCropMoisture(vehicle, fillType)
+    local dayTimeHours, isRaining = RHM_MoistureAdapter.getEnvironmentContext()
+
+    if RHM_MoistureAdapter.isActive and vehicle then
+        -- 1. Try vehicle/fillType registered moisture from external provider
+        if fillType and fillType ~= FillType.UNKNOWN then
+            local objM = RHM_MoistureAdapter.getObjectMoisture(vehicle, fillType)
+            if objM and objM > 0 then
+                return objM
+            end
+        end
+
+        -- 2. Try world coordinate ground moisture at vehicle position
+        if vehicle.components and vehicle.components[1] then
+            local mx, _, mz = getWorldTranslation(vehicle.components[1].node)
+            local rawSoilMoisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz)
+            if rawSoilMoisture and rawSoilMoisture > 0 then
+                if isRaining then
+                    return math.max(rawSoilMoisture, 22.0)
+                else
+                    local diurnalFactor = math.cos((dayTimeHours - 3.0) * 0.2617993877991494)
+                    if diurnalFactor <= 0 then
+                        local dryScale = 0.45 + (1.0 + diurnalFactor) * 0.20
+                        return math.max(8.0, math.min(13.5, rawSoilMoisture * dryScale))
+                    else
+                        return math.max(12.0, math.min(25.0, rawSoilMoisture * (0.65 + diurnalFactor * 0.35)))
+                    end
+                end
+            end
+        end
+    end
+
+    -- 3. Canonical environmental diurnal simulation fallback
+    return RHM_MoistureAdapter.calculateAmbientMoisture(dayTimeHours, isRaining)
+end
+
