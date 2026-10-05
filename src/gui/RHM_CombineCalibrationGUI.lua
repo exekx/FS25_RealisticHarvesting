@@ -40,6 +40,31 @@ local SECTIONS_ORDERED = {
     { key = "DISCHARGE",  label = "rhm_ui_section_discharge"  },
 }
 
+local function renderPanelSlice(overlay, sx, sy, sw, sh, uvs)
+    if sw <= 0 or sh <= 0 or not uvs then return end
+    overlay:setPosition(sx, sy)
+    overlay:setDimension(sw, sh)
+    overlay:setUVs(uvs)
+    overlay:render()
+end
+
+local TIER_CONFIGS = {
+    [1] = { labelKey = "rhm_ui_tier1_manual", defaultLabel = "TIER 1 - MANUAL",  bg = {0.08, 0.09, 0.10, 0.85}, border = {1.0, 1.0, 1.0, 0.12}, text = {0.70, 0.72, 0.76, 1.0} },
+    [2] = { labelKey = "rhm_ui_tier2_sensors", defaultLabel = "TIER 2 - SENSORS", bg = {0.12, 0.10, 0.04, 0.85}, border = {0.95, 0.72, 0.18, 0.60}, text = {0.95, 0.72, 0.18, 1.0} },
+    [3] = { labelKey = "rhm_ui_tier3_monitor", defaultLabel = "TIER 3 - MONITOR", bg = {0.08, 0.12, 0.04, 0.85}, border = {0.529, 0.706, 0.0, 0.60}, text = {0.529, 0.706, 0.0, 1.0} },
+    [4] = { labelKey = "rhm_ui_tier4_opti",    defaultLabel = "TIER 4 - AI OPTI", bg = {0.05, 0.06, 0.07, 0.90}, border = {0.529, 0.706, 0.0, 0.80}, text = {1.0, 1.0, 1.0, 1.0} }
+}
+
+local function getTierConfig(packageLevel)
+    local level = math.min(4, math.max(1, packageLevel or 1))
+    local cfg = TIER_CONFIGS[level] or TIER_CONFIGS[1]
+    if not cfg.label or cfg._lastLang ~= (g_i18n and g_i18n.currentLanguage) then
+        cfg.label = (g_i18n and g_i18n:hasText(cfg.labelKey)) and g_i18n:getText(cfg.labelKey) or cfg.defaultLabel
+        cfg._lastLang = g_i18n and g_i18n.currentLanguage
+    end
+    return cfg
+end
+
 function RHMCombineCalibrationGUI.new(modDirectory)
     local self = setmetatable({}, CombineCalibrationGUI_mt)
     self.modDirectory = modDirectory
@@ -351,10 +376,12 @@ function RHMCombineCalibrationGUI:close()
 end
 
 function RHMCombineCalibrationGUI:cycleCrop(direction)
-    local spec = self.activeVehicle.spec_rhm_Combine
+    local spec = self.activeVehicle and self.activeVehicle.spec_rhm_Combine
+    if not spec or not spec.combineMemory then return end
+
     local machineType = spec.machineType or "grain"
     local crops = RHM_CombineSettingsDatabase:getCropNamesForMachineType(machineType, self.activeVehicle)
-    if #crops == 0 then return end
+    if not crops or #crops == 0 then return end
 
     local current = spec.combineMemory.currentCrop
     local canonicalCurrent = RHM_CombineSettingsDatabase and RHM_CombineSettingsDatabase.getCanonicalCropName and RHM_CombineSettingsDatabase:getCanonicalCropName(current)
@@ -598,13 +625,7 @@ function RHMCombineCalibrationGUI:draw()
 
     -- Tier Badge
     local packageLevel = (spec and spec.packageLevel) or 1
-    local tierConfigs = {
-        [1] = { label = g_i18n:hasText("rhm_ui_tier1_manual") and g_i18n:getText("rhm_ui_tier1_manual") or "TIER 1 - MANUAL",  bg = {0.08, 0.09, 0.10, 0.85}, border = {1.0, 1.0, 1.0, 0.12}, text = {0.70, 0.72, 0.76, 1.0} },
-        [2] = { label = g_i18n:hasText("rhm_ui_tier2_sensors") and g_i18n:getText("rhm_ui_tier2_sensors") or "TIER 2 - SENSORS", bg = {0.12, 0.10, 0.04, 0.85}, border = {0.95, 0.72, 0.18, 0.60}, text = {0.95, 0.72, 0.18, 1.0} },
-        [3] = { label = g_i18n:hasText("rhm_ui_tier3_monitor") and g_i18n:getText("rhm_ui_tier3_monitor") or "TIER 3 - MONITOR", bg = {0.08, 0.12, 0.04, 0.85}, border = {0.529, 0.706, 0.0, 0.60}, text = {0.529, 0.706, 0.0, 1.0} },
-        [4] = { label = g_i18n:hasText("rhm_ui_tier4_opti") and g_i18n:getText("rhm_ui_tier4_opti") or "TIER 4 - AI OPTI", bg = {0.05, 0.06, 0.07, 0.90}, border = {0.529, 0.706, 0.0, 0.80}, text = {1.0, 1.0, 1.0, 1.0} }
-    }
-    local tier = tierConfigs[math.min(4, math.max(1, packageLevel))] or tierConfigs[1]
+    local tier = getTierConfig(packageLevel)
 
     local badgeW = 0.058
     local badgeH = 0.018
@@ -837,6 +858,10 @@ function RHMCombineCalibrationGUI:draw()
     end
 
     local machineType = spec.machineType or (memory and memory.machineType) or "grain"
+    local harvestContext = self:getHarvestContext(machineType)
+    local cachedCropSettings = (RHM_CombineSettingsDatabase and memory.currentCrop)
+        and RHM_CombineSettingsDatabase:getSettingsForCrop(memory.currentCrop, harvestContext)
+        or nil
 
     -- ── Tier 3+ Live Telemetry Cards ────────────────────────────────────────
     if packageLevel >= 3 then
@@ -851,8 +876,7 @@ function RHMCombineCalibrationGUI:draw()
         local effPenalty = 0
         local lossPenalty = 0
         if memory.currentCrop then
-            local context = self:getHarvestContext(machineType)
-            effPenalty, lossPenalty, _ = memory:checkSettingsForCrop(memory.currentCrop, context)
+            effPenalty, lossPenalty, _ = memory:checkSettingsForCrop(memory.currentCrop, harvestContext)
         end
         local isArcadeMotor = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.difficultyMotor == 1)
         local isArcadeLoss = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.difficultyLoss == 1)
@@ -1083,7 +1107,7 @@ function RHMCombineCalibrationGUI:draw()
                     cy = cy - ui.lineHeight
                     local labelKey = RHM_CombineSettingsDatabase:getParamLabel(machineType, p)
                     local label = g_i18n:hasText(labelKey) and g_i18n:getText(labelKey) or p
-                    self:drawParameterRow(x + ui.margin, cy, secW, p, label, memory, ui, machineType, packageLevel)
+                    self:drawParameterRow(x + ui.margin, cy, secW, p, label, memory, ui, machineType, packageLevel, cachedCropSettings)
                     drawnParams[p] = true
                 end
             end
@@ -1107,14 +1131,14 @@ function RHMCombineCalibrationGUI:draw()
             cy = cy - ui.lineHeight
             local labelKey = RHM_CombineSettingsDatabase:getParamLabel(machineType, p)
             local label = g_i18n:hasText(labelKey) and g_i18n:getText(labelKey) or p
-            self:drawParameterRow(x + ui.margin, cy, secW, p, label, memory, ui, machineType, packageLevel)
+            self:drawParameterRow(x + ui.margin, cy, secW, p, label, memory, ui, machineType, packageLevel, cachedCropSettings)
             drawnParams[p] = true
         end
     end
 
     cy = cy - ui.lineHeight
     local loadLabel = g_i18n:hasText("rhm_target_load") and g_i18n:getText("rhm_target_load") or "Target Engine Load"
-    self:drawParameterRow(x + ui.margin, cy, secW, "targetEngineLoad", loadLabel, memory, ui, machineType, packageLevel)
+    self:drawParameterRow(x + ui.margin, cy, secW, "targetEngineLoad", loadLabel, memory, ui, machineType, packageLevel, cachedCropSettings)
 
     cy = cy - ui.margin * 0.8
     self:drawRect(x + ui.margin, cy, w - ui.margin * 2, pixelH, ui.colors.separator)
@@ -1215,7 +1239,7 @@ end
 
 ---EN: Draws an interactive parameter row with direct track slider and [-][+] micro-buttons.
 ---UA: Малює інтерактивний рядок параметра з прямим трек-слайдером та мікро-кнопками [-][+].
-function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, ui, machineType, packageLevel)
+function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, ui, machineType, packageLevel, cachedCropSettings)
     local val = memory.currentSettings[param] or 0
     local optimal = 0
     local tolerance = 5
@@ -1228,16 +1252,17 @@ function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory
         self.hoveredParameter = param
     end
 
-    -- Query optimal value from DB
-    if RHM_CombineSettingsDatabase and memory.currentCrop then
+    -- Query optimal value from DB (use cached settings if available to avoid per-row allocations)
+    local settings = cachedCropSettings
+    if not settings and RHM_CombineSettingsDatabase and memory.currentCrop then
         local context = self:getHarvestContext(machineType)
-        local settings = RHM_CombineSettingsDatabase:getSettingsForCrop(memory.currentCrop, context)
-        if settings and settings[param] then
-            optimal = settings[param].optimal
-            tolerance = settings[param].tolerance or 5
-            isOptimal = math.abs(val - optimal) <= tolerance
-            hasOptimal = true
-        end
+        settings = RHM_CombineSettingsDatabase:getSettingsForCrop(memory.currentCrop, context)
+    end
+    if settings and settings[param] then
+        optimal = settings[param].optimal
+        tolerance = settings[param].tolerance or 5
+        isOptimal = math.abs(val - optimal) <= tolerance
+        hasOptimal = true
     end
 
     -- Format physical value
@@ -1502,26 +1527,18 @@ function RHMCombineCalibrationGUI:drawPanelBackground(x, y, w, h, color)
     local overlay = self.roundedOverlay
     overlay:setColor(r, g, b, a)
 
-    local function renderSlice(sx, sy, sw, sh, uvs)
-        if sw <= 0 or sh <= 0 or not uvs then return end
-        overlay:setPosition(sx, sy)
-        overlay:setDimension(sw, sh)
-        overlay:setUVs(uvs)
-        overlay:render()
-    end
-
     local uvs = self.roundedUVs
-    renderSlice(leftX, bottomY, cornerW, cornerH, uvs.bottomLeft)
-    renderSlice(centerX, bottomY, centerW, cornerH, uvs.bottom)
-    renderSlice(rightX, bottomY, cornerW, cornerH, uvs.bottomRight)
+    renderPanelSlice(overlay, leftX, bottomY, cornerW, cornerH, uvs.bottomLeft)
+    renderPanelSlice(overlay, centerX, bottomY, centerW, cornerH, uvs.bottom)
+    renderPanelSlice(overlay, rightX, bottomY, cornerW, cornerH, uvs.bottomRight)
 
-    renderSlice(leftX, centerY, cornerW, centerH, uvs.left)
-    renderSlice(centerX, centerY, centerW, centerH, uvs.center)
-    renderSlice(rightX, centerY, cornerW, centerH, uvs.right)
+    renderPanelSlice(overlay, leftX, centerY, cornerW, centerH, uvs.left)
+    renderPanelSlice(overlay, centerX, centerY, centerW, centerH, uvs.center)
+    renderPanelSlice(overlay, rightX, centerY, cornerW, centerH, uvs.right)
 
-    renderSlice(leftX, topY, cornerW, cornerH, uvs.topLeft)
-    renderSlice(centerX, topY, centerW, cornerH, uvs.top)
-    renderSlice(rightX, topY, cornerW, cornerH, uvs.topRight)
+    renderPanelSlice(overlay, leftX, topY, cornerW, cornerH, uvs.topLeft)
+    renderPanelSlice(overlay, centerX, topY, centerW, cornerH, uvs.top)
+    renderPanelSlice(overlay, rightX, topY, cornerW, cornerH, uvs.topRight)
 end
 
 function RHMCombineCalibrationGUI:drawRect(x, y, w, h, color)

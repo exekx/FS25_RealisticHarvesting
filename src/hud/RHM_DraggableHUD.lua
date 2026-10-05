@@ -11,6 +11,18 @@
 --     Динамічно відстежує відкриття/закриття F1 через g_gameSettings showHelpMenu.
 --     Підтримує інтерактивне перемикання показників кліком (т/ч <-> га/ч, Втрати <-> Швидкість, Волога <-> Урожайність).
 
+local HUD_BG_COLOR = {0.0, 0.0, 0.0, 0.72}
+local DOCK_INNER_BG = {0.04, 0.08, 0.02, 0.60}
+local SNAP_OUTER_COLOR = {0.0, 0.0, 0.0, 0.88}
+
+local function renderPanelSlice(overlay, sx, sy, sw, sh, uvs)
+    if sw <= 0 or sh <= 0 or not uvs then return end
+    overlay:setPosition(sx, sy)
+    overlay:setDimension(sw, sh)
+    overlay:setUVs(uvs)
+    overlay:render()
+end
+
 RHMDraggableHUD = {}
 RHMDraggableHUD.__index = RHMDraggableHUD
 
@@ -667,7 +679,7 @@ end
 function RHMDraggableHUD:drawPanelBackground(x, y, w, h, color)
     if not self.roundedOverlay or not self.roundedUVs then return end
 
-    local c = color or {0.0, 0.0, 0.0, 0.72}
+    local c = color or HUD_BG_COLOR
     local r = c[1] or 0.0
     local g = c[2] or 0.0
     local b = c[3] or 0.0
@@ -695,26 +707,18 @@ function RHMDraggableHUD:drawPanelBackground(x, y, w, h, color)
     local overlay = self.roundedOverlay
     overlay:setColor(r, g, b, a)
 
-    local function renderSlice(sx, sy, sw, sh, uvs)
-        if sw <= 0 or sh <= 0 or not uvs then return end
-        overlay:setPosition(sx, sy)
-        overlay:setDimension(sw, sh)
-        overlay:setUVs(uvs)
-        overlay:render()
-    end
-
     local uvs = self.roundedUVs
-    renderSlice(leftX, bottomY, cornerW, cornerH, uvs.bottomLeft)
-    renderSlice(centerX, bottomY, centerW, cornerH, uvs.bottom)
-    renderSlice(rightX, bottomY, cornerW, cornerH, uvs.bottomRight)
+    renderPanelSlice(overlay, leftX, bottomY, cornerW, cornerH, uvs.bottomLeft)
+    renderPanelSlice(overlay, centerX, bottomY, centerW, cornerH, uvs.bottom)
+    renderPanelSlice(overlay, rightX, bottomY, cornerW, cornerH, uvs.bottomRight)
 
-    renderSlice(leftX, centerY, cornerW, centerH, uvs.left)
-    renderSlice(centerX, centerY, centerW, centerH, uvs.center)
-    renderSlice(rightX, centerY, cornerW, centerH, uvs.right)
+    renderPanelSlice(overlay, leftX, centerY, cornerW, centerH, uvs.left)
+    renderPanelSlice(overlay, centerX, centerY, centerW, centerH, uvs.center)
+    renderPanelSlice(overlay, rightX, centerY, cornerW, centerH, uvs.right)
 
-    renderSlice(leftX, topY, cornerW, cornerH, uvs.topLeft)
-    renderSlice(centerX, topY, centerW, cornerH, uvs.top)
-    renderSlice(rightX, topY, cornerW, cornerH, uvs.topRight)
+    renderPanelSlice(overlay, leftX, topY, cornerW, cornerH, uvs.topLeft)
+    renderPanelSlice(overlay, centerX, topY, centerW, cornerH, uvs.top)
+    renderPanelSlice(overlay, rightX, topY, cornerW, cornerH, uvs.topRight)
 end
 
 function RHMDraggableHUD:drawRect(x, y, w, h, r, g, b, a)
@@ -750,7 +754,10 @@ function RHMDraggableHUD:drawDockSnapPlaceholder(dockX, dockY, dockW, dockH)
     local b = 0.0
 
     -- 1. Outer rounded rectangle in magnetic green
-    self:drawPanelBackground(slotX, slotY, slotW, slotH, {r, g, b, 0.88})
+    SNAP_OUTER_COLOR[1] = r
+    SNAP_OUTER_COLOR[2] = g
+    SNAP_OUTER_COLOR[3] = b
+    self:drawPanelBackground(slotX, slotY, slotW, slotH, SNAP_OUTER_COLOR)
 
     -- 2. Inner rounded cutout (creates a crisp rounded outline with soft glowing fill)
     local thickness = 0.0012 * uiScale
@@ -758,7 +765,7 @@ function RHMDraggableHUD:drawDockSnapPlaceholder(dockX, dockY, dockW, dockH)
     local inY = slotY + thickness
     local inW = slotW - (thickness * 2)
     local inH = slotH - (thickness * 2)
-    self:drawPanelBackground(inX, inY, inW, inH, {0.04, 0.08, 0.02, 0.60})
+    self:drawPanelBackground(inX, inY, inW, inH, DOCK_INNER_BG)
 end
 
 function RHMDraggableHUD:draw()
@@ -798,7 +805,7 @@ function RHMDraggableHUD:draw()
     local h = self.height
 
     -- 2. Authentic FS25 Translucent Rounded Background for HUD
-    self:drawPanelBackground(x, y, w, h, {0.0, 0.0, 0.0, 0.72})
+    self:drawPanelBackground(x, y, w, h, HUD_BG_COLOR)
 
     -- ── Build 4-Column PF-Style Stacked Cells ───────────────────────────────
     local cells = self.cachedCells or self:buildActiveCells()

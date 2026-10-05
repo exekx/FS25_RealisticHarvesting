@@ -445,6 +445,7 @@ function RHM_RealisticHarvestManager:delete()
     end
     if self.calibrationGUI then
         self.calibrationGUI:delete()
+        self.calibrationGUI = nil
     end
 end
 

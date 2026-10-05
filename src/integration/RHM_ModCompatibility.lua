@@ -161,7 +161,7 @@ function RHM_ModCompatibility.onCalibrationGUIOpened()
 
     -- 2. If VehicleMouseCursor is active, close its fullscreen cursor overlay and drop ownership
     if VehicleMouseCursor ~= nil then
-        if VehicleMouseCursor._cursorGui ~= nil and VehicleMouseCursor._cursorGui.isOpen then
+        if VehicleMouseCursor._cursorGui ~= nil and VehicleMouseCursor._cursorGui.isOpen and type(VehicleMouseCursor._cursorGui.close) == "function" then
             VehicleMouseCursor._cursorGui:close()
         end
         VehicleMouseCursor._cursorOwned = false

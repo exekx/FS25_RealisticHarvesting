@@ -97,7 +97,7 @@ end
 function RHM_CombineSettingsEvent:run(connection)
     -- EN: Safety checks for vehicle and components
     -- UA: Перевірки безпеки для транспорту та компонентів
-    if not self.vehicle or not self.vehicle:getIsSynchronized() then
+    if not self.vehicle or (self.vehicle.getIsSynchronized and not self.vehicle:getIsSynchronized()) or self.vehicle.isDeleted then
         return
     end
     
