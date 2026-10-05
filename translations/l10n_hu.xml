@@ -77,7 +77,7 @@
         ]]></text>
         <text name="rhm_overload_sounds_short" text="Túlterhelési és feszültségi hangok" />
         <text name="rhm_overload_sounds_long"><![CDATA[Reális fülkeriasztás és cséplési feszültséghangok lejátszása túlterhelés vagy veszteség esetén.]]></text>
-        <text name="rhm_section_audio" text="Realistic Harvesting - Hangok" />
+        <text name="rhm_section_audio" text="Realistic Harvesting - Fülke hangok" />
         <text name="rhm_alarm_sounds_short" text="Túlterhelési hangjelzés" />
         <text name="rhm_alarm_sounds_long" text="Fülke berregő üzemmódja erős túlterhelésnél (105%+) vagy magas veszteségnél (&gt;5%)." />
         <text name="rhm_alarm_mode_smart" text="Okos (3 sípolás)" />
@@ -114,7 +114,7 @@
         <text name="rhm_units_short" text="Mértékegységek" />
         <text name="rhm_units_long" text="Mérési rendszer kiválasztása (sebesség, tömeg, terület)" />
         <text name="rhm_unit_metric" text="Metrikus (km/h, t/h, ha)" />
-        <text name="rhm_unit_imperial" text="Angolszász (mph, tonna/óra, ac)" />
+        <text name="rhm_unit_imperial" text="Birodalmi (mph, ton/h, ac)" />
         <text name="rhm_unit_bushels" text="Angolszász bushellel (mph, bu/óra, ac)" />
         <text name="rhm_reset" text="RH beállítások visszaállítása" />
         <text name="rhm_loss_low" text="ALACSONY" />
@@ -139,99 +139,99 @@
         <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
         <!-- ================================================================= -->
         <text name="rhm_help_category" text="Realistic Harvesting" />
-        <text name="rhm_help_title" text="Realistic Harvesting Guide" />
+        <text name="rhm_help_title" text="Realistic Harvesting Kézikönyv" />
 
         <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
-        <text name="rhm_help_overview_title" text="1. Realistic Engine Physics &amp; Speed" />
-        <text name="rhm_help_overview_sub1" text="How Engine Load is Calculated" />
-        <text name="rhm_help_overview_1" text="Realistic Harvesting replaces artificial hard-coded speed limits with an honest, physics-based crop throughput model. Engine power is dynamically allocated between base vehicle locomotion, mechanical cutterbar drive, threshing drum and rotor friction, straw chopper load, and crop mass flow (t/h) calibrated to ASABE/DLG agricultural standards. When encountering dense swaths, the combine automatically and smoothly decelerates to prevent drum choking." />
-        <text name="rhm_help_overview_sub2" text="Automated Hydrostatic Speed Control" />
-        <text name="rhm_help_overview_2" text="The RHM hydrostatic controller continuously monitors threshing mechanism strain. The optimal operational window is 85–95% engine load. As strain approaches 100%, the combine gently trims forward cruise speed to protect internal components, then smoothly accelerates back to cruising pace in lighter crop stands." />
-        <text name="rhm_help_overview_sub3" text="Straw Chopper Strain &amp; Slope Dynamics" />
-        <text name="rhm_help_overview_3" text="An active straw chopper demands an extra 15–20% of rated engine horsepower compared to laying straw swaths. In dense grain crops, switching to swathing frees substantial horsepower, significantly boosting working speed. Harvesting uphill also imposes extra gravitational climb resistance, naturally moderating field speed." />
+        <text name="rhm_help_overview_title" text="1. Valósághű Motorfizika &amp; Sebesség" />
+        <text name="rhm_help_overview_sub1" text="A motorterhelés számítása" />
+        <text name="rhm_help_overview_1" text="A Realistic Harvesting az ASABE/DLG szabványok szerint kalibrált fizikai átömlési modellel váltja fel a merev sebességkorlátokat. A motorteljesítmény dinamikusan oszlik meg a haladás, a vágóasztal, a cséplődob/rotor súrlódása, a szalmaszecskázó és a növénytömeg (t/h) között. Sűrű állományban a kombájn finoman lassít a dob eltömődésének megelőzésére." />
+        <text name="rhm_help_overview_sub2" text="Automatikus hidrosztatikus sebességszabályozás" />
+        <text name="rhm_help_overview_2" text="Az RHM hidrosztatikus vezérlője folyamatosan felügyeli a cséplőrendszer igénybevételét. Az optimális munkatartomány a motorteljesítmény 85–95%-a. Amikor a terhelés megközelíti a 100%-ot, a kombájn lágyan mérsékli a sebességet a gép védelmében, majd ritkább állományban újra felgyorsít." />
+        <text name="rhm_help_overview_sub3" text="Szalmaszecskázó terhelése és a lejtők hatása" />
+        <text name="rhm_help_overview_3" text="A bekapcsolt szalmaszecskázó 15–20%-kal több motorteljesítményt igényel a rendre rakáshoz képest. Dús gabonában a rendre rakás lóerőket szabadít fel a nagyobb sebességhez. A lejtőn felfelé haladás szintén csökkenti a munkatempót." />
 
         <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
-        <text name="rhm_help_hud_title" text="2. Interactive HUD &amp; Controls" />
-        <text name="rhm_help_hud_sub1" text="Live Telemetry Dashboard" />
-        <text name="rhm_help_hud_1" text="Boarding a combine activates a modern telemetry capsule at the bottom of the screen. It provides real-time readouts: current and target speed, live engine load percentage, instantaneous field yield (t/ha or bu/ac), crop throughput (t/h), grain moisture percentage, and cleaning shoe loss rate (%)." />
-        <text name="rhm_help_hud_sub2" text="Free Mouse Dragging (LMB) &amp; Magnetic Docking" />
-        <text name="rhm_help_hud_2" text="You can reposition the HUD anywhere across your screen. Hold Left Mouse Button (LMB) directly on the HUD capsule and drag it to your preferred position. Moving close to screen edges or the bottom boundary of the F1 help menu triggers magnetic docking, perfectly snapping the panel in place." />
-        <text name="rhm_help_hud_sub3" text="In-Cab Field Trip Mini-Badge" />
-        <text name="rhm_help_hud_3" text="A compact telemetry mini-badge inside the cab gives an immediate overview of your current run: harvested hectares, total tonnage, average loss percentage, and operator skill rating from [A] (expert) to [E] (heavy losses)." />
+        <text name="rhm_help_hud_title" text="2. Interaktív HUD &amp; Vezérlés" />
+        <text name="rhm_help_hud_sub1" text="Élő telemetriai kapszula" />
+        <text name="rhm_help_hud_1" text="A kombájnba szállva a képernyő alján megjelenő kapszula valós időben mutatja az adatokat: aktuális és célsebesség, motorterhelés (%), pillanatnyi hozam (t/ha), áteresztőképesség (t/h), szemnedvesség (%) és rostavízteség (%)." />
+        <text name="rhm_help_hud_sub2" text="Szabad egérmozgatás (LMB) és mágneses dokkolás" />
+        <text name="rhm_help_hud_2" text="A HUD panel a bal egérgomb (LMB) nyomva tartásával bárhová áthúzható a képernyőn. A képernyő széleihez vagy az F1 menü alsó széléhez közelítve mágnesesen a helyére ugrik." />
+        <text name="rhm_help_hud_sub3" text="Kompakt fülkejelző" />
+        <text name="rhm_help_hud_3" text="A fülkében lévő kompakt kijelző gyors áttekintést nyújt: levágott hektárok, összsúly, veszteségarány és kezelői hatékonyság [A]-tól (optimális) [E]-ig (kritikus)." />
 
         <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
-        <text name="rhm_help_calibration_title" text="3. In-Cab Calibration Tablet (Shift+K)" />
-        <text name="rhm_help_calibration_main_sub" text="Field Touchscreen Tablet" />
-        <text name="rhm_help_calibration_main_text" text="Press Right Shift + K in the combine cab to deploy the touchscreen calibration tablet. The header displays rated engine horsepower, attached cutter width, and active crop. Fine-tuning threshing and separation parameters maximizes crop throughput while maintaining near-zero grain loss." />
-        <text name="rhm_help_calibration_rotor_sub" text="Threshing Drum &amp; Cleaning Fan" />
-        <text name="rhm_help_calibration_rotor_text" text="Rotor/drum RPM and concave clearance govern threshing thoroughness. Excessive RPM shatters fragile grain, while insufficient RPM leaves unthreshed grain in the straw. The cleaning fan blows chaff out of the rear: excessive airflow blows grain onto the ground, while weak airflow clogs the sieves with trash." />
-        <text name="rhm_help_calibration_presets_sub" text="Factory Presets &amp; Combine Memory" />
-        <text name="rhm_help_calibration_presets_text" text="The tablet includes pre-configured factory presets for over 25 base game and modded crops. Click 'Load Preset' to apply proven baseline settings. On combines equipped with Tier 2+ electronics, you can also save and load custom field profiles directly into combine memory." />
+        <text name="rhm_help_calibration_title" text="3. Fülkebeli kalibrációs tablet (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Érintőképernyős szántóföldi tablet" />
+        <text name="rhm_help_calibration_main_text" text="Nyomja meg a Jobb Shift + K billentyűt a fülkében a kalibrációs tablet megnyitásához. A fejléc mutatja a motorteljesítményt, vágásszélességet és a növényt. A finomhangolás minimalizálja a szemveszteséget." />
+        <text name="rhm_help_calibration_rotor_sub" text="Cséplődob és tisztítóventilátor" />
+        <text name="rhm_help_calibration_rotor_text" text="A dob/rotor fordulatszáma és a kosárhézag szabályozza a cséplés tisztaságát. A túl nagy fordulat töri a szemet, az alacsony szemet hagy a szalmában. A ventilátor fújja ki a pelyvát: a túl erős szél szemet fúj ki a földre, a gyenge szél eltömi a rostákat." />
+        <text name="rhm_help_calibration_presets_sub" text="Gyári profilok és gép-memória" />
+        <text name="rhm_help_calibration_presets_text" text="A tablet gyári profilokat tartalmaz több mint 25 növényhez. Kattintson a 'Profil betöltése' gombra a beállításokhoz. A 2. szintű elektronikával felszerelt gépek egyéni profilokat menthetnek a gép memóriájába." />
 
         <!-- PAGE 4: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
-        <text name="rhm_help_trip_title" text="4. Field Job Counter &amp; Fleet Records (Shift+J)" />
-        <text name="rhm_help_trip_sub1" text="Field Harvest Command Center (Shift+J)" />
-        <text name="rhm_help_trip_1" text="Press Right Shift + J to open the full harvest accounting hub featuring 4 tabs: 'Current Field', 'Farm Fields', 'Season Analytics', and 'Combine Fleet'." />
-        <text name="rhm_help_trip_sub2" text="Current Field Trip Odometer &amp; Operator Rank" />
-        <text name="rhm_help_trip_2" text="The first tab functions as a digital field odometer: tracking harvested area (ha/ac), grain yield and mass (t/l), net harvest time, field crop losses, financial loss ($/€/£), root-cause loss breakdown (Speed, Moisture, Wear, Slope), and driver efficiency rank." />
-        <text name="rhm_help_trip_sub3" text="Quick In-Cab Reset (Right Shift + R)" />
-        <text name="rhm_help_trip_3" text="When entering a new field or starting a test run, hold Right Shift + R for 1 second directly from the cab. The field odometer instantly resets with an on-screen toast confirmation—no need to open the menu!" />
-        <text name="rhm_help_trip_sub4" text="Farm Fields, Seasonal History &amp; Fleet Telemetry" />
-        <text name="rhm_help_trip_4" text="Review area and crop status for all owned fields in Tab 2, multi-season yield and financial history in Tab 3, and monitor hired AI workers in Tab 4: active operator, crop, throughput (t/h), cutter width, and knife wear." />
+        <text name="rhm_help_trip_title" text="4. Táblaszámláló &amp; Flottanapló (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Betakarítási irányítóközpont (Shift+J)" />
+        <text name="rhm_help_trip_1" text="Nyomja meg a Jobb Shift + J billentyűt a 4 füllel rendelkező felület megnyitásához: 'Aktuális tábla', 'Gazdaság táblái', 'Szezonanalitika' és 'Kombájnflotta'." />
+        <text name="rhm_help_trip_sub2" text="Digitális számláló és kezelői minősítés" />
+        <text name="rhm_help_trip_2" text="Az első fül digitális odóméterként működik: betakarított terület (ha), termény (t/L), tiszta munkaidő, szemveszteség, anyagi veszteség (€), okok és kezelői minősítés." />
+        <text name="rhm_help_trip_sub3" text="Gyorsnullázás a fülkében (Jobb Shift + R)" />
+        <text name="rhm_help_trip_3" text="Új táblára érve tartsa nyomva a Jobb Shift + R billentyűt 1 másodpercig a fülkében. A számláló azonnal lenullázódik képernyőüzenettel, menük megnyitása nélkül!" />
+        <text name="rhm_help_trip_sub4" text="Táblák, Előzmények és Flottatelemetria" />
+        <text name="rhm_help_trip_4" text="Tekintse át a táblák állapotát a 2. fülön, a többéves történelmet a 3. fülön, és felügyelje a segítőket a 4. fülön: kezelő, növény, teljesítmény (t/h), szélesség és kaszakopás." />
 
         <!-- PAGE 5: CROP LOSSES & ROOT CAUSES -->
-        <text name="rhm_help_croploss_title" text="5. Crop Losses &amp; Root Causes" />
-        <text name="rhm_help_croploss_sub1" text="Physical Grain Tank Liter Deduction" />
-        <text name="rhm_help_croploss_1" text="In Realistic Harvesting, crop losses are not an abstract statistic. Grain lost over the sieves or blown out the rear is physically subtracted directly from the combine grain tank in real time or deducted from straw windrow volume, directly impacting farm finances." />
-        <text name="rhm_help_croploss_sub2" text="Four Primary Loss Root Causes" />
-        <text name="rhm_help_croploss_2" text="- Speed &amp; Overload: Excessive throughput overwhelms sieves, carrying grain out the back.&#xA;- Moisture &amp; Dew: Damp straw clumps together, trapping kernels inside.&#xA;- Knife Wear: Blunt cutterbar knives shatter standing heads onto the ground instead of cutting.&#xA;- Ground Slope: Steep side-hills shift crop mats to one side of the cleaning shoe." />
-        <text name="rhm_help_croploss_sub3" text="Acoustic Overload Warning (Smart Buzzer)" />
-        <text name="rhm_help_croploss_3" text="When engine load exceeds 105% or sieve loss exceeds 5%, the in-cab chime sounds. In Smart Mode, the terminal sounds a cluster of 3 soft alerts spaced 1.8 seconds apart, followed by an 18-second rest interval." />
+        <text name="rhm_help_croploss_title" text="5. Terményveszteség és okok elemzése" />
+        <text name="rhm_help_croploss_sub1" text="Fizikai szembeszámítás a magtartályból" />
+        <text name="rhm_help_croploss_1" text="A Realistic Harvestingben a veszteség nem elméleti adat. A rostákon áthulló szem valós időben levonódik a magtartályból vagy csökkenti a szalmarend térfogatát, közvetlen kárt okozva a gazdaságnak." />
+        <text name="rhm_help_croploss_sub2" text="Négy fő veszteségi tényező" />
+        <text name="rhm_help_croploss_2" text="- Sebesség és túlterhelés: A túl nagy anyagáram elárasztja a rostákat és kiszórja a szemet.&#xA;- Nedvesség és harmat: A nyirkos szalma összetapad és fogva tartja a szemeket.&#xA;- Kaszapenge kopása: A tompa pengék leverik a kalászokat még a vágás előtt.&#xA;- Oldalhajlás: A lejtők egy oldalra terelik a terménytakarót a rostaszekrényben." />
+        <text name="rhm_help_croploss_sub3" text="Akusztikus túlterhelésjelző (Smart Buzzer)" />
+        <text name="rhm_help_croploss_3" text="Ha a motorterhelés meghaladja a 105%-ot vagy a rostaveszteség az 5%-ot, megszólal a fülkejelző. Smart módban 3 finom jelzést ad 1,8 másodpercenként, amit 18 másodperces szünet követ." />
 
         <!-- PAGE 6: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
-        <text name="rhm_help_upgrades_title" text="6. Electronics Packages (Tiers 1–4)" />
-        <text name="rhm_help_upgrades_sub1" text="Harvester Workshop Upgrades" />
-        <text name="rhm_help_upgrades_1" text="Every harvester can be upgraded at the vehicle dealer or farm workshop with four distinct electronics packages tailored to your farm budget and operating style." />
-        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Base Mechanical) &amp; Tier 2 (Sensors &amp; Profiles)" />
-        <text name="rhm_help_upgrades_2" text="- Tier 1: Factory mechanical baseline. No electronic sensors; operator gauges speed by engine sound.&#xA;- Tier 2: Adds piezoelectric sieve loss sensors (loss % on HUD) and unlocks saving custom calibration profiles into combine memory." />
-        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Telemetry) &amp; Tier 4 (Opti-Harvest AI)" />
-        <text name="rhm_help_upgrades_3" text="- Tier 3: Equips an optical moisture meter, field trip odometer, financial loss tracking, and fleet telemetry.&#xA;- Tier 4: Unlocks the flagship Opti-Harvest AI autopilot, automatically tuning drum RPM and fan speed on the fly and eliminating hired worker tuning errors (0% deviation)." />
+        <text name="rhm_help_upgrades_title" text="6. Elektronikai csomagok (1–4. szintek)" />
+        <text name="rhm_help_upgrades_sub1" text="Gépfejlesztés a műhelyben" />
+        <text name="rhm_help_upgrades_1" text="Minden kombájn felkészíthető a kereskedőnél vagy műhelyben a négy elektronikai szint egyikével a gazdaság igényeihez mérten." />
+        <text name="rhm_help_upgrades_sub2" text="1. szint (Mechanika) és 2. szint (Szenzorok &amp; Profilok)" />
+        <text name="rhm_help_upgrades_2" text="- 1. szint: Gyári mechanika. Nincsenek érzékelők; a kezelő a motor hangjára támaszkodik.&#xA;- 2. szint: Piezoelektromos veszteségérzékelők a rostákon (% a HUD-on) és profilmentés." />
+        <text name="rhm_help_upgrades_sub3" text="3. szint (Telemetria) és 4. szint (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="- 3. szint: Optikai nedvességmérő, táblaszámláló, pénzügyi kárszámítás és flottatelemetria.&#xA;- 4. szint: Feloldja az Opti-Harvest AI robotpilótát, amely menet közben hangolja a dobot és szelet, kiküszöbölve a segítők beállítási hibáit (0% eltérés)." />
 
         <!-- PAGE 7: AI WORKERS & AUTOPILOTS -->
-        <text name="rhm_help_ai_workers_title" text="7. AI Workers &amp; Autopilots" />
-        <text name="rhm_help_ai_workers_sub1" text="Intelligent AI Speed Regulation" />
-        <text name="rhm_help_ai_workers_1" text="Giants AI helpers, Courseplay (v7+), and AutoDrive never run at artificial flat-out speeds. RHM enforces speed limits directly at the engine server level, keeping helpers safely within the optimal 85–95% load sweet spot." />
-        <text name="rhm_help_ai_workers_sub2" text="Electronics Package Impact on AI Quality" />
-        <text name="rhm_help_ai_workers_2" text="- Tier 1 Combines: Hired workers suffer setup deviations of up to ±18%.&#xA;- Tier 2 Combines: Tuning error drops to ±10%.&#xA;- Tier 3 Combines: Tuning error is reduced to ±4%.&#xA;- Tier 4 Combines: Opti-Harvest AI achieves 0% error, delivering flawless factory-spec harvesting." />
-        <text name="rhm_help_ai_workers_sub3" text="Courseplay &amp; AutoDrive Unloading on the Move" />
-        <text name="rhm_help_ai_workers_3" text="Unloading on the move is fully accounted for: the extra mechanical drag of the unloading auger is calculated dynamically so the combine never stalls when a chase tractor pulls alongside." />
+        <text name="rhm_help_ai_workers_title" text="7. AI Segítők &amp; Robotpilóták" />
+        <text name="rhm_help_ai_workers_sub1" text="Intelligens sebességszabályozás AI-hoz" />
+        <text name="rhm_help_ai_workers_1" text="A Giants AI, Courseplay (v7+) és AutoDrive nem fix csúcssebességgel közlekednek. Az RHM közvetlenül a motornál szabályoz, tartva az optimális 85–95%-os terhelést." />
+        <text name="rhm_help_ai_workers_sub2" text="Elektronikai szint hatása az AI munkájára" />
+        <text name="rhm_help_ai_workers_2" text="- 1. szintű gépek: A segítők beállítási hibája elérheti a ±18%-ot.&#xA;- 2. szintű gépek: A hiba ±10%-ra csökken.&#xA;- 3. szintű gépek: A hiba lecsökken ±4%-ra.&#xA;- 4. szintű gépek: Az Opti-Harvest AI hibátlanul (0% hiba) dolgozik gyári pontossággal." />
+        <text name="rhm_help_ai_workers_sub3" text="Menet közbeni ürítés Courseplay és AutoDrive esetén" />
+        <text name="rhm_help_ai_workers_3" text="A menet közbeni átrakás teljes mértékben támogatott: az ürítőcsiga hajtási ellenállása dinamikusan adódik hozzá, hogy a kombájn ne torpanjon meg hirtelen a pótkocsi melléérkezésekor." />
 
         <!-- PAGE 8: CROP MOISTURE & DIURNAL WEATHER -->
-        <text name="rhm_help_moisture_title" text="8. Crop Moisture &amp; Diurnal Weather" />
-        <text name="rhm_help_moisture_sub1" text="Diurnal Moisture Cycle" />
-        <text name="rhm_help_moisture_1" text="Crop moisture naturally peaks in early morning hours (04:00–08:00) due to heavy dew. The prime harvesting window occurs between 11:30 and 18:30 when ambient warmth and sunlight thoroughly dry grain and straw." />
-        <text name="rhm_help_moisture_sub2" text="Moisture Impact on Power &amp; Speed" />
-        <text name="rhm_help_moisture_2" text="Damp straw increases internal rotor friction by up to +35%, substantially lowering harvesting cruise speed and increasing fuel consumption." />
-        <text name="rhm_help_moisture_sub3" text="Rain, Night Dew &amp; Wet Straw" />
-        <text name="rhm_help_moisture_3" text="Harvesting in active rain causes a sharp spike in moisture, overloading cleaning sieves, inducing heavy grain loss, and risking threshing drum choking." />
+        <text name="rhm_help_moisture_title" text="8. Növénynedvesség &amp; Napi időjárási ciklus" />
+        <text name="rhm_help_moisture_sub1" text="Napi nedvességciklus" />
+        <text name="rhm_help_moisture_1" text="A növények nedvességtartalma a harmat miatt reggel (04:00–08:00) a legmagasabb. A fő aratási idő 11:30 és 18:30 közé esik, amikor a nap és a meleg kiszárítja a szemet és a szalmát." />
+        <text name="rhm_help_moisture_sub2" text="Nedvesség hatása a teljesítményre" />
+        <text name="rhm_help_moisture_2" text="A nyirkos szalma akár +35%-kal növeli a belső súrlódást a rotorban, ami jelentősen lecsökkenti a haladási tempót és növeli a fogyasztást." />
+        <text name="rhm_help_moisture_sub3" text="Eső, éjszakai harmat és ázott szalma" />
+        <text name="rhm_help_moisture_3" text="Esőben történő vágás kritikus nedvességugrást okoz, túlterheli a rostákat, súlyos szemveszteséget és dobeltömődési kockázatot teremt." />
 
         <!-- PAGE 9: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
-        <text name="rhm_help_special_title" text="9. Forage, Root Crops &amp; Special Machinery" />
-        <text name="rhm_help_special_sub1" text="Self-Propelled Forage Harvesters" />
-        <text name="rhm_help_special_1" text="Forage harvesters utilize a specialized 3-stage mechanical model: feed intake rollers, chopping drum, and discharge accelerator blower. Grass windrow pickers dynamically assess swath density for smooth intake." />
-        <text name="rhm_help_special_sub2" text="Sugar Beet &amp; Potato Harvesters" />
-        <text name="rhm_help_special_2" text="Root crop harvesters must overcome substantial soil lifting drag (approx. 7 HP per meter of working width), naturally constraining field speeds to a realistic 5–8 km/h." />
-        <text name="rhm_help_special_sub3" text="Grapes, Olives &amp; NEXAT Carrier Platform" />
-        <text name="rhm_help_special_3" text="Grape and olive harvesters feature customized separation curves. The 1,100 HP NEXAT modular wide-span carrier and its NEXCO combine module are fully supported with phantom load suppression." />
+        <text name="rhm_help_special_title" text="9. Silózók, gyökérnövények &amp; Céleszközök" />
+        <text name="rhm_help_special_sub1" text="Önjáró szecskázók" />
+        <text name="rhm_help_special_1" text="A silózók 3 fokozatú modell alapján működnek: behordóhengerek, szecskázódob és gyorsító ventilátor. A fűrendfelszedők mérik a rend sűrűségét." />
+        <text name="rhm_help_special_sub2" text="Cukorrépa- és burgonyabetakarítók" />
+        <text name="rhm_help_special_2" text="A betakarítóknak nagy talajellenállást kell leküzdeniük a gumók kiemelésekor (~7 LE munkaszélesség-méterenként), ami 5–8 km/h-ra korlátozza a sebességet." />
+        <text name="rhm_help_special_sub3" text="Szőlő, olajbogyó és a NEXAT rendszer" />
+        <text name="rhm_help_special_3" text="A szőlő- és olajbogyó-betakarítók egyedi leválasztási görbékkel bírnak. Az 1100 LE-s NEXAT hordozó és NEXCO modul teljes körűen támogatott hamis terhelések nélkül." />
 
         <!-- PAGE 10: DIFFICULTY MODES & SETTINGS -->
-        <text name="rhm_help_difficulty_title" text="10. Difficulty Modes &amp; Settings" />
-        <text name="rhm_help_difficulty_sub1" text="Realistic vs. Arcade Modes" />
-        <text name="rhm_help_difficulty_1" text="Choose your preferred gameplay experience in the ESC pause menu:&#xA;- Realistic: Full ASABE/DLG physics, hydrostatic braking, physical tank loss deduction, knife wear, and diurnal moisture.&#xA;- Arcade: 0% engine overload, unrestricted speed limits, and zero crop losses for relaxed, casual harvesting." />
-        <text name="rhm_help_difficulty_sub2" text="Acoustic &amp; Display Settings" />
-        <text name="rhm_help_difficulty_2" text="Adjust the overload warning buzzer volume (0%–100%) with an instant sound test, select your buzzer trigger mode (Smart, Continuous, Disabled), and customize HUD transparency and units." />
-        <text name="rhm_help_difficulty_sub3" text="Interactive Tutorial Hints" />
-        <text name="rhm_help_difficulty_3" text="Click 'Reset Hints' in the settings menu at any time to re-enable on-screen tutorial hints and refresh your knowledge of all mod features." />
+        <text name="rhm_help_difficulty_title" text="10. Nehézségi szintek &amp; Beállítások" />
+        <text name="rhm_help_difficulty_sub1" text="Valósághű vs. Árkád mód" />
+        <text name="rhm_help_difficulty_1" text="Válasszon stílust az ESC menüben:&#xA;- Valósághű: Teljes ASABE/DLG fizika, hidrosztatikus fékezés, tartályveszteség, kaszakopás és nedvesség.&#xA;- Árkád: 0% motortúlterhelés, korlátlan sebesség és nulla veszteség a kötetlen aratáshoz." />
+        <text name="rhm_help_difficulty_sub2" text="Hang és megjelenítés beállításai" />
+        <text name="rhm_help_difficulty_2" text="Állítsa be a hangjelzés erejét (0%–100%) hangteszttel, válassza ki a ritmust (Okos, Folyamatos, Kikapcsolva), és szabja személyre a HUD-ot." />
+        <text name="rhm_help_difficulty_sub3" text="Interaktív tippek" />
+        <text name="rhm_help_difficulty_3" text="Kattintson a 'Tippek visszaállítása' gombra a képernyőn megjelenő útmutatások újraaktiválásához és a mod funkcióinak felfrissítéséhez." />
         <text name="rhm_ui_section_separation" text="Leválasztás" />
         <text name="rhm_ui_section_cleaning" text="Tisztítás" />
         <text name="rhm_ui_section_discharge" text="Ürítés" />
@@ -294,12 +294,12 @@
         <text name="rhm_tut_headland_msg" text="A vágóasztal felemelésekor a kombájn megjegyzi az aratási sebességet. A következő sorban simán és rángatás nélkül gyorsul vissza." />
         <text name="rhm_tut_upgrade_title" text="Kombájn Fejlesztések" />
         <text name="rhm_tut_upgrade_msg" text="Az alapkombájn kézi finomhangolást igényel. Szereljen be Szenzorkészletet (2. szint), Hozammérőt (3. szint) vagy Opti-Harvest AI robotpilótát (4. szint) a műhelyben." />
-        <text name="rhm_tut_hud_drag_title" text="Interactive HUD" />
-        <text name="rhm_tut_hud_drag_msg" text="You can reposition the HUD anywhere across your screen by holding Left Mouse Button (LMB) on the panel, or magnetically dock it cleanly beneath the F1 menu and screen edges." />
-        <text name="rhm_tut_trip_title" text="Field Job Counter &amp; Log" />
-        <text name="rhm_tut_trip_msg" text="Press Shift+J to review your field yield summary, financial loss analysis, and fleet status. To quickly reset the counter for a new field, hold Shift+R for 1 second in the cab!" />
-        <text name="rhm_tut_chopper_title" text="Straw Chopper Power Load" />
-        <text name="rhm_tut_chopper_msg" text="Chopping straw consumes an extra 15â€“20% of engine power compared to laying a swath. If you need more harvesting speed on dense crops, switch to laying a swath." />
+        <text name="rhm_tut_hud_drag_title" text="Interaktív HUD" />
+        <text name="rhm_tut_hud_drag_msg" text="A HUD panelt a képernyőn bárhová áthelyezheti a bal egérgomb (LMB) nyomva tartásával, vagy mágnesesen rögzítheti az F1 menü alatt és a képernyő szélein." />
+        <text name="rhm_tut_trip_title" text="Táblaszámláló és Napló" />
+        <text name="rhm_tut_trip_msg" text="Nyomja meg a Shift+J billentyűt a hozamösszesítő, a pénzügyi veszteségek és a flotta állapotának megtekintéséhez. Egy új tábla számlálójának gyors alaphelyzetbe állításához tartsa nyomva a Shift+R gombot 1 másodpercig a fülkében!" />
+        <text name="rhm_tut_chopper_title" text="Szalmaszecskázó Terhelése" />
+        <text name="rhm_tut_chopper_msg" text="A szalma szecskázása 15-20%-kal több motorteljesítményt fogyaszt a rendre rakáshoz képest. Ha sűrű állományban nagyobb haladási sebességre van szüksége, váltson rendre rakásra." />
         <text name="rhm_setting_wear_loss_short" text="Mechanikai kopási veszteségek" />
         <text name="rhm_setting_wear_loss_long" text="Szimulálja a berendezés kopásából eredő szemveszteséget. A tompa vágópengék kipergetik a szemeket (akár +3% veszteség és +15% ellenállás). A kopott cséplődob és a rosták szemet veszítenek (akár +3% veszteség)." />
         <text name="rhm_ui_wear_loss" text="Kopási veszteség" />
@@ -317,14 +317,14 @@
         <text name="rhm_tab_fleet_desc" text="Valós idejű telemetria, áteresztőképesség és állapot a gazdaság összes kombájnjáról." />
         <text name="rhm_tab_settings" text="Gazdaság és AI beállítások" />
         <text name="rhm_tab_settings_desc" text="Munkás sebességkorlátozó, árvakelés generálás és automatikus nullázási lehetőségek." />
-        <text name="rhm_driver_parked" text="Parkol" />
+        <text name="rhm_driver_parked" text="Vezető nélkül" />
         <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="AI segédmunkás" />
         <text name="rhm_driver_player" text="Játékos" />
         <text name="rhm_driver_idle_on" text="Alapjárat" />
         <text name="rhm_field_yard" text="Telephely / Udvar" />
         <text name="rhm_field_format" text="Mező %d" />
-        <text name="rhm_fleet_driver" text="Kezelő / Sofőr" />
+        <text name="rhm_fleet_driver" text="Gépkezelő" />
         <text name="rhm_fleet_cutter" text="Vágóasztal szélesség" />
         <text name="rhm_fleet_grain_tank" text="Magtartály szint" />
         <text name="rhm_fleet_throughput" text="Áteresztőképesség" />
@@ -333,17 +333,17 @@
         <text name="rhm_fleet_wear_state" text="Gép kopása" />
         <text name="rhm_fleet_total_count" text="Összes kombájn" />
         <text name="rhm_btn_subtab_fleet" text="KOMBÁJN FLOTTA" />
-        <text name="rhm_btn_subtab_history" text="SZEZONNAPLÓ / MINDEN MEZŐ" />
-        <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
-        <text name="rhm_season_format" text="Season %d (Year %d)" />
-        <text name="rhm_season_current_suffix" text="[Current]" />
-        <text name="rhm_card_season_harvest" text="SEASON HARVEST &amp; AREA" />
-        <text name="rhm_card_season_losses" text="SEASON LOSSES &amp; FINANCES" />
-        <text name="rhm_card_season_telemetry" text="SEASON METRICS &amp; HARVEST TIME" />
-        <text name="rhm_season_operations" text="Completed Operations" />
-        <text name="rhm_season_active_status" text="Active Season" />
-        <text name="rhm_season_archived_status" text="Archived Season" />
-        <text name="rhm_season_all_time_status" text="All-Time History" />
+        <text name="rhm_btn_subtab_history" text="SZEZON ELŐZMÉNYEK / ÖSSZES TÁBLA" />
+        <text name="rhm_season_all_time" text="Összes szezon (Teljes előzmény)" />
+        <text name="rhm_season_format" text="Szezon %d (Év %d)" />
+        <text name="rhm_season_current_suffix" text="[Aktuális]" />
+        <text name="rhm_card_season_harvest" text="SZEZONÁLIS TERMÉS ÉS TERÜLET" />
+        <text name="rhm_card_season_losses" text="SZEZONÁLIS VESZTESÉGEK ÉS PÉNZÜGYEK" />
+        <text name="rhm_card_season_telemetry" text="METRIKÁK ÉS BETAKARÍTÁSI IDŐ" />
+        <text name="rhm_season_operations" text="Befejezett műveletek" />
+        <text name="rhm_season_active_status" text="Aktív szezon" />
+        <text name="rhm_season_archived_status" text="Archivált szezon" />
+        <text name="rhm_season_all_time_status" text="Teljes történet" />
         <text name="rhm_hist_total_area" text="Összes betakarított terület" />
         <text name="rhm_hist_total_harvest" text="Összes tiszta termés" />
         <text name="rhm_hist_avg_loss" text="Átlagos veszteség" />
@@ -357,7 +357,7 @@
         <text name="rhm_status_in_transit" text="Úton / Szállítás" />
         <text name="rhm_status_in_cab" text="Foglalt (Játékos)" />
         <text name="rhm_status_parked_yard" text="Telephelyen parkol" />
-        <text name="rhm_card_field_harvest" text="AKTUÁLIS MEZŐ ÉS BETAKARÍTÁS" />
+        <text name="rhm_card_field_harvest" text="AKTUÁLIS TÁBLA ÉS NÖVÉNY" />
         <text name="rhm_field_number" text="Mezőszám" />
         <text name="rhm_trip_no_field" text="Mezőn kívül" />
         <text name="rhm_crop_type" text="Növénykultúra" />
@@ -366,7 +366,7 @@
         <text name="rhm_average_yield" text="Átlagos hozam" />
         <text name="rhm_card_loss_finances" text="VESZTESÉGEK ÉS PÉNZÜGYEK" />
         <text name="rhm_loss_volume" text="Elveszett mennyiség" />
-        <text name="rhm_loss_share" text="Veszteség a hozamból %" />
+        <text name="rhm_loss_share" text="Veszteségarány" />
         <text name="rhm_financial_loss" text="Pénzügyi veszteség" />
         <text name="rhm_card_performance" text="TELJESÍTMÉNY ÉS IDŐ" />
         <text name="rhm_avg_working_speed" text="Átlagos munkasebesség" />
@@ -395,7 +395,7 @@
         <text name="rhm_advice_slope" text="Az oldalirányú lejtés egyenetlen rostaterhelést okoz. Csökkentse a sebességet lejtős terepen." />
         <text name="rhm_col_machine" text="Gép" />
         <text name="rhm_col_hours" text="Üzemórák" />
-        <text name="rhm_col_harvested" text="Lekaszálva" />
+        <text name="rhm_col_harvested" text="Betakarítva" />
         <text name="rhm_col_lost" text="Veszteség" />
         <text name="rhm_col_rank" text="Fokozat" />
         <text name="rhm_fleet_no_combines" text="Nem található kombájn" />
@@ -420,13 +420,13 @@
         <text name="rhm_col_driver" text="Gépkezelő" />
         <text name="rhm_col_cutter" text="Vágóasztal" />
         <text name="rhm_col_throughput" text="Áteresztőképesség" />
-        <text name="rhm_col_yield" text="Hozam" />
+        <text name="rhm_col_yield" text="Terméshozam" />
         <text name="rhm_col_wear" text="Kopás" />
         <text name="rhm_kpi_field" text="MEZŐ" />
         <text name="rhm_kpi_crop" text="NÖVÉNY" />
         <text name="rhm_kpi_area" text="TERÜLET" />
         <text name="rhm_kpi_harvest" text="BETAKARÍTÁS" />
-        <text name="rhm_kpi_yield" text="HOZAM" />
+        <text name="rhm_kpi_yield" text="TERMÉSHOZAM" />
         <text name="rhm_kpi_loss" text="VESZTESÉG" />
         <text name="rhm_kpi_speed" text="SEBESSÉG" />
         <text name="rhm_efficiency_index" text="Hatékonysági fokozat" />
@@ -467,7 +467,7 @@
         <text name="rhm_field_operations" text="Betakarítási műveletek" />
         <text name="rhm_fields_nominal_area" text="Névleges terület" />
         <text name="rhm_status_in_progress" text="Folyamatban" />
-        <text name="rhm_fields_harvested_area" text="Levágott terület" />
+        <text name="rhm_fields_harvested_area" text="Betakarított terület" />
         <text name="rhm_ops_one" text="aratás" />
         <text name="rhm_ops_few" text="aratás" />
         <text name="rhm_ops_many" text="aratás" />
@@ -486,5 +486,7 @@
         <text name="rhm_slopeloss_long" text="Szimulálja a magok félrecsúszását a rostákon 4°-nál nagyobb lejtőkön (akár 5% veszteség). Kapcsolja ki a terep dőléséből eredő veszteségek törléséhez." />
         <text name="rhm_weedload_short" text="Gyom-ellenállás" />
         <text name="rhm_weedload_long" text="A nedvdús és rostos gyomok a dobra tekerednek, növelve a mechanikai ellenállást és a motorterhelést (akár +25%). Kapcsolja ki a motorterhelés mellőzéséhez." />
+            <text name="rhm_fleet_badge_mission" text="[Szerződés]" />
+        <text name="rhm_fleet_badge_leased" text="[Bérelt]" />
     </texts>
 </l10n>

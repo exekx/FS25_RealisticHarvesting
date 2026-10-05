@@ -183,23 +183,92 @@ function RHM_HarvestTracker.isMissionCombine(combine, name, key)
     return false
 end
 
+---EN: Returns whether vehicle is rented via mission contract or leased from the shop.
+---UA: Повертає, чи орендовано техніку під контракт (місію) або взято в лізинг у магазині.
+function RHM_HarvestTracker.getVehicleRentalState(combine)
+    if not combine then return false, false end
+    local isMission = RHM_HarvestTracker.isMissionCombine(combine)
+    local isLeased = false
+
+    if not isMission then
+        if VehiclePropertyState ~= nil and combine.propertyState ~= nil and combine.propertyState == VehiclePropertyState.LEASED then
+            isLeased = true
+        elseif combine.getIsLeased and combine:getIsLeased() then
+            isLeased = true
+        elseif combine.isLeased then
+            isLeased = true
+        end
+    end
+
+    return isMission, isLeased
+end
+
+---EN: Strips AI worker or hired driver suffixes (e.g. " (Helper A)", " (Ayudante de IA H)")
+---UA: Очищає суфікси наймитів та ШІ-працівників з назви машини
+function RHM_HarvestTracker.stripHelperSuffix(str)
+    if not str or type(str) ~= "string" then return str end
+    local cleaned = string.gsub(str, "%s*%b()$", function(b)
+        local inner = string.lower(b)
+        if inner:find("ia", 1, true) or inner:find("ai", 1, true) or inner:find("helper", 1, true)
+           or inner:find("ayudante", 1, true) or inner:find("ouvrier", 1, true) or inner:find("helfer", 1, true)
+           or inner:find("pomocnik", 1, true) or inner:find("работник", 1, true) or inner:find("наймит", 1, true)
+           or inner:find("pracownik", 1, true) or inner:find("driver", 1, true) then
+            return ""
+        end
+        return b
+    end)
+    return cleaned
+end
+
 ---EN: Prunes any orphaned contract/mission combines from farm fleet stats.
 ---UA: Очищає тимчасову контрактну/місійну техніку зі статистики парку ферми.
 function RHM_HarvestTracker:pruneMissionFleetStats(farmId)
     local farm = self:getFarmData(farmId or 1)
     if farm and farm.fleetStats then
         local liveVehicles = (g_currentMission and g_currentMission.vehicleSystem and g_currentMission.vehicleSystem.getVehicles and g_currentMission.vehicleSystem:getVehicles()) or (g_currentMission and g_currentMission.vehicles) or {}
-        local missionKeys = {}
+        local liveKeys = {}
         for _, veh in pairs(liveVehicles) do
-            if type(veh) == "table" and RHM_HarvestTracker.isMissionCombine(veh) then
-                local k = veh.configFileName or (veh.getFullName and veh:getFullName())
-                if k then missionKeys[k] = true end
-                if veh.getFullName and veh:getFullName() then missionKeys[veh:getFullName()] = true end
+            if type(veh) == "table" then
+                local k = veh.configFileName
+                if k then liveKeys[k] = true end
+                if veh.getFullName and veh:getFullName() then liveKeys[veh:getFullName()] = true end
+                if veh.getName and veh:getName() then liveKeys[veh:getName()] = true end
             end
         end
 
         for key, v in pairs(farm.fleetStats) do
-            if missionKeys[key] or missionKeys[v.name] or RHM_HarvestTracker.isMissionCombine(nil, v.name, key) then
+            local isRentedOrMission = v.isMission or v.isLeased or v.isRental or RHM_HarvestTracker.isMissionCombine(nil, v.name, key)
+            if isRentedOrMission then
+                local isLive = liveKeys[key] or (v.name and liveKeys[v.name])
+                if not isLive or RHM_HarvestTracker.isMissionCombine(nil, v.name, key) then
+                    farm.fleetStats[key] = nil
+                    if farm.combineTrips then
+                        farm.combineTrips[key] = nil
+                    end
+                    self.isDirty = true
+                end
+            end
+        end
+
+        -- Deduplicate and merge any legacy entries with AI helper names into their clean machine entry
+        for key, v in pairs(farm.fleetStats) do
+            local cleanName = RHM_HarvestTracker.stripHelperSuffix(v.name or key)
+            local cleanKey = RHM_HarvestTracker.stripHelperSuffix(key)
+            if cleanKey ~= key or cleanName ~= v.name then
+                local targetKey = cleanKey
+                if not farm.fleetStats[targetKey] then
+                    farm.fleetStats[targetKey] = {
+                        name = cleanName,
+                        workSeconds = v.workSeconds or 0,
+                        totalHarvested = v.totalHarvested or 0,
+                        totalLost = v.totalLost or 0
+                    }
+                else
+                    local target = farm.fleetStats[targetKey]
+                    target.workSeconds = math.max(target.workSeconds or 0, v.workSeconds or 0)
+                    target.totalHarvested = math.max(target.totalHarvested or 0, v.totalHarvested or 0)
+                    target.totalLost = math.max(target.totalLost or 0, v.totalLost or 0)
+                end
                 farm.fleetStats[key] = nil
                 self.isDirty = true
             end
@@ -849,22 +918,28 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
         combine.spec_rhm_Combine.trip = mTrip
     end
 
-    -- Update fleet statistics for this combine (only farm-owned combines, never contract/mission rentals)
-    if not RHM_HarvestTracker.isMissionCombine(combine) then
-        local machineKey = combine.configFileName or (combine.getFullName and combine:getFullName()) or "Harvester"
-        if not farm.fleetStats[machineKey] then
-            farm.fleetStats[machineKey] = {
-                name = (combine.getFullName and combine:getFullName()) or machineKey or "Harvester",
-                workSeconds = 0,
-                totalHarvested = 0,
-                totalLost = 0
-            }
-        end
-        local fleetEntry = farm.fleetStats[machineKey]
-        fleetEntry.workSeconds = fleetEntry.workSeconds + (dt * 0.001)
-        fleetEntry.totalHarvested = fleetEntry.totalHarvested + liters
-        fleetEntry.totalLost = fleetEntry.totalLost + lostLiters
+    -- Update fleet statistics for this combine
+    local isMission, isLeased = RHM_HarvestTracker.getVehicleRentalState(combine)
+    local rawName = (combine.getName and combine:getName()) or (combine.getFullName and combine:getFullName()) or "Harvester"
+    local cleanName = RHM_HarvestTracker.stripHelperSuffix(rawName)
+    local machineKey = combine.configFileName or cleanName
+    if not farm.fleetStats[machineKey] then
+        farm.fleetStats[machineKey] = {
+            name = cleanName,
+            workSeconds = 0,
+            totalHarvested = 0,
+            totalLost = 0,
+            isMission = isMission,
+            isLeased = isLeased
+        }
     end
+    local fleetEntry = farm.fleetStats[machineKey]
+    fleetEntry.name = cleanName
+    if isMission then fleetEntry.isMission = true end
+    if isLeased then fleetEntry.isLeased = true end
+    fleetEntry.workSeconds = fleetEntry.workSeconds + (dt * 0.001)
+    fleetEntry.totalHarvested = fleetEntry.totalHarvested + liters
+    fleetEntry.totalLost = fleetEntry.totalLost + lostLiters
 
     -- Year-by-Year Season Aggregation (continuous tracking across game years)
     local currentYear = 1
@@ -2001,11 +2076,12 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
         setXMLBool(xmlFile, setKey .. "#autoResetOnFieldChange", farm.farmSettings.autoResetOnFieldChange)
         setXMLInt(xmlFile, setKey .. "#autoResetMode", farm.farmSettings.autoResetMode or 1)
 
-        -- Fleet Stats (exclude contract/mission combines)
+        -- Fleet Stats (exclude contract/mission and temporary leased combines)
         local fleetKey = farmKey .. ".fleetStats"
         local vIdx = 0
         for key, v in pairs(farm.fleetStats) do
-            if not RHM_HarvestTracker.isMissionCombine(nil, v.name, key) then
+            local isRented = v.isMission or v.isLeased or v.isRental or RHM_HarvestTracker.isMissionCombine(nil, v.name, key)
+            if not isRented then
                 local vKey = string.format("%s.vehicle(%d)", fleetKey, vIdx)
                 setXMLString(xmlFile, vKey .. "#key", key)
                 setXMLString(xmlFile, vKey .. "#name", v.name or "Harvester")

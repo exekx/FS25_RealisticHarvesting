@@ -1147,8 +1147,8 @@ function rhm_Combine.getLiveWeedRatio(vehicle)
                 -- In GIANTS Engine FS25:
                 -- sourceState represents active growing weed stages.
                 -- targetState represents withered/dead weed stages produced by herbicide application.
+                liveStates[sourceState] = true
                 if targetState ~= 0 then
-                    liveStates[sourceState] = true
                     deadStates[targetState] = true
                 end
             end
@@ -1171,12 +1171,13 @@ function rhm_Combine.getLiveWeedRatio(vehicle)
             end
         end
 
-        -- Fallback default for FS25 standard weed density map
+        -- Fallback default for FS25 standard weed density map:
+        -- In FS25: 1 (small pre-emergent), 2 (medium pre-emergent), 3 (small),
+        -- 4 (medium), 5 (large/flowering), 6 (partial) are live; 7..9 are withered.
         if not next(liveStates) then
-            liveStates[1] = true
-            liveStates[2] = true
-            liveStates[3] = true
-            liveStates[4] = true
+            for st = 1, 6 do
+                liveStates[st] = true
+            end
         end
 
         local mapId, firstChannel, numChannels = weedSystem:getDensityMapData()
@@ -1192,61 +1193,118 @@ function rhm_Combine.getLiveWeedRatio(vehicle)
         return 0.0
     end
 
-    local cutterNode = nil
-    local cutterWidth = 3.0
-
+    -- 1. Identify primary cutter and cutting geometry
+    local activeCutter = nil
     local spec_combine = vehicle.spec_combine
     if spec_combine and spec_combine.attachedCutters then
         for cutter, _ in pairs(spec_combine.attachedCutters) do
-            if cutter.rootNode or (cutter.components and cutter.components[1]) then
-                cutterNode = cutter.rootNode or cutter.components[1].node
-                if cutter.getWorkingWidth then
-                    cutterWidth = cutter:getWorkingWidth() or 3.0
-                elseif cutter.spec_cutter and cutter.spec_cutter.workingWidth then
-                    cutterWidth = cutter.spec_cutter.workingWidth
-                end
+            if cutter:getIsTurnedOn() then
+                activeCutter = cutter
                 break
             end
-        end
-    end
-
-    if not cutterNode then
-        if vehicle.components and vehicle.components[1] then
-            cutterNode = vehicle.components[1].node
-            if vehicle.getWorkingWidth then
-                cutterWidth = vehicle:getWorkingWidth() or 3.0
+            if not activeCutter then
+                activeCutter = cutter
             end
         end
     end
 
-    if not cutterNode then
+    local sx, sy, sz = nil, nil, nil
+    local wx, wy, wz = nil, nil, nil
+    local cutterWidth = 3.0
+    local fx, fy, fz = 0, 0, 1
+
+    if activeCutter then
+        local cutterNode = activeCutter.rootNode or (activeCutter.components and activeCutter.components[1] and activeCutter.components[1].node)
+        if cutterNode then
+            fx, fy, fz = localDirectionToWorld(cutterNode, 0, 0, 1)
+        end
+
+        -- Primary Method: workArea defines exact left (start) and right (width) ends of the knife bar
+        if activeCutter.spec_workArea and activeCutter.spec_workArea.workAreas then
+            for _, wa in pairs(activeCutter.spec_workArea.workAreas) do
+                if wa.start and wa.width then
+                    sx, sy, sz = getWorldTranslation(wa.start)
+                    wx, wy, wz = getWorldTranslation(wa.width)
+                    cutterWidth = MathUtil.vector2Length(wx - sx, wz - sz)
+                    if cutterWidth > 0.5 then
+                        break
+                    end
+                end
+            end
+        end
+
+        -- Fallback: estimate from cutterNode translation and working width
+        if not sx and cutterNode then
+            if activeCutter.getWorkingWidth then
+                cutterWidth = activeCutter:getWorkingWidth() or 3.0
+            elseif activeCutter.spec_cutter and activeCutter.spec_cutter.workingWidth then
+                cutterWidth = activeCutter.spec_cutter.workingWidth
+            end
+            local rx, ry, rz = localDirectionToWorld(cutterNode, 1, 0, 0)
+            local kx, ky, kz = localToWorld(cutterNode, 0, 0, 2.0)
+            local halfW = cutterWidth * 0.5
+            sx, sy, sz = kx - rx * halfW, ky - ry * halfW, kz - rz * halfW
+            wx, wy, wz = kx + rx * halfW, ky + ry * halfW, kz + rz * halfW
+        end
+    end
+
+    -- Fallback: self-propelled harvesters without separate header (grapes, olives, specialty)
+    if not sx then
+        local vehNode = vehicle.components and vehicle.components[1] and vehicle.components[1].node
+        if vehNode then
+            fx, fy, fz = localDirectionToWorld(vehNode, 0, 0, 1)
+            local rx, ry, rz = localDirectionToWorld(vehNode, 1, 0, 0)
+            if vehicle.spec_workArea and vehicle.spec_workArea.workAreas then
+                for _, wa in pairs(vehicle.spec_workArea.workAreas) do
+                    if wa.start and wa.width then
+                        sx, sy, sz = getWorldTranslation(wa.start)
+                        wx, wy, wz = getWorldTranslation(wa.width)
+                        cutterWidth = MathUtil.vector2Length(wx - sx, wz - sz)
+                        if cutterWidth > 0.5 then
+                            break
+                        end
+                    end
+                end
+            end
+            if not sx then
+                cutterWidth = (vehicle.getWorkingWidth and vehicle:getWorkingWidth()) or 3.0
+                local kx, ky, kz = localToWorld(vehNode, 0, 0, 2.5)
+                local halfW = cutterWidth * 0.5
+                sx, sy, sz = kx - rx * halfW, ky - ry * halfW, kz - rz * halfW
+                wx, wy, wz = kx + rx * halfW, ky + ry * halfW, kz + rz * halfW
+            end
+        end
+    end
+
+    if not sx or not wx then
         return 0.0
     end
 
+    -- Look-ahead distance: 1.2m ahead of the cutterbar into uncut crop
+    -- to sample standing weeds BEFORE the knife destroys them in the density map
+    local lookAhead = 1.2
+    local numSamples = math.max(3, math.min(9, math.ceil(cutterWidth / 1.8)))
     local firstChan = rhm_Combine.weedFirstChannel
     local mask = rhm_Combine.weedChannelMask
     local liveStates = rhm_Combine.weedLiveStates
 
-    -- Sample 3 points along the cutting edge (center, left, right)
-    local halfW = math.max(0.5, cutterWidth * 0.35)
     local liveCount = 0
+    local terrainRoot = mission.terrainRootNode
 
-    local x0, y0, z0 = localToWorld(cutterNode, 0, 0, 0.5)
-    local d0 = getDensityAtWorldPos(mapId, x0, y0, z0)
-    local s0 = bit32.band(bit32.rshift(d0, firstChan), mask)
-    if liveStates[s0] then liveCount = liveCount + 1 end
+    for i = 0, numSamples - 1 do
+        local t = (numSamples == 1) and 0.5 or (0.05 + 0.90 * (i / (numSamples - 1)))
+        local px = sx + (wx - sx) * t + fx * lookAhead
+        local pz = sz + (wz - sz) * t + fz * lookAhead
+        local py = (terrainRoot and getTerrainHeightAtWorldPos(terrainRoot, px, 0, pz)) or (sy + (wy - sy) * t)
 
-    local x1, y1, z1 = localToWorld(cutterNode, -halfW, 0, 0.5)
-    local d1 = getDensityAtWorldPos(mapId, x1, y1, z1)
-    local s1 = bit32.band(bit32.rshift(d1, firstChan), mask)
-    if liveStates[s1] then liveCount = liveCount + 1 end
+        local d = getDensityAtWorldPos(mapId, px, py, pz)
+        local s = bit32.band(bit32.rshift(d, firstChan), mask)
+        if liveStates[s] then
+            liveCount = liveCount + 1
+        end
+    end
 
-    local x2, y2, z2 = localToWorld(cutterNode, halfW, 0, 0.5)
-    local d2 = getDensityAtWorldPos(mapId, x2, y2, z2)
-    local s2 = bit32.band(bit32.rshift(d2, firstChan), mask)
-    if liveStates[s2] then liveCount = liveCount + 1 end
-
-    return liveCount / 3.0
+    return liveCount / numSamples
 end
 
 -- EN: Override for getSpeedLimit. Returns a dynamically calculated speed cap from RHM_LoadCalculator

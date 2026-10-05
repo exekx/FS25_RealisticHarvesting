@@ -316,7 +316,7 @@
         <text name="rhm_tab_fleet_desc" text="Телеметрія в реальному часі, продуктивність та статус комбайнів вашого господарства." />
         <text name="rhm_tab_settings" text="Налаштування ферми та AI" />
         <text name="rhm_tab_settings_desc" text="Конфігурація обмежувача швидкості для найманців, генерація падалиці та параметри скидання." />
-        <text name="rhm_driver_parked" text="Стоянка" />
+        <text name="rhm_driver_parked" text="Без водія" />
         <text name="rhm_driver_cp_ai" text="ШІ (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="ШІ (Наймит)" />
         <text name="rhm_driver_player" text="Гравець" />
@@ -332,7 +332,7 @@
         <text name="rhm_fleet_wear_state" text="Знос техніки" />
         <text name="rhm_fleet_total_count" text="Усього комбайнів" />
         <text name="rhm_btn_subtab_fleet" text="ПАРК ТЕХНІКИ" />
-        <text name="rhm_btn_subtab_history" text="ЖУРНАЛ СЕЗОНУ / УСІ ПОЛЯ" />
+        <text name="rhm_btn_subtab_history" text="ІСТОРІЯ СЕЗОНУ / ВСІ ПОЛЯ" />
         <text name="rhm_season_all_time" text="Всі сезони (За весь час)" />
         <text name="rhm_season_format" text="Сезон %d (Рік %d)" />
         <text name="rhm_season_current_suffix" text="[Поточний]" />
@@ -359,13 +359,13 @@
         <text name="rhm_col_driver" text="Оператор" />
         <text name="rhm_col_cutter" text="Жатка" />
         <text name="rhm_col_throughput" text="Продуктивність" />
-        <text name="rhm_col_yield" text="Врожайність" />
+        <text name="rhm_col_yield" text="Урожайність" />
         <text name="rhm_col_wear" text="Знос" />
         <text name="rhm_kpi_field" text="ПОЛЕ" />
         <text name="rhm_kpi_crop" text="КУЛЬТУРА" />
         <text name="rhm_kpi_area" text="ПЛОЩА" />
         <text name="rhm_kpi_harvest" text="НАМОЛОТ" />
-        <text name="rhm_kpi_yield" text="ВРОЖАЙ" />
+        <text name="rhm_kpi_yield" text="УРОЖАЙНІСТЬ" />
         <text name="rhm_kpi_loss" text="ВТРАТИ" />
         <text name="rhm_kpi_speed" text="ШВИДКІСТЬ" />
         <text name="rhm_efficiency_index" text="Індекс ефективності" />
@@ -380,7 +380,7 @@
         <text name="rhm_status_idle_yard" text="На базі (очікування)" />
         <text name="rhm_fields_external" text="Стороннє" />
         <text name="rhm_field_transit" text="В дорозі" />
-        <text name="rhm_card_field_harvest" text="ПОТОЧНЕ ПОЛЕ ТА ЗБІР" />
+        <text name="rhm_card_field_harvest" text="ПОТОЧНЕ ПОЛЕ ТА КУЛЬТУРА" />
         <text name="rhm_field_number" text="Номер поля" />
         <text name="rhm_trip_no_field" text="Поза полем" />
         <text name="rhm_crop_type" text="Культура" />
@@ -389,8 +389,8 @@
         <text name="rhm_average_yield" text="Середня врожайність" />
         <text name="rhm_card_loss_finances" text="ВТРАТИ ТА ЕКОНОМІКА" />
         <text name="rhm_loss_volume" text="Об'єм втрат" />
-        <text name="rhm_loss_share" text="Частка від врожаю" />
-        <text name="rhm_financial_loss" text="Фінансові втрати" />
+        <text name="rhm_loss_share" text="Рівень втрат" />
+        <text name="rhm_financial_loss" text="Фінансовий збиток" />
         <text name="rhm_card_performance" text="ТЕЛЕМЕТРІЯ ТА ЧАС" />
         <text name="rhm_avg_working_speed" text="Робоча швидкість" />
         <text name="rhm_avg_engine_load" text="Навантаження двигуна" />
@@ -402,13 +402,13 @@
         <text name="rhm_cause_wear" text="Механічний знос жатки та комбайна" />
         <text name="rhm_cause_slope" text="Схили поля та рельєф" />
         <text name="rhm_scorecard_title" text="РЕЙТИНГ КОМБАЙНЕРА" />
-        <text name="rhm_rank_title_a" text="Ранг A: Відмінна робота" />
+        <text name="rhm_rank_title_a" text="Рівень A: Оптимальний" />
         <text name="rhm_rank_desc_a" text="Втрати менше 1.5%. Комбайн налаштований ідеально." />
-        <text name="rhm_rank_title_b" text="Ранг B: Прийнятно" />
+        <text name="rhm_rank_title_b" text="Рівень B: Прийнятний" />
         <text name="rhm_rank_desc_b" text="Втрати від 1.5% до 3.0%. Рекомендується точніше регулювання." />
-        <text name="rhm_rank_title_c" text="Ранг C: Підвищені втрати" />
+        <text name="rhm_rank_title_c" text="Рівень C: Підвищені втрати" />
         <text name="rhm_rank_desc_c" text="Втрати від 3.0% до 4.5%. Знизьте швидкість або перевірте жатку." />
-        <text name="rhm_rank_title_d" text="Ранг D: Критичні втрати" />
+        <text name="rhm_rank_title_d" text="Рівень D: Критичні втрати" />
         <text name="rhm_rank_desc_d" text="Втрати понад 4.5%! Потрібна негайна оптимізація режиму збору." />
         <text name="rhm_guidance_title" text="ПОРАДИ БОРТОВОГО КОМП'ЮТЕРА" />
         <text name="rhm_advice_perfect" text="Відмінні показники збору. Параметри обмолоту та швидкість збалансовані." />
@@ -418,7 +418,7 @@
         <text name="rhm_advice_slope" text="Втрати зумовлені бічним нахилом комбайна на схилах. Зменшіть швидкість під час руху вздовж схилів." />
         <text name="rhm_col_machine" text="Техніка" />
         <text name="rhm_col_hours" text="Мотогодини" />
-        <text name="rhm_col_harvested" text="Зібрано" />
+        <text name="rhm_col_harvested" text="Намолочено" />
         <text name="rhm_col_lost" text="Втрати" />
         <text name="rhm_col_rank" text="Ранг" />
         <text name="rhm_fleet_no_combines" text="Комбайнів не знайдено" />
@@ -435,8 +435,8 @@
         <text name="rhm_setting_autoreset_disabled" text="Вимкнено (Вручну)" />
         <text name="rhm_detail_area" text="Загальна обмолочена площа поля" />
         <text name="rhm_detail_clean_grain" text="чистого зерна" />
-        <text name="rhm_detail_yield" text="Середня врожайність на обробленій площі" />
-        <text name="rhm_detail_throughput" text="Поточний темп обмолоту культури" />
+        <text name="rhm_detail_yield" text="Середня врожайність на скошеній площі" />
+        <text name="rhm_detail_throughput" text="Поточна продуктивність обмолоту" />
         <text name="rhm_detail_lost_grain" text="зерна втрачено" />
         <text name="rhm_detail_loss_rating" text="Відсоток втрат від біологічного врожаю" />
         <text name="rhm_detail_financial_loss" text="Фінансові втрати через просипання зерна" />
@@ -464,7 +464,7 @@
         <text name="rhm_fields_all_overview" text="[*] Огляд ферми (Усі поля)" />
         <text name="rhm_field_operations" text="Операцій збору" />
         <text name="rhm_fields_nominal_area" text="Номінальна площа" />
-        <text name="rhm_fields_harvested_area" text="Оброблена площа" />
+        <text name="rhm_fields_harvested_area" text="Скошена площа" />
         <text name="rhm_status_in_progress" text="У процесі" />
         <text name="rhm_status_completed" text="Зібрано" />
         <text name="rhm_ops_one" text="збір" />
@@ -485,5 +485,7 @@
         <text name="rhm_slopeloss_long" text="Симулює сповзання зернової маси на один бік решітного стану на пагорбах і схилах понад 4° (до 5% втрат). Вимкніть, якщо бажаєте однаковий рівень втрат на будь-якому рельєфі." />
         <text name="rhm_weedload_short" text="Опір від бур'янів" />
         <text name="rhm_weedload_long" text="Зелені бур'яни з високим вмістом соку та волокон намотуються на барабан і збільшують механічний опір та навантаження на двигун комбайна (до +25%). Вимкніть, якщо бур'яни не повинні впливати на потужність." />
+            <text name="rhm_fleet_badge_mission" text="[Контракт]" />
+        <text name="rhm_fleet_badge_leased" text="[Оренда]" />
     </texts>
 </l10n>

@@ -317,14 +317,14 @@
         <text name="rhm_tab_fleet_desc" text="Real-time telemetry, throughput, and status of all harvesters on your farm." />
         <text name="rhm_tab_settings" text="Farm &amp; AI Settings" />
         <text name="rhm_tab_settings_desc" text="Configure hired worker cruise limiter, volunteer weed generation, and auto-reset options." />
-        <text name="rhm_driver_parked" text="Parked" />
+        <text name="rhm_driver_parked" text="Unoccupied" />
         <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="AI Worker" />
         <text name="rhm_driver_player" text="Player" />
         <text name="rhm_driver_idle_on" text="Idling" />
         <text name="rhm_field_yard" text="Yard / Base" />
         <text name="rhm_field_format" text="Field %d" />
-        <text name="rhm_fleet_driver" text="Driver / Operator" />
+        <text name="rhm_fleet_driver" text="Operator" />
         <text name="rhm_fleet_cutter" text="Header Width" />
         <text name="rhm_fleet_grain_tank" text="Grain Tank Fill" />
         <text name="rhm_fleet_throughput" text="Throughput" />
@@ -365,7 +365,7 @@
         <text name="rhm_kpi_field" text="FIELD" />
         <text name="rhm_kpi_crop" text="CROP" />
         <text name="rhm_kpi_area" text="AREA" />
-        <text name="rhm_kpi_harvest" text="HARVEST" />
+        <text name="rhm_kpi_harvest" text="TOTAL HARVEST" />
         <text name="rhm_kpi_yield" text="YIELD" />
         <text name="rhm_kpi_loss" text="LOSS" />
         <text name="rhm_kpi_speed" text="SPEED" />
@@ -381,7 +381,7 @@
         <text name="rhm_status_idle_yard" text="At Base (Idling)" />
         <text name="rhm_fields_external" text="External" />
         <text name="rhm_field_transit" text="In Transit" />
-        <text name="rhm_card_field_harvest" text="CURRENT FIELD &amp; HARVEST" />
+        <text name="rhm_card_field_harvest" text="CURRENT FIELD &amp; CROP" />
         <text name="rhm_field_number" text="Field Number" />
         <text name="rhm_trip_no_field" text="Off-Field" />
         <text name="rhm_crop_type" text="Crop Type" />
@@ -390,7 +390,7 @@
         <text name="rhm_average_yield" text="Average Yield" />
         <text name="rhm_card_loss_finances" text="LOSSES &amp; FINANCES" />
         <text name="rhm_loss_volume" text="Lost Volume" />
-        <text name="rhm_loss_share" text="Loss % of Bio Yield" />
+        <text name="rhm_loss_share" text="Loss Rate" />
         <text name="rhm_financial_loss" text="Financial Loss" />
         <text name="rhm_card_performance" text="PERFORMANCE &amp; TIME" />
         <text name="rhm_avg_working_speed" text="Avg Working Speed" />
@@ -467,7 +467,7 @@
         <text name="rhm_fields_nominal_area" text="Nominal Area" />
         <text name="rhm_status_in_progress" text="In Progress" />
         <text name="rhm_status_completed" text="Harvested" />
-        <text name="rhm_fields_harvested_area" text="Worked Area" />
+        <text name="rhm_fields_harvested_area" text="Harvested Area" />
         <text name="rhm_ops_one" text="harvest" />
         <text name="rhm_ops_few" text="harvests" />
         <text name="rhm_ops_many" text="harvests" />
@@ -486,5 +486,7 @@
         <text name="rhm_slopeloss_long" text="Simulates grain pooling on one side of cleaning shoe sieves on hillsides and slopes exceeding 4° (up to 5% loss). Turn off to eliminate terrain tilt penalties." />
         <text name="rhm_weedload_short" text="Weed Resistance" />
         <text name="rhm_weedload_long" text="Juicy and fibrous weeds wrap around threshing cylinders and increase mechanical resistance and engine load (up to +25%). Turn off to prevent weeds from affecting engine power." />
+            <text name="rhm_fleet_badge_mission" text="[Contract]" />
+        <text name="rhm_fleet_badge_leased" text="[Leased]" />
     </texts>
 </l10n>

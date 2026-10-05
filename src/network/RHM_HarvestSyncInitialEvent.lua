@@ -72,7 +72,8 @@ function RHM_HarvestSyncInitialEvent:writeStream(streamId, connection)
     local fleet = farm.fleetStats or {}
     local fleetList = {}
     for key, v in pairs(fleet) do
-        if not (RHM_HarvestTracker and RHM_HarvestTracker.isMissionCombine and RHM_HarvestTracker.isMissionCombine(nil, v.name, key)) then
+        local isRented = v.isMission or v.isLeased or v.isRental or (RHM_HarvestTracker and RHM_HarvestTracker.isMissionCombine and RHM_HarvestTracker.isMissionCombine(nil, v.name, key))
+        if not isRented then
             table.insert(fleetList, { key = key, name = v.name or "Harvester", workSeconds = v.workSeconds or 0, totalHarvested = v.totalHarvested or 0, totalLost = v.totalLost or 0 })
             if #fleetList >= 30 then break end
         end

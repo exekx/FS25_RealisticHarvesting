@@ -13,6 +13,13 @@
 RHM_HarvestHistoryFields = {}
 local HarvestHistoryFields_mt = Class(RHM_HarvestHistoryFields, TabbedMenuFrameElement)
 
+local function safeL10n(key, fallback)
+    if g_i18n and g_i18n.hasText and g_i18n:hasText(key) then
+        return g_i18n:getText(key)
+    end
+    return fallback or ""
+end
+
 function RHM_HarvestHistoryFields.new(l18n)
     local self = TabbedMenuFrameElement.new(nil, HarvestHistoryFields_mt)
     self.l18n = l18n
@@ -128,17 +135,17 @@ function RHM_HarvestHistoryFields:updateData()
         local lossPct = (bioVol > 0) and ((lostL / bioVol) * 100.0) or 0
         local rank = RHM_HarvestTracker.calculateEfficiencyRank(lossPct)
 
-        local fieldName = string.format(g_i18n:getText("rhm_field_format") or "Field %d", f.fieldId)
+        local fieldName = string.format(safeL10n("rhm_field_format", "Field %d"), f.fieldId)
         local statusStr = ""
         if f.isOwned then
-            statusStr = g_i18n:getText("rhm_fields_owned") or "Owned"
+            statusStr = safeL10n("rhm_fields_owned", "Owned")
         elseif f.isContract then
-            statusStr = g_i18n:getText("rhm_fields_contract") or "Contract"
+            statusStr = safeL10n("rhm_fields_contract", "Contract")
         else
-            statusStr = (g_i18n and g_i18n:hasText("rhm_fields_external") and g_i18n:getText("rhm_fields_external")) or "External"
+            statusStr = safeL10n("rhm_fields_external", "External")
         end
         if f.isContract then
-            fieldName = fieldName .. " [" .. (g_i18n:getText("rhm_contract_tag") or "Contract") .. "]"
+            fieldName = fieldName .. " [" .. safeL10n("rhm_contract_tag", "Contract") .. "]"
         end
 
         local cropDisplay = f.lastCrop or "--"
@@ -253,8 +260,8 @@ function RHM_HarvestHistoryFields:updateData()
     -- ROW 1: Farm Overview Summary Row
     local overviewItem = {
         isOverview = true,
-        field = g_i18n:getText("rhm_fields_all_overview") or "[*] Farm Overview",
-        status = string.format("%d %s", totalOwnedCount, g_i18n:getText("rhm_fields_owned") or "Owned"),
+        field = safeL10n("rhm_fields_all_overview", "[*] Farm Overview"),
+        status = string.format("%d %s", totalOwnedCount, safeL10n("rhm_fields_owned", "Owned")),
         area = RHM_UnitConverter.formatArea((totalNominalArea > 0 and totalNominalArea) or totalHarvestedArea, sys),
         crop = topCropName,
         harvested = (totalHarvestL > 0) and RHM_UnitConverter.formatMass(overallHarvestTons, sys) or "--",
@@ -292,7 +299,7 @@ function RHM_HarvestHistoryFields:updateData()
             field = "--",
             status = "--",
             area = "--",
-            crop = g_i18n:getText("rhm_fields_no_data") or "No Fields Recorded Yet",
+            crop = safeL10n("rhm_fields_no_data", "No Fields Recorded Yet"),
             harvested = "--",
             yield = "--",
             loss = "--",
@@ -337,32 +344,32 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
         end
 
         -- CARD 1: Land & Status
-        if self.fieldSummaryCard1Title then self.fieldSummaryCard1Title:setText(g_i18n:getText("rhm_card_field_land") or "FARMLAND & PROGRESS") end
-        if self.fieldSummaryLabel1_1 then self.fieldSummaryLabel1_1:setText(g_i18n:getText("rhm_fields_total_owned") or "Owned Fields") end
+        if self.fieldSummaryCard1Title then self.fieldSummaryCard1Title:setText(safeL10n("rhm_card_field_land", "FARMLAND & PROGRESS")) end
+        if self.fieldSummaryLabel1_1 then self.fieldSummaryLabel1_1:setText(safeL10n("rhm_fields_total_owned", "Owned Fields")) end
         if self.fieldSummaryOwnedCount then self.fieldSummaryOwnedCount:setText(tostring(entry.totalOwnedCount or 0)) end
-        if self.fieldSummaryLabel1_2 then self.fieldSummaryLabel1_2:setText(g_i18n:getText("rhm_hist_total_area") or "Total Area") end
+        if self.fieldSummaryLabel1_2 then self.fieldSummaryLabel1_2:setText(safeL10n("rhm_hist_total_area", "Total Area")) end
         if self.fieldSummaryTotalArea then self.fieldSummaryTotalArea:setText(RHM_UnitConverter.formatArea(entry.totalNominalArea or 0, sys)) end
-        if self.fieldSummaryLabel1_3 then self.fieldSummaryLabel1_3:setText((g_i18n and g_i18n:hasText("rhm_fields_harvested_area") and g_i18n:getText("rhm_fields_harvested_area")) or "Harvested Area") end
+        if self.fieldSummaryLabel1_3 then self.fieldSummaryLabel1_3:setText(safeL10n("rhm_fields_harvested_area", "Harvested Area")) end
         if self.fieldSummaryHarvestedArea then self.fieldSummaryHarvestedArea:setText(RHM_UnitConverter.formatArea(entry.totalHarvestedArea or 0, sys)) end
-        if self.fieldSummaryLabel1_4 then self.fieldSummaryLabel1_4:setText(g_i18n:getText("rhm_contract_tag") or "Contract") end
+        if self.fieldSummaryLabel1_4 then self.fieldSummaryLabel1_4:setText(safeL10n("rhm_contract_tag", "Contract")) end
         if self.fieldSummaryContractCount then self.fieldSummaryContractCount:setText(tostring(entry.totalContractCount or 0)) end
-        if self.fieldSummaryLabel1_5 then self.fieldSummaryLabel1_5:setText(g_i18n:getText("rhm_col_status") or "Status") end
+        if self.fieldSummaryLabel1_5 then self.fieldSummaryLabel1_5:setText(safeL10n("rhm_col_status", "Status")) end
         if self.fieldSummaryProgressText then
             local displayCov = math.min(100.0, entry.covPct or 0)
-            self.fieldSummaryProgressText:setText(string.format("%.1f%% %s", displayCov, g_i18n:getText("rhm_status_completed") or "Done"))
+            self.fieldSummaryProgressText:setText(string.format("%.1f%% %s", displayCov, safeL10n("rhm_status_completed", "Done")))
         end
 
         -- CARD 2: Production & Yield
-        if self.fieldSummaryCard2Title then self.fieldSummaryCard2Title:setText(g_i18n:getText("rhm_card_field_yield") or "PRODUCTION & YIELD") end
-        if self.fieldSummaryLabel2_1 then self.fieldSummaryLabel2_1:setText(g_i18n:getText("rhm_clean_harvest") or "Clean Harvest") end
+        if self.fieldSummaryCard2Title then self.fieldSummaryCard2Title:setText(safeL10n("rhm_card_field_yield", "PRODUCTION & YIELD")) end
+        if self.fieldSummaryLabel2_1 then self.fieldSummaryLabel2_1:setText(safeL10n("rhm_clean_harvest", "Clean Harvest")) end
         if self.fieldSummaryTotalHarvest then self.fieldSummaryTotalHarvest:setText(RHM_UnitConverter.formatMass(entry.overallHarvestTons or 0, sys)) end
-        if self.fieldSummaryLabel2_2 then self.fieldSummaryLabel2_2:setText(g_i18n:getText("rhm_col_yield") or "Average Yield") end
+        if self.fieldSummaryLabel2_2 then self.fieldSummaryLabel2_2:setText(safeL10n("rhm_average_yield", "Average Yield")) end
         if self.fieldSummaryAvgYield then self.fieldSummaryAvgYield:setText(RHM_UnitConverter.formatYield(entry.overallYield or 0, sys)) end
-        if self.fieldSummaryLabel2_3 then self.fieldSummaryLabel2_3:setText(g_i18n:getText("rhm_fields_best_yield") or "Best Field") end
+        if self.fieldSummaryLabel2_3 then self.fieldSummaryLabel2_3:setText(safeL10n("rhm_fields_best_yield", "Best Field")) end
         if self.fieldSummaryBestField then self.fieldSummaryBestField:setText(entry.bestYieldField or "--") end
-        if self.fieldSummaryLabel2_4 then self.fieldSummaryLabel2_4:setText(g_i18n:getText("rhm_kpi_crop") or "Dominant Crop") end
+        if self.fieldSummaryLabel2_4 then self.fieldSummaryLabel2_4:setText(safeL10n("rhm_kpi_crop", "Dominant Crop")) end
         if self.fieldSummaryTopCrop then self.fieldSummaryTopCrop:setText(entry.topCropName or "--") end
-        if self.fieldSummaryLabel2_5 then self.fieldSummaryLabel2_5:setText(g_i18n:getText("rhm_session_duration") or "Total Duration") end
+        if self.fieldSummaryLabel2_5 then self.fieldSummaryLabel2_5:setText(safeL10n("rhm_session_duration", "Total Duration")) end
         local totalSecs = math.floor(entry.totalWorkSecs or 0)
         local hrs = math.floor(totalSecs / 3600)
         local mins = math.floor((totalSecs % 3600) / 60)
@@ -423,16 +430,16 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
         end
 
         -- CARD 1: Field Land & Status
-        if self.fieldSummaryCard1Title then self.fieldSummaryCard1Title:setText(g_i18n:getText("rhm_card_field_land") or "FIELD & LAND") end
-        if self.fieldSummaryLabel1_1 then self.fieldSummaryLabel1_1:setText(g_i18n:getText("rhm_col_field") or "Field Number") end
+        if self.fieldSummaryCard1Title then self.fieldSummaryCard1Title:setText(safeL10n("rhm_card_field_land", "FIELD & LAND")) end
+        if self.fieldSummaryLabel1_1 then self.fieldSummaryLabel1_1:setText(safeL10n("rhm_col_field", "Field Number")) end
         if self.fieldSummaryOwnedCount then self.fieldSummaryOwnedCount:setText(tostring(entry.fieldId or entry.field or "--")) end
-        if self.fieldSummaryLabel1_2 then self.fieldSummaryLabel1_2:setText(g_i18n:getText("rhm_fields_nominal_area") or "Nominal Area") end
+        if self.fieldSummaryLabel1_2 then self.fieldSummaryLabel1_2:setText(safeL10n("rhm_fields_nominal_area", "Nominal Area")) end
         if self.fieldSummaryTotalArea then self.fieldSummaryTotalArea:setText(RHM_UnitConverter.formatArea(entry.nominalAreaHa or 0, sys)) end
-        if self.fieldSummaryLabel1_3 then self.fieldSummaryLabel1_3:setText((g_i18n and g_i18n:hasText("rhm_fields_harvested_area") and g_i18n:getText("rhm_fields_harvested_area")) or "Harvested Area") end
+        if self.fieldSummaryLabel1_3 then self.fieldSummaryLabel1_3:setText(safeL10n("rhm_fields_harvested_area", "Harvested Area")) end
         if self.fieldSummaryHarvestedArea then self.fieldSummaryHarvestedArea:setText(RHM_UnitConverter.formatArea(entry.harvestedAreaHa or 0, sys)) end
-        if self.fieldSummaryLabel1_4 then self.fieldSummaryLabel1_4:setText(g_i18n:getText("rhm_col_status") or "Ownership") end
+        if self.fieldSummaryLabel1_4 then self.fieldSummaryLabel1_4:setText(safeL10n("rhm_col_status", "Ownership")) end
         if self.fieldSummaryContractCount then self.fieldSummaryContractCount:setText(entry.status or "--") end
-        if self.fieldSummaryLabel1_5 then self.fieldSummaryLabel1_5:setText(g_i18n:getText("rhm_col_status") or "Status") end
+        if self.fieldSummaryLabel1_5 then self.fieldSummaryLabel1_5:setText(safeL10n("rhm_col_status", "Status")) end
         if self.fieldSummaryProgressText then
             local cov = (entry.nominalAreaHa and entry.nominalAreaHa > 0.001) and (((entry.harvestedAreaHa or 0) / entry.nominalAreaHa) * 100.0) or 0
             local displayPct = math.min(100.0, cov)

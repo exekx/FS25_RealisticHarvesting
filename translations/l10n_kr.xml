@@ -73,7 +73,7 @@
         <text name="rhm_show_load_warn_long" text="콤바인이 과부하될 때 깜빡이는 경고 표시" />
         <text name="rhm_overload_sounds_short" text="과부하 사운드" />
         <text name="rhm_overload_sounds_long" text="콤바인 과부하 또는 손실 초과 시 운전실 경보음 및 기계 진동음 재생" />
-        <text name="rhm_section_audio" text="Realistic Harvesting - 오디오" />
+        <text name="rhm_section_audio" text="Realistic Harvesting - 캐빈 오디오" />
         <text name="rhm_alarm_sounds_short" text="과부하 경보 버저" />
         <text name="rhm_alarm_sounds_long" text="엔진 부하가 심각한 과부하(105%+)에 도달하거나 손실이 5%를 초과할 때의 캐빈 버저 모드." />
         <text name="rhm_alarm_mode_smart" text="스마트 (3회 비프음)" />
@@ -135,99 +135,99 @@
         <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
         <!-- ================================================================= -->
         <text name="rhm_help_category" text="Realistic Harvesting" />
-        <text name="rhm_help_title" text="Realistic Harvesting Guide" />
+        <text name="rhm_help_title" text="Realistic Harvesting 가이드" />
 
         <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
-        <text name="rhm_help_overview_title" text="1. Realistic Engine Physics &amp; Speed" />
-        <text name="rhm_help_overview_sub1" text="How Engine Load is Calculated" />
-        <text name="rhm_help_overview_1" text="Realistic Harvesting replaces artificial hard-coded speed limits with an honest, physics-based crop throughput model. Engine power is dynamically allocated between base vehicle locomotion, mechanical cutterbar drive, threshing drum and rotor friction, straw chopper load, and crop mass flow (t/h) calibrated to ASABE/DLG agricultural standards. When encountering dense swaths, the combine automatically and smoothly decelerates to prevent drum choking." />
-        <text name="rhm_help_overview_sub2" text="Automated Hydrostatic Speed Control" />
-        <text name="rhm_help_overview_2" text="The RHM hydrostatic controller continuously monitors threshing mechanism strain. The optimal operational window is 85–95% engine load. As strain approaches 100%, the combine gently trims forward cruise speed to protect internal components, then smoothly accelerates back to cruising pace in lighter crop stands." />
-        <text name="rhm_help_overview_sub3" text="Straw Chopper Strain &amp; Slope Dynamics" />
-        <text name="rhm_help_overview_3" text="An active straw chopper demands an extra 15–20% of rated engine horsepower compared to laying straw swaths. In dense grain crops, switching to swathing frees substantial horsepower, significantly boosting working speed. Harvesting uphill also imposes extra gravitational climb resistance, naturally moderating field speed." />
+        <text name="rhm_help_overview_title" text="1. 사실적인 엔진 물리 및 차속" />
+        <text name="rhm_help_overview_sub1" text="엔진 부하 계산 방식" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting은 인위적인 속도 제한을 ASABE/DLG 농업 표준에 맞춰 보정된 정직한 물리 기반 작물 유입 모델로 대체합니다. 엔진 출력은 주행, 헤더 구동, 탈곡 드럼/로터 마찰, 짚 파쇄기, 작물 유입량(t/h)에 따라 동적으로 분배됩니다. 밀생한 구역에서는 드럼 막힘을 방지하기 위해 콤바인이 부드럽게 감속합니다." />
+        <text name="rhm_help_overview_sub2" text="자동 유압식(HST) 차속 제어" />
+        <text name="rhm_help_overview_2" text="RHM 정유압 컨트롤러는 탈곡 기구의 부하를 연속으로 모니터링합니다. 최적의 작동 범위는 엔진 부하 85~95%입니다. 부하가 100%에 근접하면 내부 부품을 보호하기 위해 속도를 부드럽게 낮추고, 작물이 성긴 곳에서는 부드럽게 가속합니다." />
+        <text name="rhm_help_overview_sub3" text="짚 파쇄기 부하 및 경사면 동역학" />
+        <text name="rhm_help_overview_3" text="짚 파쇄기를 가동하면 윈드로우 배출에 비해 15~20%의 엔진 출력이 추가로 소모됩니다. 빽빽한 작물에서 윈드로우 배출로 전환하면 마력이 확보되어 수확 속도를 높일 수 있습니다. 오르막길 수확 역시 중력 저항이 더해져 차속이 자연스럽게 제어됩니다." />
 
         <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
-        <text name="rhm_help_hud_title" text="2. Interactive HUD &amp; Controls" />
-        <text name="rhm_help_hud_sub1" text="Live Telemetry Dashboard" />
-        <text name="rhm_help_hud_1" text="Boarding a combine activates a modern telemetry capsule at the bottom of the screen. It provides real-time readouts: current and target speed, live engine load percentage, instantaneous field yield (t/ha or bu/ac), crop throughput (t/h), grain moisture percentage, and cleaning shoe loss rate (%)." />
-        <text name="rhm_help_hud_sub2" text="Free Mouse Dragging (LMB) &amp; Magnetic Docking" />
-        <text name="rhm_help_hud_2" text="You can reposition the HUD anywhere across your screen. Hold Left Mouse Button (LMB) directly on the HUD capsule and drag it to your preferred position. Moving close to screen edges or the bottom boundary of the F1 help menu triggers magnetic docking, perfectly snapping the panel in place." />
-        <text name="rhm_help_hud_sub3" text="In-Cab Field Trip Mini-Badge" />
-        <text name="rhm_help_hud_3" text="A compact telemetry mini-badge inside the cab gives an immediate overview of your current run: harvested hectares, total tonnage, average loss percentage, and operator skill rating from [A] (expert) to [E] (heavy losses)." />
+        <text name="rhm_help_hud_title" text="2. 인터랙티브 HUD 및 조작" />
+        <text name="rhm_help_hud_sub1" text="실시간 텔레메트리 캡슐" />
+        <text name="rhm_help_hud_1" text="콤바인에 탑승하면 화면 하단에 텔레메트리 캡슐이 나타납니다: 현재 및 목표 속도, 엔진 부하율(%), 순간 수확량(t/ha), 처리량(t/h), 곡물 수분율(%), 체 손실률(%)이 실시간으로 표시됩니다." />
+        <text name="rhm_help_hud_sub2" text="마우스 자유 이동(LMB) 및 자석 도킹" />
+        <text name="rhm_help_hud_2" text="패널에서 마우스 왼쪽 버튼(LMB)을 길게 눌러 HUD를 화면 어디로든 이동할 수 있습니다. 화면 가장자리나 F1 도움말 메뉴 하단에 가까워지면 자석처럼 깔끔하게 제자리에 정렬됩니다." />
+        <text name="rhm_help_hud_sub3" text="캐빈 미니 계기판" />
+        <text name="rhm_help_hud_3" text="운전실 내부의 소형 디스플레이는 현재 작업에 대한 즉각적인 요약을 제공합니다: 수확 면적(ha), 총 톤수, 평균 손실률, 그리고 [A](최적)부터 [E](치명적 손실)까지의 작업자 등급입니다." />
 
         <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
-        <text name="rhm_help_calibration_title" text="3. In-Cab Calibration Tablet (Shift+K)" />
-        <text name="rhm_help_calibration_main_sub" text="Field Touchscreen Tablet" />
-        <text name="rhm_help_calibration_main_text" text="Press Right Shift + K in the combine cab to deploy the touchscreen calibration tablet. The header displays rated engine horsepower, attached cutter width, and active crop. Fine-tuning threshing and separation parameters maximizes crop throughput while maintaining near-zero grain loss." />
-        <text name="rhm_help_calibration_rotor_sub" text="Threshing Drum &amp; Cleaning Fan" />
-        <text name="rhm_help_calibration_rotor_text" text="Rotor/drum RPM and concave clearance govern threshing thoroughness. Excessive RPM shatters fragile grain, while insufficient RPM leaves unthreshed grain in the straw. The cleaning fan blows chaff out of the rear: excessive airflow blows grain onto the ground, while weak airflow clogs the sieves with trash." />
-        <text name="rhm_help_calibration_presets_sub" text="Factory Presets &amp; Combine Memory" />
-        <text name="rhm_help_calibration_presets_text" text="The tablet includes pre-configured factory presets for over 25 base game and modded crops. Click 'Load Preset' to apply proven baseline settings. On combines equipped with Tier 2+ electronics, you can also save and load custom field profiles directly into combine memory." />
+        <text name="rhm_help_calibration_title" text="3. 운전실 캘리브레이션 태블릿 (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="터치스크린 필드 태블릿" />
+        <text name="rhm_help_calibration_main_text" text="운전실에서 오른쪽 Shift + K를 누르면 터치형 보정 태블릿이 열립니다. 상단에 엔진 마력, 헤더 폭, 현재 작물이 표시됩니다. 세부 조정을 통해 곡물 손실을 0에 가깝게 유지하면서 처리량을 극대화할 수 있습니다." />
+        <text name="rhm_help_calibration_rotor_sub" text="탈곡 드럼 및 송풍 팬" />
+        <text name="rhm_help_calibration_rotor_text" text="로터/드럼 RPM과 오목판(컨케이브) 간격이 탈곡 강도를 결정합니다. 회전수가 너무 높으면 낟알이 깨지고, 낮으면 짚에 알곡이 남습니다. 팬은 겨를 배출합니다: 바람이 너무 세면 알곡이 밭으로 날아가고, 약하면 체가 이물질로 막힙니다." />
+        <text name="rhm_help_calibration_presets_sub" text="공장 프리셋 및 기계 메모리" />
+        <text name="rhm_help_calibration_presets_text" text="태블릿에는 25가지 이상의 작물에 대한 공장 설정이 포함되어 있습니다. '프로필 불러오기'를 클릭하여 검증된 설정을 적용하세요. 2단계 이상의 전자 장비를 장착한 콤바인은 사용자 지정 프로필을 기계 메모리에 저장할 수 있습니다." />
 
         <!-- PAGE 4: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
-        <text name="rhm_help_trip_title" text="4. Field Job Counter &amp; Fleet Records (Shift+J)" />
-        <text name="rhm_help_trip_sub1" text="Field Harvest Command Center (Shift+J)" />
-        <text name="rhm_help_trip_1" text="Press Right Shift + J to open the full harvest accounting hub featuring 4 tabs: 'Current Field', 'Farm Fields', 'Season Analytics', and 'Combine Fleet'." />
-        <text name="rhm_help_trip_sub2" text="Current Field Trip Odometer &amp; Operator Rank" />
-        <text name="rhm_help_trip_2" text="The first tab functions as a digital field odometer: tracking harvested area (ha/ac), grain yield and mass (t/l), net harvest time, field crop losses, financial loss ($/€/£), root-cause loss breakdown (Speed, Moisture, Wear, Slope), and driver efficiency rank." />
-        <text name="rhm_help_trip_sub3" text="Quick In-Cab Reset (Right Shift + R)" />
-        <text name="rhm_help_trip_3" text="When entering a new field or starting a test run, hold Right Shift + R for 1 second directly from the cab. The field odometer instantly resets with an on-screen toast confirmation—no need to open the menu!" />
-        <text name="rhm_help_trip_sub4" text="Farm Fields, Seasonal History &amp; Fleet Telemetry" />
-        <text name="rhm_help_trip_4" text="Review area and crop status for all owned fields in Tab 2, multi-season yield and financial history in Tab 3, and monitor hired AI workers in Tab 4: active operator, crop, throughput (t/h), cutter width, and knife wear." />
+        <text name="rhm_help_trip_title" text="4. 농경지 카운터 &amp; 기계 일지 (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="수확 관리 센터 (Shift+J)" />
+        <text name="rhm_help_trip_1" text="오른쪽 Shift + J를 눌러 4개의 탭으로 구성된 수확 관리 센터를 엽니다: '현재 농경지', '농장 농경지', '시즌 분석', '콤바인 플릿'." />
+        <text name="rhm_help_trip_sub2" text="디지털 카운터 및 작업자 등급" />
+        <text name="rhm_help_trip_2" text="첫 번째 탭은 디지털 계기판 역할을 합니다: 수확 면적(ha), 수확량(t/L), 순 작업 시간, 곡물 손실, 경제적 손실(€/₩), 손실 원인(속도, 수분, 마모, 경사) 및 작업자 효율 등급." />
+        <text name="rhm_help_trip_sub3" text="운전실 빠른 재설정 (오른쪽 Shift + R)" />
+        <text name="rhm_help_trip_3" text="새 농경지에 진입할 때 운전실에서 오른쪽 Shift + R을 1초 동안 길게 누르세요. 메뉴를 열 필요 없이 화면 알림과 함께 카운터가 즉시 0으로 초기화됩니다!" />
+        <text name="rhm_help_trip_sub4" text="농경지, 시즌 이력 및 장비 텔레메트리" />
+        <text name="rhm_help_trip_4" text="탭 2에서 소유지 현황을, 탭 3에서 다년간의 수확 기록을 확인하고, 탭 4에서 AI 일꾼을 모니터링하세요: 운전자, 작물, 처리량(t/h), 헤더 폭, 날 마모도." />
 
         <!-- PAGE 5: CROP LOSSES & ROOT CAUSES -->
-        <text name="rhm_help_croploss_title" text="5. Crop Losses &amp; Root Causes" />
-        <text name="rhm_help_croploss_sub1" text="Physical Grain Tank Liter Deduction" />
-        <text name="rhm_help_croploss_1" text="In Realistic Harvesting, crop losses are not an abstract statistic. Grain lost over the sieves or blown out the rear is physically subtracted directly from the combine grain tank in real time or deducted from straw windrow volume, directly impacting farm finances." />
-        <text name="rhm_help_croploss_sub2" text="Four Primary Loss Root Causes" />
-        <text name="rhm_help_croploss_2" text="- Speed &amp; Overload: Excessive throughput overwhelms sieves, carrying grain out the back.&#xA;- Moisture &amp; Dew: Damp straw clumps together, trapping kernels inside.&#xA;- Knife Wear: Blunt cutterbar knives shatter standing heads onto the ground instead of cutting.&#xA;- Ground Slope: Steep side-hills shift crop mats to one side of the cleaning shoe." />
-        <text name="rhm_help_croploss_sub3" text="Acoustic Overload Warning (Smart Buzzer)" />
-        <text name="rhm_help_croploss_3" text="When engine load exceeds 105% or sieve loss exceeds 5%, the in-cab chime sounds. In Smart Mode, the terminal sounds a cluster of 3 soft alerts spaced 1.8 seconds apart, followed by an 18-second rest interval." />
+        <text name="rhm_help_croploss_title" text="5. 수확 손실 및 원인 분석" />
+        <text name="rhm_help_croploss_sub1" text="곡물 탱크 물리적 차감" />
+        <text name="rhm_help_croploss_1" text="Realistic Harvesting에서 손실은 단순한 통계가 아닙니다. 체 밖으로 버려진 낟알은 실시간으로 곡물 탱크에서 물리적으로 차감되거나 짚더미 부피를 감소시켜 농장 수익에 직접 타격을 줍니다." />
+        <text name="rhm_help_croploss_sub2" text="손실의 4대 원인" />
+        <text name="rhm_help_croploss_2" text="- 속도 및 과부하: 과도한 유입량이 체를 메워 곡물을 뒤로 날려보냄.&#xA;- 수분 및 이슬: 젖은 짚이 뭉쳐 낟알을 가둠.&#xA;- 칼날 마모: 무딘 칼날이 베기 전에 이삭을 털어버림.&#xA;- 지형 경사: 측면 경사가 작물 층을 체의 한쪽으로 쏠리게 함." />
+        <text name="rhm_help_croploss_sub3" text="음향 과부하 경보 (Smart Buzzer)" />
+        <text name="rhm_help_croploss_3" text="엔진 부하가 105%를 넘거나 체 손실이 5%를 초과하면 캐빈 알람이 울립니다. 스마트 모드에서는 1.8초 간격으로 3회의 부드러운 경고음이 울린 후 18초간 정적을 유지합니다." />
 
         <!-- PAGE 6: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
-        <text name="rhm_help_upgrades_title" text="6. Electronics Packages (Tiers 1–4)" />
-        <text name="rhm_help_upgrades_sub1" text="Harvester Workshop Upgrades" />
-        <text name="rhm_help_upgrades_1" text="Every harvester can be upgraded at the vehicle dealer or farm workshop with four distinct electronics packages tailored to your farm budget and operating style." />
-        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Base Mechanical) &amp; Tier 2 (Sensors &amp; Profiles)" />
-        <text name="rhm_help_upgrades_2" text="- Tier 1: Factory mechanical baseline. No electronic sensors; operator gauges speed by engine sound.&#xA;- Tier 2: Adds piezoelectric sieve loss sensors (loss % on HUD) and unlocks saving custom calibration profiles into combine memory." />
-        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Telemetry) &amp; Tier 4 (Opti-Harvest AI)" />
-        <text name="rhm_help_upgrades_3" text="- Tier 3: Equips an optical moisture meter, field trip odometer, financial loss tracking, and fleet telemetry.&#xA;- Tier 4: Unlocks the flagship Opti-Harvest AI autopilot, automatically tuning drum RPM and fan speed on the fly and eliminating hired worker tuning errors (0% deviation)." />
+        <text name="rhm_help_upgrades_title" text="6. 전자 패키지 등급 (1~4단계)" />
+        <text name="rhm_help_upgrades_sub1" text="정비소 장비 업그레이드" />
+        <text name="rhm_help_upgrades_1" text="모든 콤바인은 대리점이나 농장 정비소에서 예산과 용도에 맞춰 4가지 전자 패키지 중 하나로 업그레이드할 수 있습니다." />
+        <text name="rhm_help_upgrades_sub2" text="1단계 (기계식) 및 2단계 (센서 &amp; 프로필)" />
+        <text name="rhm_help_upgrades_2" text="- 1단계: 기본 기계식. 전자 센서 없음. 운전자가 엔진 소리로 부하를 판단.&#xA;- 2단계: 압전 체 손실 센서(HUD 손실 %) 추가 및 프로필 저장 기능 해제." />
+        <text name="rhm_help_upgrades_sub3" text="3단계 (텔레메트리) 및 4단계 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="- 3단계: 광학식 수분계, 농경지 카운터, 손실액 추적 및 플릿 텔레메트리 장착.&#xA;- 4단계: 주행 중 드럼과 팬을 자동 제어하고 AI 일꾼의 설정 오류(0% 오차)를 완전히 없애주는 Opti-Harvest AI 오토파일럿 해제." />
 
         <!-- PAGE 7: AI WORKERS & AUTOPILOTS -->
-        <text name="rhm_help_ai_workers_title" text="7. AI Workers &amp; Autopilots" />
-        <text name="rhm_help_ai_workers_sub1" text="Intelligent AI Speed Regulation" />
-        <text name="rhm_help_ai_workers_1" text="Giants AI helpers, Courseplay (v7+), and AutoDrive never run at artificial flat-out speeds. RHM enforces speed limits directly at the engine server level, keeping helpers safely within the optimal 85–95% load sweet spot." />
-        <text name="rhm_help_ai_workers_sub2" text="Electronics Package Impact on AI Quality" />
-        <text name="rhm_help_ai_workers_2" text="- Tier 1 Combines: Hired workers suffer setup deviations of up to ±18%.&#xA;- Tier 2 Combines: Tuning error drops to ±10%.&#xA;- Tier 3 Combines: Tuning error is reduced to ±4%.&#xA;- Tier 4 Combines: Opti-Harvest AI achieves 0% error, delivering flawless factory-spec harvesting." />
-        <text name="rhm_help_ai_workers_sub3" text="Courseplay &amp; AutoDrive Unloading on the Move" />
-        <text name="rhm_help_ai_workers_3" text="Unloading on the move is fully accounted for: the extra mechanical drag of the unloading auger is calculated dynamically so the combine never stalls when a chase tractor pulls alongside." />
+        <text name="rhm_help_ai_workers_title" text="7. AI 일꾼 및 오토파일럿" />
+        <text name="rhm_help_ai_workers_sub1" text="AI를 위한 지능형 속도 제어" />
+        <text name="rhm_help_ai_workers_1" text="Giants AI 일꾼, Courseplay(v7+), AutoDrive는 맹목적인 최고 속도로 달리지 않습니다. RHM이 엔진 레벨에서 직접 제어하여 일꾼들을 85~95% 최적 부하 영역에 유지합니다." />
+        <text name="rhm_help_ai_workers_sub2" text="전자 장비 등급이 AI 품질에 미치는 영향" />
+        <text name="rhm_help_ai_workers_2" text="- 1단계 기계: 고용된 일꾼의 설정 오차가 최대 ±18%까지 발생.&#xA;- 2단계 기계: 오차가 ±10%로 감소.&#xA;- 3단계 기계: 오차가 ±4%로 감소.&#xA;- 4단계 기계: Opti-Harvest AI가 오차 0%로 완벽한 공장 출고급 정밀 수확 수행." />
+        <text name="rhm_help_ai_workers_sub3" text="Courseplay 및 AutoDrive 주행 중 배출 지원" />
+        <text name="rhm_help_ai_workers_3" text="주행 중 배출이 완벽하게 지원됩니다: 배출 오거의 기계적 부하가 동적으로 계산되어 트레일러가 다가올 때 콤바인이 갑자기 멈추지 않습니다." />
 
         <!-- PAGE 8: CROP MOISTURE & DIURNAL WEATHER -->
-        <text name="rhm_help_moisture_title" text="8. Crop Moisture &amp; Diurnal Weather" />
-        <text name="rhm_help_moisture_sub1" text="Diurnal Moisture Cycle" />
-        <text name="rhm_help_moisture_1" text="Crop moisture naturally peaks in early morning hours (04:00–08:00) due to heavy dew. The prime harvesting window occurs between 11:30 and 18:30 when ambient warmth and sunlight thoroughly dry grain and straw." />
-        <text name="rhm_help_moisture_sub2" text="Moisture Impact on Power &amp; Speed" />
-        <text name="rhm_help_moisture_2" text="Damp straw increases internal rotor friction by up to +35%, substantially lowering harvesting cruise speed and increasing fuel consumption." />
-        <text name="rhm_help_moisture_sub3" text="Rain, Night Dew &amp; Wet Straw" />
-        <text name="rhm_help_moisture_3" text="Harvesting in active rain causes a sharp spike in moisture, overloading cleaning sieves, inducing heavy grain loss, and risking threshing drum choking." />
+        <text name="rhm_help_moisture_title" text="8. 작물 수분 및 일일 기상 주기" />
+        <text name="rhm_help_moisture_sub1" text="일일 수분 주기" />
+        <text name="rhm_help_moisture_1" text="작물 수분은 이슬로 인해 이른 아침(04:00~08:00)에 최고조에 달합니다. 햇빛과 온도가 낟알과 짚을 바짝 말려주는 11:30부터 18:30 사이가 최적의 수확 시간입니다." />
+        <text name="rhm_help_moisture_sub2" text="출력 및 속도에 미치는 영향" />
+        <text name="rhm_help_moisture_2" text="축축한 짚은 로터 내부 마찰을 최대 +35% 증가시켜 수확 속도를 눈에 띄게 떨어뜨리고 연료 소비를 늘립니다." />
+        <text name="rhm_help_moisture_sub3" text="비, 밤이슬 및 젖은 짚" />
+        <text name="rhm_help_moisture_3" text="비가 올 때 수확하면 수분이 급증하여 체가 과부하되고 심각한 곡물 손실이 발생하며 드럼이 막힐 위험이 있습니다." />
 
         <!-- PAGE 9: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
-        <text name="rhm_help_special_title" text="9. Forage, Root Crops &amp; Special Machinery" />
-        <text name="rhm_help_special_sub1" text="Self-Propelled Forage Harvesters" />
-        <text name="rhm_help_special_1" text="Forage harvesters utilize a specialized 3-stage mechanical model: feed intake rollers, chopping drum, and discharge accelerator blower. Grass windrow pickers dynamically assess swath density for smooth intake." />
-        <text name="rhm_help_special_sub2" text="Sugar Beet &amp; Potato Harvesters" />
-        <text name="rhm_help_special_2" text="Root crop harvesters must overcome substantial soil lifting drag (approx. 7 HP per meter of working width), naturally constraining field speeds to a realistic 5–8 km/h." />
-        <text name="rhm_help_special_sub3" text="Grapes, Olives &amp; NEXAT Carrier Platform" />
-        <text name="rhm_help_special_3" text="Grape and olive harvesters feature customized separation curves. The 1,100 HP NEXAT modular wide-span carrier and its NEXCO combine module are fully supported with phantom load suppression." />
+        <text name="rhm_help_special_title" text="9. 포리지 하베스터, 뿌리 작물 &amp; 특수 장비" />
+        <text name="rhm_help_special_sub1" text="자주식 사료 수확기" />
+        <text name="rhm_help_special_1" text="사료 수확기는 공급 롤러, 촙핑 드럼, 가속 블로워의 3단계 모델을 사용합니다. 풀 픽업 장치는 윈드로우의 밀도를 동적으로 감지합니다." />
+        <text name="rhm_help_special_sub2" text="사탕무 및 감자 수확기" />
+        <text name="rhm_help_special_2" text="뿌리 작물 수확기는 덩이줄기를 캐낼 때 큰 토양 저항(작업 폭 1m당 약 7마력)을 극복해야 하므로 속도가 자연스럽게 5~8km/h로 제한됩니다." />
+        <text name="rhm_help_special_sub3" text="포도, 올리브 및 NEXAT 캐리어 플랫폼" />
+        <text name="rhm_help_special_3" text="포도 및 올리브 수확기에는 전용 분리 곡선이 적용됩니다. 1,100마력 NEXAT 시스템 캐리어와 NEXCO 모듈은 가상 부하 없이 완벽하게 지원됩니다." />
 
         <!-- PAGE 10: DIFFICULTY MODES & SETTINGS -->
-        <text name="rhm_help_difficulty_title" text="10. Difficulty Modes &amp; Settings" />
-        <text name="rhm_help_difficulty_sub1" text="Realistic vs. Arcade Modes" />
-        <text name="rhm_help_difficulty_1" text="Choose your preferred gameplay experience in the ESC pause menu:&#xA;- Realistic: Full ASABE/DLG physics, hydrostatic braking, physical tank loss deduction, knife wear, and diurnal moisture.&#xA;- Arcade: 0% engine overload, unrestricted speed limits, and zero crop losses for relaxed, casual harvesting." />
-        <text name="rhm_help_difficulty_sub2" text="Acoustic &amp; Display Settings" />
-        <text name="rhm_help_difficulty_2" text="Adjust the overload warning buzzer volume (0%–100%) with an instant sound test, select your buzzer trigger mode (Smart, Continuous, Disabled), and customize HUD transparency and units." />
-        <text name="rhm_help_difficulty_sub3" text="Interactive Tutorial Hints" />
-        <text name="rhm_help_difficulty_3" text="Click 'Reset Hints' in the settings menu at any time to re-enable on-screen tutorial hints and refresh your knowledge of all mod features." />
+        <text name="rhm_help_difficulty_title" text="10. 난이도 모드 및 설정" />
+        <text name="rhm_help_difficulty_sub1" text="사실적 vs 아케이드 모드" />
+        <text name="rhm_help_difficulty_1" text="ESC 일시 중지 메뉴에서 플레이 스타일을 선택하세요:&#xA;- 사실적: 완전한 ASABE/DLG 물리, 정유압 제동, 실제 곡물 탱크 차감, 칼날 마모 및 수분 영향.&#xA;- 아케이드: 엔진 과부하 0%, 무제한 속도, 손실 없는 편안한 수확." />
+        <text name="rhm_help_difficulty_sub2" text="사운드 및 디스플레이 설정" />
+        <text name="rhm_help_difficulty_2" text="즉시 사운드 테스트로 경고음 음량(0%~100%)을 조절하고 경보 패턴(스마트, 연속, 끔)을 선택하며 HUD 투명도와 단위를 사용자 지정할 수 있습니다." />
+        <text name="rhm_help_difficulty_sub3" text="인터랙티브 튜토리얼 힌트" />
+        <text name="rhm_help_difficulty_3" text="설정 메뉴에서 언제든지 '힌트 재설정'을 클릭하여 화면 도움말을 다시 활성화하고 모드의 모든 기능을 복습할 수 있습니다." />
         <text name="rhm_ui_section_separation" text="탈곡 및 분리" />
         <text name="rhm_ui_section_cleaning" text="풍력 선별" />
         <text name="rhm_ui_section_discharge" text="배출 및 살포" />
@@ -290,12 +290,12 @@
         <text name="rhm_tut_headland_msg" text="헤드랜드에서 헤더를 올리면 방금 작업하던 속도를 기억합니다. 다음 줄로 진입할 때 덜컹거림 없이 부드럽게 원래 속도까지 가속합니다." />
         <text name="rhm_tut_upgrade_title" text="콤바인 전자 장비 업그레이드" />
         <text name="rhm_tut_upgrade_msg" text="기본형 콤바인은 수동 조절이 필요합니다. 정비소에서 전자 장비를 업그레이드하여 센서 키트(2단계), 수확량 모니터(3단계), Opti-Harvest AI(4단계)를 잠금 해제하세요." />
-        <text name="rhm_tut_hud_drag_title" text="Interactive HUD" />
-        <text name="rhm_tut_hud_drag_msg" text="You can reposition the HUD anywhere across your screen by holding Left Mouse Button (LMB) on the panel, or magnetically dock it cleanly beneath the F1 menu and screen edges." />
-        <text name="rhm_tut_trip_title" text="Field Job Counter &amp; Log" />
-        <text name="rhm_tut_trip_msg" text="Press Shift+J to review your field yield summary, financial loss analysis, and fleet status. To quickly reset the counter for a new field, hold Shift+R for 1 second in the cab!" />
-        <text name="rhm_tut_chopper_title" text="Straw Chopper Power Load" />
-        <text name="rhm_tut_chopper_msg" text="Chopping straw consumes an extra 15â€“20% of engine power compared to laying a swath. If you need more harvesting speed on dense crops, switch to laying a swath." />
+        <text name="rhm_tut_hud_drag_title" text="인터랙티브 HUD" />
+        <text name="rhm_tut_hud_drag_msg" text="패널에서 마우스 왼쪽 버튼(LMB)을 길게 눌러 HUD 위치를 화면 어디로든 이동하거나, F1 메뉴 아래 및 화면 가장자리에 자석처럼 정렬할 수 있습니다." />
+        <text name="rhm_tut_trip_title" text="농경지 카운터 &amp; 기록부" />
+        <text name="rhm_tut_trip_msg" text="Shift+J를 눌러 농경지 수확 요약, 경제적 손실 분석 및 기계 상태를 확인할 수 있습니다. 새 농경지 작업을 위해 카운터를 빠르게 재설정하려면 운전석에서 Shift+R을 1초 동안 길게 누르세요!" />
+        <text name="rhm_tut_chopper_title" text="짚 파쇄기 부하" />
+        <text name="rhm_tut_chopper_msg" text="짚을 파쇄하면 짚더미(윈드로우) 배출에 비해 엔진 출력이 15~20% 더 많이 소모됩니다. 밀생된 작물에서 더 빠른 작업 속도가 필요하다면 짚더미 배출로 전환하세요." />
         <text name="rhm_setting_wear_loss_short" text="기계 마모로 인한 손실" />
         <text name="rhm_setting_wear_loss_long" text="기계 마모에 따른 곡물 손실 시뮬레이션. 무뎌진 칼날은 이삭을 털어 떨어뜨리고(최대 +3% 손실 및 +15% 저항), 마모된 탈곡 드럼과 체는 덜 털린 알곡을 버립니다(최대 +3% 손실)." />
         <text name="rhm_ui_wear_loss" text="마모 손실" />
@@ -313,7 +313,7 @@
         <text name="rhm_tab_fleet_desc" text="농장 내 모든 콤바인의 실시간 텔레메트리, 처리량 및 작동 상태입니다." />
         <text name="rhm_tab_settings" text="농장 및 AI 설정" />
         <text name="rhm_tab_settings_desc" text="AI 일꾼 속도 제한기, 낙곡 잡초 발생 및 자동 초기화 옵션을 설정합니다." />
-        <text name="rhm_driver_parked" text="주차됨" />
+        <text name="rhm_driver_parked" text="운전자 없음" />
         <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="AI 일꾼" />
         <text name="rhm_driver_player" text="플레이어" />
@@ -329,17 +329,17 @@
         <text name="rhm_fleet_wear_state" text="기계 마모도" />
         <text name="rhm_fleet_total_count" text="총 콤바인 대수" />
         <text name="rhm_btn_subtab_fleet" text="콤바인 플릿" />
-        <text name="rhm_btn_subtab_history" text="시즌 기록 / 모든 필드" />
-        <text name="rhm_season_all_time" text="모든 시즌 (전체 기간)" />
+        <text name="rhm_btn_subtab_history" text="시즌 수확 기록 / 모든 농경지" />
+        <text name="rhm_season_all_time" text="모든 시즌 (전체 기록)" />
         <text name="rhm_season_format" text="시즌 %d (%d년차)" />
         <text name="rhm_season_current_suffix" text="[현재]" />
-        <text name="rhm_card_season_harvest" text="시즌 수확량 및 면적" />
-        <text name="rhm_card_season_losses" text="시즌 손실 및 재정" />
-        <text name="rhm_card_season_telemetry" text="시즌 지표 및 작업 시간" />
+        <text name="rhm_card_season_harvest" text="시즌 수확량 &amp; 면적" />
+        <text name="rhm_card_season_losses" text="시즌 손실 &amp; 재정" />
+        <text name="rhm_card_season_telemetry" text="작업 지표 &amp; 수확 시간" />
         <text name="rhm_season_operations" text="완료된 작업" />
         <text name="rhm_season_active_status" text="진행 중인 시즌" />
         <text name="rhm_season_archived_status" text="보관된 시즌" />
-        <text name="rhm_season_all_time_status" text="전체 기간 기록" />
+        <text name="rhm_season_all_time_status" text="전체 기록" />
         <text name="rhm_hist_total_area" text="총 수확 면적" />
         <text name="rhm_hist_total_harvest" text="총 순수확량" />
         <text name="rhm_hist_avg_loss" text="평균 손실률" />
@@ -353,17 +353,17 @@
         <text name="rhm_status_in_transit" text="이동 중" />
         <text name="rhm_status_in_cab" text="탑승 중" />
         <text name="rhm_status_parked_yard" text="농장에 주차됨" />
-        <text name="rhm_card_field_harvest" text="현재 필드 및 수확" />
+        <text name="rhm_card_field_harvest" text="현재 작업 농경지 및 작물" />
         <text name="rhm_field_number" text="필드 번호" />
         <text name="rhm_trip_no_field" text="필드 외부" />
         <text name="rhm_crop_type" text="작물 종류" />
         <text name="rhm_harvested_area" text="수확 면적" />
-        <text name="rhm_clean_harvest" text="순수확량" />
+        <text name="rhm_clean_harvest" text="정미 수확량" />
         <text name="rhm_average_yield" text="평균 수확량" />
         <text name="rhm_card_loss_finances" text="손실 및 재정 영향" />
         <text name="rhm_loss_volume" text="손실량" />
-        <text name="rhm_loss_share" text="수확량 대비 손실률 %" />
-        <text name="rhm_financial_loss" text="재정적 손실" />
+        <text name="rhm_loss_share" text="손실율" />
+        <text name="rhm_financial_loss" text="손실 금액" />
         <text name="rhm_card_performance" text="작업 성능 및 시간" />
         <text name="rhm_avg_working_speed" text="평균 작업 속도" />
         <text name="rhm_avg_engine_load" text="평균 엔진 부하" />
@@ -391,7 +391,7 @@
         <text name="rhm_advice_slope" text="경사면 횡단으로 인한 불균등한 체 부하입니다. 경사로에서는 속도를 줄이십시오." />
         <text name="rhm_col_machine" text="기계" />
         <text name="rhm_col_hours" text="작업 시간" />
-        <text name="rhm_col_harvested" text="수확량" />
+        <text name="rhm_col_harvested" text="수확됨" />
         <text name="rhm_col_lost" text="손실량" />
         <text name="rhm_col_rank" text="등급" />
         <text name="rhm_fleet_no_combines" text="콤바인을 찾을 수 없음" />
@@ -415,14 +415,14 @@
         <text name="rhm_col_money" text="손실액" />
         <text name="rhm_col_driver" text="작업자" />
         <text name="rhm_col_cutter" text="헤더" />
-        <text name="rhm_col_throughput" text="처리량" />
-        <text name="rhm_col_yield" text="수확량" />
+        <text name="rhm_col_throughput" text="시간당 처리량" />
+        <text name="rhm_col_yield" text="수확량(ha당)" />
         <text name="rhm_col_wear" text="마모" />
         <text name="rhm_kpi_field" text="필드" />
         <text name="rhm_kpi_crop" text="작물" />
         <text name="rhm_kpi_area" text="면적" />
-        <text name="rhm_kpi_harvest" text="수확량" />
-        <text name="rhm_kpi_yield" text="수확량" />
+        <text name="rhm_kpi_harvest" text="총 수확량" />
+        <text name="rhm_kpi_yield" text="단위 수확량" />
         <text name="rhm_kpi_loss" text="손실" />
         <text name="rhm_kpi_speed" text="속도" />
         <text name="rhm_efficiency_index" text="효율 등급" />
@@ -461,9 +461,9 @@
         <text name="rhm_cause_none" text="최적 작업 (손실 없음)" />
         <text name="rhm_fields_all_overview" text="[*] 농장 전체 요약 (모든 필드)" />
         <text name="rhm_field_operations" text="수확 작업 횟수" />
-        <text name="rhm_fields_nominal_area" text="공칭 면적" />
+        <text name="rhm_fields_nominal_area" text="농경지 면적" />
         <text name="rhm_status_in_progress" text="진행 중" />
-        <text name="rhm_fields_harvested_area" text="수확 완료 면적" />
+        <text name="rhm_fields_harvested_area" text="수확 면적" />
         <text name="rhm_ops_one" text="회" />
         <text name="rhm_ops_few" text="회" />
         <text name="rhm_ops_many" text="회" />
@@ -482,5 +482,7 @@
         <text name="rhm_slopeloss_long" text="4° 초과의 경사지에서 체의 한쪽으로 곡물이 쏠리는 현상을 시뮬레이션합니다 (최대 5% 손실). 지형 경사 페널티를 없애려면 끄십시오." />
         <text name="rhm_weedload_short" text="잡초 저항" />
         <text name="rhm_weedload_long" text="수분이 많고 질긴 잡초가 탈곡 드럼에 감겨 기계적 저항과 엔진 부하를 증가시킵니다 (최대 +25%). 잡초가 엔진 출력에 영향을 주지 않도록 하려면 끄십시오." />
+            <text name="rhm_fleet_badge_mission" text="[계약]" />
+        <text name="rhm_fleet_badge_leased" text="[임대]" />
     </texts>
 </l10n>

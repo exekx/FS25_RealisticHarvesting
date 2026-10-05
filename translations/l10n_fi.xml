@@ -73,7 +73,7 @@
         <text name="rhm_show_load_warn_long" text="Näytä vilkkuvat varoitukset puimurin ylikuormittuessa" />
         <text name="rhm_overload_sounds_short" text="Ylikuormitusäänet" />
         <text name="rhm_overload_sounds_long" text="Toista ohjaamohälytys ja koneiston rasitusäänet ylikuormituksen tai suuren hävikin aikana" />
-        <text name="rhm_section_audio" text="Realistic Harvesting - Äänet" />
+        <text name="rhm_section_audio" text="Realistic Harvesting - Ohjaamon äänet" />
         <text name="rhm_alarm_sounds_short" text="Ylikuormitussummeri" />
         <text name="rhm_alarm_sounds_long" text="Ohjaamosummeri vakavassa moottorin ylikuormituksessa (105%+) tai hävikin ylittäessä 5%." />
         <text name="rhm_alarm_mode_smart" text="Älykäs (3 piippausta)" />
@@ -110,7 +110,7 @@
         <text name="rhm_units_short" text="Mittayksiköt" />
         <text name="rhm_units_long" text="Valitse mittajärjestelmä (nopeus, paino, pinta-ala)" />
         <text name="rhm_unit_metric" text="Metrinen (km/h, t/h, ha)" />
-        <text name="rhm_unit_imperial" text="Brittiläinen (mph, ton/h, ac)" />
+        <text name="rhm_unit_imperial" text="Englantilaiset (mph, ton/h, ac)" />
         <text name="rhm_unit_bushels" text="Brittiläinen buusheleilla (mph, bu/h, ac)" />
         <text name="rhm_reset" text="Nollaa RH-asetukset" />
         <text name="rhm_loss_low" text="MATALA" />
@@ -135,99 +135,99 @@
         <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
         <!-- ================================================================= -->
         <text name="rhm_help_category" text="Realistic Harvesting" />
-        <text name="rhm_help_title" text="Realistic Harvesting Guide" />
+        <text name="rhm_help_title" text="Realistic Harvesting Opas" />
 
         <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
-        <text name="rhm_help_overview_title" text="1. Realistic Engine Physics &amp; Speed" />
-        <text name="rhm_help_overview_sub1" text="How Engine Load is Calculated" />
-        <text name="rhm_help_overview_1" text="Realistic Harvesting replaces artificial hard-coded speed limits with an honest, physics-based crop throughput model. Engine power is dynamically allocated between base vehicle locomotion, mechanical cutterbar drive, threshing drum and rotor friction, straw chopper load, and crop mass flow (t/h) calibrated to ASABE/DLG agricultural standards. When encountering dense swaths, the combine automatically and smoothly decelerates to prevent drum choking." />
-        <text name="rhm_help_overview_sub2" text="Automated Hydrostatic Speed Control" />
-        <text name="rhm_help_overview_2" text="The RHM hydrostatic controller continuously monitors threshing mechanism strain. The optimal operational window is 85–95% engine load. As strain approaches 100%, the combine gently trims forward cruise speed to protect internal components, then smoothly accelerates back to cruising pace in lighter crop stands." />
-        <text name="rhm_help_overview_sub3" text="Straw Chopper Strain &amp; Slope Dynamics" />
-        <text name="rhm_help_overview_3" text="An active straw chopper demands an extra 15–20% of rated engine horsepower compared to laying straw swaths. In dense grain crops, switching to swathing frees substantial horsepower, significantly boosting working speed. Harvesting uphill also imposes extra gravitational climb resistance, naturally moderating field speed." />
+        <text name="rhm_help_overview_title" text="1. Realistinen Moottorifysiikka &amp; Nopeus" />
+        <text name="rhm_help_overview_sub1" text="Moottorin kuormituksen laskenta" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting korvaa keinotekoiset nopeusrajoitukset fysiikkaan perustuvalla sadon läpäisymallilla. Moottorin teho jaetaan dynaamisesti ajovoimansiirron, leikkuupöydän, puintikelan/roottorin kitkan, olkisilppurin ja ASABE/DLG-standardien mukaan kalibroidun massavirran (t/h) kesken. Tiheässä kasvustossa puimuri hidastaa pehmeästi estääkseen puintikelan tukkeutumisen." />
+        <text name="rhm_help_overview_sub2" text="Automaattinen hydrostaattinen nopeudensäätö" />
+        <text name="rhm_help_overview_2" text="RHM-hydrostaattisäädin valvoo puintikoneiston kuormitusta jatkuvasti. Optimaalinen toiminta-alue on 85–95 % moottorin kuormituksesta. Kuorman lähestyessä 100 % puimuri hidastaa nopeutta koneiston suojaamiseksi ja kiihdyttää jälleen harvemmassa kasvustossa." />
+        <text name="rhm_help_overview_sub3" text="Olkisilppurin tehontarve &amp; Rinnedynamiikka" />
+        <text name="rhm_help_overview_3" text="Aktiivinen olkisilppuri vaatii 15–20 % enemmän moottoritehoa kuin karhotus. Tiheässä viljassa karhotukseen siirtyminen vapauttaa hevosvoimia suurempaan puintinopeuteen. Ylämäkeen ajaminen vaatii lisävoimaa nousuun, mikä hidastaa nopeutta luonnollisesti." />
 
         <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
-        <text name="rhm_help_hud_title" text="2. Interactive HUD &amp; Controls" />
-        <text name="rhm_help_hud_sub1" text="Live Telemetry Dashboard" />
-        <text name="rhm_help_hud_1" text="Boarding a combine activates a modern telemetry capsule at the bottom of the screen. It provides real-time readouts: current and target speed, live engine load percentage, instantaneous field yield (t/ha or bu/ac), crop throughput (t/h), grain moisture percentage, and cleaning shoe loss rate (%)." />
-        <text name="rhm_help_hud_sub2" text="Free Mouse Dragging (LMB) &amp; Magnetic Docking" />
-        <text name="rhm_help_hud_2" text="You can reposition the HUD anywhere across your screen. Hold Left Mouse Button (LMB) directly on the HUD capsule and drag it to your preferred position. Moving close to screen edges or the bottom boundary of the F1 help menu triggers magnetic docking, perfectly snapping the panel in place." />
-        <text name="rhm_help_hud_sub3" text="In-Cab Field Trip Mini-Badge" />
-        <text name="rhm_help_hud_3" text="A compact telemetry mini-badge inside the cab gives an immediate overview of your current run: harvested hectares, total tonnage, average loss percentage, and operator skill rating from [A] (expert) to [E] (heavy losses)." />
+        <text name="rhm_help_hud_title" text="2. Interaktiivinen HUD &amp; Hallinta" />
+        <text name="rhm_help_hud_sub1" text="Reaaliaikainen telemetriapaneeli" />
+        <text name="rhm_help_hud_1" text="Puimuriin noustessa ruudun alalaitaan ilmestyy telemetriakapseli reaaliaikaisilla tiedoilla: nykyinen ja tavoitenopeus, moottorin kuormitus (%), hetkellinen sato (t/ha), läpäisykyky (t/h), viljan kosteus (%) ja seulaston tappiot (%)." />
+        <text name="rhm_help_hud_sub2" text="Vapaa siirto hiirellä (LMB) &amp; Magneettinen kiinnitys" />
+        <text name="rhm_help_hud_2" text="Voit siirtää HUD-paneelia vapaasti näytöllä pitämällä hiiren vasenta painiketta (LMB) pohjassa. Näytön reunojen tai F1-valikon lähellä se kiinnittyy automaattisesti magneettisesti." />
+        <text name="rhm_help_hud_sub3" text="Ohjaamon pikamittari" />
+        <text name="rhm_help_hud_3" text="Kompakti näyttö ohjaamossa antaa välittömän katsauksen: puidut hehtaarit, kokonaissato tonneina, keskimääräiset tappiot ja kuljettajan luokitus välillä [A] (optimaalinen) ja [E] (kriittiset tappiot)." />
 
         <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
-        <text name="rhm_help_calibration_title" text="3. In-Cab Calibration Tablet (Shift+K)" />
-        <text name="rhm_help_calibration_main_sub" text="Field Touchscreen Tablet" />
-        <text name="rhm_help_calibration_main_text" text="Press Right Shift + K in the combine cab to deploy the touchscreen calibration tablet. The header displays rated engine horsepower, attached cutter width, and active crop. Fine-tuning threshing and separation parameters maximizes crop throughput while maintaining near-zero grain loss." />
-        <text name="rhm_help_calibration_rotor_sub" text="Threshing Drum &amp; Cleaning Fan" />
-        <text name="rhm_help_calibration_rotor_text" text="Rotor/drum RPM and concave clearance govern threshing thoroughness. Excessive RPM shatters fragile grain, while insufficient RPM leaves unthreshed grain in the straw. The cleaning fan blows chaff out of the rear: excessive airflow blows grain onto the ground, while weak airflow clogs the sieves with trash." />
-        <text name="rhm_help_calibration_presets_sub" text="Factory Presets &amp; Combine Memory" />
-        <text name="rhm_help_calibration_presets_text" text="The tablet includes pre-configured factory presets for over 25 base game and modded crops. Click 'Load Preset' to apply proven baseline settings. On combines equipped with Tier 2+ electronics, you can also save and load custom field profiles directly into combine memory." />
+        <text name="rhm_help_calibration_title" text="3. Ohjaamon kalibrointitabletti (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Peltotabletti" />
+        <text name="rhm_help_calibration_main_text" text="Paina Oikea Shift + K ohjaamossa avataksesi kalibrointitabletin. Yläpalkki näyttää moottorin tehon, pöydän leveyden ja aktiivisen kasvin. Hienosäätö maksimoi läpäisykyvyn pitäen puintitappiot lähes nollassa." />
+        <text name="rhm_help_calibration_rotor_sub" text="Puintikela &amp; Puhallin" />
+        <text name="rhm_help_calibration_rotor_text" text="Kelan/roottorin kierrokset ja varstan välys säätelevät irrotusta. Liian suuret kierrokset murskaavat jyviä, liian pienet jättävät jyviä olkiin. Puhallin poistaa ruumenet: liika ilma puhaltaa jyviä peltoon, liian vähä tukkii seulat." />
+        <text name="rhm_help_calibration_presets_sub" text="Tehdasprofiilit &amp; Puimurin muisti" />
+        <text name="rhm_help_calibration_presets_text" text="Tabletti sisältää esiasetetut tehdasprofiilit yli 25 kasville. Napsauta 'Lataa profiili' ottaaksesi käyttöön toimivat säädöt. Tason 2 tai korkeamman koneet voivat tallentaa omia profiileja puimurin muistiin." />
 
         <!-- PAGE 4: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
-        <text name="rhm_help_trip_title" text="4. Field Job Counter &amp; Fleet Records (Shift+J)" />
-        <text name="rhm_help_trip_sub1" text="Field Harvest Command Center (Shift+J)" />
-        <text name="rhm_help_trip_1" text="Press Right Shift + J to open the full harvest accounting hub featuring 4 tabs: 'Current Field', 'Farm Fields', 'Season Analytics', and 'Combine Fleet'." />
-        <text name="rhm_help_trip_sub2" text="Current Field Trip Odometer &amp; Operator Rank" />
-        <text name="rhm_help_trip_2" text="The first tab functions as a digital field odometer: tracking harvested area (ha/ac), grain yield and mass (t/l), net harvest time, field crop losses, financial loss ($/€/£), root-cause loss breakdown (Speed, Moisture, Wear, Slope), and driver efficiency rank." />
-        <text name="rhm_help_trip_sub3" text="Quick In-Cab Reset (Right Shift + R)" />
-        <text name="rhm_help_trip_3" text="When entering a new field or starting a test run, hold Right Shift + R for 1 second directly from the cab. The field odometer instantly resets with an on-screen toast confirmation—no need to open the menu!" />
-        <text name="rhm_help_trip_sub4" text="Farm Fields, Seasonal History &amp; Fleet Telemetry" />
-        <text name="rhm_help_trip_4" text="Review area and crop status for all owned fields in Tab 2, multi-season yield and financial history in Tab 3, and monitor hired AI workers in Tab 4: active operator, crop, throughput (t/h), cutter width, and knife wear." />
+        <text name="rhm_help_trip_title" text="4. Peltolaskuri &amp; Kalustopäiväkirja (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Puintitietokeskus (Shift+J)" />
+        <text name="rhm_help_trip_1" text="Paina Oikea Shift + J avataksesi puintitietokeskuksen 4 välilehdellä: 'Nykyinen pelto', 'Tilan pellot', 'Kausianalytiikka' ja 'Puimurikalusto'." />
+        <text name="rhm_help_trip_sub2" text="Digitaalinen peltolaskuri &amp; Kuljettajaluokitus" />
+        <text name="rhm_help_trip_2" text="Ensimmäinen välilehti toimii peltolaskurina: puitu ala (ha), puitu viljamäärä (t/L), työaika, satotappiot, taloudellinen tappio (€), tappioiden syyt (Nopeus, Kosteus, Kuluminen, Rinne) ja luokitus." />
+        <text name="rhm_help_trip_sub3" text="Pikanollaus ohjaamossa (Oikea Shift + R)" />
+        <text name="rhm_help_trip_3" text="Uudelle pellolle saavuttaessa pidä Oikea Shift + R pohjassa 1 sekunnin ajan ohjaamossa. Laskuri nollautuu välittömästi ilmoituksella ilman valikoihin menemistä!" />
+        <text name="rhm_help_trip_sub4" text="Pellot, Historiatiedot &amp; Telemetria" />
+        <text name="rhm_help_trip_4" text="Tarkastele peltojen tilaa välilehdellä 2, monivuotista satoa välilehdellä 3 ja valvo apulaisia välilehdellä 4: kuljettaja, kasvi, läpäisykyky (t/h), työleveys ja terien kuluminen." />
 
         <!-- PAGE 5: CROP LOSSES & ROOT CAUSES -->
-        <text name="rhm_help_croploss_title" text="5. Crop Losses &amp; Root Causes" />
-        <text name="rhm_help_croploss_sub1" text="Physical Grain Tank Liter Deduction" />
-        <text name="rhm_help_croploss_1" text="In Realistic Harvesting, crop losses are not an abstract statistic. Grain lost over the sieves or blown out the rear is physically subtracted directly from the combine grain tank in real time or deducted from straw windrow volume, directly impacting farm finances." />
-        <text name="rhm_help_croploss_sub2" text="Four Primary Loss Root Causes" />
-        <text name="rhm_help_croploss_2" text="- Speed &amp; Overload: Excessive throughput overwhelms sieves, carrying grain out the back.&#xA;- Moisture &amp; Dew: Damp straw clumps together, trapping kernels inside.&#xA;- Knife Wear: Blunt cutterbar knives shatter standing heads onto the ground instead of cutting.&#xA;- Ground Slope: Steep side-hills shift crop mats to one side of the cleaning shoe." />
-        <text name="rhm_help_croploss_sub3" text="Acoustic Overload Warning (Smart Buzzer)" />
-        <text name="rhm_help_croploss_3" text="When engine load exceeds 105% or sieve loss exceeds 5%, the in-cab chime sounds. In Smart Mode, the terminal sounds a cluster of 3 soft alerts spaced 1.8 seconds apart, followed by an 18-second rest interval." />
+        <text name="rhm_help_croploss_title" text="5. Satotappiot &amp; Syyanalyysi" />
+        <text name="rhm_help_croploss_sub1" text="Fyysinen viljavähennys viljasäiliöstä" />
+        <text name="rhm_help_croploss_1" text="Realistic Harvesting -modissa tappiot eivät ole pelkkää tilastoa. Seulaston yli menetetty vilja vähennetään reaaliajassa suoraan säiliöstä tai olkikarhosta, mikä tuntuu suoraan tilan taloudessa." />
+        <text name="rhm_help_croploss_sub2" text="Neljä pääasiallista tappion syytä" />
+        <text name="rhm_help_croploss_2" text="- Nopeus &amp; Ylikuormitus: Liika massa ylikuormittaa seulat ja heittää jyvät pellolle.&#xA;- Kosteus &amp; Kaste: Kostea olki paakkuuntuu ja sitoo jyvät.&#xA;- Terien kuluminen: Tylsät terät karistavat jyvät tähkistä ennen leikkuuta.&#xA;- Rinnekallistus: Sivuttaiskallistus kasaa viljamaton seulaston toiseen reunaan." />
+        <text name="rhm_help_croploss_sub3" text="Akustinen ylikuormitusvaroitus (Smart Buzzer)" />
+        <text name="rhm_help_croploss_3" text="Moottorin kuormituksen ylittäessä 105 % tai seulatappioiden 5 % summeri hälyttää. Smart-tilassa se antaa 3 vaimeaa äänimerkkiä 1,8 s välein, jota seuraa 18 s tauko." />
 
         <!-- PAGE 6: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
-        <text name="rhm_help_upgrades_title" text="6. Electronics Packages (Tiers 1–4)" />
-        <text name="rhm_help_upgrades_sub1" text="Harvester Workshop Upgrades" />
-        <text name="rhm_help_upgrades_1" text="Every harvester can be upgraded at the vehicle dealer or farm workshop with four distinct electronics packages tailored to your farm budget and operating style." />
-        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Base Mechanical) &amp; Tier 2 (Sensors &amp; Profiles)" />
-        <text name="rhm_help_upgrades_2" text="- Tier 1: Factory mechanical baseline. No electronic sensors; operator gauges speed by engine sound.&#xA;- Tier 2: Adds piezoelectric sieve loss sensors (loss % on HUD) and unlocks saving custom calibration profiles into combine memory." />
-        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Telemetry) &amp; Tier 4 (Opti-Harvest AI)" />
-        <text name="rhm_help_upgrades_3" text="- Tier 3: Equips an optical moisture meter, field trip odometer, financial loss tracking, and fleet telemetry.&#xA;- Tier 4: Unlocks the flagship Opti-Harvest AI autopilot, automatically tuning drum RPM and fan speed on the fly and eliminating hired worker tuning errors (0% deviation)." />
+        <text name="rhm_help_upgrades_title" text="6. Elektroniikkapaketit (Tasot 1–4)" />
+        <text name="rhm_help_upgrades_sub1" text="Päivitykset korjaamolla" />
+        <text name="rhm_help_upgrades_1" text="Jokainen puimuri voidaan päivittää koneliikkeessä tai tilan korjaamolla neljällä eri varustetasolla tarpeiden mukaan." />
+        <text name="rhm_help_upgrades_sub2" text="Taso 1 (Mekaaninen) &amp; Taso 2 (Anturit &amp; Profiilit)" />
+        <text name="rhm_help_upgrades_2" text="- Taso 1: Tehtaan perusmekaniikka. Ei antureita; kuljettaja arvioi kuorman käyntiäänestä.&#xA;- Taso 2: Lisää pietsosähköiset tappioanturit (% HUD-näytölle) ja omien profiilien tallennuksen." />
+        <text name="rhm_help_upgrades_sub3" text="Taso 3 (Telemetria) &amp; Taso 4 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="- Taso 3: Optinen kosteusmittari, peltolaskuri, taloudellisten tappioiden seuranta ja kaluston telemetria.&#xA;- Taso 4: Avaa Opti-Harvest AI -autopilotin, joka säätää automaattisesti kierroksia ja puhallusta sekä poistaa apulaisten säätövirheet (0 % poikkeama)." />
 
         <!-- PAGE 7: AI WORKERS & AUTOPILOTS -->
-        <text name="rhm_help_ai_workers_title" text="7. AI Workers &amp; Autopilots" />
-        <text name="rhm_help_ai_workers_sub1" text="Intelligent AI Speed Regulation" />
-        <text name="rhm_help_ai_workers_1" text="Giants AI helpers, Courseplay (v7+), and AutoDrive never run at artificial flat-out speeds. RHM enforces speed limits directly at the engine server level, keeping helpers safely within the optimal 85–95% load sweet spot." />
-        <text name="rhm_help_ai_workers_sub2" text="Electronics Package Impact on AI Quality" />
-        <text name="rhm_help_ai_workers_2" text="- Tier 1 Combines: Hired workers suffer setup deviations of up to ±18%.&#xA;- Tier 2 Combines: Tuning error drops to ±10%.&#xA;- Tier 3 Combines: Tuning error is reduced to ±4%.&#xA;- Tier 4 Combines: Opti-Harvest AI achieves 0% error, delivering flawless factory-spec harvesting." />
-        <text name="rhm_help_ai_workers_sub3" text="Courseplay &amp; AutoDrive Unloading on the Move" />
-        <text name="rhm_help_ai_workers_3" text="Unloading on the move is fully accounted for: the extra mechanical drag of the unloading auger is calculated dynamically so the combine never stalls when a chase tractor pulls alongside." />
+        <text name="rhm_help_ai_workers_title" text="7. AI-Apulaiset &amp; Autopilotti" />
+        <text name="rhm_help_ai_workers_sub1" text="Älykäs nopeudensäätö AI-työntekijöille" />
+        <text name="rhm_help_ai_workers_1" text="Giants AI, Courseplay (v7+) ja AutoDrive eivät aja keinotekoisella huippunopeudella. RHM ohjaa nopeutta moottoritasolla pitäen apulaiset 85–95 % kuormitusalueella." />
+        <text name="rhm_help_ai_workers_sub2" text="Elektroniikkatason vaikutus laatuun" />
+        <text name="rhm_help_ai_workers_2" text="- Tason 1 koneet: Apulaisten säätöpoikkeama jopa ±18 %.&#xA;- Tason 2 koneet: Säätövirhe laskee ±10 %:iin.&#xA;- Tason 3 koneet: Virhe laskee ±4 %:iin.&#xA;- Tason 4 koneet: Opti-Harvest AI toimii virheettömästi (0 % virhe) täydellisellä tarkkuudella." />
+        <text name="rhm_help_ai_workers_sub3" text="Tyhjennys ajon aikana Courseplayn ja AutoDriven kanssa" />
+        <text name="rhm_help_ai_workers_3" text="Tyhjennys ajon aikana huomioidaan täysin: tyhjennysruuvin tehontarve lasketaan dynaamisesti, jotta puimuri ei pysähdy yllättäen peräkärryn ajaessa rinnalle." />
 
         <!-- PAGE 8: CROP MOISTURE & DIURNAL WEATHER -->
-        <text name="rhm_help_moisture_title" text="8. Crop Moisture &amp; Diurnal Weather" />
-        <text name="rhm_help_moisture_sub1" text="Diurnal Moisture Cycle" />
-        <text name="rhm_help_moisture_1" text="Crop moisture naturally peaks in early morning hours (04:00–08:00) due to heavy dew. The prime harvesting window occurs between 11:30 and 18:30 when ambient warmth and sunlight thoroughly dry grain and straw." />
-        <text name="rhm_help_moisture_sub2" text="Moisture Impact on Power &amp; Speed" />
-        <text name="rhm_help_moisture_2" text="Damp straw increases internal rotor friction by up to +35%, substantially lowering harvesting cruise speed and increasing fuel consumption." />
-        <text name="rhm_help_moisture_sub3" text="Rain, Night Dew &amp; Wet Straw" />
-        <text name="rhm_help_moisture_3" text="Harvesting in active rain causes a sharp spike in moisture, overloading cleaning sieves, inducing heavy grain loss, and risking threshing drum choking." />
+        <text name="rhm_help_moisture_title" text="8. Kasvuston Kosteus &amp; Vuorokausisää" />
+        <text name="rhm_help_moisture_sub1" text="Kosteuden vuorokausirytmi" />
+        <text name="rhm_help_moisture_1" text="Kasvuston kosteus on korkeimmillaan varhain aamulla (04:00–08:00) kasteen vuoksi. Paras puintiaika on klo 11:30 ja 18:30 välillä, jolloin aurinko ja lämpö kuivaavat jyvän ja oljen." />
+        <text name="rhm_help_moisture_sub2" text="Vaikutus tehoon ja nopeuteen" />
+        <text name="rhm_help_moisture_2" text="Kostea olki lisää roottorin kitkaa jopa +35 %, mikä hidastaa puintinopeutta huomattavasti ja nostaa polttoaineenkulutusta." />
+        <text name="rhm_help_moisture_sub3" text="Sade, yökaste &amp; märkä olki" />
+        <text name="rhm_help_moisture_3" text="Sateessa puiminen aiheuttaa äärimmäisen kosteuspiikin, ylikuormittaa seulat, lisää rajusti tappioita ja luo tukkeutumisriskin." />
 
         <!-- PAGE 9: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
-        <text name="rhm_help_special_title" text="9. Forage, Root Crops &amp; Special Machinery" />
-        <text name="rhm_help_special_sub1" text="Self-Propelled Forage Harvesters" />
-        <text name="rhm_help_special_1" text="Forage harvesters utilize a specialized 3-stage mechanical model: feed intake rollers, chopping drum, and discharge accelerator blower. Grass windrow pickers dynamically assess swath density for smooth intake." />
-        <text name="rhm_help_special_sub2" text="Sugar Beet &amp; Potato Harvesters" />
-        <text name="rhm_help_special_2" text="Root crop harvesters must overcome substantial soil lifting drag (approx. 7 HP per meter of working width), naturally constraining field speeds to a realistic 5–8 km/h." />
-        <text name="rhm_help_special_sub3" text="Grapes, Olives &amp; NEXAT Carrier Platform" />
-        <text name="rhm_help_special_3" text="Grape and olive harvesters feature customized separation curves. The 1,100 HP NEXAT modular wide-span carrier and its NEXCO combine module are fully supported with phantom load suppression." />
+        <text name="rhm_help_special_title" text="9. Ajosilppurit, juurikkaat &amp; Erikoiskoneet" />
+        <text name="rhm_help_special_sub1" text="Itsekulkevat ajosilppurit" />
+        <text name="rhm_help_special_1" text="Silppurit toimivat 3-vaiheisella mallilla: syöttötelat, silppurikela ja heittopuhallin. Nurmikarhon noukkimet arvioivat dynaamisesti karhon tiheyttä." />
+        <text name="rhm_help_special_sub2" text="Sokerijuurikkaan &amp; Perunannostokoneet" />
+        <text name="rhm_help_special_2" text="Nostokoneiden on voitettava suuri maan nostovastus (~7 hv per työleveysmetri), mikä rajoittaa nopeuden realistisesti 5–8 km/h:iin." />
+        <text name="rhm_help_special_sub3" text="Rypäleet, oliivit &amp; NEXAT-järjestelmä" />
+        <text name="rhm_help_special_3" text="Rypäle- ja oliivipuimureilla on erityiset erottelukäyrät. 1 100 hv NEXAT-alustaa ja NEXCO-moduulia tuetaan täysin ilman haamukuormia." />
 
         <!-- PAGE 10: DIFFICULTY MODES & SETTINGS -->
-        <text name="rhm_help_difficulty_title" text="10. Difficulty Modes &amp; Settings" />
-        <text name="rhm_help_difficulty_sub1" text="Realistic vs. Arcade Modes" />
-        <text name="rhm_help_difficulty_1" text="Choose your preferred gameplay experience in the ESC pause menu:&#xA;- Realistic: Full ASABE/DLG physics, hydrostatic braking, physical tank loss deduction, knife wear, and diurnal moisture.&#xA;- Arcade: 0% engine overload, unrestricted speed limits, and zero crop losses for relaxed, casual harvesting." />
-        <text name="rhm_help_difficulty_sub2" text="Acoustic &amp; Display Settings" />
-        <text name="rhm_help_difficulty_2" text="Adjust the overload warning buzzer volume (0%–100%) with an instant sound test, select your buzzer trigger mode (Smart, Continuous, Disabled), and customize HUD transparency and units." />
-        <text name="rhm_help_difficulty_sub3" text="Interactive Tutorial Hints" />
-        <text name="rhm_help_difficulty_3" text="Click 'Reset Hints' in the settings menu at any time to re-enable on-screen tutorial hints and refresh your knowledge of all mod features." />
+        <text name="rhm_help_difficulty_title" text="10. Vaikeustasot &amp; Asetukset" />
+        <text name="rhm_help_difficulty_sub1" text="Realistinen vs. Arcade-tila" />
+        <text name="rhm_help_difficulty_1" text="Valitse pelityylisi ESC-taukovalikon asetuksista:&#xA;- Realistinen: Täysi ASABE/DLG-fysiikka, hydrostaattinen jarrutus, fyysiset satotappiot, terien kuluminen ja kosteus.&#xA;- Arcade: 0 % moottorin ylikuormitus, vapaa nopeus ja nollatappiot rennolle pelille." />
+        <text name="rhm_help_difficulty_sub2" text="Ääni- ja näyttöasetukset" />
+        <text name="rhm_help_difficulty_2" text="Säädä varoitussummerin voimakkuutta (0%–100%) pikatestillä, valitse hälytysrytmi (Älykäs, Jatkuva, Pois) sekä muokkaa HUD-näytön läpinäkyvyyttä ja yksiköitä." />
+        <text name="rhm_help_difficulty_sub3" text="Interaktiiviset opastukset" />
+        <text name="rhm_help_difficulty_3" text="Napsauta 'Palauta vinkit' asetuksissa ottaaksesi näytön opastusvinkit uudelleen käyttöön ja kerrataksesi modin toiminnot." />
         <text name="rhm_ui_section_separation" text="PUINTI JA ERITTELY" />
         <text name="rhm_ui_section_cleaning" text="PUHDISTUS" />
         <text name="rhm_ui_section_discharge" text="POISTO JA SILPPU" />
@@ -290,12 +290,12 @@
         <text name="rhm_tut_headland_msg" text="Nostettaessa pöytä päisteessä puimuri muistaa työskentelynopeuden. Seuraavaan vetoon kiihdytys sujuu pehmeästi." />
         <text name="rhm_tut_upgrade_title" text="Puimurin päivitykset" />
         <text name="rhm_tut_upgrade_msg" text="Peruspuimurit vaativat manuaalista säätöä. Päivitä elektroniikkaa korjaamolla ottaaksesi käyttöön Anturipaketin (Taso 2), Satomonitorin (Taso 3) tai Opti-Harvest AI:n (Taso 4)." />
-        <text name="rhm_tut_hud_drag_title" text="Interactive HUD" />
-        <text name="rhm_tut_hud_drag_msg" text="You can reposition the HUD anywhere across your screen by holding Left Mouse Button (LMB) on the panel, or magnetically dock it cleanly beneath the F1 menu and screen edges." />
-        <text name="rhm_tut_trip_title" text="Field Job Counter &amp; Log" />
-        <text name="rhm_tut_trip_msg" text="Press Shift+J to review your field yield summary, financial loss analysis, and fleet status. To quickly reset the counter for a new field, hold Shift+R for 1 second in the cab!" />
-        <text name="rhm_tut_chopper_title" text="Straw Chopper Power Load" />
-        <text name="rhm_tut_chopper_msg" text="Chopping straw consumes an extra 15â€“20% of engine power compared to laying a swath. If you need more harvesting speed on dense crops, switch to laying a swath." />
+        <text name="rhm_tut_hud_drag_title" text="Interaktiivinen HUD" />
+        <text name="rhm_tut_hud_drag_msg" text="Voit siirtää HUD-paneelia vapaasti näytöllä pitämällä hiiren vasenta painiketta (LMB) pohjassa paneelin päällä, tai kiinnittää sen magneettisesti F1-valikon alapuolelle ja näytön reunoihin." />
+        <text name="rhm_tut_trip_title" text="Peltolaskuri ja Lokikirja" />
+        <text name="rhm_tut_trip_msg" text="Paina Shift+J tarkastellaksesi satoyhteenvetoa, taloudellisia tappioita ja kaluston tilaa. Voit nollata laskurin nopeasti uudelle pellolle pitämällä Shift+R pohjassa 1 sekunnin ohjaamossa!" />
+        <text name="rhm_tut_chopper_title" text="Olkisilppurin Moottorikuorma" />
+        <text name="rhm_tut_chopper_msg" text="Oljen silppuaminen kuluttaa 15-20% enemmän moottorin tehoa verrattuna karhottamiseen. Jos tarvitset tiheässä kasvustossa lisää työnopeutta, vaihda karhotukseen." />
         <text name="rhm_setting_wear_loss_short" text="Mekaaninen kulumishävikki" />
         <text name="rhm_setting_wear_loss_long" text="Mallintaa laitteiston kulumisesta johtuvaa jyvähävikkiä. Tylsät terät karistelevat tähkiä (jopa +3% hävikkiä ja +15% tehovastusta). Kuluneet varstat ja seulat hukkaavat puimatonta viljaa (jopa +3% hävikkiä)." />
         <text name="rhm_ui_wear_loss" text="Kulumishävikki" />
@@ -313,14 +313,14 @@
         <text name="rhm_tab_fleet_desc" text="Reaaliaikainen telemetria, läpäisyteho ja tila tilan kaikille leikkuupuimureille." />
         <text name="rhm_tab_settings" text="Tilan ja tekoälyn asetukset" />
         <text name="rhm_tab_settings_desc" text="Apulaisen nopeudenrajoitin, rikkakasvien/karistuman synty ja automaattinollaus." />
-        <text name="rhm_driver_parked" text="Pysäköity" />
+        <text name="rhm_driver_parked" text="Ei kuljettajaa" />
         <text name="rhm_driver_cp_ai" text="Tekoäly (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="Palkattu apulainen" />
         <text name="rhm_driver_player" text="Pelaaja" />
         <text name="rhm_driver_idle_on" text="Joutokäynti" />
         <text name="rhm_field_yard" text="Tila / Piha" />
         <text name="rhm_field_format" text="Pelto %d" />
-        <text name="rhm_fleet_driver" text="Kuljettaja / Käyttäjä" />
+        <text name="rhm_fleet_driver" text="Kuljettaja" />
         <text name="rhm_fleet_cutter" text="Leikkuupöydän leveys" />
         <text name="rhm_fleet_grain_tank" text="Viljasäiliön täyttö" />
         <text name="rhm_fleet_throughput" text="Läpäisykyky" />
@@ -330,16 +330,16 @@
         <text name="rhm_fleet_total_count" text="Puimureita yhteensä" />
         <text name="rhm_btn_subtab_fleet" text="PUIMURIKALUSTO" />
         <text name="rhm_btn_subtab_history" text="KAUSIHISTORIA / KAIKKI PELLOT" />
-        <text name="rhm_season_all_time" text="All Seasons (All-Time)" />
-        <text name="rhm_season_format" text="Season %d (Year %d)" />
-        <text name="rhm_season_current_suffix" text="[Current]" />
-        <text name="rhm_card_season_harvest" text="SEASON HARVEST &amp; AREA" />
-        <text name="rhm_card_season_losses" text="SEASON LOSSES &amp; FINANCES" />
-        <text name="rhm_card_season_telemetry" text="SEASON METRICS &amp; HARVEST TIME" />
-        <text name="rhm_season_operations" text="Completed Operations" />
-        <text name="rhm_season_active_status" text="Active Season" />
-        <text name="rhm_season_archived_status" text="Archived Season" />
-        <text name="rhm_season_all_time_status" text="All-Time History" />
+        <text name="rhm_season_all_time" text="Kaikki kaudet (Koko historia)" />
+        <text name="rhm_season_format" text="Kausi %d (Vuosi %d)" />
+        <text name="rhm_season_current_suffix" text="[Nykyinen]" />
+        <text name="rhm_card_season_harvest" text="KAUDEN SATO JA PINTA-ALA" />
+        <text name="rhm_card_season_losses" text="KAUDEN TAPPIOT JA TALOUS" />
+        <text name="rhm_card_season_telemetry" text="MITTAUKSET JA TYÖAIKA" />
+        <text name="rhm_season_operations" text="Valmistuneet työt" />
+        <text name="rhm_season_active_status" text="Aktiivinen kausi" />
+        <text name="rhm_season_archived_status" text="Arkistoitu kausi" />
+        <text name="rhm_season_all_time_status" text="Koko historia" />
         <text name="rhm_hist_total_area" text="Puitu pinta-ala yhteensä" />
         <text name="rhm_hist_total_harvest" text="Puhdas kokonaissato" />
         <text name="rhm_hist_avg_loss" text="Keskimääräiset tappiot" />
@@ -353,16 +353,16 @@
         <text name="rhm_status_in_transit" text="Tiellä / Siirtoajo" />
         <text name="rhm_status_in_cab" text="Miehitetty (Pelaaja)" />
         <text name="rhm_status_parked_yard" text="Pysäköity pihalle" />
-        <text name="rhm_card_field_harvest" text="NYKYINEN PELTO JA PUINTI" />
+        <text name="rhm_card_field_harvest" text="NYKYINEN PELTO JA KASVI" />
         <text name="rhm_field_number" text="Pellon numero" />
         <text name="rhm_trip_no_field" text="Pellon ulkopuolella" />
         <text name="rhm_crop_type" text="Kasvilaji" />
         <text name="rhm_harvested_area" text="Puitu pinta-ala" />
         <text name="rhm_clean_harvest" text="Puhdas sato" />
-        <text name="rhm_average_yield" text="Keskisato" />
+        <text name="rhm_average_yield" text="Keskisatoisuus" />
         <text name="rhm_card_loss_finances" text="TAPPIOT JA TALOUS" />
         <text name="rhm_loss_volume" text="Menetetty tilavuus" />
-        <text name="rhm_loss_share" text="Tappio % sadosta" />
+        <text name="rhm_loss_share" text="Tappioprosentti" />
         <text name="rhm_financial_loss" text="Taloudellinen tappio" />
         <text name="rhm_card_performance" text="SUORITUSKYKY JA AIKA" />
         <text name="rhm_avg_working_speed" text="Keskityönopeus" />
@@ -416,13 +416,13 @@
         <text name="rhm_col_driver" text="Kuljettaja" />
         <text name="rhm_col_cutter" text="Leikkuupöytä" />
         <text name="rhm_col_throughput" text="Läpäisykyky" />
-        <text name="rhm_col_yield" text="Sato" />
+        <text name="rhm_col_yield" text="Satoisuus" />
         <text name="rhm_col_wear" text="Kuluminen" />
         <text name="rhm_kpi_field" text="PELTO" />
         <text name="rhm_kpi_crop" text="KASVI" />
         <text name="rhm_kpi_area" text="PINTA-ALA" />
-        <text name="rhm_kpi_harvest" text="PUINTI" />
-        <text name="rhm_kpi_yield" text="SATO" />
+        <text name="rhm_kpi_harvest" text="SATO" />
+        <text name="rhm_kpi_yield" text="SATOISUUS" />
         <text name="rhm_kpi_loss" text="HÄVIKKI" />
         <text name="rhm_kpi_speed" text="NOPEUS" />
         <text name="rhm_efficiency_index" text="Tehokkuusluokka" />
@@ -482,5 +482,7 @@
         <text name="rhm_slopeloss_long" text="Simuloi viljan kasautumista seulaston toiselle puolelle yli 4° rinteissä (jopa 5% häviö). Kytke pois poistaaksesi maaston kallistushäviöt." />
         <text name="rhm_weedload_short" text="Rikkakasvien vastus" />
         <text name="rhm_weedload_long" text="Mehevät ja sitkeät rikkakasvit kietoutuvat puintikelan ympärille lisäten moottorin kuormitusta (jopa +25%). Kytke pois estääksesi tehohäviöt." />
+            <text name="rhm_fleet_badge_mission" text="[Sopimus]" />
+        <text name="rhm_fleet_badge_leased" text="[Vuokrattu]" />
     </texts>
 </l10n>

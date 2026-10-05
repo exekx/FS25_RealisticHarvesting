@@ -6,6 +6,13 @@
 RHM_HarvestHistoryFleet = {}
 local HarvestHistoryFleet_mt = Class(RHM_HarvestHistoryFleet, TabbedMenuFrameElement)
 
+local function safeL10n(key, fallback)
+    if g_i18n and g_i18n.hasText and g_i18n:hasText(key) then
+        return g_i18n:getText(key)
+    end
+    return fallback or ""
+end
+
 function RHM_HarvestHistoryFleet.new(l18n)
     local self = TabbedMenuFrameElement.new(nil, HarvestHistoryFleet_mt)
     self.l18n = l18n
@@ -166,52 +173,100 @@ local function getActivePlayerFarmId()
     return farmId
 end
 
+local function getVehicleRentalState(vehicle)
+    if not vehicle then return false, false end
+    if RHM_HarvestTracker and RHM_HarvestTracker.getVehicleRentalState then
+        return RHM_HarvestTracker.getVehicleRentalState(vehicle)
+    end
+    local isMission = false
+    local isLeased = false
+    if VehiclePropertyState ~= nil and vehicle.propertyState ~= nil then
+        if vehicle.propertyState == VehiclePropertyState.MISSION then
+            isMission = true
+        elseif vehicle.propertyState == VehiclePropertyState.LEASED then
+            isLeased = true
+        end
+    end
+    if not isMission then
+        if vehicle.getIsMissionWork and vehicle:getIsMissionWork() then
+            isMission = true
+        elseif vehicle.isMissionWork or vehicle.isMissionVehicle then
+            isMission = true
+        end
+    end
+    if not isLeased and not isMission then
+        if vehicle.getIsLeased and vehicle:getIsLeased() then
+            isLeased = true
+        elseif vehicle.isLeased then
+            isLeased = true
+        end
+    end
+    return isMission, isLeased
+end
+
 local function isFarmVehicle(vehicle, farmId)
-    if not vehicle or vehicle.isDeleted then return false end
+    if not vehicle or vehicle.isDeleted then return false, false, false end
 
-    -- Strictly exclude any mission/contract rental machine from the permanent fleet
-    if RHM_HarvestTracker and RHM_HarvestTracker.isMissionCombine and RHM_HarvestTracker.isMissionCombine(vehicle) then
-        return false
-    end
-    if VehiclePropertyState ~= nil and vehicle.propertyState ~= nil and vehicle.propertyState == VehiclePropertyState.MISSION then
-        return false
-    end
-    if vehicle.getIsMissionWork and vehicle:getIsMissionWork() then
-        return false
-    end
-    if vehicle.isMissionWork or vehicle.isMissionVehicle then
-        return false
-    end
-
+    local isMission, isLeased = getVehicleRentalState(vehicle)
     local vFarmId = (vehicle.getOwnerFarmId and vehicle:getOwnerFarmId()) or (vehicle.ownerFarmId) or 0
+
+    if isMission then
+        -- Active contract / mission vehicle validation for this farm
+        if vehicle.mission and vehicle.mission.farmId == farmId then
+            return true, true, false
+        end
+        if g_missionManager and g_missionManager.missions then
+            for _, m in pairs(g_missionManager.missions) do
+                if m.farmId == farmId and m.vehicles then
+                    for _, mv in ipairs(m.vehicles) do
+                        if mv == vehicle or (vehicle.rootVehicle and mv == vehicle.rootVehicle) then
+                            return true, true, false
+                        end
+                    end
+                end
+            end
+        end
+        if vFarmId == farmId and farmId ~= 0 and (not FarmManager or farmId ~= FarmManager.SPECTATOR_FARM_ID) then
+            return true, true, false
+        end
+        if vehicle.getIsControlled and vehicle:getIsControlled() then
+            return true, true, false
+        end
+        local isMultiplayer = (g_currentMission and g_currentMission.isMultiplayer) or false
+        if not isMultiplayer and farmId == 1 then
+            return true, true, false
+        end
+        return false, false, false
+    end
+
     if vFarmId == 0 or (FarmManager and vFarmId == FarmManager.SPECTATOR_FARM_ID) then
-        return false
+        return false, false, false
     end
 
     if vFarmId == farmId then
-        return true
+        return true, false, isLeased
     end
 
     local isMultiplayer = (g_currentMission and g_currentMission.isMultiplayer) or false
     if not isMultiplayer then
         -- In singleplayer, only vehicles owned by the active farm or currently operated by player belong to fleet
         if vehicle.getIsControlled and vehicle:getIsControlled() then
-            return true
+            return true, false, isLeased
         end
-        return (vFarmId == farmId)
+        return (vFarmId == farmId), false, isLeased
     end
 
     -- In multiplayer:
     if vehicle.getIsControlled and vehicle:getIsControlled() then
-        return true
+        return true, false, isLeased
     end
     if g_currentMission and g_currentMission.accessHandler and g_currentMission.accessHandler.canPlayerAccess then
         if g_currentMission.accessHandler:canPlayerAccess(vehicle) then
-            return true
+            return true, false, isLeased
         end
     end
 
-    return false
+    return false, false, false
 end
 
 local function isHarvesterVehicle(vehicle)
@@ -412,6 +467,13 @@ local function getAllVehicles()
                 table.insert(list, cv)
             end
         end
+        if g_missionManager and g_missionManager.missions then
+            for _, m in pairs(g_missionManager.missions) do
+                if m.vehicles then
+                    addFrom(m.vehicles)
+                end
+            end
+        end
     end
 
     return list
@@ -435,13 +497,23 @@ function RHM_HarvestHistoryFleet:updateTables()
     -- Scan live vehicles in the world across FS25 vehicleSystem and mission tables
     local allVehicles = getAllVehicles()
     for _, vehicle in ipairs(allVehicles) do
-        if vehicle and isFarmVehicle(vehicle, farmId) and not seenVehicles[vehicle] then
+        local isAllowed, isMission, isLeased = isFarmVehicle(vehicle, farmId)
+        if vehicle and isAllowed and not seenVehicles[vehicle] then
             local isCombine, targetHarv = isHarvesterVehicle(vehicle)
             targetHarv = targetHarv or vehicle
             if isCombine and not seenVehicles[targetHarv] then
                     seenVehicles[vehicle] = true
                     seenVehicles[targetHarv] = true
-                    local baseName = targetHarv:getFullName() or targetHarv:getName() or vehicle:getFullName() or vehicle:getName() or "Harvester"
+                    local hMis, hLea = getVehicleRentalState(targetHarv)
+                    isMission = isMission or hMis
+                    isLeased = isLeased or hLea
+                    local rawName = (targetHarv.getName and targetHarv:getName())
+                                 or (vehicle.getName and vehicle:getName())
+                                 or (targetHarv.getFullName and targetHarv:getFullName())
+                                 or (vehicle.getFullName and vehicle:getFullName())
+                                 or "Harvester"
+                    local stripSuffix = (RHM_HarvestTracker and RHM_HarvestTracker.stripHelperSuffix) or function(s) return s end
+                    local baseName = stripSuffix(rawName)
                     local machineKey = vehicle.configFileName or (targetHarv and targetHarv.configFileName) or baseName
                     
                     -- Disambiguation for multiple vehicles of the same model
@@ -529,7 +601,7 @@ function RHM_HarvestHistoryFleet:updateTables()
                     end
 
                     -- Field location & status
-                    local fieldStr = g_i18n:getText("rhm_field_yard") or "Yard / Base"
+                    local fieldStr = safeL10n("rhm_field_yard", "Yard / Base")
                     local onField = false
                     local checkNode = vehicle.rootNode or targetHarv.rootNode
                     local fId, fmlId = 0, 0
@@ -542,7 +614,7 @@ function RHM_HarvestHistoryFleet:updateTables()
 
                     if fId and fId > 0 then
                         onField = true
-                        fieldStr = string.format(g_i18n:getText("rhm_field_format") or "Field %d", fId)
+                        fieldStr = string.format(safeL10n("rhm_field_format", "Field %d"), fId)
                     else
                         onField = false
                         local isOwnedLand = false
@@ -550,9 +622,9 @@ function RHM_HarvestHistoryFleet:updateTables()
                             isOwnedLand = (g_farmlandManager:getFarmlandOwner(fmlId) == farmId)
                         end
                         if isOwnedLand then
-                            fieldStr = g_i18n:getText("rhm_field_yard") or "Yard / Base"
+                            fieldStr = safeL10n("rhm_field_yard", "Yard / Base")
                         else
-                            fieldStr = g_i18n:getText("rhm_field_transit") or "In Transit"
+                            fieldStr = safeL10n("rhm_field_transit", "In Transit")
                         end
                     end
 
@@ -829,6 +901,8 @@ function RHM_HarvestHistoryFleet:updateTables()
                     table.insert(rawFleet, {
                         vehicle = vehicle,
                         isSold = false,
+                        isMission = isMission,
+                        isLeased = isLeased,
                         machineKey = machineKey,
                         name = machineName,
                         field = fieldStr,
@@ -856,14 +930,19 @@ function RHM_HarvestHistoryFleet:updateTables()
             end
         end
 
-    -- Incorporate offline stored fleet stats for SOLD/ARCHIVED farm combines (strictly excluding contract/mission machines)
+    -- Incorporate offline stored fleet stats for SOLD/ARCHIVED farm combines (strictly excluding contract/mission and leased machines)
+    local stripSuffix = (RHM_HarvestTracker and RHM_HarvestTracker.stripHelperSuffix) or function(s) return s end
     for mKey, v in pairs(fleetStats) do
-        local mName = v.name or "Harvester"
-        local isMission = (RHM_HarvestTracker and RHM_HarvestTracker.isMissionCombine and RHM_HarvestTracker.isMissionCombine(nil, mName, mKey)) or false
-        if not isMission then
+        local mName = stripSuffix(v.name or "Harvester")
+        local cleanMKey = stripSuffix(mKey)
+        local isMission = (RHM_HarvestTracker and RHM_HarvestTracker.isMissionCombine and RHM_HarvestTracker.isMissionCombine(nil, mName, mKey)) or v.isMission or false
+        local isLeased = v.isLeased or v.isRental or false
+        if not isMission and not isLeased then
             local alreadyListed = false
             for _, entry in ipairs(rawFleet) do
-                if not entry.isSold and (entry.machineKey == mKey or entry.name == mName) then
+                local entryCleanName = stripSuffix(entry.name)
+                local entryCleanKey = stripSuffix(entry.machineKey)
+                if not entry.isSold and (entry.machineKey == mKey or entry.name == mName or entryCleanName == mName or entryCleanKey == cleanMKey) then
                     alreadyListed = true
                     break
                 end
@@ -881,6 +960,8 @@ function RHM_HarvestHistoryFleet:updateTables()
                 table.insert(rawFleet, {
                     vehicle = nil,
                     isSold = true,
+                    isMission = false,
+                    isLeased = false,
                     machineKey = mKey,
                     name = mName,
                     field = soldBadge,
@@ -1015,6 +1096,12 @@ function RHM_HarvestHistoryFleet:updateSelectedCardData()
     elseif entry.isSold then
         local soldTag = (g_i18n and g_i18n:hasText("rhm_field_sold") and g_i18n:getText("rhm_field_sold")) or "[SOLD]"
         titleStr = string.format("[%d/%d]  %s  %s", self.selectedIndex, #self.fleetData, entry.name, soldTag)
+    elseif entry.isMission then
+        local badge = (g_i18n and g_i18n:hasText("rhm_fleet_badge_mission") and g_i18n:getText("rhm_fleet_badge_mission")) or "[Contract]"
+        titleStr = string.format("[%d/%d]  %s  %s", self.selectedIndex, #self.fleetData, entry.name, badge)
+    elseif entry.isLeased then
+        local badge = (g_i18n and g_i18n:hasText("rhm_fleet_badge_leased") and g_i18n:getText("rhm_fleet_badge_leased")) or "[Leased]"
+        titleStr = string.format("[%d/%d]  %s  %s", self.selectedIndex, #self.fleetData, entry.name, badge)
     else
         titleStr = string.format("[%d/%d]  %s", self.selectedIndex, #self.fleetData, entry.name)
     end
@@ -1501,7 +1588,17 @@ function RHM_HarvestHistoryFleet:populateCellForItemInSection(list, section, ind
     if not entry then return end
 
     local nameElem = cell:getDescendantByName("machineName")
-    if nameElem and nameElem.setText then nameElem:setText(entry.name) end
+    if nameElem and nameElem.setText then
+        local displayName = entry.name
+        if entry.isMission then
+            local badge = (g_i18n and g_i18n:hasText("rhm_fleet_badge_mission") and g_i18n:getText("rhm_fleet_badge_mission")) or "[Contract]"
+            displayName = string.format("%s %s", entry.name, badge)
+        elseif entry.isLeased then
+            local badge = (g_i18n and g_i18n:hasText("rhm_fleet_badge_leased") and g_i18n:getText("rhm_fleet_badge_leased")) or "[Leased]"
+            displayName = string.format("%s %s", entry.name, badge)
+        end
+        nameElem:setText(displayName)
+    end
 
     local fieldElem = cell:getDescendantByName("fieldStr")
     if fieldElem and fieldElem.setText then fieldElem:setText(entry.field or "--") end

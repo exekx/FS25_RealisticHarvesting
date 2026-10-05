@@ -73,7 +73,7 @@
         <text name="rhm_show_load_warn_long" text="Hiển thị cảnh báo nhấp nháy khi máy gặt bị quá tải" />
         <text name="rhm_overload_sounds_short" text="Âm thanh quá tải" />
         <text name="rhm_overload_sounds_long" text="Phát chuông cảnh báo cabin và âm thanh rung cơ học khi máy gặt quá tải hoặc hao hụt vượt mức" />
-        <text name="rhm_section_audio" text="Realistic Harvesting - Âm thanh" />
+        <text name="rhm_section_audio" text="Realistic Harvesting - Âm thanh cabin" />
         <text name="rhm_alarm_sounds_short" text="Còi báo quá tải" />
         <text name="rhm_alarm_sounds_long" text="Chế độ còi báo cabin khi tải động cơ quá mức nghiêm trọng (105%+) hoặc hao hụt vượt 5%." />
         <text name="rhm_alarm_mode_smart" text="Thông minh (3 tiếng bíp)" />
@@ -110,7 +110,7 @@
         <text name="rhm_units_short" text="Đơn vị đo" />
         <text name="rhm_units_long" text="Chọn hệ thống đo lường (vận tốc, khối lượng, diện tích)" />
         <text name="rhm_unit_metric" text="Hệ mét (km/h, t/h, ha)" />
-        <text name="rhm_unit_imperial" text="Hệ Anh-Mỹ (mph, ton/h, ac)" />
+        <text name="rhm_unit_imperial" text="Hệ Anh (mph, ton/h, ac)" />
         <text name="rhm_unit_bushels" text="Hệ Bushel (mph, bu/h, ac)" />
         <text name="rhm_reset" text="Đặt lại cài đặt RH" />
         <text name="rhm_loss_low" text="THẤP" />
@@ -135,99 +135,99 @@
         <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
         <!-- ================================================================= -->
         <text name="rhm_help_category" text="Realistic Harvesting" />
-        <text name="rhm_help_title" text="Realistic Harvesting Guide" />
+        <text name="rhm_help_title" text="Hướng Dẫn Realistic Harvesting" />
 
         <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
-        <text name="rhm_help_overview_title" text="1. Realistic Engine Physics &amp; Speed" />
-        <text name="rhm_help_overview_sub1" text="How Engine Load is Calculated" />
-        <text name="rhm_help_overview_1" text="Realistic Harvesting replaces artificial hard-coded speed limits with an honest, physics-based crop throughput model. Engine power is dynamically allocated between base vehicle locomotion, mechanical cutterbar drive, threshing drum and rotor friction, straw chopper load, and crop mass flow (t/h) calibrated to ASABE/DLG agricultural standards. When encountering dense swaths, the combine automatically and smoothly decelerates to prevent drum choking." />
-        <text name="rhm_help_overview_sub2" text="Automated Hydrostatic Speed Control" />
-        <text name="rhm_help_overview_2" text="The RHM hydrostatic controller continuously monitors threshing mechanism strain. The optimal operational window is 85–95% engine load. As strain approaches 100%, the combine gently trims forward cruise speed to protect internal components, then smoothly accelerates back to cruising pace in lighter crop stands." />
-        <text name="rhm_help_overview_sub3" text="Straw Chopper Strain &amp; Slope Dynamics" />
-        <text name="rhm_help_overview_3" text="An active straw chopper demands an extra 15–20% of rated engine horsepower compared to laying straw swaths. In dense grain crops, switching to swathing frees substantial horsepower, significantly boosting working speed. Harvesting uphill also imposes extra gravitational climb resistance, naturally moderating field speed." />
+        <text name="rhm_help_overview_title" text="1. Vật Lý Động Cơ &amp; Tốc Độ Thực Tế" />
+        <text name="rhm_help_overview_sub1" text="Cách tính tải trọng động cơ" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting thay thế giới hạn tốc độ nhân tạo bằng mô hình thông lượng cây trồng dựa trên vật lý. Công suất động cơ được phân bổ linh hoạt giữa việc di chuyển, dẫn động hàm cắt, ma sát trống đập/rotor, máy băm rơm và lưu lượng khối lượng (t/h) theo chuẩn ASABE/DLG. Khi gặp vùng cây dày, máy gặt sẽ tự động giảm tốc êm ái để chống nghẽn trống đập." />
+        <text name="rhm_help_overview_sub2" text="Kiểm soát tốc độ thủy tĩnh tự động" />
+        <text name="rhm_help_overview_2" text="Bộ điều khiển thủy tĩnh RHM liên tục giám sát tải của bộ phận đập. Vùng làm việc tối ưu là 85–95% tải động cơ. Khi tải tiệm cận 100%, máy gặt nhẹ nhàng giảm tốc độ di chuyển để bảo vệ máy móc, và tăng tốc mượt mà trở lại ở vùng cây thưa." />
+        <text name="rhm_help_overview_sub3" text="Tải trọng máy băm rơm &amp; Độ dốc đồng ruộng" />
+        <text name="rhm_help_overview_3" text="Máy băm rơm hoạt động tiêu tốn thêm 15–20% công suất động cơ so với rải luống. Trong đồng dày, rải luống giúp giải phóng mã lực để gặt nhanh hơn. Lên dốc cũng tạo thêm lực cản trọng lực làm chậm tốc độ một cách tự nhiên." />
 
         <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
-        <text name="rhm_help_hud_title" text="2. Interactive HUD &amp; Controls" />
-        <text name="rhm_help_hud_sub1" text="Live Telemetry Dashboard" />
-        <text name="rhm_help_hud_1" text="Boarding a combine activates a modern telemetry capsule at the bottom of the screen. It provides real-time readouts: current and target speed, live engine load percentage, instantaneous field yield (t/ha or bu/ac), crop throughput (t/h), grain moisture percentage, and cleaning shoe loss rate (%)." />
-        <text name="rhm_help_hud_sub2" text="Free Mouse Dragging (LMB) &amp; Magnetic Docking" />
-        <text name="rhm_help_hud_2" text="You can reposition the HUD anywhere across your screen. Hold Left Mouse Button (LMB) directly on the HUD capsule and drag it to your preferred position. Moving close to screen edges or the bottom boundary of the F1 help menu triggers magnetic docking, perfectly snapping the panel in place." />
-        <text name="rhm_help_hud_sub3" text="In-Cab Field Trip Mini-Badge" />
-        <text name="rhm_help_hud_3" text="A compact telemetry mini-badge inside the cab gives an immediate overview of your current run: harvested hectares, total tonnage, average loss percentage, and operator skill rating from [A] (expert) to [E] (heavy losses)." />
+        <text name="rhm_help_hud_title" text="2. HUD Tương Tác &amp; Điều Khiển" />
+        <text name="rhm_help_hud_sub1" text="Bảng điều khiển đo đạc trực tiếp" />
+        <text name="rhm_help_hud_1" text="Khi lên máy gặt, bảng đo đạc xuất hiện ở cuối màn hình hiển thị dữ liệu thời gian thực: tốc độ hiện tại và mục tiêu, % tải động cơ, năng suất tức thời (t/ha), thông lượng (t/h), độ ẩm hạt (%) và tỷ lệ thất thoát ở sàng (%)." />
+        <text name="rhm_help_hud_sub2" text="Kéo thả tự do bằng chuột (LMB) &amp; Hít nam châm" />
+        <text name="rhm_help_hud_2" text="Bạn có thể định vị lại HUD ở bất cứ đâu trên màn hình bằng cách giữ Chuột trái (LMB) trên bảng điều khiển. Khi đến gần mép màn hình hoặc menu F1, bảng sẽ tự động hít nam châm cố định vị trí." />
+        <text name="rhm_help_hud_sub3" text="Huy hiệu nhỏ trong cabin" />
+        <text name="rhm_help_hud_3" text="Một màn hình nhỏ gọn trong cabin tóm tắt ca làm việc: diện tích đã gặt, tổng sản lượng, tỷ lệ thất thoát và đánh giá người vận hành từ [A] (tối ưu) đến [E] (thất thoát nghiêm trọng)." />
 
         <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
-        <text name="rhm_help_calibration_title" text="3. In-Cab Calibration Tablet (Shift+K)" />
-        <text name="rhm_help_calibration_main_sub" text="Field Touchscreen Tablet" />
-        <text name="rhm_help_calibration_main_text" text="Press Right Shift + K in the combine cab to deploy the touchscreen calibration tablet. The header displays rated engine horsepower, attached cutter width, and active crop. Fine-tuning threshing and separation parameters maximizes crop throughput while maintaining near-zero grain loss." />
-        <text name="rhm_help_calibration_rotor_sub" text="Threshing Drum &amp; Cleaning Fan" />
-        <text name="rhm_help_calibration_rotor_text" text="Rotor/drum RPM and concave clearance govern threshing thoroughness. Excessive RPM shatters fragile grain, while insufficient RPM leaves unthreshed grain in the straw. The cleaning fan blows chaff out of the rear: excessive airflow blows grain onto the ground, while weak airflow clogs the sieves with trash." />
-        <text name="rhm_help_calibration_presets_sub" text="Factory Presets &amp; Combine Memory" />
-        <text name="rhm_help_calibration_presets_text" text="The tablet includes pre-configured factory presets for over 25 base game and modded crops. Click 'Load Preset' to apply proven baseline settings. On combines equipped with Tier 2+ electronics, you can also save and load custom field profiles directly into combine memory." />
+        <text name="rhm_help_calibration_title" text="3. Máy Tính Bảng Hiệu Chuẩn Cabin (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Máy tính bảng cảm ứng tại ruộng" />
+        <text name="rhm_help_calibration_main_text" text="Nhấn Shift Phải + K trong cabin để mở máy tính bảng hiệu chuẩn. Thanh tiêu đề hiển thị mã lực động cơ, chiều rộng hàm cắt và cây trồng. Tinh chỉnh thông số giúp tối đa hóa sản lượng mà tỷ lệ thất thoát hạt gần như bằng không." />
+        <text name="rhm_help_calibration_rotor_sub" text="Trống đập &amp; Quạt làm sạch" />
+        <text name="rhm_help_calibration_rotor_text" text="Vòng tua rotor/trống đập và khe hở máng đập quyết định độ sạch. Vòng tua quá cao làm vỡ hạt, quá thấp để sót hạt trên rơm. Quạt làm sạch thổi sạch vỏ trấu: gió quá mạnh thổi hạt ra ngoài, gió yếu làm tắc sàng." />
+        <text name="rhm_help_calibration_presets_sub" text="Cấu hình nhà máy &amp; Bộ nhớ máy gặt" />
+        <text name="rhm_help_calibration_presets_text" text="Máy tính bảng chứa cấu hình nhà máy cho hơn 25 loại cây trồng. Nhấp 'Tải cấu hình' để áp dụng các thiết lập chuẩn. Máy gặt có điện tử Cấp 2 trở lên có thể lưu cấu hình riêng vào bộ nhớ." />
 
         <!-- PAGE 4: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
-        <text name="rhm_help_trip_title" text="4. Field Job Counter &amp; Fleet Records (Shift+J)" />
-        <text name="rhm_help_trip_sub1" text="Field Harvest Command Center (Shift+J)" />
-        <text name="rhm_help_trip_1" text="Press Right Shift + J to open the full harvest accounting hub featuring 4 tabs: 'Current Field', 'Farm Fields', 'Season Analytics', and 'Combine Fleet'." />
-        <text name="rhm_help_trip_sub2" text="Current Field Trip Odometer &amp; Operator Rank" />
-        <text name="rhm_help_trip_2" text="The first tab functions as a digital field odometer: tracking harvested area (ha/ac), grain yield and mass (t/l), net harvest time, field crop losses, financial loss ($/€/£), root-cause loss breakdown (Speed, Moisture, Wear, Slope), and driver efficiency rank." />
-        <text name="rhm_help_trip_sub3" text="Quick In-Cab Reset (Right Shift + R)" />
-        <text name="rhm_help_trip_3" text="When entering a new field or starting a test run, hold Right Shift + R for 1 second directly from the cab. The field odometer instantly resets with an on-screen toast confirmation—no need to open the menu!" />
-        <text name="rhm_help_trip_sub4" text="Farm Fields, Seasonal History &amp; Fleet Telemetry" />
-        <text name="rhm_help_trip_4" text="Review area and crop status for all owned fields in Tab 2, multi-season yield and financial history in Tab 3, and monitor hired AI workers in Tab 4: active operator, crop, throughput (t/h), cutter width, and knife wear." />
+        <text name="rhm_help_trip_title" text="4. Bộ Đếm Ruộng &amp; Nhật Ký Đội Máy (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Trung tâm quản lý thu hoạch (Shift+J)" />
+        <text name="rhm_help_trip_1" text="Nhấn Shift Phải + J để mở trung tâm thống kê thu hoạch với 4 tab: 'Ruộng hiện tại', 'Ruộng trang trại', 'Phân tích mùa vụ' và 'Đội máy gặt'." />
+        <text name="rhm_help_trip_sub2" text="Đồng hồ đo ruộng kỹ thuật số &amp; Xếp hạng lái máy" />
+        <text name="rhm_help_trip_2" text="Tab đầu tiên ghi lại: diện tích gặt (ha), lượng hạt (t/L), thời gian thực, thất thoát, thiệt hại kinh tế (€), nguyên nhân thất thoát và xếp hạng hiệu quả của lái máy." />
+        <text name="rhm_help_trip_sub3" text="Đặt lại nhanh trong cabin (Shift Phải + R)" />
+        <text name="rhm_help_trip_3" text="Khi bắt đầu ruộng mới, giữ Shift Phải + R trong 1 giây ngay trong cabin. Bộ đếm sẽ đặt lại tức thì cùng thông báo trên màn hình mà không cần mở menu!" />
+        <text name="rhm_help_trip_sub4" text="Ruộng đất, Lịch sử mùa vụ &amp; Đo đạc đội máy" />
+        <text name="rhm_help_trip_4" text="Kiểm tra tình trạng ruộng ở tab 2, lịch sử thu hoạch nhiều năm ở tab 3, và theo dõi phụ lái AI ở tab 4: người lái, cây trồng, năng suất (t/h), độ rộng cắt và độ mòn dao." />
 
         <!-- PAGE 5: CROP LOSSES & ROOT CAUSES -->
-        <text name="rhm_help_croploss_title" text="5. Crop Losses &amp; Root Causes" />
-        <text name="rhm_help_croploss_sub1" text="Physical Grain Tank Liter Deduction" />
-        <text name="rhm_help_croploss_1" text="In Realistic Harvesting, crop losses are not an abstract statistic. Grain lost over the sieves or blown out the rear is physically subtracted directly from the combine grain tank in real time or deducted from straw windrow volume, directly impacting farm finances." />
-        <text name="rhm_help_croploss_sub2" text="Four Primary Loss Root Causes" />
-        <text name="rhm_help_croploss_2" text="- Speed &amp; Overload: Excessive throughput overwhelms sieves, carrying grain out the back.&#xA;- Moisture &amp; Dew: Damp straw clumps together, trapping kernels inside.&#xA;- Knife Wear: Blunt cutterbar knives shatter standing heads onto the ground instead of cutting.&#xA;- Ground Slope: Steep side-hills shift crop mats to one side of the cleaning shoe." />
-        <text name="rhm_help_croploss_sub3" text="Acoustic Overload Warning (Smart Buzzer)" />
-        <text name="rhm_help_croploss_3" text="When engine load exceeds 105% or sieve loss exceeds 5%, the in-cab chime sounds. In Smart Mode, the terminal sounds a cluster of 3 soft alerts spaced 1.8 seconds apart, followed by an 18-second rest interval." />
+        <text name="rhm_help_croploss_title" text="5. Thất Thoát Thu Hoạch &amp; Phân Tích Nguyên Nhân" />
+        <text name="rhm_help_croploss_sub1" text="Trừ trực tiếp số lượng hạt trong thùng chứa" />
+        <text name="rhm_help_croploss_1" text="Trong Realistic Harvesting, thất thoát không phải là số liệu trừu tượng. Hạt rơi vãi qua sàng sẽ bị trừ trực tiếp theo thời gian thực từ thùng chứa hoặc làm giảm thể tích luống rơm, ảnh hưởng trực tiếp đến tài chính." />
+        <text name="rhm_help_croploss_sub2" text="Bốn nguyên nhân thất thoát chính" />
+        <text name="rhm_help_croploss_2" text="- Tốc độ &amp; Quá tải: Dòng cây quá lớn làm ngợp sàng và đẩy hạt ra ngoài.&#xA;- Độ ẩm &amp; Sương: Rơm ẩm bết lại và giữ chặt hạt lúa bên trong.&#xA;- Mòn dao cắt: Lưỡi dao cùn làm rụng hạt trước khi cắt.&#xA;- Độ dốc địa hình: Sườn dốc làm dồn lớp cây trồng về một bên của hộp sàng." />
+        <text name="rhm_help_croploss_sub3" text="Còi cảnh báo quá tải âm thanh (Smart Buzzer)" />
+        <text name="rhm_help_croploss_3" text="Khi tải động cơ vượt 105% hoặc thất thoát vượt 5%, chuông cabin sẽ kêu. Ở chế độ Smart, chuông phát 3 tiếng bíp nhẹ cách nhau 1,8 giây, sau đó nghỉ 18 giây." />
 
         <!-- PAGE 6: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
-        <text name="rhm_help_upgrades_title" text="6. Electronics Packages (Tiers 1–4)" />
-        <text name="rhm_help_upgrades_sub1" text="Harvester Workshop Upgrades" />
-        <text name="rhm_help_upgrades_1" text="Every harvester can be upgraded at the vehicle dealer or farm workshop with four distinct electronics packages tailored to your farm budget and operating style." />
-        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Base Mechanical) &amp; Tier 2 (Sensors &amp; Profiles)" />
-        <text name="rhm_help_upgrades_2" text="- Tier 1: Factory mechanical baseline. No electronic sensors; operator gauges speed by engine sound.&#xA;- Tier 2: Adds piezoelectric sieve loss sensors (loss % on HUD) and unlocks saving custom calibration profiles into combine memory." />
-        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Telemetry) &amp; Tier 4 (Opti-Harvest AI)" />
-        <text name="rhm_help_upgrades_3" text="- Tier 3: Equips an optical moisture meter, field trip odometer, financial loss tracking, and fleet telemetry.&#xA;- Tier 4: Unlocks the flagship Opti-Harvest AI autopilot, automatically tuning drum RPM and fan speed on the fly and eliminating hired worker tuning errors (0% deviation)." />
+        <text name="rhm_help_upgrades_title" text="6. Gói Trang Bị Điện Tử (Cấp 1–4)" />
+        <text name="rhm_help_upgrades_sub1" text="Nâng cấp máy móc tại xưởng" />
+        <text name="rhm_help_upgrades_1" text="Mỗi máy gặt có thể được nâng cấp tại đại lý hoặc xưởng trang trại với bốn gói điện tử phù hợp với ngân sách của bạn." />
+        <text name="rhm_help_upgrades_sub2" text="Cấp 1 (Cơ khí) &amp; Cấp 2 (Cảm biến &amp; Cấu hình)" />
+        <text name="rhm_help_upgrades_2" text="- Cấp 1: Cơ khí nguyên bản. Không cảm biến; lái máy cảm nhận qua tiếng máy.&#xA;- Cấp 2: Thêm cảm biến áp điện đo thất thoát ở sàng (% trên HUD) và bộ nhớ lưu cấu hình." />
+        <text name="rhm_help_upgrades_sub3" text="Cấp 3 (Đo đạc) &amp; Cấp 4 (AI Opti-Harvest)" />
+        <text name="rhm_help_upgrades_3" text="- Cấp 3: Máy đo độ ẩm quang học, bộ đếm ruộng, tính toán thiệt hại và đo đạc đội máy.&#xA;- Cấp 4: Mở khóa lái tự động Opti-Harvest AI, tự động tối ưu vòng tua và quạt gió, loại bỏ lỗi điều chỉnh của thợ AI (0% sai lệch)." />
 
         <!-- PAGE 7: AI WORKERS & AUTOPILOTS -->
-        <text name="rhm_help_ai_workers_title" text="7. AI Workers &amp; Autopilots" />
-        <text name="rhm_help_ai_workers_sub1" text="Intelligent AI Speed Regulation" />
-        <text name="rhm_help_ai_workers_1" text="Giants AI helpers, Courseplay (v7+), and AutoDrive never run at artificial flat-out speeds. RHM enforces speed limits directly at the engine server level, keeping helpers safely within the optimal 85–95% load sweet spot." />
-        <text name="rhm_help_ai_workers_sub2" text="Electronics Package Impact on AI Quality" />
-        <text name="rhm_help_ai_workers_2" text="- Tier 1 Combines: Hired workers suffer setup deviations of up to ±18%.&#xA;- Tier 2 Combines: Tuning error drops to ±10%.&#xA;- Tier 3 Combines: Tuning error is reduced to ±4%.&#xA;- Tier 4 Combines: Opti-Harvest AI achieves 0% error, delivering flawless factory-spec harvesting." />
-        <text name="rhm_help_ai_workers_sub3" text="Courseplay &amp; AutoDrive Unloading on the Move" />
-        <text name="rhm_help_ai_workers_3" text="Unloading on the move is fully accounted for: the extra mechanical drag of the unloading auger is calculated dynamically so the combine never stalls when a chase tractor pulls alongside." />
+        <text name="rhm_help_ai_workers_title" text="7. Thợ Lái AI &amp; Lái Tự Động" />
+        <text name="rhm_help_ai_workers_sub1" text="Điều khiển tốc độ thông minh cho AI" />
+        <text name="rhm_help_ai_workers_1" text="Thợ lái Giants AI, Courseplay (v7+) và AutoDrive không chạy theo tốc độ tối đa cố định. RHM kiểm soát tốc độ trực tiếp ở động cơ, giữ thợ lái ở dải tải tối ưu 85–95%." />
+        <text name="rhm_help_ai_workers_sub2" text="Tác động của cấp điện tử lên chất lượng AI" />
+        <text name="rhm_help_ai_workers_2" text="- Máy Cấp 1: Thợ lái có độ lệch thiết lập lên đến ±18%.&#xA;- Máy Cấp 2: Sai số thiết lập giảm xuống ±10%.&#xA;- Máy Cấp 3: Sai số giảm xuống ±4%.&#xA;- Máy Cấp 4: Opti-Harvest AI hoạt động hoàn hảo (0% sai số) theo chuẩn nhà máy." />
+        <text name="rhm_help_ai_workers_sub3" text="Xả hàng khi đang chạy với Courseplay &amp; AutoDrive" />
+        <text name="rhm_help_ai_workers_3" text="Xả hàng khi đang chạy được hỗ trợ linh hoạt: công suất của ống xả được tính toán tự động để máy gặt không bị khựng lại khi xe kéo tiến đến." />
 
         <!-- PAGE 8: CROP MOISTURE & DIURNAL WEATHER -->
-        <text name="rhm_help_moisture_title" text="8. Crop Moisture &amp; Diurnal Weather" />
-        <text name="rhm_help_moisture_sub1" text="Diurnal Moisture Cycle" />
-        <text name="rhm_help_moisture_1" text="Crop moisture naturally peaks in early morning hours (04:00–08:00) due to heavy dew. The prime harvesting window occurs between 11:30 and 18:30 when ambient warmth and sunlight thoroughly dry grain and straw." />
-        <text name="rhm_help_moisture_sub2" text="Moisture Impact on Power &amp; Speed" />
-        <text name="rhm_help_moisture_2" text="Damp straw increases internal rotor friction by up to +35%, substantially lowering harvesting cruise speed and increasing fuel consumption." />
-        <text name="rhm_help_moisture_sub3" text="Rain, Night Dew &amp; Wet Straw" />
-        <text name="rhm_help_moisture_3" text="Harvesting in active rain causes a sharp spike in moisture, overloading cleaning sieves, inducing heavy grain loss, and risking threshing drum choking." />
+        <text name="rhm_help_moisture_title" text="8. Độ Ẩm Cây Trồng &amp; Thời Tiết Trong Ngày" />
+        <text name="rhm_help_moisture_sub1" text="Chu kỳ độ ẩm trong ngày" />
+        <text name="rhm_help_moisture_1" text="Độ ẩm cây trồng cao nhất vào sáng sớm (04:00–08:00) do sương. Khung giờ gặt lý tưởng là từ 11:30 đến 18:30 khi nắng và nhiệt độ làm khô hạt và rơm rạ." />
+        <text name="rhm_help_moisture_sub2" text="Tác động đến công suất và tốc độ" />
+        <text name="rhm_help_moisture_2" text="Rơm ướt làm tăng ma sát bên trong rotor lên đến +35%, làm giảm đáng kể tốc độ gặt và tăng mức tiêu hao nhiên liệu." />
+        <text name="rhm_help_moisture_sub3" text="Mưa, sương đêm &amp; rơm ướt" />
+        <text name="rhm_help_moisture_3" text="Gặt dưới trời mưa gây tăng đột biến độ ẩm, làm quá tải sàng, gây thất thoát hạt nghiêm trọng và nguy cơ nghẽn trống đập." />
 
         <!-- PAGE 9: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
-        <text name="rhm_help_special_title" text="9. Forage, Root Crops &amp; Special Machinery" />
-        <text name="rhm_help_special_sub1" text="Self-Propelled Forage Harvesters" />
-        <text name="rhm_help_special_1" text="Forage harvesters utilize a specialized 3-stage mechanical model: feed intake rollers, chopping drum, and discharge accelerator blower. Grass windrow pickers dynamically assess swath density for smooth intake." />
-        <text name="rhm_help_special_sub2" text="Sugar Beet &amp; Potato Harvesters" />
-        <text name="rhm_help_special_2" text="Root crop harvesters must overcome substantial soil lifting drag (approx. 7 HP per meter of working width), naturally constraining field speeds to a realistic 5–8 km/h." />
-        <text name="rhm_help_special_sub3" text="Grapes, Olives &amp; NEXAT Carrier Platform" />
-        <text name="rhm_help_special_3" text="Grape and olive harvesters feature customized separation curves. The 1,100 HP NEXAT modular wide-span carrier and its NEXCO combine module are fully supported with phantom load suppression." />
+        <text name="rhm_help_special_title" text="9. Máy Cắt Cỏ, Cây Lấy Củ &amp; Máy Chuyên Dụng" />
+        <text name="rhm_help_special_sub1" text="Máy băm ủ thức ăn tự hành" />
+        <text name="rhm_help_special_1" text="Máy băm thức ăn sử dụng mô hình 3 giai đoạn: con lăn nạp, trống băm và quạt phóng. Bộ phận thu nhặt cỏ đánh giá mật độ luống theo thời gian thực." />
+        <text name="rhm_help_special_sub2" text="Máy thu hoạch củ cải đường &amp; Khoai tây" />
+        <text name="rhm_help_special_2" text="Máy gặt củ phải vượt qua lực cản đất lớn khi nâng củ (~7 mã lực trên mỗi mét bề rộng cắt), giới hạn tốc độ một cách tự nhiên ở mức 5–8 km/h." />
+        <text name="rhm_help_special_sub3" text="Nho, ô liu &amp; Khung gầm NEXAT" />
+        <text name="rhm_help_special_3" text="Máy thu hoạch nho và ô liu có các đường cong phân tách riêng. Khung gầm hệ thống NEXAT 1.100 mã lực và mô-đun đập NEXCO được hỗ trợ hoàn toàn." />
 
         <!-- PAGE 10: DIFFICULTY MODES & SETTINGS -->
-        <text name="rhm_help_difficulty_title" text="10. Difficulty Modes &amp; Settings" />
-        <text name="rhm_help_difficulty_sub1" text="Realistic vs. Arcade Modes" />
-        <text name="rhm_help_difficulty_1" text="Choose your preferred gameplay experience in the ESC pause menu:&#xA;- Realistic: Full ASABE/DLG physics, hydrostatic braking, physical tank loss deduction, knife wear, and diurnal moisture.&#xA;- Arcade: 0% engine overload, unrestricted speed limits, and zero crop losses for relaxed, casual harvesting." />
-        <text name="rhm_help_difficulty_sub2" text="Acoustic &amp; Display Settings" />
-        <text name="rhm_help_difficulty_2" text="Adjust the overload warning buzzer volume (0%–100%) with an instant sound test, select your buzzer trigger mode (Smart, Continuous, Disabled), and customize HUD transparency and units." />
-        <text name="rhm_help_difficulty_sub3" text="Interactive Tutorial Hints" />
-        <text name="rhm_help_difficulty_3" text="Click 'Reset Hints' in the settings menu at any time to re-enable on-screen tutorial hints and refresh your knowledge of all mod features." />
+        <text name="rhm_help_difficulty_title" text="10. Mức Độ Khó &amp; Cài Đặt" />
+        <text name="rhm_help_difficulty_sub1" text="Chế độ Thực tế vs. Chế độ Giải trí" />
+        <text name="rhm_help_difficulty_1" text="Chọn phong cách chơi của bạn trong menu tạm dừng ESC:&#xA;- Thực tế: Đầy đủ vật lý ASABE/DLG, phanh thủy tĩnh, hao hụt hạt trong thùng, mòn dao và độ ẩm.&#xA;- Giải trí: 0% quá tải động cơ, tốc độ không giới hạn và không thất thoát để chơi thư giãn." />
+        <text name="rhm_help_difficulty_sub2" text="Cài đặt âm thanh &amp; Hiển thị" />
+        <text name="rhm_help_difficulty_2" text="Điều chỉnh âm lượng chuông cảnh báo (0%–100%) với kiểm tra âm thanh tức thì, chọn chu kỳ chuông (Thông minh, Liên tục, Tắt) và tùy chỉnh HUD." />
+        <text name="rhm_help_difficulty_sub3" text="Mẹo hướng dẫn tương tác" />
+        <text name="rhm_help_difficulty_3" text="Nhấp vào 'Đặt lại mẹo' trong menu cài đặt để kích hoạt lại các hướng dẫn trên màn hình và làm mới kiến thức về các tính năng của bản mod." />
         <text name="rhm_ui_section_separation" text="ĐẬP VÀ PHÂN TÁCH" />
         <text name="rhm_ui_section_cleaning" text="HỆ THỐNG LÀM SẠCH" />
         <text name="rhm_ui_section_discharge" text="XẢ HẠT VÀ BĂM RƠM" />
@@ -290,12 +290,12 @@
         <text name="rhm_tut_headland_msg" text="Khi nhấc hàm cắt lúc quay đầu bờ ruộng, máy gặt ghi nhớ tốc độ làm việc. Khi hạ hàm ở luống mới, máy sẽ tăng tốc êm ái không bị giật." />
         <text name="rhm_tut_upgrade_title" text="Nâng cấp máy gặt" />
         <text name="rhm_tut_upgrade_msg" text="Máy gặt cơ bản cần căn chỉnh thủ công. Nâng cấp điện tử tại xưởng để mở khóa Bộ cảm biến (Cấp 2), Màn hình năng suất (Cấp 3) hoặc Opti-Harvest AI (Cấp 4)." />
-        <text name="rhm_tut_hud_drag_title" text="Interactive HUD" />
-        <text name="rhm_tut_hud_drag_msg" text="You can reposition the HUD anywhere across your screen by holding Left Mouse Button (LMB) on the panel, or magnetically dock it cleanly beneath the F1 menu and screen edges." />
-        <text name="rhm_tut_trip_title" text="Field Job Counter &amp; Log" />
-        <text name="rhm_tut_trip_msg" text="Press Shift+J to review your field yield summary, financial loss analysis, and fleet status. To quickly reset the counter for a new field, hold Shift+R for 1 second in the cab!" />
-        <text name="rhm_tut_chopper_title" text="Straw Chopper Power Load" />
-        <text name="rhm_tut_chopper_msg" text="Chopping straw consumes an extra 15â€“20% of engine power compared to laying a swath. If you need more harvesting speed on dense crops, switch to laying a swath." />
+        <text name="rhm_tut_hud_drag_title" text="HUD Tương Tác" />
+        <text name="rhm_tut_hud_drag_msg" text="Bạn có thể định vị lại HUD ở bất cứ đâu trên màn hình bằng cách giữ Chuột trái (LMB) trên bảng điều khiển, hoặc gắn cố định vào bên dưới menu F1 và các cạnh màn hình." />
+        <text name="rhm_tut_trip_title" text="Bộ Đếm Ruộng &amp; Nhật Ký" />
+        <text name="rhm_tut_trip_msg" text="Nhấn Shift+J để xem tóm tắt năng suất ruộng, phân tích thiệt hại kinh tế và trạng thái đội máy. Để đặt lại nhanh bộ đếm cho ruộng mới, hãy giữ Shift+R trong 1 giây ngay trong cabin!" />
+        <text name="rhm_tut_chopper_title" text="Tải Công Suất Máy Băm Rơm" />
+        <text name="rhm_tut_chopper_msg" text="Băm rơm tiêu tốn thêm 15-20% công suất động cơ so với rải luống. Nếu bạn cần tốc độ thu hoạch cao hơn trên các ruộng dày đặc, hãy chuyển sang rải luống rơm." />
         <text name="rhm_setting_wear_loss_short" text="Thất thoát do hao mòn máy" />
         <text name="rhm_setting_wear_loss_long" text="Mô phỏng rơi rớt hạt do thiết bị hao mòn. Dao cắt cùn đập rụng bông/bắp (lên đến +3% hao hụt và +15% lực cản). Trống đập và sàng bị mòn làm rơi hạt chưa tách (lên đến +3% hao hụt)." />
         <text name="rhm_ui_wear_loss" text="Hao mòn" />
@@ -313,7 +313,7 @@
         <text name="rhm_tab_fleet_desc" text="Đo từ xa thời gian thực, công suất xử lý và trạng thái của tất cả máy gặt đập trong trang trại." />
         <text name="rhm_tab_settings" text="Cài đặt trang trại &amp; AI" />
         <text name="rhm_tab_settings_desc" text="Cấu hình giới hạn tốc độ cho người làm thuê AI, cỏ dại tự mọc và tùy chọn tự động đặt lại." />
-        <text name="rhm_driver_parked" text="Đã đỗ" />
+        <text name="rhm_driver_parked" text="Không có tài xế" />
         <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
         <text name="rhm_driver_hired_ai" text="Người làm thuê AI" />
         <text name="rhm_driver_player" text="Người chơi" />
@@ -330,16 +330,16 @@
         <text name="rhm_fleet_total_count" text="Tổng số máy gặt" />
         <text name="rhm_btn_subtab_fleet" text="ĐỘI MÁY GẶT" />
         <text name="rhm_btn_subtab_history" text="LỊCH SỬ MÙA VỤ / TẤT CẢ RUỘNG" />
-        <text name="rhm_season_all_time" text="Tất cả mùa vụ (Toàn thời gian)" />
-        <text name="rhm_season_format" text="Mùa %d (Năm %d)" />
+        <text name="rhm_season_all_time" text="Tất cả mùa vụ (Lịch sử)" />
+        <text name="rhm_season_format" text="Mùa vụ %d (Năm %d)" />
         <text name="rhm_season_current_suffix" text="[Hiện tại]" />
-        <text name="rhm_card_season_harvest" text="SẢN LƯỢNG &amp; DIỆN TÍCH MÙA" />
-        <text name="rhm_card_season_losses" text="HAO HỤT &amp; TÀI CHÍNH MÙA" />
+        <text name="rhm_card_season_harvest" text="SẢN LƯỢNG &amp; DIỆN TÍCH MÙA VỤ" />
+        <text name="rhm_card_season_losses" text="THẤT THOÁT &amp; KINH TẾ MÙA VỤ" />
         <text name="rhm_card_season_telemetry" text="CHỈ SỐ &amp; THỜI GIAN THU HOẠCH" />
         <text name="rhm_season_operations" text="Công việc đã hoàn thành" />
         <text name="rhm_season_active_status" text="Mùa vụ đang hoạt động" />
         <text name="rhm_season_archived_status" text="Mùa vụ đã lưu trữ" />
-        <text name="rhm_season_all_time_status" text="Lịch sử toàn thời gian" />
+        <text name="rhm_season_all_time_status" text="Toàn bộ lịch sử" />
         <text name="rhm_hist_total_area" text="Tổng diện tích thu hoạch" />
         <text name="rhm_hist_total_harvest" text="Tổng thu hoạch sạch" />
         <text name="rhm_hist_avg_loss" text="Hao hụt trung bình" />
@@ -353,7 +353,7 @@
         <text name="rhm_status_in_transit" text="Đang di chuyển" />
         <text name="rhm_status_in_cab" text="Có người lái" />
         <text name="rhm_status_parked_yard" text="Đỗ tại trang trại" />
-        <text name="rhm_card_field_harvest" text="RUỘNG HIỆN TẠI &amp; THU HOẠCH" />
+        <text name="rhm_card_field_harvest" text="RUỘNG VÀ CÂY TRỒNG HIỆN TẠI" />
         <text name="rhm_field_number" text="Số thửa ruộng" />
         <text name="rhm_trip_no_field" text="Ngoài ruộng" />
         <text name="rhm_crop_type" text="Loại cây trồng" />
@@ -362,8 +362,8 @@
         <text name="rhm_average_yield" text="Năng suất trung bình" />
         <text name="rhm_card_loss_finances" text="THẤT THOÁT &amp; TÀI CHÍNH" />
         <text name="rhm_loss_volume" text="Khối lượng hao hụt" />
-        <text name="rhm_loss_share" text="Tỷ lệ % thất thoát" />
-        <text name="rhm_financial_loss" text="Thiệt hại tài chính" />
+        <text name="rhm_loss_share" text="Tỷ lệ thất thoát" />
+        <text name="rhm_financial_loss" text="Thiệt hại kinh tế" />
         <text name="rhm_card_performance" text="HIỆU SUẤT &amp; THỜI GIAN" />
         <text name="rhm_avg_working_speed" text="Tốc độ làm việc TB" />
         <text name="rhm_avg_engine_load" text="Tải động cơ TB" />
@@ -391,7 +391,7 @@
         <text name="rhm_advice_slope" text="Độ nghiêng sườn dốc làm tải sàng không đều. Hãy giảm tốc độ trên dốc." />
         <text name="rhm_col_machine" text="Máy" />
         <text name="rhm_col_hours" text="Giờ làm việc" />
-        <text name="rhm_col_harvested" text="Thu hoạch" />
+        <text name="rhm_col_harvested" text="Đã thu hoạch" />
         <text name="rhm_col_lost" text="Hao hụt" />
         <text name="rhm_col_rank" text="Hạng" />
         <text name="rhm_fleet_no_combines" text="Không tìm thấy máy gặt" />
@@ -415,13 +415,13 @@
         <text name="rhm_col_money" text="Thiệt hại ($)" />
         <text name="rhm_col_driver" text="Người vận hành" />
         <text name="rhm_col_cutter" text="Hàm cắt" />
-        <text name="rhm_col_throughput" text="Công suất" />
-        <text name="rhm_col_yield" text="Năng suất" />
+        <text name="rhm_col_throughput" text="Năng suất xử lý" />
+        <text name="rhm_col_yield" text="Năng suất cây trồng" />
         <text name="rhm_col_wear" text="Hao mòn" />
         <text name="rhm_kpi_field" text="RUỘNG" />
         <text name="rhm_kpi_crop" text="CÂY TRỒNG" />
         <text name="rhm_kpi_area" text="DIỆN TÍCH" />
-        <text name="rhm_kpi_harvest" text="THU HOẠCH" />
+        <text name="rhm_kpi_harvest" text="SẢN LƯỢNG" />
         <text name="rhm_kpi_yield" text="NĂNG SUẤT" />
         <text name="rhm_kpi_loss" text="HAO HỤT" />
         <text name="rhm_kpi_speed" text="TỐC ĐỘ" />
@@ -461,9 +461,9 @@
         <text name="rhm_cause_none" text="Hoạt động tối ưu (Không tổn thất)" />
         <text name="rhm_fields_all_overview" text="[*] Tổng quan trang trại (Tất cả cánh đồng)" />
         <text name="rhm_field_operations" text="Số lần thu hoạch" />
-        <text name="rhm_fields_nominal_area" text="Diện tích danh định" />
+        <text name="rhm_fields_nominal_area" text="Diện tích danh nghĩa" />
         <text name="rhm_status_in_progress" text="Đang tiến hành" />
-        <text name="rhm_fields_harvested_area" text="Diện tích đã gặt" />
+        <text name="rhm_fields_harvested_area" text="Diện tích thu hoạch" />
         <text name="rhm_ops_one" text="lần" />
         <text name="rhm_ops_few" text="lần" />
         <text name="rhm_ops_many" text="lần" />
@@ -482,5 +482,7 @@
         <text name="rhm_slopeloss_long" text="Mô phỏng hạt dồn về một bên sàng trên các sườn dốc hơn 4° (hao hụt đến 5%). Tắt để loại bỏ tổn thất do nghiêng địa hình." />
         <text name="rhm_weedload_short" text="Sức cản cỏ dại" />
         <text name="rhm_weedload_long" text="Cỏ dại mọng nước và nhiều xơ quấn vào trống đập làm tăng lực cản cơ học và tải động cơ (lên tới +25%). Tắt để cỏ dại không ảnh hưởng công suất." />
+            <text name="rhm_fleet_badge_mission" text="[Hợp đồng]" />
+        <text name="rhm_fleet_badge_leased" text="[Thuê]" />
     </texts>
 </l10n>

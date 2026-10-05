@@ -860,6 +860,24 @@ function RHM_Api.getFarmFleetStats(farmId)
     return nil
 end
 
+---EN: Returns whether a combine is rented via contract mission or leased from dealership.
+---UA: Повертає, чи орендовано комбайн під контракт чи взято в лізинг у магазині.
+function RHM_Api.getVehicleRentalState(vehicle)
+    if RHM_HarvestTracker and RHM_HarvestTracker.getVehicleRentalState then
+        return RHM_HarvestTracker.getVehicleRentalState(vehicle)
+    end
+    return false, false
+end
+
+---EN: Returns true if combine belongs to a contract mission.
+---UA: Повертає true, якщо комбайн належить до контрактної місії.
+function RHM_Api.isMissionCombine(vehicle)
+    if RHM_HarvestTracker and RHM_HarvestTracker.isMissionCombine then
+        return RHM_HarvestTracker.isMissionCombine(vehicle)
+    end
+    return false
+end
+
 ---EN: Returns historical multi-season field harvest entries for a given farm.
 ---UA: Повертає історію збору врожаю за попередні сезони для заданої ферми.
 function RHM_Api.getFarmHistory(farmId)

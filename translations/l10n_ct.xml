@@ -73,7 +73,7 @@
         <text name="rhm_show_load_warn_long" text="當收割機超載時顯示閃爍警告" />
         <text name="rhm_overload_sounds_short" text="超載警報音效" />
         <text name="rhm_overload_sounds_long" text="當收割機嚴重超載或損失超標時播放駕駛艙警報及機械受力音效" />
-        <text name="rhm_section_audio" text="Realistic Harvesting - 音效" />
+        <text name="rhm_section_audio" text="Realistic Harvesting - 駕駛艙音效" />
         <text name="rhm_alarm_sounds_short" text="超載警報蜂鳴器" />
         <text name="rhm_alarm_sounds_long" text="當引擎負載達到嚴重超載（105%+）或作物損失超過 5% 時的駕駛室蜂鳴器警報。" />
         <text name="rhm_alarm_mode_smart" text="智能（3次鳴叫）" />
@@ -135,99 +135,99 @@
         <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
         <!-- ================================================================= -->
         <text name="rhm_help_category" text="Realistic Harvesting" />
-        <text name="rhm_help_title" text="Realistic Harvesting Guide" />
+        <text name="rhm_help_title" text="Realistic Harvesting 指南" />
 
         <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
-        <text name="rhm_help_overview_title" text="1. Realistic Engine Physics &amp; Speed" />
-        <text name="rhm_help_overview_sub1" text="How Engine Load is Calculated" />
-        <text name="rhm_help_overview_1" text="Realistic Harvesting replaces artificial hard-coded speed limits with an honest, physics-based crop throughput model. Engine power is dynamically allocated between base vehicle locomotion, mechanical cutterbar drive, threshing drum and rotor friction, straw chopper load, and crop mass flow (t/h) calibrated to ASABE/DLG agricultural standards. When encountering dense swaths, the combine automatically and smoothly decelerates to prevent drum choking." />
-        <text name="rhm_help_overview_sub2" text="Automated Hydrostatic Speed Control" />
-        <text name="rhm_help_overview_2" text="The RHM hydrostatic controller continuously monitors threshing mechanism strain. The optimal operational window is 85–95% engine load. As strain approaches 100%, the combine gently trims forward cruise speed to protect internal components, then smoothly accelerates back to cruising pace in lighter crop stands." />
-        <text name="rhm_help_overview_sub3" text="Straw Chopper Strain &amp; Slope Dynamics" />
-        <text name="rhm_help_overview_3" text="An active straw chopper demands an extra 15–20% of rated engine horsepower compared to laying straw swaths. In dense grain crops, switching to swathing frees substantial horsepower, significantly boosting working speed. Harvesting uphill also imposes extra gravitational climb resistance, naturally moderating field speed." />
+        <text name="rhm_help_overview_title" text="1. 擬真引擎物理與作業速度" />
+        <text name="rhm_help_overview_sub1" text="引擎負載計算方式" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting 以遵循 ASABE/DLG 農業標準的作物吞吐量物理模型，取代了人為設定的死板速限。引擎動力在車輛驅動、割台運轉、脫粒滾筒/轉子摩擦、碎草機及作物進料量 (t/h) 之間動態分配。當遇到茂密草叢時，聯合收割機會自動平順減速以防滾筒堵塞。" />
+        <text name="rhm_help_overview_sub2" text="自動靜液壓速度控制" />
+        <text name="rhm_help_overview_2" text="RHM 靜液壓控制器持續監測脫粒機構的負荷。最佳作業區間為 85–95% 引擎負載。當負載接近 100% 時，收割機會柔和地降低前進速度以保護內部機械，並在作物較稀疏時平順回升。" />
+        <text name="rhm_help_overview_sub3" text="碎草機負載與斜坡動力學" />
+        <text name="rhm_help_overview_3" text="運轉碎草機相較於鋪放草條會額外消耗 15–20% 的引擎額定馬力。在茂密穀物中改為鋪草條可釋放大量馬力以提高前進速度。向上爬坡作業亦會受到重力坡度阻力影響，使前進速度自然放緩。" />
 
         <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
-        <text name="rhm_help_hud_title" text="2. Interactive HUD &amp; Controls" />
-        <text name="rhm_help_hud_sub1" text="Live Telemetry Dashboard" />
-        <text name="rhm_help_hud_1" text="Boarding a combine activates a modern telemetry capsule at the bottom of the screen. It provides real-time readouts: current and target speed, live engine load percentage, instantaneous field yield (t/ha or bu/ac), crop throughput (t/h), grain moisture percentage, and cleaning shoe loss rate (%)." />
-        <text name="rhm_help_hud_sub2" text="Free Mouse Dragging (LMB) &amp; Magnetic Docking" />
-        <text name="rhm_help_hud_2" text="You can reposition the HUD anywhere across your screen. Hold Left Mouse Button (LMB) directly on the HUD capsule and drag it to your preferred position. Moving close to screen edges or the bottom boundary of the F1 help menu triggers magnetic docking, perfectly snapping the panel in place." />
-        <text name="rhm_help_hud_sub3" text="In-Cab Field Trip Mini-Badge" />
-        <text name="rhm_help_hud_3" text="A compact telemetry mini-badge inside the cab gives an immediate overview of your current run: harvested hectares, total tonnage, average loss percentage, and operator skill rating from [A] (expert) to [E] (heavy losses)." />
+        <text name="rhm_help_hud_title" text="2. 互動式 HUD 與操控" />
+        <text name="rhm_help_hud_sub1" text="即時遙測儀表膠囊" />
+        <text name="rhm_help_hud_1" text="進入收割機後，螢幕底部將顯示現代化的遙測膠囊，提供即時數據：當前與目標速度、引擎負載百分比、即時田間產量 (t/ha)、吞吐量 (t/h)、穀物含水量 (%) 以及篩箱損失率 (%)。" />
+        <text name="rhm_help_hud_sub2" text="滑鼠自由拖曳 (LMB) 與磁吸停靠" />
+        <text name="rhm_help_hud_2" text="您可以在 HUD 膠囊上按住滑鼠左鍵 (LMB) 自由將其拖曳至螢幕任意位置。接近螢幕邊緣或 F1 選單底部邊界時，面板將自動磁性吸附並緊貼定位。" />
+        <text name="rhm_help_hud_sub3" text="駕駛艙工作計數銘牌" />
+        <text name="rhm_help_hud_3" text="駕駛艙內的緊湊型遙測顯示螢幕能即時提供作業概況：已收割公頃數、總噸數、平均損失率以及從 [A] (極佳) 到 [E] (嚴重損失) 的駕駛員效率等級。" />
 
         <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
-        <text name="rhm_help_calibration_title" text="3. In-Cab Calibration Tablet (Shift+K)" />
-        <text name="rhm_help_calibration_main_sub" text="Field Touchscreen Tablet" />
-        <text name="rhm_help_calibration_main_text" text="Press Right Shift + K in the combine cab to deploy the touchscreen calibration tablet. The header displays rated engine horsepower, attached cutter width, and active crop. Fine-tuning threshing and separation parameters maximizes crop throughput while maintaining near-zero grain loss." />
-        <text name="rhm_help_calibration_rotor_sub" text="Threshing Drum &amp; Cleaning Fan" />
-        <text name="rhm_help_calibration_rotor_text" text="Rotor/drum RPM and concave clearance govern threshing thoroughness. Excessive RPM shatters fragile grain, while insufficient RPM leaves unthreshed grain in the straw. The cleaning fan blows chaff out of the rear: excessive airflow blows grain onto the ground, while weak airflow clogs the sieves with trash." />
-        <text name="rhm_help_calibration_presets_sub" text="Factory Presets &amp; Combine Memory" />
-        <text name="rhm_help_calibration_presets_text" text="The tablet includes pre-configured factory presets for over 25 base game and modded crops. Click 'Load Preset' to apply proven baseline settings. On combines equipped with Tier 2+ electronics, you can also save and load custom field profiles directly into combine memory." />
+        <text name="rhm_help_calibration_title" text="3. 駕駛艙校準平板 (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="觸控式田間平板" />
+        <text name="rhm_help_calibration_main_text" text="在收割機駕駛艙內按下右 Shift + K 即可開啟觸控校準平板。頁首顯示引擎馬力、割台寬度與當前作物。微調脫粒與分離參數可在維持極低損失率的同時最大化作業吞吐量。" />
+        <text name="rhm_help_calibration_rotor_sub" text="脫粒滾筒與清選風機" />
+        <text name="rhm_help_calibration_rotor_text" text="滾筒轉速與凹板間隙控制脫粒徹底程度。轉速過高會破碎穀粒，轉速過低則會使未脫淨的穗留在秸稈中。清選風機吹散糠皮：風量過大會將穀粒吹落田間，風量不足則會導致篩網雜質堵塞。" />
+        <text name="rhm_help_calibration_presets_sub" text="原廠預設與機具記憶體" />
+        <text name="rhm_help_calibration_presets_text" text="平板內建 25 種以上作物的原廠預設參數。點擊「載入預設」即可套用經過驗證的設定。配備 2 級以上電子設備的收割機可將自訂設定直接儲存至機具記憶體中。" />
 
         <!-- PAGE 4: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
-        <text name="rhm_help_trip_title" text="4. Field Job Counter &amp; Fleet Records (Shift+J)" />
-        <text name="rhm_help_trip_sub1" text="Field Harvest Command Center (Shift+J)" />
-        <text name="rhm_help_trip_1" text="Press Right Shift + J to open the full harvest accounting hub featuring 4 tabs: 'Current Field', 'Farm Fields', 'Season Analytics', and 'Combine Fleet'." />
-        <text name="rhm_help_trip_sub2" text="Current Field Trip Odometer &amp; Operator Rank" />
-        <text name="rhm_help_trip_2" text="The first tab functions as a digital field odometer: tracking harvested area (ha/ac), grain yield and mass (t/l), net harvest time, field crop losses, financial loss ($/€/£), root-cause loss breakdown (Speed, Moisture, Wear, Slope), and driver efficiency rank." />
-        <text name="rhm_help_trip_sub3" text="Quick In-Cab Reset (Right Shift + R)" />
-        <text name="rhm_help_trip_3" text="When entering a new field or starting a test run, hold Right Shift + R for 1 second directly from the cab. The field odometer instantly resets with an on-screen toast confirmation—no need to open the menu!" />
-        <text name="rhm_help_trip_sub4" text="Farm Fields, Seasonal History &amp; Fleet Telemetry" />
-        <text name="rhm_help_trip_4" text="Review area and crop status for all owned fields in Tab 2, multi-season yield and financial history in Tab 3, and monitor hired AI workers in Tab 4: active operator, crop, throughput (t/h), cutter width, and knife wear." />
+        <text name="rhm_help_trip_title" text="4. 田地計數器與機隊日誌 (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="收割作業管理中心 (Shift+J)" />
+        <text name="rhm_help_trip_1" text="按下右 Shift + J 可開啟包含 4 個分頁的收割統計中心：「當前田地」、「農場田地」、「季度統計」與「機隊列表」。" />
+        <text name="rhm_help_trip_sub2" text="數位計數器與操作員等級" />
+        <text name="rhm_help_trip_2" text="第一分頁作為數位里程表：記錄收割面積 (ha)、收成量 (t/L)、純工時、作物損失量、經濟損失 (€)、各項損失成因 (速度、水分、磨損、斜坡) 及操作員評級。" />
+        <text name="rhm_help_trip_sub3" text="駕駛艙快速重設 (右 Shift + R)" />
+        <text name="rhm_help_trip_3" text="進入新田地時，在駕駛艙內長按右 Shift + R 鍵 1 秒鐘。計數器將立即重設並彈出螢幕提示，無需開啟任何選單！" />
+        <text name="rhm_help_trip_sub4" text="田地、季度歷程與機隊遙測" />
+        <text name="rhm_help_trip_4" text="在分頁 2 檢視自有田地狀況，在分頁 3 查詢跨年度歷程，並在分頁 4 監控 AI 雇工狀況：操作員、作物、處理量 (t/h)、割台寬度與刀片磨損。" />
 
         <!-- PAGE 5: CROP LOSSES & ROOT CAUSES -->
-        <text name="rhm_help_croploss_title" text="5. Crop Losses &amp; Root Causes" />
-        <text name="rhm_help_croploss_sub1" text="Physical Grain Tank Liter Deduction" />
-        <text name="rhm_help_croploss_1" text="In Realistic Harvesting, crop losses are not an abstract statistic. Grain lost over the sieves or blown out the rear is physically subtracted directly from the combine grain tank in real time or deducted from straw windrow volume, directly impacting farm finances." />
-        <text name="rhm_help_croploss_sub2" text="Four Primary Loss Root Causes" />
-        <text name="rhm_help_croploss_2" text="- Speed &amp; Overload: Excessive throughput overwhelms sieves, carrying grain out the back.&#xA;- Moisture &amp; Dew: Damp straw clumps together, trapping kernels inside.&#xA;- Knife Wear: Blunt cutterbar knives shatter standing heads onto the ground instead of cutting.&#xA;- Ground Slope: Steep side-hills shift crop mats to one side of the cleaning shoe." />
-        <text name="rhm_help_croploss_sub3" text="Acoustic Overload Warning (Smart Buzzer)" />
-        <text name="rhm_help_croploss_3" text="When engine load exceeds 105% or sieve loss exceeds 5%, the in-cab chime sounds. In Smart Mode, the terminal sounds a cluster of 3 soft alerts spaced 1.8 seconds apart, followed by an 18-second rest interval." />
+        <text name="rhm_help_croploss_title" text="5. 作物損失與成因分析" />
+        <text name="rhm_help_croploss_sub1" text="糧箱實體穀物扣減" />
+        <text name="rhm_help_croploss_1" text="在 Realistic Harvesting 中，損失絕非抽象數字。篩網飄失的穀粒會在即時運算中直接從糧箱中實體扣除，或減少草條容積，直接對農場財務造成影響。" />
+        <text name="rhm_help_croploss_sub2" text="四大主要損失成因" />
+        <text name="rhm_help_croploss_2" text="- 速度與超載：過大進料量淹沒篩網，將穀粒拋向後方。&#xA;- 濕度與露水：潮濕稭稈結團並夾帶穀粒。&#xA;- 割刀磨損：遲鈍的割刀在割斷前使穀穗震落。&#xA;- 地面坡度：側坡使作物料層偏向篩箱一側。" />
+        <text name="rhm_help_croploss_sub3" text="聲響超載警示 (Smart Buzzer)" />
+        <text name="rhm_help_croploss_3" text="當引擎負載超過 105% 或篩網損失超過 5% 時，駕駛艙將響起蜂鳴聲。在智慧模式下，每間隔 1.8 秒發出 3 聲柔和警示音，隨後靜音 18 秒。" />
 
         <!-- PAGE 6: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
-        <text name="rhm_help_upgrades_title" text="6. Electronics Packages (Tiers 1–4)" />
-        <text name="rhm_help_upgrades_sub1" text="Harvester Workshop Upgrades" />
-        <text name="rhm_help_upgrades_1" text="Every harvester can be upgraded at the vehicle dealer or farm workshop with four distinct electronics packages tailored to your farm budget and operating style." />
-        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Base Mechanical) &amp; Tier 2 (Sensors &amp; Profiles)" />
-        <text name="rhm_help_upgrades_2" text="- Tier 1: Factory mechanical baseline. No electronic sensors; operator gauges speed by engine sound.&#xA;- Tier 2: Adds piezoelectric sieve loss sensors (loss % on HUD) and unlocks saving custom calibration profiles into combine memory." />
-        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Telemetry) &amp; Tier 4 (Opti-Harvest AI)" />
-        <text name="rhm_help_upgrades_3" text="- Tier 3: Equips an optical moisture meter, field trip odometer, financial loss tracking, and fleet telemetry.&#xA;- Tier 4: Unlocks the flagship Opti-Harvest AI autopilot, automatically tuning drum RPM and fan speed on the fly and eliminating hired worker tuning errors (0% deviation)." />
+        <text name="rhm_help_upgrades_title" text="6. 電子設備進階套件 (1–4 級)" />
+        <text name="rhm_help_upgrades_sub1" text="保養廠車輛升級" />
+        <text name="rhm_help_upgrades_1" text="每台收割機都可以在商店或農場保養廠安裝四個不同等級的電子設備，以滿足您的預算與需求。" />
+        <text name="rhm_help_upgrades_sub2" text="第 1 級 (基礎機械) 與第 2 級 (感測器與設定檔)" />
+        <text name="rhm_help_upgrades_2" text="- 第 1 級：原廠機械基準。無感測器；操作員依引擎聲浪判斷負載。&#xA;- 第 2 級：增加壓電式篩網損失感測器 (HUD 顯示損失 %) 並解鎖機具設定檔儲存功能。" />
+        <text name="rhm_help_upgrades_sub3" text="第 3 級 (遙測監控) 與第 4 級 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="- 第 3 級：配備光學水分計、田間里程表、財務損失追蹤與機隊遙測。&#xA;- 第 4 級：解鎖 Opti-Harvest AI 自動駕駛，在行進間動態微調滾筒轉速與風機，完全消除 AI 雇工的設定誤差 (0% 偏差)。" />
 
         <!-- PAGE 7: AI WORKERS & AUTOPILOTS -->
-        <text name="rhm_help_ai_workers_title" text="7. AI Workers &amp; Autopilots" />
-        <text name="rhm_help_ai_workers_sub1" text="Intelligent AI Speed Regulation" />
-        <text name="rhm_help_ai_workers_1" text="Giants AI helpers, Courseplay (v7+), and AutoDrive never run at artificial flat-out speeds. RHM enforces speed limits directly at the engine server level, keeping helpers safely within the optimal 85–95% load sweet spot." />
-        <text name="rhm_help_ai_workers_sub2" text="Electronics Package Impact on AI Quality" />
-        <text name="rhm_help_ai_workers_2" text="- Tier 1 Combines: Hired workers suffer setup deviations of up to ±18%.&#xA;- Tier 2 Combines: Tuning error drops to ±10%.&#xA;- Tier 3 Combines: Tuning error is reduced to ±4%.&#xA;- Tier 4 Combines: Opti-Harvest AI achieves 0% error, delivering flawless factory-spec harvesting." />
-        <text name="rhm_help_ai_workers_sub3" text="Courseplay &amp; AutoDrive Unloading on the Move" />
-        <text name="rhm_help_ai_workers_3" text="Unloading on the move is fully accounted for: the extra mechanical drag of the unloading auger is calculated dynamically so the combine never stalls when a chase tractor pulls alongside." />
+        <text name="rhm_help_ai_workers_title" text="7. AI 雇工與自動駕駛" />
+        <text name="rhm_help_ai_workers_sub1" text="AI 雇工智慧速控" />
+        <text name="rhm_help_ai_workers_1" text="Giants AI 雇工、Courseplay (v7+) 及 AutoDrive 不會以生硬的全速前進。RHM 直接在引擎核心實施速控，將雇工穩定維持在 85–95% 的最佳負載區間。" />
+        <text name="rhm_help_ai_workers_sub2" text="電子設備等級對 AI 品質之影響" />
+        <text name="rhm_help_ai_workers_2" text="- 第 1 級機具：雇工的調校設定偏差可達 ±18%。&#xA;- 第 2 級機具：調校誤差降至 ±10%。&#xA;- 第 3 級機具：調校誤差縮小至 ±4%。&#xA;- 第 4 級機具：Opti-Harvest AI 以 0% 誤差精準作業，達到原廠極致品質。" />
+        <text name="rhm_help_ai_workers_sub3" text="配合 Courseplay 與 AutoDrive 行進間卸糧" />
+        <text name="rhm_help_ai_workers_3" text="完整支援行進間卸糧：卸糧絞龍的阻力負載會被動態計算，收割機在運糧拖車靠近時絕不會突然無預警熄火驟停。" />
 
         <!-- PAGE 8: CROP MOISTURE & DIURNAL WEATHER -->
-        <text name="rhm_help_moisture_title" text="8. Crop Moisture &amp; Diurnal Weather" />
-        <text name="rhm_help_moisture_sub1" text="Diurnal Moisture Cycle" />
-        <text name="rhm_help_moisture_1" text="Crop moisture naturally peaks in early morning hours (04:00–08:00) due to heavy dew. The prime harvesting window occurs between 11:30 and 18:30 when ambient warmth and sunlight thoroughly dry grain and straw." />
-        <text name="rhm_help_moisture_sub2" text="Moisture Impact on Power &amp; Speed" />
-        <text name="rhm_help_moisture_2" text="Damp straw increases internal rotor friction by up to +35%, substantially lowering harvesting cruise speed and increasing fuel consumption." />
-        <text name="rhm_help_moisture_sub3" text="Rain, Night Dew &amp; Wet Straw" />
-        <text name="rhm_help_moisture_3" text="Harvesting in active rain causes a sharp spike in moisture, overloading cleaning sieves, inducing heavy grain loss, and risking threshing drum choking." />
+        <text name="rhm_help_moisture_title" text="8. 作物濕度與日夜氣候循環" />
+        <text name="rhm_help_moisture_sub1" text="日夜濕度循環" />
+        <text name="rhm_help_moisture_1" text="受露水影響，植物含水量清晨 (04:00–08:00) 達到最高峰。最佳收割時段介於 11:30 至 18:30 之間，此時陽光與溫度能充分乾燥穀粒與秸稈。" />
+        <text name="rhm_help_moisture_sub2" text="對動力與速度之衝擊" />
+        <text name="rhm_help_moisture_2" text="潮濕稭稈會使轉子內部摩擦力增加高達 +35%，顯著降低作業速度並增加燃油消耗。" />
+        <text name="rhm_help_moisture_sub3" text="降雨、夜露與濕稭稈" />
+        <text name="rhm_help_moisture_3" text="在雨中收割會導致濕度飆升，使清選篩嚴重超載，造成大量穀物損失並有卡死脫粒滾筒的風險。" />
 
         <!-- PAGE 9: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
-        <text name="rhm_help_special_title" text="9. Forage, Root Crops &amp; Special Machinery" />
-        <text name="rhm_help_special_sub1" text="Self-Propelled Forage Harvesters" />
-        <text name="rhm_help_special_1" text="Forage harvesters utilize a specialized 3-stage mechanical model: feed intake rollers, chopping drum, and discharge accelerator blower. Grass windrow pickers dynamically assess swath density for smooth intake." />
-        <text name="rhm_help_special_sub2" text="Sugar Beet &amp; Potato Harvesters" />
-        <text name="rhm_help_special_2" text="Root crop harvesters must overcome substantial soil lifting drag (approx. 7 HP per meter of working width), naturally constraining field speeds to a realistic 5–8 km/h." />
-        <text name="rhm_help_special_sub3" text="Grapes, Olives &amp; NEXAT Carrier Platform" />
-        <text name="rhm_help_special_3" text="Grape and olive harvesters feature customized separation curves. The 1,100 HP NEXAT modular wide-span carrier and its NEXCO combine module are fully supported with phantom load suppression." />
+        <text name="rhm_help_special_title" text="9. 青貯機、塊根作物與特殊機具" />
+        <text name="rhm_help_special_sub1" text="自走式青貯飼料收割機" />
+        <text name="rhm_help_special_1" text="青貯收割機採用 3 階段機械模型：餵入輥、切碎滾筒及拋送加速器。牧草拾禾台會動態評估草條密度以穩定餵入。" />
+        <text name="rhm_help_special_sub2" text="甜菜與馬鈴薯收割機" />
+        <text name="rhm_help_special_2" text="塊根收割機在挖取作物時必須克服龐大的土壤提升阻力 (約每公尺寬度 7 馬力)，前進速度自然被限制在 5–8 km/h 之間。" />
+        <text name="rhm_help_special_sub3" text="葡萄、橄欖與 NEXAT 系統載具" />
+        <text name="rhm_help_special_3" text="葡萄與橄欖收割機具備專屬的分離特性曲線。支援 1,100 馬力的 NEXAT 寬跨度載具及 NEXCO 收割模組，完全杜絕虛擬負載。" />
 
         <!-- PAGE 10: DIFFICULTY MODES & SETTINGS -->
-        <text name="rhm_help_difficulty_title" text="10. Difficulty Modes &amp; Settings" />
-        <text name="rhm_help_difficulty_sub1" text="Realistic vs. Arcade Modes" />
-        <text name="rhm_help_difficulty_1" text="Choose your preferred gameplay experience in the ESC pause menu:&#xA;- Realistic: Full ASABE/DLG physics, hydrostatic braking, physical tank loss deduction, knife wear, and diurnal moisture.&#xA;- Arcade: 0% engine overload, unrestricted speed limits, and zero crop losses for relaxed, casual harvesting." />
-        <text name="rhm_help_difficulty_sub2" text="Acoustic &amp; Display Settings" />
-        <text name="rhm_help_difficulty_2" text="Adjust the overload warning buzzer volume (0%–100%) with an instant sound test, select your buzzer trigger mode (Smart, Continuous, Disabled), and customize HUD transparency and units." />
-        <text name="rhm_help_difficulty_sub3" text="Interactive Tutorial Hints" />
-        <text name="rhm_help_difficulty_3" text="Click 'Reset Hints' in the settings menu at any time to re-enable on-screen tutorial hints and refresh your knowledge of all mod features." />
+        <text name="rhm_help_difficulty_title" text="10. 難度模式與設定" />
+        <text name="rhm_help_difficulty_sub1" text="擬真 vs. 街機模式" />
+        <text name="rhm_help_difficulty_1" text="在 ESC 暫停選單中選擇您的遊戲風格：&#xA;- 擬真：完整 ASABE/DLG 物理、靜液壓煞車、糧箱扣減、刀片磨損及作物濕度。&#xA;- 街機：0% 引擎超載、無速限約束且零作物損失，享受輕鬆收割體驗。" />
+        <text name="rhm_help_difficulty_sub2" text="音效與顯示設定" />
+        <text name="rhm_help_difficulty_2" text="調節超載警示蜂鳴器音量 (0%–100%) 並可即時試聽，選擇警示頻率 (智慧、持續、關閉)，以及自訂 HUD 透明度與計量單位。" />
+        <text name="rhm_help_difficulty_sub3" text="互動式教學提示" />
+        <text name="rhm_help_difficulty_3" text="在設定選單中隨時點擊「重設提示」，即可重新啟動螢幕浮動提示，重溫本模組的各項特色與功能。" />
         <text name="rhm_ui_section_separation" text="脫粒與分離" />
         <text name="rhm_ui_section_cleaning" text="清選系統" />
         <text name="rhm_ui_section_discharge" text="排出與拋撒" />
@@ -290,12 +290,12 @@
         <text name="rhm_tut_headland_msg" text="在地頭轉彎抬起割台時，系統會自動記住剛才的作業速度。切入新一壟時將平穩提速，毫無頓挫。" />
         <text name="rhm_tut_upgrade_title" text="收割機電子升級" />
         <text name="rhm_tut_upgrade_msg" text="基礎款收割機需手動調節。前往車間升級電子系統可解鎖感測器套件（第 2 級）、產量監控（第 3 級）或 Opti-Harvest AI（第 4 級）。" />
-        <text name="rhm_tut_hud_drag_title" text="Interactive HUD" />
-        <text name="rhm_tut_hud_drag_msg" text="You can reposition the HUD anywhere across your screen by holding Left Mouse Button (LMB) on the panel, or magnetically dock it cleanly beneath the F1 menu and screen edges." />
-        <text name="rhm_tut_trip_title" text="Field Job Counter &amp; Log" />
-        <text name="rhm_tut_trip_msg" text="Press Shift+J to review your field yield summary, financial loss analysis, and fleet status. To quickly reset the counter for a new field, hold Shift+R for 1 second in the cab!" />
-        <text name="rhm_tut_chopper_title" text="Straw Chopper Power Load" />
-        <text name="rhm_tut_chopper_msg" text="Chopping straw consumes an extra 15â€“20% of engine power compared to laying a swath. If you need more harvesting speed on dense crops, switch to laying a swath." />
+        <text name="rhm_tut_hud_drag_title" text="互動式 HUD" />
+        <text name="rhm_tut_hud_drag_msg" text="您可以在面板上按住滑鼠左鍵 (LMB) 將 HUD 拖曳到螢幕任意位置，或磁性吸附在 F1 選單下方及螢幕邊緣。" />
+        <text name="rhm_tut_trip_title" text="田地計數器與日誌" />
+        <text name="rhm_tut_trip_msg" text="按 Shift+J 檢視田地產量摘要、經濟損失分析及機隊狀態。若要為新田地快速重設計數器，只需在駕駛艙內按住 Shift+R 1 秒鐘即可！" />
+        <text name="rhm_tut_chopper_title" text="碎草機引擎負載" />
+        <text name="rhm_tut_chopper_msg" text="與條狀鋪草相比，粉碎稭稈會額外消耗 15-20% 的引擎動力。若在密植作物中需要更高的前進速度，請切換至條狀鋪草。" />
         <text name="rhm_setting_wear_loss_short" text="機械磨損損失" />
         <text name="rhm_setting_wear_loss_long" text="模擬設備磨損造成的籽粒損失。鈍化割刀會打碎穗頭（最多增加 +3% 損失及 +15% 阻力），磨損的脫粒紋桿與篩網會漏掉未脫淨穀物（最多增加 +3% 損失）。" />
         <text name="rhm_ui_wear_loss" text="磨損損失" />
@@ -313,7 +313,7 @@
         <text name="rhm_tab_fleet_desc" text="農場內所有收割機之即時遙測、處理量及作業狀態。" />
         <text name="rhm_tab_settings" text="農場與AI設定" />
         <text name="rhm_tab_settings_desc" text="設定AI僱員速度限制器、自生雜草生成及自動重設選項。" />
-        <text name="rhm_driver_parked" text="已停泊" />
+        <text name="rhm_driver_parked" text="無駕駛" />
         <text name="rhm_driver_cp_ai" text="AI（Courseplay）" />
         <text name="rhm_driver_hired_ai" text="AI僱員" />
         <text name="rhm_driver_player" text="玩家" />
@@ -329,17 +329,17 @@
         <text name="rhm_fleet_wear_state" text="機器磨損" />
         <text name="rhm_fleet_total_count" text="收割機總數" />
         <text name="rhm_btn_subtab_fleet" text="收割機車隊" />
-        <text name="rhm_btn_subtab_history" text="季度歷史 / 所有農田" />
-        <text name="rhm_season_all_time" text="所有季度（歷史總計）" />
-        <text name="rhm_season_format" text="第 %d 季（第 %d 年）" />
+        <text name="rhm_btn_subtab_history" text="季度歷史 / 所有田地" />
+        <text name="rhm_season_all_time" text="所有季度 (歷史全紀錄)" />
+        <text name="rhm_season_format" text="第 %d 季 (第 %d 年)" />
         <text name="rhm_season_current_suffix" text="[當前]" />
-        <text name="rhm_card_season_harvest" text="季度採收與面積" />
+        <text name="rhm_card_season_harvest" text="季度收成與面積" />
         <text name="rhm_card_season_losses" text="季度損失與財務" />
-        <text name="rhm_card_season_telemetry" text="季度指標與作業時間" />
+        <text name="rhm_card_season_telemetry" text="作業指標與收割工時" />
         <text name="rhm_season_operations" text="已完成作業" />
         <text name="rhm_season_active_status" text="進行中季度" />
-        <text name="rhm_season_archived_status" text="已封存季度" />
-        <text name="rhm_season_all_time_status" text="歷史總計" />
+        <text name="rhm_season_archived_status" text="已存檔季度" />
+        <text name="rhm_season_all_time_status" text="完整歷史" />
         <text name="rhm_hist_total_area" text="總採收面積" />
         <text name="rhm_hist_total_harvest" text="總淨採收量" />
         <text name="rhm_hist_avg_loss" text="平均損失率" />
@@ -353,17 +353,17 @@
         <text name="rhm_status_in_transit" text="行駛中" />
         <text name="rhm_status_in_cab" text="有人駕駛" />
         <text name="rhm_status_parked_yard" text="停放於基地" />
-        <text name="rhm_card_field_harvest" text="當前農田與採收情況" />
+        <text name="rhm_card_field_harvest" text="當前田地與作物" />
         <text name="rhm_field_number" text="農田編號" />
         <text name="rhm_trip_no_field" text="田外區域" />
         <text name="rhm_crop_type" text="作物類型" />
         <text name="rhm_harvested_area" text="已採收面積" />
-        <text name="rhm_clean_harvest" text="淨採收量" />
+        <text name="rhm_clean_harvest" text="淨收成" />
         <text name="rhm_average_yield" text="平均產量" />
         <text name="rhm_card_loss_finances" text="損失與財務統計" />
         <text name="rhm_loss_volume" text="損失體積" />
-        <text name="rhm_loss_share" text="損失佔比 %" />
-        <text name="rhm_financial_loss" text="財務損失" />
+        <text name="rhm_loss_share" text="損失率" />
+        <text name="rhm_financial_loss" text="經濟損失" />
         <text name="rhm_card_performance" text="作業性能與時間" />
         <text name="rhm_avg_working_speed" text="平均作業速度" />
         <text name="rhm_avg_engine_load" text="平均引擎負荷" />
@@ -391,7 +391,7 @@
         <text name="rhm_advice_slope" text="坡地側向傾斜導致篩網負載不均。於坡地作業時請減速。" />
         <text name="rhm_col_machine" text="機器" />
         <text name="rhm_col_hours" text="作業時數" />
-        <text name="rhm_col_harvested" text="採收量" />
+        <text name="rhm_col_harvested" text="已收成" />
         <text name="rhm_col_lost" text="損失量" />
         <text name="rhm_col_rank" text="等級" />
         <text name="rhm_fleet_no_combines" text="未找到收割機" />
@@ -421,8 +421,8 @@
         <text name="rhm_kpi_field" text="農田" />
         <text name="rhm_kpi_crop" text="作物" />
         <text name="rhm_kpi_area" text="面積" />
-        <text name="rhm_kpi_harvest" text="採收量" />
-        <text name="rhm_kpi_yield" text="產量" />
+        <text name="rhm_kpi_harvest" text="總收成" />
+        <text name="rhm_kpi_yield" text="單位產量" />
         <text name="rhm_kpi_loss" text="損失" />
         <text name="rhm_kpi_speed" text="速度" />
         <text name="rhm_efficiency_index" text="效率等級" />
@@ -461,9 +461,9 @@
         <text name="rhm_cause_none" text="最佳作業 (無損失)" />
         <text name="rhm_fields_all_overview" text="[*] 農場總覽 (所有田地)" />
         <text name="rhm_field_operations" text="收穫作業次數" />
-        <text name="rhm_fields_nominal_area" text="標稱面積" />
+        <text name="rhm_fields_nominal_area" text="名義面積" />
         <text name="rhm_status_in_progress" text="進行中" />
-        <text name="rhm_fields_harvested_area" text="已收穫面積" />
+        <text name="rhm_fields_harvested_area" text="收割面積" />
         <text name="rhm_ops_one" text="次" />
         <text name="rhm_ops_few" text="次" />
         <text name="rhm_ops_many" text="次" />
@@ -482,5 +482,7 @@
         <text name="rhm_slopeloss_long" text="模擬在超過4度的坡地上，穀物向篩網單側堆積的現象（最高5%損失）。關閉以移除地形傾斜懲罰。" />
         <text name="rhm_weedload_short" text="雜草阻力" />
         <text name="rhm_weedload_long" text="多汁且多纖維的雜草纏繞脫粒滾筒，增加機械阻力及引擎負載（最高+25%）。關閉以防止雜草影響引擎功率。" />
+            <text name="rhm_fleet_badge_mission" text="[合約]" />
+        <text name="rhm_fleet_badge_leased" text="[租賃]" />
     </texts>
 </l10n>

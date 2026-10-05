@@ -1,6 +1,14 @@
 # Realistic Harvesting - Changelog
 
 Changelog 1.6.2.0:
+- ADDED: Active rented (leased) and contract (mission) combine support in Fleet overview with localized status badges.
+- ADDED: Automatic clean pruning of returned rental and completed contract combines without polluting the sold machine archive.
+- ADDED: Dedicated live weed canopy density indicator on HUD with dynamic sampling across the entire cutterbar width.
+- IMPROVED: Reorganized 4-column HUD telemetry layout (Cell 1: Load, Cell 2: Speed/Loss, Cell 3: Moisture/Weed, Cell 4: Field Metrics).
+- IMPROVED: Unified unit localization across all HUD readouts, eliminating mixed Latin and Cyrillic unit strings.
+- IMPROVED: Comprehensive agricultural terminology review across all 27 translations (disambiguating yield vs. throughput, natural driver status).
+- FIXED: AI helper suffixes creating duplicate vehicle profiles in fleet statistics and savegames.
+- FIXED: Missing translation string fallbacks in Field and Fleet GUI tables.
 - ADDED: Independent simulation setting toggles in pause menu for Slope Losses and Weed Resistance.
 - ADDED: Smart field trip odometer auto-reset controller with seamless merged fields protection (Smart, Crop Change Only, Manual).
 - ADDED: Authentic agricultural on-board computer terminal warning chime (Deutz-Fahr iMonitor profile) replacing harsh piezo buzzer.
