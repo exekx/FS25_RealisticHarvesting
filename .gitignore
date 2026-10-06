@@ -32,4 +32,5 @@ sim_*
 
 # Local Development Tracking (KB Rule 7 - strictly excluded from Git)
 DEV_CHANGELOG.md
+RELEASE_NOTES.md
 

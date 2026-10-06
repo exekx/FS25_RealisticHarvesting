@@ -20,9 +20,12 @@ RHMSettingsManager.SERVER_SETTINGS = {
     "difficultyMotor",
     "difficultyLoss",
     "aiHelperTuning",
+    "autoResetTripMode",
     "enableSpeedLimit",
     "enableCropLoss",
     "enableWearLoss",
+    "enableSlopeLoss",
+    "enableWeedLoad",
     "enableIndependentLaunch",
     "enableMoisture"
 }
@@ -36,15 +39,11 @@ RHMSettingsManager.CLIENT_SETTINGS = {
     "showProductivity",
     "showCropLoss",
     "showSpeed",
-    "showLoadWarnings",
     "showMoisture",
-    "hudOffsetX",
-    "hudOffsetY",
     "hudPosX",
     "hudPosY",
     "hudDocked",
     "unitSystem",
-    "showSpeedometer",
     "enableAlarmSound",
     "alarmMode",
     "soundVolume",
@@ -57,12 +56,14 @@ RHMSettingsManager.defaultConfig = {
     difficultyMotor = 2,
     difficultyLoss = 2,
     aiHelperTuning = 1,
+    autoResetTripMode = 1,
     showHUD = true,
     showYield = true,
-    showSpeedometer = true,
     enableSpeedLimit = true,
     enableCropLoss = false,
     enableWearLoss = true,
+    enableSlopeLoss = true,
+    enableWeedLoad = true,
     enableIndependentLaunch = true,
     enableMoisture = true,
     showMoisture = true,
@@ -70,8 +71,6 @@ RHMSettingsManager.defaultConfig = {
     alarmMode = 1,
     soundVolume = 1.0,
     enableTutorials = true,
-    hudOffsetX = 0,
-    hudOffsetY = 350,
     unitSystem = 1
 }
 
@@ -141,8 +140,8 @@ function RHMSettingsManager:loadServerSettings(settingsObject)
         if xml then
             for _, key in ipairs(self.SERVER_SETTINGS) do
                 local xmlKey = self.XMLTAG.."."..key
-                if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" or key == "hudOffsetX" or key == "hudOffsetY" or key == "unitSystem" then
-                    settingsObject[key] = xml:getInt(xmlKey, self.defaultConfig[key])
+                if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" or key == "autoResetTripMode" then
+                    settingsObject[key] = xml:getInt(xmlKey, self.defaultConfig[key] or 1)
                 else
                     settingsObject[key] = xml:getBool(xmlKey, self.defaultConfig[key])
                 end
@@ -153,20 +152,6 @@ function RHMSettingsManager:loadServerSettings(settingsObject)
                 tostring(settingsObject.difficultyMotor),
                 tostring(settingsObject.difficultyLoss),
                 tostring(settingsObject.enableSpeedLimit)))
-
-            -- EN: MIGRATION: If split difficulty fields are missing, try reading the legacy "difficulty" key.
-            -- UA: МІГРАЦІЯ: Якщо роздільні поля відсутні, спробуємо зчитати застарілий ключ "difficulty".
-            if settingsObject.difficultyMotor == nil and settingsObject.difficultyLoss == nil then
-                local legacyXml = XMLFile.load("RHM_ServerConfig_Legacy", xmlPath)
-                if legacyXml then
-                    local legacyDifficulty = legacyXml:getInt(self.XMLTAG..".difficulty", 2)
-                    settingsObject.difficultyMotor = legacyDifficulty
-                    settingsObject.difficultyLoss = legacyDifficulty
-                    rhm_log(string.format("RHM [RHMSettings]: RHM: Migrated legacy difficulty (%d) to split fields", legacyDifficulty))
-                    legacyXml:delete()
-                end
-            end
-
             return
         end
     end
@@ -190,7 +175,7 @@ function RHMSettingsManager:loadClientSettings(settingsObject)
         if xml then
             for _, key in ipairs(self.CLIENT_SETTINGS) do
                 local xmlKey = self.XMLTAG.."."..key
-                if key == "hudOffsetX" or key == "hudOffsetY" or key == "unitSystem" or key == "alarmMode" then
+                if key == "unitSystem" or key == "alarmMode" then
                     settingsObject[key] = xml:getInt(xmlKey, self.defaultConfig[key] or 1)
                 elseif key == "hudPosX" or key == "hudPosY" then
                     -- EN: HUD position stored as float (nil if not set = auto positioning).
@@ -265,8 +250,8 @@ function RHMSettingsManager:saveServerSettings(settingsObject)
     if xml then
         for _, key in ipairs(self.SERVER_SETTINGS) do
             local xmlKey = self.XMLTAG.."."..key
-            if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" then
-                xml:setInt(xmlKey, settingsObject[key])
+            if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" or key == "autoResetTripMode" then
+                xml:setInt(xmlKey, settingsObject[key] or 1)
             else
                 xml:setBool(xmlKey, settingsObject[key])
             end
@@ -277,9 +262,9 @@ function RHMSettingsManager:saveServerSettings(settingsObject)
         -- EN: Verify the file was actually saved to disk.
         -- UA: Перевіряємо що файл справді збережений на диску.
         if fileExists(xmlPath) then
-            rhm_log(string.format("RHM [RHMSettings]: RHM: [Save] ✓ File verified to exist: %s", xmlPath))
+            rhm_log(string.format("RHM [RHMSettings]: RHM: [Save] [OK] File verified to exist: %s", xmlPath))
         else
-            rhm_log(string.format("RHM [RHMSettings]: RHM: [Save] ✗ WARNING - File does NOT exist after save: %s", xmlPath))
+            rhm_log(string.format("RHM [RHMSettings]: RHM: [Save] [WARN] File does NOT exist after save: %s", xmlPath))
         end
 
         rhm_log("RHM [RHMSettings]: RHM: [Save] Server settings saved successfully")
@@ -298,7 +283,7 @@ function RHMSettingsManager:saveClientSettings(settingsObject)
     if xml then
         for _, key in ipairs(self.CLIENT_SETTINGS) do
             local xmlKey = self.XMLTAG.."."..key
-            if key == "hudOffsetX" or key == "hudOffsetY" or key == "unitSystem" or key == "alarmMode" then
+            if key == "unitSystem" or key == "alarmMode" then
                 xml:setInt(xmlKey, settingsObject[key] or 1)
             elseif key == "hudPosX" or key == "hudPosY" then
                 -- EN: Only save position if it has been explicitly set (not nil = auto).

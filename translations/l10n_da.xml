@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<l10n>
+    <texts>
+        <text name="rhm_section_simulation" text="Realistic Harvesting - Simulering" />
+        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Visning" />
+        <text name="input_RHM_OPEN_MENU" text="Mejetærskerindstillinger" />
+        <text name="input_RHM_TOGGLE_HUD" text="Slå høst-HUD til/fra" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Slå musemarkør til/fra" />
+        <text name="input_RHM_CLOSE_NOTIFICATION" text="Luk meddelelse" />
+        <text name="rhm_hud_load" text="BELASTN." />
+        <text name="rhm_hud_loss" text="TAB" />
+        <text name="rhm_hud_moist" text="FUGT" />
+        <text name="rhm_ai_settings_retained" text="Manuelle indstillinger bevaret" />
+        <text name="rhm_ai_auto_tuned" text="Autokalibreret" />
+        <text name="rhm_difficulty" text="Sværhedsgrad" />
+        <text name="rhm_difficulty_motor" text="Motoreffektbegrænsning" />
+        <text name="rhm_difficulty_motor_short" text="Motorgrænse" />
+        <text name="rhm_difficulty_motor_long" text="Bestemmer motorbelastningsfysik. Arkade = Deaktiveret (ingen overbelastning), Normal = +35% overskudseffekt, Realistisk = 100% autentisk fysik." />
+        <text name="rhm_difficulty_loss" text="Høsttabsstraf" />
+        <text name="rhm_difficulty_loss_short" text="Tabs-straf" />
+        <text name="rhm_difficulty_loss_long" text="Bestemmer høsttab. Arkade = 0% (intet tab), Normal = standardtab, Realistisk = forhøjede tab (200%)." />
+        <text name="rhm_diff_1" text="Arkade" />
+        <text name="rhm_difficulty_long" text="Arkade: Ingen overbelastning eller høsttab (ren standard). Normal: Balanceret fysik (+35%). Realistisk: Ren simulering (0%)." />
+        <text name="rhm_diff_2" text="Normal" />
+        <text name="rhm_diff_3" text="Realistisk" />
+        <text name="rhm_show_yield" text="Vis udbyttemonitor" />
+        <text name="rhm_show_yield_short" text="Vis udbytte" />
+        <text name="rhm_show_yield_long" text="Vis realtidsudbytte i HUD (t/ha eller bu/ac)" />
+        <text name="rhm_yield_label" text="Udbytte" />
+        <text name="rhm_hud_short" text="Vis HUD" />
+        <text name="rhm_hud_long" text="Vis høstinformation på skærmen" />
+        <text name="rhm_speedlimit_short" text="Hastighedsbegrænser" />
+        <text name="rhm_speedlimit_long" text="Begræns automatisk mejetærskerens hastighed baseret på motorbelastning" />
+        <text name="rhm_croploss_short" text="Aktivér høsttab" />
+        <text name="rhm_croploss_long" text="Beregn afgrødetab ved overbelastning" />
+        <text name="rhm_show_speed_short" text="Vis hastighed" />
+        <text name="rhm_show_speed_long" text="Vis aktuel og anbefalet hastighed i HUD" />
+        <text name="rhm_show_load_short" text="Vis motorbelastning" />
+        <text name="rhm_show_load_long" text="Vis procentvis motorbelastning i HUD" />
+        <text name="rhm_show_productivity_short" text="Vis produktivitet" />
+        <text name="rhm_show_productivity_long" text="Vis gennemstrømning (t/h) i HUD" />
+        <text name="rhm_show_croploss_short" text="Vis spild" />
+        <text name="rhm_show_moisture_short" text="Vis fugtighed" />
+        <text name="rhm_show_moisture_long" text="Vis afgrødens fugtprocent i HUD" />
+        <text name="rhm_moisture_enable_short" text="Fugtpåvirkning" />
+        <text name="rhm_moisture_enable_long" text="Simulerer øget tærskemodstand og udskillelsestab fra vådt halm under dug, regn eller høj fugtighed. Slå fra for høst uden vejrmæssige straffe." />
+        <text name="rhm_ui_title_main" text="MEJETÆRSKER-KALIBRERINGSTERMINAL" />
+        <text name="rhm_ui_page_settings" text="Indstillinger" />
+        <text name="rhm_ui_page_profiles" text="Profiler" />
+        <text name="rhm_ui_current_crop" text="Nuværende afgrøde:" />
+        <text name="rhm_ui_load" text="Motorbelastning:" />
+        <text name="rhm_ui_loss" text="Spild:" />
+        <text name="rhm_ui_fan_speed" text="Blæserhastighed" />
+        <text name="rhm_ui_rotor_speed" text="Rotorhastighed" />
+        <text name="rhm_ui_upper_sieve" text="OVERSOLD" />
+        <text name="rhm_ui_lower_sieve" text="UNDERSOLD" />
+        <text name="rhm_ui_feeder_speed" text="Broafstand" />
+        <text name="rhm_ui_mode_auto" text="AUTO" />
+        <text name="rhm_ui_mode_manual" text="MANUEL" />
+        <text name="rhm_ui_btn_reset" text="NULSTIL STANDARD" />
+        <text name="rhm_ui_profile_create" text="NY PROFIL" />
+        <text name="rhm_ui_profile_save" text="Gem" />
+        <text name="rhm_ui_profile_load" text="INDLÆS" />
+        <text name="rhm_ui_profile_delete" text="Slet" />
+        <text name="rhm_ui_profile_name_placeholder" text="Profilnavn..." />
+        <text name="rhm_hud_yield_label" text="UDBYTTE" />
+        <text name="rhm_hud_load_label" text="BELASTN." />
+        <text name="rhm_hud_loss_label" text="TAB" />
+        <text name="rhm_loss_level_low" text="LAV" />
+        <text name="rhm_loss_level_med" text="MID" />
+        <text name="rhm_loss_level_high" text="HØJ" />
+        <text name="rhm_show_croploss_long" text="Vis procentvis høsttab i HUD" />
+        <text name="rhm_show_load_warn_short" text="Overbelastningsadvarsler" />
+        <text name="rhm_show_load_warn_long" text="Vis blinkende advarsler, når mejetærskeren overbelastes" />
+        <text name="rhm_overload_sounds_short" text="Overbelastningslyde" />
+        <text name="rhm_overload_sounds_long" text="Afspil realistisk kabinealarm og mekanisk tærskelyd ved overbelastning eller for højt spild" />
+        <text name="rhm_section_audio" text="Realistic Harvesting - Førerhuslyd" />
+        <text name="rhm_alarm_sounds_short" text="Overbelastningsalarm" />
+        <text name="rhm_alarm_sounds_long" text="Kabinealarm ved alvorlig motoroverbelastning (105%+) eller høsttab over 5%." />
+        <text name="rhm_alarm_mode_smart" text="Smart (3 bip)" />
+        <text name="rhm_alarm_mode_continuous" text="Kontinuerlig" />
+        <text name="rhm_alarm_mode_off" text="Fra" />
+        <text name="rhm_sound_volume_short" text="Lydstyrke" />
+        <text name="rhm_sound_volume_long" text="Justerer lydstyrken for overbelastningsalarmen i kabinen." />
+        <text name="rhm_target_load" text="Målbelastning for motor" />
+        <text name="rhm_gui_title" text="Mejetærskerindstillinger" />
+        <text name="rhm_gui_crop" text="Afgrøde:" />
+        <text name="rhm_gui_none" text="INGEN" />
+        <text name="rhm_gui_btn_auto" text="AUTO" />
+        <text name="rhm_gui_btn_load_preset" text="Indlæs forudindstilling" />
+        <text name="rhm_gui_btn_save" text="Gem profil" />
+        <text name="rhm_gui_btn_reset" text="Nulstil standard" />
+        <text name="rhm_gui_engine_load" text="Motorbelastning: %.0f%%" />
+        <text name="rhm_gui_loss" text="Spild: %.1f%%" />
+        <text name="rhm_gui_preview_loss" text="Forventet spild: %.1f%%" />
+        <text name="rhm_gui_close_hint" text="Højre Shift+K for at lukke" />
+        <text name="rhm_gui_no_combine" text="Ingen mejetærsker valgt" />
+        <text name="rhm_gui_not_init" text="Mejetærsker ikke initialiseret" />
+        <text name="rhm_ui_drum_speed" text="Cylinderhastighed" />
+        <text name="rhm_ui_roller_speed" text="Rullehastighed" />
+        <text name="rhm_ui_picker_speed" text="Plukkehastighed" />
+        <text name="rhm_ui_forage_fan" text="Blæserhastighed" />
+        <text name="rhm_ui_forage_drum" text="Snittertromle" />
+        <text name="rhm_ui_forage_feeder" text="Indføringsruller" />
+        <text name="rhm_ui_root_roller" text="Renseruller" />
+        <text name="rhm_ui_root_feeder" text="Soldelevator" />
+        <text name="rhm_ui_grape_shaker" text="Rystehastighed" />
+        <text name="rhm_ui_olive_shaker" text="Bankehastighed" />
+        <text name="rhm_ui_grape_conveyor" text="Transportørhastighed" />
+        <text name="rhm_ui_grape_fan" text="Udsugningsblæsere" />
+        <text name="rhm_units_short" text="Måleenheder" />
+        <text name="rhm_units_long" text="Vælg målesystem (hastighed, vægt, areal)" />
+        <text name="rhm_unit_metric" text="Metrisk (km/t, t/t, ha)" />
+        <text name="rhm_unit_imperial" text="Britiske (mph, ton/h, ac)" />
+        <text name="rhm_unit_bushels" text="Imperial med Bushels (mph, bu/t, ac)" />
+        <text name="rhm_reset" text="Nulstil RH-indstillinger" />
+        <text name="rhm_loss_low" text="LAV" />
+        <text name="rhm_loss_med" text="MID" />
+        <text name="rhm_loss_high" text="HØJ" />
+        <text name="rhm_warning_turn_on_combine" text="Start mejetærskeren først!" />
+        <text name="rhm_warning_turn_on_cutter" text="Tænd for skærebordet!" />
+        <text name="rhm_warn_overload_high" text="Mejetærsker overbelastet! Sænk hastigheden for at minimere høsttab." />
+        <text name="rhm_warn_overload_critical" text="MEJETÆRSKER KRITISK OVERBELASTET! Alvorligt høsttab opstår!" />
+        <text name="rhm_configuration_title" text="Realistic Harvesting Systemer" />
+        <text name="rhm_package_standard" text="Niveau 1: Mekanisk basis" />
+        <text name="rhm_package_sensor" text="Niveau 2: Sensorpakke" />
+        <text name="rhm_package_yield" text="Niveau 3: Telemetri &amp; Udbyttemonitor" />
+        <text name="rhm_package_opti" text="Niveau 4: Opti-Harvest AI Autopilot" />
+        <text name="rhm_msg_req_level_4" text="Kræver Opti-Harvest AI Autopilot (Niveau 4) installeret på værkstedet." />
+        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Kør et par meter ind i afgrøden for at starte autokalibrering!" />
+        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Vellykket autokalibrering for %s!" />
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-9)                       -->
+        <!-- ================================================================= -->
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
+        <!-- ================================================================= -->
+        <text name="rhm_help_category" text="Realistic Harvesting" />
+        <text name="rhm_help_title" text="Realistic Harvesting Vejledning" />
+
+        <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
+        <text name="rhm_help_overview_title" text="1. Motorbelastningsfysik &amp; Hastighet" />
+        <text name="rhm_help_overview_sub1" text="Effektbalans: maskinmotstånd &amp; tröskbelastning" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting ersätter arkadartade fasta tröskhastigheter med en fysikalisk effektbalansmodell baserad på ASABE- och DLG-standarder. I grundspelet kör mejetærskeren alltid i maximal skärbordshastighet oavsett beståndets täthet. Med detta mod fördelas motorns användbara effekt dynamiskt mellan fyra reella uppgifter: grundläggande drivline- och hydrostatmotstånd (8% av märkeffekten för mejetærskere, 10% för tunga rotfruktsupptagare), mekanisk drivning av knivbjælke och haspel, energiåtgång för att tærske och dra växtmassan genom cylinder eller rotor, samt extra motstånd från fugt eller ogräs. Procenttalet för motorbelastning på displayen visar exakt hur stor del av tillgängliga hästkrafter som utnyttjas varje sekund." />
+        <text name="rhm_help_overview_sub2" text="Automatisk hastighetsreglering &amp; Stoppskydd" />
+        <text name="rhm_help_overview_2" text="Du behöver inte längre gissa eller ändra farthållaren stup i kvarten. Sänk skärbordet, starta tærskeverket och kör in i grödan: mejetærskeren påbörjar skörden i en säker ingångshastighet på 5,5 km/h så att materialet fyller indføringselevatoren jämnt utan hårda slag mot cylindern. Därefter anpassar den hydrostatiska regulatorn framkörningshastigheten automatiskt efter motorbelastningen och håller den i det optimala effektområdet (ca 80–90%). Om maskinen stöter på ett tätt bestånd eller klättrar i branta motlut bromsar automatiken mjukt in (0,45 s responstid) för att motverka motorstopp och cylinderstopp. I glesare gröda accelererar den följsamt. Toppfarten begränsas alltid tryggt av skärbordets fabriksgräns." />
+        <text name="rhm_help_overview_sub3" text="Halmhack &amp; Hastighetsvinst vid strängläggning" />
+        <text name="rhm_help_overview_3" text="Valet av halmhantering avgör direkt hur många hästkrafter som återstår för själva framdrivningen. Halmhacket är en tung rotor med knivar som snurrar i över 3 000 rpm. Att hacka och sprida halm slukar 15% till 20% av motorns totala effekt (särskilt i sega stråsädesslag som havre, korn eller råg). Om mejetærskeren går trögt under tung belastning slår du om till strängläggning med spelets vanliga knapp. Hackrotorn kopplas ur, vilket frigör tiotals hästkrafter till tærskeverket, och arbetshastigheten ökar direkt med 1,5–3 km/h vid samma motorbelastning." />
+
+        <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
+        <text name="rhm_help_hud_title" text="2. Interaktiv HUD &amp; Reglage" />
+        <text name="rhm_help_hud_sub1" text="Telemetrifönster: de 4 informationsfälten" />
+        <text name="rhm_help_hud_1" text="När du sätter dig i mejetærskeren visas en mörktonad, kompakt telemetridisplay längst ner på skärmen. Den visar fyra nyckelvärden: Fält 1 visar motorbelastning i procent med dynamisk färgkodning (grönt upp till 85% för lugn körning; gult mellan 85% och 95% indikerar optimalt arbetsområde; rött över 95% varnar för överbelastning). Fält 2 visar aktuellt spill i procent eller rekommenderad fart. Fält 3 anger aktuell grödfugtighet i procent eller avverkningstakt i hektar per timme. Fält 4 visar momentan fältskörd (t/ha eller bu/ac) eller total genomströmning (t/h eller l/h)." />
+        <text name="rhm_help_hud_sub2" text="Flytta med musen (LMB), magnetdockning &amp; Lägen" />
+        <text name="rhm_help_hud_2" text="HUD-panelen kan placeras var som helst på skärmen. Håll in vänster musknapp (LMB) på HUD:en och dra den dit den inte skymmer sikten från förarhytten. Vid skärmens kanter eller underkanten av F1-hjälpmenyn klickar magnetdockningen i och låser panelen snyggt. Panelen är dessutom interaktiv: ett enkelt vänsterklick på fält 2, 3 eller 4 växlar omedelbart sekundärvisningen (t.ex. växla från ton per timme till hektar per timme, eller mellan spillprocent och föreslagen fart)." />
+        <text name="rhm_help_hud_sub3" text="Sensorstatus &amp; Streck (--%) på äldre tröskor" />
+        <text name="rhm_help_hud_3" text="Om du sitter i en enkel eller äldre tærske och ser streck (--%) istället för spill eller fugtighet, är det ett planerat realistiskt beteende och inget fel. Basmaskiner (Tier 1) saknar piezoelektriska spillsensorer och optiska fugtmätare från fabrik; föraren lyssnar på motorgången och kollar renheten i spannmålstanken. Sållsensorer aktiveras efter montering av elektronikpaket Tier 2 på verkstaden, och digital fugtmätning från Tier 3. Vid tömningsstopp eller vändningar fryser HUD:en senaste stabila värden för att slippa fladdrande nollor." />
+
+        <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
+        <text name="rhm_help_calibration_title" text="3. Kalibreringsterminal i hytten (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Inställningar på basmaskiner (Tier 1): manuell justering" />
+        <text name="rhm_help_calibration_main_text" text="Tryck Höger Shift + K i hytten för att öppna touchterminalen. På basmaskiner (Tier 1) saknas digitalt minne: profilsparning, laddning och autopilot är låsta med hänglås, och guidelinjer är dolda. Så ställer du in maskinen: återställningsknappen längst ner sätter alla reglage på neutrala 50%. Justera sedan efter tröskreglerna: för stråsäd (vete, korn) hålls cylindern på 60–70%, rensfläkten på 65–75% och sållöppningarna på 50–60%. För storfröiga grödor (majs, solros) måste cylindervarvet sänkas till 35–45% för att slaglerne inte ska krossa kärnorna." />
+        <text name="rhm_help_calibration_rotor_sub" text="Kalibrering på Tier 2–3: gröna zoner &amp; Profiler" />
+        <text name="rhm_help_calibration_rotor_text" text="När mejetærskeren uppgraderas till Tier 2 visas ett tydligt grönt målområde («sweet-spot») på varje skala, beräknat för grödan i inmatningskanalen. Första inställningen: tærske några meter så att maskinen känner av grödan, öppna terminalen (Shift+K) och flytta reglagen med [-] och [+] till det gröna området. Klicka omedelbart på «SPARA»! Maskinen lagrar värdena i profilen. Först därefter blir knappen «LADDA» aktiv: när du återvänder till denna gröda senare återställer ett klick dina värden direkt. På Tier 3 visas dessutom live-kort för motorbelastning, verkningsgrad och beräknat spill." />
+        <text name="rhm_help_calibration_presets_sub" text="Automatisk en-knapps-kalibrering på Tier 4" />
+        <text name="rhm_help_calibration_presets_text" text="Ägare till topptröskor med paketet Tier 4 (Opti-Harvest AI) behöver varken justera reglage eller hantera profiler manuellt. Uppe till höger låses knappen «AI AUTO-CALIB» upp: ett tryck läser av fugt och beståndstäthet och ställer på en sekund in optimala parametrar direkt ur databasen. Under gång korrigerar autopiloten varannan sekund trumvarv och fläkt av sig själv vid ogräs eller fugtiga svackor." />
+
+                        <!-- PAGE 4: CROP CALIBRATION HANDBOOK (RPM & MM) -->
+        <text name="rhm_help_presets_title" text="4. Håndbog til afgrødeindstilling (RPM og mm)" />
+        <text name="rhm_help_presets_sub1" text="Universelle indstillinger: Hvorfor RPM og mm er ens på alle mejetærskere" />
+        <text name="rhm_help_presets_1" text="På kalibreringstabletten i førerhuset (Højre Shift + K) vises alle parametre i fysiske enheder: omdrejninger pr. minut (RPM) og afstande i millimeter (mm). Grundlæggende agronomisk regel: de optimale grundindstillinger for enhver afgrøde er IDENTISKE på alle mejetærskere, uanset motoreffekt (fra 300 til 800 hk) eller skærebordsbredde! Egenskaberne i et hvedeaks eller en majskolbe ændrer sig ikke: hvede kræver altid ~800 RPM tromlehastighed og ~960 RPM blæservind, ellers forbliver kernen utærsket eller blæses ud med avnerne. Motorkraft og skærebord afgør kun kørehastigheden (km/t) og kapaciteten (t/t), som RHM automatisk afbalancerer for at forhindre overbelastning." />
+        <text name="rhm_help_presets_sub2" text="Korn, majs, olieplanter og bælgsæd" />
+        <text name="rhm_help_presets_2" text="For basistærskere (Tier 1) uden grønne zonevisninger gælder disse fabriksværdier:&#10;&#10;- Hvede: Rotorhastighed 780–820 RPM | Broafstand 5–7 mm | Blæserhastighed 940–980 RPM | Oversold 14–15 mm | Undersold 6–8 mm.&#10;&#10;- Byg: Rotor 780–820 RPM | Bro 6–8 mm | Blæser 980–1020 RPM | Oversold 14–15 mm | Undersold 7–9 mm (seje stakke kræver kraftig blæsning).&#10;&#10;- Havre: Rotor 680–720 RPM | Bro 5–7 mm | Blæser 730–770 RPM | Oversold 14–16 mm | Undersold 6–8 mm (lette avner; vind &gt;850 RPM blæser kerner ud).&#10;&#10;- Majs: Rotor 310–350 RPM | Bro 28–32 mm | Blæser 930–970 RPM | Oversold 19–21 mm | Undersold 11–13 mm (BEMÆRK: lav rotorhastighed så kolber ikke knuses!).&#10;&#10;- Solsikke: Rotor 340–380 RPM | Bro 23–27 mm | Blæser 730–770 RPM | Oversold 17–19 mm | Undersold 9–11 mm (skånsom tærskning skåner kurvene).&#10;&#10;- Raps: Rotor 480–520 RPM | Bro 16–19 mm | Blæser 680–720 RPM | Oversold 8–10 mm | Undersold 3–5 mm (fine frø; blæser &gt;750 RPM taber udbytte).&#10;&#10;- Soja: Rotor 540–580 RPM | Bro 17–19 mm | Blæser 960–1000 RPM | Oversold 15–17 mm | Undersold 8–10 mm.&#10;&#10;- Ærter, Hestebønner: Rotor 410–450 RPM | Bro 14–16 mm | Blæser 980–1020 RPM | Oversold 17–19 mm | Undersold 8–10 mm.&#10;&#10;- Ris &amp; Langkornede ris: Rotor 700–740 RPM | Broafstand 6–8 mm | Blæser 1030–1070 RPM | Obersold 15–17 mm | Undersold 6–8 mm (slibende våd halm).&#10;&#10;- Sorghum: Rotor 580–620 RPM | Broafstand 17–19 mm | Blæser 1080–1120 RPM | Obersold 14–16 mm | Undersold 7–8 mm (tætte aks kræver kraftig luftstrøm).&#10;&#10;- Græsfrø (Valmue, Kløver): Rotor 780–820 RPM | Bro 4–6 mm | Blæser 430–470 RPM | Oversold 6–8 mm | Undersold 2–4 mm (minimal blæser!)." />
+        <text name="rhm_help_presets_sub3" text="Finsnittere, roeoptagere og specialmaskiner" />
+        <text name="rhm_help_presets_3" text="For specialmaskiner tilpasser Shift+K arbejdsorganerne:&#10;&#10;- Finsnittere: Korntab er 0%. Majsensilage — Blæser 1300–1350 RPM, Snittertromle 1150–1170 RPM, Indføringsvalser 470–500 RPM. Skåropsamling (hø/halm) — Blæser 1150–1200 RPM, Tromle 1070–1100 RPM, Valser 450–470 RPM. Direkte græshøst — Blæser 1230–1270 RPM, Tromle 1120–1140 RPM, Valser 410–430 RPM. Poppel (træflis) — Blæser 1350–1400 RPM, Snittromle 1180–1200 RPM, Indføringsvalser 380–400 RPM.&#10;&#10;- Rodfrugtoptagere: Kartofler — Turbine 600–620 RPM, Renseruller 190–210 RPM, Sigtbånd 300–320 RPM (skåner knolde). Sukkerroer, Rødbeder (Beetroot) — Blæser 630–650 RPM, Ruller 230–250 RPM, Elevatorbånd 290–310 RPM. Gulerødder — Turbine 620–640 RPM, Ruller 200–220 RPM, Bånd 300–310 RPM. Løg — Turbine 840–860 RPM, Ruller 200–220 RPM, Bånd 260–270 RPM.&#10;&#10;- Grøntsagshøstere: Grønne bønner (Green Beans) — Renseblæser 700–720 RPM, Plukkerotor 170–190 RPM, Elevator 280–300 RPM. Spinat (Spinach) — Blæser 550–580 RPM, Skærecylinder 140–160 RPM, Elevator 270–290 RPM (skånsom bladhøst).&#10;&#10;- Bomuld: Blæser 3600–3800 RPM, Spindler 210–230 RPM, Tromler 210–230 RPM.&#10;&#10;- Sukkerrør (Sugar Cane): Hovedblæser 1150–1200 RPM, Snittetromler 180–200 RPM, Elevatortransportør 280–300 RPM.&#10;&#10;- Vindruer: Rystestænger 450–470 RPM, Transportør 110–120 RPM, Udsugningsblæsere 1250–1300 RPM.&#10;&#10;- Oliven: Rystere 540–560 RPM, Transportør 105–115 RPM, Udsugningsblæsere 1300–1350 RPM." />
+        <text name="rhm_help_presets_sub4" text="Afgrødefugtighed: Fysisk indvirkning og justering" />
+        <text name="rhm_help_presets_4" text="RHM understøtter eksterne fugtighedsmods og indeholder en intern døgnvejrssimulering (morgendug 16–18%, tørt eftermiddagsvindue 11–13.5%, regn &gt;22%). Sikker tærskegrænse er 14.0% (raps: 9.0%). Hver 1% fugt over grænsen tilføjer +2% motorbelastning og +0.35% uundgåeligt spild pga. kernevedhæftning til fugtig halm.&#10;&#10;Justering ved fugtighed over 14%:&#10;&#10;1. Øg rotoren med +50...80 RPM (f.eks. hvede til 860 i stedet for 800 RPM) for at trække våd halm igennem.&#10;&#10;2. Øg blæseren med +30...50 RPM (990 i stedet for 950 RPM) for at løfte tunge våde avner.&#10;&#10;3. Åbn oversoldet +1...2 mm mere.&#10;&#10;På Tier 2–3 rykker det grønne felt automatisk opad; på Tier 4 justerer autopiloten løbende." />
+        <text name="rhm_help_presets_sub5" text="Moddede afgrøder og custom maps: Autoregistrering" />
+        <text name="rhm_help_presets_5" text="1. Integrerede mod-afgrøder i RHM:&#10;&#10;- Rug, Triticale, Spelt: juster som hvede (Rotor 780–820 RPM, Bro 5–7 mm, Blæser 940–980 RPM, Sold 14/7 mm).&#10;&#10;- Boghvede: Rotor 530–570 RPM, Bro 12–14 mm, Blæser 730–770 RPM, Sold 12/6 mm.&#10;&#10;- Hirse: Rotor 780–820 RPM, Bro 5–7 mm, Blæser 850–890 RPM, Sold 14/7 mm.&#10;&#10;- Hør, Sennep: Rotor 830–870 RPM, Bro 14–16 mm, Blæser 780–820 RPM, Sold 9/4 mm.&#10;&#10;- Valmue: Rotor 430–470 RPM, Bro 12–14 mm, Blæser 430–470 RPM, Sold 7/3 mm (mikrofrø!).&#10;&#10;- Hamp: Rotor 630–670 RPM, Bro 12–14 mm, Blæser 830–870 RPM, Sold 14/7 mm.&#10;&#10;- Saflor: som solsikke (Rotor 340–380 RPM, Blæser 730–770 RPM, Sold 18/10 mm).&#10;&#10;- Kløverfrø: Rotor 780–820 RPM, Bro 4–6 mm, Blæser 430–470 RPM, Sold 7/3 mm.&#10;&#10;- Lucerne (ensilage): Snitter — Blæser ~1250, Tromle ~1130, Valser ~420 RPM.&#10;&#10;2. Autoregistrering af nye afgrøder: RHM aflæser rumvægt og halm på kortet. 4-familie-reglen (Tier 1): korn med halm = som hvede; små oliefre = som raps; bælgsæd = som ærter; græsser = minimal vind. På Tier 2–4 findes grøn zone automatisk." />
+
+        <!-- PAGE 5: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
+        <text name="rhm_help_trip_title" text="5. Fälträknare &amp; Flottanalys (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Aktuellt fältloggbok: noggrann skörderäkning" />
+        <text name="rhm_help_trip_1" text="Tryck Höger Shift + J i hytten för att öppna analyscentret med 4 flikar. Den första fliken fungerar som en digital fälttrippmätare: den summerar tærsked areal i hektar, väger skörden i ton och liter, klockar ren körtid (utan tömningsstopp och vändningar) och beräknar fältets medelskörd samt arbetstakten i ton och hektar per timme. Därmed vet du fältets sanna avkastning långt innan lasset når silon." />
+        <text name="rhm_help_trip_sub2" text="Ekonomiska förluster, förarbetyg &amp; Diagnos" />
+        <text name="rhm_help_trip_2" text="Räknaren bokför inte bara förlorade ton, utan beräknar den ekonomiska förlusten i spelets valuta (€, $ eller £) utifrån gällande marknadspriser. En algoritm sätter betyg på körningen från [A] (exemplarisk körning, under 1% spill) till [E] (undermålig körning, höga förluster). Under betyget bryter fyra diagnosstaplar ner orsakerna: för hög fart, fugtigt bestånd, slitna knivar eller sidolutning i backar." />
+        <text name="rhm_help_trip_sub3" text="Snabb återställning i hytten (Höger Shift + R)" />
+        <text name="rhm_help_trip_3" text="När du kör in på ett nytt fält eller startar en provmätning behöver du inte gå in i menyer: håll Höger Shift + R intryckt i 1 sekund vid ratten. Räknaren nollställs omedelbart med en ljudsignal och skärmavisering. I spelinställningarna finns dessutom en smart autoreset-funktion som nollar trippmätaren själv när du byter fältnummer eller gröda i tanken." />
+        <text name="rhm_help_trip_sub4" text="Fältregister, säsongshistorik &amp; Maskinpark" />
+        <text name="rhm_help_trip_4" text="Fliken «Gårdsfält» samlar alla egna skiften med areal och tidigare skördar. «Säsongsanalys» visar skördekurvor över månader och år. Under «Maskinpark» kan arbetsledaren övervaka alla tröskor i realtid: förare (spelare eller medhjælper), gröda, hastighet, motorbelastning, kapacitet t/h, knivslitage och monterat elektronikpaket." />
+
+        <!-- PAGE 6: CROP LOSSES & ROOT CAUSES -->
+        <text name="rhm_help_croploss_title" text="6. Skördeförluster &amp; Felorsaker" />
+        <text name="rhm_help_croploss_sub1" text="Fysiskt kornavdrag direkt ur mejetærskerens tank" />
+        <text name="rhm_help_croploss_1" text="I Realistic Harvesting är förluster inte bara siffror i en tabell. Kärnor som inte hinner avskiljas eller blåser ut över sållen dras i realtid fysiskt av direkt från tankinnehållet! Att köra för fort minskar påtagligt lasset, och du får med dig 5% till 15% mindre spannmål per hektar till lagret. Vid strängläggning hamnar spillet i halmsträngen. På exakthackar och bomullsplockare är kärnspill avstängt eftersom hela biomassan bärgas." />
+        <text name="rhm_help_croploss_sub2" text="Fyra förlustfaktorer &amp; Hur de åtgärdas" />
+        <text name="rhm_help_croploss_2" text="Totala förluster beror på fyra faktorer: 1. Fart och överbelastning: enligt ISO 8210 uppstår avskiljningsförluster över 80% motorbelastning, överskrider tillåtna 1% vid 95% belastning och dränker sållen vid över 110% med kraftigt spill på marken. Lösning: håll motorbelastningen mellan 85–90%. 2. Fukt och dagg: över 14% fugt klibbar fugtig halm ihop och binder kärnor (+0,35% spill per 1% överskottsfugt). Lösning: tærske i solsken. 3. Knivslitage: tröga knivar (> 15% slitage) slår av axen före intag (upp till 3% spill). Lösning: serva knivbjælkeen i tid. 4. Sidolutning: lutningar över 4° skjuter mattan till ena sidan av sållen (upp till 5% spill)." />
+        <text name="rhm_help_croploss_sub3" text="Akustisk hyttsummer (Smart Buzzer): överbelastningslarm" />
+        <text name="rhm_help_croploss_3" text="När motorbelastningen överstiger 95% eller spillet passerar 5% avger terminalen en ljudsignal. I det rekommenderade läget Smart Buzzer ljuder tre diskreta signaler (0,3 s) följt av 18 sekunders paus för att varna föraren utan enerverande tjut. Hör du larmet? Sänk farten, kolla sållen i Shift+K eller stäng av halmhacket så upphör spillet direkt. Volymen regleras från 0% till 100% i menyerna." />
+
+        <!-- PAGE 7: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
+        <text name="rhm_help_upgrades_title" text="7. Elektronikpaket för tröskor (Tiers 1–4)" />
+        <text name="rhm_help_upgrades_sub1" text="Uppgraderingar i verkstaden: 4 nivåer för varje budget" />
+        <text name="rhm_help_upgrades_1" text="Alla mejetærskere i spelet (vid köp hos maskinhandlaren eller på gården) kan utrustas med ett RHM-elektronikpaket. Kör in i verkstadszonen, tryck konfigurera och välj «RHM Elektronikpaket». Fyra nivåer finns tillgängliga: Tier 1 «Standard» (0 €, mekanisk bas), Tier 2 «Sensorsats» (3 500 €), Tier 3 «Skördemonitor» (8 500 €) och Tier 4 «Opti-Harvest AI» (15 000 €). Den aktiva nivån visas i listen på Shift+K och i maskinparken." />
+        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Basmekanik) mot Tier 2 (Sensorsats)" />
+        <text name="rhm_help_upgrades_2" text="Tier 1-tröskor har enkel mekanisk styrning utan sensorer: HUD:en visar streck, terminalen saknar hjälpområden, föraren lyssnar på motorn och anställda medhjælpere gör stora inställningsfel (upp till ±18%). Paketet Tier 2 (3 500 €) är den viktigaste instegsuppgraderingen: det monterar piezoelektriska sållsensorer (spillprocent i HUD) och låser upp gröna optimalzoner i Shift+K. Drängarnas felmarginal sjunker till ±10%." />
+        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Telemetri &amp; Profiler) och Tier 4 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="Paketet Tier 3 (8 500 €) installerar optisk fugtmätare (% fugt på HUD), visar live-kort för last och verkningsgrad i Shift+K, möjliggör sparande av egna profiler och flottövervakning i Shift+J (medhjælperfelet sjunker till ±4%). Toppaketet Tier 4 (15 000 €) aktiverar full autopilot: «AI AUTO-CALIB» ställer in maskinen med ett klick, realtidsregleringen justerar cylinder och fläkt varannan sekund, fugtstraffet dämpas med 50% och medhjælpere skördar med 0% felmarginal." />
+
+        <!-- PAGE 8: AI WORKERS & AUTOPILOTS -->
+        <text name="rhm_help_ai_workers_title" text="8. Inhyrda medhjælpere &amp; Autopiloter" />
+        <text name="rhm_help_ai_workers_sub1" text="Automatisk hastighetskontroll &amp; Inbromsning av medhjælpere" />
+        <text name="rhm_help_ai_workers_1" text="Inhyrd standard-AI och hjälpsystem dundrar inte längre fram i maxfart och kastar säd bakom sig. RHM styr medhjælperens fart direkt via motorstyrningen och håller hjälparna inom det säkra området 85–95% belastning. Om spillet i kuperad terräng överskrider gårdens gräns (2,0%) bromsar mejetærskeren automatiskt in medhjælperen för att rädda spannmålen." />
+        <text name="rhm_help_ai_workers_sub2" text="Arbetarkvalifikation: utrustningsnivåns betydelse" />
+        <text name="rhm_help_ai_workers_2" text="När en medhjælper tar ratten ställer han in mejetærskeren själv. Kvaliteten beror direkt på monterat elektronikpaket: på Tier 1 agerar medhjælperen som en oerfaren lärling med felinställningar på upp till ±18% (vilket ger spill eller bränsleslöseri). På Tier 2 sjunker felet till ±10%, på Tier 3 till ±4%, och på Tier 4 med Opti-Harvest tærsker medhjælperen med 0% fel som en mästerförare." />
+        <text name="rhm_help_ai_workers_sub3" text="Bevara spelarinställningar &amp; Tömning under gång" />
+        <text name="rhm_help_ai_workers_3" text="Har du själv trimmat mejetærskeren i Shift+K eller sparat en profil, kontrollera inställningarna: alternativet «Dränginställningar» står som standard på «Behåll mina». I det läget rör medhjælperen aldrig dina värden. «Autojustering» låter medhjælperen räkna om efter maskin, och «Avstängd» spärrar alla ändringar. Tömning under gång i följevagnar stöds fullt ut utan att mejetærskeren stannar." />
+
+        <!-- PAGE 9: CROP MOISTURE & DIURNAL WEATHER -->
+        <text name="rhm_help_moisture_title" text="9. Grödfugtighet &amp; Vädercykel över dygnet" />
+        <text name="rhm_help_moisture_sub1" text="Dygnsrytm för fugtighet: utnyttja de bästa timmarna" />
+        <text name="rhm_help_moisture_1" text="Moddet simulerar en harmonisk fugtighetscykel över dygnet och samspelar med externa vädersystem. Grödfugten varierar naturligt: mellan 03:00 och 08:00 på morgonen driver riklig dagg upp kornfugten till 16–18% — tröskning avråds då tröskmotståndet är massivt. Från 08:00 till 11:30 torkar morgonsolen upp fältet. Det gyllene fönstret infaller mellan 11:30 och 18:30: solen torkar grödan till optimala 11–13%, halmen blir spröd, maskinen går lätt och spillet försvinner. Efter 19:30 fugtar kvällsdaggen åter strået." />
+        <text name="rhm_help_moisture_sub2" text="Varför man aldrig ska tærske i regn" />
+        <text name="rhm_help_moisture_2" text="Vid regn stiger fugten blixtsnabbt över 22%. Genomblöt halm tappar glidet, bildar en seg filt och sätter igen inmatning och sållkass. Kärnorna klibbar fast i våt halm och blåser ut (upp till 10% direktförlust), medan motorn kvävs under trefaldigt motstånd. Tips: slå av mejetærskeren om det börjar regna och vänta ut ovädret. Att tærske i regn innebär bara förlorad skörd och bortkastade pengar." />
+        <text name="rhm_help_moisture_sub3" text="Hur du ställer in mejetærskeren för fugtig gröda (14–16%)" />
+        <text name="rhm_help_moisture_3" text="Måste fugtig säd (14–16%) bärgas, dra inte upp reglagen på max i blindo! Öppna Shift+K: på grund av fugten flyttas de gröna optimalzonerna för cylinder och fläkt upp automatiskt. Justera reglagen så att de hamnar mitt i den förskjutna gröna zonen: ett snabbare cylinder i grönt river isär fugtig halm utan kraftförlust, och kraftigare vind blåser ut tungt agn. Varning: drar du upp fläkten i rött blåser rent korn ut på marken och ger omedelbart spill! Håll dig i grönt för 0% inställningsspill. På Tier 4 sköter Opti-Harvest detta helt automatiskt." />
+
+        <!-- PAGE 10: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
+        <text name="rhm_help_special_title" text="10. Exakthackar, rotfrukter &amp; Specialmaskiner" />
+        <text name="rhm_help_special_sub1" text="Självgående exakthackar: effektfördelning &amp; strängar" />
+        <text name="rhm_help_special_1" text="Exakthackar finhackar hela grödan till ensilage, varför kornspill alltid är noll (0%). Motoreffekten delas mellan tre aggregat: inmatningsvalsar (18%), hacktrumma (62%) och utkastarfläkt (20%). Vid upptagning av gräs- eller halmsträngar med pick-up, håll koll på strängtjockleken: ojämna eller tjocka strängar stockar valsarna (flaskhals), vilket ger vridmomentspikar och sänker farten." />
+        <text name="rhm_help_special_sub2" text="Rotfruktsupptagare: varför maskinerna går i 5–8 km/h" />
+        <text name="rhm_help_special_2" text="Rotfrukter (potatis, sockerbetor, morötter, palsternackor, lök) kräver enorm dragkraft: upptagningsskären skär djupt genom jorden och tar 7 hk per meter bredd utöver 10% grundmotstånd från det tunga chassit. Därför går bet- och potatisupptagare inte fortare än 5–8 km/h ens med över 600 hk. Ovanjordiska grönsaker (bönor, ärter, spenat) gräver inte i marken, men repvalsarna kräver märkbar energi för att rycka baljorna." />
+        <text name="rhm_help_special_sub3" text="Bomull, vin, oliver &amp; Systembärare (NEXAT / NEXCO)" />
+        <text name="rhm_help_special_3" text="Bomullsplockare förbrukar upp till 55 hk per ton råbomull för plockspindlar och balpressning. Druv- och olivskördare beräknar motståndet från skakstavar och rensfläktar. Använder du den 1 100 hk starka systembäraren NEXAT med NEXCO-tröskmodulen överför RHM motorkraften genom hela redskapsstrukturen utan effektfall." />
+
+        <!-- PAGE 11: DIFFICULTY MODES & SETTINGS -->
+        <text name="rhm_help_difficulty_title" text="11. Svårighetsgrader &amp; Inställningar" />
+        <text name="rhm_help_difficulty_sub1" text="Spelstilar: val mellan Arkad, Måttlig och Realistisk" />
+        <text name="rhm_help_difficulty_1" text="Om du inte vill räkna hästkrafter eller trimma cylindrar väljer du en förenklad stil i pausmenyn (Escape → Spelinställningar): Motorfysik på «Arkad» (Nivå 1) stänger av motorbelastning och tar bort fartspärrar. Spillfysik på «Arkad» nollar kornspill — mejetærskeren skördar i full skärbordsfart som i grundspelet. Nivå 2 («Måttlig») mildrar misstag, medan Nivå 3 («Realistisk») kopplar på full DLG-fysik med verkligt avdrag ur tanken." />
+        <text name="rhm_help_difficulty_sub2" text="Separata fysikbrytare: anpassa efter dina krav" />
+        <text name="rhm_help_difficulty_2" text="Du behöver inte stänga av all fysik — avaktivera enbart de delar du inte vill ha: stäng av «Slitageförluster» för att slippa serva knivarna; stäng av «Lutningsförluster» i kuperade bergskartor; stäng av «Fuktsimulering» för att tærske på natten eller i regn utan avdrag. «Effektboost» ger mejetærskeren +5% till +50% extra motorreserv för kuperade fält." />
+        <text name="rhm_help_difficulty_sub3" text="Ljudsignaler, måttenheter &amp; Flerspelarläge" />
+        <text name="rhm_help_difficulty_3" text="I ljudinställningarna kan du ställa överbelastningslarmet på «Smart Buzzer» (tre korta toner), kontinuerligt eller avstängt, och justera volymen (0%–100%) med direkt ljudprov. Måttenheter växlas mellan Metriskt (t/ha, t/h), Imperial och Skäppor (bu). I flerspelarläge styrs fysikreglerna uteslutande av servervärden, medan HUD-position, ljudvolym och enheter ställs in individuellt av varje spelare." />
+        <text name="rhm_ui_section_separation" text="TÆRSKNING &amp; UDSKILLELSE" />
+        <text name="rhm_ui_section_cleaning" text="RENSNING" />
+        <text name="rhm_ui_section_discharge" text="UDKAST &amp; HALM" />
+        <text name="rhm_ui_section_performance" text="YDELSE" />
+        <text name="rhm_ui_tier1_manual" text="NIVEAU 1 - MEKANISK" />
+        <text name="rhm_ui_tier2_sensors" text="NIVEAU 2 - SENSORER" />
+        <text name="rhm_ui_tier3_monitor" text="NIVEAU 3 - TELEMETRI" />
+        <text name="rhm_ui_tier4_opti" text="NIVEAU 4 - AI OPTI" />
+        <text name="rhm_ui_arcade_badge" text="ARKADE" />
+        <text name="rhm_ui_card_engine_load" text="MOTORBELASTNING" />
+        <text name="rhm_ui_card_efficiency" text="EFFEKTIVITET" />
+        <text name="rhm_ui_card_predicted_loss" text="FORVENTET SPILD" />
+        <text name="rhm_ui_btn_ai_auto" text="AI AUTOKALIBRER" />
+        <text name="rhm_ui_btn_auto_locked" text="AUTO (LÅST)" />
+        <text name="rhm_ui_btn_load_preset" text="INDLÆS FORUDINDSTILLING" />
+        <text name="rhm_ui_btn_save_profile" text="GEM PROFIL" />
+        <text name="rhm_ui_btn_load_locked" text="INDLÆS (LÅST)" />
+        <text name="rhm_ui_btn_save_locked" text="GEM (LÅST)" />
+        <text name="rhm_ui_btn_reset_defaults" text="NULSTIL TIL FABRIKSINDSTILLINGER" />
+        <text name="rhm_ui_status_optimal" text="OPTIMAL" />
+        <text name="rhm_ui_status_low" text="FOR LAV" />
+        <text name="rhm_ui_status_high" text="FOR HØJ" />
+        <text name="rhm_ui_env_optimal" text="OPTIMALE FORHOLD" />
+        <text name="rhm_ui_env_moisture" text="HØJ FUGTIGHED" />
+        <text name="rhm_ui_env_weeds" text="UKRUDTSFOREKOMST" />
+        <text name="rhm_ui_env_damp_weeds" text="FUGTIGT OG UKRUDT" />
+        <text name="rhm_msg_req_tier4" text="Kræver Opti-Harvest AI Autopilot (Niveau 4)" />
+        <text name="rhm_msg_req_tier3" text="Profiler kræver Telemetrimonitor (Niveau 3)" />
+        <text name="rhm_msg_req_tier2" text="Profiler kræver Sensorpakke (Niveau 2 eller højere)" />
+        <text name="rhm_msg_profile_saved" text="Profil gemt: %s" />
+        <text name="rhm_msg_profile_loaded" text="Profil indlæst: %s" />
+        <text name="rhm_msg_profile_not_found" text="Ingen gemt profil fundet for denne afgrøde" />
+        <text name="rhm_ui_combine_not_init" text="Mejetærsker ikke initialiseret" />
+        <text name="rhm_unit_t_per_hour" text="t/h" />
+        <text name="rhm_unit_ha_per_hour" text="ha/h" />
+        <text name="rhm_setting_ai_tuning" text="AI-hjælpertilpasning" />
+        <text name="rhm_setting_ai_tuning_long" text="Bestemmer hvordan AI-arbejdere håndterer mejetærskerindstillinger. 'Bevar mine' fastholder dine manuelle profiler. 'Autokalibrer' justerer efter elektronikniveau. 'Fra' blokerer ændringer." />
+        <text name="rhm_setting_ai_tuning_keep" text="Bevar mine" />
+        <text name="rhm_setting_ai_tuning_auto" text="Autokalibrer altid" />
+        <text name="rhm_setting_ai_tuning_disabled" text="Deaktiveret" />
+        <text name="rhm_crop_straw_windrow" text="Halmskår" />
+        <text name="rhm_crop_grass_windrow" text="Græsskår" />
+        <text name="rhm_crop_drygrass_windrow" text="Høskår" />
+        <text name="rhm_crop_alfalfa_windrow" text="Lucerneskår" />
+        <text name="rhm_crop_clover_windrow" text="Kløverskår" />
+        <text name="rhm_crop_maize_forage" text="Majsensilage" />
+        <text name="rhm_windrow_format" text="Skår: %s" />
+        <text name="rhm_setting_enableTutorials" text="Vejledningstips" />
+        <text name="rhm_setting_enableTutorials_long" text="Vis interaktive introduktionstips under høstarbejdet." />
+        <text name="rhm_ui_btn_close_notification" text="OK (Enter / Venstreklik)" />
+        <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+        <text name="rhm_tut_welcome_msg" text="Velkommen til Realistic Harvesting! Arbejdshastigheden tilpasses dynamisk efter motorbelastning, afgrødetæthed og skærebord. Åbn kalibreringsterminalen med (Højre Shift + K)." />
+        <text name="rhm_tut_overload_title" text="Motoroverbelastning" />
+        <text name="rhm_tut_overload_msg" text="Motoren er overbelastet! Fremdriften sænkes automatisk for at forhindre tromlestop. Hæv skærebordet eller reducer skærebredden." />
+        <text name="rhm_tut_loss_title" text="Højt høsttab" />
+        <text name="rhm_tut_loss_msg" text="Spildet bag mejetærskeren er kritisk højt! Cylinderomdrejninger eller sold passer ikke til afgrøden. Tryk (Højre Shift + K) for at justere." />
+        <text name="rhm_tut_moisture_title" text="Høj afgrødefugtighed" />
+        <text name="rhm_tut_moisture_msg" text="Kornfugtigheden er høj eller regn er startet! Fugtig biomasse skaber stor modstand og øger motorbelastning og tab. Høst i tørt vejr for bedste resultat." />
+        <text name="rhm_tut_headland_title" text="Hastighedshukommelse" />
+        <text name="rhm_tut_headland_msg" text="Når skærebordet løftes på forageren, gemmer mejetærskeren arbejdshastigheden. Ved næste træk accelererer den jævnt uden ryk." />
+        <text name="rhm_tut_upgrade_title" text="Mejetærskeropgraderinger" />
+        <text name="rhm_tut_upgrade_msg" text="Standardmejetærskere kræver manuel indstilling. Opgrader elektronikken på værkstedet for at låse op for Sensorpakke (Niveau 2), Udbyttemonitor (Niveau 3) eller Opti-Harvest AI (Niveau 4)." />
+        <text name="rhm_tut_hud_drag_title" text="Interaktiv HUD" />
+        <text name="rhm_tut_hud_drag_msg" text="Du kan flytte HUD-panelet hvor som helst på skærmen ved at holde venstre museknap (LMB) nede på panelet, eller fastgøre det magnetisk under F1-menuen og til skærmkanterne." />
+        <text name="rhm_tut_trip_title" text="Marktæller og Log" />
+        <text name="rhm_tut_trip_msg" text="Tryk Shift+J for at se udbytteoversigt, økonomisk tab og flådestatus. For hurtigt at nulstille tælleren for en ny mark, hold Shift+R nede i 1 sekund i førerhuset!" />
+        <text name="rhm_tut_chopper_title" text="Halmsnitter Belastning" />
+        <text name="rhm_tut_chopper_msg" text="Snitning af halm forbruger 15-20% ekstra motorkraft sammenlignet med skårlægning. Skift til skårlægning, hvis du behøver mere fremkørselshastighed i tætte afgrøder." />
+        <text name="rhm_setting_wear_loss_short" text="Mekanisk slitagetab" />
+        <text name="rhm_setting_wear_loss_long" text="Simulerer kornspild fra udstyrsslitage. Sløve knive på skærebordet knækker aks (op til +3% spild og +15% effektmodstand). Slidt tærskecylinder og sold taber uudtærsket korn (op til +3% spild)." />
+        <text name="rhm_ui_wear_loss" text="Slitagetab" />
+        <text name="rhm_ui_cutter_wear" text="Skærebordsslitage" />
+        <text name="rhm_ui_combine_wear" text="Tærskerslitage" />
+        <!-- Harvest History & Field Trip Telemetry -->
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="Høstoversigt &amp; Mark-tæller" />
+        <text name="input_RHM_QUICK_RESET_TRIP" text="Nulstil mark-tæller (Hold)" />
+        <text name="rhm_trip_reset_done" text="Mark-tæller nulstillet!" />
+        <text name="rhm_tab_trip" text="Nuværende mark / Tæller" />
+        <text name="rhm_tab_trip_desc" text="Live telemetri for høstet mængde, bearbejdet areal, gennemsnitligt udbytte og tab for marken." />
+        <text name="rhm_tab_analytics" text="Årsager til tab &amp; Evalueringsskema" />
+        <text name="rhm_tab_analytics_desc" text="Tabsfordeling, førerens effektivitetskarakter og anbefalinger fra maskincomputeren." />
+        <text name="rhm_tab_fleet" text="Mejetærskere i marken" />
+        <text name="rhm_tab_fleet_desc" text="Realtids telemetri, kapacitet og status for alle mejetærskere på din bedrift." />
+        <text name="rhm_tab_settings" text="Gårds- &amp; AI-indstillinger" />
+        <text name="rhm_tab_settings_desc" text="Konfigurer hastighedsbegrænser for AI-medhjælpere, spildfrø/ukrudt og automatisk nulstilling." />
+        <text name="rhm_driver_parked" text="Uden fører" />
+        <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
+        <text name="rhm_driver_hired_ai" text="AI-medhjælper" />
+        <text name="rhm_driver_player" text="Spiller" />
+        <text name="rhm_driver_idle_on" text="Tomgang" />
+        <text name="rhm_field_yard" text="Gård / Plads" />
+        <text name="rhm_field_format" text="Mark %d" />
+        <text name="rhm_fleet_driver" text="Fører" />
+        <text name="rhm_fleet_cutter" text="Skærebordbredde" />
+        <text name="rhm_fleet_grain_tank" text="Kornbeholder" />
+        <text name="rhm_fleet_throughput" text="Kapacitet" />
+        <text name="rhm_fleet_realtime_yield" text="Aktuelt udbytte" />
+        <text name="rhm_fleet_crop_loss" text="Tabsrate" />
+        <text name="rhm_fleet_wear_state" text="Maskinslid" />
+        <text name="rhm_fleet_total_count" text="Mejetærskere i alt" />
+        <text name="rhm_btn_subtab_fleet" text="MEJETÆRSKER-FLÅDE" />
+        <text name="rhm_btn_subtab_history" text="SÆSONHISTORIK / ALLE MARKER" />
+        <text name="rhm_season_all_time" text="Alle sæsoner (Total historik)" />
+        <text name="rhm_season_format" text="Sæson %d (År %d)" />
+        <text name="rhm_season_current_suffix" text="[Aktuel]" />
+        <text name="rhm_card_season_harvest" text="SÆSONHØST &amp; AREAL" />
+        <text name="rhm_card_season_losses" text="SÆSONTAB &amp; ØKONOMI" />
+        <text name="rhm_card_season_telemetry" text="METRIKKER &amp; ARBEJDSTID" />
+        <text name="rhm_season_operations" text="Fuldførte opgaver" />
+        <text name="rhm_season_active_status" text="Aktiv sæson" />
+        <text name="rhm_season_archived_status" text="Arkiveret sæson" />
+        <text name="rhm_season_all_time_status" text="Komplet historik" />
+        <text name="rhm_hist_total_area" text="Samlet høstet areal" />
+        <text name="rhm_hist_total_harvest" text="Samlet ren høst" />
+        <text name="rhm_hist_avg_loss" text="Gennemsnitligt tab" />
+        <text name="rhm_hist_total_money" text="Samlet økonomisk tab" />
+        <text name="rhm_col_season" text="Sæson" />
+        <text name="rhm_col_status" text="Status" />
+        <text name="rhm_hist_empty" text="Ingen sæsonoptegnelser endnu" />
+        <text name="rhm_status_harvesting" text="Høster (aktiv)" />
+        <text name="rhm_status_on_field_idle" text="I marken (tomgang)" />
+        <text name="rhm_status_on_field_stopped" text="I marken (stoppet)" />
+        <text name="rhm_status_in_transit" text="På vejen / Transport" />
+        <text name="rhm_status_in_cab" text="Optaget (Spiller)" />
+        <text name="rhm_status_parked_yard" text="Parkeret på gården" />
+        <text name="rhm_card_field_harvest" text="AKTUELL MARK &amp; AFGRØDE" />
+        <text name="rhm_field_number" text="Marknummer" />
+        <text name="rhm_trip_no_field" text="Uden for marken" />
+        <text name="rhm_crop_type" text="Afgrøde" />
+        <text name="rhm_harvested_area" text="Høstet areal" />
+        <text name="rhm_clean_harvest" text="Ren høst" />
+        <text name="rhm_average_yield" text="Gennemsnitligt udbytte" />
+        <text name="rhm_card_loss_finances" text="TAB &amp; ØKONOMI" />
+        <text name="rhm_loss_volume" text="Tabt volumen" />
+        <text name="rhm_loss_share" text="Spildprocent" />
+        <text name="rhm_financial_loss" text="Økonomisk tab" />
+        <text name="rhm_card_performance" text="YDEEVNE &amp; TID" />
+        <text name="rhm_avg_working_speed" text="Gns. arbejdshastighed" />
+        <text name="rhm_avg_engine_load" text="Gns. motorbelastning" />
+        <text name="rhm_session_duration" text="Sessionsvarighed" />
+        <text name="rhm_btn_reset_trip" text="Nulstil mark-tæller" />
+        <text name="rhm_causes_title" text="HOVEDÅRSAGER TIL HØSTTAB" />
+        <text name="rhm_cause_speed" text="Hastighed &amp; Overbelastning af tærskeri" />
+        <text name="rhm_cause_moisture" text="Afgrødefugtighed &amp; Morgendug" />
+        <text name="rhm_cause_wear" text="Slid på skærebord og tærskeri" />
+        <text name="rhm_cause_slope" text="Markhældning &amp; Terræn" />
+        <text name="rhm_scorecard_title" text="FØRERENS EFFEKTIVITETSSKEMA" />
+        <text name="rhm_rank_title_a" text="Klasse A: Optimal" />
+        <text name="rhm_rank_desc_a" text="Tabsrate under 1,5%. Maskinindstillinger og arbejdshastighed er perfekt afstemt." />
+        <text name="rhm_rank_title_b" text="Klasse B: Acceptabel" />
+        <text name="rhm_rank_desc_b" text="Tabsrate mellem 1,5% og 3,0%. Mindre justeringer af hastighed eller tærskeafstand anbefales." />
+        <text name="rhm_rank_title_c" text="Klasse C: Forhøjet tab" />
+        <text name="rhm_rank_desc_c" text="Tabsrate mellem 3,0% og 4,5%. Sænk hastigheden eller tjek skærebordets knive." />
+        <text name="rhm_rank_title_d" text="Klasse D: Kritiske tab" />
+        <text name="rhm_rank_desc_d" text="Tabsrate overstiger 4,5%! Alvorlig overbelastning af soldene eller forkert kalibrering." />
+        <text name="rhm_guidance_title" text="MASKINCOMPUTERENS ANBEFALINGER" />
+        <text name="rhm_advice_perfect" text="Høsteffektiviteten er optimal. Alle tærskeparametre og hastighed er i fin balance." />
+        <text name="rhm_advice_speed" text="Tab skyldes primært for høj hastighed. Sænk farten for at aflaste soldene." />
+        <text name="rhm_advice_moisture" text="Tab forårsaget af høj fugtighed eller dug. Vent på at marken tørrer eller sænk farten." />
+        <text name="rhm_advice_wear" text="Øget tab pga. slidte knive eller slagler. Foretag service på værkstedet." />
+        <text name="rhm_advice_slope" text="Sidehældning i kuperet terræn belaster soldene ujævnt. Sænk farten på skråninger." />
+        <text name="rhm_col_machine" text="Maskine" />
+        <text name="rhm_col_hours" text="Driftstimer" />
+        <text name="rhm_col_harvested" text="Høstet" />
+        <text name="rhm_col_lost" text="Tabt" />
+        <text name="rhm_col_rank" text="Klasse" />
+        <text name="rhm_fleet_no_combines" text="Ingen mejetærskere fundet" />
+        <text name="rhm_setting_ai_limiter_title" text="AI-HASTIGHEDSBEGRÆNSER" />
+        <text name="rhm_setting_ai_limiter_desc" text="Begrænser automatisk arbejdshastigheden for hjælpere, hvis tabet overskrider grænsen." />
+        <text name="rhm_setting_ai_threshold_title" text="AI-TABSGRÆNSE" />
+        <text name="rhm_setting_ai_threshold_desc" text="Maksimalt acceptabelt tabsprocent før AI-hjælperen automatisk bremser." />
+        <text name="rhm_setting_volunteer_title" text="SPILDPLANTER OG UKRUDT" />
+        <text name="rhm_setting_volunteer_desc" text="Danner spildplanter og ukrudt bag mejetærskeren i områder med højt tab (&gt;3%)." />
+        <text name="rhm_setting_autoreset_title" text="AUTO-NULSTIL VED MARKSKIFT" />
+        <text name="rhm_setting_autoreset_desc" text="Arkiverer og nulstiller automatisk mark-tælleren ved kørsel til en anden mark." />
+        <text name="rhm_setting_autoreset_smart" text="Smart (Mark / Afgrøde)" />
+        <text name="rhm_setting_autoreset_crop" text="Kun ved afgrødeskift" />
+        <text name="rhm_setting_autoreset_disabled" text="Deaktiveret (Manuel)" />
+        <text name="rhm_col_field" text="Mark" />
+        <text name="rhm_col_speed" text="Hastighed" />
+        <text name="rhm_col_load" text="Belastning" />
+        <text name="rhm_col_loss" text="Spild" />
+        <text name="rhm_col_tank" text="Kornbeholder" />
+        <text name="rhm_col_area" text="Areal" />
+        <text name="rhm_col_money" text="Tab ($)" />
+        <text name="rhm_col_driver" text="Fører" />
+        <text name="rhm_col_cutter" text="Skærebord" />
+        <text name="rhm_col_throughput" text="Gennemstrømning" />
+        <text name="rhm_col_yield" text="Udbytte" />
+        <text name="rhm_col_wear" text="Slitage" />
+        <text name="rhm_kpi_field" text="MARK" />
+        <text name="rhm_kpi_crop" text="AFGRØDE" />
+        <text name="rhm_kpi_area" text="AREAL" />
+        <text name="rhm_kpi_harvest" text="HØST" />
+        <text name="rhm_kpi_yield" text="UDBYTTE" />
+        <text name="rhm_kpi_loss" text="SPILD" />
+        <text name="rhm_kpi_speed" text="HASTIGHED" />
+        <text name="rhm_efficiency_index" text="Effektivitetsklasse" />
+        <text name="rhm_trip_footer_hint" text="Triptælleren måler det høstede areal og renkornsmængden på den aktive mark. Kan nulstilles når som helst." />
+        <text name="rhm_detail_area" text="Samlet høstet markareal" />
+        <text name="rhm_detail_clean_grain" text="rent korn" />
+        <text name="rhm_detail_yield" text="Gennemsnitligt udbytte på høstet areal" />
+        <text name="rhm_detail_throughput" text="Aktuel tærske-gennemstrømning" />
+        <text name="rhm_detail_lost_grain" text="spildt korn" />
+        <text name="rhm_detail_loss_rating" text="Spildrate i forhold til biologisk udbytte" />
+        <text name="rhm_detail_financial_loss" text="Økonomisk tab som følge af høstspild" />
+        <text name="rhm_detail_speed" text="Mejetærskerens gennemsnitlige arbejdshastighed" />
+        <text name="rhm_detail_load" text="Gennemsnitlig motorbelastning" />
+        <text name="rhm_detail_duration" text="Aktiv arbejdstid" />
+        <text name="rhm_detail_wear" text="Mekanisk slitage på tærskesystemet" />
+        <text name="rhm_rating_normal" text="Optimalt (&lt; 1,5 %)" />
+        <text name="rhm_rating_moderate" text="Moderat (1,5 - 3,0 %)" />
+        <text name="rhm_rating_elevated" text="Forhøjet (&gt; 3,0 %)" />
+        <text name="rhm_rating_critical" text="Kritisk (&gt; 4,5 %)" />
+        <text name="rhm_tab_fields" text="Gårdens Marker" />
+        <text name="rhm_tab_fields_desc" text="Omfattende oversigt over høst, udbytte, tab og kontraktarbejde for dine marker." />
+        <text name="rhm_card_field_land" text="AGERN &amp; FREMSKRIDT" />
+        <text name="rhm_card_field_yield" text="PRODUKTION &amp; UDBYTTE" />
+        <text name="rhm_card_field_losses" text="TAB &amp; KVALITET" />
+        <text name="rhm_fields_total_owned" text="Ejede marker" />
+        <text name="rhm_fields_best_yield" text="Bedste udbytte" />
+        <text name="rhm_fields_owned" text="Ejet" />
+        <text name="rhm_fields_contract" text="Kontrakt" />
+        <text name="rhm_fields_no_data" text="Ingen marker registreret" />
+        <text name="rhm_contract_tag" text="(Kontrakt)" />
+        <text name="rhm_status_completed" text="Høstet" />
+        <text name="rhm_status_idle_yard" text="På gården (afventer)" />
+        <text name="rhm_fields_external" text="Ekstern" />
+        <text name="rhm_field_transit" text="Undervejs / Kørsel" />
+        <text name="rhm_detail_loss_money" text="Økonomisk tab fra høsttab" />
+        <text name="rhm_cause_none" text="Optimal drift (intet tab)" />
+        <text name="rhm_fields_all_overview" text="[*] Gårdoverblik (alle marker)" />
+        <text name="rhm_field_operations" text="Høstoperationer" />
+        <text name="rhm_fields_nominal_area" text="Nominelt areal" />
+        <text name="rhm_status_in_progress" text="I gang" />
+        <text name="rhm_fields_harvested_area" text="Høstet areal" />
+        <text name="rhm_ops_one" text="høst" />
+        <text name="rhm_ops_few" text="høster" />
+        <text name="rhm_ops_many" text="høster" />
+        <text name="rhm_loss_disabled" text="Simulering deaktiveret" />
+        <text name="rhm_loss_disabled_desc" text="Høsttabssimulering er deaktiveret i mod-indstillingerne." />
+        <text name="rhm_filter_active" text="Aktiv" />
+        <text name="rhm_filter_all" text="Alle" />
+        <text name="rhm_filter_sold" text="Solgt" />
+        <text name="rhm_status_sold" text="Solgt (Arkiv)" />
+        <text name="rhm_field_sold" text="[Solgt]" />
+        <text name="rhm_driver_sold" text="Afmeldt" />
+        <text name="rhm_fleet_no_sold_combines" text="Ingen solgte mejetærskere i arkivet" />
+        <text name="rhm_fleet_total_count_active" text="Aktive mejetærskere" />
+        <text name="rhm_fleet_total_count_sold" text="Solgte mejetærskere" />
+        <text name="rhm_slopeloss_short" text="Skråningstab" />
+        <text name="rhm_slopeloss_long" text="Simulerer kornophobning på den ene side af såldene på skråninger over 4° (op til 5% tab). Slå fra for at fjerne terrænhældningstab." />
+        <text name="rhm_weedload_short" text="Ukrudtsmodstand" />
+        <text name="rhm_weedload_long" text="Fugtigt og trægt ukrudt øger den mekaniske modstand og motorbelastningen (op til +25%). Slå fra for at forhindre, at ukrudt påvirker motoreffekten." />
+            <text name="rhm_fleet_badge_mission" text="[Kontrakt]" />
+        <text name="rhm_fleet_badge_leased" text="[Lejet]" />
+    </texts>
+</l10n>

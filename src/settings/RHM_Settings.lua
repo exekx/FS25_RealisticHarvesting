@@ -41,6 +41,12 @@ RHMSettings.ALARM_MODE_SMART = 1       -- EN: Smart 3-beep alert + pause / UA: �
 RHMSettings.ALARM_MODE_CONTINUOUS = 2  -- EN: Continuous beeping under overload / UA: Безперервний сигнал при перевантаженні
 RHMSettings.ALARM_MODE_OFF = 3         -- EN: Disabled / UA: Вимкнено
 
+-- EN: Auto-reset trip odometer mode constants.
+-- UA: Константи режиму авто-скидання одометра сесії.
+RHMSettings.AUTO_RESET_SMART = 1       -- EN: Smart (Field or Crop change, merged fields protected) / UA: Розумний (Поле/Культура)
+RHMSettings.AUTO_RESET_CROP_ONLY = 2  -- EN: Crop Change Only / UA: Лише зміна культури
+RHMSettings.AUTO_RESET_DISABLED = 3   -- EN: Disabled (Manual Only) / UA: Вимкнено (Вручну)
+
 -- EN: Creates and initializes a new RHMSettings instance with default values.
 -- UA: Створює та ініціалізує новий екземпляр RHMSettings зі значеннями за замовчуванням.
 function RHMSettings.new(manager)
@@ -52,16 +58,16 @@ function RHMSettings.new(manager)
     self.difficultyLoss = RHMSettings.DIFFICULTY_NORMAL
     self.difficultyMotor = RHMSettings.DIFFICULTY_NORMAL
     self.aiHelperTuning = RHMSettings.AI_TUNING_KEEP_PLAYER
+    self.autoResetTripMode = RHMSettings.AUTO_RESET_SMART
 
     -- EN: Feature toggle flags (server-side, global for all players).
     -- UA: Прапорці перемикання функцій (серверні, глобальні для всіх гравців).
     self.enableSpeedLimit = true
     self.enableCropLoss = true
     self.enableWearLoss = true
+    self.enableSlopeLoss = true        -- EN: Slope-induced shoe sieve crop loss / UA: Втрати врожаю від нахилу решітного стану
+    self.enableWeedLoad = true         -- EN: Weed resistance and motor load / UA: Опір та навантаження на двигун від бур'янів
     self.enableMoisture = true
-    self.showHUD = true
-    self.showYield = true
-    self.showSpeedometer = true
     self.enableIndependentLaunch = true -- EN: Separate header start enabled by default / UA: Окремий запуск жатки увімкнено за замовчуванням
     self.alarmMode = RHMSettings.ALARM_MODE_SMART -- EN: Alarm mode (1=Smart, 2=Continuous, 3=Off) / UA: Режим зумера
     self.enableAlarmSound = true        -- EN: Cabin overload buzzer alarm / UA: Кабінний зумер перевантаження
@@ -70,23 +76,29 @@ function RHMSettings.new(manager)
 
     -- EN: HUD visibility toggles (client-side, per-player).
     -- UA: Перемикачі видимості HUD (клієнтські, для кожного гравця).
+    self.showHUD = true
     self.showLoad = true
     self.showProductivity = true
     self.showCropLoss = true
     self.showSpeed = true
     self.showMoisture = true
-    self.showLoadWarnings = true
 
     -- EN: HUD position (client-side). nil = automatic positioning.
     -- UA: Позиція HUD (клієнтська). nil = автоматичне позиціонування.
-    self.hudOffsetX = 0
-    self.hudOffsetY = 350
     self.hudPosX = nil
     self.hudPosY = nil
 
-    -- EN: Display unit system preference (client-side).
-    -- UA: Перевага системи одиниць відображення (клієнтська).
-    self.unitSystem = RHMSettings.UNIT_METRIC
+    -- EN: Display unit system preference (client-side). Auto-detect from game settings if unset.
+    -- UA: Перевага системи одиниць відображення (клієнтська). Авто-визначення з налаштувань гри.
+    local defaultUnit = RHMSettings.UNIT_METRIC
+    if g_gameSettings and g_gameSettings.getValue and GameSettings and GameSettings.SETTING then
+        local useMiles = g_gameSettings:getValue(GameSettings.SETTING.USE_MILES)
+        local useAcre = g_gameSettings:getValue(GameSettings.SETTING.USE_ACRE)
+        if useMiles or useAcre then
+            defaultUnit = RHMSettings.UNIT_IMPERIAL
+        end
+    end
+    self.unitSystem = defaultUnit
 
     Logging.info("RHM: RHMSettings initialized (Split Difficulty)")
 
@@ -145,12 +157,7 @@ function RHMSettings:setDifficultyMotor(difficulty)
     end
 end
 
--- EN: Legacy method kept for backward compatibility. Sets both loss and motor difficulty.
--- UA: Застарілий метод для зворотної сумісності. Встановлює одночасно складність втрат і двигуна.
-function RHMSettings:setDifficulty(difficulty)
-    self:setDifficultyLoss(difficulty)
-    self:setDifficultyMotor(difficulty)
-end
+
 
 -- EN: Returns a human-readable string showing the current difficulty settings (for console output).
 -- UA: Повертає зрозумілий рядок з поточними налаштуваннями складності (для виводу в консоль).
@@ -224,26 +231,24 @@ function RHMSettings:resetToDefaults()
     self.difficultyLoss = RHMSettings.DIFFICULTY_NORMAL
     self.difficultyMotor = RHMSettings.DIFFICULTY_NORMAL
     self.aiHelperTuning = RHMSettings.AI_TUNING_KEEP_PLAYER
+    self.autoResetTripMode = RHMSettings.AUTO_RESET_SMART
     self.enableSpeedLimit = true
     self.enableCropLoss = true
     self.enableWearLoss = true
+    self.enableSlopeLoss = true
+    self.enableWeedLoad = true
     self.enableMoisture = true
     self.showHUD = true
-    self.showYield = true
     self.showLoad = true
     self.showProductivity = true
     self.showCropLoss = true
     self.showSpeed = true
     self.showMoisture = true
-    self.showSpeedometer = true
-    self.showLoadWarnings = true
     self.enableIndependentLaunch = true
     self.enableTutorials = true
     self.alarmMode = RHMSettings.ALARM_MODE_SMART
     self.enableAlarmSound = true
     self.soundVolume = 1.0
-    self.hudOffsetX = 0
-    self.hudOffsetY = 350
     self.hudPosX = nil -- EN: Reset to automatic HUD positioning / UA: Скидаємо на автоматичну позицію HUD
     self.hudPosY = nil
 
@@ -270,13 +275,43 @@ end
 ---EN: Gets whether tutorial hints are enabled
 ---UA: Повертає чи увімкнено навчальні підказки
 function RHMSettings:getEnableTutorials()
-    return self.enableTutorials
+    return self.enableTutorials ~= false
 end
 
 ---EN: Sets whether tutorial hints are enabled
 ---UA: Встановлює чи увімкнено навчальні підказки
 function RHMSettings:setEnableTutorials(enabled)
     self.enableTutorials = enabled
+    if self.save then
+        self:save()
+    end
+end
+
+---EN: Gets whether slope loss simulation is enabled
+---UA: Повертає чи увімкнено втрати від нахилу рельєфу
+function RHMSettings:getEnableSlopeLoss()
+    return self.enableSlopeLoss ~= false
+end
+
+---EN: Sets whether slope loss simulation is enabled
+---UA: Встановлює чи увімкнено втрати від нахилу рельєфу
+function RHMSettings:setEnableSlopeLoss(enabled)
+    self.enableSlopeLoss = enabled
+    if self.save then
+        self:save()
+    end
+end
+
+---EN: Gets whether weed resistance on engine load is enabled
+---UA: Повертає чи увімкнено опір та навантаження від бур'янів
+function RHMSettings:getEnableWeedLoad()
+    return self.enableWeedLoad ~= false
+end
+
+---EN: Sets whether weed resistance on engine load is enabled
+---UA: Встановлює чи увімкнено опір та навантаження від бур'янів
+function RHMSettings:setEnableWeedLoad(enabled)
+    self.enableWeedLoad = enabled
     if self.save then
         self:save()
     end

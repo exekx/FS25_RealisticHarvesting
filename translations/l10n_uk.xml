@@ -1,280 +1,505 @@
-<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
-        <text name="rhm_section_simulation" text="Realistic Harvesting - Симуляція"/>
-        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD та Відображення"/>
-        <text name="input_RHM_OPEN_MENU" text="Меню Налаштувань Жнив"/>
-        <text name="input_RHM_TOGGLE_HUD" text="Перемкнути HUD жнив"/>
-        <text name="input_RHM_CLOSE_NOTIFICATION" text="Закрити підказку"/>
-        <text name="rhm_hud_load" text="НАВАНТ"/>
-        <text name="rhm_hud_loss" text="ВТРАТИ"/>
-        <text name="rhm_hud_moist" text="ВОЛОГА"/>
-        <text name="rhm_ai_settings_retained" text="Ручні налаштування збережено"/>
-        <text name="rhm_ai_auto_tuned" text="Авто-калібровано"/>
-        <text name="rhm_difficulty" text="Складність"/>
-        <text name="rhm_difficulty_motor" text="Обмеження Потужності"/>
-        <text name="rhm_difficulty_motor_short" text="Потужність"/>
-        <text name="rhm_difficulty_motor_long" text="Визначає фізику навантаження двигуна. Аркада = Вимкнено (без перевантаження), Норма = +35% запасу потужності, Реалізм = 100% реалістична фізика."/>
-        <text name="rhm_difficulty_loss" text="Штраф за Втрати"/>
-        <text name="rhm_difficulty_loss_short" text="Втрати"/>
-        <text name="rhm_difficulty_loss_long" text="Визначає втрати врожаю. Аркада = 0% (без втрат), Норма = стандартні втрати, Реалізм = підвищені втрати (200%)."/>
-        <text name="rhm_diff_1" text="Аркада"/>
-        <text name="rhm_difficulty_long" text="Аркада: без перевантаження та втрат (ваніль). Норма: збалансована фізика (+35%). Реалізм: точна симуляція (0%)."/>
-        <text name="rhm_diff_2" text="Звичайна"/>
-        <text name="rhm_diff_3" text="Реалістична"/>
-        <text name="rhm_show_yield" text="Монітор врожайності"/>
-        <text name="rhm_show_yield_short" text="Показувати врожайність"/>
+        <text name="rhm_section_simulation" text="Realistic Harvesting - Симуляція" />
+        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD та Відображення" />
+        <text name="input_RHM_OPEN_MENU" text="Меню Налаштувань Жнив" />
+        <text name="input_RHM_TOGGLE_HUD" text="Перемкнути HUD жнив" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Курсор миші (вкл/викл)" />
+        <text name="input_RHM_CLOSE_NOTIFICATION" text="Закрити підказку" />
+        <text name="rhm_hud_load" text="НАВАНТ" />
+        <text name="rhm_hud_loss" text="ВТРАТИ" />
+        <text name="rhm_hud_moist" text="ВОЛОГА" />
+        <text name="rhm_ai_settings_retained" text="Ручні налаштування збережено" />
+        <text name="rhm_ai_auto_tuned" text="Авто-калібровано" />
+        <text name="rhm_difficulty" text="Складність" />
+        <text name="rhm_difficulty_motor" text="Обмеження Потужності" />
+        <text name="rhm_difficulty_motor_short" text="Потужність" />
+        <text name="rhm_difficulty_motor_long" text="Визначає фізику навантаження двигуна. Аркада = Вимкнено (без перевантаження), Норма = +35% запасу потужності, Реалізм = 100% реалістична фізика." />
+        <text name="rhm_difficulty_loss" text="Штраф за Втрати" />
+        <text name="rhm_difficulty_loss_short" text="Втрати" />
+        <text name="rhm_difficulty_loss_long" text="Визначає втрати врожаю. Аркада = 0% (без втрат), Норма = стандартні втрати, Реалізм = підвищені втрати (200%)." />
+        <text name="rhm_diff_1" text="Аркада" />
+        <text name="rhm_difficulty_long" text="Аркада: без перевантаження та втрат (ваніль). Норма: збалансована фізика (+35%). Реалізм: точна симуляція (0%)." />
+        <text name="rhm_diff_2" text="Звичайна" />
+        <text name="rhm_diff_3" text="Реалістична" />
+        <text name="rhm_show_yield" text="Монітор врожайності" />
+        <text name="rhm_show_yield_short" text="Показувати врожайність" />
         <text name="rhm_show_yield_long"><![CDATA[
             Відображати врожайність у реальному часі в HUD (т/га або бу/акр)
         ]]></text>
-        <text name="rhm_yield_label" text="Врожайність"/>
-        <text name="rhm_hud_short" text="Показувати HUD"/>
-        <text name="rhm_hud_long" text="Відображати інформацію про збір"/>
-        <text name="rhm_speedlimit_short" text="Обмежувач швидкості"/>
+        <text name="rhm_yield_label" text="Врожайність" />
+        <text name="rhm_hud_short" text="Показувати HUD" />
+        <text name="rhm_hud_long" text="Відображати інформацію про збір" />
+        <text name="rhm_speedlimit_short" text="Обмежувач швидкості" />
         <text name="rhm_speedlimit_long"><![CDATA[
             Автоматично обмежувати швидкість комбайна залежно від навантаження
         ]]></text>
-        <text name="rhm_croploss_short" text="Увімкнути втрати"/>
-        <text name="rhm_croploss_long" text="Розраховувати втрати врожаю при перевантаженні комбайна"/>
-        <text name="rhm_setting_wear_loss_short" text="Втрати від зносу"/>
-        <text name="rhm_setting_wear_loss_long" text="Розраховувати та відображати втрати врожаю, спричинені механічним зносом жатки (тупі ножі) та комбайна (недомолот)."/>
-        <text name="rhm_ui_wear_loss" text="Знос"/>
-        <text name="rhm_ui_cutter_wear" text="Знос жатки"/>
-        <text name="rhm_ui_combine_wear" text="Знос комбайна"/>
-        <text name="rhm_show_speed_short" text="Показувати швидкість"/>
-        <text name="rhm_show_speed_long" text="Показувати поточну та рекомендовану швидкість в HUD"/>
-        <text name="rhm_show_load_short" text="Показувати навантаження"/>
-        <text name="rhm_show_load_long" text="Відображати відсоток навантаження двигуна в HUD"/>
-        <text name="rhm_show_productivity_short" text="Показувати продуктивність"/>
-        <text name="rhm_show_productivity_long" text="Відображати пропускну здатність (т/год) в HUD"/>
-        <text name="rhm_show_croploss_short" text="Показувати втрати"/>
-        <text name="rhm_show_moisture_short" text="Показувати вологість"/>
-        <text name="rhm_show_moisture_long" text="Відображати відсоток вологості культури в HUD"/>
-        <text name="rhm_moisture_enable_short" text="Штраф Вологості"/>
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Застосовувати штраф навантаження залежно від вологості (Потрібен мод Moisture System)
-            ]]></text>
-        <text name="rhm_ui_title_main" text="Калібрування Комбайна"/>
-        <text name="rhm_ui_page_settings" text="Налаштування"/>
-        <text name="rhm_ui_page_profiles" text="Профілі"/>
-        <text name="rhm_ui_current_crop" text="Поточна Культура"/>
-        <text name="rhm_ui_load" text="Навантаження"/>
-        <text name="rhm_ui_loss" text="Втрати"/>
-        <text name="rhm_ui_fan_speed" text="Оберти Вентилятора"/>
-        <text name="rhm_ui_rotor_speed" text="Оберти Ротора"/>
-        <text name="rhm_ui_upper_sieve" text="Верхнє Решето"/>
-        <text name="rhm_ui_lower_sieve" text="Нижнє Решето"/>
-        <text name="rhm_ui_feeder_speed" text="Зазор підбарабання"/>
-        <text name="rhm_ui_mode_auto" text="АВТО"/>
-        <text name="rhm_ui_mode_manual" text="РУЧНИЙ"/>
-        <text name="rhm_ui_btn_reset" text="ЗБИТИ"/>
-        <text name="rhm_ui_profile_create" text="НОВИЙ ПРОФІЛЬ"/>
-        <text name="rhm_ui_profile_save" text="ЗБЕРЕГТИ"/>
-        <text name="rhm_ui_profile_load" text="ЗАВАНТАЖИТИ"/>
-        <text name="rhm_ui_profile_delete" text="ВИДАЛИТИ"/>
-        <text name="rhm_ui_profile_name_placeholder" text="Назва профілю..."/>
-        <text name="rhm_hud_yield_label" text="ВРОЖАЙ"/>
-        <text name="rhm_hud_load_label" text="НАВАНТ"/>
-        <text name="rhm_hud_loss_label" text="ВТРАТИ"/>
-        <text name="rhm_loss_level_low" text="МАЛІ"/>
-        <text name="rhm_loss_level_med" text="СЕРЕД"/>
-        <text name="rhm_loss_level_high" text="ВЕЛИКІ"/>
-        <text name="rhm_show_croploss_long" text="Відображати відсоток втрат врожаю в HUD"/>
-        <text name="rhm_show_load_warn_short" text="Показувати попередження про навантаження"/>
+        <text name="rhm_croploss_short" text="Увімкнути втрати" />
+        <text name="rhm_croploss_long" text="Розраховувати втрати врожаю при перевантаженні комбайна" />
+        <text name="rhm_show_speed_short" text="Показувати швидкість" />
+        <text name="rhm_show_speed_long" text="Показувати поточну та рекомендовану швидкість в HUD" />
+        <text name="rhm_show_load_short" text="Показувати навантаження" />
+        <text name="rhm_show_load_long" text="Відображати відсоток навантаження двигуна в HUD" />
+        <text name="rhm_show_productivity_short" text="Показувати продуктивність" />
+        <text name="rhm_show_productivity_long" text="Відображати пропускну здатність (т/год) в HUD" />
+        <text name="rhm_show_croploss_short" text="Показувати втрати" />
+        <text name="rhm_show_moisture_short" text="Показувати вологість" />
+        <text name="rhm_show_moisture_long" text="Відображати відсоток вологості культури в HUD" />
+        <text name="rhm_moisture_enable_short" text="Вплив вологості" />
+        <text name="rhm_moisture_enable_long" text="Симулює підвищений опір обмолоту та втрати від злипання вологої маси під час роси, опадів або збирання вологого зерна. Вимкніть для збирання без погодних штрафів." />
+        <text name="rhm_ui_title_main" text="Калібрування Комбайна" />
+        <text name="rhm_ui_page_settings" text="Налаштування" />
+        <text name="rhm_ui_page_profiles" text="Профілі" />
+        <text name="rhm_ui_current_crop" text="Поточна Культура" />
+        <text name="rhm_ui_load" text="Навантаження" />
+        <text name="rhm_ui_loss" text="Втрати" />
+        <text name="rhm_ui_fan_speed" text="Оберти Вентилятора" />
+        <text name="rhm_ui_rotor_speed" text="Оберти Ротора" />
+        <text name="rhm_ui_upper_sieve" text="Верхнє Решето" />
+        <text name="rhm_ui_lower_sieve" text="Нижнє Решето" />
+        <text name="rhm_ui_feeder_speed" text="Зазор підбарабання" />
+        <text name="rhm_ui_mode_auto" text="АВТО" />
+        <text name="rhm_ui_mode_manual" text="РУЧНИЙ" />
+        <text name="rhm_ui_btn_reset" text="ЗБИТИ" />
+        <text name="rhm_ui_profile_create" text="НОВИЙ ПРОФІЛЬ" />
+        <text name="rhm_ui_profile_save" text="ЗБЕРЕГТИ" />
+        <text name="rhm_ui_profile_load" text="ЗАВАНТАЖИТИ" />
+        <text name="rhm_ui_profile_delete" text="ВИДАЛИТИ" />
+        <text name="rhm_ui_profile_name_placeholder" text="Назва профілю..." />
+        <text name="rhm_hud_yield_label" text="ВРОЖАЙ" />
+        <text name="rhm_hud_load_label" text="НАВАНТ" />
+        <text name="rhm_hud_loss_label" text="ВТРАТИ" />
+        <text name="rhm_loss_level_low" text="МАЛІ" />
+        <text name="rhm_loss_level_med" text="СЕРЕД" />
+        <text name="rhm_loss_level_high" text="ВЕЛИКІ" />
+        <text name="rhm_show_croploss_long" text="Відображати відсоток втрат врожаю в HUD" />
+        <text name="rhm_show_load_warn_short" text="Показувати попередження про навантаження" />
         <text name="rhm_show_load_warn_long"><![CDATA[
             Відображати блимаючі попередження при перевантаженні (Високе/Критичне)
         ]]></text>
-        <text name="rhm_overload_sounds_short" text="Звуки перевантаження та стресу"/>
+        <text name="rhm_overload_sounds_short" text="Звуки перевантаження та стресу" />
         <text name="rhm_overload_sounds_long"><![CDATA[Відтворювати реалістичний сигнал тривоги в кабіні та гул молотарки при перевантаженні або надмірних втратах урожаю.]]></text>
-        <text name="rhm_section_audio" text="Realistic Harvesting - Звук"/>
-        <text name="rhm_alarm_sounds_short" text="Режим зумера перевантаження"/>
-        <text name="rhm_alarm_sounds_long" text="Режим роботи звукового кабінного зумера при перевантаженні двигуна (понад 105%) або критичних втратах (понад 5%)."/>
-        <text name="rhm_alarm_mode_smart" text="Розумний (3 сигнали)"/>
-        <text name="rhm_alarm_mode_continuous" text="Безперервний"/>
-        <text name="rhm_alarm_mode_off" text="Вимкнено"/>
-        <text name="rhm_sound_volume_short" text="Гучність звуків"/>
-        <text name="rhm_sound_volume_long" text="Регулює гучність звукового сигналу тривоги (зумера) у кабіні при перевантаженні."/>
-        <text name="rhm_target_load" text="Цільове Навантаження"/>
-        <text name="rhm_gui_title" text="Налаштування Комбайна"/>
-        <text name="rhm_gui_crop" text="Культура:"/>
-        <text name="rhm_gui_none" text="НЕМАЄ"/>
-        <text name="rhm_gui_btn_auto" text="АВТО"/>
-        <text name="rhm_gui_btn_load_preset" text="Завантажити профіль"/>
-        <text name="rhm_gui_btn_save" text="Зберегти профіль"/>
-        <text name="rhm_gui_btn_reset" text="Скинути"/>
-        <text name="rhm_gui_engine_load" text="Навант. двигуна: %.0f%%"/>
-        <text name="rhm_gui_loss" text="Втрати: %.1f%%"/>
-        <text name="rhm_gui_preview_loss" text="Прогноз втрат: %.1f%%"/>
-        <text name="rhm_gui_close_hint" text="RShift+K щоб закрити"/>
-        <text name="rhm_gui_no_combine" text="Комбайн не обрано"/>
-        <text name="rhm_gui_not_init" text="Комбайн не ініціалізовано"/>
-        <text name="rhm_ui_drum_speed" text="Швидкість барабана"/>
-        <text name="rhm_ui_roller_speed" text="Очисні вальці"/>
-        <text name="rhm_ui_picker_speed" text="Оберти шпинделів"/>
-        <text name="rhm_ui_forage_fan" text="Оберти прискорювача"/>
-        <text name="rhm_ui_forage_drum" text="Подрібнюючий барабан"/>
-        <text name="rhm_ui_forage_feeder" text="Живильні вальці"/>
-        <text name="rhm_ui_root_roller" text="Очисні вальці (Сепаратор)"/>
-        <text name="rhm_ui_root_feeder" text="Транспортер"/>
-        <text name="rhm_ui_grape_shaker" text="Частота струшування"/>
-        <text name="rhm_ui_olive_shaker" text="Швидкість бітерів"/>
-        <text name="rhm_ui_grape_conveyor" text="Швидкість конвеєра"/>
-        <text name="rhm_ui_grape_fan" text="Очисні вентилятори"/>
-        <text name="rhm_units_short" text="Одиниці"/>
-        <text name="rhm_units_long" text="Оберіть систему вимірювання (швидкість, маса, площа)"/>
-        <text name="rhm_unit_metric" text="Метричні (км/год, т/год, га)"/>
-        <text name="rhm_unit_imperial" text="Імперські (mph, ton/h, ac)"/>
-        <text name="rhm_unit_bushels" text="Імперські з бушелями (mph, bu/h, ac)"/>
-        <text name="rhm_reset" text="Скинути налаштування RH"/>
-        <text name="rhm_loss_low" text="НИЗЬКІ"/>
-        <text name="rhm_loss_med" text="СЕРЕДНІ"/>
-        <text name="rhm_loss_high" text="ВИСОКІ"/>
-        <text name="rhm_warning_turn_on_combine" text="Спочатку увімкніть комбайн!"/>
-        <text name="rhm_warning_turn_on_cutter" text="Увімкніть жатку комбайна!"/>
-        <text name="rhm_warn_overload_high" text="Комбайн перевантажений! Знизьте швидкість."/>
-        <text name="rhm_warn_overload_critical" text="КОМБАЙН КРИТИЧНО ПЕРЕВАНТАЖЕНИЙ! Серйозні втрати врожаю!"/>
-        <text name="rhm_configuration_title" text="Системи Realistic Harvesting"/>
-        <text name="rhm_package_standard" text="Tier 1: Базова механіка"/>
-        <text name="rhm_package_sensor" text="Tier 2: Сенсорний пакет"/>
-        <text name="rhm_package_yield" text="Tier 3: Телеметрія та моніторинг"/>
-        <text name="rhm_package_opti" text="Tier 4: Автопілот AI Opti-Harvest"/>
-        <text name="rhm_msg_req_level_4" text="Потребує пакету Автопілот AI Opti-Harvest (Tier 4) в магазині."/>
-        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Почніть збирання культури (проїдьте кілька метрів) для запуску калібрування!"/>
-        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Автокалібрування успішно виконано для %s!"/>
-
+        <text name="rhm_section_audio" text="Realistic Harvesting - Звук" />
+        <text name="rhm_alarm_sounds_short" text="Режим зумера перевантаження" />
+        <text name="rhm_alarm_sounds_long" text="Режим роботи звукового кабінного зумера при перевантаженні двигуна (понад 105%) або критичних втратах (понад 5%)." />
+        <text name="rhm_alarm_mode_smart" text="Розумний (3 сигнали)" />
+        <text name="rhm_alarm_mode_continuous" text="Безперервний" />
+        <text name="rhm_alarm_mode_off" text="Вимкнено" />
+        <text name="rhm_sound_volume_short" text="Гучність звуків" />
+        <text name="rhm_sound_volume_long" text="Регулює гучність звукового сигналу тривоги (зумера) у кабіні при перевантаженні." />
+        <text name="rhm_target_load" text="Цільове Навантаження" />
+        <text name="rhm_gui_title" text="Налаштування Комбайна" />
+        <text name="rhm_gui_crop" text="Культура:" />
+        <text name="rhm_gui_none" text="НЕМАЄ" />
+        <text name="rhm_gui_btn_auto" text="АВТО" />
+        <text name="rhm_gui_btn_load_preset" text="Завантажити профіль" />
+        <text name="rhm_gui_btn_save" text="Зберегти профіль" />
+        <text name="rhm_gui_btn_reset" text="Скинути" />
+        <text name="rhm_gui_engine_load" text="Навант. двигуна: %.0f%%" />
+        <text name="rhm_gui_loss" text="Втрати: %.1f%%" />
+        <text name="rhm_gui_preview_loss" text="Прогноз втрат: %.1f%%" />
+        <text name="rhm_gui_close_hint" text="RShift+K щоб закрити" />
+        <text name="rhm_gui_no_combine" text="Комбайн не обрано" />
+        <text name="rhm_gui_not_init" text="Комбайн не ініціалізовано" />
+        <text name="rhm_ui_drum_speed" text="Швидкість барабана" />
+        <text name="rhm_ui_roller_speed" text="Очисні вальці" />
+        <text name="rhm_ui_picker_speed" text="Оберти шпинделів" />
+        <text name="rhm_ui_forage_fan" text="Оберти прискорювача" />
+        <text name="rhm_ui_forage_drum" text="Подрібнюючий барабан" />
+        <text name="rhm_ui_forage_feeder" text="Живильні вальці" />
+        <text name="rhm_ui_root_roller" text="Очисні вальці (Сепаратор)" />
+        <text name="rhm_ui_root_feeder" text="Транспортер" />
+        <text name="rhm_ui_grape_shaker" text="Частота струшування" />
+        <text name="rhm_ui_olive_shaker" text="Швидкість бітерів" />
+        <text name="rhm_ui_grape_conveyor" text="Швидкість конвеєра" />
+        <text name="rhm_ui_grape_fan" text="Очисні вентилятори" />
+        <text name="rhm_units_short" text="Одиниці" />
+        <text name="rhm_units_long" text="Оберіть систему вимірювання (швидкість, маса, площа)" />
+        <text name="rhm_unit_metric" text="Метричні (км/год, т/год, га)" />
+        <text name="rhm_unit_imperial" text="Імперські (mph, ton/h, ac)" />
+        <text name="rhm_unit_bushels" text="Імперські з бушелями (mph, bu/h, ac)" />
+        <text name="rhm_reset" text="Скинути налаштування RH" />
+        <text name="rhm_loss_low" text="НИЗЬКІ" />
+        <text name="rhm_loss_med" text="СЕРЕДНІ" />
+        <text name="rhm_loss_high" text="ВИСОКІ" />
+        <text name="rhm_warning_turn_on_combine" text="Спочатку увімкніть комбайн!" />
+        <text name="rhm_warning_turn_on_cutter" text="Увімкніть жатку комбайна!" />
+        <text name="rhm_warn_overload_high" text="Комбайн перевантажений! Знизьте швидкість." />
+        <text name="rhm_warn_overload_critical" text="КОМБАЙН КРИТИЧНО ПЕРЕВАНТАЖЕНИЙ! Серйозні втрати врожаю!" />
+        <text name="rhm_configuration_title" text="Системи Realistic Harvesting" />
+        <text name="rhm_package_standard" text="Tier 1: Базова механіка" />
+        <text name="rhm_package_sensor" text="Tier 2: Сенсорний пакет" />
+        <text name="rhm_package_yield" text="Tier 3: Телеметрія та моніторинг" />
+        <text name="rhm_package_opti" text="Tier 4: Автопілот AI Opti-Harvest" />
+        <text name="rhm_msg_req_level_4" text="Потребує пакету Автопілот AI Opti-Harvest (Tier 4) в магазині." />
+        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Почніть збирання культури (проїдьте кілька метрів) для запуску калібрування!" />
+        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Автокалібрування успішно виконано для %s!" />
         <!-- ================================================================= -->
-        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-9)                       -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
         <!-- ================================================================= -->
-        <text name="rhm_help_category" text="Realistic Harvesting"/>
-        <text name="rhm_help_title" text="Посібник Realistic Harvesting"/>
-        <text name="rhm_help_overview_title" text="1. Реалістична фізика збирання"/>
-        <text name="rhm_help_overview_sub1" text="Динамічний баланс потужності двигуна"/>
-        <text name="rhm_help_overview_1" text="Realistic Harvesting повністю прибирає штучне фіксоване обмеження швидкості комбайна. Тепер навантаження на двигун розраховується чесно в реальному часі за фізичною формулою: враховується базовий хід машини, механічний привід жатки (залежно від ширини), питомий опір обмолоту та подрібнення маси, густота стеблостою і опір ґрунту для коренеплодів. Якщо рослинна маса занадто щільна, інтелектуальна гідростатична трансмісія плавно сповільнює комбайн, запобігаючи забиванню та зупинці барабана."/>
-        <text name="rhm_help_overview_sub2" text="Густота врожаю та робоча швидкість"/>
-        <text name="rhm_help_overview_2" text="Важкі, олійні та волокнисті культури (ріпак, соняшник, кукурудза) створюють значно більший опір на обмолоті, ніж суха пшениця чи овес. Робоча швидкість комбайна в густому ріпаку буде природно нижчою (наприклад, 4–6 км/год замість 8–10 км/год). Для досягнення максимальної продуктивності без втрат зерна намагайтеся тримати навантаження двигуна в оптимумі: 85–92%."/>
-        <text name="rhm_help_hud_title" text="2. Інтерактивний HUD і телеметрія"/>
-        <text name="rhm_help_hud_sub1" text="Компактний та Розширений режими HUD"/>
-        <text name="rhm_help_hud_1" text="При посадці в комбайн відкривається сучасна інформаційна панель. Доступно два режими: Компактний (лаконічна плашка біля спідометра гри) та Розширений (повноцінна 4-коміркова телеметрія: навантаження двигуна, швидкість, урожайність поля та продуктивність у т/год). Перемикати режими можна в меню налаштувань гри (ESC -> Realistic Harvesting) або кліком. Клік лівою кнопкою миші по комірці швидкості перемикає її на втрати зерна (Tier 2+), а по комірці врожайності — на поточну вологість зерна (Tier 3+)."/>
-        <text name="rhm_help_hud_sub2" text="Вільне переміщення (Drag &amp; Drop) та налаштування"/>
-        <text name="rhm_help_hud_2" text="Ви можете розмістити панель у будь-якій частині екрана: клацніть правою кнопкою миші в кабіні, щоб активувати курсор, і перетягніть HUD у зручне місце. Позиція зберігається індивідуально для кожної гри. У меню ESC доступне перемикання одиниць виміру (метричні т/га або американські бушелі/акр), гучність аудіосигналу перевантаження та стиль підкладки."/>
-        <text name="rhm_help_hud_sub3" text="Огляд індикаторів HUD"/>
-        <text name="rhm_help_hud_3_load" text="Комірка 1: Навантаження двигуна. Зелений колір — безпечна зона (&lt;85%), жовтий — оптимальна робота (85–105%), червоний — перевантаження (&gt;105%) з ризиком втрат."/>
-        <text name="rhm_help_hud_3_yield" text="Комірка 3: Фактична врожайність поточної ділянки поля в тоннах на гектар (т/га) або бушелях на акр (bu/ac)."/>
-        <text name="rhm_help_hud_3_productivity" text="Комірка 4: Продуктивність комбайна — фактична маса обмолоченого врожаю в тоннах за годину (т/год)."/>
-        <text name="rhm_help_hud_3_moisture" text="Комірка 3 (Клік): Поточна вологість культури у відсотках (доступно з пакетом Tier 3 за підтримки Precision Farming або Moisture System)."/>
-        <text name="rhm_help_hud_3_loss" text="Комірка 2 (Клік): Відсоток втрат зерна через очистку (доступно після встановлення сенсорного пакета Tier 2+)."/>
-        <text name="rhm_help_hud_3_speed" text="Комірка 2: Робоча швидкість комбайна в км/год або миль/год, динамічно підібрана гідростатом під масу."/>
-        <text name="rhm_help_calibration_title" text="3. Бортовий планшет калібрування (Shift+K)"/>
-        <text name="rhm_help_calibration_main_sub" text="Польовий термінал налаштування під культуру"/>
-        <text name="rhm_help_calibration_main_text" text="Натисніть комбінацію Правий Shift + K, перебуваючи в техніці, щоб відкрити бортовий планшет калібрування. У верхній шапці термінала відображається точна назва техніки, потужність у к.с. та ширина поточної жатки. Кожна культура вимагає індивідуального налаштування: обертів молотильного барабана, швидкості вітру вентилятора, зазору підбарабання та решіт. Невідкалібрований комбайн викидає зерно на землю і споживає зайве пальне. На рівні Tier 2 доступне збереження власних профілів, а на Tier 4 комбайн автоматично підлаштовується кнопкою AUTO."/>
-        <text name="rhm_help_calibration_rotor_sub" text="Молотильний барабан і підбарабання"/>
-        <text name="rhm_help_calibration_rotor_text" text="Оберти барабана та зазор підбарабання відповідають за чистоту й цілісність обмолоту. Дрібне зерно з міцним колосом (пшениця, ячмінь) вимагає високих обертів (700–850 об/хв) для якісного вимолочування. Великі або крихкі культури (кукурудза, соя, соняшник) потребують низьких обертів (350–450 об/хв) та широкого зазору, щоб не подрібнити зерно в борошно."/>
-        <text name="rhm_help_calibration_fan_sub" text="Вентилятор очистки та решета"/>
-        <text name="rhm_help_calibration_fan_text" text="Вентилятор виносить легку солом'яну полову через задню частину комбайна, а решета пропускають важке зерно в бункер. Для легкого насіння (ріпак, трави) використовуйте делікатний обдув (600–700 об/хв), інакше зерно вилетить разом із половою. Для кукурудзи потрібен максимальний потік повітря (1000–1200 об/хв), щоб підняти й видути важкі залишки стрижнів."/>
-        <text name="rhm_help_calibration_perf_sub" text="Цільове навантаження та телеметрія ККД"/>
-        <text name="rhm_help_calibration_perf_text" text="Повзунок цільового навантаження задає робочий темп регулятора швидкості (за замовчуванням 88%). Нижче розташовані картки живої телеметрії: Навантаження двигуна, Ефективність обмолоту (ККД) та Очікувані втрати зерна. Високе цільове навантаження прискорює роботу на чистих полях, тоді як помірне (80–85%) гарантує нульові втрати та екологічний розхід пального."/>
-        <text name="rhm_help_special_title" text="4. Кормозбирачі, коренеплоди, бавовна та NEXAT"/>
-        <text name="rhm_help_special_sub1" text="Кормозбиральні комбайни (Forage Harvesters)"/>
-        <text name="rhm_help_special_1" text="Кормозбиральні машини подрібнюють кукурудзу на силос або підбирають валки трав одразу у причіп. У них немає решіт і втрат зерна — вся маса подрібнюється барабаном і викидається прискорювачем у силосний причіп. У планшеті калібрування налаштовуються оберти подрібнювального барабана та потужність ежекторного прискорювача викиду."/>
-        <text name="rhm_help_special_sub2" text="Коренеплоди, бавовна та система NEXAT"/>
-        <text name="rhm_help_special_2" text="Картопле- та бурякозбиральні комбайни долають сильний тяговий опір ґрунту при підкопуванні лемешами, що вимагає величезного запасу потужності. Планшет керує швидкістю просіювальних транспортерів, очисних вальців та видаленням гички. Мод також повністю адаптований під бавовнозбирачі та ширококолійну модульну платформу NEXAT."/>
-        <text name="rhm_help_loss_title" text="5. Фізика втрат і чесне списання з бункера"/>
-        <text name="rhm_help_loss_sub1" text="Крива втрат від перевантаження"/>
-        <text name="rhm_help_loss_1" text="Втрати врожаю починаються плавно при навантаженні двигуна понад 80%. У діапазоні 80–90% вони мізерні (&lt;0.5%), але при наближенні до 100% і вище зростають за прогресивною параболою. Якщо навантаження сягає глибокої червоної зони (&gt;110%), молотилка не встигає розділяти солому та зерно, що призводить до колосальних втрат і небезпеки аварійного клину ротора."/>
-        <text name="rhm_help_loss_sub2" text="Фізичне списання зерна з бункера"/>
-        <text name="rhm_help_loss_2" text="У моді Realistic Harvesting втрати — це не просто цифра на екрані. Кожен втрачений літр урожаю фізично списується безпосередньо з бункера комбайна в реальному часі. Невідрегульовані решета або неправильні оберти барабана можуть додатково забрати до 25% врожаю, тому уважно стежте за показниками HUD та вчасно калібруйте комбайн."/>
-        <text name="rhm_help_loss_sub3" text="Механічний знос та затуплені ножі"/>
-        <text name="rhm_help_loss_3" text="Знос техніки відчутно впливає на результат. Затуплені сегменти коси жатки не зрізують, а вибивають зерно з колосків чи стручків (до +3% втрат та +15% додаткового опору приводу). Зношені бичі барабана і решета пропускають недомолочене зерно (до +3% втрат). Регулярний ремонт техніки в майстерні повністю усуває ці втрати."/>
-        <text name="rhm_help_difficulty_title" text="6. Регулятор швидкості та пам'ять розворотів"/>
-        <text name="rhm_help_difficulty_sub1" text="Плавне гідростатичне керування"/>
-        <text name="rhm_help_difficulty_1" text="Розумний круїз-контроль Realistic Harvesting аналізує потік маси та плавно змінює положення гідронасоса комбайна. При вході в рядок комбайн витримує паузу 2.8 секунди, щоб маса рівномірно заповнила барабан без різких ривків. На густих ділянках машина делікатно пригальмовує, а на рідких — поступово нарощує темп."/>
-        <text name="rhm_help_difficulty_sub2" text="Пам'ять швидкості на розворотах (Headland Memory)"/>
-        <text name="rhm_help_difficulty_2" text="Коли ви підіймаєте жатку для виконання розвороту на краю поля, алгоритм запам'ятовує робочу швидкість попереднього проходу. Після завершення розвороту та опускання жатки в новий рядок комбайн одразу виходить на комфортний робочий темп без запізнілого розгону."/>
-        <text name="rhm_help_upgrades_title" text="7. Пакети електроніки комбайна (Рівні 1–4)"/>
-        <text name="rhm_help_upgrades_sub1" text="Рівень 1: Базова механіка (Factory Base)"/>
-        <text name="rhm_help_upgrades_1" text="Стандартне заводське оснащення стартових комбайнів. Усі налаштування барабана та решіт виконуються суто вручну. Датчики втрат і вологості ще відсутні на приладовій панелі. Ідеально підходить для початку кар'єри та економії коштів."/>
-        <text name="rhm_help_upgrades_sub2" text="Рівень 2: Сенсорний пакет (Loss Sensors &amp; Profiles)"/>
-        <text name="rhm_help_upgrades_2" text="Встановлює електронні п'єзоелектричні сенсори втрат на решетах і роторі (відсоток втрат відображається на HUD). Відкриває можливість зберігати власні профілі калібрування в пам'ять комбайна та швидко завантажувати їх при зміні культури."/>
-        <text name="rhm_help_upgrades_sub3" text="Рівень 3: Телеметрія та вологомір (Grain Monitor)"/>
-        <text name="rhm_help_upgrades_3" text="Додає точний оптичний вологомір зерна в елеватор подачі (значення вологості з'являється на HUD). Покращує точність автоналаштування найманих працівників до ±4%, допомагаючи вам збирати врожай за оптимальної вологості зерна."/>
-        <text name="rhm_help_upgrades_sub4" text="Рівень 4: Інтелектуальний автопілот Opti-Harvest"/>
-        <text name="rhm_help_upgrades_4" text="Флагманський пакет розумного комбайна: розблоковує кнопку AI AUTO в бортовому планшеті. Комбайн самостійно в реальному часі розраховує ідеальні зазори й оберти під поле, усуває похибку найманців (0%) і вдвічі знижує штраф за підвищену вологість."/>
-        <text name="rhm_help_moisture_title" text="8. Вологість та погодні фактори"/>
-        <text name="rhm_help_moisture_sub1" text="Вплив вологості культури"/>
-        <text name="rhm_help_moisture_1" text="Мод автоматично інтегрується з модами Moisture System та Precision Farming. Сире зерно та волога солома мають набагато більшу масу й в'язкість, що створює сильний опір у роторі, збільшує витрату пального та вимагає збільшення зазору решіт і сили обдуву."/>
-        <text name="rhm_help_moisture_sub2" text="Дощ, туман і нічна роса"/>
-        <text name="rhm_help_moisture_2" text="Збирання під час дощу, у тумані або під ранковою/вечірньою росою істотно збільшує навантаження на молотильний апарат. Швидкість комбайна в сирих умовах значно падає, а ризик забивання зростає. Рекомендується планувати основне збирання на сухі теплі денні години."/>
-        <text name="rhm_help_cropsettings_title" text="9. Помічники AI та довідник калібрування"/>
-        <text name="rhm_help_cropsettings_grain_sub" text="Штучний інтелект, Courseplay та AutoDrive"/>
-        <text name="rhm_help_cropsettings_grain_text" text="Мод на 100% сумісний зі стандартними помічниками Giants AI, Courseplay (версії v7+) та AutoDrive. Розумний обмежувач швидкості працює на рівні сервера двигуна, завдяки чому найманці не перевищують швидкість і не забивають ротор. Якщо гравець відкалібрував комбайн вручну, найманець зберігає ці налаштування."/>
-        <text name="rhm_help_cropsettings_forage_sub" text="Орієнтири налаштувань: Зернові та олійні культури"/>
-        <text name="rhm_help_cropsettings_forage_text" text="• Пшениця / Ячмінь: Ротор ~750 об/хв, зазор 8–12 мм, вітер 800–900 об/хв, верхнє решето 12 мм, нижнє 6 мм.&#10;• Ріпак: Ротор ~600 об/хв, зазор 18 мм, вітер 600–650 об/хв (делікатний, щоб не видути насіння).&#10;• Кукурудза / Соя: Ротор 350–420 об/хв, зазор 25–35 мм, сильний обдув 1000–1100 об/хв, решета широко відкриті."/>
-        <text name="rhm_help_cropsettings_root_sub" text="Орієнтири налаштувань: Силос, коренеплоди та спецтехніка"/>
-        <text name="rhm_help_cropsettings_root_text" text="• Кукурудзяний силос: Барабан 1100–1200 об/хв, прискорювач викиду 95%.&#10;• Трав'яний силос: Барабан 800–900 об/хв, помірний викид 80%.&#10;• Картопля / Буряк: Очисні вальці ~400 об/хв, видалення гички 85% — тримайте помірну швидкість, щоб уникнути пошкодження шкірки."/>
+        <text name="rhm_help_category" text="Realistic Harvesting" />
+        <text name="rhm_help_title" text="Посібник Realistic Harvesting" />
 
-        <text name="rhm_ui_section_separation" text="СЕПАРАЦІЯ"/>
-        <text name="rhm_ui_section_cleaning" text="ОЧИЩЕННЯ"/>
-        <text name="rhm_ui_section_discharge" text="ВИВАНТАЖЕННЯ"/>
-        <text name="rhm_ui_section_performance" text="ПРОДУКТИВНІСТЬ"/>
-        <text name="rhm_ui_tier1_manual" text="TIER 1 - МЕХАНІКА"/>
-        <text name="rhm_ui_tier2_sensors" text="TIER 2 - СЕНСОРИ"/>
-        <text name="rhm_ui_tier3_monitor" text="TIER 3 - ТЕЛЕМЕТРІЯ"/>
-        <text name="rhm_ui_tier4_opti" text="TIER 4 - AI OPTI"/>
-        <text name="rhm_ui_arcade_badge" text="АРКАДА"/>
-        <text name="rhm_ui_card_engine_load" text="НАВАНТАЖЕННЯ ДВИГУНА"/>
-        <text name="rhm_ui_card_efficiency" text="ЕФЕКТИВНІСТЬ (ККД)"/>
-        <text name="rhm_ui_card_predicted_loss" text="ОЧІКУВАНІ ВТРАТИ"/>
-        <text name="rhm_ui_btn_ai_auto" text="AI АВТО-КАЛІБР"/>
-        <text name="rhm_ui_btn_auto_locked" text="AUTO (БЛОК)"/>
-        <text name="rhm_ui_btn_load_preset" text="ЗАВАНТАЖИТИ"/>
-        <text name="rhm_ui_btn_save_profile" text="ЗБЕРЕГТИ"/>
-        <text name="rhm_ui_btn_load_locked" text="ЗАВАНТ. (БЛОК)"/>
-        <text name="rhm_ui_btn_save_locked" text="ЗБЕРЕГТИ (БЛОК)"/>
-        <text name="rhm_ui_btn_reset_defaults" text="СКИДАННЯ ДО ЗАВОДСЬКИХ НАЛАШТУВАНЬ"/>
-        <text name="rhm_ui_status_optimal" text="ОПТИМАЛЬНО"/>
-        <text name="rhm_ui_status_low" text="НИЗЬКО"/>
-        <text name="rhm_ui_status_high" text="ВИСОКО"/>
-        <text name="rhm_msg_req_tier4" text="Потрібен Автопілот AI Opti-Harvest (Tier 4)"/>
-        <text name="rhm_msg_req_tier3" text="Для профілів потрібна Телеметрія та моніторинг (Tier 3)"/>
-        <text name="rhm_msg_req_tier2" text="Для профілів потрібен Сенсорний пакет (Tier 2 або вище)"/>
-        <text name="rhm_msg_profile_saved" text="Збережено Профіль: %s"/>
-        <text name="rhm_msg_profile_loaded" text="Завантажено Профіль: %s"/>
-        <text name="rhm_msg_profile_not_found" text="Для цієї культури немає збереженого профілю"/>
-        <text name="rhm_ui_combine_not_init" text="Комбайн не ініціалізовано"/>
-        <text name="rhm_unit_t_per_hour" text="т/год"/>
-        <text name="rhm_unit_ha_per_hour" text="га/год"/>
-        <text name="rhm_setting_ai_tuning" text="Налаштування помічниками"/>
-        <text name="rhm_setting_ai_tuning_long" text="Визначає, як наймити та Courseplay взаємодіють з калібруванням комбайну. 'Зберігати налаштування' суворо зберігає ваші ручні налаштування та профілі. 'Завжди авто-підлаштовувати' перераховує налаштування за рівнем електроніки машини. 'Вимкнено' повністю забороняє помічникам змінювати налаштування комбайну."/>
-        <text name="rhm_setting_ai_tuning_keep" text="Зберігати мої"/>
-        <text name="rhm_setting_ai_tuning_auto" text="Авто-підлаштовувати"/>
-        <text name="rhm_setting_ai_tuning_disabled" text="Вимкнено"/>
-        <text name="rhm_crop_straw_windrow" text="Валок соломи"/>
-        <text name="rhm_crop_grass_windrow" text="Валок трави"/>
-        <text name="rhm_crop_drygrass_windrow" text="Валок сіна"/>
-        <text name="rhm_crop_alfalfa_windrow" text="Валок люцерни"/>
-        <text name="rhm_crop_clover_windrow" text="Валок конюшини"/>
-        <text name="rhm_crop_maize_forage" text="Кукурудзяний силос"/>
-        <text name="rhm_windrow_format" text="Валок: %s"/>
-    
-        <text name="rhm_setting_enableTutorials" text="Підказки та навчання"/>
-        <text name="rhm_setting_enableTutorials_long" text="Показувати інтерактивні навчальні підказки та поради під час збирання врожаю."/>
-        <text name="rhm_ui_btn_close_notification" text="Зрозуміло (Enter / ЛКМ)"/>
-        <text name="rhm_tut_welcome_title" text="Realistic Harvesting"/>
-        <text name="rhm_tut_welcome_msg" text="Ласкаво просимо до Realistic Harvesting! Швидкість комбайна тепер динамічно залежить від навантаження двигуна, густоти врожаю та жатки. Слідкуйте за HUD та натисніть (Правий Shift + K) для калібрування."/>
-        <text name="rhm_tut_overload_title" text="Перевантаження двигуна"/>
-        <text name="rhm_tut_overload_msg" text="Двигун працює на межі! Гідростатична трансмісія плавно сповільнює комбайн, щоб барабан не захлинувся. Підніміть жатку або зменшіть захват культури, щоб уникнути забивання молотарки."/>
-        <text name="rhm_tut_loss_title" text="Високі втрати врожаю"/>
-        <text name="rhm_tut_loss_msg" text="Втрати зерна за комбайном перевищують допустиму норму! Налаштування барабана або очистки не відповідають поточній культурі. Відкрийте термінал (Правий Shift + K) для точного регулювання."/>
-        <text name="rhm_tut_moisture_title" text="Висока вологість культури"/>
-        <text name="rhm_tut_moisture_msg" text="Вологість зерна підвищена або почався дощ! Волога маса створює великий опір, суттєво навантажуючи двигун та збільшуючи втрати. За можливості збирайте в суху денну погоду."/>
-        <text name="rhm_tut_headland_title" text="Збереження швидкості на розворотах"/>
-        <text name="rhm_tut_headland_msg" text="При піднятті жатки на розворотах комбайн зберігає набрану робочу швидкість. Ви зможете плавно та без ривків заходити в новий рядок."/>
-        <text name="rhm_tut_upgrade_title" text="Модернізація комбайна"/>
-        <text name="rhm_tut_upgrade_msg" text="Базовий комбайн потребує ручного налаштування. Встановіть пакет датчиків (Tier 2), монітор врожайності (Tier 3) або автопілот Opti-Harvest AI (Tier 4) у майстерні для полегшення роботи."/>
-        <text name="rhm_setting_wear_loss_short" text="Втрати від зносу техніки"/>
-        <text name="rhm_setting_wear_loss_long" text="Симулює втрати зерна через механічний знос обладнання. Тупі ножі жатки оббивають колоски/шапку рослин (до +3% втрат і +15% опору на ВВП). Зношені бичі барабана та решета викидають недомолочене зерно (до +3% втрат)."/>
-        <text name="rhm_ui_wear_loss" text="Втрати від зносу"/>
-        <text name="rhm_ui_cutter_wear" text="Знос жатки"/>
-        <text name="rhm_ui_combine_wear" text="Знос молотарки"/>
+        <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
+        <text name="rhm_help_overview_title" text="1. Фізика навантаження та швидкість" />
+        <text name="rhm_help_overview_sub1" text="Баланс потужності: опір техніки та обмолот маси" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting повністю замінює аркадну фіксовану швидкість збирання на фізичну модель балансу потужності двигуна за стандартами ASABE та DLG. У ванільній грі комбайн завжди їде на максимальній швидкості жатки, незалежно від густоти врожаю. У цьому моді вся корисна потужність двигуна безперервно ділиться між чотирма реальними завданнями: базовим опором трансмісії та гідростатики (8% потужності для зернових комбайнів і 10% для важких коренезбирачів), механічним приводом обертання та зрізу жатки, витратами енергії на перетирання та протягування рослинної маси крізь молотильний барабан або ротор, а також додатковим опором від вологості чи бур'янів. Відсоток завантаження двигуна на дисплеї показує, яка частка доступних кінських сил задіяна в цю секунду." />
+        <text name="rhm_help_overview_sub2" text="Автоматичний контроль швидкості та захист від забивання" />
+        <text name="rhm_help_overview_2" text="Вам більше не потрібно самостійно вгадувати та щосекунди змінювати швидкість на круїз-контролі. Опустіть жатку, увімкніть молотарку та заїдьте в культуру: комбайн розпочне збирання на безпечній швидкості входу 5.5 км/год, щоб рослинна маса рівномірно заповнила похилу камеру без різкого удару по барабану. Далі інтелектуальний гідростатичний контролер автоматично підбирає швидкість під навантаження двигуна, утримуючи його в найефективнішій робочій зоні (близько 80–90%). Якщо комбайн в'їжджає в надто густий стеблостій або починає підйом на крутий пагорб, автоматика плавно пригальмовує машину (час реакції 0.45 секунди), запобігаючи зупинці двигуна та забиванню барабана. На рідких посівах комбайн так само плавно прискорюється. Максимальна швидкість завжди надійно обмежена заводським лімітом жатки." />
+        <text name="rhm_help_overview_sub3" text="Подрібнювач соломи та збільшення швидкості у валку" />
+        <text name="rhm_help_overview_3" text="Режим обробки соломи прямо визначає, скільки кінських сил залишається на сам рух комбайна. Подрібнювач соломи — це потужний енергоємний ротор із ножами, який обертається зі швидкістю понад 3000 об/хв. Подрібнення та розкидання соломи забирає від 15% до 20% усієї потужності двигуна (особливо на таких волокнистих культурах, як овес, ячмінь чи жито). Якщо ваш комбайн рухається надто повільно через високе навантаження, перемкніть солому в режим укладання у валок стандартною клавішею гри. Ротор подрібнювача вимкнеться, вивільнивши десятки кінських сил для молотарки, і робоча швидкість комбайна одразу зросте на 1.5–3 км/год за того ж самого навантаження двигуна." />
+
+        <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
+        <text name="rhm_help_hud_title" text="2. Інтерактивний HUD та керування" />
+        <text name="rhm_help_hud_sub1" text="Панель телеметрії: розшифровка 4 інформаційних комірок" />
+        <text name="rhm_help_hud_1" text="Коли ви сідаєте в комбайн, у нижній частині екрана з'являється компактна інформаційна панель із заокругленого темного скла. Вона містить чотири ключові показники: Комірка 1 — це навантаження двигуна у відсотках із динамічним колірним індикатором (зелений колір до 85% означає легку роботу; жовтий колір від 85% до 95% свідчить про ідеальну продуктивну зону; червоний колір понад 95% попереджає про перевантаження). Комірка 2 відображає реальний рівень втрат зерна у відсотках або рекомендовану швидкість. Комірка 3 показує поточну вологість культури у відсотках або швидкість обробітку поля в гектарах на годину. Комірка 4 демонструє миттєву врожайність поточної ділянки поля (т/га або бушелі/акр) або загальну пропускну здатність комбайна (т/год або л/год)." />
+        <text name="rhm_help_hud_sub2" text="Переміщення мишкою (LMB), стиковка та зміна режимів" />
+        <text name="rhm_help_hud_2" text="Панель можна розмістити в будь-якому зручному місці вашого монітора. Затисніть ліву кнопку миші (LMB) на поверхні HUD і перетягніть панель туди, де вона не закриває огляд із кабіни. При наближенні до країв екрана або до нижньої межі стандартного меню підказок F1 спрацьовує магнітна стиковка, яка автоматично вирівнює та закріплює панель на своєму місці. Крім того, панель реагує на натискання: одиночний клік лівою кнопкою миші по комірках 2, 3 або 4 миттєво перемикає відображення альтернативних даних (наприклад, перемикання з тонн на годину на гектари на годину або перемикання між відсотком втрат і рекомендованою швидкістю руху)." />
+        <text name="rhm_help_hud_sub3" text="Відображення датчиків та прочерки (--%) на старій техніці" />
+        <text name="rhm_help_hud_3" text="Якщо ви сіли в простий або старий комбайн і замість відсотка втрат чи вологості бачите прочерки (--%) — це запланована поведінка мода, а не помилка. На машинах початкового рівня (Tier 1) цифрові п'єзоелектричні сенсори втрат та оптичні вологоміри відсутні фізично, тому водій контролює процес за звуком двигуна та чистотою зерна в бункері. Датчик втрат на решетах стає активним після встановлення пакета електроніки Tier 2 у майстерні, а цифровий сенсор вологості з'являється на комбайнах із пакетом Tier 3 і вище. Якщо комбайн зупиняється для очікування причепа або піднімає жатку на краю поля, панель фіксує останні стабільні показники врожайності, захищаючи дисплей від мерехтіння нулями." />
+
+        <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
+        <text name="rhm_help_calibration_title" text="3. Бортовий термінал калібрування (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Налаштування на базових комбайнах (Tier 1): ручне регулювання" />
+        <text name="rhm_help_calibration_main_text" text="Натисніть комбінацію Правий Shift + K у кабіні для виклику сенсорного термінала налаштувань. На базових комбайнах (Tier 1) цифрова пам'ять відсутня: кнопки збереження профілів, завантаження та автопілот заблоковані замками, а підсвічування оптимальних зон на повзунках вимкнене. Як налаштувати таку машину: внизу є кнопка скидання, яка повертає всі вузли до нейтральних 50%. Далі регулюйте повзунки за базовими правилами обмолоту: для більшості зернових (пшениця, ячмінь) тримайте барабан на 60–70%, вентилятор очистки на 65–75%, а зазори решіт на 50–60%. Для культур із великим насінням (кукурудза, соняшник) оберти барабана обов'язково зменшують до 35–45%, інакше бичі барабана дробитимуть зерно на дрібну січку." />
+        <text name="rhm_help_calibration_rotor_sub" text="Калібрування на Tier 2–3: зелені зони оптимуму та збереження профілів" />
+        <text name="rhm_help_calibration_rotor_text" text="Після модернізації комбайна до рівня Tier 2 на кожній шкалі з'являється яскраво-зелена смуга оптимуму («sweet-spot»), розрахована під конкретну культуру в похилій камері. Інструкція для першого налаштування: заїдьте в культуру на кілька метрів, щоб комбайн визначив тип рослин, відкрийте термінал (Shift+K) і пересуньте кожен повзунок кнопками [-] та [+] у зелену зону. Одразу після цього натисніть кнопку «ЗБЕРЕГТИ»! Комбайн запише ці налаштування у файл профілю. Тільки після створення першого збереження кнопка «ЗАВАНТАЖИТИ» стане дієвою: якщо ви повернетеся до збирання цієї культури пізніше, одне натискання на «ЗАВАНТАЖИТИ» миттєво поверне ваші налаштування. На рівні Tier 3 на екрані додатково з'являються цифрові картки навантаження, ККД та очікуваних втрат." />
+        <text name="rhm_help_calibration_presets_sub" text="Автоматичне калібрування в один дотик на машинах Tier 4" />
+        <text name="rhm_help_calibration_presets_text" text="Власникам комбайнів із топовим пакетом електроніки Tier 4 (Opti-Harvest AI) взагалі не потрібно вручну виставляти повзунки чи зберігати файли. У правому верхньому кутку термінала розблоковується кнопка «AI АВТО-КАЛІБР»: одне натискання миттєво зчитує показники вологості, густоту стеблостою і за одну секунду виставляє оптимальні параметри обмолоту напряму із заводської бази даних. Крім того, активний автопілот кожні 2 секунди прямо під час руху самостійно підправляє оберти барабана й вентилятора, якщо на полі трапляються забур'янені або вологі низини." />
+
+                                <!-- PAGE 4: CROP CALIBRATION HANDBOOK (RPM & MM) -->
+        <text name="rhm_help_presets_title" text="4. Довідник налаштувань культур (RPM та мм)" />
+        <text name="rhm_help_presets_sub1" text="Принцип універсальності налаштувань для будь-яких комбайнів" />
+        <text name="rhm_help_presets_1" text="На планшеті калібрування в кабіні (Shift+K) всі параметри відображаються у реальних фізичних одиницях: обертах на хвилину (RPM) та міліметрах зазору (мм). Головне агрономічне правило: базові оптимальні налаштування для будь-якої культури ОДНАКОВІ для всіх моделей комбайнів, незалежно від потужності двигуна (від 300 до 800 к.с.) чи ширини жатки! Біологічні властивості колоса пшениці чи качана кукурудзи не змінюються від марки комбайна: пшениця завжди вимагає колової швидкості барабана близько ~800 RPM та обдуву вентилятора близько ~960 RPM, інакше зерно не вимолотиться або вилетить у полову. Потужність двигуна та ширина жатки визначають лише швидкість руху (км/год) та пропускну здатність (т/год), які система RHM регулює автоматично для запобігання перевантаженню." />
+        <text name="rhm_help_presets_sub2" text="Базові заводські налаштування зернових та бобових культур" />
+        <text name="rhm_help_presets_2" text="Для комбайнів початкового класу (Tier 1) без підсвічування зелених зон виставляйте такі заводські базові значення:&#10;&#10;- Пшениця: Оберти Ротора 780–820 RPM | Зазор підбарабання 5–7 mm | Оберти Вентилятора 940–980 RPM | Верхнє Решето 14–15 mm | Нижнє Решето 6–8 mm.&#10;&#10;- Ячмінь: Ротор 780–820 RPM | Підбарабання 6–8 mm | Вентилятор 980–1020 RPM | Верхнє 14–15 mm | Нижнє 7–9 mm (жорсткі ості вимагають сильного повітря).&#10;&#10;- Овес: Ротор 680–720 RPM | Підбарабання 5–7 mm | Вентилятор 730–770 RPM | Верхнє 14–16 mm | Нижнє 6–8 mm (легкі плівки; обдув &gt;850 RPM виносить зерно назовні).&#10;&#10;- Кукурудза на зерно: Ротор 310–350 RPM | Підбарабання 28–32 mm | Вентилятор 930–970 RPM | Верхнє 19–21 mm | Нижнє 11–13 mm (УВАГА: мінімальні оберти ротора, щоб не трощити качани на шматки!).&#10;&#10;- Соняшник: Ротор 340–380 RPM | Підбарабання 23–27 mm | Вентилятор 730–770 RPM | Верхнє 17–19 mm | Нижнє 9–11 mm (делікатний обмолот зберігає крихкі кошики).&#10;&#10;- Ріпак, Канола: Ротор 480–520 RPM | Підбарабання 16–19 mm | Вентилятор 680–720 RPM | Верхнє 8–10 mm | Нижнє 3–5 mm (дрібне насіння; вентилятор &gt;750 RPM видуває врожай).&#10;&#10;- Соя: Ротор 540–580 RPM | Підбарабання 17–19 mm | Вентилятор 960–1000 RPM | Верхнє 15–17 mm | Нижнє 8–10 mm (помірні оберти бережуть зародок зерна від розколювання).&#10;&#10;- Горох, Квасоля, Бобові: Ротор 410–450 RPM | Підбарабання 14–16 mm | Вентилятор 980–1020 RPM | Верхнє 17–19 mm | Нижнє 8–10 mm.&#10;&#10;- Рис та Довгозернистий рис: Ротор 700–740 RPM | Підбарабання 6–8 mm | Вентилятор 1030–1070 RPM | Верхнє 15–17 mm | Нижнє 6–8 mm (абразивна волога солома).&#10;&#10;- Сорго: Ротор 580–620 RPM | Підбарабання 17–19 mm | Вентилятор 1080–1120 RPM | Верхнє 14–16 mm | Нижнє 7–8 mm (щільні волоті вимагають сильного обдуву для видалення важкої полови).&#10;&#10;- Насіння трав (Мак, Конюшина): Ротор 780–820 RPM | Підбарабання 4–6 mm | Вентилятор 430–470 RPM | Верхнє 6–8 mm | Нижнє 2–4 mm (мінімальний вітер!)." />
+        <text name="rhm_help_presets_sub3" text="Спеціалізована техніка: кормозбиральна, коренеплоди, бавовна та ягоди" />
+        <text name="rhm_help_presets_3" text="Для спеціалізованої техніки Shift+K відкриває органи керування відповідної машини:&#10;&#10;- Кормозбиральні комбайни (Forage): Втрати зерна становлять 0%. Кукурудзяний силос — Прискорювач 1300–1350 RPM, Подрібнюючий барабан 1150–1170 RPM, Живильні вальці 470–500 RPM. Підбір валків (сіно/солома) — Прискорювач 1150–1200 RPM, Барабан 1070–1100 RPM, Вальці 450–470 RPM. Прямий скос трави — Прискорювач 1230–1270 RPM, Барабан 1120–1140 RPM, Вальці 410–430 RPM. Тополя на тріску (Poplar) — Прискорювач 1350–1400 RPM, Барабан 1180–1200 RPM, Вальці 380–400 RPM.&#10;&#10;- Коренезбиральні комбайни: Картопля — Турбіна 600–620 RPM, Очисні вальці 190–210 RPM, Транспортер 300–320 RPM (м'яке транспортування від бою бульб). Цукровий та Столовий буряк (Beetroot) — Турбіна 630–650 RPM, Вальці 230–250 RPM, Транспортер 290–310 RPM. Морква, Пастернак — Турбіна 620–640 RPM, Вальці 200–220 RPM, Транспортер 300–310 RPM. Цибуля — Турбіна 840–860 RPM, Вальці 200–220 RPM, Транспортер 260–270 RPM.&#10;&#10;- Овочезбиральні комбайни (Vegetables): Зелена квасоля (Green Beans) — Очисний вентилятор 700–720 RPM, Очісувальний ротор 170–190 RPM, Елеватор 280–300 RPM. Шпинат (Spinach) — Вентилятор 550–580 RPM, Зрізувальний барабан 140–160 RPM, Елеватор 270–290 RPM (делікатне збирання ніжного листя).&#10;&#10;- Бавовна: Вентилятор пневмосистеми 3600–3800 RPM, Шпинделі 210–230 RPM, Живильні барабани 210–230 RPM.&#10;&#10;- Цукрова тростина (Sugar Cane): Очисний екстрактор 1150–1200 RPM, Подрібнювальні барабани 180–200 RPM, Елеваторний конвеєр 280–300 RPM.&#10;&#10;- Виноград: Струшувачі 450–470 RPM, Конвеєр 110–120 RPM, Очисні вентилятори 1250–1300 RPM.&#10;&#10;- Оливки: Струшувачі (Бітери) 540–560 RPM, Конвеєр 105–115 RPM, Очисні вентилятори 1300–1350 RPM." />
+        <text name="rhm_help_presets_sub4" text="Фізика вологості та калібрування в сиру погоду" />
+        <text name="rhm_help_presets_4" text="RHM підтримує сторонні моди на вологість та має власний суточний симулятор погоди (ранкова роса 16–18%, сухе пообіднє вікно 11–13.5%, дощ &gt;22%). Базовий поріг безпечної вологості — 14.0% (ріпак: 9.0%). Кожен 1% вологості понад норму додає +2% навантаження на двигун та викликає +0.35% неминучих втрат через налипання зерна на мокру солому.&#10;&#10;Правило калібрування при вологості вище 14%:&#10;&#10;1. Додайте +50...80 RPM до обертів ротора (наприклад, 860 замість 800 RPM для пшениці) — це запобігає забиванню та полегшує протягування важкої сирої маси.&#10;&#10;2. Додайте +30...50 RPM до вентилятора (990 замість 950 RPM) — щоб продути вологу важку солому та полову.&#10;&#10;3. Відкрийте верхнє решето на +1...2 mm ширше.&#10;&#10;На комбайнах Tier 2–3 зелений сектор оптимуму автоматично зміщується вгору; на Tier 4 автопілот Opti-Harvest AI коригує налаштування в реальному часі." />
+        <text name="rhm_help_presets_sub5" text="Підтримка модових культур та автовизначення фізики" />
+        <text name="rhm_help_presets_5" text="1. Вбудовані профілі модових культур у базі RHM:&#10;&#10;- Жито, Тритикале, Спельта: налаштовуйте як пшеницю (Ротор 780–820 RPM, Підбарабання 5–7 mm, Вентилятор 940–980 RPM, Решета 14/7 mm).&#10;&#10;- Гречка: Ротор 530–570 RPM, Підбарабання 12–14 mm, Вентилятор 730–770 RPM, Решета 12/6 mm (тендітна оболонка).&#10;&#10;- Просо: Ротор 780–820 RPM, Підбарабання 5–7 mm, Вентилятор 850–890 RPM, Решета 14/7 mm.&#10;&#10;- Льон, Гірчиця: Ротор 830–870 RPM, Підбарабання 14–16 mm, Вентилятор 780–820 RPM, Решета 9/4 mm.&#10;&#10;- Мак: Ротор 430–470 RPM, Підбарабання 12–14 mm, Вентилятор 430–470 RPM, Решета 7/3 mm (мікрозерно!).&#10;&#10;- Коноплі: Ротор 630–670 RPM, Підбарабання 12–14 mm, Вентилятор 830–870 RPM, Решета 14/7 mm.&#10;&#10;- Сафлор: налаштовуйте як соняшник (Ротор 340–380 RPM, Вентилятор 730–770 RPM, Решета 18/10 mm).&#10;&#10;- Конюшина / Насіння трав: Ротор 780–820 RPM, Підбарабання 4–6 mm, Вентилятор 430–470 RPM, Решета 7/3 mm.&#10;&#10;- Люцерна (корм): Силос — Вентилятор ~1250, Барабан ~1130, Вальці ~420 RPM.&#10;&#10;2. Автодетектор невідомих культур: RHM зчитує вагу літра насіння та наявність валка соломи з карти. Правило 4 родин (Tier 1): злаки з соломою — як пшениця; дрібні олійні — як ріпак; великі бобові — як горох/соя; трави — мінімальний вітер. На Tier 2–4 зелений оптимум прораховується автоматично." />
+
+        <!-- PAGE 5: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
+        <text name="rhm_help_trip_title" text="5. Лічильник поля та аналітика парку (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Бортовий журнал поточного поля: точний облік зібраного врожаю" />
+        <text name="rhm_help_trip_1" text="Натисніть Правий Shift + J у кабіні для відкриття аналітичного центру з чотирма вкладками. Перша вкладка — це цифровий одометр поточного поля, який веде строгий облік роботи: підсумовує скошену площу в гектарах, обчислює вагу зібраного зерна в тоннах і літрах, фіксує чистий час роботи комбайна (без урахування простоїв при вивантаженні та розворотів на краях поля), а також визначає середню врожайність поля та реальну продуктивність роботи в тоннах і гектарах за годину. Завдяки цьому ви завжди точно знаєте справжню продуктивність поля ще до відправки зерна на елеватор." />
+        <text name="rhm_help_trip_sub2" text="Фінансові збитки, оцінка майстерності та аналіз причин втрат" />
+        <text name="rhm_help_trip_2" text="Одометр не просто фіксує тоннаж втраченого зерна, а й автоматично розраховує завдані фінансові збитки в ігровій валюті (€, $ або £) відповідно до актуальної ринкової вартості зібраної культури. Спеціальний алгоритм оцінює роботу водія за шкалою від [A] (ідеальне водіння, втрати менше 1%) до [E] (незадовільне керування, великі втрати). Під рангом розташовані чотири діагностичні смуги, які показують точну частку кожної причини втрат: перевищення швидкості, вологість рослин, механічний знос сегментів коси чи бічний нахил решітного стану на пагорбах." />
+        <text name="rhm_help_trip_sub3" text="Швидке скидання лічильника в кабіні (Правий Shift + R)" />
+        <text name="rhm_help_trip_3" text="При заїзді на нове поле або для початку контрольного заміру вам не потрібно щоразу заходити в меню: затисніть комбінацію Правий Shift + R на 1 секунду прямо за кермом комбайна. Лічильник миттєво обнулиться зі звуковим підтвердженням і текстовим сповіщенням на дисплеї. Крім того, у меню налаштувань гри є функція автоматичного скидання (Smart), яка сама обнуляє одометр при переїзді на інший номер поля або при зміні культури в бункері." />
+        <text name="rhm_help_trip_sub4" text="Реєстр полів, сезонна історія та моніторинг комбайнів парку" />
+        <text name="rhm_help_trip_4" text="Вкладка «Поля ферми» веде детальний облік усіх придбаних земельних ділянок, зберігаючи історію останніх врожаїв та площу. Вкладка «Аналітика сезону» показує динаміку намолоту за різні місяці та роки. Вкладка «Парк комбайнів» дає змогу в реальному часі зі свого робочого місця відстежувати стан усієї збиральної техніки господарства: бачити, хто сидить за кермом (гравець чи наймит), поточну культуру, швидкість, навантаження мотора, продуктивність у тоннах за годину, рівень зносу ножів жатки та встановлений пакет електроніки." />
+
+        <!-- PAGE 6: CROP LOSSES & ROOT CAUSES -->
+        <text name="rhm_help_croploss_title" text="6. Втрати врожаю та діагностика причин" />
+        <text name="rhm_help_croploss_sub1" text="Фізичне списання зерна безпосередньо з бункера комбайна" />
+        <text name="rhm_help_croploss_1" text="У Realistic Harvesting втрати — це не умовні цифри для статистики. Зерно, яке не встигло відсепаруватися або вилетіло через решета разом із половою, фізично списується в реальному часі безпосередньо з накопичувального бункера комбайна! Якщо ви рухаєтеся надто швидко, намолот зменшується прямо на очах, і з кожного гектара ви привезете на склад на 5–15% менше продукції, ніж могли б отримати. Якщо увімкнено укладання у валок, втрати зерна відображаються у валку соломи. На силосних кормозбирачах і бавовняних комбайнах втрати зерна відсутні, оскільки біомаса подрібнюється або пресується цілком." />
+        <text name="rhm_help_croploss_sub2" text="Чотири ключові фактори втрат та способи їх усунення" />
+        <text name="rhm_help_croploss_2" text="Підсумкові втрати складаються з чотирьох незалежних причин: 1. Швидкість та перевантаження: за нормами ISO 8210 втрати починають з'являтися при навантаженні понад 80%, перевищують нормативний 1% при 95% завантаження, а при перевантаженні понад 110% решета захлинаються масою з лавиноподібним викидом зерна на землю. Рішення: тримайте навантаження мотора в межах 85–90%. 2. Вологість та роса: вологість понад 14% викликає злипання соломи, додаючи по +0.35% втрат на кожен 1% надлишку вологи. Рішення: збирайте зернові вдень під сонцем. 3. Знос коси: затуплені ножі жатки (понад 15% зносу) не ріжуть, а оббивають колоски на землю до потрапляння в комбайн (до 3% втрат). Рішення: вчасно ремонтуйте жатку в майстерні. 4. Схил поля: крен решіт понад 4° зміщує зерно на один бік, спричиняючи втрати до 5%." />
+        <text name="rhm_help_croploss_sub3" text="Акустичний зумер кабіни (Smart Buzzer): сигнал перевантаження" />
+        <text name="rhm_help_croploss_3" text="Якщо навантаження двигуна перевищує 95% або поточні втрати зерна перевищують 5%, бортовий термінал у кабіні подає звуковий сигнал аграрної тривоги. У рекомендованому режимі Smart Buzzer зумер звучить трьома делікатними імпульсами по 0.3 секунди, після чого робить паузу на 18 секунд, попереджаючи водія без нав'язливого безперервного пищання. Почули сигнал тривоги? Це пряма команда скинути темп руху, перевірити зазори решіт у терміналі Shift+K або вимкнути подрібнювач соломи, після чого втрати одразу припиняться. Гучність зумера можна налаштувати від 0% до 100% у меню налаштувань гри." />
+
+        <!-- PAGE 7: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
+        <text name="rhm_help_upgrades_title" text="7. Пакети електроніки комбайна (Tiers 1–4)" />
+        <text name="rhm_help_upgrades_sub1" text="Модернізація техніки в майстерні: 4 рівні під будь-який бюджет" />
+        <text name="rhm_help_upgrades_1" text="Будь-який комбайн у грі (як при покупці в магазині, так і вже наявний у гаражі ферми) можна дооснастити спеціальним електронним пакетом RHM. Заїдьте в ремонтну зону майстерні, натисніть клавішу конфігурації та оберіть пункт «RHM Пакет електроніки». Доступно чотири рівні: Tier 1 «Стандарт» (0 €, базова заводська комплектація), Tier 2 «Сенсорний набір» (3 500 €), Tier 3 «Монітор врожайності» (8 500 €) та Tier 4 «Opti-Harvest AI» (15 000 €). Встановлений рівень відображається в шапці термінала Shift+K та в журналі парку техніки." />
+        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Базова механіка) проти Tier 2 (Сенсорний набір)" />
+        <text name="rhm_help_upgrades_2" text="Комбайни Tier 1 мають просте механічне керування без сенсорів: на панелі відображаються прочерки замість втрат, на планшеті немає підказок, водій працює за звуком мотора, а наймані помічники суттєво помиляються в налаштуваннях (до ±18%). Пакет Tier 2 (3 500 €) — це головний стартовий апгрейд для новачка: він додає датчики втрат на решетах (на дисплеї з'являється живий відсоток втрат), а на планшеті Shift+K розблоковує яскраві зелені зони оптимуму, за якими дуже легко налаштувати комбайн. Похибка наймитів знижується до ±10%." />
+        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Монітор та профілі) та Tier 4 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="Пакет Tier 3 (8 500 €) встановлює оптичний вологомір (відображення вологості % на HUD), відкриває живі картки навантаження та ККД на планшеті Shift+K, розблоковує збереження власних профілів у пам'ять комбайна та онлайн-моніторинг парку в Shift+J (похибка робітників падає до ±4%). Топовий пакет Tier 4 (15 000 €) відкриває повноцінний автопілот: кнопка «AI АВТО-КАЛІБР» налаштовує комбайн в один дотик, автопідлаштування кожні 2 секунди самостійно коригує оберти ротора й вітру під вологість поля, штраф від вологості знижується на 50%, а наймані робітники збирають урожай із 0% похибки." />
+
+        <!-- PAGE 8: AI WORKERS & AUTOPILOTS -->
+        <text name="rhm_help_ai_workers_title" text="8. Наймані робітники та автопілоти" />
+        <text name="rhm_help_ai_workers_sub1" text="Автоматичний контроль швидкості та гальмування помічників" />
+        <text name="rhm_help_ai_workers_1" text="Наймані працівники стандартного ШІ гри та автоматизовані помічники більше не їздять на штучній максимальній швидкості жатки, викидаючи третину зерна на землю. Мод RHM примусово контролює швидкість робітника безпосередньо через блок двигуна, утримуючи його в безпечному діапазоні 85–95% навантаження. Якщо на нерівному рельєфі керовані втрати зерна перевищують встановлену норму ферми (2.0%), комбайн самостійно пригальмовує робітника, захищаючи ваш намолот від викидання в солому." />
+        <text name="rhm_help_ai_workers_sub2" text="Кваліфікація робітників: вплив рівня техніки на якість збирання" />
+        <text name="rhm_help_ai_workers_2" text="Коли найманий працівник сідає за кермо, він налаштовує робочі параметри комбайна самостійно. Якість його роботи напряму залежить від електронного пакета комбайна: на машинах Tier 1 наймит працює як недосвідчений стажер, помиляючись у налаштуваннях до ±18% (що спричиняє підвищені втрати зерна або перевитрату пального). На Tier 2 похибка знижується до ±10%, на Tier 3 — до ±4%, а на машинах Tier 4 з автопілотом Opti-Harvest наймит працює як провідний фахівець із 0% похибки, показуючи бездоганний збір урожаю." />
+        <text name="rhm_help_ai_workers_sub3" text="Збереження ручних налаштувань гравця та логістика вивантаження" />
+        <text name="rhm_help_ai_workers_3" text="Якщо ви особисто відкалібрували комбайн у Shift+K або зберегли профіль під культуру, перевірте налаштування гри: опція «Налаштування помічниками» за замовчуванням встановлена в режим «Зберігати мої». У цьому режимі наймит ніколи не змінить ваші параметри й працюватиме суворо за вашим точним калібруванням. Режим «Авто-підлаштовувати» змушує помічника щоразу перераховувати налаштування за рівнем техніки, а «Вимкнено» повністю забороняє зміну параметрів робітниками. Робота вивантажувальних шнеків у причепи підтримується в повному обсязі без зупинки комбайна." />
+
+        <!-- PAGE 9: CROP MOISTURE & DIURNAL WEATHER -->
+        <text name="rhm_help_moisture_title" text="9. Вологість культур та добовий цикл погоди" />
+        <text name="rhm_help_moisture_sub1" text="Добовий цикл вологості рослин: вибір сприятливого часу для роботи" />
+        <text name="rhm_help_moisture_1" text="Мод розраховує автономний гармонійний добовий цикл вологості, а за наявності зовнішніх погодних систем зчитує їхні дані. Вологість рослинності закономірно коливається протягом доби: з 03:00 до 08:00 ранку рясна роса піднімає вологість зерна до 16–18% — косити в цей час не рекомендується через важкий хід комбайна. З 08:00 до 11:30 сонце сходить і волога випаровується. Найкращий час для збирання зернових — з 11:30 до 18:30: сонце висушує рослини до оптимальних 11–13%, солома стає крихкою, комбайн рухається швидко і легко, а втрати зводяться до мінімуму. Після 19:30 вечірня роса знову зволожує стебла, підвищуючи опір молотарки." />
+        <text name="rhm_help_moisture_sub2" text="Чому не можна збирати врожай під час дощу" />
+        <text name="rhm_help_moisture_2" text="Під час дощу вологість рослинності стрімко перевищує 22%. Мокра солома втрачає сипкість, збивається в щільний повстяний килим і забиває похилу камеру та решітний стан. Зерно прилипає до вологої соломи й виноситься назовні, додаючи до 10% прямих втрат врожаю на полі, а двигун комбайна захлинається від потрійного опору маси. Порада новачку: якщо пішов дощ — заглушіть комбайн і перечекайте негоду. Робота в дощ призведе лише до втрати врожаю та грошей." />
+        <text name="rhm_help_moisture_sub3" text="Як налаштувати комбайн для збирання вологих культур (14–16%)" />
+        <text name="rhm_help_moisture_3" text="Якщо врожай необхідно зібрати за підвищеної вологості (14–16%), не крутіть повзунки наосліп на максимум! Відкрийте планшет Shift+K: через вологість зелені смуги оптимуму («sweet-spot») для барабана та вентилятора самі трохи посунуться вище. Підтягніть бігунки так, щоб вони залишалися суворо всередині зміщеної зеленої зони: швидший барабан у межах зеленої зони легше розриватиме сиру солому без втрати потужності, а вентилятор у межах зеленої зони краще продуватиме важку вологу полову. Увага: якщо викрутити вентилятор занадто сильно (вище зеленої зони в червону), надмірний вітер почне видувати саме зерно з комбайна на поле, що призведе до миттєвих втрат! Тримайтеся зеленої смуги — і втрат від налаштувань не буде (0%). А на машинах Tier 4 (Opti-Harvest) автоматика сама тримає ці параметри без вашого втручання." />
+
+        <!-- PAGE 10: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
+        <text name="rhm_help_special_title" text="10. Кормозбирачі, коренеплоди та спецтехніка" />
+        <text name="rhm_help_special_sub1" text="Самохідні кормозбирачі: поділ потужності та робота з валками" />
+        <text name="rhm_help_special_1" text="Кормозбиральні комбайни подрібнюють усю рослинну масу в силос цілком, тому втрати зерна на них завжди дорівнюють нулю (0%). Навантаження двигуна тут ділиться між трьома вузлами: живильними вальцями (18%), подрібнювальним барабаном (62%) та ежекторним прискорювачем викиду в кузов (20%). При роботі з підбирачем валків трав'яного сінажу чи соломи стежте за товщиною валка: на занадто густих сухих валках живильні вальці досягають своєї граничної пропускної здатності («пляшкове горло»), що викликає різкий опір приводу та падіння робочої швидкості комбайна." />
+        <text name="rhm_help_special_sub2" text="Коренезбиральна техніка: чому копачі рухаються зі швидкістю 5–8 км/год" />
+        <text name="rhm_help_special_2" text="Підземні коренеплоди (картопля, цукровий буряк, морква, пастернак, цибуля) вимагають величезних зусиль на підкопування ґрунту: підземні лемеші-ножі підрізають важкий земляний пласт на глибині, споживаючи додатково по 7 кінських сил на кожен метр ширини копача, а важка гідростатика трансмісії забирає 10% потужності двигуна. Через це самохідні буряко- та картоплезбиральні комбайни фізично не можуть рухатися швидше 5–8 км/год навіть із двигунами потужністю понад 600 к.с. Наземні овочеві культури (зелена квасоля, горох, шпинат) ґрунт не копають, але їхні чесальні барабани споживають значну енергію на зняття стручків." />
+        <text name="rhm_help_special_sub3" text="Бавовна, виноград, оливки та системні платформи (NEXAT / NEXCO)" />
+        <text name="rhm_help_special_3" text="Бавовняні комбайни споживають до 55 к.с. на кожну тонну сирцю через високошвидкісні шпиндельні барабани та гідравлічне пресування круглих тюків. Виноградні та оливкові комбайни враховують опір вібраційних струшувачів лози та очисних вентиляторів. А якщо ви використовуєте ширококолійний системний носій NEXAT (1100 к.с.) із навісним комбайновим модулем NEXCO — система RHM автоматично транслює повну потужність тягового агрегату крізь усю ієрархію навісних з'єднань, гарантуючи чесну роботу без збоїв чи падіння потужності." />
+
+        <!-- PAGE 11: DIFFICULTY MODES & SETTINGS -->
+        <text name="rhm_help_difficulty_title" text="11. Режими складності та налаштування" />
+        <text name="rhm_help_difficulty_sub1" text="Режими гри: вибір між Аркадою, Помірним та Реалістичним стилем" />
+        <text name="rhm_help_difficulty_1" text="Якщо ви не хочете рахувати кінські сили та налаштовувати барабани — ви можете вибрати спрощений режим гри в меню паузи (Escape → Налаштування гри): Складність двигуна в режимі «Аркада» (рівень 1) повністю вимикає фізичне навантаження мотора та знімає всі обмеження швидкості. Складність втрат у режимі «Аркада» обнуляє будь-які втрати зерна — комбайн збиратиме поле на повній швидкості жатки, як у стандартній грі. Рівень 2 («Помірний») пом'якшує вплив помилок, а рівень 3 («Реалістичний») вмикає повну фізичну модель із чесним списанням втрат із бункера." />
+        <text name="rhm_help_difficulty_sub2" text="Точкові перемикачі фізики: налаштування гри під власні вимоги" />
+        <text name="rhm_help_difficulty_2" text="Не обов'язково вимикати всю фізику повністю — ви можете вимкнути лише ті механіки, які вам не подобаються: Вимкніть «Втрати від зносу», якщо не хочете стежити за станом ножів жатки. Вимкніть «Втрати на схилах», якщо граєте на крутій гірській карті. Вимкніть «Симуляцію вологості», якщо хочете косити вночі чи під час дощу без погодних штрафів. Опція «Підвищення потужності» дозволяє додати від +5% до +50% запасу потужності двигуну вашого комбайна, що дуже корисно на горбистій місцевості." />
+        <text name="rhm_help_difficulty_sub3" text="Налаштування аудіосигналів, одиниць вимірювання та мультиплеєр" />
+        <text name="rhm_help_difficulty_3" text="У налаштуваннях звуку ви можете вибрати «Розумний» зумер перевантаження (три короткі імпульси), постійний сигнал або повністю вимкнути звук тривоги, а також відрегулювати повзунок гучності від 0% до 100% (при переміщенні повзунка одразу лунає тестовий сигнал). Одиниці вимірювання можна перемикати між метричними (т/га, т/год), імперськими та бушелями. У мережевій грі фізичні правила налаштовує виключно адміністратор сервера, а положення HUD, гучність звуку та одиниці виміру кожен гравець налаштовує індивідуально для себе." />
+        <text name="rhm_ui_section_separation" text="СЕПАРАЦІЯ" />
+        <text name="rhm_ui_section_cleaning" text="ОЧИЩЕННЯ" />
+        <text name="rhm_ui_section_discharge" text="ВИВАНТАЖЕННЯ" />
+        <text name="rhm_ui_section_performance" text="ПРОДУКТИВНІСТЬ" />
+        <text name="rhm_ui_tier1_manual" text="TIER 1 - МЕХАНІКА" />
+        <text name="rhm_ui_tier2_sensors" text="TIER 2 - СЕНСОРИ" />
+        <text name="rhm_ui_tier3_monitor" text="TIER 3 - ТЕЛЕМЕТРІЯ" />
+        <text name="rhm_ui_tier4_opti" text="TIER 4 - AI OPTI" />
+        <text name="rhm_ui_arcade_badge" text="АРКАДА" />
+        <text name="rhm_ui_card_engine_load" text="НАВАНТАЖЕННЯ ДВИГУНА" />
+        <text name="rhm_ui_card_efficiency" text="ЕФЕКТИВНІСТЬ (ККД)" />
+        <text name="rhm_ui_card_predicted_loss" text="ОЧІКУВАНІ ВТРАТИ" />
+        <text name="rhm_ui_btn_ai_auto" text="AI АВТО-КАЛІБР" />
+        <text name="rhm_ui_btn_auto_locked" text="AUTO (БЛОК)" />
+        <text name="rhm_ui_btn_load_preset" text="ЗАВАНТАЖИТИ" />
+        <text name="rhm_ui_btn_save_profile" text="ЗБЕРЕГТИ" />
+        <text name="rhm_ui_btn_load_locked" text="ЗАВАНТ. (БЛОК)" />
+        <text name="rhm_ui_btn_save_locked" text="ЗБЕРЕГТИ (БЛОК)" />
+        <text name="rhm_ui_btn_reset_defaults" text="СКИДАННЯ ДО ЗАВОДСЬКИХ НАЛАШТУВАНЬ" />
+        <text name="rhm_ui_status_optimal" text="ОПТИМАЛЬНО" />
+        <text name="rhm_ui_status_low" text="НИЗЬКО" />
+        <text name="rhm_ui_status_high" text="ВИСОКО" />
+        <text name="rhm_ui_env_optimal" text="ІДЕАЛЬНІ УМОВИ" />
+        <text name="rhm_ui_env_moisture" text="ПІДВИЩЕНА ВОЛОГІСТЬ" />
+        <text name="rhm_ui_env_weeds" text="ЗАБУР'ЯНЕНІСТЬ" />
+        <text name="rhm_ui_env_damp_weeds" text="ВОЛОГО ТА БУР'ЯНИ" />
+        <text name="rhm_msg_req_tier4" text="Потрібен Автопілот AI Opti-Harvest (Tier 4)" />
+        <text name="rhm_msg_req_tier3" text="Для профілів потрібна Телеметрія та моніторинг (Tier 3)" />
+        <text name="rhm_msg_req_tier2" text="Для профілів потрібен Сенсорний пакет (Tier 2 або вище)" />
+        <text name="rhm_msg_profile_saved" text="Збережено Профіль: %s" />
+        <text name="rhm_msg_profile_loaded" text="Завантажено Профіль: %s" />
+        <text name="rhm_msg_profile_not_found" text="Для цієї культури немає збереженого профілю" />
+        <text name="rhm_ui_combine_not_init" text="Комбайн не ініціалізовано" />
+        <text name="rhm_unit_t_per_hour" text="т/год" />
+        <text name="rhm_unit_ha_per_hour" text="га/год" />
+        <text name="rhm_setting_ai_tuning" text="Налаштування помічниками" />
+        <text name="rhm_setting_ai_tuning_long" text="Визначає, як наймити та Courseplay взаємодіють з калібруванням комбайну. 'Зберігати налаштування' суворо зберігає ваші ручні налаштування та профілі. 'Завжди авто-підлаштовувати' перераховує налаштування за рівнем електроніки машини. 'Вимкнено' повністю забороняє помічникам змінювати налаштування комбайну." />
+        <text name="rhm_setting_ai_tuning_keep" text="Зберігати мої" />
+        <text name="rhm_setting_ai_tuning_auto" text="Авто-підлаштовувати" />
+        <text name="rhm_setting_ai_tuning_disabled" text="Вимкнено" />
+        <text name="rhm_crop_straw_windrow" text="Валок соломи" />
+        <text name="rhm_crop_grass_windrow" text="Валок трави" />
+        <text name="rhm_crop_drygrass_windrow" text="Валок сіна" />
+        <text name="rhm_crop_alfalfa_windrow" text="Валок люцерни" />
+        <text name="rhm_crop_clover_windrow" text="Валок конюшини" />
+        <text name="rhm_crop_maize_forage" text="Кукурудзяний силос" />
+        <text name="rhm_windrow_format" text="Валок: %s" />
+        <text name="rhm_setting_enableTutorials" text="Підказки та навчання" />
+        <text name="rhm_setting_enableTutorials_long" text="Показувати інтерактивні навчальні підказки та поради під час збирання врожаю." />
+        <text name="rhm_ui_btn_close_notification" text="Зрозуміло (Enter / ЛКМ)" />
+        <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+        <text name="rhm_tut_welcome_msg" text="Ласкаво просимо до Realistic Harvesting! Швидкість комбайна тепер динамічно залежить від навантаження двигуна, густоти врожаю та жатки. Слідкуйте за HUD та натисніть (Правий Shift + K) для калібрування." />
+        <text name="rhm_tut_overload_title" text="Перевантаження двигуна" />
+        <text name="rhm_tut_overload_msg" text="Двигун працює на межі! Гідростатична трансмісія плавно сповільнює комбайн, щоб барабан не захлинувся. Підніміть жатку або зменшіть захват культури, щоб уникнути забивання молотарки." />
+        <text name="rhm_tut_loss_title" text="Високі втрати врожаю" />
+        <text name="rhm_tut_loss_msg" text="Втрати зерна за комбайном перевищують допустиму норму! Налаштування барабана або очистки не відповідають поточній культурі. Відкрийте термінал (Правий Shift + K) для точного регулювання." />
+        <text name="rhm_tut_moisture_title" text="Висока вологість культури" />
+        <text name="rhm_tut_moisture_msg" text="Вологість зерна підвищена або почався дощ! Волога маса створює великий опір, суттєво навантажуючи двигун та збільшуючи втрати. За можливості збирайте в суху денну погоду." />
+        <text name="rhm_tut_headland_title" text="Збереження швидкості на розворотах" />
+        <text name="rhm_tut_headland_msg" text="При піднятті жатки на розворотах комбайн зберігає набрану робочу швидкість. Ви зможете плавно та без ривків заходити в новий рядок." />
+        <text name="rhm_tut_upgrade_title" text="Модернізація комбайна" />
+        <text name="rhm_tut_upgrade_msg" text="Базовий комбайн потребує ручного налаштування. Встановіть пакет датчиків (Tier 2), монітор врожайності (Tier 3) або автопілот Opti-Harvest AI (Tier 4) у майстерні для полегшення роботи." />
+        <text name="rhm_tut_hud_drag_title" text="Інтерактивний HUD" />
+        <text name="rhm_tut_hud_drag_msg" text="Ви можете перетягувати HUD у будь-яке зручне місце лівою кнопкою миші (ЛКМ) або акуратно закріпити під меню F1 та краями екрана за допомогою магнітного стикування." />
+        <text name="rhm_tut_trip_title" text="Лічильник поля та журнал" />
+        <text name="rhm_tut_trip_msg" text="Натисніть (Shift + J), щоб відкрити журнал намолоту, площі, втрат та телеметрії парку. Для швидкого скидання лічильника нового поля затисніть (Shift + R) у кабіні на 1 секунду!" />
+        <text name="rhm_tut_chopper_title" text="Подрібнювач соломи" />
+        <text name="rhm_tut_chopper_msg" text="Подрібнення соломи забирає додаткові 15–20% потужності двигуна порівняно з укладанням у валок. На густих культурах перемикання на валок суттєво додає швидкості." />
+        <text name="rhm_setting_wear_loss_short" text="Втрати від зносу техніки" />
+        <text name="rhm_setting_wear_loss_long" text="Симулює втрати зерна через механічний знос обладнання. Тупі ножі жатки оббивають колоски/шапку рослин (до +3% втрат і +15% опору на ВВП). Зношені бичі барабана та решета викидають недомолочене зерно (до +3% втрат)." />
+        <text name="rhm_ui_wear_loss" text="Втрати від зносу" />
+        <text name="rhm_ui_cutter_wear" text="Знос жатки" />
+        <text name="rhm_ui_combine_wear" text="Знос молотарки" />
+        <!-- Harvest History & Field Trip Telemetry -->
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="Журнал жнив та лічильник поля" />
+        <text name="input_RHM_QUICK_RESET_TRIP" text="Скинути лічильник поля (затиснути)" />
+        <text name="rhm_trip_reset_done" text="Лічильник поля скинуто!" />
+        <text name="rhm_tab_trip" text="Поточне поле / Одометр" />
+        <text name="rhm_tab_trip_desc" text="Оперативні показники намолоту, обробленої площі, врожайності та втрат поточної сесії." />
+        <text name="rhm_tab_analytics" text="Аналітика та Рейтинг" />
+        <text name="rhm_tab_analytics_desc" text="Розподіл причин втрат, рейтинг комбайнера та поради бортового комп'ютера." />
+        <text name="rhm_tab_fleet" text="Парк комбайнів" />
+        <text name="rhm_tab_fleet_desc" text="Телеметрія в реальному часі, продуктивність та статус комбайнів вашого господарства." />
+        <text name="rhm_tab_settings" text="Налаштування ферми та AI" />
+        <text name="rhm_tab_settings_desc" text="Конфігурація обмежувача швидкості для найманців, генерація падалиці та параметри скидання." />
+        <text name="rhm_driver_parked" text="Без водія" />
+        <text name="rhm_driver_cp_ai" text="ШІ (Courseplay)" />
+        <text name="rhm_driver_hired_ai" text="ШІ (Наймит)" />
+        <text name="rhm_driver_player" text="Гравець" />
+        <text name="rhm_driver_idle_on" text="Холостий хід" />
+        <text name="rhm_field_yard" text="База / Двір" />
+        <text name="rhm_field_format" text="Поле %d" />
+        <text name="rhm_fleet_driver" text="Оператор" />
+        <text name="rhm_fleet_cutter" text="Жатка" />
+        <text name="rhm_fleet_grain_tank" text="Бункер" />
+        <text name="rhm_fleet_throughput" text="Продуктивність" />
+        <text name="rhm_fleet_realtime_yield" text="Врожайність" />
+        <text name="rhm_fleet_crop_loss" text="Рівень втрат" />
+        <text name="rhm_fleet_wear_state" text="Знос техніки" />
+        <text name="rhm_fleet_total_count" text="Усього комбайнів" />
+        <text name="rhm_btn_subtab_fleet" text="ПАРК ТЕХНІКИ" />
+        <text name="rhm_btn_subtab_history" text="ІСТОРІЯ СЕЗОНУ / ВСІ ПОЛЯ" />
+        <text name="rhm_season_all_time" text="Всі сезони (За весь час)" />
+        <text name="rhm_season_format" text="Сезон %d (Рік %d)" />
+        <text name="rhm_season_current_suffix" text="[Поточний]" />
+        <text name="rhm_card_season_harvest" text="СЕЗОННИЙ ЗБІР І ПЛОЩА" />
+        <text name="rhm_card_season_losses" text="ВТРАТИ ТА ЕКОНОМІКА СЕЗОНУ" />
+        <text name="rhm_card_season_telemetry" text="ТЕЛЕМЕТРІЯ ТА ЧАС ЖНИВ" />
+        <text name="rhm_season_operations" text="Виконано робіт" />
+        <text name="rhm_season_active_status" text="Активний сезон" />
+        <text name="rhm_season_archived_status" text="Архівний сезон" />
+        <text name="rhm_season_all_time_status" text="За весь час" />
+        <text name="rhm_hist_total_area" text="Усього оброблено" />
+        <text name="rhm_hist_total_harvest" text="Валовий намолот" />
+        <text name="rhm_hist_avg_loss" text="Середні втрати" />
+        <text name="rhm_hist_total_money" text="Загальні втрати" />
+        <text name="rhm_col_season" text="Сезон" />
+        <text name="rhm_col_status" text="Статус" />
+        <text name="rhm_col_field" text="Поле" />
+        <text name="rhm_col_speed" text="Швидкість" />
+        <text name="rhm_col_load" text="Двигун" />
+        <text name="rhm_col_loss" text="Втрати" />
+        <text name="rhm_col_tank" text="Бункер" />
+        <text name="rhm_col_area" text="Площа" />
+        <text name="rhm_col_money" text="Збитки ($)" />
+        <text name="rhm_col_driver" text="Оператор" />
+        <text name="rhm_col_cutter" text="Жатка" />
+        <text name="rhm_col_throughput" text="Продуктивність" />
+        <text name="rhm_col_yield" text="Урожайність" />
+        <text name="rhm_col_wear" text="Знос" />
+        <text name="rhm_kpi_field" text="ПОЛЕ" />
+        <text name="rhm_kpi_crop" text="КУЛЬТУРА" />
+        <text name="rhm_kpi_area" text="ПЛОЩА" />
+        <text name="rhm_kpi_harvest" text="НАМОЛОТ" />
+        <text name="rhm_kpi_yield" text="УРОЖАЙНІСТЬ" />
+        <text name="rhm_kpi_loss" text="ВТРАТИ" />
+        <text name="rhm_kpi_speed" text="ШВИДКІСТЬ" />
+        <text name="rhm_efficiency_index" text="Індекс ефективності" />
+        <text name="rhm_trip_footer_hint" text="Лічильник одометра фіксує площу та намолот для поточного поля. Ви можете скинути замір у будь-який момент." />
+        <text name="rhm_hist_empty" text="Записів за сезон ще немає" />
+        <text name="rhm_status_harvesting" text="У роботі (косить)" />
+        <text name="rhm_status_on_field_idle" text="На полі (очікування)" />
+        <text name="rhm_status_on_field_stopped" text="На полі (зупинено)" />
+        <text name="rhm_status_in_transit" text="Дорога / Переїзд" />
+        <text name="rhm_status_in_cab" text="Гравець у кабіні" />
+        <text name="rhm_status_parked_yard" text="Стоянка на базі" />
+        <text name="rhm_status_idle_yard" text="На базі (очікування)" />
+        <text name="rhm_fields_external" text="Стороннє" />
+        <text name="rhm_field_transit" text="В дорозі" />
+        <text name="rhm_card_field_harvest" text="ПОТОЧНЕ ПОЛЕ ТА КУЛЬТУРА" />
+        <text name="rhm_field_number" text="Номер поля" />
+        <text name="rhm_trip_no_field" text="Поза полем" />
+        <text name="rhm_crop_type" text="Культура" />
+        <text name="rhm_harvested_area" text="Оброблена площа" />
+        <text name="rhm_clean_harvest" text="Чистий намолот" />
+        <text name="rhm_average_yield" text="Середня врожайність" />
+        <text name="rhm_card_loss_finances" text="ВТРАТИ ТА ЕКОНОМІКА" />
+        <text name="rhm_loss_volume" text="Об'єм втрат" />
+        <text name="rhm_loss_share" text="Рівень втрат" />
+        <text name="rhm_financial_loss" text="Фінансовий збиток" />
+        <text name="rhm_card_performance" text="ТЕЛЕМЕТРІЯ ТА ЧАС" />
+        <text name="rhm_avg_working_speed" text="Робоча швидкість" />
+        <text name="rhm_avg_engine_load" text="Навантаження двигуна" />
+        <text name="rhm_session_duration" text="Час роботи на полі" />
+        <text name="rhm_btn_reset_trip" text="Скинути замір поля" />
+        <text name="rhm_causes_title" text="ПРИЧИНИ ВТРАТ ВРОЖАЮ" />
+        <text name="rhm_cause_speed" text="Швидкість та перевантаження молотарки" />
+        <text name="rhm_cause_moisture" text="Вологість культури та роса" />
+        <text name="rhm_cause_wear" text="Механічний знос жатки та комбайна" />
+        <text name="rhm_cause_slope" text="Схили поля та рельєф" />
+        <text name="rhm_scorecard_title" text="РЕЙТИНГ КОМБАЙНЕРА" />
+        <text name="rhm_rank_title_a" text="Рівень A: Оптимальний" />
+        <text name="rhm_rank_desc_a" text="Втрати менше 1.5%. Комбайн налаштований ідеально." />
+        <text name="rhm_rank_title_b" text="Рівень B: Прийнятний" />
+        <text name="rhm_rank_desc_b" text="Втрати від 1.5% до 3.0%. Рекомендується точніше регулювання." />
+        <text name="rhm_rank_title_c" text="Рівень C: Підвищені втрати" />
+        <text name="rhm_rank_desc_c" text="Втрати від 3.0% до 4.5%. Знизьте швидкість або перевірте жатку." />
+        <text name="rhm_rank_title_d" text="Рівень D: Критичні втрати" />
+        <text name="rhm_rank_desc_d" text="Втрати понад 4.5%! Потрібна негайна оптимізація режиму збору." />
+        <text name="rhm_guidance_title" text="ПОРАДИ БОРТОВОГО КОМП'ЮТЕРА" />
+        <text name="rhm_advice_perfect" text="Відмінні показники збору. Параметри обмолоту та швидкість збалансовані." />
+        <text name="rhm_advice_speed" text="Основні втрати через надмірну швидкість. Зменшіть робочу швидкість для розвантаження сепаратора." />
+        <text name="rhm_advice_moisture" text="Втрати спричинені високою вологістю або росою. Зачекайте висихання поля або зменшіть швидкість." />
+        <text name="rhm_advice_wear" text="Підвищені втрати через знос жатки або молотарки. Проведіть технічне обслуговування в майстерні." />
+        <text name="rhm_advice_slope" text="Втрати зумовлені бічним нахилом комбайна на схилах. Зменшіть швидкість під час руху вздовж схилів." />
+        <text name="rhm_col_machine" text="Техніка" />
+        <text name="rhm_col_hours" text="Мотогодини" />
+        <text name="rhm_col_harvested" text="Намолочено" />
+        <text name="rhm_col_lost" text="Втрати" />
+        <text name="rhm_col_rank" text="Ранг" />
+        <text name="rhm_fleet_no_combines" text="Комбайнів не знайдено" />
+        <text name="rhm_setting_ai_limiter_title" text="AI SPEED LIMITER" />
+        <text name="rhm_setting_ai_limiter_desc" text="Автоматично обмежує швидкість найманців та помічників у разі перевищення ліміту втрат." />
+        <text name="rhm_setting_ai_threshold_title" text="ПОРІГ ВТРАТ ДЛЯ AI" />
+        <text name="rhm_setting_ai_threshold_desc" text="Максимально допустимий відсоток втрат, за якого AI буде автоматично сповільнюватися." />
+        <text name="rhm_setting_volunteer_title" text="ПАДАЛИЦЯ (VOLUNTEER CROPS)" />
+        <text name="rhm_setting_volunteer_desc" text="Створює осередки бур'янів/падалиці на полі позаду комбайна в зонах високих втрат (&gt;3%)." />
+        <text name="rhm_setting_autoreset_title" text="АВТО-СКИДАННЯ ПРИ ЗМІНІ ПОЛЯ" />
+        <text name="rhm_setting_autoreset_desc" text="Автоматично архівувати поточний замір та скидати лічильник при переході на інше поле." />
+        <text name="rhm_setting_autoreset_smart" text="Розумний (Поле / Культура)" />
+        <text name="rhm_setting_autoreset_crop" text="Лише зміна культури" />
+        <text name="rhm_setting_autoreset_disabled" text="Вимкнено (Вручну)" />
+        <text name="rhm_detail_area" text="Загальна обмолочена площа поля" />
+        <text name="rhm_detail_clean_grain" text="чистого зерна" />
+        <text name="rhm_detail_yield" text="Середня врожайність на скошеній площі" />
+        <text name="rhm_detail_throughput" text="Поточна продуктивність обмолоту" />
+        <text name="rhm_detail_lost_grain" text="зерна втрачено" />
+        <text name="rhm_detail_loss_rating" text="Відсоток втрат від біологічного врожаю" />
+        <text name="rhm_detail_financial_loss" text="Фінансові втрати через просипання зерна" />
+        <text name="rhm_detail_loss_money" text="Фінансові втрати через просипання зерна" />
+        <text name="rhm_detail_speed" text="Середня робоча швидкість комбайна" />
+        <text name="rhm_detail_load" text="Середнє завантаження силової установки" />
+        <text name="rhm_detail_duration" text="Тривалість поточної робочої операції" />
+        <text name="rhm_detail_wear" text="Технічний знос робочих органів молотарки" />
+        <text name="rhm_rating_normal" text="У межах норми (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Помірні втрати (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Підвищені втрати (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Критичні втрати (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Поля ферми" />
+        <text name="rhm_tab_fields_desc" text="Повний огляд збору врожаю, врожайності, втрат та контрактних робіт по окремих полях ферми." />
+        <text name="rhm_card_field_land" text="ЗЕМЛЯ ТА ПРОГРЕС" />
+        <text name="rhm_card_field_yield" text="ЗБІР ТА ВРОЖАЙНІСТЬ" />
+        <text name="rhm_card_field_losses" text="ВТРАТИ ТА ЯКІСТЬ" />
+        <text name="rhm_fields_total_owned" text="Власних полів" />
+        <text name="rhm_fields_best_yield" text="Найкраще поле" />
+        <text name="rhm_fields_owned" text="Власне" />
+        <text name="rhm_fields_contract" text="Контракт" />
+        <text name="rhm_fields_no_data" text="Немає записів полів" />
+        <text name="rhm_contract_tag" text="(Контракт)" />
+        <text name="rhm_cause_none" text="Оптимальний режим (Без втрат)" />
+        <text name="rhm_fields_all_overview" text="[*] Огляд ферми (Усі поля)" />
+        <text name="rhm_field_operations" text="Операцій збору" />
+        <text name="rhm_fields_nominal_area" text="Номінальна площа" />
+        <text name="rhm_fields_harvested_area" text="Скошена площа" />
+        <text name="rhm_status_in_progress" text="У процесі" />
+        <text name="rhm_status_completed" text="Зібрано" />
+        <text name="rhm_ops_one" text="збір" />
+        <text name="rhm_ops_few" text="збори" />
+        <text name="rhm_ops_many" text="зборів" />
+        <text name="rhm_loss_disabled" text="Симуляцію вимкнено" />
+        <text name="rhm_loss_disabled_desc" text="Симуляцію втрат врожаю вимкнено в налаштуваннях мода." />
+        <text name="rhm_filter_active" text="В строю" />
+        <text name="rhm_filter_all" text="Всі" />
+        <text name="rhm_filter_sold" text="Продані" />
+        <text name="rhm_status_sold" text="Продано (Архів)" />
+        <text name="rhm_field_sold" text="[Продано]" />
+        <text name="rhm_driver_sold" text="Знято з обліку" />
+        <text name="rhm_fleet_no_sold_combines" text="Немає проданих комбайнів в архіві" />
+        <text name="rhm_fleet_total_count_active" text="Комбайнів у строю" />
+        <text name="rhm_fleet_total_count_sold" text="Проданих комбайнів" />
+        <text name="rhm_slopeloss_short" text="Втрати від нахилу" />
+        <text name="rhm_slopeloss_long" text="Симулює сповзання зернової маси на один бік решітного стану на пагорбах і схилах понад 4° (до 5% втрат). Вимкніть, якщо бажаєте однаковий рівень втрат на будь-якому рельєфі." />
+        <text name="rhm_weedload_short" text="Опір від бур'янів" />
+        <text name="rhm_weedload_long" text="Зелені бур'яни з високим вмістом соку та волокон намотуються на барабан і збільшують механічний опір та навантаження на двигун комбайна (до +25%). Вимкніть, якщо бур'яни не повинні впливати на потужність." />
+            <text name="rhm_fleet_badge_mission" text="[Контракт]" />
+        <text name="rhm_fleet_badge_leased" text="[Оренда]" />
     </texts>
 </l10n>

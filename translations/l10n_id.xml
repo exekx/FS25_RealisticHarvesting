@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<l10n>
+    <texts>
+        <text name="rhm_section_simulation" text="Realistic Harvesting - Simulasi" />
+        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Tampilan" />
+        <text name="input_RHM_OPEN_MENU" text="Menu Pengaturan Combine" />
+        <text name="input_RHM_TOGGLE_HUD" text="Alihkan HUD Pemanenan" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Alihkan Kursor Mouse" />
+        <text name="input_RHM_CLOSE_NOTIFICATION" text="Tutup Notifikasi" />
+        <text name="rhm_hud_load" text="BEBAN" />
+        <text name="rhm_hud_loss" text="SUSUT" />
+        <text name="rhm_hud_moist" text="LEMBAB" />
+        <text name="rhm_ai_settings_retained" text="Pengaturan Manual Dipertahankan" />
+        <text name="rhm_ai_auto_tuned" text="Dikalibrasi Otomatis" />
+        <text name="rhm_difficulty" text="Tingkat Kesulitan" />
+        <text name="rhm_difficulty_motor" text="Batas Tenaga Mesin" />
+        <text name="rhm_difficulty_motor_short" text="Batas Mesin" />
+        <text name="rhm_difficulty_motor_long" text="Menentukan fisika beban mesin. Arcade = Nonaktif (tanpa beban berlebih), Normal = +35% ruang tenaga, Realistis = 100% fisika autentik." />
+        <text name="rhm_difficulty_loss" text="Penalti Kehilangan Hasil" />
+        <text name="rhm_difficulty_loss_short" text="Penalti Susut" />
+        <text name="rhm_difficulty_loss_long" text="Menentukan susut panen. Arcade = 0% (tanpa susut), Normal = susut standar, Realistis = susut lebih tinggi (200%)." />
+        <text name="rhm_diff_1" text="Arcade" />
+        <text name="rhm_difficulty_long" text="Arcade: Tanpa beban berlebih atau susut. Normal: Fisika seimbang (+35%). Realistis: Simulasi murni (0%)." />
+        <text name="rhm_diff_2" text="Normal" />
+        <text name="rhm_diff_3" text="Realistis" />
+        <text name="rhm_show_yield" text="Tampilkan Monitor Hasil" />
+        <text name="rhm_show_yield_short" text="Tampilkan Hasil" />
+        <text name="rhm_show_yield_long" text="Tampilkan hasil panen waktu-nyata di HUD (t/ha atau bu/ac)" />
+        <text name="rhm_yield_label" text="Hasil Panen" />
+        <text name="rhm_hud_short" text="Tampilkan HUD" />
+        <text name="rhm_hud_long" text="Tampilkan info panen di layar" />
+        <text name="rhm_speedlimit_short" text="Pembatas Kecepatan" />
+        <text name="rhm_speedlimit_long" text="Batasi kecepatan combine secara otomatis berdasarkan beban mesin" />
+        <text name="rhm_croploss_short" text="Aktifkan Susut Panen" />
+        <text name="rhm_croploss_long" text="Hitung kehilangan hasil saat combine kelebihan beban" />
+        <text name="rhm_show_speed_short" text="Tampilkan Kecepatan" />
+        <text name="rhm_show_speed_long" text="Tampilkan kecepatan saat ini dan yang disarankan di HUD" />
+        <text name="rhm_show_load_short" text="Tampilkan Beban Mesin" />
+        <text name="rhm_show_load_long" text="Tampilkan persentase beban mesin di HUD" />
+        <text name="rhm_show_productivity_short" text="Tampilkan Produktivitas" />
+        <text name="rhm_show_productivity_long" text="Tampilkan laju aliran massa (t/jam) di HUD" />
+        <text name="rhm_show_croploss_short" text="Tampilkan Susut" />
+        <text name="rhm_show_moisture_short" text="Tampilkan Kelembaban" />
+        <text name="rhm_show_moisture_long" text="Tampilkan persentase kelembaban tanaman di HUD" />
+        <text name="rhm_moisture_enable_short" text="Dampak Kelembapan" />
+        <text name="rhm_moisture_enable_long" text="Mensimulasikan peningkatan resistensi perontokan dan kehilangan jerami basah saat berembun atau hujan. Matikan untuk panen tanpa penalti cuaca." />
+        <text name="rhm_ui_title_main" text="TERMINAL KALIBRASI COMBINE" />
+        <text name="rhm_ui_page_settings" text="Pengaturan" />
+        <text name="rhm_ui_page_profiles" text="Profil" />
+        <text name="rhm_ui_current_crop" text="Tanaman Saat Ini:" />
+        <text name="rhm_ui_load" text="Beban Mesin:" />
+        <text name="rhm_ui_loss" text="Susut Panen:" />
+        <text name="rhm_ui_fan_speed" text="Kecepatan Kipas" />
+        <text name="rhm_ui_rotor_speed" text="Kecepatan Rotor" />
+        <text name="rhm_ui_upper_sieve" text="AYAKAN ATAS" />
+        <text name="rhm_ui_lower_sieve" text="AYAKAN BAWAH" />
+        <text name="rhm_ui_feeder_speed" text="Jarak Cekung" />
+        <text name="rhm_ui_mode_auto" text="OTOMATIS" />
+        <text name="rhm_ui_mode_manual" text="MANUAL" />
+        <text name="rhm_ui_btn_reset" text="RESET DEFAULT" />
+        <text name="rhm_ui_profile_create" text="PROFIL BARU" />
+        <text name="rhm_ui_profile_save" text="Simpan" />
+        <text name="rhm_ui_profile_load" text="MUAT" />
+        <text name="rhm_ui_profile_delete" text="Hapus" />
+        <text name="rhm_ui_profile_name_placeholder" text="Nama Profil..." />
+        <text name="rhm_hud_yield_label" text="HASIL" />
+        <text name="rhm_hud_load_label" text="BEBAN" />
+        <text name="rhm_hud_loss_label" text="SUSUT" />
+        <text name="rhm_loss_level_low" text="RENDAH" />
+        <text name="rhm_loss_level_med" text="SEDANG" />
+        <text name="rhm_loss_level_high" text="TINGGI" />
+        <text name="rhm_show_croploss_long" text="Tampilkan persentase kehilangan hasil di HUD" />
+        <text name="rhm_show_load_warn_short" text="Peringatan Beban Berlebih" />
+        <text name="rhm_show_load_warn_long" text="Tampilkan peringatan berkedip saat combine kelebihan beban" />
+        <text name="rhm_overload_sounds_short" text="Suara Beban Berlebih" />
+        <text name="rhm_overload_sounds_long" text="Putar alarm kabin dan suara getaran mekanis saat combine kelebihan beban atau susut berlebih" />
+        <text name="rhm_section_audio" text="Realistic Harvesting - Audio Kabin" />
+        <text name="rhm_alarm_sounds_short" text="Buzzer Alarm Beban Berlebih" />
+        <text name="rhm_alarm_sounds_long" text="Mode buzzer kabin saat beban mesin mencapai kelebihan parah (105%+) atau susut melebihi 5%." />
+        <text name="rhm_alarm_mode_smart" text="Pintar (3 Beep)" />
+        <text name="rhm_alarm_mode_continuous" text="Kontinu" />
+        <text name="rhm_alarm_mode_off" text="Mati" />
+        <text name="rhm_sound_volume_short" text="Volume Suara" />
+        <text name="rhm_sound_volume_long" text="Menyesuaikan volume suara alarm buzzer beban berlebih di kabin." />
+        <text name="rhm_target_load" text="Target Beban Mesin" />
+        <text name="rhm_gui_title" text="Pengaturan Combine" />
+        <text name="rhm_gui_crop" text="Tanaman:" />
+        <text name="rhm_gui_none" text="TIDAK ADA" />
+        <text name="rhm_gui_btn_auto" text="OTOMATIS" />
+        <text name="rhm_gui_btn_load_preset" text="Muat Preset" />
+        <text name="rhm_gui_btn_save" text="Simpan Profil" />
+        <text name="rhm_gui_btn_reset" text="Reset Default" />
+        <text name="rhm_gui_engine_load" text="Beban Mesin: %.0f%%" />
+        <text name="rhm_gui_loss" text="Susut: %.1f%%" />
+        <text name="rhm_gui_preview_loss" text="Perkiraan Susut: %.1f%%" />
+        <text name="rhm_gui_close_hint" text="Shift Kanan+K untuk Menutup" />
+        <text name="rhm_gui_no_combine" text="Tidak Ada Combine Terpilih" />
+        <text name="rhm_gui_not_init" text="Combine Belum Diinisialisasi" />
+        <text name="rhm_ui_drum_speed" text="Kecepatan Drum" />
+        <text name="rhm_ui_roller_speed" text="Kecepatan Rol" />
+        <text name="rhm_ui_picker_speed" text="Kecepatan Pemipil" />
+        <text name="rhm_ui_forage_fan" text="Kecepatan Blower" />
+        <text name="rhm_ui_forage_drum" text="Drum Pencacah" />
+        <text name="rhm_ui_forage_feeder" text="Rol Pengumpan" />
+        <text name="rhm_ui_root_roller" text="Rol Pembersih" />
+        <text name="rhm_ui_root_feeder" text="Konveyor Pemisah" />
+        <text name="rhm_ui_grape_shaker" text="Kecepatan Pengocok" />
+        <text name="rhm_ui_olive_shaker" text="Kecepatan Pemukul" />
+        <text name="rhm_ui_grape_conveyor" text="Kecepatan Konveyor" />
+        <text name="rhm_ui_grape_fan" text="Kipas Pembuang" />
+        <text name="rhm_units_short" text="Satuan Ukuran" />
+        <text name="rhm_units_long" text="Pilih sistem pengukuran (kecepatan, massa, area)" />
+        <text name="rhm_unit_metric" text="Metrik (km/jam, t/jam, ha)" />
+        <text name="rhm_unit_imperial" text="Imperial (mph, ton/h, ac)" />
+        <text name="rhm_unit_bushels" text="Imperial dengan Bushel (mph, bu/jam, ac)" />
+        <text name="rhm_reset" text="Reset Pengaturan RH" />
+        <text name="rhm_loss_low" text="RENDAH" />
+        <text name="rhm_loss_med" text="SEDANG" />
+        <text name="rhm_loss_high" text="TINGGI" />
+        <text name="rhm_warning_turn_on_combine" text="Nyalakan mesin combine terlebih dahulu!" />
+        <text name="rhm_warning_turn_on_cutter" text="Nyalakan header pemotong!" />
+        <text name="rhm_warn_overload_high" text="Combine kelebihan beban! Kurangi kecepatan untuk menekan susut panen." />
+        <text name="rhm_warn_overload_critical" text="COMBINE KRITIS KELEBIHAN BEBAN! Terjadi kehilangan hasil yang parah!" />
+        <text name="rhm_configuration_title" text="Sistem Realistic Harvesting" />
+        <text name="rhm_package_standard" text="Tingkat 1: Mekanis Dasar" />
+        <text name="rhm_package_sensor" text="Tingkat 2: Paket Sensor" />
+        <text name="rhm_package_yield" text="Tingkat 3: Telemetri &amp; Monitor Hasil" />
+        <text name="rhm_package_opti" text="Tingkat 4: Autopilot AI Opti-Harvest" />
+        <text name="rhm_msg_req_level_4" text="Memerlukan paket Autopilot AI Opti-Harvest (Tingkat 4) yang terpasang di bengkel." />
+        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Panen beberapa meter tanaman untuk memulai kalibrasi otomatis!" />
+        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Berhasil mengkalibrasi otomatis untuk %s!" />
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-9)                       -->
+        <!-- ================================================================= -->
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
+        <!-- ================================================================= -->
+        <text name="rhm_help_category" text="Realistic Harvesting" />
+        <text name="rhm_help_title" text="Panduan Realistic Harvesting" />
+
+        <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
+        <text name="rhm_help_overview_title" text="1. Fisika Beban Mesin &amp; Kecepatan" />
+        <text name="rhm_help_overview_sub1" text="Keseimbangan daya: hambatan mesin &amp; perontokan massa" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting menggantikan kecepatan panen tetap ala arcade dengan model keseimbangan daya mesin nyata berbasis standar ASABE dan DLG. Dalam game dasar, combine selalu melaju pada kecepatan maksimum header tanpa memedulikan kerapatan tanaman. Dalam mod ini, seluruh tenaga bersih mesin terus dibagi ke empat kebutuhan nyata: hambatan dasar transmisi dan hidrostatik (8% dari daya nominal untuk combine biji-bijian, 10% untuk pemanen umbi berat), penggerak mekanis bilah pisau dan reel header, energi untuk meremas dan menarik massa tanaman melewati silinder perontok atau rotor, serta gesekan ekstra akibat kelembapan dan gulma. Persentase beban mesin di layar menunjukkan bagian daya kuda yang sedang bekerja aktif pada detik tersebut." />
+        <text name="rhm_help_overview_sub2" text="Kontrol kecepatan otomatis &amp; Perlindungan penyumbatan" />
+        <text name="rhm_help_overview_2" text="Anda tidak perlu lagi menebak-nebak dan mengubah kecepatan cruise control secara manual. Turunkan header, aktifkan mekanisme perontok, dan masuk ke lahan: combine memulai panen pada kecepatan awal aman 5,5 km/jam agar massa tanaman mengisi saluran pengumpan (feederhouse) secara merata tanpa membebani drum perontok secara mendadak. Selanjutnya, pengontrol hidrostatik pintar secara otomatis menyesuaikan kecepatan kerja dengan beban mesin guna menjaganya di rentang paling efisien (sekitar 80–90%). Jika combine memasuki rumpun tebal atau mendaki tanjakan, sistem memperlambat laju secara bertahap (waktu reaksi 0,45 dtk) guna mencegah mesin mati dan drum tersumbat. Di area jarang, combine akan berakselerasi mulus. Batas kecepatan tertinggi selalu dibatasi oleh spesifikasi pabrik header." />
+        <text name="rhm_help_overview_sub3" text="Pencacah jerami &amp; Peningkatan kecepatan saat mode barisan" />
+        <text name="rhm_help_overview_3" text="Mode penanganan jerami secara langsung menentukan sisa daya kuda untuk penggerak roda. Pencacah jerami (straw chopper) adalah rotor bilah pisau berat yang berputar di atas 3.000 rpm. Mencacah dan menyebarkan jerami menyerap 15% hingga 20% dari total tenaga mesin (terutama pada tanaman berbatang keras seperti haver, jelai, atau gandum hitam). Jika combine bergerak terlalu lambat di bawah beban tinggi, beralihlah ke mode barisan jerami (windrow) menggunakan tombol standar game. Rotor pencacah akan terputus, membebaskan puluhan daya kuda untuk drum perontok, dan kecepatan kerja seketika meningkat 1,5–3 km/jam pada beban mesin yang sama." />
+
+        <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
+        <text name="rhm_help_hud_title" text="2. HUD Interaktif &amp; Kontrol" />
+        <text name="rhm_help_hud_sub1" text="Panel telemetri: penjelasan 4 sel informasi" />
+        <text name="rhm_help_hud_1" text="Saat menaiki combine, panel telemetri kaca gelap melengkung yang elegan muncul di bagian bawah layar. Panel ini menampilkan empat indikator utama: Sel 1 menunjukkan persentase beban mesin dengan kode warna dinamis (hijau hingga 85% untuk kerja ringan; kuning 85% hingga 95% untuk zona produktif ideal; merah di atas 95% memperingatkan beban berlebih). Sel 2 menampilkan persentase kehilangan hasil riil atau kecepatan yang disarankan. Sel 3 menunjukkan kadar air tanaman (%) atau kecepatan pengerjaan dalam hektar per jam. Sel 4 menampilkan hasil panen sesaat per hektar (t/ha atau bu/ac) atau kapasitas perontokan total (t/jam atau l/jam)." />
+        <text name="rhm_help_hud_sub2" text="Pergeseran bebas mouse (LMB), penempelan magnetis &amp; Mode" />
+        <text name="rhm_help_hud_2" text="Anda dapat menempatkan panel HUD di posisi layar mana pun. Tahan tombol kiri mouse (LMB) pada permukaan HUD dan seret ke tempat yang tidak menghalangi pandangan kabin. Saat mendekati tepi layar atau batas bawah menu bantuan F1, fitur perataan magnetis akan mengunci panel secara rapi. Selain itu, panel bersifat interaktif: satu klik kiri pada sel 2, 3, atau 4 langsung mengubah tampilan data sekunder (seperti beralih dari ton/jam ke hektar/jam, atau antara persentase kehilangan dan kecepatan target)." />
+        <text name="rhm_help_hud_sub3" text="Ketersediaan sensor &amp; Garis strip (--%) pada mesin lama" />
+        <text name="rhm_help_hud_3" text="Jika Anda menaiki combine standar atau berumur dan melihat garis strip (--%) alih-alih angka kehilangan atau kelembapan, ini adalah perilaku realistis yang disengaja, bukan kesalahan program. Mesin tingkat dasar (Tier 1) tidak memiliki sensor kehilangan piezoelektrik atau pengukur kelembapan optik dari pabrik; operator mengemudi dengan mendengarkan suara mesin dan kebersihan gabah di tangki. Sensor ayakan aktif setelah memasang paket elektronik Tier 2 di bengkel, dan pengukur kadar air digital hadir mulai Tier 3. Saat berhenti untuk membongkar muatan atau berputar di ujung lahan, HUD membekukan nilai panen stabil terakhir guna mencegah kedipan nol." />
+
+        <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
+        <text name="rhm_help_calibration_title" text="3. Terminal Kalibrasi Kabin (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Pengaturan mesin standar (Tier 1): penyetelan manual" />
+        <text name="rhm_help_calibration_main_text" text="Tekan Right Shift + K di kabin untuk membuka terminal pengaturan layar sentuh. Pada combine standar (Tier 1), memori digital belum tersedia: tombol simpan profil, muat, dan autopilot terkunci gembok, serta indikator zona optimum tersembunyi. Cara mengatur mesin: tombol reset di bagian bawah mengembalikan semua slider ke netral 50%. Selanjutnya sesuaikan slider menurut kaidah agronomi dasar: untuk sereal umum (gandum, jelai), atur drum pada 60–70%, kipas pembersih pada 65–75%, dan celah ayakan pada 50–60%. Untuk tanaman berbiji besar (jagung, bunga matahari), kecepatan drum wajib diturunkan ke 35–45% agar batang perontok tidak meremukkan biji." />
+        <text name="rhm_help_calibration_rotor_sub" text="Kalibrasi Tier 2–3: zona hijau optimum &amp; Profil simpanan" />
+        <text name="rhm_help_calibration_rotor_text" text="Setelah meningkatkan combine ke Tier 2, pita hijau cerah («sweet-spot») muncul di setiap skala slider, dihitung khusus untuk tanaman yang sedang dipanen. Panduan penyetelan awal: panen beberapa meter agar sistem mengenali tanaman, buka terminal (Shift+K), lalu geser slider dengan tombol [-] dan [+] ke dalam zona hijau. Segera tekan tombol «SIMPAN»! Mesin menyimpan konfigurasi ke profil. Tombol «MUAT» baru berfungsi setelah penyimpanan pertama dibuat: jika Anda memanen tanaman ini lagi nanti, satu klik «MUAT» langsung memulihkan setelan Anda. Pada Tier 3, kartu telemetri beban, efisiensi, dan perkiraan kehilangan juga muncul secara langsung." />
+        <text name="rhm_help_calibration_presets_sub" text="Kalibrasi otomatis satu sentuhan pada mesin Tier 4" />
+        <text name="rhm_help_calibration_presets_text" text="Pemilik combine dengan paket elektronik Tier 4 (Opti-Harvest AI) tidak perlu menggeser slider manual atau mengelola file profil. Di pojok kanan atas terminal terbuka tombol «AI AUTO-KALIBRASI»: satu sentuhan langsung memindai kadar air serta kerapatan tanaman dan mengonfigurasi parameter perontokan optimal dari basis data pabrik dalam satu detik. Selain itu, autopilot aktif secara mandiri mengoreksi putaran drum dan kipas setiap 2 detik saat melintasi area bergulma atau cekungan lembap." />
+
+        <!-- PAGE 4: FIELD ODOMETER & FLEET ANALYTICS (SHIFT+J) -->
+                        <!-- PAGE 4: CROP CALIBRATION HANDBOOK (RPM & MM) -->
+        <text name="rhm_help_presets_title" text="4. Buku Panduan Kalibrasi Tanaman (RPM &amp; mm)" />
+        <text name="rhm_help_presets_sub1" text="Pengaturan Universal: Mengapa RPM dan mm identik pada semua mesin panen" />
+        <text name="rhm_help_presets_1" text="Pada tablet kalibrasi kabin (Shift Kanan + K), semua parameter ditampilkan dalam satuan fisik nyata: putaran per menit (RPM) dan celah dalam milimeter (mm). Aturan agronomi dasar: pengaturan awal optimal untuk tanaman apa pun adalah IDENTIK di semua model combine harvester, terlepas dari tenaga mesin (dari 300 hingga 800 hp) atau lebar header! Sifat biologis bulir gandum atau tongkol jagung tidak berubah: gandum selalu membutuhkan kecepatan drum sekitar ~800 RPM dan hembusan kipas sekitar ~960 RPM. Tenaga mesin dan lebar header hanya menentukan kecepatan maju (km/jam) dan throughput (t/jam), yang diatur otomatis oleh RHM untuk mencegah kelebihan beban." />
+        <text name="rhm_help_presets_sub2" text="Serealia, jagung, biji minyak, dan kacang-kacangan" />
+        <text name="rhm_help_presets_2" text="Untuk mesin panen dasar (Tier 1) tanpa indikator zona hijau, gunakan nilai standar pabrik berikut:&#10;&#10;- Gandum: Kecepatan Rotor 780–820 RPM | Jarak Cekung 5–7 mm | Kecepatan Kipas 940–980 RPM | Ayakan Atas 14–15 mm | Ayakan Bawah 6–8 mm.&#10;&#10;- Jelai (Barley): Rotor 780–820 RPM | Cekung 6–8 mm | Kipas 980–1020 RPM | Ayakan Atas 14–15 mm | Ayakan Bawah 7–9 mm (sekam liat perlu hembusan kuat).&#10;&#10;- Oat: Rotor 680–720 RPM | Cekung 5–7 mm | Kipas 730–770 RPM | Ayakan Atas 14–16 mm | Ayakan Bawah 6–8 mm (sekam ringan; kipas &gt;850 RPM meniup biji keluar).&#10;&#10;- Jagung Pipil: Rotor 310–350 RPM | Cekung 28–32 mm | Kipas 930–970 RPM | Ayakan Atas 19–21 mm | Ayakan Bawah 11–13 mm (PERHATIAN: kecepatan rotor minimum agar tongkol tidak hancur!).&#10;&#10;- Bunga Matahari: Rotor 340–380 RPM | Cekung 23–27 mm | Kipas 730–770 RPM | Ayakan Atas 17–19 mm | Ayakan Bawah 9–11 mm.&#10;&#10;- Kanola: Rotor 480–520 RPM | Cekung 16–19 mm | Kipas 680–720 RPM | Ayakan Atas 8–10 mm | Ayakan Bawah 3–5 mm (biji halus; kipas &gt;750 RPM membuang hasil panen).&#10;&#10;- Kedelai: Rotor 540–580 RPM | Cekung 17–19 mm | Kipas 960–1000 RPM | Ayakan Atas 15–17 mm | Ayakan Bawah 8–10 mm.&#10;&#10;- Kacang Polong: Rotor 410–450 RPM | Cekung 14–16 mm | Kipas 980–1020 RPM | Ayakan Atas 17–19 mm | Ayakan Bawah 8–10 mm.&#10;&#10;- Padi &amp; Beras Bulir Panjang: Rotor 700–740 RPM | Celah Konkaf 6–8 mm | Kipas 1030–1070 RPM | Ayakan Atas 15–17 mm | Ayakan Bawah 6–8 mm (jerami basah abrasif).&#10;&#10;- Sorgum: Rotor 580–620 RPM | Celah Konkaf 17–19 mm | Kipas 1080–1120 RPM | Ayakan Atas 14–16 mm | Ayakan Bawah 7–8 mm (malai padat membutuhkan aliran udara tinggi).&#10;&#10;- Biji Rumput (Poppy, Semanggi): Rotor 780–820 RPM | Cekung 4–6 mm | Kipas 430–470 RPM | Ayakan Atas 6–8 mm | Ayakan Bawah 2–4 mm (angin minimal!)." />
+        <text name="rhm_help_presets_sub3" text="Forage harvester, pemanen umbi, dan mesin khusus" />
+        <text name="rhm_help_presets_3" text="Untuk mesin khusus, Shift+K mengaktifkan organ kerja terkait:&#10;&#10;- Forage Harvester: Kehilangan gabah adalah nol (0%). Silase jagung — Blower 1300–1350 RPM, Drum Pencacah 1150–1170 RPM, Rol Pengumpan 470–500 RPM. Pickup jalur jerami — Blower 1150–1200 RPM, Drum 1070–1100 RPM, Rol 450–470 RPM. Potong langsung rumput — Blower 1230–1270 RPM, Drum 1120–1140 RPM, Rol 410–430 RPM. Poplar (serpihan kayu) — Blower 1350–1400 RPM, Drum Perajang 1180–1200 RPM, Roll Pengumpan 380–400 RPM.&#10;&#10;- Pemanen Umbi-umbian: Kentang — Turbin 600–620 RPM, Rol Pembersih 190–210 RPM, Sabuk Konveyor 300–320 RPM (melindungi umbi). Bit Gula, Bit Merah (Beetroot) — Blower 630–650 RPM, Roller 230–250 RPM, Web Elevator 290–310 RPM. Wortel — Turbin 620–640 RPM, Rol 200–220 RPM, Sabuk 300–310 RPM. Bawang — Turbin 840–860 RPM, Rol 200–220 RPM, Sabuk 260–270 RPM.&#10;&#10;- Pemanen Sayuran: Buncis (Green Beans) — Blower Pembersih 700–720 RPM, Drum Perontok 170–190 RPM, Elevator 280–300 RPM. Bayam (Spinach) — Blower 550–580 RPM, Reel Pemotong 140–160 RPM, Elevator 270–290 RPM (penanganan lembut).&#10;&#10;- Kapas: Kipas 3600–3800 RPM, Spindel 210–230 RPM, Drum 210–230 RPM.&#10;&#10;- Tebu (Sugar Cane): Kipas Ekstraktor Utama 1150–1200 RPM, Drum Pencacah 180–200 RPM, Konveyor Elevator 280–300 RPM.&#10;&#10;- Anggur: Batang Penggoyang 450–470 RPM, Konveyor 110–120 RPM, Kipas Ekstraktor 1250–1300 RPM.&#10;&#10;- Zaitun: Pemukul 540–560 RPM, Konveyor 105–115 RPM, Kipas Ekstraktor 1300–1350 RPM." />
+        <text name="rhm_help_presets_sub4" text="Kelembapan Tanaman: Efek Fisik dan Kalibrasi Lapangan" />
+        <text name="rhm_help_presets_4" text="RHM mendukung mod kelembapan eksternal dan memiliki simulasi cuaca diurnal bawaan (embun pagi 16–18%, siang hari kering 11–13.5%, hujan &gt;22%). Batas kelembapan aman: 14.0% (kanola: 9.0%). Setiap 1% kelembapan di atas batas menambah +2% beban mesin dan +0.35% kerugian tak terhindarkan akibat biji menempel pada jerami basah.&#10;&#10;Aturan kalibrasi saat kelembapan &gt;14%:&#10;&#10;1. Naikkan rotor sebesar +50...80 RPM (misalnya gandum menjadi 860 bukannya 800 RPM) — membantu menarik jerami basah.&#10;&#10;2. Naikkan kipas sebesar +30...50 RPM (990 bukannya 950 RPM) — mengangkat sekam basah yang berat.&#10;&#10;3. Buka ayakan atas +1...2 mm lebih lebar.&#10;&#10;Pada Tier 2–3 zona hijau bergeser otomatis; pada Tier 4 autopilot AI menyesuaikan semuanya secara langsung." />
+        <text name="rhm_help_presets_sub5" text="Tanaman Modifikasi dan Peta Kustom: Deteksi Otomatis" />
+        <text name="rhm_help_presets_5" text="1. Tanaman mod bawaan dalam database RHM:&#10;&#10;- Rye, Triticale, Spelt: atur seperti gandum (Rotor 780–820 RPM, Cekung 5–7 mm, Kipas 940–980 RPM, Ayakan 14/7 mm).&#10;&#10;- Buckwheat: Rotor 530–570 RPM, Cekung 12–14 mm, Kipas 730–770 RPM, Ayakan 12/6 mm.&#10;&#10;- Millet: Rotor 780–820 RPM, Cekung 5–7 mm, Kipas 850–890 RPM, Ayakan 14/7 mm.&#10;&#10;- Flax, Mustard: Rotor 830–870 RPM, Cekung 14–16 mm, Kipas 780–820 RPM, Ayakan 9/4 mm.&#10;&#10;- Poppy: Rotor 430–470 RPM, Cekung 12–14 mm, Kipas 430–470 RPM, Ayakan 7/3 mm (biji mikro!).&#10;&#10;- Hemp: Rotor 630–670 RPM, Cekung 12–14 mm, Kipas 830–870 RPM, Ayakan 14/7 mm.&#10;&#10;- Safflower: seperti bunga matahari (Rotor 340–380 RPM, Kipas 730–770 RPM, Ayakan 18/10 mm).&#10;&#10;- Biji Semanggi: Rotor 780–820 RPM, Cekung 4–6 mm, Kipas 430–470 RPM, Ayakan 7/3 mm.&#10;&#10;- Alfalfa (silase): Mesin Pencacah — Blower ~1250, Drum ~1130, Rol ~420 RPM.&#10;&#10;2. Mesin Deteksi Otomatis: RHM membaca bobot per liter dan jerami dari peta. Aturan 4 Famili (Tier 1): serealia berjerami = gandum; biji minyak halus = kanola; kacang-kacangan = polong; rumput = angin minimal. Pada Tier 2–4 target hijau dihitung otomatis." />
+
+        <text name="rhm_help_trip_title" text="5. Odometer Lahan &amp; Analisis Armada (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Buku catatan lahan aktif: pencatatan panen presisi" />
+        <text name="rhm_help_trip_1" text="Tekan Right Shift + J di kabin untuk membuka pusat analisis empat tab. Tab pertama adalah odometer digital lahan aktif yang mencatat data kerja secara akurat: menjumlahkan luas panen (hektar), menghitung bobot gabah dalam ton dan liter, mencatat waktu kerja bersih combine (di luar jeda bongkar muat dan putaran ujung lahan), serta menghitung rata-rata hasil lahan dan produktivitas riil (t/jam dan ha/jam). Anda dapat mengetahui hasil pasti sebelum membawanya ke gudang atau pembeli." />
+        <text name="rhm_help_trip_sub2" text="Kerugian finansial, skor operator &amp; Analisis penyebab kehilangan" />
+        <text name="rhm_help_trip_2" text="Odometer tidak hanya mencatat tonase gabah yang hilang, tetapi juga menghitung kerugian finansial dalam mata uang game (€, $, atau £) berdasarkan harga pasar tanaman saat itu. Algoritma khusus menilai kecakapan pengemudi dari [A] (sangat presisi, kehilangan di bawah 1%) hingga [E] (kurang baik, kehilangan tinggi). Di bawah skor terdapat empat bilah diagnostik yang merinci proporsi penyebab kehilangan: kecepatan berlebih, kelembapan tanaman, keausan bilah pisau, atau kemiringan ayakan di lereng bukit." />
+        <text name="rhm_help_trip_sub3" text="Reset cepat odometer di kabin (Right Shift + R)" />
+        <text name="rhm_help_trip_3" text="Saat berpindah ke lahan baru atau memulai pengukuran kontrol, Anda tidak perlu membuka menu: tahan tombol Right Shift + R selama 1 detik di balik kemudi. Odometer seketika disetel ulang dengan konfirmasi suara dan notifikasi teks di layar. Selain itu, pengaturan game memiliki fitur reset otomatis cerdas (Smart) yang mengosongkan odometer saat mendeteksi nomor lahan baru atau perubahan jenis tanaman di tangki." />
+        <text name="rhm_help_trip_sub4" text="Daftar lahan, riwayat musim &amp; Pemantauan armada" />
+        <text name="rhm_help_trip_4" text="Tab «Lahan Pertanian» mencatat seluruh bidang tanah yang dimiliki beserta luas dan riwayat panen terakhirnya. Tab «Analisis Musim» menyajikan tren panen menurut bulan dan tahun. Tab «Armada Combine» memungkinkan pemantauan seluruh unit panen secara langsung: melihat siapa yang mengemudi (pemain atau pekerja), jenis tanaman, kecepatan, beban mesin, hasil kerja (t/jam), tingkat keausan pisau header, dan paket elektronik yang terpasang." />
+
+        <!-- PAGE 5: GRAIN LOSS & DIAGNOSTICS -->
+        <text name="rhm_help_croploss_title" text="6. Kehilangan Hasil Panen &amp; Diagnostik" />
+        <text name="rhm_help_croploss_sub1" text="Pengurangan fisik gabah langsung dari tangki combine" />
+        <text name="rhm_help_croploss_1" text="Dalam Realistic Harvesting, kehilangan panen bukanlah sekadar statistik di layar. Gabah yang gagal terpisah atau terlempar keluar bersama sekam secara fisik langsung dipotong dari tangki penampung combine secara real-time! Jika melaju terlalu kencang, isi tangki akan berkurang drastis dan hasil per hektar yang Anda bawa ke gudang berkurang 5–15%. Pada mode barisan, biji yang hilang akan jatuh ke barisan jerami. Pada pemanen hijauan silase dan pemanen kapas, kehilangan gabah tidak terjadi karena seluruh biomassa dicacah atau dipadatkan." />
+        <text name="rhm_help_croploss_sub2" text="Empat faktor utama kehilangan &amp; Solusinya" />
+        <text name="rhm_help_croploss_2" text="Total kehilangan gabah disebabkan oleh empat faktor independen: 1. Kecepatan dan kelebihan beban: menurut standar ISO 8210, kehilangan mulai meningkat pada beban di atas 80%, melampaui toleransi 1% pada beban 95%, dan di atas 110% ayakan tersumbat hingga gabah berhamburan ke tanah. Solusi: jaga beban mesin di kisaran 85–90%. 2. Kelembapan dan embun: kelembapan di atas 14% membuat jerami lengket, menambah +0,35% kehilangan untuk setiap 1% kelebihan air. Solusi: panen pada siang hari yang terik. 3. Keausan pisau: pisau tumpul (keausan di atas 15%) tidak memotong rapi melainkan merontokkan bulir ke tanah sebelum masuk combine (hingga 3% kehilangan). Solusi: servis header di bengkel secara berkala. 4. Kemiringan lahan: sudut kemiringan ayakan di atas 4° menumpuk gabah ke satu sisi, memicu kehilangan hingga 5%." />
+        <text name="rhm_help_croploss_sub3" text="Buzzer akustik kabin (Smart Buzzer): alarm beban berlebih" />
+        <text name="rhm_help_croploss_3" text="Jika beban mesin melampaui 95% atau kehilangan gabah melebihi 5%, terminal kabin membunyikan nada peringatan. Pada mode Smart Buzzer yang disarankan, buzzer berbunyi tiga pulsa lembut (0,3 dtk) kemudian hening selama 18 detik, memberi peringatan tegas tanpa dengungan terus-menerus. Mendengar alarm? Itu tanda untuk mengurangi kecepatan, memeriksa celah ayakan di menu Shift+K, atau mematikan pencacah jerami, setelah itu kehilangan akan segera teratasi. Volume buzzer dapat disetel antara 0% hingga 100% di menu pengaturan game." />
+
+        <!-- PAGE 7: ELECTRONICS UPGRADE TIERS -->
+        <text name="rhm_help_upgrades_title" text="7. Paket Tingkatan Elektronik (Tier 1–4)" />
+        <text name="rhm_help_upgrades_sub1" text="Peningkatan unit di bengkel: 4 tingkatan untuk segala anggaran" />
+        <text name="rhm_help_upgrades_1" text="Semua combine dalam game (baik unit baru di toko maupun unit yang sudah ada di garasi) dapat ditingkatkan dengan paket elektronik RHM khusus. Masuk ke area servis bengkel, buka menu kustomisasi, dan pilih opsi «RHM Paket Elektronik». Tersedia empat tingkatan: Tier 1 «Standar» (0 €, bawaan pabrik), Tier 2 «Paket Sensor» (3.500 €), Tier 3 «Monitor Hasil Panen» (8.500 €), dan Tier 4 «Opti-Harvest AI» (15.000 €). Tingkatan yang terpasang terlihat di bilah atas terminal Shift+K dan daftar armada." />
+        <text name="rhm_help_upgrades_sub2" text="Perbandingan Tier 1 (Mekanis) dengan Tier 2 (Paket Sensor)" />
+        <text name="rhm_help_upgrades_2" text="Combine Tier 1 beroperasi dengan kontrol mekanis murni tanpa sensor: layar menampilkan garis strip (--%), tablet tidak memberikan panduan, pengemudi mengandalkan pendengaran, dan pekerja sewaan sering salah mengatur setelan (kesalahan hingga ±18%). Paket Tier 2 (3.500 €) adalah peningkatan awal yang esensial: menambahkan sensor kehilangan ayakan (HUD menampilkan % kehilangan nyata) dan membuka zona hijau optimum di Shift+K yang sangat mempermudah pengaturan. Margin kesalahan pekerja turun ke ±10%." />
+        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Monitor &amp; Profil) dan Tier 4 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="Paket Tier 3 (8.500 €) menambahkan pengukur kelembapan optik (% kelembapan di HUD), kartu telemetri beban dan efisiensi di Shift+K, penyimpanan profil mandiri ke memori mesin, serta pemantauan armada online di Shift+J (kesalahan pekerja turun ke ±4%). Paket tertinggi Tier 4 (15.000 €) menghadirkan autopilot penuh: tombol «AI AUTO-KALIBRASI» mengatur combine dengan satu sentuhan, sistem mengoreksi putaran drum dan kipas secara mandiri setiap 2 detik sesuai kelembapan tanaman, penalti kelembapan berkurang 50%, dan pekerja sewaan bekerja dengan presisi sempurna (0% deviasi)." />
+
+        <!-- PAGE 8: AI WORKERS & FLEET AUTOMATION -->
+        <text name="rhm_help_ai_workers_title" text="8. Pekerja AI &amp; Otomasi Armada" />
+        <text name="rhm_help_ai_workers_sub1" text="Kontrol kecepatan otomatis &amp; Pengereman pekerja sewaan" />
+        <text name="rhm_help_ai_workers_1" text="Pekerja AI bawaan game dan asisten otomatis tidak lagi melaju kencang pada batas teoritis header yang membuang sepertiga hasil ke tanah. Mod RHM mengendalikan kecepatan kerja pembantu langsung melalui unit kontrol mesin dan menjaganya pada rentang beban aman 85–95%. Jika di medan bergelombang kehilangan gabah melampaui batas yang ditentukan pertanian (2,0%), combine secara otomatis memperlambat laju pekerja, melindungi gabah agar tidak terlempar ke jerami." />
+        <text name="rhm_help_ai_workers_sub2" text="Keahlian pekerja: pengaruh tingkatan mesin pada kualitas panen" />
+        <text name="rhm_help_ai_workers_2" text="Saat pekerja sewaan mengambil alih kemudi, ia menyetel parameter kerja combine secara mandiri. Kualitas kerjanya bergantung langsung pada paket elektronik mesin: pada mesin Tier 1, pekerja bertindak seperti pemula dengan kesalahan penyetelan hingga ±18% (mengakibatkan tingginya kehilangan hasil atau boros bahan bakar). Pada Tier 2, kesalahan berkurang ke ±10%, pada Tier 3 ke ±4%, dan pada mesin Tier 4 dengan autopilot Opti-Harvest, pekerja bekerja seperti operator ahli dengan 0% kesalahan dan kualitas panen tanpa cela." />
+        <text name="rhm_help_ai_workers_sub3" text="Menjaga setelan manual pemain &amp; Logistik pembongkaran" />
+        <text name="rhm_help_ai_workers_3" text="Jika Anda telah mengalibrasi combine secara manual di Shift+K atau menyimpan profil tanaman, periksa pengaturan game: opsi «Penyetelan oleh Pekerja» secara default berada pada mode «Pertahankan Milik Saya». Pada mode ini, pekerja tidak akan pernah mengubah setelan Anda dan bekerja sesuai kalibrasi presisi Anda. Mode «Sesuaikan Otomatis» membuat pekerja menghitung ulang parameter sesuai tingkatan mesin, sedangkan «Nonaktif» melarang pekerja mengubah pengaturan sama sekali. Pembongkaran berjalan ke gerobak pendamping didukung penuh tanpa harus berhenti." />
+
+        <!-- PAGE 9: CROP MOISTURE & DIURNAL WEATHER -->
+        <text name="rhm_help_moisture_title" text="9. Kelembapan Tanaman &amp; Siklus Cuaca Harian" />
+        <text name="rhm_help_moisture_sub1" text="Siklus kelembapan tanaman harian: memilih waktu kerja terbaik" />
+        <text name="rhm_help_moisture_1" text="Mod ini menghitung siklus kelembapan harian harmonis otonom, dan jika terdapat sistem cuaca eksternal, data cuaca tersebut langsung diintegrasikan. Kelembapan tanaman berfluktuasi secara alami sepanjang hari: antara pukul 03.00 hingga 08.00 pagi, embun lebat menaikkan kadar air biji hingga 16–18% — panen pada jam ini tidak disarankan karena hambatan massa tanaman sangat tinggi. Pukul 08.00 hingga 11.30 matahari terbit dan mengeringkan embun. Waktu panen terbaik berlangsung antara pukul 11.30 hingga 18.30: sinar matahari mengeringkan tanaman hingga kadar optimal 11–13%, jerami menjadi rapuh dan renyah, combine melaju lancar, dan kehilangan hasil mendekati nol. Selepas pukul 19.30 embun malam kembali meningkatkan kelembapan batang dan hambatan perontokan." />
+        <text name="rhm_help_moisture_sub2" text="Alasan dilarang memanen saat hujan" />
+        <text name="rhm_help_moisture_2" text="Saat hujan, kelembapan tanaman melonjak melebihi 22%. Jerami basah menggumpal liat, menyumbat saluran pengumpan serta ayakan. Butir gabah menempel pada jerami basah dan terbuang keluar mesin, menimbulkan kerugian panen langsung hingga 10%, sementara mesin combine tersendat di bawah hambatan tiga kali lipat. Saran praktis: saat hujan turun, hentikan panen dan tunggu cuaca membaik. Bekerja saat hujan hanya menimbulkan kerugian hasil dan kerugian finansial." />
+        <text name="rhm_help_moisture_sub3" text="Menyetel combine untuk tanaman lembap (14–16%)" />
+        <text name="rhm_help_moisture_3" text="Jika Anda terpaksa memanen pada kondisi kelembapan tinggi (14–16%), jangan menaikkan slider sembarangan ke titik maksimal! Buka terminal Shift+K: akibat kelembapan, zona hijau optimum («sweet-spot») untuk drum dan kipas bergeser naik secara otomatis. Sesuaikan slider agar tetap berada tepat di dalam zona hijau yang baru: drum yang lebih cepat di zona hijau merobek jerami basah dengan mudah tanpa drop daya; kipas di zona hijau meniup sekam basah yang berat secara optimal. Perhatian: jika kipas dinaikkan berlebihan ke zona merah, tiupan angin kencang akan meniup gabah keluar dari combine! Tetaplah berada di zona hijau – tidak akan ada kehilangan dari setelan (0%). Pada mesin Tier 4 (Opti-Harvest), sistem otomatis mengatur parameter ini tanpa campur tangan Anda." />
+
+        <!-- PAGE 10: FORAGE & SPECIALTY HARVESTERS -->
+        <text name="rhm_help_special_title" text="10. Mesin Pemanen Khusus" />
+        <text name="rhm_help_special_sub1" text="Pemanen hijauan mandiri: pembagian daya &amp; Pengambilan barisan" />
+        <text name="rhm_help_special_1" text="Pemanen hijauan mandiri (forage harvester) mencacah seluruh biomassa menjadi silase, sehingga kehilangan gabah selalu nol (0%). Tenaga mesin dibagi ke tiga unit utama: rol pengumpan (18%), drum pencacah (62%), dan blower pelontar (20%). Saat bekerja mengambil barisan rumput kering atau jerami, perhatikan ketebalan barisan: pada barisan kering yang terlalu tebal, rol pengumpan mencapai kapasitas maksimumnya («bottleneck»), memicu lonjakan hambatan penggerak dan penurunan kecepatan kerja." />
+        <text name="rhm_help_special_sub2" text="Pemanen umbi-umbian: mengapa pemanen melaju 5–8 km/jam" />
+        <text name="rhm_help_special_2" text="Umbi bawah tanah (kentang, bit gula, wortel, parsnip, bawang) membutuhkan tenaga penarik luar biasa untuk memecah tanah: bilah pemotong menggali lapisan tanah yang berat, menyerap sekitar 7 daya kuda untuk setiap meter lebar kerja, dan transmisi hidrostatik berat menyerap 10% tenaga mesin tambahan. Akibatnya, pemanen bit dan kentang mandiri tidak dapat melaju melebihi 5–8 km/jam sekalipun bermesin di atas 600 hp. Sayuran atas tanah (buncis, kacang polong, bayam) tidak menggali tanah, namun drum pemisah polongnya membutuhkan daya yang cukup besar." />
+        <text name="rhm_help_special_sub3" text="Kapas, anggur, zaitun &amp; Platform modular (NEXAT / NEXCO)" />
+        <text name="rhm_help_special_3" text="Pemanen kapas mengonsumsi hingga 55 hp per ton bahan mentah akibat drum spindel berkecepatan tinggi dan pengepresan hidrolik bal bulat. Pemanen anggur dan zaitun memperhitungkan hambatan pengocok getar dan kipas pembersih. Jika Anda menggunakan pembawa modular NEXAT (1.100 hp) dengan modul combine NEXCO, sistem RHM mentransfer daya penuh unit traksi melewati seluruh hierarki sambungan tanpa gangguan atau penurunan daya." />
+
+        <!-- PAGE 11: DIFFICULTY MODES & SETTINGS -->
+        <text name="rhm_help_difficulty_title" text="11. Mode Kesulitan &amp; Pengaturan" />
+        <text name="rhm_help_difficulty_sub1" text="Mode permainan: pilihan antara Arcade, Moderat, dan Realistis" />
+        <text name="rhm_help_difficulty_1" text="Jika Anda tidak ingin menghitung daya kuda dan mengatur putaran drum secara detail, Anda dapat memilih mode permainan yang disederhanakan di menu jeda (Escape -> Pengaturan Game): Tingkat kesulitan mesin pada mode «Arcade» (Tingkat 1) sepenuhnya menonaktifkan beban fisik mesin dan menghapus batasan kecepatan. Tingkat kesulitan kehilangan pada mode «Arcade» meniadakan seluruh kehilangan gabah – combine memanen pada kecepatan penuh header seperti pada game standar. Tingkat 2 («Moderat») memperhalus dampak kesalahan, dan Tingkat 3 («Realistis») mengaktifkan model fisika lengkap dengan pemotongan hasil panen riil dari tangki." />
+        <text name="rhm_help_difficulty_sub2" text="Sakelar fisika mandiri: sesuaikan game dengan gaya Anda" />
+        <text name="rhm_help_difficulty_2" text="Anda tidak perlu mematikan seluruh fisika sekaligus – Anda dapat menonaktifkan mekanik tertentu yang tidak Anda sukai: Nonaktifkan «Kehilangan Akibat Keausan» jika tidak ingin mengawasi kondisi pisau header. Nonaktifkan «Kehilangan di Lereng» jika bermain di peta pegunungan terjal. Nonaktifkan «Simulasi Kelembapan» jika ingin memanen di malam hari atau saat hujan tanpa penalti cuaca. Opsi «Peningkatan Daya Mesin» memungkinkan penambahan cadangan daya +5% hingga +50% untuk mesin combine Anda di medan berbukit." />
+        <text name="rhm_help_difficulty_sub3" text="Peringatan audio, satuan pengukuran &amp; Multiplayer" />
+        <text name="rhm_help_difficulty_3" text="Pada pengaturan audio, Anda dapat memilih buzzer beban berlebih «Pintar» (tiga sinyal pendek), nada berkelanjutan, atau mematikan alarm sepenuhnya, serta mengatur volume dari 0% hingga 100% (slider memainkan nada uji saat digerakkan). Satuan ukuran dapat dialihkan antara metrik (t/ha, t/jam), imperial, dan bushel. Dalam permainan multipemain (multiplayer), aturan fisika global hanya dapat diubah oleh admin server, sedangkan posisi HUD, volume alarm, dan satuan pengukuran diatur oleh masing-masing pemain secara mandiri." />
+        <text name="rhm_ui_section_separation" text="PERONTOKAN &amp; PEMISAHAN" />
+        <text name="rhm_ui_section_cleaning" text="PEMBERSIHAN" />
+        <text name="rhm_ui_section_discharge" text="PEMBUANGAN &amp; JERAMI" />
+        <text name="rhm_ui_section_performance" text="KINERJA" />
+        <text name="rhm_ui_tier1_manual" text="TINGKAT 1 - MEKANIS" />
+        <text name="rhm_ui_tier2_sensors" text="TINGKAT 2 - SENSOR" />
+        <text name="rhm_ui_tier3_monitor" text="TINGKAT 3 - TELEMETRI" />
+        <text name="rhm_ui_tier4_opti" text="TINGKAT 4 - AI OPTI" />
+        <text name="rhm_ui_arcade_badge" text="ARCADE" />
+        <text name="rhm_ui_card_engine_load" text="BEBAN MESIN" />
+        <text name="rhm_ui_card_efficiency" text="EFISIENSI" />
+        <text name="rhm_ui_card_predicted_loss" text="PERKIRAAN SUSUT" />
+        <text name="rhm_ui_btn_ai_auto" text="AI KALIBRASI OTOMATIS" />
+        <text name="rhm_ui_btn_auto_locked" text="OTOMATIS (TERKUNCI)" />
+        <text name="rhm_ui_btn_load_preset" text="MUAT PRESET" />
+        <text name="rhm_ui_btn_save_profile" text="SIMPAN PROFIL" />
+        <text name="rhm_ui_btn_load_locked" text="MUAT (TERKUNCI)" />
+        <text name="rhm_ui_btn_save_locked" text="SIMPAN (TERKUNCI)" />
+        <text name="rhm_ui_btn_reset_defaults" text="KEMBALIKAN KE SETELAN PABRIK" />
+        <text name="rhm_ui_status_optimal" text="OPTIMAL" />
+        <text name="rhm_ui_status_low" text="TERLALU RENDAH" />
+        <text name="rhm_ui_status_high" text="TERLALU TINGGI" />
+        <text name="rhm_ui_env_optimal" text="KONDISI OPTIMAL" />
+        <text name="rhm_ui_env_moisture" text="KELEMBABAN TINGGI" />
+        <text name="rhm_ui_env_weeds" text="SERANGAN GULMA" />
+        <text name="rhm_ui_env_damp_weeds" text="LEMBAB DAN BERGULMA" />
+        <text name="rhm_msg_req_tier4" text="Memerlukan Autopilot AI Opti-Harvest (Tingkat 4)" />
+        <text name="rhm_msg_req_tier3" text="Profil memerlukan Monitor Telemetri (Tingkat 3)" />
+        <text name="rhm_msg_req_tier2" text="Profil memerlukan Paket Sensor (Tingkat 2 atau lebih tinggi)" />
+        <text name="rhm_msg_profile_saved" text="Profil disimpan: %s" />
+        <text name="rhm_msg_profile_loaded" text="Profil dimuat: %s" />
+        <text name="rhm_msg_profile_not_found" text="Tidak ditemukan profil tersimpan untuk tanaman ini" />
+        <text name="rhm_ui_combine_not_init" text="Combine belum diinisialisasi" />
+        <text name="rhm_unit_t_per_hour" text="t/jam" />
+        <text name="rhm_unit_ha_per_hour" text="ha/jam" />
+        <text name="rhm_setting_ai_tuning" text="Penyesuaian Pekerja AI" />
+        <text name="rhm_setting_ai_tuning_long" text="Menentukan bagaimana AI menangani pengaturan. 'Pertahankan punya saya' mempertahankan profil manual. 'Selalu kalibrasi otomatis' menyetel sesuai tingkat elektronik. 'Nonaktif' melarang perubahan oleh AI." />
+        <text name="rhm_setting_ai_tuning_keep" text="Pertahankan punya saya" />
+        <text name="rhm_setting_ai_tuning_auto" text="Selalu kalibrasi otomatis" />
+        <text name="rhm_setting_ai_tuning_disabled" text="Nonaktif" />
+        <text name="rhm_crop_straw_windrow" text="Barisan Jerami" />
+        <text name="rhm_crop_grass_windrow" text="Barisan Rumput" />
+        <text name="rhm_crop_drygrass_windrow" text="Barisan Jerami Kering" />
+        <text name="rhm_crop_alfalfa_windrow" text="Barisan Alfalfa" />
+        <text name="rhm_crop_clover_windrow" text="Barisan Semanggi" />
+        <text name="rhm_crop_maize_forage" text="Silase Jagung" />
+        <text name="rhm_windrow_format" text="Barisan: %s" />
+        <text name="rhm_setting_enableTutorials" text="Petunjuk Tutorial" />
+        <text name="rhm_setting_enableTutorials_long" text="Tampilkan tips panduan interaktif selama memanen." />
+        <text name="rhm_ui_btn_close_notification" text="OK (Enter / Klik Kiri)" />
+        <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+        <text name="rhm_tut_welcome_msg" text="Selamat datang di Realistic Harvesting! Kecepatan combine menyesuaikan secara dinamis berdasarkan beban mesin, kepadatan tanaman, dan header. Buka terminal kalibrasi dengan (Shift Kanan + K)." />
+        <text name="rhm_tut_overload_title" text="Mesin Kelebihan Beban" />
+        <text name="rhm_tut_overload_msg" text="Mesin kelebihan beban berat! Transmisi hidrostatik memperlambat laju combine untuk mencegah drum tersumbat. Angkat header atau kurangi lebar potongan." />
+        <text name="rhm_tut_loss_title" text="Susut Panen Tinggi" />
+        <text name="rhm_tut_loss_msg" text="Kehilangan hasil di belakang combine sangat tinggi! Kecepatan rotor atau ayakan tidak cocok dengan tanaman. Tekan (Shift Kanan + K) untuk kalibrasi presisi." />
+        <text name="rhm_tut_moisture_title" text="Kelembaban Tanaman Tinggi" />
+        <text name="rhm_tut_moisture_msg" text="Kelembaban biji-bijian tinggi atau hujan mulai turun! Biomassa basah menciptakan hambatan besar, meningkatkan beban mesin dan susut. Panen di cuaca kering untuk hasil terbaik." />
+        <text name="rhm_tut_headland_title" text="Memori Kecepatan Ujung Ladang" />
+        <text name="rhm_tut_headland_msg" text="Saat header diangkat di ujung ladang, combine menyimpan kecepatan kerja. Di baris berikutnya, akselerasi berlangsung mulus tanpa hentakan." />
+        <text name="rhm_tut_upgrade_title" text="Peningkatan Combine" />
+        <text name="rhm_tut_upgrade_msg" text="Combine dasar memerlukan penyesuaian manual. Tingkatkan elektronik di bengkel untuk membuka Paket Sensor (Tingkat 2), Monitor Hasil (Tingkat 3), atau Opti-Harvest AI (Tingkat 4)." />
+        <text name="rhm_tut_hud_drag_title" text="HUD Interaktif" />
+        <text name="rhm_tut_hud_drag_msg" text="Anda dapat memindahkan HUD ke mana saja di layar dengan menahan Tombol Kiri Mouse (LMB) pada panel, atau memasangnya secara magnetis di bawah menu F1 dan tepi layar." />
+        <text name="rhm_tut_trip_title" text="Penghitung Lahan &amp; Log" />
+        <text name="rhm_tut_trip_msg" text="Tekan Shift+J untuk melihat ringkasan hasil panen, analisis kerugian finansial, dan status armada. Untuk menyetel ulang penghitung lahan baru secara cepat, tahan Shift+R selama 1 detik di dalam kabin!" />
+        <text name="rhm_tut_chopper_title" text="Beban Daya Pencacah Jerami" />
+        <text name="rhm_tut_chopper_msg" text="Mencacah jerami mengonsumsi daya mesin ekstra 15-20% dibandingkan membuat gulungan jerami. Jika Anda membutuhkan kecepatan panen lebih tinggi pada tanaman lebat, beralihlah ke mode gulungan." />
+        <text name="rhm_setting_wear_loss_short" text="Susut Keausan Mekanis" />
+        <text name="rhm_setting_wear_loss_long" text="Mensimulasikan kehilangan hasil akibat keausan alat. Pisau header yang tumpul merontokkan bulir tanaman (hingga +3% susut dan +15% hambatan tenaga). Drum perontok dan ayakan aus membuang biji yang belum terontok (hingga +3% susut)." />
+        <text name="rhm_ui_wear_loss" text="Susut Keausan" />
+        <text name="rhm_ui_cutter_wear" text="Keausan Header" />
+        <text name="rhm_ui_combine_wear" text="Keausan Perontok" />
+        <!-- Harvest History & Field Trip Telemetry -->
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="Riwayat Panen &amp; Penghitung Lahan" />
+        <text name="input_RHM_QUICK_RESET_TRIP" text="Reset Penghitung Lahan (Tahan)" />
+        <text name="rhm_trip_reset_done" text="Penghitung lahan berhasil direset!" />
+        <text name="rhm_tab_trip" text="Lahan Saat Ini / Penghitung" />
+        <text name="rhm_tab_trip_desc" text="Telemetri langsung untuk volume panen, area olah, rata-rata hasil, dan kerugian finansial." />
+        <text name="rhm_tab_analytics" text="Penyebab Kehilangan &amp; Lembar Penilaian" />
+        <text name="rhm_tab_analytics_desc" text="Distribusi faktor kehilangan, nilai efisiensi operator, dan rekomendasi komputer mesin." />
+        <text name="rhm_tab_fleet" text="Pemanen di Lahan" />
+        <text name="rhm_tab_fleet_desc" text="Telemetri langsung, kapasitas, dan status semua mesin pemanen di ladang Anda." />
+        <text name="rhm_tab_settings" text="Pengaturan Ladang &amp; AI" />
+        <text name="rhm_tab_settings_desc" text="Konfigurasi pembatas kecepatan pekerja AI, gulma susulan, dan opsi reset otomatis." />
+        <text name="rhm_driver_parked" text="Tanpa Pengemudi" />
+        <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
+        <text name="rhm_driver_hired_ai" text="Pekerja AI" />
+        <text name="rhm_driver_player" text="Pemain" />
+        <text name="rhm_driver_idle_on" text="Stasioner" />
+        <text name="rhm_field_yard" text="Pangkalan / Garasi" />
+        <text name="rhm_field_format" text="Lahan %d" />
+        <text name="rhm_fleet_driver" text="Operator" />
+        <text name="rhm_fleet_cutter" text="Lebar Pisau" />
+        <text name="rhm_fleet_grain_tank" text="Isi Tangki" />
+        <text name="rhm_fleet_throughput" text="Kapasitas Olah" />
+        <text name="rhm_fleet_realtime_yield" text="Hasil Real-time" />
+        <text name="rhm_fleet_crop_loss" text="Tingkat Kerugian" />
+        <text name="rhm_fleet_wear_state" text="Keausan Mesin" />
+        <text name="rhm_fleet_total_count" text="Total Pemanen" />
+        <text name="rhm_btn_subtab_fleet" text="ARMADA PEMANEN" />
+        <text name="rhm_btn_subtab_history" text="RIWAYAT MUSIM / SEMUA LAHAN" />
+        <text name="rhm_season_all_time" text="Semua Musim (Sepanjang Waktu)" />
+        <text name="rhm_season_format" text="Musim %d (Tahun %d)" />
+        <text name="rhm_season_current_suffix" text="[Saat Ini]" />
+        <text name="rhm_card_season_harvest" text="HASIL &amp; LUAS PANEN MUSIM" />
+        <text name="rhm_card_season_losses" text="KERUGIAN &amp; KEUANGAN MUSIM" />
+        <text name="rhm_card_season_telemetry" text="METRIK &amp; WAKTU PANEN" />
+        <text name="rhm_season_operations" text="Operasi Selesai" />
+        <text name="rhm_season_active_status" text="Musim Aktif" />
+        <text name="rhm_season_archived_status" text="Musim Diarsipkan" />
+        <text name="rhm_season_all_time_status" text="Riwayat Lengkap" />
+        <text name="rhm_hist_total_area" text="Total Area Dipanen" />
+        <text name="rhm_hist_total_harvest" text="Total Panen Bersih" />
+        <text name="rhm_hist_avg_loss" text="Rata-rata Kehilangan" />
+        <text name="rhm_hist_total_money" text="Total Kerugian Finansial" />
+        <text name="rhm_col_season" text="Musim" />
+        <text name="rhm_col_status" text="Status" />
+        <text name="rhm_hist_empty" text="Belum ada catatan musim" />
+        <text name="rhm_status_harvesting" text="Memanen (aktif)" />
+        <text name="rhm_status_on_field_idle" text="Di Lahan (stasioner)" />
+        <text name="rhm_status_on_field_stopped" text="Di Lahan (berhenti)" />
+        <text name="rhm_status_in_transit" text="Di Jalan / Perjalanan" />
+        <text name="rhm_status_in_cab" text="Terisi (Pemain)" />
+        <text name="rhm_status_parked_yard" text="Parkir di Garasi" />
+        <text name="rhm_card_field_harvest" text="LAHAN &amp; TANAMAN SAAT INI" />
+        <text name="rhm_field_number" text="Nomor Lahan" />
+        <text name="rhm_trip_no_field" text="Luar Lahan" />
+        <text name="rhm_crop_type" text="Jenis Tanaman" />
+        <text name="rhm_harvested_area" text="Area Dipanen" />
+        <text name="rhm_clean_harvest" text="Panen Bersih" />
+        <text name="rhm_average_yield" text="Rata-rata Hasil" />
+        <text name="rhm_card_loss_finances" text="KEHILANGAN &amp; FINANSIAL" />
+        <text name="rhm_loss_volume" text="Volume Hilang" />
+        <text name="rhm_loss_share" text="Tingkat Kehilangan" />
+        <text name="rhm_financial_loss" text="Kerugian Finansial" />
+        <text name="rhm_card_performance" text="KINERJA &amp; WAKTU" />
+        <text name="rhm_avg_working_speed" text="Kecepatan Rata-rata" />
+        <text name="rhm_avg_engine_load" text="Beban Mesin Rata-rata" />
+        <text name="rhm_session_duration" text="Durasi Sesi" />
+        <text name="rhm_btn_reset_trip" text="Reset Penghitung Lahan" />
+        <text name="rhm_causes_title" text="PENYEBAB UTAMA KEHILANGAN PANEN" />
+        <text name="rhm_cause_speed" text="Kecepatan &amp; Beban Silinder Perontok" />
+        <text name="rhm_cause_moisture" text="Kelembapan Tanaman &amp; Embun" />
+        <text name="rhm_cause_wear" text="Keausan Pisau &amp; Pemukul" />
+        <text name="rhm_cause_slope" text="Kemiringan Lahan &amp; Kontur" />
+        <text name="rhm_scorecard_title" text="LEMBAR EFISIENSI OPERATOR" />
+        <text name="rhm_rank_title_a" text="Tingkat A: Optimal" />
+        <text name="rhm_rank_desc_a" text="Tingkat kehilangan di bawah 1,5%. Pengaturan mesin dan kecepatan sangat seimbang." />
+        <text name="rhm_rank_title_b" text="Tingkat B: Dapat Diterima" />
+        <text name="rhm_rank_desc_b" text="Tingkat kehilangan antara 1,5% dan 3,0%. Disarankan penyesuaian kecepatan atau cekungan." />
+        <text name="rhm_rank_title_c" text="Tingkat C: Kerugian Meningkat" />
+        <text name="rhm_rank_desc_c" text="Tingkat kehilangan antara 3,0% dan 4,5%. Kurangi kecepatan atau periksa pisau pemotong." />
+        <text name="rhm_rank_title_d" text="Tingkat D: Kerugian Kritis" />
+        <text name="rhm_rank_desc_d" text="Kehilangan melebihi 4,5%! Ayakan kelebihan beban parah atau kalibrasi salah." />
+        <text name="rhm_guidance_title" text="PANDUAN KOMPUTER MESIN" />
+        <text name="rhm_advice_perfect" text="Efisiensi panen sangat optimal. Semua parameter pemisahan bekerja seimbang." />
+        <text name="rhm_advice_speed" text="Kehilangan utama akibat kecepatan berlebih. Kurangi laju untuk meringankan ayakan." />
+        <text name="rhm_advice_moisture" text="Kehilangan karena tanaman basah atau embun. Tunggu kering atau kurangi kecepatan." />
+        <text name="rhm_advice_wear" text="Kehilangan meningkat karena pisau atau pemukul aus. Lakukan servis di bengkel." />
+        <text name="rhm_advice_slope" text="Kemiringan samping membuat beban ayakan tidak rata. Kurangi kecepatan di lereng." />
+        <text name="rhm_col_machine" text="Mesin" />
+        <text name="rhm_col_hours" text="Jam Kerja" />
+        <text name="rhm_col_harvested" text="Dipanen" />
+        <text name="rhm_col_lost" text="Kehilangan" />
+        <text name="rhm_col_rank" text="Kelas" />
+        <text name="rhm_fleet_no_combines" text="Tidak ada pemanen ditemukan" />
+        <text name="rhm_setting_ai_limiter_title" text="PEMBATAS KECEPATAN AI" />
+        <text name="rhm_setting_ai_limiter_desc" text="Membatasi kecepatan otomatis pekerja bantuan saat tingkat kehilangan melebihi batas." />
+        <text name="rhm_setting_ai_threshold_title" text="AMBANG KEHILANGAN AI" />
+        <text name="rhm_setting_ai_threshold_desc" text="Persentase kehilangan maksimum sebelum pekerja AI otomatis memperlambat laju." />
+        <text name="rhm_setting_volunteer_title" text="GULMA SUSULAN / BIJI RONTOK" />
+        <text name="rhm_setting_volunteer_desc" text="Menumbuhkan gulma di belakang pemanen pada area dengan tingkat kehilangan tinggi (&gt;3%)." />
+        <text name="rhm_setting_autoreset_title" text="RESET OTOMATIS GANTI LAHAN" />
+        <text name="rhm_setting_autoreset_desc" text="Arsipkan dan reset penghitung lahan secara otomatis saat berpindah ke lahan lain." />
+        <text name="rhm_setting_autoreset_smart" text="Pintar (Lahan / Tanaman)" />
+        <text name="rhm_setting_autoreset_crop" text="Hanya ganti tanaman" />
+        <text name="rhm_setting_autoreset_disabled" text="Nonaktif (Manual)" />
+        <text name="rhm_col_field" text="Lahan" />
+        <text name="rhm_col_speed" text="Kecepatan" />
+        <text name="rhm_col_load" text="Beban" />
+        <text name="rhm_col_loss" text="Kehilangan" />
+        <text name="rhm_col_tank" text="Tangki" />
+        <text name="rhm_col_area" text="Luas" />
+        <text name="rhm_col_money" text="Kerugian ($)" />
+        <text name="rhm_col_driver" text="Operator" />
+        <text name="rhm_col_cutter" text="Pisau Pemotong" />
+        <text name="rhm_col_throughput" text="Kapasitas Olah" />
+        <text name="rhm_col_yield" text="Hasil Panen" />
+        <text name="rhm_col_wear" text="Keausan" />
+        <text name="rhm_kpi_field" text="LAHAN" />
+        <text name="rhm_kpi_crop" text="TANAMAN" />
+        <text name="rhm_kpi_area" text="LUAS" />
+        <text name="rhm_kpi_harvest" text="TOTAL PANEN" />
+        <text name="rhm_kpi_yield" text="HASIL PANEN" />
+        <text name="rhm_kpi_loss" text="KEHILANGAN" />
+        <text name="rhm_kpi_speed" text="KECEPATAN" />
+        <text name="rhm_efficiency_index" text="Tingkat Efisiensi" />
+        <text name="rhm_trip_footer_hint" text="Pengukur jarak memantau luas area panen dan volume gabah bersih untuk lahan aktif. Dapat disetel ulang kapan saja." />
+        <text name="rhm_detail_area" text="Total luas lahan yang dipanen" />
+        <text name="rhm_detail_clean_grain" text="biji bersih" />
+        <text name="rhm_detail_yield" text="Rata-rata hasil panen pada area panen" />
+        <text name="rhm_detail_throughput" text="Kapasitas perontokan saat ini" />
+        <text name="rhm_detail_lost_grain" text="biji yang hilang" />
+        <text name="rhm_detail_loss_rating" text="Tingkat kehilangan vs hasil biologis" />
+        <text name="rhm_detail_financial_loss" text="Dampak finansial dari kehilangan hasil panen" />
+        <text name="rhm_detail_speed" text="Kecepatan kerja rata-rata combine" />
+        <text name="rhm_detail_load" text="Beban daya mesin rata-rata" />
+        <text name="rhm_detail_duration" text="Durasi sesi aktif" />
+        <text name="rhm_detail_wear" text="Keausan mekanis mesin perontok" />
+        <text name="rhm_rating_normal" text="Optimal (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Sedang (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Tinggi (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Kritis (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Lahan Pertanian" />
+        <text name="rhm_tab_fields_desc" text="Ringkasan lengkap produksi, hasil panen, kerugian, dan kontrak kerja untuk setiap lahan pertanian Anda." />
+        <text name="rhm_card_field_land" text="LAHAN &amp; KEMAJUAN" />
+        <text name="rhm_card_field_yield" text="PRODUKSI &amp; HASIL PANEN" />
+        <text name="rhm_card_field_losses" text="KERUGIAN &amp; KUALITAS" />
+        <text name="rhm_fields_total_owned" text="Lahan Dimiliki" />
+        <text name="rhm_fields_best_yield" text="Hasil Panen Terbaik" />
+        <text name="rhm_fields_owned" text="Dimiliki" />
+        <text name="rhm_fields_contract" text="Kontrak" />
+        <text name="rhm_fields_no_data" text="Tidak Ada Data Lahan" />
+        <text name="rhm_contract_tag" text="(Kontrak)" />
+        <text name="rhm_status_completed" text="Dipanen" />
+        <text name="rhm_status_idle_yard" text="Di Pertanian (Menunggu)" />
+        <text name="rhm_fields_external" text="Eksternal" />
+        <text name="rhm_field_transit" text="Dalam Perjalanan" />
+        <text name="rhm_detail_loss_money" text="Kerugian finansial akibat kehilangan panen" />
+        <text name="rhm_cause_none" text="Operasi Optimal (Tanpa Kehilangan)" />
+        <text name="rhm_fields_all_overview" text="[*] Ikhtisar Pertanian (Semua Ladang)" />
+        <text name="rhm_field_operations" text="Operasi Panen" />
+        <text name="rhm_fields_nominal_area" text="Luas Nominal" />
+        <text name="rhm_status_in_progress" text="Sedang Berlangsung" />
+        <text name="rhm_fields_harvested_area" text="Luas Panen" />
+        <text name="rhm_ops_one" text="panen" />
+        <text name="rhm_ops_few" text="panen" />
+        <text name="rhm_ops_many" text="panen" />
+        <text name="rhm_loss_disabled" text="Simulasi Dinonaktifkan" />
+        <text name="rhm_loss_disabled_desc" text="Simulasi kehilangan panen dinonaktifkan di pengaturan mod." />
+        <text name="rhm_filter_active" text="Aktif" />
+        <text name="rhm_filter_all" text="Semua" />
+        <text name="rhm_filter_sold" text="Terjual" />
+        <text name="rhm_status_sold" text="Terjual (Arsip)" />
+        <text name="rhm_field_sold" text="[Terjual]" />
+        <text name="rhm_driver_sold" text="Dinonaktifkan" />
+        <text name="rhm_fleet_no_sold_combines" text="Tidak ada pemanen terjual di arsip" />
+        <text name="rhm_fleet_total_count_active" text="Pemanen Aktif" />
+        <text name="rhm_fleet_total_count_sold" text="Pemanen Terjual" />
+        <text name="rhm_slopeloss_short" text="Kehilangan di Lereng" />
+        <text name="rhm_slopeloss_long" text="Mensimulasikan penumpukan gabah pada satu sisi ayakan di lereng lebih dari 4° (hingga 5% kehilangan). Matikan untuk menghilangkan penalti kemiringan." />
+        <text name="rhm_weedload_short" text="Resistensi Gulma" />
+        <text name="rhm_weedload_long" text="Gulma berserat dan basah melilit silinder perontok sehingga meningkatkan beban mesin (hingga +25%). Matikan agar gulma tidak membebani mesin." />
+            <text name="rhm_fleet_badge_mission" text="[Kontrak]" />
+        <text name="rhm_fleet_badge_leased" text="[Sewa]" />
+    </texts>
+</l10n>

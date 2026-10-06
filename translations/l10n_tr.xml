@@ -1,271 +1,504 @@
-<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
-        <text name="rhm_section_simulation" text="Realistic Harvesting - Simülasyon"/>
-        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD ve Görseller"/>
-        <text name="input_RHM_OPEN_MENU" text="Biçerdöver Ayar Menüsü"/>
-        <text name="input_RHM_TOGGLE_HUD" text="Hasat HUD Aç/Kapat"/>
-        <text name="input_RHM_CLOSE_NOTIFICATION" text="Bildirimi Kapat"/>
-        <text name="rhm_hud_load" text="YÜK"/>
-        <text name="rhm_hud_loss" text="KAYIP"/>
-        <text name="rhm_hud_moist" text="NEM"/>
-        <text name="rhm_ai_settings_retained" text="Manuel ayarlar korundu"/>
-        <text name="rhm_ai_auto_tuned" text="Otomatik kalibre edildi"/>
-        <text name="rhm_difficulty" text="Zorluk"/>
-        <text name="rhm_difficulty_motor" text="Motor Güç Limiti"/>
-        <text name="rhm_difficulty_motor_short" text="Motor"/>
-        <text name="rhm_difficulty_motor_long" text="Motor yükü fiziğini belirler. Arcade = Devre dışı (aşırı yük yok), Normal = +%35 güç rezervi, Gerçekçi = %100 özgün fizik."/>
-        <text name="rhm_difficulty_loss" text="Ürün Kaybı"/>
-        <text name="rhm_difficulty_loss_short" text="Kayıp"/>
-        <text name="rhm_difficulty_loss_long" text="Ürün kayıplarını belirler. Arcade = %0 (ürün kaybı yok), Normal = standart kayıplar, Gerçekçi = artırılmış kayıplar (%200)."/>
-        <text name="rhm_diff_1" text="Arcade"/>
-        <text name="rhm_difficulty_long" text="Arcade: Aşırı yük veya kayıp yok (saf vanilla). Normal: Dengeli fizik (+%35). Gerçekçi: Saf simülasyon (%0)."/>
-        <text name="rhm_diff_2" text="Normal"/>
-        <text name="rhm_diff_3" text="Gerçekçi"/>
-        <text name="rhm_show_yield" text="Show Yield Monitor"/>
-        <text name="rhm_show_yield_short" text="Verim Göster"/>
-        <text name="rhm_show_yield_long" text="HUD üzerinde anlık tarla verimini gösterir."/>
-        <text name="rhm_yield_label" text="Yield"/>
-        <text name="rhm_hud_short" text="Show HUD"/>
-        <text name="rhm_hud_long" text="Display harvest info"/>
-        <text name="rhm_speedlimit_short" text="Enable Speed Limiter"/>
+        <text name="rhm_section_simulation" text="Realistic Harvesting - Simülasyon" />
+        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD ve Görseller" />
+        <text name="input_RHM_OPEN_MENU" text="Biçerdöver Ayar Menüsü" />
+        <text name="input_RHM_TOGGLE_HUD" text="Hasat HUD Aç/Kapat" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Fare İmlecini Aç/Kapat" />
+        <text name="input_RHM_CLOSE_NOTIFICATION" text="Bildirimi Kapat" />
+        <text name="rhm_hud_load" text="YÜK" />
+        <text name="rhm_hud_loss" text="KAYIP" />
+        <text name="rhm_hud_moist" text="NEM" />
+        <text name="rhm_ai_settings_retained" text="Manuel ayarlar korundu" />
+        <text name="rhm_ai_auto_tuned" text="Otomatik kalibre edildi" />
+        <text name="rhm_difficulty" text="Zorluk" />
+        <text name="rhm_difficulty_motor" text="Motor Güç Limiti" />
+        <text name="rhm_difficulty_motor_short" text="Motor" />
+        <text name="rhm_difficulty_motor_long" text="Motor yükü fiziğini belirler. Arcade = Devre dışı (aşırı yük yok), Normal = +%35 güç rezervi, Gerçekçi = %100 özgün fizik." />
+        <text name="rhm_difficulty_loss" text="Ürün Kaybı" />
+        <text name="rhm_difficulty_loss_short" text="Kayıp" />
+        <text name="rhm_difficulty_loss_long" text="Ürün kayıplarını belirler. Arcade = %0 (ürün kaybı yok), Normal = standart kayıplar, Gerçekçi = artırılmış kayıplar (%200)." />
+        <text name="rhm_diff_1" text="Arcade" />
+        <text name="rhm_difficulty_long" text="Arcade: Aşırı yük veya kayıp yok (saf vanilla). Normal: Dengeli fizik (+%35). Gerçekçi: Saf simülasyon (%0)." />
+        <text name="rhm_diff_2" text="Normal" />
+        <text name="rhm_diff_3" text="Gerçekçi" />
+        <text name="rhm_show_yield" text="Show Yield Monitor" />
+        <text name="rhm_show_yield_short" text="Verim Göster" />
+        <text name="rhm_show_yield_long" text="HUD üzerinde anlık tarla verimini gösterir." />
+        <text name="rhm_yield_label" text="Yield" />
+        <text name="rhm_hud_short" text="Show HUD" />
+        <text name="rhm_hud_long" text="Display harvest info" />
+        <text name="rhm_speedlimit_short" text="Enable Speed Limiter" />
         <text name="rhm_speedlimit_long"><![CDATA[
             Automatically limit combine speed based on engine load
             ]]></text>
-        <text name="rhm_croploss_short" text="Enable Crop Loss"/>
-        <text name="rhm_croploss_long" text="Calculate crop loss when overloaded"/>
-        <text name="rhm_show_speed_short" text="Hız Göster"/>
-        <text name="rhm_show_speed_long" text="HUD üzerinde hedef ve anlık hasat hızını gösterir."/>
-        <text name="rhm_show_load_short" text="Yük Göster"/>
-        <text name="rhm_show_load_long" text="HUD üzerinde motor ve batör yük oranını gösterir."/>
-        <text name="rhm_show_productivity_short" text="Verimlilik Göster"/>
-        <text name="rhm_show_productivity_long" text="İşlenen kütle akışını saatte ton olarak gösterir."/>
-        <text name="rhm_show_croploss_short" text="Show Crop Loss"/>
-        <text name="rhm_show_moisture_short" text="Nem Göster"/>
-        <text name="rhm_show_moisture_long" text="Nem modülü etkinse ekin nem oranını gösterir."/>
-        <text name="rhm_moisture_enable_short" text="Moisture Penalty"/>
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Apply load penalty based on crop moisture (Requires Moisture System mod)
-            ]]></text>
-        <text name="rhm_ui_title_main" text="Combine Calibration"/>
-        <text name="rhm_ui_page_settings" text="Settings"/>
-        <text name="rhm_ui_page_profiles" text="Profiles"/>
-        <text name="rhm_ui_current_crop" text="Current Crop"/>
-        <text name="rhm_ui_load" text="Engine Load"/>
-        <text name="rhm_ui_loss" text="Loss"/>
-        <text name="rhm_ui_fan_speed" text="Fan Speed"/>
-        <text name="rhm_ui_rotor_speed" text="Rotor Speed"/>
-        <text name="rhm_ui_upper_sieve" text="Upper Sieve"/>
-        <text name="rhm_ui_lower_sieve" text="Lower Sieve"/>
-        <text name="rhm_ui_feeder_speed" text="Concave Clearance"/>
-        <text name="rhm_ui_mode_auto" text="AUTO"/>
-        <text name="rhm_ui_mode_manual" text="MANUAL"/>
-        <text name="rhm_ui_btn_reset" text="RESET DEFAULT"/>
-        <text name="rhm_ui_profile_create" text="NEW PROFILE"/>
-        <text name="rhm_ui_profile_save" text="SAVE"/>
-        <text name="rhm_ui_profile_load" text="LOAD"/>
-        <text name="rhm_ui_profile_delete" text="DELETE"/>
-        <text name="rhm_ui_profile_name_placeholder" text="Profile Name..."/>
-        <text name="rhm_hud_yield_label" text="YIELD"/>
-        <text name="rhm_hud_load_label" text="LOAD"/>
-        <text name="rhm_hud_loss_label" text="LOSS"/>
-        <text name="rhm_loss_level_low" text="LOW"/>
-        <text name="rhm_loss_level_med" text="MED"/>
-        <text name="rhm_loss_level_high" text="HIGH"/>
-        <text name="rhm_show_croploss_long" text="Display crop loss percentage in HUD"/>
-        <text name="rhm_show_load_warn_short" text="Aşırı Yük Uyarıları"/>
-        <text name="rhm_show_load_warn_long" text="Kritik yük seviyelerinde yanıp sönen uyarılar görüntüler."/>
-        <text name="rhm_overload_sounds_short" text="Overload &amp; Strain Audio"/>
+        <text name="rhm_croploss_short" text="Enable Crop Loss" />
+        <text name="rhm_croploss_long" text="Calculate crop loss when overloaded" />
+        <text name="rhm_show_speed_short" text="Hız Göster" />
+        <text name="rhm_show_speed_long" text="HUD üzerinde hedef ve anlık hasat hızını gösterir." />
+        <text name="rhm_show_load_short" text="Yük Göster" />
+        <text name="rhm_show_load_long" text="HUD üzerinde motor ve batör yük oranını gösterir." />
+        <text name="rhm_show_productivity_short" text="Verimlilik Göster" />
+        <text name="rhm_show_productivity_long" text="İşlenen kütle akışını saatte ton olarak gösterir." />
+        <text name="rhm_show_croploss_short" text="Show Crop Loss" />
+        <text name="rhm_show_moisture_short" text="Nem Göster" />
+        <text name="rhm_show_moisture_long" text="Nem modülü etkinse ekin nem oranını gösterir." />
+        <text name="rhm_moisture_enable_short" text="Nem Etkisi" />
+        <text name="rhm_moisture_enable_long" text="Çiy, yağmur veya yüksek nemde artan harmanlama direncini ve ıslak sap kayıplarını simüle eder. Hava durumu cezası olmadan hasat için kapatın." />
+        <text name="rhm_ui_title_main" text="Combine Calibration" />
+        <text name="rhm_ui_page_settings" text="Settings" />
+        <text name="rhm_ui_page_profiles" text="Profiles" />
+        <text name="rhm_ui_current_crop" text="Current Crop" />
+        <text name="rhm_ui_load" text="Engine Load" />
+        <text name="rhm_ui_loss" text="Loss" />
+        <text name="rhm_ui_fan_speed" text="Fan Speed" />
+        <text name="rhm_ui_rotor_speed" text="Rotor Speed" />
+        <text name="rhm_ui_upper_sieve" text="Upper Sieve" />
+        <text name="rhm_ui_lower_sieve" text="Lower Sieve" />
+        <text name="rhm_ui_feeder_speed" text="Concave Clearance" />
+        <text name="rhm_ui_mode_auto" text="AUTO" />
+        <text name="rhm_ui_mode_manual" text="MANUAL" />
+        <text name="rhm_ui_btn_reset" text="RESET DEFAULT" />
+        <text name="rhm_ui_profile_create" text="NEW PROFILE" />
+        <text name="rhm_ui_profile_save" text="SAVE" />
+        <text name="rhm_ui_profile_load" text="LOAD" />
+        <text name="rhm_ui_profile_delete" text="DELETE" />
+        <text name="rhm_ui_profile_name_placeholder" text="Profile Name..." />
+        <text name="rhm_hud_yield_label" text="YIELD" />
+        <text name="rhm_hud_load_label" text="LOAD" />
+        <text name="rhm_hud_loss_label" text="LOSS" />
+        <text name="rhm_loss_level_low" text="LOW" />
+        <text name="rhm_loss_level_med" text="MED" />
+        <text name="rhm_loss_level_high" text="HIGH" />
+        <text name="rhm_show_croploss_long" text="Display crop loss percentage in HUD" />
+        <text name="rhm_show_load_warn_short" text="Aşırı Yük Uyarıları" />
+        <text name="rhm_show_load_warn_long" text="Kritik yük seviyelerinde yanıp sönen uyarılar görüntüler." />
+        <text name="rhm_overload_sounds_short" text="Overload &amp; Strain Audio" />
         <text name="rhm_overload_sounds_long"><![CDATA[Play realistic cabin alarm and thresher strain sounds when the combine is overloaded or exceeding crop loss limits.]]></text>
-        <text name="rhm_section_audio" text="Realistic Harvesting - Ses"/>
-        <text name="rhm_alarm_sounds_short" text="Aşırı Yük Alarmı"/>
-        <text name="rhm_alarm_sounds_long" text="Aşırı motor yükünde (%105+) veya yüksek ürün kaybında (&gt;%5) kabin ikaz modu."/>
-        <text name="rhm_alarm_mode_smart" text="Akıllı (3 bip)"/>
-        <text name="rhm_alarm_mode_continuous" text="Sürekli"/>
-        <text name="rhm_alarm_mode_off" text="Kapalı"/>
-        <text name="rhm_sound_volume_short" text="Ses Seviyesi"/>
-        <text name="rhm_sound_volume_long" text="Kabin içi aşırı yük alarm ses seviyesini ayarlar."/>
-        <text name="rhm_target_load" text="Target Engine Load"/>
-        <text name="rhm_gui_title" text="Combine Settings"/>
-        <text name="rhm_gui_crop" text="Crop:"/>
-        <text name="rhm_gui_none" text="NONE"/>
-        <text name="rhm_gui_btn_auto" text="AUTO"/>
-        <text name="rhm_gui_btn_load_preset" text="Load Preset"/>
-        <text name="rhm_gui_btn_save" text="Save Profile"/>
-        <text name="rhm_gui_btn_reset" text="Reset Default"/>
-        <text name="rhm_gui_engine_load" text="Engine Load: %.0f%%"/>
-        <text name="rhm_gui_loss" text="Loss: %.1f%%"/>
-        <text name="rhm_gui_preview_loss" text="Preview Loss: %.1f%%"/>
-        <text name="rhm_gui_close_hint" text="RShift+K to Close"/>
-        <text name="rhm_gui_no_combine" text="No Combine Selected"/>
-        <text name="rhm_gui_not_init" text="Combine Not Initialized"/>
-        <text name="rhm_ui_drum_speed" text="Drum Speed"/>
-        <text name="rhm_ui_roller_speed" text="Roller Speed"/>
-        <text name="rhm_ui_picker_speed" text="Picker Speed"/>
-        <text name="rhm_ui_forage_fan" text="Blower Speed"/>
-        <text name="rhm_ui_forage_drum" text="Chopping Drum"/>
-        <text name="rhm_ui_forage_feeder" text="Feed Rolls"/>
-        <text name="rhm_ui_root_roller" text="Cleaning Rollers"/>
-        <text name="rhm_ui_root_feeder" text="Elevator Web"/>
-        <text name="rhm_ui_grape_shaker" text="Sarsıcı Hızı"/>
-        <text name="rhm_ui_olive_shaker" text="Çırpıcı Hızı"/>
-        <text name="rhm_ui_grape_conveyor" text="Konveyör Hızı"/>
-        <text name="rhm_ui_grape_fan" text="Temizleme Fanları"/>
-        <text name="rhm_units_short" text="Birim Sistemi"/>
-        <text name="rhm_units_long" text="Metrik, emperyal veya kile birimini seçin."/>
-        <text name="rhm_unit_metric" text="Metrik (km/s, t/ha)"/>
-        <text name="rhm_unit_imperial" text="Emperyal (mph, ton/ac)"/>
-        <text name="rhm_unit_bushels" text="Kile (mph, bu/ac)"/>
-        <text name="rhm_reset" text="Ayarları Sıfırla"/>
-        <text name="rhm_loss_low" text="LOW"/>
-        <text name="rhm_loss_med" text="MED"/>
-        <text name="rhm_loss_high" text="HIGH"/>
-        <text name="rhm_warning_turn_on_combine" text="Önce biçerdöveri çalıştırın!"/>
-        <text name="rhm_warning_turn_on_cutter" text="Biçerdöver tablasını çalıştırın!"/>
-        <text name="rhm_warn_overload_high" text="Combine overloaded! Reduce speed to minimize crop losses."/>
-        <text name="rhm_warn_overload_critical" text="COMBINE CRITICALLY OVERLOADED! Severe crop losses occurring!"/>
-        <text name="rhm_configuration_title" text="Realistic Harvesting Sistemleri"/>
-        <text name="rhm_package_standard" text="Tier 1: Temel Mekanik"/>
-        <text name="rhm_package_sensor" text="Tier 2: Sensor Paketi"/>
-        <text name="rhm_package_yield" text="Tier 3: Telemetri ve Izleme"/>
-        <text name="rhm_package_opti" text="Tier 4: AI Opti-Harvest Otopilot"/>
-        <text name="rhm_msg_req_level_4" text="Requires Opti-Harvest AI package (Level 4)."/>
-        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Harvest a few meters of crop to begin auto-calibration!"/>
-        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Auto-calibrated successfully for %s!"/>
-
+        <text name="rhm_section_audio" text="Realistic Harvesting - Kabin Sesi" />
+        <text name="rhm_alarm_sounds_short" text="Aşırı Yük Alarmı" />
+        <text name="rhm_alarm_sounds_long" text="Aşırı motor yükünde (%105+) veya yüksek ürün kaybında (&gt;%5) kabin ikaz modu." />
+        <text name="rhm_alarm_mode_smart" text="Akıllı (3 bip)" />
+        <text name="rhm_alarm_mode_continuous" text="Sürekli" />
+        <text name="rhm_alarm_mode_off" text="Kapalı" />
+        <text name="rhm_sound_volume_short" text="Ses Seviyesi" />
+        <text name="rhm_sound_volume_long" text="Kabin içi aşırı yük alarm ses seviyesini ayarlar." />
+        <text name="rhm_target_load" text="Target Engine Load" />
+        <text name="rhm_gui_title" text="Combine Settings" />
+        <text name="rhm_gui_crop" text="Crop:" />
+        <text name="rhm_gui_none" text="NONE" />
+        <text name="rhm_gui_btn_auto" text="AUTO" />
+        <text name="rhm_gui_btn_load_preset" text="Load Preset" />
+        <text name="rhm_gui_btn_save" text="Save Profile" />
+        <text name="rhm_gui_btn_reset" text="Reset Default" />
+        <text name="rhm_gui_engine_load" text="Engine Load: %.0f%%" />
+        <text name="rhm_gui_loss" text="Loss: %.1f%%" />
+        <text name="rhm_gui_preview_loss" text="Preview Loss: %.1f%%" />
+        <text name="rhm_gui_close_hint" text="RShift+K to Close" />
+        <text name="rhm_gui_no_combine" text="No Combine Selected" />
+        <text name="rhm_gui_not_init" text="Combine Not Initialized" />
+        <text name="rhm_ui_drum_speed" text="Drum Speed" />
+        <text name="rhm_ui_roller_speed" text="Roller Speed" />
+        <text name="rhm_ui_picker_speed" text="Picker Speed" />
+        <text name="rhm_ui_forage_fan" text="Blower Speed" />
+        <text name="rhm_ui_forage_drum" text="Chopping Drum" />
+        <text name="rhm_ui_forage_feeder" text="Feed Rolls" />
+        <text name="rhm_ui_root_roller" text="Cleaning Rollers" />
+        <text name="rhm_ui_root_feeder" text="Elevator Web" />
+        <text name="rhm_ui_grape_shaker" text="Sarsıcı Hızı" />
+        <text name="rhm_ui_olive_shaker" text="Çırpıcı Hızı" />
+        <text name="rhm_ui_grape_conveyor" text="Konveyör Hızı" />
+        <text name="rhm_ui_grape_fan" text="Temizleme Fanları" />
+        <text name="rhm_units_short" text="Birim Sistemi" />
+        <text name="rhm_units_long" text="Metrik, emperyal veya kile birimini seçin." />
+        <text name="rhm_unit_metric" text="Metrik (km/s, t/ha)" />
+        <text name="rhm_unit_imperial" text="İngiliz (mph, ton/h, ac)" />
+        <text name="rhm_unit_bushels" text="Kile (mph, bu/ac)" />
+        <text name="rhm_reset" text="Ayarları Sıfırla" />
+        <text name="rhm_loss_low" text="LOW" />
+        <text name="rhm_loss_med" text="MED" />
+        <text name="rhm_loss_high" text="HIGH" />
+        <text name="rhm_warning_turn_on_combine" text="Önce biçerdöveri çalıştırın!" />
+        <text name="rhm_warning_turn_on_cutter" text="Biçerdöver tablasını çalıştırın!" />
+        <text name="rhm_warn_overload_high" text="Combine overloaded! Reduce speed to minimize crop losses." />
+        <text name="rhm_warn_overload_critical" text="COMBINE CRITICALLY OVERLOADED! Severe crop losses occurring!" />
+        <text name="rhm_configuration_title" text="Realistic Harvesting Sistemleri" />
+        <text name="rhm_package_standard" text="Tier 1: Temel Mekanik" />
+        <text name="rhm_package_sensor" text="Tier 2: Sensor Paketi" />
+        <text name="rhm_package_yield" text="Tier 3: Telemetri ve Izleme" />
+        <text name="rhm_package_opti" text="Tier 4: AI Opti-Harvest Otopilot" />
+        <text name="rhm_msg_req_level_4" text="Requires Opti-Harvest AI package (Level 4)." />
+        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Harvest a few meters of crop to begin auto-calibration!" />
+        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Auto-calibrated successfully for %s!" />
         <!-- ================================================================= -->
         <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-9)                       -->
         <!-- ================================================================= -->
-        <text name="rhm_help_category" text="Realistic Harvesting"/>
-        <text name="rhm_help_title" text="Realistic Harvesting Guide"/>
-        <text name="rhm_help_overview_title" text="1. Realistic Harvesting Physics"/>
-        <text name="rhm_help_overview_sub1" text="Engine Power &amp; Load"/>
-        <text name="rhm_help_overview_1" text="Realistic Harvesting replaces artificial speed limits with dynamic engine load physics. Live engine strain accounts for header drive, threshing resistance, crop density, and soil friction for root crops. In heavy crop stands, the hydrostatic drive smoothly decelerates the combine to prevent drum choking."/>
-        <text name="rhm_help_overview_sub2" text="Crop Density &amp; Cruise Speed"/>
-        <text name="rhm_help_overview_2" text="Heavy, fibrous crops like canola or sunflower demand considerably more engine power per ton than wheat. Harvesting speed will naturally adjust to crop density. Aim for an engine load between 85% and 90% on the HUD for peak performance without grain loss."/>
-        <text name="rhm_help_hud_title" text="2. In-Game HUD &amp; Telemetry"/>
-        <text name="rhm_help_hud_sub1" text="Harvester Telemetry Display"/>
-        <text name="rhm_help_hud_1" text="Boarding a harvester activates a compact 4-cell HUD showing engine load, ground speed, crop yield, and productivity in tons per hour. Upgraded machines allow clicking cells to toggle speed to grain loss percentage and yield to live grain moisture."/>
-        <text name="rhm_help_hud_sub2" text="Customization &amp; Dragging"/>
-        <text name="rhm_help_hud_2" text="You can position the HUD anywhere on screen: right-click in the cab to activate the mouse cursor and drag the panel. In the game settings menu (ESC), customize metric or imperial units and adjust the overload alert sound."/>
-        <text name="rhm_help_hud_sub3" text="HUD Indicators Overview"/>
-        <text name="rhm_help_hud_3_load" text="Cell 1: Engine Load. Green is safe, yellow is optimum (90–105%), red is overload."/>
-        <text name="rhm_help_hud_3_yield" text="Cell 3: Live field yield in tons per hectare (or bushels per acre)."/>
-        <text name="rhm_help_hud_3_productivity" text="Cell 4: Harvester productivity in processed tons per hour (t/h)."/>
-        <text name="rhm_help_hud_3_moisture" text="Cell 3 (Click): Grain moisture percentage (Tier 3+ with Precision Farming or Moisture System)."/>
-        <text name="rhm_help_hud_3_loss" text="Cell 2 (Click): Sieve grain loss percentage (unlocked with Tier 2 sensor package)."/>
-        <text name="rhm_help_hud_3_speed" text="Cell 2: Current forward operating speed in km/h or mph."/>
-        <text name="rhm_help_calibration_title" text="3. Combine Calibration Terminal (Shift+K)"/>
-        <text name="rhm_help_calibration_main_sub" text="Tuning Your Harvester"/>
-        <text name="rhm_help_calibration_main_text" text="Press Right Shift + K in the cab to open the calibration terminal. Different crops require specific drum speeds, fan airflow, and sieve gaps. A poorly tuned combine loses grain and overloads the engine. Tier 2 combines can save custom crop profiles, while Tier 4 harvesters can auto-tune with a single click on the AUTO button."/>
-        <text name="rhm_help_calibration_rotor_sub" text="Threshing Drum &amp; Concave"/>
-        <text name="rhm_help_calibration_rotor_text" text="Drum RPM and concave clearance determine threshing quality. Small grains like wheat and barley require high speeds to beat kernels from heads. Fragile crops like corn and soybeans need lower RPM to prevent grain cracking."/>
-        <text name="rhm_help_calibration_fan_sub" text="Cleaning Fan &amp; Sieves"/>
-        <text name="rhm_help_calibration_fan_text" text="The fan blows away chaff while sieves separate clean grain into the hopper. Light seeds like canola require gentle airflow so they are not blown out the back. Corn needs strong air to lift heavy cob residue."/>
-        <text name="rhm_help_calibration_perf_sub" text="Target Engine Load"/>
-        <text name="rhm_help_calibration_perf_text" text="The target load slider sets how hard the automatic transmission pushes the combine (default 88%). A higher value speeds up fieldwork near the limit, while a lower value guarantees zero losses and saves fuel."/>
-        <text name="rhm_help_special_title" text="4. Forage Harvesters, Root Crops &amp; Cotton"/>
-        <text name="rhm_help_special_sub1" text="Forage Harvesters"/>
-        <text name="rhm_help_special_1" text="Forage harvesters chop standing corn or pickup grass windrows straight into trailers. They have zero crop loss. The calibration terminal lets you adjust chopper drum speed and blower accelerator power."/>
-        <text name="rhm_help_special_sub2" text="Root Harvesters &amp; Special Machinery"/>
-        <text name="rhm_help_special_2" text="Potato and beet harvesters draw heavy engine power from underground share drag. Settings control cleaning roller speed and haulm blowers. Cotton pickers and wide-span NEXAT rigs are also fully supported."/>
-        <text name="rhm_help_loss_title" text="5. Crop Loss &amp; Live Tank Deduction"/>
-        <text name="rhm_help_loss_sub1" text="Overload Grain Loss"/>
-        <text name="rhm_help_loss_1" text="Grain loss begins gently above 80% engine load. Losses remain negligible up to 90%, but climb noticeably past 100%. Running deep into the red zone (&gt;110%) risks clogging the threshing drum completely."/>
-        <text name="rhm_help_loss_sub2" text="Live Grain Tank Deduction"/>
-        <text name="rhm_help_loss_2" text="Harvest losses are fully physical: lost liters are subtracted directly from the combine hopper in real time. Misconfigured sieves or drums can waste up to 25% of your harvest, so watch the HUD and keep settings tuned."/>
-                <text name="rhm_help_loss_sub3" text="Mekanik Aşınma ve Körelmiş Bıçaklar"/>
-        <text name="rhm_help_loss_3" text="Ekipman aşınması hasat verimini önemli ölçüde düşürür. Körelmiş tabla bıçakları başakları ve baklaları döker (en fazla +%3 kayıp ve +%15 PTO sürtünmesi). Aşınmış dövücü tambur ve elekler ayrılmamış daneleri yere döker (en fazla +%3 kayıp). Atölyede düzenli bakım bu kayıpları önler."/>
-<text name="rhm_help_difficulty_title" text="6. Speed Controller &amp; Headland Memory"/>
-        <text name="rhm_help_difficulty_sub1" text="Smooth Cruise Control"/>
-        <text name="rhm_help_difficulty_1" text="The hydrostatic transmission dynamically adapts speed to crop density. When entering a pass, the combine holds steady until the drum fills. It brakes gently in dense patches and smoothly speeds up in lighter stands."/>
-        <text name="rhm_help_difficulty_sub2" text="Headland Turn Memory"/>
-        <text name="rhm_help_difficulty_2" text="Lifting the header on the headland locks your cruising speed into memory. When you lower the header into the next row, the combine accelerates right back to that pace without sluggish crawl."/>
-        <text name="rhm_help_upgrades_title" text="7. Electronics Packages &amp; Tiers 1–4"/>
-        <text name="rhm_help_upgrades_sub1" text="Tier 1: Factory Mechanical"/>
-        <text name="rhm_help_upgrades_1" text="Standard factory equipment. Settings are adjusted manually, and loss and moisture sensors are not yet installed."/>
-        <text name="rhm_help_upgrades_sub2" text="Tier 2: Sensor Package"/>
-        <text name="rhm_help_upgrades_2" text="Installs loss sensors on the sieves (displayed on HUD) and unlocks saving and loading custom calibration profiles in the terminal."/>
-        <text name="rhm_help_upgrades_sub3" text="Tier 3: Telemetry &amp; Moisture"/>
-        <text name="rhm_help_upgrades_3" text="Adds live grain moisture monitoring to the HUD and improves hired worker tuning precision to keep losses minimal."/>
-        <text name="rhm_help_upgrades_sub4" text="Tier 4: Opti-Harvest AI"/>
-        <text name="rhm_help_upgrades_4" text="Flagship smart package: unlocks the AUTO button in the calibration terminal to instantly dial in perfect settings and halves moisture penalties."/>
-        <text name="rhm_help_moisture_title" text="8. Moisture Dynamics &amp; Weather"/>
-        <text name="rhm_help_moisture_sub1" text="Crop Moisture Impact"/>
-        <text name="rhm_help_moisture_1" text="The mod tracks crop moisture using Moisture System or Precision Farming mods. Wet straw and damp grain create heavy friction in the drum, increasing engine load and raising sieve losses."/>
-        <text name="rhm_help_moisture_sub2" text="Rain &amp; Night Dew"/>
-        <text name="rhm_help_moisture_2" text="Rain and morning dew soak the crop. Harvesting in wet conditions forces the combine to crawl and burns much more fuel. Plan major harvesting runs for warm, dry afternoon hours."/>
-        <text name="rhm_help_cropsettings_title" text="9. AI Helpers &amp; Crop Guide"/>
-        <text name="rhm_help_cropsettings_grain_sub" text="AI Workers &amp; Courseplay"/>
-        <text name="rhm_help_cropsettings_grain_text" text="Full support for game AI workers, Courseplay, and AutoDrive. The server regulates travel speed so helpers cruise without choking. When an AI takes over, it respects your calibrated settings and will never worsen them."/>
-        <text name="rhm_help_cropsettings_forage_sub" text="Grains &amp; Oilseeds Quick Guide"/>
-        <text name="rhm_help_cropsettings_forage_text" text="Wheat and barley prefer high rotor speed (~750 RPM) and strong fan blast. Canola requires gentle air (~650 RPM) to keep light seeds inside. For corn and soybeans, lower rotor RPM (~360) and open sieves wider."/>
-        <text name="rhm_help_cropsettings_root_sub" text="Forage &amp; Root Crops Quick Guide"/>
-        <text name="rhm_help_cropsettings_root_text" text="Corn silage needs high drum speed (~1150 RPM), while grass silage runs well at ~800 RPM. On potatoes, keep cleaning rollers moderate (~400 RPM) to protect skins from bruising."/>
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
+        <!-- ================================================================= -->
+        <text name="rhm_help_category" text="Realistic Harvesting" />
+        <text name="rhm_help_title" text="Realistic Harvesting Rehberi" />
 
-        <text name="rhm_ui_section_separation" text="AYIRMA"/>
-        <text name="rhm_ui_section_cleaning" text="TEMİZLEME"/>
-        <text name="rhm_ui_section_discharge" text="BOŞALTMA"/>
-        <text name="rhm_ui_section_performance" text="PERFORMANS"/>
-        <text name="rhm_ui_tier1_manual" text="TIER 1 - MEKANIK"/>
-        <text name="rhm_ui_tier2_sensors" text="TIER 2 - SENSORLER"/>
-        <text name="rhm_ui_tier3_monitor" text="TIER 3 - TELEMETRI"/>
-        <text name="rhm_ui_tier4_opti" text="TIER 4 - AI OPTI"/>
-        <text name="rhm_ui_arcade_badge" text="ARCADE"/>
-        <text name="rhm_ui_card_engine_load" text="MOTOR YÜKÜ"/>
-        <text name="rhm_ui_card_efficiency" text="VERİMLİLİK"/>
-        <text name="rhm_ui_card_predicted_loss" text="TAHMİNİ KAYIP"/>
-        <text name="rhm_ui_btn_ai_auto" text="YAPAY ZEKA OTO-KALİBRASYON"/>
-        <text name="rhm_ui_btn_auto_locked" text="AUTO (LOCKED)"/>
-        <text name="rhm_ui_btn_load_preset" text="PROFİL YÜKLE"/>
-        <text name="rhm_ui_btn_save_profile" text="PROFİL KAYDET"/>
-        <text name="rhm_ui_btn_load_locked" text="LOAD (LOCKED)"/>
-        <text name="rhm_ui_btn_save_locked" text="SAVE (LOCKED)"/>
-        <text name="rhm_ui_btn_reset_defaults" text="FABRİKA AYARLARINA SIFIRLA"/>
-        <text name="rhm_ui_status_optimal" text="OPTIMAL"/>
-        <text name="rhm_ui_status_low" text="LOW"/>
-        <text name="rhm_ui_status_high" text="HIGH"/>
-        <text name="rhm_msg_req_tier4" text="Requires Opti-Harvest AI (Tier 4)"/>
-        <text name="rhm_msg_req_tier3" text="Profiles require Telemetry Monitor (Tier 3)"/>
-        <text name="rhm_msg_req_tier2" text="Profiller Sensör Paketi gerektirir (Tier 2 veya üzeri)"/>
-        <text name="rhm_msg_profile_saved" text="Saved Profile: %s"/>
-        <text name="rhm_msg_profile_loaded" text="Loaded Profile: %s"/>
-        <text name="rhm_msg_profile_not_found" text="No saved profile found for this crop"/>
-        <text name="rhm_ui_combine_not_init" text="Combine not initialized"/>
-        <text name="rhm_unit_t_per_hour" text="t/h"/>
-        <text name="rhm_unit_ha_per_hour" text="ha/h"/>
-        <text name="rhm_setting_ai_tuning" text="Yardımcı Ayarlaması"/>
-        <text name="rhm_setting_ai_tuning_long" text="Yapay zeka işçilerinin ve Courseplay'in biçerdöver kalibrasyonunu nasıl yönettiğini belirler. 'Ayarlarımı Koru' manuel ayarlarınızı ve profillerinizi kesin olarak korur. 'Daima Otomatik' elektronik seviyesine göre ayarlar. 'Devre Dışı' yardımcıların ayar değiştirmesini engeller."/>
-        <text name="rhm_setting_ai_tuning_keep" text="Ayarlarımı Koru"/>
-        <text name="rhm_setting_ai_tuning_auto" text="Daima Otomatik"/>
-        <text name="rhm_setting_ai_tuning_disabled" text="Devre Dışı"/>
-        <text name="rhm_crop_straw_windrow" text="Saman namlusu"/>
-        <text name="rhm_crop_grass_windrow" text="Çim namlusu"/>
-        <text name="rhm_crop_drygrass_windrow" text="Kuru ot namlusu"/>
-        <text name="rhm_crop_alfalfa_windrow" text="Yonca namlusu"/>
-        <text name="rhm_crop_clover_windrow" text="Üçgül namlusu"/>
-        <text name="rhm_crop_maize_forage" text="Mısır silajı"/>
-        <text name="rhm_windrow_format" text="Namlu: %s"/>
-    
-        <text name="rhm_setting_enableTutorials" text="Eğitim İpuçları"/>
-        <text name="rhm_setting_enableTutorials_long" text="Hasat sırasında etkileşimli eğitim ipuçları gösterir."/>
-        <text name="rhm_ui_btn_close_notification" text="Tamam (Enter / Sol Tık)"/>
-        <text name="rhm_tut_welcome_title" text="Realistic Harvesting"/>
-        <text name="rhm_tut_welcome_msg" text="Realistic Harvesting&apos;e hoş geldiniz! Biçerdöver hızı motor yükü, ürün yoğunluğu ve tabla genişliğine göre dinamik belirlenir. (Sağ Shift + K) ile kalibrasyon terminalini açın."/>
-        <text name="rhm_tut_overload_title" text="Motor Aşırı Yükü"/>
-        <text name="rhm_tut_overload_msg" text="Motor aşırı zorlanıyor! Hidrostatik şanzıman batörün tıkanmasını önlemek için hızı yavaşlatır. Tablayı biraz kaldırın veya biçme genişliğini azaltın."/>
-        <text name="rhm_tut_loss_title" text="Aşırı Ürün Kaybı"/>
-        <text name="rhm_tut_loss_msg" text="Biçerdöver arkasında kritik dane kaybı tespit edildi! Rotor hızı veya elek ayarları bu ürüne uygun değil. Ayarlamak için (Sağ Shift + K) tuşuna basın."/>
-        <text name="rhm_tut_moisture_title" text="Yüksek Nem Uyarısı"/>
-        <text name="rhm_tut_moisture_msg" text="Ürün nemi yüksek veya yağmur başladı! Islak sap ve dane yüksek direnç oluşturarak motoru zorlar ve dane kaybını artırır. Mümkünse kuru havada hasat yapın."/>
-        <text name="rhm_tut_headland_title" text="Tarla Sonu Hız Hafızası"/>
-        <text name="rhm_tut_headland_msg" text="Tarla sonunda tablayı kaldırdığınızda biçerdöver çalışma hızını hatırlar. Yeni sıraya girerken sarsıntısız bir şekilde aynı hıza ulaşır."/>
-        <text name="rhm_tut_upgrade_title" text="Biçerdöver Yükseltmeleri"/>
-        <text name="rhm_tut_upgrade_msg" text="Temel biçerdöverler manuel ayar gerektirir. Atölyeden Sensör Kiti (Aşama 2), Verim Monitörü (Aşama 3) veya Opti-Harvest AI Otopilot (Aşama 4) taktırabilirsiniz."/>
-        <text name="rhm_setting_wear_loss_short" text="Mekanik Aşınma Kayıpları"/>
-        <text name="rhm_setting_wear_loss_long" text="Ekipman aşınmasından kaynaklanan dane kayıplarını simüle eder. Körelmiş bıçaklar başakları döker (en fazla +%3 kayıp ve +%15 direnç). Aşınmış tambur ve elekler dane döker (en fazla +%3 kayıp)."/>
-        <text name="rhm_ui_wear_loss" text="Aşınma Kaybı"/>
-        <text name="rhm_ui_cutter_wear" text="Tabla Aşınması"/>
-        <text name="rhm_ui_combine_wear" text="Biçerdöver Aşınması"/>
+        <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
+        <text name="rhm_help_overview_title" text="1. Motor Yükü Fiziği ve Hız" />
+        <text name="rhm_help_overview_sub1" text="Güç dengesi: makine direnci ve ürün harmanlama" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting, arcade tipi sabit hasat hızını ASABE ve DLG standartlarına dayalı gerçekçi bir motor gücü dengesi modeliyle değiştirir. Temel oyunda biçerdöver, mahsul yoğunluğundan bağımsız olarak her zaman tablanın azami hızında ilerler. Bu modda ise net motor gücü sürekli olarak dört gerçek gereksinime paylaştırılır: aktarma organları ve hidrostatik yürüyüşün baz direnci (tahıl biçerdöverlerinde anma gücünün %8'i, ağır kök ürün sökücülerde %10'u), biçme tablası ve dolabın mekanik tahriki, bitki kütlesinin dövücü tambur veya rotordan geçirilmesi için gereken kırma ve ovalama enerjisi ile nem ve yabancı otların getirdiği ek sürtünme. Ekrandaki motor yükü yüzdesi, mevcut beygir gücünün o saniyede ne kadarının kullanıldığını gösterir." />
+        <text name="rhm_help_overview_sub2" text="Otomatik hız kontrolü ve tıkanma koruması" />
+        <text name="rhm_help_overview_2" text="Hız sabitleyiciyi sürekli tahminlerle ayarlamak zorunda değilsiniz. Tablayı indirin, harman mekanizmasını çalıştırın ve tarlaya girin: biçerdöver, bitki kütlesinin boğazı darbesiz ve dengeli biçimde doldurması için 5,5 km/s güvenli giriş hızıyla hasada başlar. Ardından akıllı hidrostatik kontrolör, makineyi en verimli çalışma aralığında (yaklaşık %80–90) tutmak amacıyla ilerleme hızını motor yüküne göre otomatik ayarlar. Yoğun ekin öbeklerinde veya dik yokuşlarda sistem makineyi kademeli olarak yavaşlatarak (0,45 sn tepki süresi) motorun stop etmesini ve tamburun tıkanmasını önler. Seyrek kısımlarda ise hızlanır. En yüksek hız her zaman tablanın fabrika limitiyle sınırlıdır." />
+        <text name="rhm_help_overview_sub3" text="Saman kıyıcı ve namluda hız kazanımı" />
+        <text name="rhm_help_overview_3" text="Seçilen saman işleme modu, yürüyüş sistemine kaç beygir gücü kalacağını doğrudan belirler. Saman kıyıcı, 3.000 dev/dak üzerinde dönen ağır bıçaklı bir rotordur. Samanın kıyılması ve dağıtılması toplam motor gücünün %15 ila %20'sini tüketir (özellikle yulaf, arpa veya çavdar gibi sert saplı ürünlerde). Biçerdöveriniz yüksek yük altında fazla yavaşlarsa, standart oyun tuşuyla namlu moduna geçin. Kıyıcı rotoru devreden çıkarak harmanlama mekanizması için onlarca beygir gücü serbest bırakır ve çalışma hızınız aynı motor yükünde derhal 1,5–3 km/s artar." />
+
+        <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
+        <text name="rhm_help_hud_title" text="2. Etkileşimli HUD ve Kontroller" />
+        <text name="rhm_help_hud_sub1" text="Telemetri paneli: 4 bilgi hücresinin açıklaması" />
+        <text name="rhm_help_hud_1" text="Kabin içine geçtiğinizde ekranın alt kısmında yuvarlatılmış koyu cam tasarımlı şık bir telemetri paneli belirir. Bu panel dört temel gösterge sunar: Hücre 1, dinamik renk kodlamasıyla motor yük yüzdesini gösterir (%85'e kadar yeşil rahat çalışmayı; %85 ile %95 arası sarı ideal verimli bölgeyi; %95 üzeri kırmızı ise aşırı yük uyarısını temsil eder). Hücre 2, anlık dane kaybı yüzdesini veya önerilen seyir hızını gösterir. Hücre 3, ürünün nem oranını (%) ya da saatte işlenen alan miktarını (hektar/saat) görüntüler. Hücre 4, bulunulan parselin anlık hektar verimini (t/ha veya bu/ac) ya da toplam harmanlama kapasitesini (t/sa veya l/sa) yansıtır." />
+        <text name="rhm_help_hud_sub2" text="Fareyle serbest taşıma (LMB), manyetik kenetlenme ve modlar" />
+        <text name="rhm_help_hud_2" text="HUD panelini ekranınızda dilediğiniz konuma taşıyabilirsiniz. Fare sol tuşunu (LMB) panel üzerinde basılı tutarak kabin görüşünü engellemeyen uygun bir noktaya sürükleyin. Ekran kenarlarına veya F1 yardım menüsünün altına yaklaşıldığında devreye giren manyetik hizalama paneli otomatik kilitler. Panel ayrıca etkileşimlidir: Hücre 2, 3 veya 4 üzerine tek bir sol tıklama, ikincil veri görünümlerini anında değiştirir (örneğin ton/saat ile hektar/saat arasında geçiş veya kayıp yüzdesi ile hedef hız arasında geçiş)." />
+        <text name="rhm_help_hud_sub3" text="Sensör durumu ve eski makinelerde tire (--%) işaretleri" />
+        <text name="rhm_help_hud_3" text="Temel veya eski model bir biçerdövere bindiğinizde kayıp ya da nem oranları yerine tire (--%) görüyorsanız, bu durum bir hata değil modun tasarlanmış gerçekçi bir özelliğidir. Giriş seviyesi makinelerde (Tier 1) piezoelektrik kayıp sensörleri ve optik nem ölçerler fabrikasyon olarak bulunmaz; operatör motor sesine ve depodaki ürünün temizliğine göre sürüş yapar. Elek kayıp sensörleri atölyede Tier 2 yükseltmesi yapıldığında, dijital nem ölçüm ise Tier 3 seviyesinde aktifleşir. Boşaltma yaparken durulduğunda veya baş sonu dönüşlerinde HUD ekranı sıfırlanma titremesini önlemek için son kararlı verileri sabitler." />
+
+        <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
+        <text name="rhm_help_calibration_title" text="3. Kabin İçi Kalibrasyon Terminali (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Temel makinelerde ayar (Tier 1): manuel mekanik ayar" />
+        <text name="rhm_help_calibration_main_text" text="Kabindeyken dokunmatik ayar terminalini açmak için Sağ Shift + K tuşlarına basın. Temel biçerdöverlerde (Tier 1) dijital hafıza bulunmaz: profil kaydetme, yükleme ve otomatik pilot kilitlidir; kılavuz renk bölgeleri gizlidir. Makinenin ayarlanması: alttaki sıfırlama düğmesi tüm kaydırıcıları nötr %50 seviyesine döndürür. Ardından harmanlama kurallarına göre ayarlayın: buğday ve arpa gibi tahıllarda tamburu %60–70, temizleme fanını %65–75 ve elek açıklıklarını %50–60 aralığında tutun. İri taneli ürünlerde (mısır, ayçiçeği) tambur devrini mutlaka %35–45 aralığına indirin; aksi halde dövücü lamalar taneleri kırarak zarar verir." />
+        <text name="rhm_help_calibration_rotor_sub" text="Tier 2–3 kalibrasyonu: yeşil optimum bölgeler ve profiller" />
+        <text name="rhm_help_calibration_rotor_text" text="Biçerdöveri Tier 2 seviyesine yükselttikten sonra, boğazdaki ürüne özel hesaplanan parlak yeşil bir optimum bölge («sweet-spot») belirir. İlk kurulum kılavuzu: biçerdöverin ürünü algılaması için birkaç metre hasat yapın, terminali açın (Shift+K) ve her kaydırıcıyı [-] ile [+] tuşlarıyla yeşil bölgeye getirin. Hemen ardından «KAYDET» düğmesine basın! Makine bu ayarları profile kaydeder. İlk kayıttan sonra «YÜKLE» düğmesi aktif hale gelir: bu ürüne tekrar döndüğünüzde tek bir dokunuşla ayarlarınız yüklenir. Tier 3'te ayrıca motor yükü, verimlilik ve beklenen kayıp kartları terminalde canlı olarak görüntülenir." />
+        <text name="rhm_help_calibration_presets_sub" text="Tier 4 makinelerde tek dokunuşla otomatik kalibrasyon" />
+        <text name="rhm_help_calibration_presets_text" text="En üst seviye Tier 4 (Opti-Harvest AI) donanımına sahip biçerdöver sahiplerinin kaydırıcıları manuel ayarlamasına gerek kalmaz. Terminalin sağ üst köşesinde «AI OTO-KALİBRASYON» düğmesi açılır: tek bir dokunuşla nem ve ürün sıklığı taranarak fabrika veri tabanından en ideal harman parametreleri bir saniyede uygulanır. Üstelik aktif otopilot sürüş esnasında her 2 saniyede bir yabancı otlu veya nemli çukurlara göre tambur ve fan devrini kendiliğinden ayarlar." />
+
+        <!-- PAGE 4: FIELD ODOMETER & FLEET ANALYTICS (SHIFT+J) -->
+                        <!-- PAGE 4: CROP CALIBRATION HANDBOOK (RPM & MM) -->
+        <text name="rhm_help_presets_title" text="4. Ürün Kalibrasyon Kılavuzu (RPM ve mm)" />
+        <text name="rhm_help_presets_sub1" text="Evrensel Ayarlar: RPM ve mm değerleri neden tüm biçerdöverlerde aynıdır" />
+        <text name="rhm_help_presets_1" text="Kabindeki kalibrasyon tabletinde (Sağ Shift + K) tüm parametreler gerçek fiziksel birimlerle gösterilir: dakikadaki devir sayısı (RPM) ve milimetre cinsinden boşluklar (mm). Temel tarımsal kural: herhangi bir ürün için temel optimum ayarlar, motor gücünden (300 ila 800 BG) veya tabla genişliğinden bağımsız olarak TÜM biçerdöver modellerinde AYNIDIR! Buğday başağının veya mısır koçanının biyolojik özellikleri değişmez: buğday her zaman ~800 RPM tambur ve ~960 RPM fan devri gerektirir, aksi halde tane başakta kalır veya samanla dışarı atılır. Motor gücü ve tabla genişliği yalnızca çalışma hızını (km/s) ve debiyi (t/sa) belirler; bunlar RHM tarafından aşırı yüklenmeyi önlemek için otomatik ayarlanır." />
+        <text name="rhm_help_presets_sub2" text="Tahıllar, mısır, yağlı tohumlar ve baklagiller" />
+        <text name="rhm_help_presets_2" text="Yeşil optimum göstergesi olmayan giriş seviyesi (Tier 1) biçerdöverlerde bu fabrika değerlerini uygulayın:&#10;&#10;- Buğday: Rotor Devri 780–820 RPM | Kontrbatör Boşluğu 5–7 mm | Fan Hızı 940–980 RPM | Üst Elek 14–15 mm | Alt Elek 6–8 mm.&#10;&#10;- Arpa: Rotor 780–820 RPM | Kontrbatör 6–8 mm | Fan 980–1020 RPM | Üst Elek 14–15 mm | Alt Elek 7–9 mm (sert kılçıklar güçlü rüzgar ister).&#10;&#10;- Yulaf: Rotor 680–720 RPM | Kontrbatör 5–7 mm | Fan 730–770 RPM | Üst Elek 14–16 mm | Alt Elek 6–8 mm (hafif kavuz; &gt;850 RPM fan taneyi savurur).&#10;&#10;- Dane Mısır: Rotor 310–350 RPM | Kontrbatör 28–32 mm | Fan 930–970 RPM | Üst Elek 19–21 mm | Alt Elek 11–13 mm (DİKKAT: koçanları kırmamak için minimum rotor devri!).&#10;&#10;- Ayçiçeği: Rotor 340–380 RPM | Kontrbatör 23–27 mm | Fan 730–770 RPM | Üst Elek 17–19 mm | Alt Elek 9–11 mm (hassas harman kuru tablaları korur).&#10;&#10;- Kanola: Rotor 480–520 RPM | Kontrbatör 16–19 mm | Fan 680–720 RPM | Üst Elek 8–10 mm | Alt Elek 3–5 mm (ince tohum; &gt;750 RPM fan ürünü uçurur).&#10;&#10;- Soya Fasulyesi: Rotor 540–580 RPM | Kontrbatör 17–19 mm | Fan 960–1000 RPM | Üst Elek 15–17 mm | Alt Elek 8–10 mm.&#10;&#10;- Bezelye, Bakla: Rotor 410–450 RPM | Kontrbatör 14–16 mm | Fan 980–1020 RPM | Üst Elek 17–19 mm | Alt Elek 8–10 mm.&#10;&#10;- Pirinç ve Uzun Taneli Pirinç: Rotor 700–740 RPM | Batör Boşluğu 6–8 mm | Fan 1030–1070 RPM | Üst Elek 15–17 mm | Alt Elek 6–8 mm (aşındırıcı nemli saman).&#10;&#10;- Sorgum: Rotor 580–620 RPM | Batör Boşluğu 17–19 mm | Fan 1080–1120 RPM | Üst Elek 14–16 mm | Alt Elek 7–8 mm (yoğun salkımlar yüksek hava akışı gerektirir).&#10;&#10;- Çim Tohumu (Haşhaş, Yonca): Rotor 780–820 RPM | Kontrbatör 4–6 mm | Fan 430–470 RPM | Üst Elek 6–8 mm | Alt Elek 2–4 mm (minimum rüzgar!)." />
+        <text name="rhm_help_presets_sub3" text="Silaj makineleri, kök ürün hasat makineleri ve özel araçlar" />
+        <text name="rhm_help_presets_3" text="Özel makineler için Shift+K ilgili çalışma parçalarını etkinleştirir:&#10;&#10;- Kendi Yürür Silaj Makineleri: Tane kaybı sıfırdır (%0). Mısır silajı — Hızlandırıcı 1300–1350 RPM, Kıyıcı Tambur 1150–1170 RPM, Besleme Merdaneleri 470–500 RPM. Namlu toplama (kuru ot/saman) — Hızlandırıcı 1150–1200 RPM, Tambur 1070–1100 RPM, Merdaneler 450–470 RPM. Doğrudan ot biçme — Hızlandırıcı 1230–1270 RPM, Tambur 1120–1140 RPM, Merdaneler 410–430 RPM. Kavak (odun talaşı) — Üfleyici 1350–1400 RPM, Kıyıcı Tambur 1180–1200 RPM, Besleme Silindirleri 380–400 RPM.&#10;&#10;- Kök Ürün Sökücüler: Patates — Türbin 600–620 RPM, Temizleme Merdaneleri 190–210 RPM, Elek Bandı 300–320 RPM (yumruları korur). Şeker Pancarı ve Kırmızı Pancar — Fan 630–650 RPM, Makaralar 230–250 RPM, Asansör Bandı 290–310 RPM. Havuç — Türbin 620–640 RPM, Merdaneler 200–220 RPM, Bant 300–310 RPM. Soğan — Türbin 840–860 RPM, Merdaneler 200–220 RPM, Bant 260–270 RPM.&#10;&#10;- Sebze Hasat Makineleri: Yeşil Fasulye (Green Beans) — Temizleme Fanı 700–720 RPM, Toplama Rotoru 170–190 RPM, Asansör 280–300 RPM. Ispanak (Spinach) — Fan 550–580 RPM, Kesici Dolap 140–160 RPM, Asansör 270–290 RPM (hassas yaprak hasadı).&#10;&#10;- Pamuk: Fan 3600–3800 RPM, Miller 210–230 RPM, Besleyiciler 210–230 RPM.&#10;&#10;- Şeker Kamışı (Sugar Cane): Ana Emiş Fanı 1150–1200 RPM, Doğrayıcı Tamburlar 180–200 RPM, Asansör Konveyörü 280–300 RPM.&#10;&#10;- Üzüm: Sarsıcı Çubuklar 450–470 RPM, Konveyör 110–120 RPM, Emiş Fanları 1250–1300 RPM.&#10;&#10;- Zeytin: Sarsıcı Çubuklar 540–560 RPM, Konveyör 105–115 RPM, Emiş Fanları 1300–1350 RPM." />
+        <text name="rhm_help_presets_sub4" text="Ürün Nemi: Fiziksel Etkiler ve Canlı Kalibrasyon Düzeltmesi" />
+        <text name="rhm_help_presets_4" text="RHM harici nem modlarını destekler ve dahili bir günlük hava simülatörü içerir (sabah çiyi %16–18, kuru öğleden sonra penceresi %11–13.5, yağmur &gt;%22). Güvenli nem eşiği %14.0'tür (kanola: %9.0). Eşik üzerindeki her %1 nem, +%2 motor direnci ve ıslak samana yapışan taneler nedeniyle +%0.35 kaçınılmaz kayıp yaratır.&#10;&#10;Nem %14'ü aştığında kalibrasyon kuralı:&#10;&#10;1. Rotor devrini +50...80 RPM artırın (örneğin buğday için 800 yerine 860 RPM) — ıslak samanın akışını rahatlatır.&#10;&#10;2. Fan devrini +30...50 RPM artırın (950 yerine 990 RPM) — ağır ıslak kavuzları elekten kaldırır.&#10;&#10;3. Üst eleği +1...2 mm daha fazla açın.&#10;&#10;Tier 2–3 makinelerde yeşil bölge otomatik yukarı kayar; Tier 4'te Opti-Harvest AI her şeyi anlık dengeler." />
+        <text name="rhm_help_presets_sub5" text="Mod Ürünleri ve Özel Haritalar: Ön Ayarlar ve Otomatik Algılama" />
+        <text name="rhm_help_presets_5" text="1. RHM Veritabanındaki Modlu Ürünler:&#10;&#10;- Çavdar, Tritikale, Siyez: buğday gibi ayarlayın (Rotor 780–820 RPM, Kontrbatör 5–7 mm, Fan 940–980 RPM, Elekler 14/7 mm).&#10;&#10;- Karabuğday: Rotor 530–570 RPM, Kontrbatör 12–14 mm, Fan 730–770 RPM, Elekler 12/6 mm.&#10;&#10;- Darı: Rotor 780–820 RPM, Kontrbatör 5–7 mm, Fan 850–890 RPM, Elekler 14/7 mm.&#10;&#10;- Keten, Hardal: Rotor 830–870 RPM, Kontrbatör 14–16 mm, Fan 780–820 RPM, Elekler 9/4 mm.&#10;&#10;- Haşhaş: Rotor 430–470 RPM, Kontrbatör 12–14 mm, Fan 430–470 RPM, Elekler 7/3 mm (mikro tohumlar!).&#10;&#10;- Kenevir: Rotor 630–670 RPM, Kontrbatör 12–14 mm, Fan 830–870 RPM, Elekler 14/7 mm.&#10;&#10;- Aspir: ayçiçeği gibi (Rotor 340–380 RPM, Fan 730–770 RPM, Elekler 18/10 mm).&#10;&#10;- Yonca Tohumu: Rotor 780–820 RPM, Kontrbatör 4–6 mm, Fan 430–470 RPM, Elekler 7/3 mm.&#10;&#10;- Yonca (Silaj): Silaj Makinesi — Hızlandırıcı ~1250, Tambur ~1130, Merdaneler ~420 RPM.&#10;&#10;2. Otomatik Ürün Algılama: RHM haritadan tohum litre ağırlığını ve saman durumunu okur. 4 Aile Kuralı (Tier 1): samanlı tahıllar = buğday; küçük yağlı tohumlar = kanola; baklagiller = bezelye; çimler = minimum rüzgar. Tier 2–4'te yeşil hedef otomatik hesaplanır." />
+
+        <text name="rhm_help_trip_title" text="5. Tarla Sayacı ve Filo Analizi (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Mevcut tarlanın seyir defteri: hassas hasat kaydı" />
+        <text name="rhm_help_trip_1" text="Dört sekmeli analiz merkezini açmak için kabinde Sağ Shift + J tuşlarına basın. İlk sekme, mevcut tarlanın dijital sayacıdır: biçilen alanı (hektar), hasat edilen ürünün tonajını ve hacmini (litre), biçerdöverin net çalışma süresini (boşaltma ve dönüş duraklamaları hariç), ortalama parsel verimini ve saatlik iş verimini (t/sa ve ha/sa) kaydeder. Böylece mahsulü depoya veya tüccara teslim etmeden önce tarlanın gerçek verimini tam olarak bilirsiniz." />
+        <text name="rhm_help_trip_sub2" text="Maddi kayıp hesabı, operatör puanı ve kayıp analizi" />
+        <text name="rhm_help_trip_2" text="Sayaç yalnızca kaybedilen tonajı kaydetmekle kalmaz, ürünün anlık pazar değerine göre oluşan maddi zararı oyun para biriminde (€, $ veya £) hesaplar. Özel bir algoritma operatörün sürüşünü [A] (kusursuz sürüş, %1 altı kayıp) ile [E] (yüksek kayıplı yetersiz sürüş) arasında puanlar. Puanın altındaki dört tanı çubuğu kayıp nedenlerinin kesin dağılımını gösterir: aşırı hız, nemli ekin, aşınmış biçak kiti veya eğimli arazide elek eğimi." />
+        <text name="rhm_help_trip_sub3" text="Kabinde sayacı hızlı sıfırlama (Sağ Shift + R)" />
+        <text name="rhm_help_trip_3" text="Yeni bir parsele geçtiğinizde menüyü açmanıza gerek yoktur: direksiyon başındayken Sağ Shift + R tuşlarını 1 saniye basılı tutun. Sayaç sesli uyarı ve ekrandaki bildirimle derhal sıfırlanır. Ayrıca oyun ayarlarında, tarla numarası değiştiğinde veya depodaki ürün türü farklılaştığında sayacı otomatik sıfırlayan bir akıllı özellik (Smart) bulunur." />
+        <text name="rhm_help_trip_sub4" text="Tarla kütüğü, sezon geçmişi ve filo takibi" />
+        <text name="rhm_help_trip_4" text="«Çiftlik Tarlaları» sekmesi sahip olunan tüm parselleri alan ve hasat geçmişiyle listeler. «Sezon Analizi» sekmesi aylara ve yıllara göre hasat eğilimlerini gösterir. «Biçerdöver Filosu» sekmesi işletmedeki tüm hasat makinelerini canlı izlemenizi sağlar: direksiyondaki sürücü (oyuncu veya işçi), mevcut mahsul, hız, motor yükü, verimlilik (t/sa), tabla bıçaklarının aşınma durumu ve takılı elektronik donanım paketi görüntülenir." />
+
+        <!-- PAGE 5: GRAIN LOSS & DIAGNOSTICS -->
+        <text name="rhm_help_croploss_title" text="6. Mahsul Kaybı ve Nedenleri" />
+        <text name="rhm_help_croploss_sub1" text="Dane kaybının doğrudan biçerdöver deposundan düşülmesi" />
+        <text name="rhm_help_croploss_1" text="Realistic Harvesting'de dane kayıpları ekrandaki basit istatistiki rakamlardan ibaret değildir. Yeterince ayrıştırılamayan veya kavuzla birlikte eleklerden dışarı atılan daneler gerçek zamanlı olarak doğrudan biçerdöverin deposundan eksiltilir! Fazla hızlı giderseniz depodaki ürün belirgin şekilde azalır ve her hektardan depoya götüreceğiniz hasat %5 ila %15 oranında fire verir. Namlu modu devredeyken dane kayıpları saman namlusuna karışır. Silaj makinelerinde ve pamuk toplayıcılarda tüm biyokütle kıyıldığı veya balyalandığı için dane kaybı oluşmaz." />
+        <text name="rhm_help_croploss_sub2" text="Dört temel kayıp faktörü ve çözüm yolları" />
+        <text name="rhm_help_croploss_2" text="Toplam kayıp dört bağımsız faktörden meydana gelir: 1. Hız ve aşırı yük: ISO 8210 standartlarına göre kayıplar %80 yükün üzerinde artmaya başlar, %95 yükte yasal %1 sınırını aşar ve %110 üzerinde elekler tıkanarak daneler çığ gibi tarlaya dökülür. Çözüm: Motor yükünü %85–90 aralığında tutun. 2. Nem ve çiğ: %14 üzeri nem samanın yapışmasına neden olur ve her ilave %1 nem için kayba +%0,35 eklenir. Çözüm: Güneşli öğleden sonra hasat yapın. 3. Bıçak aşınması: Körleşmiş bıçaklar (%15 üzeri aşınma) sapları kesmek yerine başakları döverek daneleri tarlaya döker (%3'e kadar kayıp). Çözüm: Tablayı atölyede onarın. 4. Eğim: Eleklerin 4°'den fazla eğilmesi daneleri tek tarafa yığarak %5'e kadar kayba yol açar." />
+        <text name="rhm_help_croploss_sub3" text="Kabin sesli uyarıcısı (Smart Buzzer): aşırı yük alarmı" />
+        <text name="rhm_help_croploss_3" text="Motor yükü %95'i geçerse veya dane kaybı %5 sınırını aşarsa, kabindeki terminal sesli uyarı verir. Önerilen Smart Buzzer modunda uyarıcı üç kısa sinyal (0,3 sn) verir ve ardından 18 saniyelik sessizliğe geçerek sürücüyü rahatsız etmeden ikaz eder. Alarm mı duydunuz? Bu sinyal, hızınızı düşürmeniz, Shift+K ekranından elek açıklıklarını kontrol etmeniz veya saman kıyıcıyı kapatmanız gerektiği anlamına gelir. Uyarıcı ses düzeyi oyun ayarlarından %0 ile %100 arasında ayarlanabilir." />
+
+        <!-- PAGE 7: ELECTRONICS UPGRADE TIERS -->
+        <text name="rhm_help_upgrades_title" text="7. Biçerdöver Donanım Paketleri (Tier 1–4)" />
+        <text name="rhm_help_upgrades_sub1" text="Atölyede donanım yükseltme: her bütçeye uygun 4 seviye" />
+        <text name="rhm_help_upgrades_1" text="Oyundaki herhangi bir biçerdöver (mağazadan sıfır alınırken veya filonuzdaki mevcut araçlar) özel RHM elektronik donanım paketiyle güçlendirilebilir. Atölyenin servis alanına girin, özelleştirme menüsünü açın ve «RHM Elektronik Paketi» seçeneğini seçin. Dört seviye mevcuttur: Tier 1 «Standart» (0 €, temel fabrika çıkışı), Tier 2 «Sensör Kiti» (3.500 €), Tier 3 «Verim Monitörü» (8.500 €) ve Tier 4 «Opti-Harvest AI» (15.000 €). Takılı seviye, Shift+K terminalinin üst kısmında ve filo listesinde gösterilir." />
+        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Mekanik) ile Tier 2 (Sensör Kiti) karşılaştırması" />
+        <text name="rhm_help_upgrades_2" text="Tier 1 makineler sensörsüz sade mekanik kontrollere sahiptir: ekranda kayıp yerine tire işaretleri görünür, tablette kılavuz bölgeler yer almaz, sürücü motorun sesine kulak verir ve yardımcı işçiler ayarlarda yüksek yanılma payıyla (±%18'e kadar) çalışır. Tier 2 paketi (3.500 €) en önemli başlangıç yükseltmesidir: elek kayıp sensörlerini ekler (HUD'da canlı kayıp % görünür) ve Shift+K terminalinde ayar yapmayı kolaylaştıran yeşil optimum bölgeleri açar. İşçilerin hata payı ±%10'a düşer." />
+        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Monitör ve Profiller) ve Tier 4 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="Tier 3 paketi (8.500 €) optik nem ölçer ekler (HUD'da nem oranı %), Shift+K terminalinde canlı motor yükü ve verimlilik kartlarını açar, makine hafızasına profil kaydetmeyi ve Shift+J ekranında filo takibini etkinleştirir (işçi yanılması ±%4'e iner). Zirve donanım Tier 4 (15.000 €) tam otopilot sunar: «AI OTO-KALİBRASYON» düğmesi tek dokunuşla biçerdöveri ayarlar, sistem her 2 saniyede bir tambur ve fan devrini tarladaki neme göre optimize eder, nem direnci cezası %50 hafifler ve işçiler %0 hata payıyla hasat yapar." />
+
+        <!-- PAGE 8: AI WORKERS & FLEET AUTOMATION -->
+        <text name="rhm_help_ai_workers_title" text="8. Yardımcı İşçiler ve Otopilotlar" />
+        <text name="rhm_help_ai_workers_sub1" text="Otomatik hız kontrolü ve yardımcı işçilerin frenlenmesi" />
+        <text name="rhm_help_ai_workers_1" text="Oyunun standart yapay zekalı işçileri ve otomatik yardımcılar artık tablanın azami hızında ilerleyip mahsulün üçte birini tarlaya dökmez. RHM modu, işçinin hızını motor kontrol ünitesi üzerinden doğrudan sınırlandırarak makineyi %85–95 güvenli yük aralığında tutar. Engebeli arazide dane kaybı çiftliğin belirlediği sınır değeri (%2,0) aşarsa, biçerdöver işçiyi otomatik olarak yavaşlatarak mahsulün samana karışmasını engeller." />
+        <text name="rhm_help_ai_workers_sub2" text="İşçi uzmanlığı: donanım seviyesinin hasat kalitesine etkisi" />
+        <text name="rhm_help_ai_workers_2" text="Yardımcı işçi direksiyona geçtiğinde biçerdöver ayarlarını kendisi yapar. Çalışma kalitesi doğrudan makinenin donanım seviyesine bağlıdır: Tier 1 makinelerde acemi bir stajyer gibi çalışır ve ±%18'e varan ayar hataları yapar (bu da ürün kaybına veya yüksek yakıt tüketimine yol açar). Tier 2'de hata payı ±%10'a, Tier 3'te ±%4'e iner; Opti-Harvest otopilotlu Tier 4 makinelerde ise sıfır hata (%0) ile uzman bir operatör gibi çalışır." />
+        <text name="rhm_help_ai_workers_sub3" text="Oyuncunun manuel ayarlarının korunması ve tahliye lojistiği" />
+        <text name="rhm_help_ai_workers_3" text="Biçerdöveri Shift+K ekranında bizzat ayarladıysanız veya bir profil kaydettiyseniz ayarları kontrol edin: «İşçi Tarafından Ayarlama» seçeneği varsayılan olarak «Benimkini Koru» modundadır. Bu modda işçi sizin ayarlarınızı asla değiştirmez ve kalibrasyonunuza sadık kalır. «Otomatik Ayarla» modu parametreleri makine seviyesine göre yeniden belirler; «Kapalı» seçeneği ise işçinin ayar yapmasını tamamen engeller. Yanında seyreden römorklara hareket halindeyken boşaltım yapılması duraksama olmaksızın desteklenir." />
+
+        <!-- PAGE 9: CROP MOISTURE & DIURNAL WEATHER -->
+        <text name="rhm_help_moisture_title" text="9. Mahsul Nemi ve Günlük Hava Döngüsü" />
+        <text name="rhm_help_moisture_sub1" text="Günlük nem döngüsü: hasat için en uygun saat seçimi" />
+        <text name="rhm_help_moisture_1" text="Mod bağımsız bir günlük nem döngüsü hesaplar; harici hava durumu sistemleri varsa verilerini entegre eder. Bitki nemi gün boyunca doğal olarak dalgalanır: sabah 03:00 ile 08:00 arasında yoğun çiğ tane nemini %16–18 seviyesine yükseltir; yüksek direnç nedeniyle bu saatlerde hasat tavsiye edilmez. 08:00 ile 11:30 arasında güneş yükselerek nemi buharlaştırır. Hasat için en verimli zaman aralığı 11:30 ile 18:30 arasıdır: güneş ekinleri ideal %11–13 seviyesine kurutur, saman gevrekleşir, biçerdöver rahat ilerler ve kayıplar en aza iner. 19:30'dan sonra akşam çiği sapları yeniden nemlendirerek harmanlama direncini artırır." />
+        <text name="rhm_help_moisture_sub2" text="Yağmurda neden hasat yapılmamalıdır" />
+        <text name="rhm_help_moisture_2" text="Yağış sırasında bitki nemi hızla %22'nin üzerine çıkar. Islak saman akıcılığını kaybeder, keçe tabakası oluşturarak boğazı ve elekleri tıkar. Daneler ıslak samana yapışarak tarlaya savrulur; bu durum %10'a varan doğrudan ürün kaybına yol açarken biçerdöver motoru üç kat fazla direnç altında zorlanır. Pratik tavsiye: Yağmur başladığında hasadı durdurun ve havanın düzelmesini bekleyin. Yağmurda çalışmak sadece ürün ve para kaybı getirir." />
+        <text name="rhm_help_moisture_sub3" text="Nemli ekinlerde biçerdöver ayarları (%14–16)" />
+        <text name="rhm_help_moisture_3" text="Hasadı yüksek nemde (%14–16) yapmak zorundaysanız kaydırıcıları rastgele sonuna kadar açmayın! Shift+K terminalini açın: nem sebebiyle tambur ve fanın yeşil optimum bölgeleri («sweet-spot») kendiliğinden bir miktar yukarı kayar. Kaydırıcıları kaydırılan bu yeşil bölgenin içinde tutun: yeşil bölgedeki daha yüksek tambur devri nemli samanı güç kaybı yaşamadan açar; yeşil bölgedeki fan ağır nemli kavuzu savurur. Dikkat: fanı yeşil bölgenin üzerine kırmızıya çıkarırsanız güçlü hava akımı daneleri makineden dışarı üfler! Yeşil bölgede kalın; ayar kaynaklı kayıp yaşanmaz (%0). Tier 4 (Opti-Harvest) makinelerde ise otomasyon bu ayarları sizin yerinize yönetir." />
+
+        <!-- PAGE 10: FORAGE & SPECIALTY HARVESTERS -->
+        <text name="rhm_help_special_title" text="10. Özel Hasat Makineleri" />
+        <text name="rhm_help_special_sub1" text="Kendi yürür silaj makineleri: güç dağılımı ve namlu toplama" />
+        <text name="rhm_help_special_1" text="Kendi yürür silaj makineleri tüm bitki kütlesini tamamen silaja dönüştürdüğü için dane kaybı her zaman sıfırdır (%0). Motor gücü üç ana mekanizmaya dağıtılır: besleme ve baskı silindirleri (%18), kıyma tamburu (%62) ve boşaltım hızlandırıcısı (%20). Ot veya saman namlularını toplarken namlu kalınlığına dikkat edin: fazla kalın ve kuru namlularda besleme silindirleri azami kapasitesine ulaşır («darboğaz»); bu durum ani güç direncine ve silaj makinesinin çalışma hızının düşmesine yol açar." />
+        <text name="rhm_help_special_sub2" text="Kök ürün makineleri: sökücüler neden 5–8 km/s hızla ilerler" />
+        <text name="rhm_help_special_2" text="Toprak altı kök ürünler (patates, şeker pancarı, havuç, yaban havucu, soğan) toprağı yarmak için muazzam bir güç gerektirir: sökücü bıçaklar derin toprak tabakasını keserken tabla genişliğinin her bir metresi için yaklaşık 7 beygir gücü çeker; ağır hidrostatik yürüyüş ise motor gücünün %10'unu tüketir. Bu nedenle pancar ve patates sökücüler 600 bg üzerindeki motorlarla dahi 5–8 km/s'den daha hızlı ilerleyemez. Toprak üstü sebzeler (taze fasulye, bezelye, ıspanak) toprağı kazmaz; ancak tarama tamburları taneleri ayırmak için belirgin enerji çeker." />
+        <text name="rhm_help_special_sub3" text="Pamuk, bağ, zeytin ve sistem taşıyıcı platformlar (NEXAT / NEXCO)" />
+        <text name="rhm_help_special_3" text="Pamuk toplama makineleri yüksek devirli iğ tamburları ve hidrolik balya presleme sistemi sebebiyle toplanan her ton kütlü pamuk için 55 bg'ye kadar güç talep eder. Üzüm ve zeytin hasat makineleri titreşimli çırpıcıların ve temizleme fanlarının direncini hesaba katar. NEXCO hasat modülüyle donatılmış geniş izli NEXAT sistem taşıyıcısı (1.100 bg) kullanıyorsanız, RHM sistemi çekici ünitenin tüm gücünü bağlantı hiyerarşisi üzerinden kayıpsız aktararak kararlı çalışma sağlar." />
+
+        <!-- PAGE 11: DIFFICULTY MODES & SETTINGS -->
+        <text name="rhm_help_difficulty_title" text="11. Zorluk Seviyeleri ve Ayarlar" />
+        <text name="rhm_help_difficulty_sub1" text="Oyun modları: Arcade, Dengeli ve Gerçekçi tarz arasında seçim" />
+        <text name="rhm_help_difficulty_1" text="Beygir gücü hesaplamak veya tambur devirlerini ayarlamak istemiyorsanız duraklatma menüsünden (Escape -> Oyun Ayarları) basitleştirilmiş modu seçebilirsiniz: «Arcade» motor zorluğu (Seviye 1) motorun fiziksel yükünü tamamen devre dışı bırakır ve hız sınırlarını kaldırır. «Arcade» kayıp zorluğu tüm dane kayıplarını sıfırlar; biçerdöver temel oyundaki gibi tablanın son hızında hasat yapar. Seviye 2 («Dengeli») hataların etkisini hafifletir, Seviye 3 («Gerçekçi») ise depodan kayıp düşümünü içeren tam fizik modelini etkinleştirir." />
+        <text name="rhm_help_difficulty_sub2" text="Bireysel fizik anahtarları: oyunu tercihlerinize göre uyarlama" />
+        <text name="rhm_help_difficulty_2" text="Tüm fiziği tek seferde kapatmak zorunda değilsiniz; yalnızca istemediğiniz mekanikleri devre dışı bırakabilirsiniz: Bıçak aşınmasını takip etmek istemiyorsanız «Aşınma Kayıpları»nı kapatın. Eğimli dağ haritalarında oynuyorsanız «Eğim Kayıpları»nı devre dışı bırakın. Gece veya yağmurda cezasız hasat yapmak istiyorsanız «Nem Simülasyonu»nu kapatın. «Motor Gücü Artışı» seçeneği özellikle engebeli arazilerde biçerdöverinize +%5 ile +%50 arasında ek güç rezervi kazandırır." />
+        <text name="rhm_help_difficulty_sub3" text="Sesli uyarılar, ölçü birimleri ve çok oyunculu mod" />
+        <text name="rhm_help_difficulty_3" text="Ses ayarlarından «Akıllı» aşırı yük uyarıcısını (üç kısa sinyal), sürekli tonu seçebilir veya alarmı kapatabilirsiniz; ses şiddetini de %0 ile %100 arasında ayarlayabilirsiniz (kaydırıcı hareket ettirildiğinde test tonu çalar). Ölçü birimleri metrik (t/ha, t/sa), emperyal ve buşel arasında değiştirilebilir. Çok oyunculu (multiplayer) oyunda genel fizik kurallarını yalnızca sunucu yöneticisi değiştirebilir; HUD konumu, uyarı ses seviyesi ve ölçü birimleri her oyuncu tarafından kişisel olarak ayarlanır." />
+        <text name="rhm_ui_section_separation" text="AYIRMA" />
+        <text name="rhm_ui_section_cleaning" text="TEMİZLEME" />
+        <text name="rhm_ui_section_discharge" text="BOŞALTMA" />
+        <text name="rhm_ui_section_performance" text="PERFORMANS" />
+        <text name="rhm_ui_tier1_manual" text="TIER 1 - MEKANIK" />
+        <text name="rhm_ui_tier2_sensors" text="TIER 2 - SENSORLER" />
+        <text name="rhm_ui_tier3_monitor" text="TIER 3 - TELEMETRI" />
+        <text name="rhm_ui_tier4_opti" text="TIER 4 - AI OPTI" />
+        <text name="rhm_ui_arcade_badge" text="ARCADE" />
+        <text name="rhm_ui_card_engine_load" text="MOTOR YÜKÜ" />
+        <text name="rhm_ui_card_efficiency" text="VERİMLİLİK" />
+        <text name="rhm_ui_card_predicted_loss" text="TAHMİNİ KAYIP" />
+        <text name="rhm_ui_btn_ai_auto" text="YAPAY ZEKA OTO-KALİBRASYON" />
+        <text name="rhm_ui_btn_auto_locked" text="AUTO (LOCKED)" />
+        <text name="rhm_ui_btn_load_preset" text="PROFİL YÜKLE" />
+        <text name="rhm_ui_btn_save_profile" text="PROFİL KAYDET" />
+        <text name="rhm_ui_btn_load_locked" text="LOAD (LOCKED)" />
+        <text name="rhm_ui_btn_save_locked" text="SAVE (LOCKED)" />
+        <text name="rhm_ui_btn_reset_defaults" text="FABRİKA AYARLARINA SIFIRLA" />
+        <text name="rhm_ui_status_optimal" text="OPTIMAL" />
+        <text name="rhm_ui_status_low" text="LOW" />
+        <text name="rhm_ui_status_high" text="HIGH" />
+        <text name="rhm_ui_env_optimal" text="OPTİMAL KOŞULLAR" />
+        <text name="rhm_ui_env_moisture" text="YÜKSEK NEM" />
+        <text name="rhm_ui_env_weeds" text="YABANCI OT İSTİLASI" />
+        <text name="rhm_ui_env_damp_weeds" text="NEMLİ VE OTLU" />
+        <text name="rhm_msg_req_tier4" text="Requires Opti-Harvest AI (Tier 4)" />
+        <text name="rhm_msg_req_tier3" text="Profiles require Telemetry Monitor (Tier 3)" />
+        <text name="rhm_msg_req_tier2" text="Profiller Sensör Paketi gerektirir (Tier 2 veya üzeri)" />
+        <text name="rhm_msg_profile_saved" text="Saved Profile: %s" />
+        <text name="rhm_msg_profile_loaded" text="Loaded Profile: %s" />
+        <text name="rhm_msg_profile_not_found" text="No saved profile found for this crop" />
+        <text name="rhm_ui_combine_not_init" text="Combine not initialized" />
+        <text name="rhm_unit_t_per_hour" text="t/h" />
+        <text name="rhm_unit_ha_per_hour" text="ha/h" />
+        <text name="rhm_setting_ai_tuning" text="Yardımcı Ayarlaması" />
+        <text name="rhm_setting_ai_tuning_long" text="Yapay zeka işçilerinin ve Courseplay'in biçerdöver kalibrasyonunu nasıl yönettiğini belirler. 'Ayarlarımı Koru' manuel ayarlarınızı ve profillerinizi kesin olarak korur. 'Daima Otomatik' elektronik seviyesine göre ayarlar. 'Devre Dışı' yardımcıların ayar değiştirmesini engeller." />
+        <text name="rhm_setting_ai_tuning_keep" text="Ayarlarımı Koru" />
+        <text name="rhm_setting_ai_tuning_auto" text="Daima Otomatik" />
+        <text name="rhm_setting_ai_tuning_disabled" text="Devre Dışı" />
+        <text name="rhm_crop_straw_windrow" text="Saman namlusu" />
+        <text name="rhm_crop_grass_windrow" text="Çim namlusu" />
+        <text name="rhm_crop_drygrass_windrow" text="Kuru ot namlusu" />
+        <text name="rhm_crop_alfalfa_windrow" text="Yonca namlusu" />
+        <text name="rhm_crop_clover_windrow" text="Üçgül namlusu" />
+        <text name="rhm_crop_maize_forage" text="Mısır silajı" />
+        <text name="rhm_windrow_format" text="Namlu: %s" />
+        <text name="rhm_setting_enableTutorials" text="Eğitim İpuçları" />
+        <text name="rhm_setting_enableTutorials_long" text="Hasat sırasında etkileşimli eğitim ipuçları gösterir." />
+        <text name="rhm_ui_btn_close_notification" text="Tamam (Enter / Sol Tık)" />
+        <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+        <text name="rhm_tut_welcome_msg" text="Realistic Harvesting'e hoş geldiniz! Biçerdöver hızı motor yükü, ürün yoğunluğu ve tabla genişliğine göre dinamik belirlenir. (Sağ Shift + K) ile kalibrasyon terminalini açın." />
+        <text name="rhm_tut_overload_title" text="Motor Aşırı Yükü" />
+        <text name="rhm_tut_overload_msg" text="Motor aşırı zorlanıyor! Hidrostatik şanzıman batörün tıkanmasını önlemek için hızı yavaşlatır. Tablayı biraz kaldırın veya biçme genişliğini azaltın." />
+        <text name="rhm_tut_loss_title" text="Aşırı Ürün Kaybı" />
+        <text name="rhm_tut_loss_msg" text="Biçerdöver arkasında kritik dane kaybı tespit edildi! Rotor hızı veya elek ayarları bu ürüne uygun değil. Ayarlamak için (Sağ Shift + K) tuşuna basın." />
+        <text name="rhm_tut_moisture_title" text="Yüksek Nem Uyarısı" />
+        <text name="rhm_tut_moisture_msg" text="Ürün nemi yüksek veya yağmur başladı! Islak sap ve dane yüksek direnç oluşturarak motoru zorlar ve dane kaybını artırır. Mümkünse kuru havada hasat yapın." />
+        <text name="rhm_tut_headland_title" text="Tarla Sonu Hız Hafızası" />
+        <text name="rhm_tut_headland_msg" text="Tarla sonunda tablayı kaldırdığınızda biçerdöver çalışma hızını hatırlar. Yeni sıraya girerken sarsıntısız bir şekilde aynı hıza ulaşır." />
+        <text name="rhm_tut_upgrade_title" text="Biçerdöver Yükseltmeleri" />
+        <text name="rhm_tut_upgrade_msg" text="Temel biçerdöverler manuel ayar gerektirir. Atölyeden Sensör Kiti (Aşama 2), Verim Monitörü (Aşama 3) veya Opti-Harvest AI Otopilot (Aşama 4) taktırabilirsiniz." />
+        <text name="rhm_tut_hud_drag_title" text="Etkileşimli HUD" />
+        <text name="rhm_tut_hud_drag_msg" text="Panel üzerinde sol fare düğmesini (LMB) basılı tutarak HUD'u ekranın herhangi bir yerine taşıyabilir veya F1 menüsünün altına ve ekran kenarlarına manyetik olarak sabitleyebilirsiniz." />
+        <text name="rhm_tut_trip_title" text="Tarla Sayacı ve Kayıt Defteri" />
+        <text name="rhm_tut_trip_msg" text="Tarla verimi özetini, mali kayıp analizini ve filo durumunu incelemek için Shift+J tuşlarına basın. Yeni bir tarla için sayacı hızlıca sıfırlamak için kabinde 1 saniye boyunca Shift+R tuşunu basılı tutun!" />
+        <text name="rhm_tut_chopper_title" text="Saman Kıyıcı Güç Yükü" />
+        <text name="rhm_tut_chopper_msg" text="Saman kıymak, namlu bırakmaya kıyasla motor gücünden %15-20 daha fazla harcar. Yoğun ekinlerde daha fazla çalışma hızına ihtiyacınız varsa namlu bırakma moduna geçin." />
+        <text name="rhm_setting_wear_loss_short" text="Mekanik Aşınma Kayıpları" />
+        <text name="rhm_setting_wear_loss_long" text="Ekipman aşınmasından kaynaklanan dane kayıplarını simüle eder. Körelmiş bıçaklar başakları döker (en fazla +%3 kayıp ve +%15 direnç). Aşınmış tambur ve elekler dane döker (en fazla +%3 kayıp)." />
+        <text name="rhm_ui_wear_loss" text="Aşınma Kaybı" />
+        <text name="rhm_ui_cutter_wear" text="Tabla Aşınması" />
+        <text name="rhm_ui_combine_wear" text="Biçerdöver Aşınması" />
+        <!-- Harvest History & Field Trip Telemetry -->
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="Hasat Kayıtları ve Tarla Sayacı" />
+        <text name="input_RHM_QUICK_RESET_TRIP" text="Tarla Sayacını Sıfırla (Basılı Tut)" />
+        <text name="rhm_trip_reset_done" text="Tarla sayacı sıfırlandı!" />
+        <text name="rhm_tab_trip" text="Mevcut Tarla / Sayaç" />
+        <text name="rhm_tab_trip_desc" text="Mevcut tarla çalışması için hasat edilen miktar, işlenen alan, ortalama verim ve kayıpların canlı telemetrisi." />
+        <text name="rhm_tab_analytics" text="Kayıp Nedenleri ve Değerlendirme" />
+        <text name="rhm_tab_analytics_desc" text="Kayıp faktörlerinin dağılımı, operatör verimlilik derecesi ve araç içi bilgisayar tavsiyeleri." />
+        <text name="rhm_tab_fleet" text="Tarladaki Biçerdöverler" />
+        <text name="rhm_tab_fleet_desc" text="Çiftliğinizdeki tüm biçerdöverlerin gerçek zamanlı telemetrisi, kapasitesi ve durumu." />
+        <text name="rhm_tab_settings" text="Çiftlik ve Yapay Zeka Ayarları" />
+        <text name="rhm_tab_settings_desc" text="Yapay zeka işçi hız sınırlayıcı, dökülen tohum/yabancı ot ve otomatik sıfırlama seçenekleri." />
+        <text name="rhm_driver_parked" text="Sürücüsüz" />
+        <text name="rhm_driver_cp_ai" text="YZ (Courseplay)" />
+        <text name="rhm_driver_hired_ai" text="YZ İşçi" />
+        <text name="rhm_driver_player" text="Oyuncu" />
+        <text name="rhm_driver_idle_on" text="Rölanti" />
+        <text name="rhm_field_yard" text="Çiftlik / Tesis" />
+        <text name="rhm_field_format" text="Tarla %d" />
+        <text name="rhm_fleet_driver" text="Operatör" />
+        <text name="rhm_fleet_cutter" text="Tabla Genişliği" />
+        <text name="rhm_fleet_grain_tank" text="Tane Deposu Doluluğu" />
+        <text name="rhm_fleet_throughput" text="Verim Kapasitesi" />
+        <text name="rhm_fleet_realtime_yield" text="Anlık Verim" />
+        <text name="rhm_fleet_crop_loss" text="Kayıp Oranı" />
+        <text name="rhm_fleet_wear_state" text="Makine Aşınması" />
+        <text name="rhm_fleet_total_count" text="Toplam Biçerdöver" />
+        <text name="rhm_btn_subtab_fleet" text="BİÇERDÖVER FİLOSU" />
+        <text name="rhm_btn_subtab_history" text="SEZON GEÇMİŞİ / TÜM TARLALAR" />
+        <text name="rhm_season_all_time" text="Tüm Sezonlar (Geçmiş)" />
+        <text name="rhm_season_format" text="Sezon %d (Yıl %d)" />
+        <text name="rhm_season_current_suffix" text="[Mevcut]" />
+        <text name="rhm_card_season_harvest" text="SEZON HASADI VE ALANI" />
+        <text name="rhm_card_season_losses" text="SEZON KAYIPLARI VE FİNANS" />
+        <text name="rhm_card_season_telemetry" text="SEZON METRİKLERİ VE ÇALIŞMA SÜRESİ" />
+        <text name="rhm_season_operations" text="Tamamlanan İşlemler" />
+        <text name="rhm_season_active_status" text="Aktif Sezon" />
+        <text name="rhm_season_archived_status" text="Arşivlenmiş Sezon" />
+        <text name="rhm_season_all_time_status" text="Tüm Geçmiş" />
+        <text name="rhm_hist_total_area" text="Toplam Hasat Edilen Alan" />
+        <text name="rhm_hist_total_harvest" text="Toplam Temiz Hasat" />
+        <text name="rhm_hist_avg_loss" text="Ortalama Kayıp" />
+        <text name="rhm_hist_total_money" text="Toplam Mali Kayıp" />
+        <text name="rhm_col_season" text="Sezon" />
+        <text name="rhm_col_status" text="Durum" />
+        <text name="rhm_hist_empty" text="Henüz sezon kaydı bulunmuyor" />
+        <text name="rhm_status_harvesting" text="Biçiyor (aktif)" />
+        <text name="rhm_status_on_field_idle" text="Tarlada (rölanti)" />
+        <text name="rhm_status_on_field_stopped" text="Tarlada (durdu)" />
+        <text name="rhm_status_in_transit" text="Yolda / İntikal" />
+        <text name="rhm_status_in_cab" text="Dolu (Oyuncu)" />
+        <text name="rhm_status_parked_yard" text="Tesiste park halinde" />
+        <text name="rhm_card_field_harvest" text="MEVCUT TARLA VE ÜRÜN" />
+        <text name="rhm_field_number" text="Tarla Numarası" />
+        <text name="rhm_trip_no_field" text="Tarla Dışı" />
+        <text name="rhm_crop_type" text="Ekin Türü" />
+        <text name="rhm_harvested_area" text="Hasat Edilen Alan" />
+        <text name="rhm_clean_harvest" text="Temiz Hasat" />
+        <text name="rhm_average_yield" text="Ortalama Verim" />
+        <text name="rhm_card_loss_finances" text="KAYIPLAR VE MALİ DURUM" />
+        <text name="rhm_loss_volume" text="Kayıp Hacim" />
+        <text name="rhm_loss_share" text="Kayıp Oranı" />
+        <text name="rhm_financial_loss" text="Maddi Kayıp" />
+        <text name="rhm_card_performance" text="PERFORMANS VE ZAMAN" />
+        <text name="rhm_avg_working_speed" text="Ortalama Çalışma Hızı" />
+        <text name="rhm_avg_engine_load" text="Ortalama Motor Yükü" />
+        <text name="rhm_session_duration" text="Oturum Süresi" />
+        <text name="rhm_btn_reset_trip" text="Tarla sayacını sıfırla" />
+        <text name="rhm_causes_title" text="HASAT KAYBININ BAŞLICA NEDENLERİ" />
+        <text name="rhm_cause_speed" text="Aşırı hız ve batör aşırı yüklenmesi" />
+        <text name="rhm_cause_moisture" text="Ekin nemi ve sabah çiği" />
+        <text name="rhm_cause_wear" text="Tabla bıçakları ve batör aşınması" />
+        <text name="rhm_cause_slope" text="Tarla eğimi ve engebe" />
+        <text name="rhm_scorecard_title" text="OPERATÖR VERİMLİLİK RAPORU" />
+        <text name="rhm_rank_title_a" text="Derece A: Kusursuz" />
+        <text name="rhm_rank_desc_a" text="Kayıp oranı %1,5'in altında. Biçerdöver ayarları ve çalışma hızı mükemmel dengelenmiş." />
+        <text name="rhm_rank_title_b" text="Derece B: Kabul Edilebilir" />
+        <text name="rhm_rank_desc_b" text="Kayıp oranı %1,5 ile %3,0 arasında. Hız veya kontra ayarında ufak düzeltmeler önerilir." />
+        <text name="rhm_rank_title_c" text="Derece C: Yüksek Kayıp" />
+        <text name="rhm_rank_desc_c" text="Kayıp oranı %3,0 ile %4,5 arasında. Hızı düşürün veya bıçak keskinliğini kontrol edin." />
+        <text name="rhm_rank_title_d" text="Derece D: Kritik Kayıp" />
+        <text name="rhm_rank_desc_d" text="Kayıp oranı %4,5'in üzerinde! Ciddi elek aşırı yüklenmesi veya yanlış kalibrasyon tespit edildi." />
+        <text name="rhm_guidance_title" text="ARAÇ İÇİ BİLGİSAYAR TAVSİYELERİ" />
+        <text name="rhm_advice_perfect" text="Hasat verimliliği optimum seviyede. Tüm ayırma parametreleri dengeli çalışıyor." />
+        <text name="rhm_advice_speed" text="Temel kayıp aşırı seyir hızından kaynaklanıyor. Elekleri rahatlatmak için yavaşlayın." />
+        <text name="rhm_advice_moisture" text="Kayıplar yüksek ekin nemi veya çiğden kaynaklanıyor. Tarlanın kurumasını bekleyin veya yavaşlayın." />
+        <text name="rhm_advice_wear" text="Aşınmış bıçaklar veya batör çıtaları nedeniyle kayıp yüksek. Atölyede bakım yaptırın." />
+        <text name="rhm_advice_slope" text="Eğimli arazide yan yatma elek yükünü dengesizleştiriyor. Eğimli yerlerde hızı düşürün." />
+        <text name="rhm_col_machine" text="Makine" />
+        <text name="rhm_col_hours" text="Çalışma Saati" />
+        <text name="rhm_col_harvested" text="Hasat Edilen" />
+        <text name="rhm_col_lost" text="Kayıplar" />
+        <text name="rhm_col_rank" text="Derece" />
+        <text name="rhm_fleet_no_combines" text="Biçerdöver bulunamadı" />
+        <text name="rhm_setting_ai_limiter_title" text="YZ HIZ SINIRLAYICI" />
+        <text name="rhm_setting_ai_limiter_desc" text="Kayıplar belirlenen eşiği aştığında yapay zeka işçilerinin hızını otomatik olarak sınırlar." />
+        <text name="rhm_setting_ai_threshold_title" text="YZ KAYIP EŞİĞİ" />
+        <text name="rhm_setting_ai_threshold_desc" text="YZ işçisinin otomatik olarak fren yapmaya başlayacağı maksimum kabul edilebilir kayıp yüzdesi." />
+        <text name="rhm_setting_volunteer_title" text="DÖKÜLEN TOHUM VE YABANCI OT" />
+        <text name="rhm_setting_volunteer_desc" text="Yüksek kayıplı alanlarda (&gt;%3) biçerdöverin arkasında yabancı ot ve dökülen tohum filizleri oluşturur." />
+        <text name="rhm_setting_autoreset_title" text="TARLA DEĞİŞİNCE OTO-SIFIRLA" />
+        <text name="rhm_setting_autoreset_desc" text="Farklı bir tarlaya geçildiğinde mevcut çalışmayı otomatik arşivler ve tarla sayacını sıfırlar." />
+        <text name="rhm_setting_autoreset_smart" text="Akıllı (Tarla / Ürün)" />
+        <text name="rhm_setting_autoreset_crop" text="Yalnızca ürün değişiminde" />
+        <text name="rhm_setting_autoreset_disabled" text="Devre Dışı (Manuel)" />
+        <text name="rhm_col_field" text="Tarla" />
+        <text name="rhm_col_speed" text="Hız" />
+        <text name="rhm_col_load" text="Yük" />
+        <text name="rhm_col_loss" text="Kayıp" />
+        <text name="rhm_col_tank" text="Depo" />
+        <text name="rhm_col_area" text="Alan" />
+        <text name="rhm_col_money" text="Kayıp ($)" />
+        <text name="rhm_col_driver" text="Operatör" />
+        <text name="rhm_col_cutter" text="Tabla" />
+        <text name="rhm_col_throughput" text="İşleme Kapasitesi" />
+        <text name="rhm_col_yield" text="Verim" />
+        <text name="rhm_col_wear" text="Aşınma" />
+        <text name="rhm_kpi_field" text="TARLA" />
+        <text name="rhm_kpi_crop" text="ÜRÜN" />
+        <text name="rhm_kpi_area" text="ALAN" />
+        <text name="rhm_kpi_harvest" text="HASAT" />
+        <text name="rhm_kpi_yield" text="VERİM" />
+        <text name="rhm_kpi_loss" text="KAYIP" />
+        <text name="rhm_kpi_speed" text="HIZ" />
+        <text name="rhm_efficiency_index" text="Verimlilik Derecesi" />
+        <text name="rhm_trip_footer_hint" text="Gezi sayacı aktif tarla için biçilen alanı ve temiz dane hacmini kaydeder. İstediğiniz zaman sıfırlayabilirsiniz." />
+        <text name="rhm_detail_area" text="Toplam hasat edilen tarla alanı" />
+        <text name="rhm_detail_clean_grain" text="temiz dane" />
+        <text name="rhm_detail_yield" text="Biçilen alandaki ortalama verim" />
+        <text name="rhm_detail_throughput" text="Mevcut harmanlama debisi" />
+        <text name="rhm_detail_lost_grain" text="kayıp dane" />
+        <text name="rhm_detail_loss_rating" text="Biyolojik verime göre kayıp oranı" />
+        <text name="rhm_detail_financial_loss" text="Ürün kaybının finansal etkisi" />
+        <text name="rhm_detail_speed" text="Biçerdöver ortalama ilerleme hızı" />
+        <text name="rhm_detail_load" text="Ortalama motor yükü" />
+        <text name="rhm_detail_duration" text="Aktif oturum süresi" />
+        <text name="rhm_detail_wear" text="Harmanlama ünitesi mekanik aşınması" />
+        <text name="rhm_rating_normal" text="Kusursuz (&lt; %1,5)" />
+        <text name="rhm_rating_moderate" text="Orta (%1,5 - %3,0)" />
+        <text name="rhm_rating_elevated" text="Yüksek (&gt; %3,0)" />
+        <text name="rhm_rating_critical" text="Kritik (&gt; %4,5)" />
+        <text name="rhm_tab_fields" text="Çiftlik Tarlaları" />
+        <text name="rhm_tab_fields_desc" text="Çiftliğiniz için tarla bazında hasat, verim, kayıp ve sözleşmeli işlerin kapsamlı özeti." />
+        <text name="rhm_card_field_land" text="TARIM ARAZİSİ &amp; İLERLEME" />
+        <text name="rhm_card_field_yield" text="ÜRETİM &amp; VERİM" />
+        <text name="rhm_card_field_losses" text="ÜRÜN KAYIPLARI &amp; KALİTE" />
+        <text name="rhm_fields_total_owned" text="Ait Tarlalar" />
+        <text name="rhm_fields_best_yield" text="En Yüksek Verim" />
+        <text name="rhm_fields_owned" text="Mülk" />
+        <text name="rhm_fields_contract" text="Sözleşme" />
+        <text name="rhm_fields_no_data" text="Kayıtlı Tarla Yok" />
+        <text name="rhm_contract_tag" text="(Sözleşme)" />
+        <text name="rhm_status_completed" text="Hasat Edildi" />
+        <text name="rhm_status_idle_yard" text="Çiftlikte (Bekliyor)" />
+        <text name="rhm_fields_external" text="Harici" />
+        <text name="rhm_field_transit" text="Yolda / İntikal" />
+        <text name="rhm_detail_loss_money" text="Ürün kaybından kaynaklanan mali zarar" />
+        <text name="rhm_cause_none" text="Optimal Çalışma (Kayıp Yok)" />
+        <text name="rhm_fields_all_overview" text="[*] Çiftlik Genel Bakışı (Tüm Tarlalar)" />
+        <text name="rhm_field_operations" text="Hasat İşlemleri" />
+        <text name="rhm_fields_nominal_area" text="Nominal Alan" />
+        <text name="rhm_status_in_progress" text="Devam Ediyor" />
+        <text name="rhm_fields_harvested_area" text="Hasat Edilen Alan" />
+        <text name="rhm_ops_one" text="hasat" />
+        <text name="rhm_ops_few" text="hasat" />
+        <text name="rhm_ops_many" text="hasat" />
+        <text name="rhm_loss_disabled" text="Simülasyon Devre Dışı" />
+        <text name="rhm_loss_disabled_desc" text="Ürün kaybı simülasyonu mod ayarlarından kapatıldı." />
+        <text name="rhm_filter_active" text="Aktif" />
+        <text name="rhm_filter_all" text="Tümü" />
+        <text name="rhm_filter_sold" text="Satılan" />
+        <text name="rhm_status_sold" text="Satıldı (Arşiv)" />
+        <text name="rhm_field_sold" text="[Satıldı]" />
+        <text name="rhm_driver_sold" text="Hizmet Dışı" />
+        <text name="rhm_fleet_no_sold_combines" text="Arşivde satılan biçerdöver yok" />
+        <text name="rhm_fleet_total_count_active" text="Aktif Biçerdöverler" />
+        <text name="rhm_fleet_total_count_sold" text="Satılan Biçerdöverler" />
+        <text name="rhm_slopeloss_short" text="Eğim Kayıpları" />
+        <text name="rhm_slopeloss_long" text="4° üzerindeki eğimlerde eleklerin bir tarafında ürün birikmesini simüle eder (%5'e kadar kayıp). Eğim cezalarını kaldırmak için kapatın." />
+        <text name="rhm_weedload_short" text="Yabancı Ot Direnci" />
+        <text name="rhm_weedload_long" text="Lifli ve sulu yabancı otlar batöre sarılarak mekanik direnci ve motor yükünü artırır (+%25'e kadar). Otların gücü etkilemesini önlemek için kapatın." />
+            <text name="rhm_fleet_badge_mission" text="[Sözleşme]" />
+        <text name="rhm_fleet_badge_leased" text="[Kiralık]" />
     </texts>
 </l10n>

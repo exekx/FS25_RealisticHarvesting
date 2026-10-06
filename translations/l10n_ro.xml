@@ -1,271 +1,504 @@
-<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
-        <text name="rhm_section_simulation" text="Realistic Harvesting - Simulare"/>
-        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD și Afișaj"/>
-        <text name="input_RHM_OPEN_MENU" text="Meniu Setări Combină"/>
-        <text name="input_RHM_TOGGLE_HUD" text="Comută HUD Recoltare"/>
-        <text name="input_RHM_CLOSE_NOTIFICATION" text="Închide notificarea"/>
-        <text name="rhm_hud_load" text="SARCINĂ"/>
-        <text name="rhm_hud_loss" text="PIERDERI"/>
-        <text name="rhm_hud_moist" text="UMIDIT"/>
-        <text name="rhm_ai_settings_retained" text="Setările manuale au fost păstrate"/>
-        <text name="rhm_ai_auto_tuned" text="Calibrat automat"/>
-        <text name="rhm_difficulty" text="Dificultate"/>
-        <text name="rhm_difficulty_motor" text="Limită Putere Motor"/>
-        <text name="rhm_difficulty_motor_short" text="Motor"/>
-        <text name="rhm_difficulty_motor_long" text="Determină fizica sarcinii motorului. Arcadă = Dezactivat (fără supraîncărcare), Normal = +35% rezervă de putere, Realistic = 100% fizică autentică."/>
-        <text name="rhm_difficulty_loss" text="Pierderi Recoltă"/>
-        <text name="rhm_difficulty_loss_short" text="Pierderi"/>
-        <text name="rhm_difficulty_loss_long" text="Determină pierderile de recoltă. Arcadă = 0% (fără pierderi), Normal = pierderi standard, Realistic = pierderi mărite (200%)."/>
-        <text name="rhm_diff_1" text="Arcadă"/>
-        <text name="rhm_difficulty_long" text="Arcadă: Fără supraîncărcare sau pierderi (vanilla pur). Normal: Fizică echilibrată (+35%). Realistic: Simulare pură (0%)."/>
-        <text name="rhm_diff_2" text="Normal"/>
-        <text name="rhm_diff_3" text="Realistic"/>
-        <text name="rhm_show_yield" text="Show Yield Monitor"/>
-        <text name="rhm_show_yield_short" text="Afișează Randamentul"/>
-        <text name="rhm_show_yield_long" text="Afișează producția la hectar pe HUD."/>
-        <text name="rhm_yield_label" text="Yield"/>
-        <text name="rhm_hud_short" text="Show HUD"/>
-        <text name="rhm_hud_long" text="Display harvest info"/>
-        <text name="rhm_speedlimit_short" text="Enable Speed Limiter"/>
+        <text name="rhm_section_simulation" text="Realistic Harvesting - Simulare" />
+        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD și Afișaj" />
+        <text name="input_RHM_OPEN_MENU" text="Meniu Setări Combină" />
+        <text name="input_RHM_TOGGLE_HUD" text="Comută HUD Recoltare" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Comutare cursor mouse" />
+        <text name="input_RHM_CLOSE_NOTIFICATION" text="Închide notificarea" />
+        <text name="rhm_hud_load" text="SARCINĂ" />
+        <text name="rhm_hud_loss" text="PIERDERI" />
+        <text name="rhm_hud_moist" text="UMIDIT" />
+        <text name="rhm_ai_settings_retained" text="Setările manuale au fost păstrate" />
+        <text name="rhm_ai_auto_tuned" text="Calibrat automat" />
+        <text name="rhm_difficulty" text="Dificultate" />
+        <text name="rhm_difficulty_motor" text="Limită Putere Motor" />
+        <text name="rhm_difficulty_motor_short" text="Motor" />
+        <text name="rhm_difficulty_motor_long" text="Determină fizica sarcinii motorului. Arcadă = Dezactivat (fără supraîncărcare), Normal = +35% rezervă de putere, Realistic = 100% fizică autentică." />
+        <text name="rhm_difficulty_loss" text="Pierderi Recoltă" />
+        <text name="rhm_difficulty_loss_short" text="Pierderi" />
+        <text name="rhm_difficulty_loss_long" text="Determină pierderile de recoltă. Arcadă = 0% (fără pierderi), Normal = pierderi standard, Realistic = pierderi mărite (200%)." />
+        <text name="rhm_diff_1" text="Arcadă" />
+        <text name="rhm_difficulty_long" text="Arcadă: Fără supraîncărcare sau pierderi (vanilla pur). Normal: Fizică echilibrată (+35%). Realistic: Simulare pură (0%)." />
+        <text name="rhm_diff_2" text="Normal" />
+        <text name="rhm_diff_3" text="Realistic" />
+        <text name="rhm_show_yield" text="Show Yield Monitor" />
+        <text name="rhm_show_yield_short" text="Afișează Randamentul" />
+        <text name="rhm_show_yield_long" text="Afișează producția la hectar pe HUD." />
+        <text name="rhm_yield_label" text="Yield" />
+        <text name="rhm_hud_short" text="Show HUD" />
+        <text name="rhm_hud_long" text="Display harvest info" />
+        <text name="rhm_speedlimit_short" text="Enable Speed Limiter" />
         <text name="rhm_speedlimit_long"><![CDATA[
             Automatically limit combine speed based on engine load
             ]]></text>
-        <text name="rhm_croploss_short" text="Enable Crop Loss"/>
-        <text name="rhm_croploss_long" text="Calculate crop loss when overloaded"/>
-        <text name="rhm_show_speed_short" text="Afișează Viteza"/>
-        <text name="rhm_show_speed_long" text="Afișează viteza optimă și viteza curentă pe HUD."/>
-        <text name="rhm_show_load_short" text="Afișează Sarcina"/>
-        <text name="rhm_show_load_long" text="Afișează procentul de încărcare pe HUD."/>
-        <text name="rhm_show_productivity_short" text="Afișează Productivitatea"/>
-        <text name="rhm_show_productivity_long" text="Afișează debitul procesat în tone/oră."/>
-        <text name="rhm_show_croploss_short" text="Show Crop Loss"/>
-        <text name="rhm_show_moisture_short" text="Afișează Umiditatea"/>
-        <text name="rhm_show_moisture_long" text="Afișează umiditatea culturii (sistem Moisture)."/>
-        <text name="rhm_moisture_enable_short" text="Moisture Penalty"/>
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Apply load penalty based on crop moisture (Requires Moisture System mod)
-            ]]></text>
-        <text name="rhm_ui_title_main" text="Combine Calibration"/>
-        <text name="rhm_ui_page_settings" text="Settings"/>
-        <text name="rhm_ui_page_profiles" text="Profiles"/>
-        <text name="rhm_ui_current_crop" text="Current Crop"/>
-        <text name="rhm_ui_load" text="Engine Load"/>
-        <text name="rhm_ui_loss" text="Loss"/>
-        <text name="rhm_ui_fan_speed" text="Fan Speed"/>
-        <text name="rhm_ui_rotor_speed" text="Rotor Speed"/>
-        <text name="rhm_ui_upper_sieve" text="Upper Sieve"/>
-        <text name="rhm_ui_lower_sieve" text="Lower Sieve"/>
-        <text name="rhm_ui_feeder_speed" text="Concave Clearance"/>
-        <text name="rhm_ui_mode_auto" text="AUTO"/>
-        <text name="rhm_ui_mode_manual" text="MANUAL"/>
-        <text name="rhm_ui_btn_reset" text="RESET DEFAULT"/>
-        <text name="rhm_ui_profile_create" text="NEW PROFILE"/>
-        <text name="rhm_ui_profile_save" text="SAVE"/>
-        <text name="rhm_ui_profile_load" text="LOAD"/>
-        <text name="rhm_ui_profile_delete" text="DELETE"/>
-        <text name="rhm_ui_profile_name_placeholder" text="Profile Name..."/>
-        <text name="rhm_hud_yield_label" text="YIELD"/>
-        <text name="rhm_hud_load_label" text="LOAD"/>
-        <text name="rhm_hud_loss_label" text="LOSS"/>
-        <text name="rhm_loss_level_low" text="LOW"/>
-        <text name="rhm_loss_level_med" text="MED"/>
-        <text name="rhm_loss_level_high" text="HIGH"/>
-        <text name="rhm_show_croploss_long" text="Display crop loss percentage in HUD"/>
-        <text name="rhm_show_load_warn_short" text="Avertismente Sarcină"/>
-        <text name="rhm_show_load_warn_long" text="Afișează alerte vizuale la suprasarcină critică."/>
-        <text name="rhm_overload_sounds_short" text="Overload &amp; Strain Audio"/>
+        <text name="rhm_croploss_short" text="Enable Crop Loss" />
+        <text name="rhm_croploss_long" text="Calculate crop loss when overloaded" />
+        <text name="rhm_show_speed_short" text="Afișează Viteza" />
+        <text name="rhm_show_speed_long" text="Afișează viteza optimă și viteza curentă pe HUD." />
+        <text name="rhm_show_load_short" text="Afișează Sarcina" />
+        <text name="rhm_show_load_long" text="Afișează procentul de încărcare pe HUD." />
+        <text name="rhm_show_productivity_short" text="Afișează Productivitatea" />
+        <text name="rhm_show_productivity_long" text="Afișează debitul procesat în tone/oră." />
+        <text name="rhm_show_croploss_short" text="Show Crop Loss" />
+        <text name="rhm_show_moisture_short" text="Afișează Umiditatea" />
+        <text name="rhm_show_moisture_long" text="Afișează umiditatea culturii (sistem Moisture)." />
+        <text name="rhm_moisture_enable_short" text="Impact umiditate" />
+        <text name="rhm_moisture_enable_long" text="Simulează rezistența sporită la treierat și pierderile prin paie umede pe timp de rouă, ploaie sau umiditate mare. Dezactivați pentru recoltare fără penalități meteo." />
+        <text name="rhm_ui_title_main" text="Combine Calibration" />
+        <text name="rhm_ui_page_settings" text="Settings" />
+        <text name="rhm_ui_page_profiles" text="Profiles" />
+        <text name="rhm_ui_current_crop" text="Current Crop" />
+        <text name="rhm_ui_load" text="Engine Load" />
+        <text name="rhm_ui_loss" text="Loss" />
+        <text name="rhm_ui_fan_speed" text="Fan Speed" />
+        <text name="rhm_ui_rotor_speed" text="Rotor Speed" />
+        <text name="rhm_ui_upper_sieve" text="Upper Sieve" />
+        <text name="rhm_ui_lower_sieve" text="Lower Sieve" />
+        <text name="rhm_ui_feeder_speed" text="Concave Clearance" />
+        <text name="rhm_ui_mode_auto" text="AUTO" />
+        <text name="rhm_ui_mode_manual" text="MANUAL" />
+        <text name="rhm_ui_btn_reset" text="RESET DEFAULT" />
+        <text name="rhm_ui_profile_create" text="NEW PROFILE" />
+        <text name="rhm_ui_profile_save" text="SAVE" />
+        <text name="rhm_ui_profile_load" text="LOAD" />
+        <text name="rhm_ui_profile_delete" text="DELETE" />
+        <text name="rhm_ui_profile_name_placeholder" text="Profile Name..." />
+        <text name="rhm_hud_yield_label" text="YIELD" />
+        <text name="rhm_hud_load_label" text="LOAD" />
+        <text name="rhm_hud_loss_label" text="LOSS" />
+        <text name="rhm_loss_level_low" text="LOW" />
+        <text name="rhm_loss_level_med" text="MED" />
+        <text name="rhm_loss_level_high" text="HIGH" />
+        <text name="rhm_show_croploss_long" text="Display crop loss percentage in HUD" />
+        <text name="rhm_show_load_warn_short" text="Avertismente Sarcină" />
+        <text name="rhm_show_load_warn_long" text="Afișează alerte vizuale la suprasarcină critică." />
+        <text name="rhm_overload_sounds_short" text="Overload &amp; Strain Audio" />
         <text name="rhm_overload_sounds_long"><![CDATA[Play realistic cabin alarm and thresher strain sounds when the combine is overloaded or exceeding crop loss limits.]]></text>
-        <text name="rhm_section_audio" text="Realistic Harvesting - Sunet"/>
-        <text name="rhm_alarm_sounds_short" text="Alarmă Suprasarcină"/>
-        <text name="rhm_alarm_sounds_long" text="Modul avertizorului sonor din cabină la suprasarcină severă (105%+) sau pierderi mari (&gt;5%)."/>
-        <text name="rhm_alarm_mode_smart" text="Inteligent (3 bipuri)"/>
-        <text name="rhm_alarm_mode_continuous" text="Continuu"/>
-        <text name="rhm_alarm_mode_off" text="Oprit"/>
-        <text name="rhm_sound_volume_short" text="Volum Sunete"/>
-        <text name="rhm_sound_volume_long" text="Ajustează volumul alarmei sonore de suprasarcină din cabină."/>
-        <text name="rhm_target_load" text="Target Engine Load"/>
-        <text name="rhm_gui_title" text="Combine Settings"/>
-        <text name="rhm_gui_crop" text="Crop:"/>
-        <text name="rhm_gui_none" text="NONE"/>
-        <text name="rhm_gui_btn_auto" text="AUTO"/>
-        <text name="rhm_gui_btn_load_preset" text="Load Preset"/>
-        <text name="rhm_gui_btn_save" text="Save Profile"/>
-        <text name="rhm_gui_btn_reset" text="Reset Default"/>
-        <text name="rhm_gui_engine_load" text="Engine Load: %.0f%%"/>
-        <text name="rhm_gui_loss" text="Loss: %.1f%%"/>
-        <text name="rhm_gui_preview_loss" text="Preview Loss: %.1f%%"/>
-        <text name="rhm_gui_close_hint" text="RShift+K to Close"/>
-        <text name="rhm_gui_no_combine" text="No Combine Selected"/>
-        <text name="rhm_gui_not_init" text="Combine Not Initialized"/>
-        <text name="rhm_ui_drum_speed" text="Drum Speed"/>
-        <text name="rhm_ui_roller_speed" text="Roller Speed"/>
-        <text name="rhm_ui_picker_speed" text="Picker Speed"/>
-        <text name="rhm_ui_forage_fan" text="Blower Speed"/>
-        <text name="rhm_ui_forage_drum" text="Chopping Drum"/>
-        <text name="rhm_ui_forage_feeder" text="Feed Rolls"/>
-        <text name="rhm_ui_root_roller" text="Cleaning Rollers"/>
-        <text name="rhm_ui_root_feeder" text="Elevator Web"/>
-        <text name="rhm_ui_grape_shaker" text="Viteza scuturătorilor"/>
-        <text name="rhm_ui_olive_shaker" text="Viteza bătătoarelor"/>
-        <text name="rhm_ui_grape_conveyor" text="Viteza transportorului"/>
-        <text name="rhm_ui_grape_fan" text="Ventilatoare curățare"/>
-        <text name="rhm_units_short" text="Sistem de Unități"/>
-        <text name="rhm_units_long" text="Selectează metric, imperial sau bushels."/>
-        <text name="rhm_unit_metric" text="Metric (km/h, t/ha)"/>
-        <text name="rhm_unit_imperial" text="Imperial (mph, ton/ac)"/>
-        <text name="rhm_unit_bushels" text="Busheli (mph, bu/ac)"/>
-        <text name="rhm_reset" text="Resetează Setările"/>
-        <text name="rhm_loss_low" text="LOW"/>
-        <text name="rhm_loss_med" text="MED"/>
-        <text name="rhm_loss_high" text="HIGH"/>
-        <text name="rhm_warning_turn_on_combine" text="Porniți mai întâi combina!"/>
-        <text name="rhm_warning_turn_on_cutter" text="Porniți hederul combinei!"/>
-        <text name="rhm_warn_overload_high" text="Combine overloaded! Reduce speed to minimize crop losses."/>
-        <text name="rhm_warn_overload_critical" text="COMBINE CRITICALLY OVERLOADED! Severe crop losses occurring!"/>
-        <text name="rhm_configuration_title" text="Sisteme Realistic Harvesting"/>
-        <text name="rhm_package_standard" text="Tier 1: Mecanica de baza"/>
-        <text name="rhm_package_sensor" text="Tier 2: Pachet de senzori"/>
-        <text name="rhm_package_yield" text="Tier 3: Telemetrie si monitorizare"/>
-        <text name="rhm_package_opti" text="Tier 4: Pilot automat AI Opti-Harvest"/>
-        <text name="rhm_msg_req_level_4" text="Requires Opti-Harvest AI package (Level 4)."/>
-        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Harvest a few meters of crop to begin auto-calibration!"/>
-        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Auto-calibrated successfully for %s!"/>
-
+        <text name="rhm_section_audio" text="Realistic Harvesting - Audio cabină" />
+        <text name="rhm_alarm_sounds_short" text="Alarmă Suprasarcină" />
+        <text name="rhm_alarm_sounds_long" text="Modul avertizorului sonor din cabină la suprasarcină severă (105%+) sau pierderi mari (&gt;5%)." />
+        <text name="rhm_alarm_mode_smart" text="Inteligent (3 bipuri)" />
+        <text name="rhm_alarm_mode_continuous" text="Continuu" />
+        <text name="rhm_alarm_mode_off" text="Oprit" />
+        <text name="rhm_sound_volume_short" text="Volum Sunete" />
+        <text name="rhm_sound_volume_long" text="Ajustează volumul alarmei sonore de suprasarcină din cabină." />
+        <text name="rhm_target_load" text="Target Engine Load" />
+        <text name="rhm_gui_title" text="Combine Settings" />
+        <text name="rhm_gui_crop" text="Crop:" />
+        <text name="rhm_gui_none" text="NONE" />
+        <text name="rhm_gui_btn_auto" text="AUTO" />
+        <text name="rhm_gui_btn_load_preset" text="Load Preset" />
+        <text name="rhm_gui_btn_save" text="Save Profile" />
+        <text name="rhm_gui_btn_reset" text="Reset Default" />
+        <text name="rhm_gui_engine_load" text="Engine Load: %.0f%%" />
+        <text name="rhm_gui_loss" text="Loss: %.1f%%" />
+        <text name="rhm_gui_preview_loss" text="Preview Loss: %.1f%%" />
+        <text name="rhm_gui_close_hint" text="RShift+K to Close" />
+        <text name="rhm_gui_no_combine" text="No Combine Selected" />
+        <text name="rhm_gui_not_init" text="Combine Not Initialized" />
+        <text name="rhm_ui_drum_speed" text="Drum Speed" />
+        <text name="rhm_ui_roller_speed" text="Roller Speed" />
+        <text name="rhm_ui_picker_speed" text="Picker Speed" />
+        <text name="rhm_ui_forage_fan" text="Blower Speed" />
+        <text name="rhm_ui_forage_drum" text="Chopping Drum" />
+        <text name="rhm_ui_forage_feeder" text="Feed Rolls" />
+        <text name="rhm_ui_root_roller" text="Cleaning Rollers" />
+        <text name="rhm_ui_root_feeder" text="Elevator Web" />
+        <text name="rhm_ui_grape_shaker" text="Viteza scuturătorilor" />
+        <text name="rhm_ui_olive_shaker" text="Viteza bătătoarelor" />
+        <text name="rhm_ui_grape_conveyor" text="Viteza transportorului" />
+        <text name="rhm_ui_grape_fan" text="Ventilatoare curățare" />
+        <text name="rhm_units_short" text="Sistem de Unități" />
+        <text name="rhm_units_long" text="Selectează metric, imperial sau bushels." />
+        <text name="rhm_unit_metric" text="Metric (km/h, t/ha)" />
+        <text name="rhm_unit_imperial" text="Imperial (mph, ton/h, ac)" />
+        <text name="rhm_unit_bushels" text="Busheli (mph, bu/ac)" />
+        <text name="rhm_reset" text="Resetează Setările" />
+        <text name="rhm_loss_low" text="LOW" />
+        <text name="rhm_loss_med" text="MED" />
+        <text name="rhm_loss_high" text="HIGH" />
+        <text name="rhm_warning_turn_on_combine" text="Porniți mai întâi combina!" />
+        <text name="rhm_warning_turn_on_cutter" text="Porniți hederul combinei!" />
+        <text name="rhm_warn_overload_high" text="Combine overloaded! Reduce speed to minimize crop losses." />
+        <text name="rhm_warn_overload_critical" text="COMBINE CRITICALLY OVERLOADED! Severe crop losses occurring!" />
+        <text name="rhm_configuration_title" text="Sisteme Realistic Harvesting" />
+        <text name="rhm_package_standard" text="Tier 1: Mecanica de baza" />
+        <text name="rhm_package_sensor" text="Tier 2: Pachet de senzori" />
+        <text name="rhm_package_yield" text="Tier 3: Telemetrie si monitorizare" />
+        <text name="rhm_package_opti" text="Tier 4: Pilot automat AI Opti-Harvest" />
+        <text name="rhm_msg_req_level_4" text="Requires Opti-Harvest AI package (Level 4)." />
+        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Harvest a few meters of crop to begin auto-calibration!" />
+        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Auto-calibrated successfully for %s!" />
         <!-- ================================================================= -->
         <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-9)                       -->
         <!-- ================================================================= -->
-        <text name="rhm_help_category" text="Realistic Harvesting"/>
-        <text name="rhm_help_title" text="Realistic Harvesting Guide"/>
-        <text name="rhm_help_overview_title" text="1. Realistic Harvesting Physics"/>
-        <text name="rhm_help_overview_sub1" text="Engine Power &amp; Load"/>
-        <text name="rhm_help_overview_1" text="Realistic Harvesting replaces artificial speed limits with dynamic engine load physics. Live engine strain accounts for header drive, threshing resistance, crop density, and soil friction for root crops. In heavy crop stands, the hydrostatic drive smoothly decelerates the combine to prevent drum choking."/>
-        <text name="rhm_help_overview_sub2" text="Crop Density &amp; Cruise Speed"/>
-        <text name="rhm_help_overview_2" text="Heavy, fibrous crops like canola or sunflower demand considerably more engine power per ton than wheat. Harvesting speed will naturally adjust to crop density. Aim for an engine load between 85% and 90% on the HUD for peak performance without grain loss."/>
-        <text name="rhm_help_hud_title" text="2. In-Game HUD &amp; Telemetry"/>
-        <text name="rhm_help_hud_sub1" text="Harvester Telemetry Display"/>
-        <text name="rhm_help_hud_1" text="Boarding a harvester activates a compact 4-cell HUD showing engine load, ground speed, crop yield, and productivity in tons per hour. Upgraded machines allow clicking cells to toggle speed to grain loss percentage and yield to live grain moisture."/>
-        <text name="rhm_help_hud_sub2" text="Customization &amp; Dragging"/>
-        <text name="rhm_help_hud_2" text="You can position the HUD anywhere on screen: right-click in the cab to activate the mouse cursor and drag the panel. In the game settings menu (ESC), customize metric or imperial units and adjust the overload alert sound."/>
-        <text name="rhm_help_hud_sub3" text="HUD Indicators Overview"/>
-        <text name="rhm_help_hud_3_load" text="Cell 1: Engine Load. Green is safe, yellow is optimum (90–105%), red is overload."/>
-        <text name="rhm_help_hud_3_yield" text="Cell 3: Live field yield in tons per hectare (or bushels per acre)."/>
-        <text name="rhm_help_hud_3_productivity" text="Cell 4: Harvester productivity in processed tons per hour (t/h)."/>
-        <text name="rhm_help_hud_3_moisture" text="Cell 3 (Click): Grain moisture percentage (Tier 3+ with Precision Farming or Moisture System)."/>
-        <text name="rhm_help_hud_3_loss" text="Cell 2 (Click): Sieve grain loss percentage (unlocked with Tier 2 sensor package)."/>
-        <text name="rhm_help_hud_3_speed" text="Cell 2: Current forward operating speed in km/h or mph."/>
-        <text name="rhm_help_calibration_title" text="3. Combine Calibration Terminal (Shift+K)"/>
-        <text name="rhm_help_calibration_main_sub" text="Tuning Your Harvester"/>
-        <text name="rhm_help_calibration_main_text" text="Press Right Shift + K in the cab to open the calibration terminal. Different crops require specific drum speeds, fan airflow, and sieve gaps. A poorly tuned combine loses grain and overloads the engine. Tier 2 combines can save custom crop profiles, while Tier 4 harvesters can auto-tune with a single click on the AUTO button."/>
-        <text name="rhm_help_calibration_rotor_sub" text="Threshing Drum &amp; Concave"/>
-        <text name="rhm_help_calibration_rotor_text" text="Drum RPM and concave clearance determine threshing quality. Small grains like wheat and barley require high speeds to beat kernels from heads. Fragile crops like corn and soybeans need lower RPM to prevent grain cracking."/>
-        <text name="rhm_help_calibration_fan_sub" text="Cleaning Fan &amp; Sieves"/>
-        <text name="rhm_help_calibration_fan_text" text="The fan blows away chaff while sieves separate clean grain into the hopper. Light seeds like canola require gentle airflow so they are not blown out the back. Corn needs strong air to lift heavy cob residue."/>
-        <text name="rhm_help_calibration_perf_sub" text="Target Engine Load"/>
-        <text name="rhm_help_calibration_perf_text" text="The target load slider sets how hard the automatic transmission pushes the combine (default 88%). A higher value speeds up fieldwork near the limit, while a lower value guarantees zero losses and saves fuel."/>
-        <text name="rhm_help_special_title" text="4. Forage Harvesters, Root Crops &amp; Cotton"/>
-        <text name="rhm_help_special_sub1" text="Forage Harvesters"/>
-        <text name="rhm_help_special_1" text="Forage harvesters chop standing corn or pickup grass windrows straight into trailers. They have zero crop loss. The calibration terminal lets you adjust chopper drum speed and blower accelerator power."/>
-        <text name="rhm_help_special_sub2" text="Root Harvesters &amp; Special Machinery"/>
-        <text name="rhm_help_special_2" text="Potato and beet harvesters draw heavy engine power from underground share drag. Settings control cleaning roller speed and haulm blowers. Cotton pickers and wide-span NEXAT rigs are also fully supported."/>
-        <text name="rhm_help_loss_title" text="5. Crop Loss &amp; Live Tank Deduction"/>
-        <text name="rhm_help_loss_sub1" text="Overload Grain Loss"/>
-        <text name="rhm_help_loss_1" text="Grain loss begins gently above 80% engine load. Losses remain negligible up to 90%, but climb noticeably past 100%. Running deep into the red zone (&gt;110%) risks clogging the threshing drum completely."/>
-        <text name="rhm_help_loss_sub2" text="Live Grain Tank Deduction"/>
-        <text name="rhm_help_loss_2" text="Harvest losses are fully physical: lost liters are subtracted directly from the combine hopper in real time. Misconfigured sieves or drums can waste up to 25% of your harvest, so watch the HUD and keep settings tuned."/>
-                <text name="rhm_help_loss_sub3" text="Uzura mecanică și cuțite tocite"/>
-        <text name="rhm_help_loss_3" text="Uzura echipamentului degradează considerabil eficiența recoltării. Cuțitele tocite ale hederului scutură spicele și păstăile (până la +3% pierderi și +15% rezistență PTO). Toba de treier și sitele uzate pierd boabe neseparate (până la +3% pierderi). Întreținerea regulată la atelier previne aceste pierderi."/>
-<text name="rhm_help_difficulty_title" text="6. Speed Controller &amp; Headland Memory"/>
-        <text name="rhm_help_difficulty_sub1" text="Smooth Cruise Control"/>
-        <text name="rhm_help_difficulty_1" text="The hydrostatic transmission dynamically adapts speed to crop density. When entering a pass, the combine holds steady until the drum fills. It brakes gently in dense patches and smoothly speeds up in lighter stands."/>
-        <text name="rhm_help_difficulty_sub2" text="Headland Turn Memory"/>
-        <text name="rhm_help_difficulty_2" text="Lifting the header on the headland locks your cruising speed into memory. When you lower the header into the next row, the combine accelerates right back to that pace without sluggish crawl."/>
-        <text name="rhm_help_upgrades_title" text="7. Electronics Packages &amp; Tiers 1–4"/>
-        <text name="rhm_help_upgrades_sub1" text="Tier 1: Factory Mechanical"/>
-        <text name="rhm_help_upgrades_1" text="Standard factory equipment. Settings are adjusted manually, and loss and moisture sensors are not yet installed."/>
-        <text name="rhm_help_upgrades_sub2" text="Tier 2: Sensor Package"/>
-        <text name="rhm_help_upgrades_2" text="Installs loss sensors on the sieves (displayed on HUD) and unlocks saving and loading custom calibration profiles in the terminal."/>
-        <text name="rhm_help_upgrades_sub3" text="Tier 3: Telemetry &amp; Moisture"/>
-        <text name="rhm_help_upgrades_3" text="Adds live grain moisture monitoring to the HUD and improves hired worker tuning precision to keep losses minimal."/>
-        <text name="rhm_help_upgrades_sub4" text="Tier 4: Opti-Harvest AI"/>
-        <text name="rhm_help_upgrades_4" text="Flagship smart package: unlocks the AUTO button in the calibration terminal to instantly dial in perfect settings and halves moisture penalties."/>
-        <text name="rhm_help_moisture_title" text="8. Moisture Dynamics &amp; Weather"/>
-        <text name="rhm_help_moisture_sub1" text="Crop Moisture Impact"/>
-        <text name="rhm_help_moisture_1" text="The mod tracks crop moisture using Moisture System or Precision Farming mods. Wet straw and damp grain create heavy friction in the drum, increasing engine load and raising sieve losses."/>
-        <text name="rhm_help_moisture_sub2" text="Rain &amp; Night Dew"/>
-        <text name="rhm_help_moisture_2" text="Rain and morning dew soak the crop. Harvesting in wet conditions forces the combine to crawl and burns much more fuel. Plan major harvesting runs for warm, dry afternoon hours."/>
-        <text name="rhm_help_cropsettings_title" text="9. AI Helpers &amp; Crop Guide"/>
-        <text name="rhm_help_cropsettings_grain_sub" text="AI Workers &amp; Courseplay"/>
-        <text name="rhm_help_cropsettings_grain_text" text="Full support for game AI workers, Courseplay, and AutoDrive. The server regulates travel speed so helpers cruise without choking. When an AI takes over, it respects your calibrated settings and will never worsen them."/>
-        <text name="rhm_help_cropsettings_forage_sub" text="Grains &amp; Oilseeds Quick Guide"/>
-        <text name="rhm_help_cropsettings_forage_text" text="Wheat and barley prefer high rotor speed (~750 RPM) and strong fan blast. Canola requires gentle air (~650 RPM) to keep light seeds inside. For corn and soybeans, lower rotor RPM (~360) and open sieves wider."/>
-        <text name="rhm_help_cropsettings_root_sub" text="Forage &amp; Root Crops Quick Guide"/>
-        <text name="rhm_help_cropsettings_root_text" text="Corn silage needs high drum speed (~1150 RPM), while grass silage runs well at ~800 RPM. On potatoes, keep cleaning rollers moderate (~400 RPM) to protect skins from bruising."/>
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
+        <!-- ================================================================= -->
+        <text name="rhm_help_category" text="Realistic Harvesting" />
+        <text name="rhm_help_title" text="Ghid Realistic Harvesting" />
 
-        <text name="rhm_ui_section_separation" text="SEPARARE"/>
-        <text name="rhm_ui_section_cleaning" text="CURĂȚARE"/>
-        <text name="rhm_ui_section_discharge" text="DESCĂRCARE"/>
-        <text name="rhm_ui_section_performance" text="PERFORMANȚĂ"/>
-        <text name="rhm_ui_tier1_manual" text="TIER 1 - MECANIC"/>
-        <text name="rhm_ui_tier2_sensors" text="TIER 2 - SENZORI"/>
-        <text name="rhm_ui_tier3_monitor" text="TIER 3 - TELEMETRIE"/>
-        <text name="rhm_ui_tier4_opti" text="TIER 4 - AI OPTI"/>
-        <text name="rhm_ui_arcade_badge" text="ARCADĂ"/>
-        <text name="rhm_ui_card_engine_load" text="SARCINĂ MOTOR"/>
-        <text name="rhm_ui_card_efficiency" text="EFICIENȚĂ"/>
-        <text name="rhm_ui_card_predicted_loss" text="PIERDERE ESTIMATĂ"/>
-        <text name="rhm_ui_btn_ai_auto" text="AUTO-CALIBRARE IA"/>
-        <text name="rhm_ui_btn_auto_locked" text="AUTO (LOCKED)"/>
-        <text name="rhm_ui_btn_load_preset" text="ÎNCARCĂ PROFIL"/>
-        <text name="rhm_ui_btn_save_profile" text="SALVEAZĂ PROFIL"/>
-        <text name="rhm_ui_btn_load_locked" text="LOAD (LOCKED)"/>
-        <text name="rhm_ui_btn_save_locked" text="SAVE (LOCKED)"/>
-        <text name="rhm_ui_btn_reset_defaults" text="RESETARE LA SETĂRI DIN FABRICĂ"/>
-        <text name="rhm_ui_status_optimal" text="OPTIMAL"/>
-        <text name="rhm_ui_status_low" text="LOW"/>
-        <text name="rhm_ui_status_high" text="HIGH"/>
-        <text name="rhm_msg_req_tier4" text="Requires Opti-Harvest AI (Tier 4)"/>
-        <text name="rhm_msg_req_tier3" text="Profiles require Telemetry Monitor (Tier 3)"/>
-        <text name="rhm_msg_req_tier2" text="Profilurile necesită Pachetul de Senzori (Tier 2 sau mai mare)"/>
-        <text name="rhm_msg_profile_saved" text="Saved Profile: %s"/>
-        <text name="rhm_msg_profile_loaded" text="Loaded Profile: %s"/>
-        <text name="rhm_msg_profile_not_found" text="No saved profile found for this crop"/>
-        <text name="rhm_ui_combine_not_init" text="Combine not initialized"/>
-        <text name="rhm_unit_t_per_hour" text="t/h"/>
-        <text name="rhm_unit_ha_per_hour" text="ha/h"/>
-        <text name="rhm_setting_ai_tuning" text="Reglare muncitori IA"/>
-        <text name="rhm_setting_ai_tuning_long" text="Controlează modul în care muncitorii și Courseplay gestionează calibrarea combinei. 'Păstrează setările mele' protejează reglajele manuale și profilurile. 'Mereu auto-calibrare' recalculează după nivelul electronic. 'Dezactivat' oprește orice modificare."/>
-        <text name="rhm_setting_ai_tuning_keep" text="Păstrează setările"/>
-        <text name="rhm_setting_ai_tuning_auto" text="Mereu auto-calibrare"/>
-        <text name="rhm_setting_ai_tuning_disabled" text="Dezactivat"/>
-        <text name="rhm_crop_straw_windrow" text="Brazdă de paie"/>
-        <text name="rhm_crop_grass_windrow" text="Brazdă de iarbă"/>
-        <text name="rhm_crop_drygrass_windrow" text="Brazdă de fân"/>
-        <text name="rhm_crop_alfalfa_windrow" text="Brazdă de lucernă"/>
-        <text name="rhm_crop_clover_windrow" text="Brazdă de trifoi"/>
-        <text name="rhm_crop_maize_forage" text="Siloz de porumb"/>
-        <text name="rhm_windrow_format" text="Brazdă: %s"/>
-    
-        <text name="rhm_setting_enableTutorials" text="Sfaturi tutorial"/>
-        <text name="rhm_setting_enableTutorials_long" text="Afișează sfaturi interactive în timpul recoltării."/>
-        <text name="rhm_ui_btn_close_notification" text="Am înțeles (Enter / Clic stânga)"/>
-        <text name="rhm_tut_welcome_title" text="Realistic Harvesting"/>
-        <text name="rhm_tut_welcome_msg" text="Bun venit în Realistic Harvesting! Viteza combinei depinde dinamic de sarcina motorului, densitatea culturii și heder. Deschideți terminalul cu (Shift dreapta + K)."/>
-        <text name="rhm_tut_overload_title" text="Supraîncărcare Motor"/>
-        <text name="rhm_tut_overload_msg" text="Motorul este suprasolicitat! Transmisia hidrostatică încetinește combina pentru a preveni blocarea tobei. Ridicați hederul sau reduceți lățimea de tăiere."/>
-        <text name="rhm_tut_loss_title" text="Pierderi Mari de Boabe"/>
-        <text name="rhm_tut_loss_msg" text="Pierderile de boabe sunt critice! Turația rotorului sau sitele nu sunt calibrate corect. Apăsați (Shift dreapta + K) pentru calibrare."/>
-        <text name="rhm_tut_moisture_title" text="Umiditate Ridicată"/>
-        <text name="rhm_tut_moisture_msg" text="Umiditatea culturii este mare sau a început ploaia! Paiele umede creează frecare mare, crescând sarcina motorului. Recoltați pe vreme uscată."/>
-        <text name="rhm_tut_headland_title" text="Memorie Viteză de Lucru"/>
-        <text name="rhm_tut_headland_msg" text="La ridicarea hederului la capăt de rând, combina memorează viteza de lucru, reaccelerând lin la intrarea pe următorul rând."/>
-        <text name="rhm_tut_upgrade_title" text="Îmbunătățiri Combină"/>
-        <text name="rhm_tut_upgrade_msg" text="Combinele de bază necesită reglaj manual. Instalați Pachet Senzori (Nivel 2), Monitor Recoltă (Nivel 3) sau Pilot Automat Opti-Harvest AI (Nivel 4) la atelier."/>
-        <text name="rhm_setting_wear_loss_short" text="Pierderi prin uzură mecanică"/>
-        <text name="rhm_setting_wear_loss_long" text="Simulează pierderile de boabe cauzate de uzura utilajelor. Cuțitele tocite scutură plantele (până la +3% pierderi și +15% rezistență). Toba și sitele uzate pierd boabe (până la +3% pierderi)."/>
-        <text name="rhm_ui_wear_loss" text="Pierdere prin uzură"/>
-        <text name="rhm_ui_cutter_wear" text="Uzură heder"/>
-        <text name="rhm_ui_combine_wear" text="Uzură combină"/>
+        <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
+        <text name="rhm_help_overview_title" text="1. Fizica sarcinii motorului &amp; Viteza" />
+        <text name="rhm_help_overview_sub1" text="Bilanțul de putere: rezistență mecanică &amp; treierare" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting înlocuiește viteza fixă de recoltare cu un model fizic al bilanțului de putere conform standardelor ASABE și DLG. În jocul de bază, combina înaintează mereu la viteza maximă a hederului indiferent de desimea culturii. În acest mod, toată puterea utilă a motorului se împarte dinamic între patru sarcini reale: rezistența de bază a transmisiei și hidrostaticii (8% din puterea nominală pentru combine de cereale și 10% pentru mașini grele de recoltat rădăcinoase), antrenarea mecanică a barei de tăiere și a bătătorului hederului, energia necesară treierării și tragerii biomasei prin tobă sau rotor, precum și rezistențele suplimentare cauzate de umiditate sau buruieni. Procentul sarcinii motorului pe ecran indică exact cota de cai putere utilizați în fiecare secundă." />
+        <text name="rhm_help_overview_sub2" text="Control automat al vitezei &amp; Protecție anti-înfundare" />
+        <text name="rhm_help_overview_2" text="Nu mai trebuie să ghiciți sau să ajustați continuu tempomatul din mers. Coborâți hederul, porniți treierătoarea și intrați în cultură: combina începe recoltarea la o viteză de intrare sigură de 5,5 km/h, permițând masei vegetale să umple uniform transportorul fără șocuri pe tobă. Apoi, regulatorul hidrostatic inteligent adaptează viteza de lucru după sarcina motorului, menținându-l în intervalul optim de randament (cca. 80–90%). Dacă utilajul intră într-o zonă deasă sau urcă o pantă abruptă, automatizarea încetinește lin (timp de răspuns de 0,45 s) pentru a preveni oprirea motorului sau blocarea tobei. În culturi rare, accelerează progresiv. Viteza maximă este întotdeauna limitată de specificațiile din fabrică ale hederului." />
+        <text name="rhm_help_overview_sub3" text="Tocătorul de paie &amp; Câștigul de viteză la brazdă" />
+        <text name="rhm_help_overview_3" text="Modul de gestionare a paielor determină direct câți cai putere rămân disponibili pentru deplasare. Tocătorul de paie este un rotor masiv cu cuțite care se rotește cu peste 3.000 rpm. Tocarea și împrăștierea paielor consumă între 15% și 20% din întreaga putere a motorului (în special la paie fibroase precum ovăz, orz sau secară). Dacă utilajul înaintează prea greu din cauza sarcinii ridicate, comutați paiele pe așezare în brazdă cu tasta standard a jocului. Rotorul tocătorului se decuplează, eliberând zeci de cai putere pentru treierare, iar viteza de lucru crește imediat cu 1,5–3 km/h la aceeași sarcină a motorului." />
+
+        <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
+        <text name="rhm_help_hud_title" text="2. HUD interactiv &amp; Comenzi" />
+        <text name="rhm_help_hud_sub1" text="Panoul de telemetrie: descrierea celor 4 celule" />
+        <text name="rhm_help_hud_1" text="Când urcați în combină, în partea de jos a ecranului apare un panou compact din sticlă întunecată. Acesta afișează patru parametri cheie: Celula 1 arată sarcina motorului în procente cu indicatoare colorate dinamice (verde până la 85% pentru lucru lejer; galben între 85% și 95% indicând zona optimă de randament; roșu peste 95% avertizând de suprasarcină). Celula 2 afișează procentul real de pierderi de boabe sau viteza recomandată. Celula 3 indică umiditatea curentă a culturii în procente sau ritmul de lucru în hectare pe oră. Celula 4 prezintă producția instantanee la hectar (t/ha sau bu/ac) sau debitul orar de treierat (t/h sau l/h)." />
+        <text name="rhm_help_hud_sub2" text="Deplasare cu mouse-ul (LMB), fixare magnetică &amp; Moduri" />
+        <text name="rhm_help_hud_2" text="Panoul HUD poate fi mutat oriunde doriți pe monitor. Țineți apăsat butonul stâng al mouse-ului (LMB) pe suprafața HUD și glisați-l unde nu vă încurcă vizibilitatea din cabină. La apropierea de marginile ecranului sau de linia inferioară a meniului de ajutor F1, o fixare magnetică centrează și blochează panoul cu precizie. În plus, panoul este interactiv: un singur clic stânga pe celulele 2, 3 sau 4 comută instantaneu afișajul datelor secundare (de pildă trecerea de la tone pe oră la hectare pe oră, sau alternarea între procentul de pierderi și viteza recomandată)." />
+        <text name="rhm_help_hud_sub3" text="Disponibilitate senzori &amp; Liniuțe (--%) pe utilaje vechi" />
+        <text name="rhm_help_hud_3" text="Dacă urcați într-o combină simplă sau veche și vedeți liniuțe (--%) în loc de pierderi sau umiditate, este un comportament realist intenționat, nu o eroare. Modelele de bază (Tier 1) nu au din fabrică senzori piezolectrici de pierdere și nici umidometre optice; mecanizatorul conduce după zgomotul motorului și curățenia boabelor din buncăr. Senzorii sitelor devin activi după instalarea pachetului electronic Tier 2 în atelier, iar umidometrul digital de la Tier 3 în sus. La oprirea pentru descărcare sau ridicarea hederului la capăt de rând, HUD-ul îngheață ultimele valori stabile pentru a evita pâlpâirile la zero." />
+
+        <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
+        <text name="rhm_help_calibration_title" text="3. Terminal de calibrare în cabină (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Reglaje pe combine de bază (Tier 1): reglare manuală" />
+        <text name="rhm_help_calibration_main_text" text="Apăsați Shift Dreapta + K în cabină pentru a deschide terminalul tactil de reglaj. Pe combinele simple (Tier 1) nu există memorie digitală: butoanele de salvare, încărcare și pilotul automat sunt blocate cu lacăte, iar benzile de ghidaj optim sunt ascunse. Cum se reglează utilajul: butonul de resetare din partea de jos readuce glisoarele la 50% neutru. Apoi reglați conform regulilor de treierat: la cereale păioase (grâu, orz), țineți toba la 60–70%, ventilatorul de curățare la 65–75% și sitele la 50–60%. La culturi cu boabe mari (porumb, floarea-soarelui), turația tobei trebuie redusă la 35–45% pentru ca bătătoarele să nu spargă boabele." />
+        <text name="rhm_help_calibration_rotor_sub" text="Calibrare pe Tier 2–3: zone verzi &amp; Profiluri" />
+        <text name="rhm_help_calibration_rotor_text" text="După modernizarea combinei la nivelul Tier 2, pe fiecare glisor apare o bandă verde optimă («sweet-spot»), calculată pentru cultura aflată în transportor. Instrucțiuni: cosiți câțiva metri în cultură pentru ca utilajul să identifice planta, deschideți terminalul (Shift+K) și glisați fiecare cursor cu butoanele [-] și [+] în zona verde. Apăsați imediat «SALVEAZĂ»! Combina reține acești parametri în profil. Doar după prima salvare devine activ butonul «ÎNCARCĂ»: când reveniți la această cultură mai târziu, o apăsare pe «ÎNCARCĂ» vă readuce instant reglajele. Pe Tier 3 apar în plus carduri live de sarcină, randament și pierderi estimate." />
+        <text name="rhm_help_calibration_presets_sub" text="Autocalibrare la o singură atingere pe Tier 4" />
+        <text name="rhm_help_calibration_presets_text" text="Posesorii de combine cu pachetul de top Tier 4 (Opti-Harvest AI) nu trebuie să miște cursoare și nici să salveze profiluri manual. În colțul din dreapta-sus se deblochează butonul «AI AUTO-CALIB»: o apăsare citește umiditatea, desimea culturii și aplică într-o secundă parametrii ideali direct din baza de date. Pe traseu, pilotul automat activ corectează la fiecare 2 secunde toba și turația aerului dacă întâlnește zone umede sau buruieni." />
+
+                        <!-- PAGE 4: CROP CALIBRATION HANDBOOK (RPM & MM) -->
+        <text name="rhm_help_presets_title" text="4. Ghid de calibrare a culturilor (RPM și mm)" />
+        <text name="rhm_help_presets_sub1" text="Setări universale: De ce valorile RPM și mm sunt identice pe toate combinele" />
+        <text name="rhm_help_presets_1" text="Pe tableta din cabină (Shift Dreapta + K), toți parametrii sunt afișați în unități fizice reale: rotații pe minut (RPM) și deschideri în milimetri (mm). Regulă agronomică de bază: reglajele optime inițiale pentru orice cultură sunt IDENTICE pe toate combinele, indiferent de puterea motorului (de la 300 la 800 CP) sau de lățimea hederului! Biologia spicului de grâu sau a știuletelui de porumb nu se schimbă: grâul necesită întotdeauna ~800 RPM la rotor/bătător și ~960 RPM la ventilator, altfel boabele rămân netreierate sau sunt aruncate cu pleava. Puterea motorului și hederul determină doar viteza de lucru (km/h) și debitul (t/h), reglate automat de RHM." />
+        <text name="rhm_help_presets_sub2" text="Cereale, porumb, oleaginoase și leguminoase" />
+        <text name="rhm_help_presets_2" text="Pentru combinele de bază (Tier 1) fără zone verzi iluminate, aplicați aceste valori din fabrică:&#10;&#10;- Grâu: Turație Rotor 780–820 RPM | Distanță bătător 5–7 mm | Turație Ventilator 940–980 RPM | Sită Superioară 14–15 mm | Sită Inferioară 6–8 mm.&#10;&#10;- Orz: Rotor 780–820 RPM | Bătător 6–8 mm | Ventilator 980–1020 RPM | Sită Sup. 14–15 mm | Sită Inf. 7–9 mm (aristele tari cer aer puternic).&#10;&#10;- Ovăz: Rotor 680–720 RPM | Bătător 5–7 mm | Ventilator 730–770 RPM | Sită Sup. 14–16 mm | Sită Inf. 6–8 mm (glume ușoare; vânt &gt;850 RPM suflă boabele).&#10;&#10;- Porumb boabe: Rotor 310–350 RPM | Bătător 28–32 mm | Ventilator 930–970 RPM | Sită Sup. 19–21 mm | Sită Inf. 11–13 mm (ATENȚIE: turație minimă pentru a nu sparge știuleții!).&#10;&#10;- Floarea-soarelui: Rotor 340–380 RPM | Bătător 23–27 mm | Ventilator 730–770 RPM | Sită Sup. 17–19 mm | Sită Inf. 9–11 mm (treierat blând pentru calatidii).&#10;&#10;- Rapiță: Rotor 480–520 RPM | Bătător 16–19 mm | Ventilator 680–720 RPM | Sită Sup. 8–10 mm | Sită Inf. 3–5 mm (semințe mici; aer &gt;750 RPM aruncă recolta).&#10;&#10;- Soia: Rotor 540–580 RPM | Bătător 17–19 mm | Ventilator 960–1000 RPM | Sită Sup. 15–17 mm | Sită Inf. 8–10 mm.&#10;&#10;- Mazăre, Bob: Rotor 410–450 RPM | Bătător 14–16 mm | Ventilator 980–1020 RPM | Sită Sup. 17–19 mm | Sită Inf. 8–10 mm.&#10;&#10;- Orez și Orez cu bob lung: Rotor 700–740 RPM | Distanță bătător 6–8 mm | Ventilator 1030–1070 RPM | Sită superioară 15–17 mm | Sită inferioară 6–8 mm (paie abrazive și umede).&#10;&#10;- Sorg: Rotor 580–620 RPM | Distanță bătător 17–19 mm | Ventilator 1080–1120 RPM | Sită superioară 14–16 mm | Sită inferioară 7–8 mm (paniculele dense necesită flux de aer puternic).&#10;&#10;- Semințe de iarbă (Mac, Trifoi): Rotor 780–820 RPM | Bătător 4–6 mm | Ventilator 430–470 RPM | Sită Sup. 6–8 mm | Sită Inf. 2–4 mm (vânt minim!)." />
+        <text name="rhm_help_presets_sub3" text="Combine de furaj, recoltat rădăcinoase și utilaje speciale" />
+        <text name="rhm_help_presets_3" text="Pentru utilajele speciale, Shift+K activează organele de lucru dedicate:&#10;&#10;- Combine de furaj (siloz): Pierderi zero de boabe (0%). Siloz de porumb — Suflantă 1300–1350 RPM, Tambur tocător 1150–1170 RPM, Role alimentare 470–500 RPM. Ridicare brazdă (fân/paie) — Suflantă 1150–1200 RPM, Tambur 1070–1100 RPM, Role 450–470 RPM. Cosire directă iarbă — Suflantă 1230–1270 RPM, Tambur 1120–1140 RPM, Role 410–430 RPM. Plop (tocătură de lemn) — Suflantă 1350–1400 RPM, Tambur tocător 1180–1200 RPM, Rulouri alimentare 380–400 RPM.&#10;&#10;- Recoltat rădăcinoase: Cartofi — Turbină 600–620 RPM, Role curățare 190–210 RPM, Bandă sită 300–320 RPM (protejează tuberculii). Sfeclă de zahăr și Sfeclă roșie — Turbină 630–650 RPM, Role 230–250 RPM, Bandă elevator 290–310 RPM. Morcovi — Turbină 620–640 RPM, Role 200–220 RPM, Bandă 300–310 RPM. Ceapă — Turbină 840–860 RPM, Role 200–220 RPM, Bandă 260–270 RPM.&#10;&#10;- Combine de legume: Fasole verde (Green Beans) — Ventilator de curățare 700–720 RPM, Rotor culegător 170–190 RPM, Elevator 280–300 RPM. Spanac (Spinach) — Ventilator 550–580 RPM, Tambur tăietor 140–160 RPM, Elevator 270–290 RPM (recoltare delicată a frunzelor).&#10;&#10;- Bumbac: Ventilator 3600–3800 RPM, Axuri 210–230 RPM, Tamburi 210–230 RPM.&#10;&#10;- Trestie de zahăr: Extractor primar 1150–1200 RPM, Tamburi mărunțire 180–200 RPM, Bandă elevator 280–300 RPM.&#10;&#10;- Struguri: Scuturători 450–470 RPM, Transportor 110–120 RPM, Extractoare 1250–1300 RPM.&#10;&#10;- Măsline: Scuturători 540–560 RPM, Transportor 105–115 RPM, Extractoare 1300–1350 RPM." />
+        <text name="rhm_help_presets_sub4" text="Umiditatea culturilor: Impact fizic și reglaj dinamic" />
+        <text name="rhm_help_presets_4" text="RHM suportă moduri externe de umiditate și deține un simulator meteo diurn (roua dimineții 16–18%, interval uscat de după-amiază 11–13.5%, ploaie &gt;22%). Pragul sigur este de 14.0% (rapiță: 9.0%). Fiecare 1% peste prag adaugă +2% efort la motor și +0.35% pierderi inevitabile prin lipirea boabelor de paiele ude.&#10;&#10;Reglaj când umiditatea depășește 14%:&#10;&#10;1. Măriți turația rotorului cu +50...80 RPM (ex. grâu la 860 în loc de 800 RPM) — ajută la trecerea paielor umede.&#10;&#10;2. Măriți turația ventilatorului cu +30...50 RPM (990 în loc de 950 RPM) — pentru a ridica pleava grea.&#10;&#10;3. Deschideți sita superioară cu +1...2 mm mai mult.&#10;&#10;La Tier 2–3 banda verde urcă automat; la Tier 4 pilotul automat Opti-Harvest AI ajustează totul în timp real." />
+        <text name="rhm_help_presets_sub5" text="Culturi modificate și hărți personalizate: Autodetecție" />
+        <text name="rhm_help_presets_5" text="1. Culturi modificate prezente în baza de date RHM:&#10;&#10;- Secară, Triticale, Alac: reglați ca la grâu (Rotor 780–820 RPM, Bătător 5–7 mm, Ventilator 940–980 RPM, Site 14/7 mm).&#10;&#10;- Hrișcă: Rotor 530–570 RPM, Bătător 12–14 mm, Ventilator 730–770 RPM, Site 12/6 mm.&#10;&#10;- Mei: Rotor 780–820 RPM, Bătător 5–7 mm, Ventilator 850–890 RPM, Site 14/7 mm.&#10;&#10;- In, Muștar: Rotor 830–870 RPM, Bătător 14–16 mm, Ventilator 780–820 RPM, Site 9/4 mm.&#10;&#10;- Mac: Rotor 430–470 RPM, Bătător 12–14 mm, Ventilator 430–470 RPM, Site 7/3 mm (micro-semințe!).&#10;&#10;- Cânepă: Rotor 630–670 RPM, Bătător 12–14 mm, Ventilator 830–870 RPM, Site 14/7 mm.&#10;&#10;- Șofrănel: ca la floarea-soarelui (Rotor 340–380 RPM, Ventilator 730–770 RPM, Site 18/10 mm).&#10;&#10;- Trifoi / Ierburi: Rotor 780–820 RPM, Bătător 4–6 mm, Ventilator 430–470 RPM, Site 7/3 mm.&#10;&#10;- Lucernă (siloz): Combină siloz — Suflantă ~1250, Tambur ~1130, Role ~420 RPM.&#10;&#10;2. Autodetecție culturi: RHM citește masa hectolitrică și paiele din hartă. Regula celor 4 familii (Tier 1): cereale cu paie = grâu; semințe mici = rapiță; leguminoase = mazăre; ierburi = vânt minim. La Tier 2–4 zona verde se calculează automat." />
+
+        <!-- PAGE 5: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
+        <text name="rhm_help_trip_title" text="5. Contor de parcelă &amp; Parc utilaje (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Jurnalul parcelei curente: evidență riguroasă" />
+        <text name="rhm_help_trip_1" text="Apăsați Shift Dreapta + J în cabină pentru a accesa centrul analitic structurat pe 4 file. Prima filă servește drept contor digital de parcelă: însumează suprafața recoltată în hectare, măsoară recolta în tone și litri, cronometrează timpul net de lucru (fără pauze de descărcare și întoarceri la capăt de rând) și calculează producția medie a terenului împreună cu ritmul de lucru în tone și hectare pe oră. Astfel aflați randamentul real al pământului cu mult înainte de a duce marfa la siloz." />
+        <text name="rhm_help_trip_sub2" text="Pierderi financiare, nota mecanizatorului &amp; Diagnostic" />
+        <text name="rhm_help_trip_2" text="Contorul nu doar contabilizează tonele pierdute, ci estimează paguba financiară în moneda jocului (€, $ sau £) după cotațiile pieței. Un algoritm notează conducerea de la [A] (conducere impecabilă, pierderi sub 1%) la [E] (conducere slabă, pierderi grele). Sub notă, patru bare de diagnostic arată cauzele exacte: viteză excesivă, umiditatea paielor, uzura lamei hederului sau înclinația laterală pe pante." />
+        <text name="rhm_help_trip_sub3" text="Resetare rapidă din cabină (Shift Dreapta + R)" />
+        <text name="rhm_help_trip_3" text="La intrarea pe o nouă parcelă sau pentru o probă de control, nu este nevoie să intrați în meniuri: țineți apăsat Shift Dreapta + R timp de 1 secundă direct de la volan. Contorul se va reseta imediat la zero, cu semnal sonor și notificare pe ecran. În plus, în setările jocului există o funcție de resetare automată (Smart) care resetează singură contorul la schimbarea numărului de teren sau a culturii din buncăr." />
+        <text name="rhm_help_trip_sub4" text="Registru parcele, istoric sezoane &amp; Monitorizare parc" />
+        <text name="rhm_help_trip_4" text="Fila «Parcelele fermei» centralizează terenurile deținute cu suprafețe și producții trecute. «Analiză sezon» ilustrează evoluția lunară și anuală a recoltelor. Fila «Parc de combine» permite șefului de fermă să monitorizeze toate utilajele în timp real: mecanizatorul (jucător sau muncitor), cultura, viteza, sarcina motorului, randamentul t/h, uzura lamelor și pachetul electronic." />
+
+        <!-- PAGE 6: CROP LOSSES & ROOT CAUSES -->
+        <text name="rhm_help_croploss_title" text="6. Pierderi de recoltă &amp; Diagnostic cauze" />
+        <text name="rhm_help_croploss_sub1" text="Scădere fizică a boabelor direct din buncărul combinei" />
+        <text name="rhm_help_croploss_1" text="În Realistic Harvesting, pierderile nu sunt simple statistici pe ecran. Boabele neseparate sau aruncate peste site împreună cu pleava sunt scăzute fizic în timp real direct din volumul buncărului combinei! Dacă rulați prea repede, recolta se împuținează sub ochii dvs., livrând la depozit cu 5% până la 15% mai puțin produs pe hectar. Dacă lucrați cu lăsare în brazdă, boabele pierdute rămân în brazda de paie. La combinele de siloz și cele de bumbac pierderile de boabe sunt dezactivate, recoltându-se biomasa integral." />
+        <text name="rhm_help_croploss_sub2" text="Patru factori de pierdere &amp; Cum să-i eliminați" />
+        <text name="rhm_help_croploss_2" text="Pierderile totale provin din patru cauze: 1. Viteză și suprasarcină: conform normei ISO 8210, pierderile încep peste 80% sarcină a motorului, depășesc limita admisă de 1% la 95% sarcină și îneacă complet sitele peste 110% cu aruncare masivă de boabe pe sol. Soluție: păstrați sarcina între 85 și 90%. 2. Umiditate și rouă: peste 14% umiditate, paiele ude se lipesc și rețin boabele (+0,35% pierderi pentru fiecare 1% surplus de apă). Soluție: recoltați ziua, pe soare. 3. Uzura lamei: cuțitele tocite (> 15% uzură) scutură spicele înainte de intrare (până la 3% pierderi). Soluție: ascuțiți sau schimbați lamele la timp. 4. Pante: înclinații de peste 4° deplasează masa pe o singură parte a sitelor (până la 5% pierderi)." />
+        <text name="rhm_help_croploss_sub3" text="Avertizor sonor în cabină (Smart Buzzer): alarmă" />
+        <text name="rhm_help_croploss_3" text="Când sarcina motorului depășește 95% sau pierderile curente trec de 5%, terminalul din cabină declanșează un semnal sonor de alarmă agricolă. În modul recomandat Smart Buzzer, avertizorul emite trei impulsuri discrete de 0,3 secunde, urmate de o pauză de 18 secunde, alertând mecanizatorul fără zgomote continue obositoare. Ați auzit alarma? Reduceți viteza, verificați deschiderea sitelor în Shift+K sau opriți tocătorul de paie: pierderile vor înceta imediat. Volumul se reglează de la 0% la 100% în opțiuni." />
+
+        <!-- PAGE 7: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
+        <text name="rhm_help_upgrades_title" text="7. Pachete electronice (Tiers 1–4)" />
+        <text name="rhm_help_upgrades_sub1" text="Modernizare în atelier: 4 niveluri pentru orice buget" />
+        <text name="rhm_help_upgrades_1" text="Orice combină din joc (achiziționată la magazin sau aflată deja în curtea fermei) poate fi dotată cu un pachet electronic RHM. Intrați în zona de atelier, apăsați tasta de configurare și selectați «RHM Pachet Electronic». Sunt disponibile patru niveluri: Tier 1 «Standard» (0 €, bază mecanică de fabrică), Tier 2 «Kit Senzori» (3.500 €), Tier 3 «Monitor Producție» (8.500 €) și Tier 4 «Opti-Harvest AI» (15.000 €). Nivelul instalat apare în bara de sus a meniului Shift+K și în registrul de flotă." />
+        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Mecanică simplă) vs Tier 2 (Kit Senzori)" />
+        <text name="rhm_help_upgrades_2" text="Combinele Tier 1 oferă o operare pur mecanică fără senzori: pe HUD apar liniuțe în loc de pierderi, ecranul nu are marcaje ajutătoare, mecanizatorul se ghidează după sunetul motorului, iar muncitorii angajați greșesc reglajele cu până la ±18%. Pachetul Tier 2 (3.500 €) este modernizarea de pornire ideală: adaugă senzori piezolectrici pe site (% pierderi pe HUD) și deblochează benzile verzi în Shift+K. Marja de eroare a angajaților scade la ±10%." />
+        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Telemetrie &amp; Profiluri) și Tier 4 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="Pachetul Tier 3 (8.500 €) montează un senzor optic de umiditate (% umiditate pe HUD), activează cardurile live de sarcină și randament în Shift+K, permite salvarea profilurilor proprii și urmărirea parcului în Shift+J (eroarea muncitorilor coboară la ±4%). Pachetul de top Tier 4 (15.000 €) aduce pilotul automat complet: butonul «AI AUTO-CALIB» reglează combina la o simplă atingere, reglarea continuă ajustează toba și aerul la fiecare 2 secunde după umiditate, penalizarea de umiditate se reduce cu 50%, iar muncitorii recoltează cu 0% eroare." />
+
+        <!-- PAGE 8: AI WORKERS & AUTOPILOTS -->
+        <text name="rhm_help_ai_workers_title" text="8. Muncitori angajați &amp; Piloți automați" />
+        <text name="rhm_help_ai_workers_sub1" text="Control automat al vitezei &amp; Frânarea ajutoarelor" />
+        <text name="rhm_help_ai_workers_1" text="Muncitorii angajați din IA de bază și asistenții automatizați nu mai aleargă orbește la viteza maximă a hederului semănând boabe pe câmp. RHM le controlează viteza direct prin gestiunea motorului, ținându-i în siguranță în intervalul optim de 85–95% sarcină. Dacă pe pante sau în culturi grele pierderile depășesc limita stabilită de fermă (2,0%), combina îl frânează automat pe muncitor pentru a împiedica risipirea recoltei în paie." />
+        <text name="rhm_help_ai_workers_sub2" text="Pregătirea muncitorilor: impactul dotării utilajului" />
+        <text name="rhm_help_ai_workers_2" text="Când un muncitor trece la volan, reglează combina după priceperea sa. Calitatea muncii depinde de pachetul electronic al utilajului: pe Tier 1 muncitorul se comportă ca un ucenic, greșind reglajele cu până la ±18% (provocând pierderi de boabe sau consum mare de carburant). Pe Tier 2 abaterea scade la ±10%, pe Tier 3 la ±4%, iar pe Tier 4 cu Opti-Harvest lucrează cu 0% eroare ca un profesionist experimentat." />
+        <text name="rhm_help_ai_workers_sub3" text="Păstrarea reglajelor jucătorului &amp; Descărcare din mers" />
+        <text name="rhm_help_ai_workers_3" text="Dacă ați calibrat personal combina în Shift+K sau ați salvat un profil, verificați opțiunile: parametrul «Reglaje ajutoare» este setat implicit pe «Păstrează ale mele». În acest mod, angajatul nu vă va schimba niciodată reglajele. «Autoreglare» îi permite recalcularea după nivelul mașinii, iar «Dezactivat» interzice orice modificare. Descărcarea din mers în remorci este complet susținută fără oprirea combinei." />
+
+        <!-- PAGE 9: CROP MOISTURE & DIURNAL WEATHER -->
+        <text name="rhm_help_moisture_title" text="9. Umiditatea plantelor &amp; Ciclul meteo zilnic" />
+        <text name="rhm_help_moisture_sub1" text="Ciclul diurn de umiditate: alegerea orelor de lucru" />
+        <text name="rhm_help_moisture_1" text="Modul calculează un ciclu diurn armonic autonom al umidității și preia date de la sistemele meteo instalate. Umiditatea plantelor oscilează în decursul a 24 de ore: între 03:00 și 08:00 dimineața, roua abundentă ridică umiditatea la 16–18% — recoltarea nu este indicată din cauza rezistenței grele la treierat. De la 08:00 la 11:30 soarele usucă vegetația. Fereastra ideală de recoltat este între 11:30 și 18:30: soarele usucă plantele până la o cotă optimă de 11–13%, paiele devin casante, utilajul merge ușor și pierderile se reduc la zero. După 19:30, roua de seară umezește din nou tulpinile." />
+        <text name="rhm_help_moisture_sub2" text="De ce nu este permisă recoltarea pe timp de ploaie" />
+        <text name="rhm_help_moisture_2" text="Pe timp de ploaie, umiditatea depășește rapid 22%. Paiele îmbibate își pierd fluiditatea, se adună într-o pâslă compactă și înfundă transportorul și sitele. Boabele se lipesc de paiele ude și sunt aruncate afară (până la 10% pierdere directă), în timp ce motorul se sufocă sub o rezistență mecanică întreită. Sfat: la primii stropi de ploaie, opriți combina și așteptați vreme bună. Lucrul pe ploaie înseamnă doar pierderi de recoltă și bani." />
+        <text name="rhm_help_moisture_sub3" text="Cum se reglează utilajul pentru recoltare în umed (14–16%)" />
+        <text name="rhm_help_moisture_3" text="Dacă trebuie neapărat să recoltați cereale umede (14–16%), nu trageți glisoarele la maxim la nimereală! Deschideți Shift+K: din cauza umidității, benzile verzi optime pentru tobă și ventilator urcă singure mai sus. Aduceți glisoarele exact în interiorul noii benzi verzi: o tobă mai rapidă în zona verde despică paiele umede fără pierdere de putere, iar un vânt mai puternic suflă eficient pleava grea. Atenție: dacă ridicați ventilatorul prea mult în zona roșie, curentul va arunca boabele curate pe câmp! Rămâneți în banda verde pentru 0% pierderi de reglaj. Pe utilajele Tier 4, Opti-Harvest reglează totul automat." />
+
+        <!-- PAGE 10: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
+        <text name="rhm_help_special_title" text="10. Combine de siloz, rădăcinoase &amp; Utilaje speciale" />
+        <text name="rhm_help_special_sub1" text="Combine autopropulsate de siloz: distribuție putere &amp; brazde" />
+        <text name="rhm_help_special_1" text="Combinele de siloz toacă întreaga plantă, astfel că pierderile de boabe sunt întotdeauna zero (0%). Efortul motorului se împarte între trei mecanisme: valțurile de alimentare (18%), rotorul tocător (62%) și acceleratorul de evacuare spre tub (20%). La adunarea brazdelor de iarbă sau paie cu pick-up-ul, supravegheați grosimea brazdei: brazdele prea dense saturează valțurile (gât de sticlă), creând rezistență bruscă și încetinind utilajul." />
+        <text name="rhm_help_special_sub2" text="Recoltarea rădăcinoaselor: de ce dislocatoarele merg cu 5–8 km/h" />
+        <text name="rhm_help_special_2" text="Rădăcinoasele (cartofi, sfeclă de zahăr, morcovi, păstârnac, ceapă) cer o forță uriașă de tracțiune: brăzdarele taie solul greu în profunzime, consumând 7 cai putere pe fiecare metru de lățime în plus față de rezistența hidrostatică de 10% a șasiului greu. De aceea, mașinile de sfeclă și cartofi nu pot depăși 5–8 km/h chiar și cu motoare de peste 600 CP. Legumele de suprafață (fasole verde, mazăre, spanac) nu sapă solul, dar pieptenii consumă energie semnificativă pentru desprinderea păstăilor." />
+        <text name="rhm_help_special_sub3" text="Bumbac, struguri, măsline &amp; Șasiuri modulare (NEXAT / NEXCO)" />
+        <text name="rhm_help_special_3" text="Combinele de bumbac consumă până la 55 CP pe fiecare tonă de recoltă pentru axele de cules și presarea baloților rotunzi. Mașinile de struguri și măsline calculează rezistența barelor scuturătoare și a ventilatoarelor. Dacă folosiți purtătorul de ecartament larg NEXAT de 1.100 CP cu modulul NEXCO, RHM transferă complet puterea motorului prin toate conexiunile fără pierderi artificiale." />
+
+        <!-- PAGE 11: DIFFICULTY MODES & SETTINGS -->
+        <text name="rhm_help_difficulty_title" text="11. Niveluri de dificultate &amp; Setări" />
+        <text name="rhm_help_difficulty_sub1" text="Stiluri de joc: alegerea între Arcade, Moderat și Realist" />
+        <text name="rhm_help_difficulty_1" text="Dacă nu doriți să calculați cai putere sau să reglați tobe, alegeți un stil simplificat în meniul de pauză (Escape → Setări joc): Dificultatea motorului în «Arcade» (Nivelul 1) dezactivează fizica sarcinii și elimină limitele de viteză. Dificultatea pierderilor în «Arcade» anulează orice pierdere de boabe — utilajul recoltează la viteza maximă a hederului ca în jocul de bază. Nivelul 2 («Moderat») tolerează greșelile, iar Nivelul 3 («Realist») activează simularea fizică completă DLG cu scădere reală din buncăr." />
+        <text name="rhm_help_difficulty_sub2" text="Comutatoare individuale de fizică: joc după preferințe" />
+        <text name="rhm_help_difficulty_2" text="Nu trebuie să opriți toată fizica — dezactivați doar aspectele nedorite: opriți «Pierderi din uzură» pentru a nu urmări starea lamei; opriți «Pierderi pe pante» pe hărțile muntoase; dezactivați «Simulare umiditate» pentru a cosi noaptea sau pe ploaie fără penalizări. Opțiunea «Supliment de putere» oferă un surplus de +5% până la +50% la motor, util pe teren accidentat." />
+        <text name="rhm_help_difficulty_sub3" text="Semnale sonore, unități de măsură &amp; Multiplayer" />
+        <text name="rhm_help_difficulty_3" text="La sunet, puteți alege avertizorul de suprasarcină pe «Smart Buzzer» (trei impulsuri scurte), continuu sau oprit, reglând volumul (0%–100%) cu test audio imediat. Unitățile de măsură pot fi comutate între Metrice (t/ha, t/h), Imperiale și Busheli. În multiplayer, regulile de fizică sunt gestionate doar de gazda serverului, în timp ce poziția HUD-ului, volumul și unitățile de măsură sunt configurate individual de fiecare jucător." />
+        <text name="rhm_ui_section_separation" text="SEPARARE" />
+        <text name="rhm_ui_section_cleaning" text="CURĂȚARE" />
+        <text name="rhm_ui_section_discharge" text="DESCĂRCARE" />
+        <text name="rhm_ui_section_performance" text="PERFORMANȚĂ" />
+        <text name="rhm_ui_tier1_manual" text="TIER 1 - MECANIC" />
+        <text name="rhm_ui_tier2_sensors" text="TIER 2 - SENZORI" />
+        <text name="rhm_ui_tier3_monitor" text="TIER 3 - TELEMETRIE" />
+        <text name="rhm_ui_tier4_opti" text="TIER 4 - AI OPTI" />
+        <text name="rhm_ui_arcade_badge" text="ARCADĂ" />
+        <text name="rhm_ui_card_engine_load" text="SARCINĂ MOTOR" />
+        <text name="rhm_ui_card_efficiency" text="EFICIENȚĂ" />
+        <text name="rhm_ui_card_predicted_loss" text="PIERDERE ESTIMATĂ" />
+        <text name="rhm_ui_btn_ai_auto" text="AUTO-CALIBRARE IA" />
+        <text name="rhm_ui_btn_auto_locked" text="AUTO (LOCKED)" />
+        <text name="rhm_ui_btn_load_preset" text="ÎNCARCĂ PROFIL" />
+        <text name="rhm_ui_btn_save_profile" text="SALVEAZĂ PROFIL" />
+        <text name="rhm_ui_btn_load_locked" text="LOAD (LOCKED)" />
+        <text name="rhm_ui_btn_save_locked" text="SAVE (LOCKED)" />
+        <text name="rhm_ui_btn_reset_defaults" text="RESETARE LA SETĂRI DIN FABRICĂ" />
+        <text name="rhm_ui_status_optimal" text="OPTIMAL" />
+        <text name="rhm_ui_status_low" text="LOW" />
+        <text name="rhm_ui_status_high" text="HIGH" />
+        <text name="rhm_ui_env_optimal" text="CONDIȚII OPTIME" />
+        <text name="rhm_ui_env_moisture" text="UMIDITATE RIDICATĂ" />
+        <text name="rhm_ui_env_weeds" text="INFESTARE CU BURUIENI" />
+        <text name="rhm_ui_env_damp_weeds" text="UMED ȘI BURUIENOS" />
+        <text name="rhm_msg_req_tier4" text="Requires Opti-Harvest AI (Tier 4)" />
+        <text name="rhm_msg_req_tier3" text="Profiles require Telemetry Monitor (Tier 3)" />
+        <text name="rhm_msg_req_tier2" text="Profilurile necesită Pachetul de Senzori (Tier 2 sau mai mare)" />
+        <text name="rhm_msg_profile_saved" text="Saved Profile: %s" />
+        <text name="rhm_msg_profile_loaded" text="Loaded Profile: %s" />
+        <text name="rhm_msg_profile_not_found" text="No saved profile found for this crop" />
+        <text name="rhm_ui_combine_not_init" text="Combine not initialized" />
+        <text name="rhm_unit_t_per_hour" text="t/h" />
+        <text name="rhm_unit_ha_per_hour" text="ha/h" />
+        <text name="rhm_setting_ai_tuning" text="Reglare muncitori IA" />
+        <text name="rhm_setting_ai_tuning_long" text="Controlează modul în care muncitorii și Courseplay gestionează calibrarea combinei. 'Păstrează setările mele' protejează reglajele manuale și profilurile. 'Mereu auto-calibrare' recalculează după nivelul electronic. 'Dezactivat' oprește orice modificare." />
+        <text name="rhm_setting_ai_tuning_keep" text="Păstrează setările" />
+        <text name="rhm_setting_ai_tuning_auto" text="Mereu auto-calibrare" />
+        <text name="rhm_setting_ai_tuning_disabled" text="Dezactivat" />
+        <text name="rhm_crop_straw_windrow" text="Brazdă de paie" />
+        <text name="rhm_crop_grass_windrow" text="Brazdă de iarbă" />
+        <text name="rhm_crop_drygrass_windrow" text="Brazdă de fân" />
+        <text name="rhm_crop_alfalfa_windrow" text="Brazdă de lucernă" />
+        <text name="rhm_crop_clover_windrow" text="Brazdă de trifoi" />
+        <text name="rhm_crop_maize_forage" text="Siloz de porumb" />
+        <text name="rhm_windrow_format" text="Brazdă: %s" />
+        <text name="rhm_setting_enableTutorials" text="Sfaturi tutorial" />
+        <text name="rhm_setting_enableTutorials_long" text="Afișează sfaturi interactive în timpul recoltării." />
+        <text name="rhm_ui_btn_close_notification" text="Am înțeles (Enter / Clic stânga)" />
+        <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+        <text name="rhm_tut_welcome_msg" text="Bun venit în Realistic Harvesting! Viteza combinei depinde dinamic de sarcina motorului, densitatea culturii și heder. Deschideți terminalul cu (Shift dreapta + K)." />
+        <text name="rhm_tut_overload_title" text="Supraîncărcare Motor" />
+        <text name="rhm_tut_overload_msg" text="Motorul este suprasolicitat! Transmisia hidrostatică încetinește combina pentru a preveni blocarea tobei. Ridicați hederul sau reduceți lățimea de tăiere." />
+        <text name="rhm_tut_loss_title" text="Pierderi Mari de Boabe" />
+        <text name="rhm_tut_loss_msg" text="Pierderile de boabe sunt critice! Turația rotorului sau sitele nu sunt calibrate corect. Apăsați (Shift dreapta + K) pentru calibrare." />
+        <text name="rhm_tut_moisture_title" text="Umiditate Ridicată" />
+        <text name="rhm_tut_moisture_msg" text="Umiditatea culturii este mare sau a început ploaia! Paiele umede creează frecare mare, crescând sarcina motorului. Recoltați pe vreme uscată." />
+        <text name="rhm_tut_headland_title" text="Memorie Viteză de Lucru" />
+        <text name="rhm_tut_headland_msg" text="La ridicarea hederului la capăt de rând, combina memorează viteza de lucru, reaccelerând lin la intrarea pe următorul rând." />
+        <text name="rhm_tut_upgrade_title" text="Îmbunătățiri Combină" />
+        <text name="rhm_tut_upgrade_msg" text="Combinele de bază necesită reglaj manual. Instalați Pachet Senzori (Nivel 2), Monitor Recoltă (Nivel 3) sau Pilot Automat Opti-Harvest AI (Nivel 4) la atelier." />
+        <text name="rhm_tut_hud_drag_title" text="HUD Interactiv" />
+        <text name="rhm_tut_hud_drag_msg" text="Puteți repoziționa HUD-ul oriunde pe ecran ținând apăsat butonul stâng al mouse-ului (LMB) pe panou sau îl puteți fixa magnetic sub meniul F1 și marginile ecranului." />
+        <text name="rhm_tut_trip_title" text="Contor Parcelă și Jurnal" />
+        <text name="rhm_tut_trip_msg" text="Apăsați Shift+J pentru a consulta sumarul recoltei, analiza pierderilor și starea flotei. Pentru a reseta rapid contorul pentru o nouă parcelă, țineți apăsat Shift+R timp de 1 secundă în cabină!" />
+        <text name="rhm_tut_chopper_title" text="Sarcina Tocătorului de Paie" />
+        <text name="rhm_tut_chopper_msg" text="Tocarea paielor consumă cu 15-20% mai multă putere a motorului comparativ cu așezarea în brazdă. Dacă aveți nevoie de mai multă viteză în culturi dese, comutați pe brazdă." />
+        <text name="rhm_setting_wear_loss_short" text="Pierderi prin uzură mecanică" />
+        <text name="rhm_setting_wear_loss_long" text="Simulează pierderile de boabe cauzate de uzura utilajelor. Cuțitele tocite scutură plantele (până la +3% pierderi și +15% rezistență). Toba și sitele uzate pierd boabe (până la +3% pierderi)." />
+        <text name="rhm_ui_wear_loss" text="Pierdere prin uzură" />
+        <text name="rhm_ui_cutter_wear" text="Uzură heder" />
+        <text name="rhm_ui_combine_wear" text="Uzură combină" />
+        <!-- Harvest History & Field Trip Telemetry -->
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="Istoric recoltare &amp; Contor de parcelă" />
+        <text name="input_RHM_QUICK_RESET_TRIP" text="Resetare contor parcelă (Țineți apăsat)" />
+        <text name="rhm_trip_reset_done" text="Contor de parcelă resetat!" />
+        <text name="rhm_tab_trip" text="Parcelă actuală / Contor" />
+        <text name="rhm_tab_trip_desc" text="Telemetrie în direct pentru volumul recoltat, suprafața lucrată, randamentul mediu și pierderi." />
+        <text name="rhm_tab_analytics" text="Cauze pierderi &amp; Fişă de evaluare" />
+        <text name="rhm_tab_analytics_desc" text="Distribuția factorilor de pierdere, nota de eficiență a operatorului și recomandările computerului de bord." />
+        <text name="rhm_tab_fleet" text="Combine pe câmp" />
+        <text name="rhm_tab_fleet_desc" text="Telemetrie în timp real, productivitate și starea tuturor combinelor din fermă." />
+        <text name="rhm_tab_settings" text="Setări Fermă &amp; AI" />
+        <text name="rhm_tab_settings_desc" text="Configurare limitator de viteză pentru muncitori AI, generare samulastră și resetare automată." />
+        <text name="rhm_driver_parked" text="Fără șofer" />
+        <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
+        <text name="rhm_driver_hired_ai" text="Muncitor AI" />
+        <text name="rhm_driver_player" text="Jucător" />
+        <text name="rhm_driver_idle_on" text="Ralanti" />
+        <text name="rhm_field_yard" text="Fermă / Bază" />
+        <text name="rhm_field_format" text="Parcela %d" />
+        <text name="rhm_fleet_driver" text="Operator" />
+        <text name="rhm_fleet_cutter" text="Lățime heder" />
+        <text name="rhm_fleet_grain_tank" text="Umplere buncăr" />
+        <text name="rhm_fleet_throughput" text="Productivitate" />
+        <text name="rhm_fleet_realtime_yield" text="Randament instantaneu" />
+        <text name="rhm_fleet_crop_loss" text="Rată de pierdere" />
+        <text name="rhm_fleet_wear_state" text="Uzură utilaj" />
+        <text name="rhm_fleet_total_count" text="Total combine" />
+        <text name="rhm_btn_subtab_fleet" text="FLOTĂ COMBINE" />
+        <text name="rhm_btn_subtab_history" text="ISTORIC SEZON / TOATE PARCELELE" />
+        <text name="rhm_season_all_time" text="Toate sezoanele (Istoric complet)" />
+        <text name="rhm_season_format" text="Sezon %d (Anul %d)" />
+        <text name="rhm_season_current_suffix" text="[Curent]" />
+        <text name="rhm_card_season_harvest" text="RECOLTĂ ȘI SUPRAFAȚĂ SEZON" />
+        <text name="rhm_card_season_losses" text="PIERDERI ȘI ECONOMIE SEZON" />
+        <text name="rhm_card_season_telemetry" text="METRICI ȘI TIMP DE LUCRU" />
+        <text name="rhm_season_operations" text="Operațiuni finalizate" />
+        <text name="rhm_season_active_status" text="Sezon activ" />
+        <text name="rhm_season_archived_status" text="Sezon arhivat" />
+        <text name="rhm_season_all_time_status" text="Istoric complet" />
+        <text name="rhm_hist_total_area" text="Suprafață totală recoltată" />
+        <text name="rhm_hist_total_harvest" text="Recoltă curată totală" />
+        <text name="rhm_hist_avg_loss" text="Pierderi medii" />
+        <text name="rhm_hist_total_money" text="Pierdere financiară totală" />
+        <text name="rhm_col_season" text="Sezon" />
+        <text name="rhm_col_status" text="Stare" />
+        <text name="rhm_hist_empty" text="Nu există încă înregistrări de sezon" />
+        <text name="rhm_status_harvesting" text="Recoltează (activ)" />
+        <text name="rhm_status_on_field_idle" text="Pe parcelă (ralanti)" />
+        <text name="rhm_status_on_field_stopped" text="Pe parcelă (oprit)" />
+        <text name="rhm_status_in_transit" text="Pe drum / Deplasare" />
+        <text name="rhm_status_in_cab" text="Ocupat (Jucător)" />
+        <text name="rhm_status_parked_yard" text="Parcat în bază" />
+        <text name="rhm_card_field_harvest" text="PARCELA ȘI CULTURA CURENTĂ" />
+        <text name="rhm_field_number" text="Număr parcelă" />
+        <text name="rhm_trip_no_field" text="În afara parcelei" />
+        <text name="rhm_crop_type" text="Cultură" />
+        <text name="rhm_harvested_area" text="Suprafață recoltată" />
+        <text name="rhm_clean_harvest" text="Recoltă curată" />
+        <text name="rhm_average_yield" text="Randament mediu" />
+        <text name="rhm_card_loss_finances" text="PIERDERI &amp; FINANȚE" />
+        <text name="rhm_loss_volume" text="Volum pierdut" />
+        <text name="rhm_loss_share" text="Rată de pierdere" />
+        <text name="rhm_financial_loss" text="Impact financiar" />
+        <text name="rhm_card_performance" text="PERFORMANȚĂ &amp; TIMP" />
+        <text name="rhm_avg_working_speed" text="Viteză medie de lucru" />
+        <text name="rhm_avg_engine_load" text="Sarcină medie motor" />
+        <text name="rhm_session_duration" text="Durată sesiune" />
+        <text name="rhm_btn_reset_trip" text="Resetare contor parcelă" />
+        <text name="rhm_causes_title" text="CAUZE PRINCIPALE ALE PIERDERILOR" />
+        <text name="rhm_cause_speed" text="Viteză și supraîncărcare bătător" />
+        <text name="rhm_cause_moisture" text="Umiditate cultură și rouă" />
+        <text name="rhm_cause_wear" text="Uzură heder și aparat de treierat" />
+        <text name="rhm_cause_slope" text="Pante parcelă și denivelări" />
+        <text name="rhm_scorecard_title" text="EVALUAREA EFICIENȚEI OPERATORULUI" />
+        <text name="rhm_rank_title_a" text="Grad A: Optim" />
+        <text name="rhm_rank_desc_a" text="Pierderi sub 1,5%. Reglajul combinei și viteza de lucru sunt perfect echilibrate." />
+        <text name="rhm_rank_title_b" text="Grad B: Acceptabil" />
+        <text name="rhm_rank_desc_b" text="Pierderi între 1,5% și 3,0%. Se recomandă mici ajustări de viteză sau bătător." />
+        <text name="rhm_rank_title_c" text="Grad C: Pierderi ridicate" />
+        <text name="rhm_rank_desc_c" text="Pierderi între 3,0% și 4,5%. Reduceți viteza sau verificați ascuțirea cuțitelor." />
+        <text name="rhm_rank_title_d" text="Grad D: Pierderi critice" />
+        <text name="rhm_rank_desc_d" text="Pierderile depășesc 4,5%! Supraîncărcare severă a sitelor sau calibrare defectuoasă." />
+        <text name="rhm_guidance_title" text="RECOMANDĂRILE COMPUTERULUI DE BORD" />
+        <text name="rhm_advice_perfect" text="Eficiența recoltării este optimă. Toți parametrii de separare sunt echilibrați." />
+        <text name="rhm_advice_speed" text="Pierderi cauzate de viteza excesivă. Încetiniți pentru a reduce încărcarea sitelor." />
+        <text name="rhm_advice_moisture" text="Pierderi cauzate de umiditate mare sau rouă. Așteptați uscarea sau reduceți viteza." />
+        <text name="rhm_advice_wear" text="Pierderi ridicate din cauza uzurii cuțitelor sau bătătoarelor. Efectuați mentenanța în atelier." />
+        <text name="rhm_advice_slope" text="Înclinația laterală pe pante provoacă încărcare inegală a sitelor. Încetiniți pe pante." />
+        <text name="rhm_col_machine" text="Utilaj" />
+        <text name="rhm_col_hours" text="Ore de lucru" />
+        <text name="rhm_col_harvested" text="Recoltat" />
+        <text name="rhm_col_lost" text="Pierderi" />
+        <text name="rhm_col_rank" text="Grad" />
+        <text name="rhm_fleet_no_combines" text="Nu s-au găsit combine" />
+        <text name="rhm_setting_ai_limiter_title" text="LIMITATOR VITEZĂ AI" />
+        <text name="rhm_setting_ai_limiter_desc" text="Limitează automat viteza de lucru a muncitorilor când pierderile depășesc pragul." />
+        <text name="rhm_setting_ai_threshold_title" text="PRAG DE PIERDERE AI" />
+        <text name="rhm_setting_ai_threshold_desc" text="Procentul maxim de pierderi acceptat înainte ca muncitorul AI să frâneze automat." />
+        <text name="rhm_setting_volunteer_title" text="SAMULASTRĂ ȘI BURUIENI" />
+        <text name="rhm_setting_volunteer_desc" text="Generează samulastră și buruieni în spatele combinei în zonele cu pierderi mari (&gt;3%)." />
+        <text name="rhm_setting_autoreset_title" text="AUTORESETARE LA SCHIMBAREA PARCELEI" />
+        <text name="rhm_setting_autoreset_desc" text="Arhivează și resetează automat contorul de parcelă la intrarea pe altă parcelă." />
+        <text name="rhm_setting_autoreset_smart" text="Inteligent (Parcelă / Cultură)" />
+        <text name="rhm_setting_autoreset_crop" text="Doar la schimbarea culturii" />
+        <text name="rhm_setting_autoreset_disabled" text="Dezactivat (Manual)" />
+        <text name="rhm_col_field" text="Câmp" />
+        <text name="rhm_col_speed" text="Viteză" />
+        <text name="rhm_col_load" text="Sarcină" />
+        <text name="rhm_col_loss" text="Pierderi" />
+        <text name="rhm_col_tank" text="Buncăr" />
+        <text name="rhm_col_area" text="Suprafață" />
+        <text name="rhm_col_money" text="Pierdere ($)" />
+        <text name="rhm_col_driver" text="Operator" />
+        <text name="rhm_col_cutter" text="Heder" />
+        <text name="rhm_col_throughput" text="Capacitate de treierare" />
+        <text name="rhm_col_yield" text="Randament" />
+        <text name="rhm_col_wear" text="Uzură" />
+        <text name="rhm_kpi_field" text="CÂMP" />
+        <text name="rhm_kpi_crop" text="CULTURĂ" />
+        <text name="rhm_kpi_area" text="SUPRAFAȚĂ" />
+        <text name="rhm_kpi_harvest" text="RECOLTĂ" />
+        <text name="rhm_kpi_yield" text="RANDAMENT" />
+        <text name="rhm_kpi_loss" text="PIERDERE" />
+        <text name="rhm_kpi_speed" text="VITEZĂ" />
+        <text name="rhm_efficiency_index" text="Grad de eficiență" />
+        <text name="rhm_trip_footer_hint" text="Contorul de cursă monitorizează suprafața recoltată și volumul de boabe curate pentru parcela activă. Poate fi resetat oricând." />
+        <text name="rhm_detail_area" text="Suprafața totală recoltată a parcelei" />
+        <text name="rhm_detail_clean_grain" text="de boabe curate" />
+        <text name="rhm_detail_yield" text="Producție medie pe suprafața recoltată" />
+        <text name="rhm_detail_throughput" text="Capacitate curentă de treierat" />
+        <text name="rhm_detail_lost_grain" text="de boabe pierdute" />
+        <text name="rhm_detail_loss_rating" text="Rată de pierdere față de producția biologică" />
+        <text name="rhm_detail_financial_loss" text="Impact financiar datorat pierderilor de recoltă" />
+        <text name="rhm_detail_speed" text="Viteza medie de lucru a combinei" />
+        <text name="rhm_detail_load" text="Sarcina medie a motorului" />
+        <text name="rhm_detail_duration" text="Durata sesiunii active" />
+        <text name="rhm_detail_wear" text="Uzura mecanică a bătătorului" />
+        <text name="rhm_rating_normal" text="Optim (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="Moderat (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="Ridicat (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="Critic (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="Câmpurile fermei" />
+        <text name="rhm_tab_fields_desc" text="Prezentare detaliată a recoltei, randamentelor, pierderilor și contractelor pentru fiecare câmp." />
+        <text name="rhm_card_field_land" text="TEREN &amp; PROGRES" />
+        <text name="rhm_card_field_yield" text="PRODUCȚIE &amp; RANDAMENT" />
+        <text name="rhm_card_field_losses" text="PIERDERI &amp; CALITATE" />
+        <text name="rhm_fields_total_owned" text="Câmpuri proprii" />
+        <text name="rhm_fields_best_yield" text="Cel mai bun randament" />
+        <text name="rhm_fields_owned" text="Propriu" />
+        <text name="rhm_fields_contract" text="Contract" />
+        <text name="rhm_fields_no_data" text="Niciun câmp înregistrat" />
+        <text name="rhm_contract_tag" text="(Contract)" />
+        <text name="rhm_status_completed" text="Recoltat" />
+        <text name="rhm_status_idle_yard" text="La fermă (în așteptare)" />
+        <text name="rhm_fields_external" text="Extern" />
+        <text name="rhm_field_transit" text="În tranzit / Pe drum" />
+        <text name="rhm_detail_loss_money" text="Pierdere financiară din pierderea recoltei" />
+        <text name="rhm_cause_none" text="Funcționare optimă (fără pierderi)" />
+        <text name="rhm_fields_all_overview" text="[*] Prezentare generală fermă (toate câmpurile)" />
+        <text name="rhm_field_operations" text="Operațiuni de recoltare" />
+        <text name="rhm_fields_nominal_area" text="Suprafață nominală" />
+        <text name="rhm_status_in_progress" text="În desfășurare" />
+        <text name="rhm_fields_harvested_area" text="Suprafață recoltată" />
+        <text name="rhm_ops_one" text="recoltare" />
+        <text name="rhm_ops_few" text="recoltări" />
+        <text name="rhm_ops_many" text="recoltări" />
+        <text name="rhm_loss_disabled" text="Simulare dezactivată" />
+        <text name="rhm_loss_disabled_desc" text="Simularea pierderilor de recoltă este dezactivată în setările modului." />
+        <text name="rhm_filter_active" text="Active" />
+        <text name="rhm_filter_all" text="Toate" />
+        <text name="rhm_filter_sold" text="Vândute" />
+        <text name="rhm_status_sold" text="Vândut (Arhivă)" />
+        <text name="rhm_field_sold" text="[Vândut]" />
+        <text name="rhm_driver_sold" text="Radiat" />
+        <text name="rhm_fleet_no_sold_combines" text="Nicio combină vândută în arhivă" />
+        <text name="rhm_fleet_total_count_active" text="Combine active" />
+        <text name="rhm_fleet_total_count_sold" text="Combine vândute" />
+        <text name="rhm_slopeloss_short" text="Pierderi în pantă" />
+        <text name="rhm_slopeloss_long" text="Simulează deplasarea boabelor pe o parte a sitelor pe pante mai mari de 4° (până la 5% pierderi). Dezactivați pentru a elimina penalizarea de înclinație." />
+        <text name="rhm_weedload_short" text="Rezistență buruieni" />
+        <text name="rhm_weedload_long" text="Buruienile fibroase se înfășoară pe tambur și măresc rezistența mecanică și sarcina motorului (până la +25%). Dezactivați pentru a anula impactul buruienilor." />
+            <text name="rhm_fleet_badge_mission" text="[Contract]" />
+        <text name="rhm_fleet_badge_leased" text="[Închiriat]" />
     </texts>
 </l10n>

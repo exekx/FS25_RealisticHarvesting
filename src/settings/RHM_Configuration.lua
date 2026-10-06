@@ -25,7 +25,7 @@ local function addNewStoreConfig(manager, superFunc, xmlFile, key, baseDir, cust
             configurations = {}
         end
 
-        -- Check if vehicle already has this configuration natively built-in by the mod author
+        -- Check if vehicle already has this configuration natively built-in
         if configurations["rhmPackage"] == nil then
             local configurationDescs = manager:getConfigurations()
             local configurationDesc = configurationDescs["rhmPackage"]

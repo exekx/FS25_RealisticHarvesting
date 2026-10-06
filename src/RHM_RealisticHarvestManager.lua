@@ -29,8 +29,8 @@ function RHM_RealisticHarvestManager.new(mission, modDirectory, modName)
 
     self.savedCameraRotatableInfo = {} -- EN: Stores camera rotatability before cursor mode / UA: Зберігає стан камери до режиму курсора
 
-    -- EN: Multi-layer settings hooking to guarantee injection even with mods like FS25_ScandinavianCurrencies.
-    -- UA: Багаторівневі хуки налаштувань для гарантованої ін'єкції навіть при наявності модів на кшталт FS25_ScandinavianCurrencies.
+    -- EN: Multi-layer settings hooking to guarantee reliable injection into the game settings menu.
+    -- UA: Багаторівневе підключення до налаштувань для надійної ін'єкції в меню гри.
     self:setupSettingsHooks()
 
     -- EN: Console commands are always registered (server and client need them).
@@ -41,6 +41,12 @@ function RHM_RealisticHarvestManager.new(mission, modDirectory, modName)
     -- EN: Load saved settings from XML before creating HUD (HUD reads settings in its constructor).
     -- UA: Завантажуємо збережені налаштування з XML перед створенням HUD (HUD читає налаштування в конструкторі).
     self.settings:load()
+
+    -- EN: Initialize server-authoritative harvest tracker for trip odometer and fleet history
+    -- UA: Ініціалізуємо серверний трекер збору врожаю для одометра поля та історії техніки
+    if RHM_HarvestTracker then
+        self.harvestTracker = RHM_HarvestTracker.new()
+    end
 
     -- EN: Create the draggable HUD overlay (client only, handles display of live data).
     -- UA: Створюємо перетягуваний HUD (тільки клієнт, відображає живі дані).
@@ -75,6 +81,80 @@ function RHM_RealisticHarvestManager:toggleMenu(vehicle)
     if self.calibrationGUI then
         self.calibrationGUI:toggle(vehicle)
     end
+end
+
+-- EN: Toggles interactive mouse cursor mode for HUD interaction and camera suspension.
+-- UA: Перемикає режим інтерактивного курсора миші для взаємодії з HUD та призупинення камери.
+function RHM_RealisticHarvestManager:toggleMouseCursor(vehicle)
+    if not self.mission or not self.mission:getIsClient() then return end
+
+    -- If calibration tablet is open, cursor is already active and managed by it
+    if self.calibrationGUI and self.calibrationGUI.isOpen then
+        return
+    end
+
+    local now = g_time or 0
+    if self.lastCursorToggleTime and (now - self.lastCursorToggleTime) < 250 then
+        return
+    end
+    self.lastCursorToggleTime = now
+
+    local targetVehicle = vehicle or self:getControlledVehicle()
+    self:setMouseCursorVisible(not self.isCursorVisible, targetVehicle)
+end
+
+-- EN: Sets cursor visibility state and freezes or restores vehicle camera rotation.
+-- UA: Встановлює стан видимості курсора та заморожує або відновлює обертання камери.
+function RHM_RealisticHarvestManager:setMouseCursorVisible(visible, vehicle)
+    if not self.mission or not self.mission:getIsClient() then return end
+
+    local targetVehicle = vehicle or self:getControlledVehicle()
+    self.isCursorVisible = visible == true
+    self.lastCursorToggleTime = g_time or 0
+
+    if g_inputBinding and g_inputBinding.setShowMouseCursor then
+        g_inputBinding:setShowMouseCursor(self.isCursorVisible)
+    end
+
+    local camTarget = targetVehicle
+    if camTarget and camTarget.spec_enterable then
+        RHMInputUtil.setCameraRotation(camTarget, not self.isCursorVisible, self.savedCameraRotatableInfo)
+    end
+end
+
+-- EN: Shows the fullscreen Harvest History and Trip Telemetry GUI.
+-- UA: Відкриває повноекранне меню історії збору врожаю та одометра поля.
+function RHM_RealisticHarvestManager:showHarvestHistoryGUI()
+    if g_gui then
+        if g_gui.currentGui == nil then
+            g_gui:showGui("RHM_HarvestHistoryGUI")
+        elseif g_gui.currentGuiName == "RHM_HarvestHistoryGUI" then
+            g_gui:showGui("")
+        end
+    end
+end
+
+-- EN: Loads GUI profiles and XML frames for the native TabbedMenu harvest history dialog.
+-- UA: Завантажує профілі та XML-фрейми для нативного діалогу журналу врожаю (TabbedMenu).
+function RHM_RealisticHarvestManager:loadHarvestHistoryGUI()
+    if not (g_gui and self.mission and self.mission:getIsClient()) then return end
+
+    g_gui:loadProfiles(self.modDirectory .. "src/gui/guiProfiles.xml")
+
+    local tripFrame = RHM_HarvestHistoryTrip.new(g_i18n)
+    g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryTrip.xml", "RHM_HarvestHistoryTrip", tripFrame, true)
+
+    local fieldsFrame = RHM_HarvestHistoryFields.new(g_i18n)
+    g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryFields.xml", "RHM_HarvestHistoryFields", fieldsFrame, true)
+
+    local fleetFrame = RHM_HarvestHistoryFleet.new(g_i18n)
+    g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryFleet.xml", "RHM_HarvestHistoryFleet", fleetFrame, true)
+
+    local analyticsFrame = RHM_HarvestHistoryAnalytics.new(g_i18n)
+    g_gui:loadGui(self.modDirectory .. "src/gui/frames/RHM_HarvestHistoryAnalytics.xml", "RHM_HarvestHistoryAnalytics", analyticsFrame, true)
+
+    self.harvestHistoryGUI = RHM_HarvestHistoryGUI.new(g_messageCenter, g_i18n, g_inputBinding)
+    g_gui:loadGui(self.modDirectory .. "src/gui/RHM_HarvestHistoryGUI.xml", "RHM_HarvestHistoryGUI", self.harvestHistoryGUI)
 end
 
 -- EN: Toggles the small telemetry HUD overlay visibility and saves setting.
@@ -119,20 +199,21 @@ function RHM_RealisticHarvestManager:setupSettingsHooks()
 
     local function ensureAdditionalGameSettings()
         if g_additionalSettingsManager and g_additionalSettingsManager.settingsPage then
-            pcall(function()
+            local ok, err = pcall(function()
                 if g_additionalSettingsManager.settingsPage.updateAlternating then
                     g_additionalSettingsManager.settingsPage:updateAlternating()
                 end
             end)
+            if not ok then
+                rhm_log("RHM [Settings]: Auxiliary settings page update failed: " .. tostring(err))
+            end
         end
     end
 
     local function onSettingsFrameOpen(settingsPage)
-        pcall(function()
-            RHMSettingsUI.inject(settings)
-            RHMSettingsUI.refreshUI(settings)
-            ensureAdditionalGameSettings()
-        end)
+        RHMSettingsUI.inject(settings)
+        RHMSettingsUI.refreshUI(settings)
+        ensureAdditionalGameSettings()
     end
 
     -- 1. Hook InGameMenu.onMenuOpened (Global menu hook, completely immune to pageSettings shadowing)
@@ -140,11 +221,9 @@ function RHM_RealisticHarvestManager:setupSettingsHooks()
         InGameMenu.onMenuOpened = Utils.appendedFunction(
             InGameMenu.onMenuOpened,
             function(menu)
-                pcall(function()
-                    RHMSettingsUI.inject(settings)
-                    RHMSettingsUI.refreshUI(settings)
-                    ensureAdditionalGameSettings()
-                end)
+                RHMSettingsUI.inject(settings)
+                RHMSettingsUI.refreshUI(settings)
+                ensureAdditionalGameSettings()
             end
         )
         self._inGameMenuOpenedHooked = true
@@ -166,10 +245,8 @@ function RHM_RealisticHarvestManager:onMissionLoaded()
     self:setupSettingsHooks()
 
     if self.mission and self.mission:getIsClient() then
-        pcall(function()
-            RHMSettingsUI.inject(self.settings)
-            RHMSettingsUI.refreshUI(self.settings)
-        end)
+        RHMSettingsUI.inject(self.settings)
+        RHMSettingsUI.refreshUI(self.settings)
     end
 
     if self.notificationManager then
@@ -177,6 +254,10 @@ function RHM_RealisticHarvestManager:onMissionLoaded()
     end
     if self.hud then
         self.hud:load()
+    end
+
+    if self.mission and self.mission:getIsClient() then
+        self:loadHarvestHistoryGUI()
     end
 end
 
@@ -259,6 +340,12 @@ end
 --     Шукає в ієрархії транспорту гравця специфікацію комбайна для відстеження живих даних.
 --     Оновлює HUD тільки коли знайдено і запущено комбайн.
 function RHM_RealisticHarvestManager:update(dt)
+    -- EN: Server-side tracker ticks to broadcast stats to clients
+    -- UA: Серверний трекер оновлює стан та транслює статистику клієнтам
+    if self.harvestTracker then
+        self.harvestTracker:update(dt)
+    end
+
     -- EN: Dedicated servers have no local client, HUD or UI. Skip client updates.
     -- UA: Виділені сервери не мають локального клієнта, HUD або UI. Пропускаємо клієнтські оновлення.
     if not self.mission:getIsClient() then
@@ -272,10 +359,7 @@ function RHM_RealisticHarvestManager:update(dt)
             self.calibrationGUI:close()
         end
         if self.isCursorVisible then
-            self.isCursorVisible = false
-            if g_inputBinding and g_inputBinding.setShowMouseCursor then
-                g_inputBinding:setShowMouseCursor(false)
-            end
+            self:setMouseCursorVisible(false)
         end
         return
     end
@@ -397,6 +481,7 @@ function RHM_RealisticHarvestManager:delete()
     end
     if self.calibrationGUI then
         self.calibrationGUI:delete()
+        self.calibrationGUI = nil
     end
 end
 
@@ -417,20 +502,34 @@ function RHM_RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button
         return true
     end
 
-    if self.hud then
-        return self.hud:mouseEvent(posX, posY, isDown, isUp, button)
+    if self.hud and self.hud:mouseEvent(posX, posY, isDown, isUp, button) then
+        return true
+    end
+
+    -- EN: When standalone cursor mode is active:
+    --     Toggle off on Middle Mouse Button (MMB / button 3).
+    --     Do NOT capture or interfere with Right Mouse Button (RMB / button 2) to preserve clean compatibility with auxiliary menus and vehicle controls.
+    -- UA: Коли автономний курсор активний:
+    --     Вимикаємо на клік коліщатка (MMB / button 3).
+    --     НЕ перехоплюємо та не чіпаємо ПКМ (RMB / button 2), щоб зберегти повну сумісність із зовнішніми меню та керуванням техніки.
+    if self.isCursorVisible then
+        local isMMB = (button == 3) or (Input and button == Input.MOUSE_BUTTON_MIDDLE)
+        if isDown and isMMB then
+            self:toggleMouseCursor()
+            return true
+        end
+
+        local isLMB = (button == 1) or (Input and button == Input.MOUSE_BUTTON_LEFT)
+        if isLMB and (isDown or isUp) then
+            -- Consume LMB outside HUD so in-cab clicks don't trigger vehicle implements while cursor mode is active
+            return true
+        end
     end
 
     return false
 end
 
--- EN: Legacy cursor toggle stub — camera and cursor are now exclusively managed
---     by the calibration GUI (Shift+K) to prevent conflicts with Courseplay and AutoDrive RMB.
--- UA: Застарілий стаб перемикача курсора — камера та курсор тепер керуються виключно
---     через GUI калібрування (Shift+K) для усунення конфліктів з правою кнопкою миші Courseplay та AutoDrive.
-function RHM_RealisticHarvestManager:toggleCursor()
-    -- No-op: Cursor and camera are cleanly managed by Shift+K calibration GUI
-end
+
 
 -- EN: Key event handler. Allows pressing ESC to cleanly close calibration GUI.
 -- UA: Обробник подій клавіатури. Дозволяє клавішею ESC чисто закривати GUI калібрування.
@@ -442,6 +541,10 @@ function RHM_RealisticHarvestManager:keyEvent(unicode, sym, modifier, isDown)
     if isDown and sym == Input.KEY_esc then
         if self.calibrationGUI and self.calibrationGUI.isOpen then
             self.calibrationGUI:close()
+            return true
+        end
+        if self.isCursorVisible then
+            self:setMouseCursorVisible(false)
             return true
         end
     end
@@ -470,8 +573,8 @@ function RHM_RealisticHarvestManager:getEngineLoad(vehicle)
     return 0.0
 end
 
----EN: Returns normalized engine load factor strictly clamped between 0.0 and 1.0 (for ADS / wear mods).
----UA: Повертає нормалізоване навантаження двигуна строго від 0.0 до 1.0 (для модів зносу ADS).
+---EN: Returns normalized engine load factor strictly clamped between 0.0 and 1.0 (for telemetry and wear integration).
+---UA: Повертає нормалізоване навантаження двигуна від 0.0 до 1.0 (для інтеграції телеметрії та зносу).
 ---@param vehicle table|nil
 ---@return number normalizedLoad (0.0 .. 1.0)
 function RHM_RealisticHarvestManager:getNormalizedEngineLoad(vehicle)

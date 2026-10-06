@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<l10n>
+    <texts>
+        <text name="rhm_section_simulation" text="Realistic Harvesting - Simulaatio" />
+        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD ja näkymä" />
+        <text name="input_RHM_OPEN_MENU" text="Puimurin asetukset" />
+        <text name="input_RHM_TOGGLE_HUD" text="Kytke puinti-HUD päälle/pois" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Hiiren osoitin päälle/pois" />
+        <text name="input_RHM_CLOSE_NOTIFICATION" text="Sulje ilmoitus" />
+        <text name="rhm_hud_load" text="KUORMA" />
+        <text name="rhm_hud_loss" text="HÄVIKKI" />
+        <text name="rhm_hud_moist" text="KOSTEUS" />
+        <text name="rhm_ai_settings_retained" text="Manuaaliset asetukset säilytetty" />
+        <text name="rhm_ai_auto_tuned" text="Automaattikalibroitu" />
+        <text name="rhm_difficulty" text="Vaikeustaso" />
+        <text name="rhm_difficulty_motor" text="Moottoritehon raja" />
+        <text name="rhm_difficulty_motor_short" text="Moottoriraja" />
+        <text name="rhm_difficulty_motor_long" text="Määrittää moottorin kuormitusfysiikan. Pelihalli = Ei käytössä (ei ylikuormitusta), Normaali = +35% tehoreservi, Realistinen = 100% aito fysiikka." />
+        <text name="rhm_difficulty_loss" text="Satotappiorangaistus" />
+        <text name="rhm_difficulty_loss_short" text="Tappiorangaistus" />
+        <text name="rhm_difficulty_loss_long" text="Määrittää satotappiot. Pelihalli = 0% (ei tappiota), Normaali = vakiotappiot, Realistinen = korotetut tappiot (200%)." />
+        <text name="rhm_diff_1" text="Pelihalli" />
+        <text name="rhm_difficulty_long" text="Pelihalli: Ei ylikuormitusta eikä satotappioita. Normaali: Tasapainotettu fysiikka (+35%). Realistinen: Puhdas simulaatio (0%)." />
+        <text name="rhm_diff_2" text="Normaali" />
+        <text name="rhm_diff_3" text="Realistinen" />
+        <text name="rhm_show_yield" text="Näytä satomonitori" />
+        <text name="rhm_show_yield_short" text="Näytä sato" />
+        <text name="rhm_show_yield_long" text="Näytä reaaliaikainen sato HUDissa (t/ha tai bu/ac)" />
+        <text name="rhm_yield_label" text="Sato" />
+        <text name="rhm_hud_short" text="Näytä HUD" />
+        <text name="rhm_hud_long" text="Näytä puintitiedot näytöllä" />
+        <text name="rhm_speedlimit_short" text="Nopeudenrajoitin" />
+        <text name="rhm_speedlimit_long" text="Rajoita puimurin nopeutta automaattisesti moottorin kuormituksen mukaan" />
+        <text name="rhm_croploss_short" text="Ota satotappiot käyttöön" />
+        <text name="rhm_croploss_long" text="Laske satotappiot ylikuormitustilanteessa" />
+        <text name="rhm_show_speed_short" text="Näytä nopeus" />
+        <text name="rhm_show_speed_long" text="Näytä nykyinen ja suositeltu nopeus HUDissa" />
+        <text name="rhm_show_load_short" text="Näytä moottorin kuorma" />
+        <text name="rhm_show_load_long" text="Näytä moottorin kuormitusprosentti HUDissa" />
+        <text name="rhm_show_productivity_short" text="Näytä tuottavuus" />
+        <text name="rhm_show_productivity_long" text="Näytä läpäisykyky (t/h) HUDissa" />
+        <text name="rhm_show_croploss_short" text="Näytä hävikki" />
+        <text name="rhm_show_moisture_short" text="Näytä kosteus" />
+        <text name="rhm_show_moisture_long" text="Näytä kasvin kosteusprosentti HUDissa" />
+        <text name="rhm_moisture_enable_short" text="Kosteusvaikutus" />
+        <text name="rhm_moisture_enable_long" text="Simuloi lisääntynyttä puintivastusta ja erotteluhäviöitä märästä oljesta kasteen, sateen tai korkean kosteuden aikana. Kytke pois korjataksesi ilman sääsakkoja." />
+        <text name="rhm_ui_title_main" text="LEIKKUUPUIMURIN KALIBROINTIPÄÄTE" />
+        <text name="rhm_ui_page_settings" text="Asetukset" />
+        <text name="rhm_ui_page_profiles" text="Profiilit" />
+        <text name="rhm_ui_current_crop" text="Nykyinen kasvi:" />
+        <text name="rhm_ui_load" text="Moottorin kuorma:" />
+        <text name="rhm_ui_loss" text="Hävikki:" />
+        <text name="rhm_ui_fan_speed" text="Puhaltimen nopeus" />
+        <text name="rhm_ui_rotor_speed" text="Roottorin nopeus" />
+        <text name="rhm_ui_upper_sieve" text="YLÄSEULA" />
+        <text name="rhm_ui_lower_sieve" text="ALASEULA" />
+        <text name="rhm_ui_feeder_speed" text="Varstasillan väli" />
+        <text name="rhm_ui_mode_auto" text="AUTO" />
+        <text name="rhm_ui_mode_manual" text="MANUAALI" />
+        <text name="rhm_ui_btn_reset" text="PALAUTA OLETUKSET" />
+        <text name="rhm_ui_profile_create" text="UUSI PROFIILI" />
+        <text name="rhm_ui_profile_save" text="Tallenna" />
+        <text name="rhm_ui_profile_load" text="LATAA" />
+        <text name="rhm_ui_profile_delete" text="Poista" />
+        <text name="rhm_ui_profile_name_placeholder" text="Profiilin nimi..." />
+        <text name="rhm_hud_yield_label" text="SATO" />
+        <text name="rhm_hud_load_label" text="KUORMA" />
+        <text name="rhm_hud_loss_label" text="HÄVIKKI" />
+        <text name="rhm_loss_level_low" text="MATALA" />
+        <text name="rhm_loss_level_med" text="KESKI" />
+        <text name="rhm_loss_level_high" text="KORKEA" />
+        <text name="rhm_show_croploss_long" text="Näytä satotappioprosentti HUDissa" />
+        <text name="rhm_show_load_warn_short" text="Ylikuormitusvaroitukset" />
+        <text name="rhm_show_load_warn_long" text="Näytä vilkkuvat varoitukset puimurin ylikuormittuessa" />
+        <text name="rhm_overload_sounds_short" text="Ylikuormitusäänet" />
+        <text name="rhm_overload_sounds_long" text="Toista ohjaamohälytys ja koneiston rasitusäänet ylikuormituksen tai suuren hävikin aikana" />
+        <text name="rhm_section_audio" text="Realistic Harvesting - Ohjaamon äänet" />
+        <text name="rhm_alarm_sounds_short" text="Ylikuormitussummeri" />
+        <text name="rhm_alarm_sounds_long" text="Ohjaamosummeri vakavassa moottorin ylikuormituksessa (105%+) tai hävikin ylittäessä 5%." />
+        <text name="rhm_alarm_mode_smart" text="Älykäs (3 piippausta)" />
+        <text name="rhm_alarm_mode_continuous" text="Jatkuva" />
+        <text name="rhm_alarm_mode_off" text="Pois" />
+        <text name="rhm_sound_volume_short" text="Äänenvoimakkuus" />
+        <text name="rhm_sound_volume_long" text="Säätää ohjaamon ylikuormitussummerin äänenvoimakkuutta." />
+        <text name="rhm_target_load" text="Moottorin tavoitekuorma" />
+        <text name="rhm_gui_title" text="Puimurin asetukset" />
+        <text name="rhm_gui_crop" text="Kasvi:" />
+        <text name="rhm_gui_none" text="EI MITÄÄN" />
+        <text name="rhm_gui_btn_auto" text="AUTO" />
+        <text name="rhm_gui_btn_load_preset" text="Lataa esiasetus" />
+        <text name="rhm_gui_btn_save" text="Tallenna profiili" />
+        <text name="rhm_gui_btn_reset" text="Palauta oletus" />
+        <text name="rhm_gui_engine_load" text="Moottorin kuorma: %.0f%%" />
+        <text name="rhm_gui_loss" text="Hävikki: %.1f%%" />
+        <text name="rhm_gui_preview_loss" text="Odotettu hävikki: %.1f%%" />
+        <text name="rhm_gui_close_hint" text="Sulje painamalla Oikea Shift+K" />
+        <text name="rhm_gui_no_combine" text="Puimuria ei ole valittu" />
+        <text name="rhm_gui_not_init" text="Puimuria ei ole alustettu" />
+        <text name="rhm_ui_drum_speed" text="Kelan nopeus" />
+        <text name="rhm_ui_roller_speed" text="Telojen nopeus" />
+        <text name="rhm_ui_picker_speed" text="Poimintanopeus" />
+        <text name="rhm_ui_forage_fan" text="Puhaltimen nopeus" />
+        <text name="rhm_ui_forage_drum" text="Silppurirumpu" />
+        <text name="rhm_ui_forage_feeder" text="Syöttövalssit" />
+        <text name="rhm_ui_root_roller" text="Puhdistusrullat" />
+        <text name="rhm_ui_root_feeder" text="Lajittelukuljetin" />
+        <text name="rhm_ui_grape_shaker" text="Ravistusnopeus" />
+        <text name="rhm_ui_olive_shaker" text="Iskunopeus" />
+        <text name="rhm_ui_grape_conveyor" text="Kuljettimen nopeus" />
+        <text name="rhm_ui_grape_fan" text="Poistotuulettimet" />
+        <text name="rhm_units_short" text="Mittayksiköt" />
+        <text name="rhm_units_long" text="Valitse mittajärjestelmä (nopeus, paino, pinta-ala)" />
+        <text name="rhm_unit_metric" text="Metrinen (km/h, t/h, ha)" />
+        <text name="rhm_unit_imperial" text="Englantilaiset (mph, ton/h, ac)" />
+        <text name="rhm_unit_bushels" text="Brittiläinen buusheleilla (mph, bu/h, ac)" />
+        <text name="rhm_reset" text="Nollaa RH-asetukset" />
+        <text name="rhm_loss_low" text="MATALA" />
+        <text name="rhm_loss_med" text="KESKI" />
+        <text name="rhm_loss_high" text="KORKEA" />
+        <text name="rhm_warning_turn_on_combine" text="Käynnistä puimuri ensin!" />
+        <text name="rhm_warning_turn_on_cutter" text="Kytke leikkuupöytä päälle!" />
+        <text name="rhm_warn_overload_high" text="Puimuri ylikuormittunut! Pienennä nopeutta satotappioiden välttämiseksi." />
+        <text name="rhm_warn_overload_critical" text="PUIMURI KRIITTISESTI YLIKUORMITTUNUT! Vakavia satotappioita!" />
+        <text name="rhm_configuration_title" text="Realistic Harvesting -järjestelmät" />
+        <text name="rhm_package_standard" text="Taso 1: Mekaaninen perusmalli" />
+        <text name="rhm_package_sensor" text="Taso 2: Anturipaketti" />
+        <text name="rhm_package_yield" text="Taso 3: Telemetria ja Satomonitori" />
+        <text name="rhm_package_opti" text="Taso 4: Opti-Harvest AI Autopilotti" />
+        <text name="rhm_msg_req_level_4" text="Vaatii Opti-Harvest AI Autopilotin (Taso 4) asennettuna korjaamolla." />
+        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Aja muutama metri kasvustoon aloittaaksesi autokalibroinnin!" />
+        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Automaattikalibrointi onnistui kohteelle %s!" />
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-9)                       -->
+        <!-- ================================================================= -->
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
+        <!-- ================================================================= -->
+        <text name="rhm_help_category" text="Realistic Harvesting" />
+        <text name="rhm_help_title" text="Realistic Harvesting Opas" />
+
+        <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
+        <text name="rhm_help_overview_title" text="1. Moottorikuormitus &amp; Ajonopeus" />
+        <text name="rhm_help_overview_sub1" text="Tehontasapaino: koneen vastus &amp; puinti" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting korvaa pelin kiinteän puintinopeuden ASABE- ja DLG-standardeihin perustuvalla moottorin tehontasapainomallilla. Peruspelissä puimuri etenee aina leikkuupöydän huippunopeudella kasvuston tiheydestä riippumatta. Tässä modissa moottorin hyötyteho jaetaan jatkuvasti neljään todelliseen rasitukseen: voimansiirron ja hydrauliikan perusvastus (8% viljapuimureilla, 10% raskailla nostokoneilla), terän ja kaatokelan mekaaninen veto, kasvimassan puintiin ja vetämiseen kuluva energia kelalla tai roottorilla, sekä kosteuden ja rikkakasvien tuoma lisävastus. Näytön kuormitusprosentti osoittaa reaaliajassa, kuinka suuri osa hevosvoimista on käytössä kullakin sekunnilla." />
+        <text name="rhm_help_overview_sub2" text="Automaattinen nopeudensäätö &amp; Tukkeutumissuoja" />
+        <text name="rhm_help_overview_2" text="Sinun ei tarvitse enää arvailla tai säätää vakionopeudensäädintä jatkuvasti. Laske leikkuupöytä, käynnistä puintikoneisto ja aja kasvustoon: puimuri aloittaa puinnin turvallisella 5,5 km/h aloitusnopeudella, jolloin viljamassa täyttää kolakuljettimen tasaisesti ilman iskua puintikelalle. Tämän jälkeen älykäs hydrostaattinen säädin sovittaa ajonopeuden automaattisesti moottorin kuormitukseen pitäen sen parhaalla toiminta-alueella (n. 80–90%). Jos puimuri kohtaa poikkeuksellisen tiheän kohdan tai jyrkän ylämäen, automatiikka hidastaa vauhtia pehmeästi (0,45 s vasteaika) estäen moottorin sammumisen ja puintikelan tukkeutumisen. Harvemmassa kasvustossa nopeus kiihtyy tasaisesti. Huippunopeus on aina rajattu leikkuupöydän tehdasrajaan." />
+        <text name="rhm_help_overview_sub3" text="Olkisilppuri &amp; Nopeushyöty karhotuksessa" />
+        <text name="rhm_help_overview_3" text="Oljen käsittelytapa vaikuttaa suoraan siihen, kuinka paljon hevosvoimia jää ajoon. Olkisilppuri on raskas terillä varustettu roottori, joka pyörii yli 3 000 r/min. Oljen silppuaminen ja levitys nielee 15–20% moottorin kokonaistehosta (erityisesti kaurassa, ohrassa tai rukiissa). Jos puimurisi kulkee hitaasti suuren kuormituksen vuoksi, kytke olki karhotukselle tavallisella pelipainikkeella. Silppurin roottori vapautuu, jolloin kymmeniä hevosvoimia siirtyy puintikoneistolle, ja työskentelynopeus nousee heti 1,5–3 km/h samalla moottorikuormalla." />
+
+        <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
+        <text name="rhm_help_hud_title" text="2. Interaktiivinen HUD &amp; Hallinta" />
+        <text name="rhm_help_hud_sub1" text="Telemetrianäyttö: 4 inforuutua" />
+        <text name="rhm_help_hud_1" text="Kun astut puimuriin, ruudun alaosaan ilmestyy tyylikäs tummapohjainen paneeli. Se esittää neljä keskeistä mittaria: Ruutu 1 näyttää moottorin kuormituksen prosentteina dynaamisella värikoodilla (vihreä alle 85% tarkoittaa kevyttä työtä; keltainen 85–95% ihanteellista tehoaluetta; punainen yli 95% varoittaa ylikuormasta). Ruutu 2 näyttää todellisen jyvähävikin prosentteina tai suositellun nopeuden. Ruutu 3 näyttää kasvuston kosteusprosentin tai työsaavutuksen hehtaareina tunnissa. Ruutu 4 kertoo lohkon hetkellisen satotason (t/ha tai bu/ac) tai puintitehon (t/h tai l/h)." />
+        <text name="rhm_help_hud_sub2" text="Siirto hiirellä (LMB), magneettikiinnitys &amp; Tilat" />
+        <text name="rhm_help_hud_2" text="HUD-paneelin voi sijoittaa vapaasti ruudullasi. Pidä hiiren vasenta painiketta (LMB) pohjassa paneelin päällä ja vedä se paikkaan, jossa se ei peitä näkyvyyttä ohjaamosta. Ruudun reunoilla tai F1-apuvalikon alareunassa magneettikiinnitys kohdistaa paneelin siististi paikalleen. Lisäksi paneeli on vuorovaikutteinen: ruutujen 2, 3 tai 4 klikkaus vaihtaa heti näytettävää vaihtoehtoista tietoa (esimerkiksi tonneista tunnissa hehtaareihin tunnissa, tai hävikkiprosentin ja suositusnopeuden välillä)." />
+        <text name="rhm_help_hud_sub3" text="Anturituki &amp; Viivat (--%) vanhemmissa puimureissa" />
+        <text name="rhm_help_hud_3" text="Jos ajat vanhaa tai peruspuimuria ja näet viivoja (--%) hävikin tai kosteuden kohdalla, se on modin tarkoituksellista realismia eikä virhe. Perustason koneissa (Tier 1) ei tehtaalta ole pietsosähköisiä hävikkilämpöantureita eikä optisia kosteusmittareita; kuljettaja arvioi tilannetta moottorin äänen ja viljasäiliön puhtauden mukaan. Seulastoanturit aktivoituvat korjaamolla hankittavalla Tier 2 -paketilla, ja digitaalinen kosteusanturi Tier 3 -tasolta alkaen. Tyhjennyspysähdyksissä tai päisteissä HUD lukitsee viimeisimmät vakaat lukemat estäen häiritsevän nollan vilkkumisen." />
+
+        <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
+        <text name="rhm_help_calibration_title" text="3. Ohjaamopääte &amp; Säätö (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Säädöt peruskoneissa (Tier 1): manuaalinen säätö" />
+        <text name="rhm_help_calibration_main_text" text="Paina Oikea Shift + K ohjaamossa avataksesi kosketusnäytön säätövalikon. Peruspuimureissa (Tier 1) ei ole digitaalimuistia: tallennus, lataus ja automaattiohjaus ovat lukittuina, ja suositusalueet piilossa. Koneen säätö: alareunan palautuspainike palauttaa säätimet neutraaliin 50% asentoon. Säädä liukusäätimiä puintisääntöjen mukaan: viljoilla (vehnä, ohra) pidä puintikela 60–70%, puhallin 65–75% ja seulat 50–60%. Isosiemenisillä kasveilla (maissi, auringonkukka) kelan kierroksia on ehdottomasti laskettava 35–45%:iin, jotta varstat eivät riko jyviä." />
+        <text name="rhm_help_calibration_rotor_sub" text="Säätö Tier 2–3: vihreät optimialueet &amp; Profiilit" />
+        <text name="rhm_help_calibration_rotor_text" text="Päivitettyäsi puimurin Tier 2 -tasolle jokaiseen asteikkoon ilmestyy vihreä optimialue («sweet-spot»), joka lasketaan syöttökuljettimessa olevalle kasville. Ensisäätö: aja muutama metri kasvustoon kasvin tunnistamiseksi, avaa pääte (Shift+K) ja siirrä liukusäätimet [-] ja [+] -painikkeilla vihreälle alueelle. Paina heti «TALLENNA»! Puimuri tallentaa asetukset profiiliin. Vasta tallennuksen jälkeen «LATAA»-painike aktivoituu: palatessasi saman kasvin puintiin napautus palauttaa asetuksesi välittömästi. Tier 3 -tasolla ruutuun avautuvat lisäksi kuormituksen, hyötysuhteen ja arvioidun hävikin tilannekortit." />
+        <text name="rhm_help_calibration_presets_sub" text="Automaattinen kalibrointi Tier 4 -puimureissa" />
+        <text name="rhm_help_calibration_presets_text" text="Huippuluokan Tier 4 -paketilla (Opti-Harvest AI) varustettujen puimureiden omistajien ei tarvitse koskea säätimiin tai tallentaa tiedostoja. Oikeaan yläkulmaan avautuu «AI AUTO-CALIB» -painike: yksi painallus lukee kosteuden ja kasvuston tiheyden ja asettaa sekunnissa parhaat puintiarvot suoraan tietokannasta. Lisäksi aktiivinen vakionopeussäädin korjaa kelan ja puhaltimen arvoja ajon aikana 2 sekunnin välein rikkakasvisissa tai kosteissa kohdissa." />
+
+                        <!-- PAGE 4: CROP CALIBRATION HANDBOOK (RPM & MM) -->
+        <text name="rhm_help_presets_title" text="4. Kasvisäätöjen käsikirja (RPM ja mm)" />
+        <text name="rhm_help_presets_sub1" text="Universaalit säädöt: Miksi RPM ja mm ovat samat kaikille puimureille" />
+        <text name="rhm_help_presets_1" text="Ohjaamon kalibrointitabletissa (Oikea Shift + K) kaikki parametrit esitetään aitoina fyysisinä yksiköinä: kierroksina minuutissa (RPM) ja väleinä millimetreinä (mm). Tärkeä agronominen perussääntö: optimaaliset perussäädöt mille tahansa kasville ovat SAMAT kaikille leikkuupuimurimalleille moottorin tehosta (300–800 hv) tai leikkuuleveydestä riippumatta! Vehnäntähkän tai maissintähkän biologiset ominaisuudet eivät muutu: vehnä vaatii aina noin ~800 RPM puintikelan ja ~960 RPM puhaltimen nopeuden, muuten jyvät jäävät tähkään tai lentävät ruumenien mukana maahan. Moottorin teho ja leikkuupöytä määräävät vain puintinopeuden (km/h) ja läpisyötön (t/h), joita RHM säätää automaattisesti ylikuormituksen estämiseksi." />
+        <text name="rhm_help_presets_sub2" text="Viljat, maissi, öljykasvit ja palkokasvit" />
+        <text name="rhm_help_presets_2" text="Perustason puimureille (Tier 1) ilman vihreitä suositusalueita käytä näitä tehdasarvoja:&#10;&#10;- Vehnä: Roottorin nopeus 780–820 RPM | Varstasillan väli 5–7 mm | Puhaltimen nopeus 940–980 RPM | Yläseula 14–15 mm | Alaseula 6–8 mm.&#10;&#10;- Ohra: Roottori 780–820 RPM | Silta 6–8 mm | Puhallin 980–1020 RPM | Yläseula 14–15 mm | Alaseula 7–9 mm (sitkeät vihneet vaativat vahvan ilman).&#10;&#10;- Kaura: Roottori 680–720 RPM | Silta 5–7 mm | Puhallin 730–770 RPM | Yläseula 14–16 mm | Alaseula 6–8 mm (keveät kuoret; puhallin &gt;850 RPM puhaltaa jyvät pois).&#10;&#10;- Maissi: Roottori 310–350 RPM | Silta 28–32 mm | Puhallin 930–970 RPM | Yläseula 19–21 mm | Alaseula 11–13 mm (HUOMIO: minimikierrokset etteivät tähkät murskaannu!).&#10;&#10;- Auringonkukka: Roottori 340–380 RPM | Silta 23–27 mm | Puhallin 730–770 RPM | Yläseula 17–19 mm | Alaseula 9–11 mm (hellävarainen puinti suojaa kuivia mykeröitä).&#10;&#10;- Rypsi/Rapsi: Roottori 480–520 RPM | Silta 16–19 mm | Puhallin 680–720 RPM | Yläseula 8–10 mm | Alaseula 3–5 mm (pieni siemen; puhallin &gt;750 RPM aiheuttaa tappiota).&#10;&#10;- Soija: Roottori 540–580 RPM | Silta 17–19 mm | Puhallin 960–1000 RPM | Yläseula 15–17 mm | Alaseula 8–10 mm.&#10;&#10;- Herne, Härkäpapu: Roottori 410–450 RPM | Silta 14–16 mm | Puhallin 980–1020 RPM | Yläseula 17–19 mm | Alaseula 8–10 mm.&#10;&#10;- Riisi ja Pitkäjyväinen riisi: Roottori 700–740 RPM | Varstasillan väli 6–8 mm | Puhallin 1030–1070 RPM | Yläseula 15–17 mm | Alaseula 6–8 mm (kuluttava kostea olki).&#10;&#10;- Durra: Roottori 580–620 RPM | Varstasillan väli 17–19 mm | Puhallin 1080–1120 RPM | Yläseula 14–16 mm | Alaseula 7–8 mm (tiheät röyhyt vaativat voimakkaan ilmavirtauksen).&#10;&#10;- Heinänsiemen (Unikko, Apila): Roottori 780–820 RPM | Silta 4–6 mm | Puhallin 430–470 RPM | Yläseula 6–8 mm | Alaseula 2–4 mm (minimi-ilmavirta!)." />
+        <text name="rhm_help_presets_sub3" text="Ajosilppurit, juurikkaannostokoneet ja erikoiskoneet" />
+        <text name="rhm_help_presets_3" text="Erikoiskoneissa Shift+K avaa asianmukaiset työlaitteet:&#10;&#10;- Ajosilppurit: Jyvätappiot ovat nolla (0%). Maissisäilörehu — Puhallin 1300–1350 RPM, Silppurirumpu 1150–1170 RPM, Syöttötelat 470–500 RPM. Karhottimen noukin (heinä/olki) — Puhallin 1150–1200 RPM, Rumpu 1070–1100 RPM, Telat 450–470 RPM. Suoraniitto — Puhallin 1230–1270 RPM, Rumpu 1120–1140 RPM, Telat 410–430 RPM. Poppeli (hake) — Puhallin 1350–1400 RPM, Silppurirumpu 1180–1200 RPM, Syöttötelat 380–400 RPM.&#10;&#10;- Juurikaskoneet: Peruna — Turbiini 600–620 RPM, Puhdistustelat 190–210 RPM, Seulamatto 300–320 RPM (suojaa mukuloita). Sokerijuurikas, Punajuuri (Beetroot) — Puhallin 630–650 RPM, Telat 230–250 RPM, Kuljetin 290–310 RPM. Porkkana — Turbiini 620–640 RPM, Telat 200–220 RPM, Matto 300–310 RPM. Sipuli — Turbiini 840–860 RPM, Telat 200–220 RPM, Matto 260–270 RPM.&#10;&#10;- Vihannespuimurit: Vihreät pavut (Green Beans) — Puhdistuspuhallin 700–720 RPM, Riipintärumpu 170–190 RPM, Elevaattori 280–300 RPM. Pinaatti (Spinach) — Puhallin 550–580 RPM, Leikkuukela 140–160 RPM, Elevaattori 270–290 RPM (hellävarainen lehtien korjuu).&#10;&#10;- Puuvilla: Puhallin 3600–3800 RPM, Karat 210–230 RPM, Rummut 210–230 RPM.&#10;&#10;- Sokeriruoko (Sugar Cane): Pääerotin 1150–1200 RPM, Silppuriteloitus 180–200 RPM, Elevaattorikuljetin 280–300 RPM.&#10;&#10;- Viinirypäleet: Ravistintangot 450–470 RPM, Kuljetin 110–120 RPM, Poistopuhaltimet 1250–1300 RPM.&#10;&#10;- Oliivit: Ravistimet 540–560 RPM, Kuljetin 105–115 RPM, Poistopuhaltimet 1300–1350 RPM." />
+        <text name="rhm_help_presets_sub4" text="Kasvuston kosteus: Vaikutukset ja reaaliaikainen säätö" />
+        <text name="rhm_help_presets_4" text="RHM tukee ulkoisia kosteusmodeja ja sisältää sisäisen vuorokausisään simulaation (aamukaste 16–18%, kuiva iltapäiväikkuna 11–13.5%, sade &gt;22%). Turvallinen kosteusraja on 14.0% (rapsi: 9.0%). Jokainen 1% kosteutta yli rajan tuo +2% moottorikuormaa ja +0.35% vääjäämättömiä tappioita jyvien tarttuessa märkään olkeen.&#10;&#10;Kosteuden säätösääntö (&gt;14%):&#10;&#10;1. Lisää roottoriin +50...80 RPM (esim. vehnä 860 eikä 800 RPM) märän oljen vetämiseksi.&#10;&#10;2. Lisää puhaltimeen +30...50 RPM (990 eikä 950 RPM) raskaiden märän ruumenien nostamiseksi.&#10;&#10;3. Avaa yläseulaa +1...2 mm enemmän.&#10;&#10;Tier 2–3 -tasoilla vihreä alue siirtyy automaattisesti; Tier 4 -tasolla tekoäly säätää kaiken lennossa." />
+        <text name="rhm_help_presets_sub5" text="Modatut kasvit ja omat kartat: Automaattinen tunnistus" />
+        <text name="rhm_help_presets_5" text="1. RHM-tietokantaan valmiiksi lisätyt modikasvit:&#10;&#10;- Ruis, Ruisvehnä, Speltti: säädä kuten vehnä (Roottori 780–820 RPM, Silta 5–7 mm, Puhallin 940–980 RPM, Seulat 14/7 mm).&#10;&#10;- Tattari: Roottori 530–570 RPM, Silta 12–14 mm, Puhallin 730–770 RPM, Seulat 12/6 mm.&#10;&#10;- Hirssi: Roottori 780–820 RPM, Silta 5–7 mm, Puhallin 850–890 RPM, Seulat 14/7 mm.&#10;&#10;- Pellava, Sinappi: Roottori 830–870 RPM, Silta 14–16 mm, Puhallin 780–820 RPM, Seulat 9/4 mm.&#10;&#10;- Unikko: Roottori 430–470 RPM, Silta 12–14 mm, Puhallin 430–470 RPM, Seulat 7/3 mm (mikrosiemen!).&#10;&#10;- Hamppu: Roottori 630–670 RPM, Silta 12–14 mm, Puhallin 830–870 RPM, Seulat 14/7 mm.&#10;&#10;- Saflori: kuten auringonkukka (Roottori 340–380 RPM, Puhallin 730–770 RPM, Seulat 18/10 mm).&#10;&#10;- Apila / Nurmisiemen: Roottori 780–820 RPM, Silta 4–6 mm, Puhallin 430–470 RPM, Seulat 7/3 mm.&#10;&#10;- Sinimailanen (säilörehu): Silppuri — Puhallin ~1250, Rumpu ~1130, Telat ~420 RPM.&#10;&#10;2. Tuntemattomien kasvien automaattinen tunnistus: RHM lukee hehtolitrapainon ja oljen kartasta. 4 perheen sääntö (Tier 1): oljelliset viljat = vehnä; pienet öljykasvit = rapsi; palkokasvit = herne; heinät = minimipuhallus. Tier 2–4 laskee vihreän tavoitteen automaattisesti." />
+
+        <!-- PAGE 5: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
+        <text name="rhm_help_trip_title" text="5. Peltolaskuri &amp; Kalusto (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Lohkon ajopäiväkirja: tarkka sadonseuranta" />
+        <text name="rhm_help_trip_1" text="Paina Oikea Shift + J ohjaamossa avataksesi 4-välilehtisen analyysikeskuksen. Ensimmäinen välilehti toimii nykyisen lohkon digitaalisena osamatkamittarina: se laskee puidun pinta-alan hehtaareina, punnitsee sadon tonneina ja litroina, mittaa puhtaan puintiajan (ilman tyhjennystaukoja ja päistekäännöksiä) ja laskee lohkon keskisaannon sekä työsaavutuksen tonneina ja hehtaareina tunnissa. Tiedät tarkan satomäärän kauan ennen viljan viemistä siiloon." />
+        <text name="rhm_help_trip_sub2" text="Taloudellinen hävikki, kuljettajan arvosana &amp; Syyt" />
+        <text name="rhm_help_trip_2" text="Laskuri ei ainoastaan kirjaa menetettyjä tonneja, vaan laskee rahallisen menetyksen pelivaluutassa (€, $ tai £) sadon senhetkisen markkinahinnan mukaan. Algoritmi arvioi kuljettajan toimintaa asteikolla [A] (kiitettävä, hävikki alle 1%) – [E] (heikko, suuret tappiot). Arvosanan alapuolella neljä palkkia erittelee syyt: liian kova vauhti, kasvuston kosteus, terälappujen kuluma tai kallistus rinteessä." />
+        <text name="rhm_help_trip_sub3" text="Laskurin pikanollaus ohjaamosta (Oikea Shift + R)" />
+        <text name="rhm_help_trip_3" text="Uudelle lohkolle saavuttaessa tai koeajoa varten ei tarvitse avata valikoita: pidä Oikea Shift + R painettuna 1 sekunnin ajan suoraan ratin takaa. Mittari nollautuu välittömästi äänimerkin ja ruutuilmoituksen vahvistamana. Lisäksi pelin asetuksissa on automaattinen nollaustoiminto (Smart), joka nollaa mittarin lohkonumeron tai säiliökasvin vaihtuessa." />
+        <text name="rhm_help_trip_sub4" text="Lohkorekisteri, kausihistoria &amp; Puimurikanta" />
+        <text name="rhm_help_trip_4" text="«Tilan pellot» -välilehti kokoaa omistetut lohkot pinta-aloineen ja satohistoriatietoineen. «Kausianalyysi» näyttää kehityksen kuukausittain ja vuosittain. «Puimurikalusto» -välilehdellä tilanhoitaja näkee kaikkien puimureiden tilan reaaliajassa: kuljettajan (pelaaja tai apulainen), kasvin, nopeuden, moottorikuorman, tehon t/h, terän kulumisen ja elektroniikkatason." />
+
+        <!-- PAGE 6: CROP LOSSES & ROOT CAUSES -->
+        <text name="rhm_help_croploss_title" text="6. Satohävikki &amp; Syiden diagnosointi" />
+        <text name="rhm_help_croploss_sub1" text="Viljan fyysinen vähentäminen suoraan säiliöstä" />
+        <text name="rhm_help_croploss_1" text="Realistic Harvesting -modissa hävikki ei ole vain numero tilastossa. Jyvät, jotka eivät ehdi erottua tai jotka lentävät seulaston yli ruumenien mukana, vähennetään reaaliajassa suoraan puimurin viljasäiliöstä! Liian kova vauhti näkyy säiliön hitaampana täyttymisenä, ja tuot varastoon hehtaarilta 5–15% vähemmän viljaa kuin voisit. Karhotuksessa hävikki putoaa olkikarhoon. Tarkkuussilppureilla ja puuvillakoneilla jyvähävikki on pois päältä, koska koko biomassa kerätään talteen." />
+        <text name="rhm_help_croploss_sub2" text="Neljä hävikkitekijää &amp; Niiden korjaaminen" />
+        <text name="rhm_help_croploss_2" text="Hävikki aiheutuu neljästä tekijästä: 1. Nopeus ja ylikuormitus: ISO 8210 -standardin mukaan erotushävikkiä alkaa syntyä yli 80% moottorikuormalla, se ylittää 1% sallitun rajan 95% kuormalla ja tukkii seulaston yli 110% kuormalla pudottaen jyviä maahan. Ratkaisu: pidä kuormitus 85–90% välillä. 2. Kosteus ja kaste: yli 14% kosteudessa märkä olki paakkuuntuu ja sitoo jyviä (+0,35% hävikkiä jokaista 1% ylimääräistä kosteutta kohti). Ratkaisu: pui aurinkoiseen aikaan. 3. Terän kuluminen: tylsät terälaput (> 15% kuluma) varistavat tähkiä ennen leikkuupöytää (jopa 3% hävikkiä). Ratkaisu: huolla terä ajoissa. 4. Rinnekallistus: yli 4° kallistus siirtää viljamassan seulaston toiselle puolelle (jopa 5% hävikkiä)." />
+        <text name="rhm_help_croploss_sub3" text="Ohjaamon äänisummeri (Smart Buzzer): ylikuormitushälytys" />
+        <text name="rhm_help_croploss_3" text="Kun moottorin kuormitus ylittää 95% tai jyvähävikki 5%, ohjaamopääte antaa hälytysäänen. Suositellussa Smart Buzzer -tilassa summeri soi kolmella pehmeällä 0,3 sekunnin äänimerkillä ja pitää 18 sekunnin tauon häiritsemättä jatkuvalla piipityksellä. Kuulitko hälytyksen? Hidasta vauhtia, tarkista seulat Shift+K -valikosta tai sammuta silppuri: hävikki lakkaa heti. Äänenvoimakkuutta voi säätää 0–100% välillä pelin asetuksista." />
+
+        <!-- PAGE 7: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
+        <text name="rhm_help_upgrades_title" text="7. Elektroniikkapaketit (Tiers 1–4)" />
+        <text name="rhm_help_upgrades_sub1" text="Koneen päivitys korjaamolla: 4 tasoa eri budjeteille" />
+        <text name="rhm_help_upgrades_1" text="Kaikki pelin puimurit (kaupasta ostettaessa tai jo tilalla olevat) voidaan varustaa RHM-elektroniikkapaketilla. Aja korjaamoruutuun, paina muokkauspainiketta ja valitse «RHM Elektroniikkapaketti». Saatavilla on neljä tasoa: Tier 1 «Vakio» (0 €, mekaaninen perusmalli), Tier 2 «Anturisarja» (3 500 €), Tier 3 «Satomittari» (8 500 €) ja Tier 4 «Opti-Harvest AI» (15 000 €). Asennettu taso näkyy Shift+K -pääteikkunan yläosassa ja kalustolistassa." />
+        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Perusmekaniikka) vs Tier 2 (Anturisarja)" />
+        <text name="rhm_help_upgrades_2" text="Tier 1 -puimureissa on perinteinen mekaaninen hallinta ilman antureita: HUD näyttää viivoja hävikin kohdalla, tabletissa ei ole ohjearvoja, kuljettaja ajaa moottorin äänen perusteella ja palkolliset tekevät suuria säätövirheitä (jopa ±18%). Tier 2 -paketti (3 500 €) on tärkein aloituspäivitys: se tuo seulaston pietsosähköiset hävikkianturit (hävikki-% HUD-näytöllä) ja avaa vihreät optimialueet Shift+K -valikossa. Työntekijöiden säätövirhe laskee ±10%:iin." />
+        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Telemetria &amp; Profiilit) ja Tier 4 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="Tier 3 -paketti (8 500 €) lisää optisen kosteusmittarin (% kosteus HUD:ssa), avaa kuormituksen ja hyötysuhteen ruudut Shift+K -valikossa, sallii omien profiilien tallennuksen ja kalustoseurannan Shift+J -näkymässä (apulaisten virhe laskee ±4%:iin). Huippupaketti Tier 4 (15 000 €) tuo täyden automaattiohjauksen: «AI AUTO-CALIB» säätää puimurin yhdellä kosketuksella, aktiivinen säätö korjaa kelaa ja puhallinta 2 sekunnin välein kasvuston mukaan, kosteussakko puoliintuu ja apulaiset puivat 0% virheellä." />
+
+        <!-- PAGE 8: AI WORKERS & AUTOPILOTS -->
+        <text name="rhm_help_ai_workers_title" text="8. Palkolliset &amp; Automaattiohjaus" />
+        <text name="rhm_help_ai_workers_sub1" text="Automaattinen nopeudenrajoitus &amp; Apulaisten jarrutus" />
+        <text name="rhm_help_ai_workers_1" text="Pelin tekoälytyöntekijät ja automatisoidut avustajat eivät enää paahda leikkuupöydän huippunopeudella pudottaen jyviä maahan. RHM ohjaa apulaisen nopeutta suoraan moottorinohjauksen kautta pitäen koneen turvallisella 85–95% kuormitusalueella. Jos epätasaisessa maastossa hävikki ylittää tilan asettaman rajan (2,0%), puimuri hidastaa apulaisen vauhtia automaattisesti viljan säästämiseksi." />
+        <text name="rhm_help_ai_workers_sub2" text="Apulaisten ammattitaito: konetason vaikutus laatuun" />
+        <text name="rhm_help_ai_workers_2" text="Kun työntekijä hyppää rattiin, hän säätää puimurin arvot itsenäisesti. Työn laatu riippuu suoraan puimurin elektroniikkapaketista: Tier 1 -koneissa apulainen toimii kuin kokematon harjoittelija erehtyen säädöissä jopa ±18% (aiheuttaen hävikkiä tai polttoaineenhukkaa). Tier 2 -tasolla heitto putoaa ±10%:iin, Tier 3 -tasolla ±4%:iin, ja Tier 4 -koneilla Opti-Harvestin kanssa apulainen pui 0% virheellä kokeneen mestarin lailla." />
+        <text name="rhm_help_ai_workers_sub3" text="Pelaajan säätöjen säilytys &amp; Tyhjennys ajossa" />
+        <text name="rhm_help_ai_workers_3" text="Jos säädit puimurin itse Shift+K -valikosta tai tallensit profiilin, tarkista peliasetukset: «Apulaisten säädöt» on oletuksena tilassa «Säilytä omat». Tällöin työntekijä ei koskaan muuta säätöjäsi. «Automaattisäätö» antaa apulaisen säätää konetason mukaan, ja «Pois» estää kaikki muutokset. Tyhjennys vauhdissa perävaunuun on täysin tuettu ilman puimurin pysähtymistä." />
+
+        <!-- PAGE 9: CROP MOISTURE & DIURNAL WEATHER -->
+        <text name="rhm_help_moisture_title" text="9. Kasvuston kosteus &amp; Päivittäinen säävaihtelu" />
+        <text name="rhm_help_moisture_sub1" text="Vuorokautinen kosteusrytmi: parhaiden puintituntien hyödyntäminen" />
+        <text name="rhm_help_moisture_1" text="Modi laskee vuorokautisen harmonisen kosteussyklin ja lukee säätietoja mahdollisilta säämodeilta. Kasvuston kosteus vaihtelee luonnollisesti: aamulla klo 03:00–08:00 runsas kaste nostaa viljan kosteuden 16–18%:iin — puintia ei suositella koneiston raskaan vastuksen vuoksi. Klo 08:00–11:30 aamuaurinko kuivattaa kasvustoa. Paras puintiaika on klo 11:30–18:30: aurinko kuivaa kasvuston ihanteelliseen 11–13%:iin, olki haurastuu, puimuri liikkuu kevyesti ja hävikki putoaa lähes nollaan. Klo 19:30 jälkeen iltakaste kostuttaa oljen uudelleen." />
+        <text name="rhm_help_moisture_sub2" text="Miksi sateella ei saa puida" />
+        <text name="rhm_help_moisture_2" text="Sateella kasvuston kosteus nousee nopeasti yli 22%:n. Märkä olki menettää liukuvuutensa, muodostaa sitkeän maton ja tukkii kolakuljettimen ja seulaston. Jyvät tarttuvat märkään olkeen ja lentävät ulos (jopa 10% suorahävikki), samalla kun moottori tukehtuu kolminkertaiseen vastukseen. Vinkki: jos alkaa sataa, sammuta puimuri ja odota sään paranemista. Sateessa puinti tuo vain satotappioita ja kuluja." />
+        <text name="rhm_help_moisture_sub3" text="Puimurin säätäminen kostealle viljalle (14–16%)" />
+        <text name="rhm_help_moisture_3" text="Jos kosteaa viljaa (14–16%) on pakko puida, älä väännä säätimiä sokkona täysille! Avaa Shift+K: kosteuden vuoksi kelan ja puhaltimen vihreät suositusalueet nousevat itsestään ylemmäs. Siirrä säätimet tarkasti tämän siirtyneen vihreän alueen sisään: nopeampi kela vihreällä alueella rikkoo sitkeän märän oljen helpommin ilman tehonkatoa, ja tehokkaampi puhallin lennättää raskaan kostean ruumenen pois. Varoitus: jos puhallinta nostaa liikaa punaiselle, kova ilmavirta puhaltaa puhtaita jyviä pellolle aiheuttaen välitöntä hävikkiä! Pysy vihreällä alueella 0% säätöhävikkiä varten. Tier 4 -puimureissa Opti-Harvest hoitaa tämän itsestään." />
+
+        <!-- PAGE 10: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
+        <text name="rhm_help_special_title" text="10. Ajoleikkurit, juurikkaat &amp; Erikoiskoneet" />
+        <text name="rhm_help_special_sub1" text="Ajoleikkurit ja -silppurit: tehonjako &amp; karhot" />
+        <text name="rhm_help_special_1" text="Ajosilppurit silppuavat koko kasvimassan säilörehuksi, joten jyvähävikki on aina nolla (0%). Moottorin kuormitus jakautuu kolmelle laitteelle: syöttöteloille (18%), silppurikelalle (62%) ja heittopuhaltimelle (20%). Kun keräät ruoho- tai olkikarhoja noukkimella, tarkkaile karhon paksuutta: liian tiheät kasat tukkivat syöttötelat (pullonkaula), mikä aiheuttaa äkillistä vastusta voimansiirtoon ja hidastaa vauhtia." />
+        <text name="rhm_help_special_sub2" text="Juuresten nostokoneet: miksi nosto tapahtuu 5–8 km/h" />
+        <text name="rhm_help_special_2" text="Maanalaiset juurekset (peruna, sokerijuurikas, porkkana, palsternakka, sipuli) vaativat valtavan vetotehon: nostovantaat leikkaavat maata syvältä ja kuluttavat 7 hv työleveyden metriä kohden raskaasta alustasta johtuvan 10% perusvastuksen lisäksi. Tästä syystä juurikas- ja perunakoneet eivät kulje yli 5–8 km/h edes yli 600 hv moottoreilla. Maanpäälliset vihannekset (pavut, herneet, pinaatti) eivät vaadi maan nostoa, mutta riipintakelat kuluttavat merkittävästi energiaa palkojen irrottamiseen." />
+        <text name="rhm_help_special_sub3" text="Puuvilla, viinirypäleet, oliivit &amp; Järjestelmäalustat (NEXAT / NEXCO)" />
+        <text name="rhm_help_special_3" text="Puuvillakoneet kuluttavat jopa 55 hv raakapuuvillatonnia kohden poimintakaroihin ja pyöröpaalien puristamiseen. Rypäle- ja oliivikoneet mallintavat ravistintankojen ja puhaltimien vastusta. Jos käytät leveäraiteista 1 100 hv NEXAT-työkonealustaa NEXCO-puintimodulin kanssa, RHM välittää koko moottoritehon saumattomasti kaikkien liitosten läpi ilman tehohäviöitä." />
+
+        <!-- PAGE 11: DIFFICULTY MODES & SETTINGS -->
+        <text name="rhm_help_difficulty_title" text="11. Vaikeustasot &amp; Asetukset" />
+        <text name="rhm_help_difficulty_sub1" text="Pelityylit: valinta Arcaden, Kohtuullisen ja Realistisen välillä" />
+        <text name="rhm_help_difficulty_1" text="Jos et halua laskea hevosvoimia tai säätää puintikoneistoa, valitse yksinkertaistettu pelitapa taukovalikosta (Escape → Peliasetukset): Moottorin vaikeus «Arcade»-tilassa (Taso 1) poistaa kuormitusfysiikan ja vapauttaa nopeusrajoitukset. Hävikin vaikeus «Arcade»-tilassa nollaa jyvähävikin — puimuri pui leikkuupöydän huippunopeudella kuten peruspelissä. Taso 2 («Kohtuullinen») antaa virheitä anteeksi, kun taas Taso 3 («Realistinen») kytkee täyden DLG-fysiikkamallin todellisine säiliövähennyksineen." />
+        <text name="rhm_help_difficulty_sub2" text="Yksittäiset fysiikkakytkimet: mukautus omien toiveiden mukaan" />
+        <text name="rhm_help_difficulty_2" text="Koko fysiikkaa ei tarvitse kytkeä pois päältä — voit poistaa vain ne osat, joista et pidä: poista «Kulumishävikki», jos et halua huoltaa teriä; kytke «Rinnehävikki» pois jyrkillä vuoristokartoilla; poista «Kosteussimulaatio» puidaksesi yöllä tai sateessa ilman sakkoja. «Tehonlisäys» antaa puimurille +5% – +50% moottoritehoreservin, mikä on hyödyllistä mäkisillä pelloilla." />
+        <text name="rhm_help_difficulty_sub3" text="Äänimerkit, mittayksiköt &amp; Moninpeli" />
+        <text name="rhm_help_difficulty_3" text="Ääniasetuksissa voit asettaa ylikuormitussummerin «Smart Buzzer» -tilaan (kolme pehmeää piippausta), jatkuvaksi tai mykäksi, ja säätää äänenvoimakkuuden liukusäädintä (0–100%) välittömällä äänitestillä. Yksiköitä voi vaihtaa metristen (t/ha, t/h), brittiläisten ja bushelien välillä. Moninpelissä fysiikkasäännöistä päättää vain palvelimen ylläpitäjä, kun taas HUD-sijainnin, äänenvoimakkuuden ja mittayksiköt jokainen pelaaja asettaa itselleen sopiviksi." />
+        <text name="rhm_ui_section_separation" text="PUINTI JA ERITTELY" />
+        <text name="rhm_ui_section_cleaning" text="PUHDISTUS" />
+        <text name="rhm_ui_section_discharge" text="POISTO JA SILPPU" />
+        <text name="rhm_ui_section_performance" text="SUORITUSKYKY" />
+        <text name="rhm_ui_tier1_manual" text="TASO 1 - MEKAANINEN" />
+        <text name="rhm_ui_tier2_sensors" text="TASO 2 - ANTURIT" />
+        <text name="rhm_ui_tier3_monitor" text="TASO 3 - TELEMETRIA" />
+        <text name="rhm_ui_tier4_opti" text="TASO 4 - AI OPTI" />
+        <text name="rhm_ui_arcade_badge" text="PELIHALLI" />
+        <text name="rhm_ui_card_engine_load" text="MOOTTORIN KUORMA" />
+        <text name="rhm_ui_card_efficiency" text="TEHOKKUUS" />
+        <text name="rhm_ui_card_predicted_loss" text="ODOTETTU HÄVIKKI" />
+        <text name="rhm_ui_btn_ai_auto" text="AI AUTOMAATTIKALIBROINTI" />
+        <text name="rhm_ui_btn_auto_locked" text="AUTO (LUKITTU)" />
+        <text name="rhm_ui_btn_load_preset" text="LATAA ESIASASETUS" />
+        <text name="rhm_ui_btn_save_profile" text="TALLENNA PROFIILI" />
+        <text name="rhm_ui_btn_load_locked" text="LATAA (LUKITTU)" />
+        <text name="rhm_ui_btn_save_locked" text="TALLENNA (LUKITTU)" />
+        <text name="rhm_ui_btn_reset_defaults" text="PALAUTA TEHDASASETUKSET" />
+        <text name="rhm_ui_status_optimal" text="OPTIMAALINEN" />
+        <text name="rhm_ui_status_low" text="LIIAN MATALA" />
+        <text name="rhm_ui_status_high" text="LIIAN KORKEA" />
+        <text name="rhm_ui_env_optimal" text="OPTIMAALISET OLOSUHTEET" />
+        <text name="rhm_ui_env_moisture" text="KORKEA KOSTEUS" />
+        <text name="rhm_ui_env_weeds" text="RIKKAKASVIEN RUNSAUS" />
+        <text name="rhm_ui_env_damp_weeds" text="KOSTEA JA RIKKAKASVEJA" />
+        <text name="rhm_msg_req_tier4" text="Vaatii Opti-Harvest AI Autopilotin (Taso 4)" />
+        <text name="rhm_msg_req_tier3" text="Profiilit vaativat Telemetrianäytön (Taso 3)" />
+        <text name="rhm_msg_req_tier2" text="Profiilit vaativat Anturipaketin (Taso 2 tai korkeampi)" />
+        <text name="rhm_msg_profile_saved" text="Tallennettu profiili: %s" />
+        <text name="rhm_msg_profile_loaded" text="Ladattu profiili: %s" />
+        <text name="rhm_msg_profile_not_found" text="Tälle kasville ei löytynyt tallennettua profiilia" />
+        <text name="rhm_ui_combine_not_init" text="Puimuria ei ole alustettu" />
+        <text name="rhm_unit_t_per_hour" text="t/h" />
+        <text name="rhm_unit_ha_per_hour" text="ha/h" />
+        <text name="rhm_setting_ai_tuning" text="AI-apulaisen säätö" />
+        <text name="rhm_setting_ai_tuning_long" text="Määrittää, miten AI-apulaiset kohtelevat säätöjä. 'Säilytä omat' pitää manuaaliset profiilit. 'Autokalibroi aina' säätää elektroniikkatason mukaan. 'Pois' estää apulaisen muutokset." />
+        <text name="rhm_setting_ai_tuning_keep" text="Säilytä omat" />
+        <text name="rhm_setting_ai_tuning_auto" text="Autokalibroi aina" />
+        <text name="rhm_setting_ai_tuning_disabled" text="Pois käytöstä" />
+        <text name="rhm_crop_straw_windrow" text="Oljenkarho" />
+        <text name="rhm_crop_grass_windrow" text="Ruohonkarho" />
+        <text name="rhm_crop_drygrass_windrow" text="Heinänkarho" />
+        <text name="rhm_crop_alfalfa_windrow" text="Mailasenkarho" />
+        <text name="rhm_crop_clover_windrow" text="Apilankarho" />
+        <text name="rhm_crop_maize_forage" text="Maissisäilörehu" />
+        <text name="rhm_windrow_format" text="Karho: %s" />
+        <text name="rhm_setting_enableTutorials" text="Opastusvihjeet" />
+        <text name="rhm_setting_enableTutorials_long" text="Näytä opastavia vinkkejä puintityön aikana." />
+        <text name="rhm_ui_btn_close_notification" text="OK (Enter / Vasen klikkaus)" />
+        <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+        <text name="rhm_tut_welcome_msg" text="Tervetuloa Realistic Harvestingiin! Työnopeus säätyy dynaamisesti moottorin kuorman, viljan tiheyden ja leikkuupöydän mukaan. Avaa kalibrointipääte painamalla (Oikea Shift + K)." />
+        <text name="rhm_tut_overload_title" text="Moottorin ylikuormitus" />
+        <text name="rhm_tut_overload_msg" text="Moottori on ylikuormitettu! Ajonopeus hidastuu automaattisesti tukkeutumisen välttämiseksi. Nosta leikkuupöytää tai vähennä leikkuuleveyttä." />
+        <text name="rhm_tut_loss_title" text="Suuri satotappio" />
+        <text name="rhm_tut_loss_msg" text="Hävikki puimurin takana on kriittisen suuri! Kelan kierrokset tai seulat eivät sovi tälle viljalajille. Paina (Oikea Shift + K) hienosäätöä varten." />
+        <text name="rhm_tut_moisture_title" text="Suuri kasvuston kosteus" />
+        <text name="rhm_tut_moisture_msg" text="Viljan kosteus on korkea tai sade on alkanut! Kostea biomassa lisää vastusta, moottorin kuormaa ja hävikkiä. Pui kuivalla säällä parhaan tuloksen saamiseksi." />
+        <text name="rhm_tut_headland_title" text="Nopeusmuisti" />
+        <text name="rhm_tut_headland_msg" text="Nostettaessa pöytä päisteessä puimuri muistaa työskentelynopeuden. Seuraavaan vetoon kiihdytys sujuu pehmeästi." />
+        <text name="rhm_tut_upgrade_title" text="Puimurin päivitykset" />
+        <text name="rhm_tut_upgrade_msg" text="Peruspuimurit vaativat manuaalista säätöä. Päivitä elektroniikkaa korjaamolla ottaaksesi käyttöön Anturipaketin (Taso 2), Satomonitorin (Taso 3) tai Opti-Harvest AI:n (Taso 4)." />
+        <text name="rhm_tut_hud_drag_title" text="Interaktiivinen HUD" />
+        <text name="rhm_tut_hud_drag_msg" text="Voit siirtää HUD-paneelia vapaasti näytöllä pitämällä hiiren vasenta painiketta (LMB) pohjassa paneelin päällä, tai kiinnittää sen magneettisesti F1-valikon alapuolelle ja näytön reunoihin." />
+        <text name="rhm_tut_trip_title" text="Peltolaskuri ja Lokikirja" />
+        <text name="rhm_tut_trip_msg" text="Paina Shift+J tarkastellaksesi satoyhteenvetoa, taloudellisia tappioita ja kaluston tilaa. Voit nollata laskurin nopeasti uudelle pellolle pitämällä Shift+R pohjassa 1 sekunnin ohjaamossa!" />
+        <text name="rhm_tut_chopper_title" text="Olkisilppurin Moottorikuorma" />
+        <text name="rhm_tut_chopper_msg" text="Oljen silppuaminen kuluttaa 15-20% enemmän moottorin tehoa verrattuna karhottamiseen. Jos tarvitset tiheässä kasvustossa lisää työnopeutta, vaihda karhotukseen." />
+        <text name="rhm_setting_wear_loss_short" text="Mekaaninen kulumishävikki" />
+        <text name="rhm_setting_wear_loss_long" text="Mallintaa laitteiston kulumisesta johtuvaa jyvähävikkiä. Tylsät terät karistelevat tähkiä (jopa +3% hävikkiä ja +15% tehovastusta). Kuluneet varstat ja seulat hukkaavat puimatonta viljaa (jopa +3% hävikkiä)." />
+        <text name="rhm_ui_wear_loss" text="Kulumishävikki" />
+        <text name="rhm_ui_cutter_wear" text="Pöydän kuluminen" />
+        <text name="rhm_ui_combine_wear" text="Puimakoneiston kuluminen" />
+        <!-- Harvest History & Field Trip Telemetry -->
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="Puintiloki &amp; Peltolaskuri" />
+        <text name="input_RHM_QUICK_RESET_TRIP" text="Nollaa peltolaskuri (Pidä pohjassa)" />
+        <text name="rhm_trip_reset_done" text="Peltolaskuri nollattu!" />
+        <text name="rhm_tab_trip" text="Nykyinen lohko / Laskuri" />
+        <text name="rhm_tab_trip_desc" text="Reaaliaikaiset tiedot puidusta määrästä, työstetystä pinta-alasta, keskisaannosta ja tappioista lohkolla." />
+        <text name="rhm_tab_analytics" text="Tappioiden syyt &amp; Arviointikortti" />
+        <text name="rhm_tab_analytics_desc" text="Tappioiden jakautuminen, kuljettajan tehokkuusluokitus ja ajotietokoneen ohjeet." />
+        <text name="rhm_tab_fleet" text="Puimurit lohkolla" />
+        <text name="rhm_tab_fleet_desc" text="Reaaliaikainen telemetria, läpäisyteho ja tila tilan kaikille leikkuupuimureille." />
+        <text name="rhm_tab_settings" text="Tilan ja tekoälyn asetukset" />
+        <text name="rhm_tab_settings_desc" text="Apulaisen nopeudenrajoitin, rikkakasvien/karistuman synty ja automaattinollaus." />
+        <text name="rhm_driver_parked" text="Ei kuljettajaa" />
+        <text name="rhm_driver_cp_ai" text="Tekoäly (Courseplay)" />
+        <text name="rhm_driver_hired_ai" text="Palkattu apulainen" />
+        <text name="rhm_driver_player" text="Pelaaja" />
+        <text name="rhm_driver_idle_on" text="Joutokäynti" />
+        <text name="rhm_field_yard" text="Tila / Piha" />
+        <text name="rhm_field_format" text="Pelto %d" />
+        <text name="rhm_fleet_driver" text="Kuljettaja" />
+        <text name="rhm_fleet_cutter" text="Leikkuupöydän leveys" />
+        <text name="rhm_fleet_grain_tank" text="Viljasäiliön täyttö" />
+        <text name="rhm_fleet_throughput" text="Läpäisykyky" />
+        <text name="rhm_fleet_realtime_yield" text="Hetkellinen sato" />
+        <text name="rhm_fleet_crop_loss" text="Tappioprosentti" />
+        <text name="rhm_fleet_wear_state" text="Koneen kuluma" />
+        <text name="rhm_fleet_total_count" text="Puimureita yhteensä" />
+        <text name="rhm_btn_subtab_fleet" text="PUIMURIKALUSTO" />
+        <text name="rhm_btn_subtab_history" text="KAUSIHISTORIA / KAIKKI PELLOT" />
+        <text name="rhm_season_all_time" text="Kaikki kaudet (Koko historia)" />
+        <text name="rhm_season_format" text="Kausi %d (Vuosi %d)" />
+        <text name="rhm_season_current_suffix" text="[Nykyinen]" />
+        <text name="rhm_card_season_harvest" text="KAUDEN SATO JA PINTA-ALA" />
+        <text name="rhm_card_season_losses" text="KAUDEN TAPPIOT JA TALOUS" />
+        <text name="rhm_card_season_telemetry" text="MITTAUKSET JA TYÖAIKA" />
+        <text name="rhm_season_operations" text="Valmistuneet työt" />
+        <text name="rhm_season_active_status" text="Aktiivinen kausi" />
+        <text name="rhm_season_archived_status" text="Arkistoitu kausi" />
+        <text name="rhm_season_all_time_status" text="Koko historia" />
+        <text name="rhm_hist_total_area" text="Puitu pinta-ala yhteensä" />
+        <text name="rhm_hist_total_harvest" text="Puhdas kokonaissato" />
+        <text name="rhm_hist_avg_loss" text="Keskimääräiset tappiot" />
+        <text name="rhm_hist_total_money" text="Taloudellinen kokonaistappio" />
+        <text name="rhm_col_season" text="Kausi" />
+        <text name="rhm_col_status" text="Tila" />
+        <text name="rhm_hist_empty" text="Ei vielä kausitietoja" />
+        <text name="rhm_status_harvesting" text="Pui (aktiivinen)" />
+        <text name="rhm_status_on_field_idle" text="Pellolla (joutokäynti)" />
+        <text name="rhm_status_on_field_stopped" text="Pellolla (pysähdyksissä)" />
+        <text name="rhm_status_in_transit" text="Tiellä / Siirtoajo" />
+        <text name="rhm_status_in_cab" text="Miehitetty (Pelaaja)" />
+        <text name="rhm_status_parked_yard" text="Pysäköity pihalle" />
+        <text name="rhm_card_field_harvest" text="NYKYINEN PELTO JA KASVI" />
+        <text name="rhm_field_number" text="Pellon numero" />
+        <text name="rhm_trip_no_field" text="Pellon ulkopuolella" />
+        <text name="rhm_crop_type" text="Kasvilaji" />
+        <text name="rhm_harvested_area" text="Puitu pinta-ala" />
+        <text name="rhm_clean_harvest" text="Puhdas sato" />
+        <text name="rhm_average_yield" text="Keskisatoisuus" />
+        <text name="rhm_card_loss_finances" text="TAPPIOT JA TALOUS" />
+        <text name="rhm_loss_volume" text="Menetetty tilavuus" />
+        <text name="rhm_loss_share" text="Tappioprosentti" />
+        <text name="rhm_financial_loss" text="Taloudellinen tappio" />
+        <text name="rhm_card_performance" text="SUORITUSKYKY JA AIKA" />
+        <text name="rhm_avg_working_speed" text="Keskityönopeus" />
+        <text name="rhm_avg_engine_load" text="Moottorin keskikuormitus" />
+        <text name="rhm_session_duration" text="Puintiaika" />
+        <text name="rhm_btn_reset_trip" text="Nollaa peltolaskuri" />
+        <text name="rhm_causes_title" text="PUINTITAPPIOIDEN SYYT" />
+        <text name="rhm_cause_speed" text="Nopeus ja puintikoneiston ylikuormitus" />
+        <text name="rhm_cause_moisture" text="Kasvuston kosteus ja kaste" />
+        <text name="rhm_cause_wear" text="Pöydän terien ja kelan kuluminen" />
+        <text name="rhm_cause_slope" text="Pellon kaltevuus ja maastonmuodot" />
+        <text name="rhm_scorecard_title" text="KULJETTAJAN TEHOKKUUSARVIOINTI" />
+        <text name="rhm_rank_title_a" text="Luokka A: Ihanteellinen" />
+        <text name="rhm_rank_desc_a" text="Tappiot alle 1,5%. Puimurin säädöt ja ajonopeus ovat täydellisesti tasapainossa." />
+        <text name="rhm_rank_title_b" text="Luokka B: Hyväksyttävä" />
+        <text name="rhm_rank_desc_b" text="Tappiot 1,5% ja 3,0% välillä. Pieni nopeuden tai varstasilan säätö suositeltavaa." />
+        <text name="rhm_rank_title_c" text="Luokka C: Kohonneet tappiot" />
+        <text name="rhm_rank_desc_c" text="Tappiot 3,0% ja 4,5% välillä. Laske nopeutta tai tarkista terien terävyys." />
+        <text name="rhm_rank_title_d" text="Luokka D: Kriittiset tappiot" />
+        <text name="rhm_rank_desc_d" text="Tappiot ylittävät 4,5%! Seulaston vakava ylikuormitus tai virheelliset säädöt." />
+        <text name="rhm_guidance_title" text="AJOTIETOKONEEN SUOSITUKSET" />
+        <text name="rhm_advice_perfect" text="Puinnin tehokkuus on optimaalinen. Kaikki parametrit ovat tasapainossa." />
+        <text name="rhm_advice_speed" text="Tappiot johtuvat liiallisesta ajonopeudesta. Hidasta seulaston keventämiseksi." />
+        <text name="rhm_advice_moisture" text="Korkea kosteus tai aamukaste lisää tappioita. Odota kuivumista tai hidasta." />
+        <text name="rhm_advice_wear" text="Kuluneet terät tai varstat lisäävät tappioita. Huolla kone pajalla." />
+        <text name="rhm_advice_slope" text="Sivukaltevuus kuormittaa seuloja epätasaisesti. Pienennä nopeutta rinteissä." />
+        <text name="rhm_col_machine" text="Kone" />
+        <text name="rhm_col_hours" text="Käyttötunnit" />
+        <text name="rhm_col_harvested" text="Puitu" />
+        <text name="rhm_col_lost" text="Tappiot" />
+        <text name="rhm_col_rank" text="Luokka" />
+        <text name="rhm_fleet_no_combines" text="Puimureita ei löytynyt" />
+        <text name="rhm_setting_ai_limiter_title" text="TEKOÄLYN NOPEUDENRAJOITIN" />
+        <text name="rhm_setting_ai_limiter_desc" text="Rajoittaa automaattisesti apulaisen nopeutta, jos tappiot ylittävät asetetun rajan." />
+        <text name="rhm_setting_ai_threshold_title" text="TEKOÄLYN TAPPIORAJA" />
+        <text name="rhm_setting_ai_threshold_desc" text="Suurin sallittu tappioprosentti ennen kuin tekoäly hidastaa automaattisesti." />
+        <text name="rhm_setting_volunteer_title" text="KARISTUMA JA RIKKAKASVIT" />
+        <text name="rhm_setting_volunteer_desc" text="Luo karistumaa ja rikkoja puimurin taakse suurten tappioiden alueille (&gt;3%)." />
+        <text name="rhm_setting_autoreset_title" text="AUTOMAATTINOLLAUS LOHKOVAIHDOSSA" />
+        <text name="rhm_setting_autoreset_desc" text="Arkistoi ja nollaa peltolaskurin automaattisesti siirryttäessä toiselle pellolle." />
+        <text name="rhm_setting_autoreset_smart" text="Älykäs (Lohko / Kasvi)" />
+        <text name="rhm_setting_autoreset_crop" text="Vain kasvin vaihtuessa" />
+        <text name="rhm_setting_autoreset_disabled" text="Pois käytöstä (Manuaalinen)" />
+        <text name="rhm_col_field" text="Pelto" />
+        <text name="rhm_col_speed" text="Nopeus" />
+        <text name="rhm_col_load" text="Kuormitus" />
+        <text name="rhm_col_loss" text="Hävikki" />
+        <text name="rhm_col_tank" text="Viljasäiliö" />
+        <text name="rhm_col_area" text="Pinta-ala" />
+        <text name="rhm_col_money" text="Hävikki ($)" />
+        <text name="rhm_col_driver" text="Kuljettaja" />
+        <text name="rhm_col_cutter" text="Leikkuupöytä" />
+        <text name="rhm_col_throughput" text="Läpäisykyky" />
+        <text name="rhm_col_yield" text="Satoisuus" />
+        <text name="rhm_col_wear" text="Kuluminen" />
+        <text name="rhm_kpi_field" text="PELTO" />
+        <text name="rhm_kpi_crop" text="KASVI" />
+        <text name="rhm_kpi_area" text="PINTA-ALA" />
+        <text name="rhm_kpi_harvest" text="SATO" />
+        <text name="rhm_kpi_yield" text="SATOISUUS" />
+        <text name="rhm_kpi_loss" text="HÄVIKKI" />
+        <text name="rhm_kpi_speed" text="NOPEUS" />
+        <text name="rhm_efficiency_index" text="Tehokkuusluokka" />
+        <text name="rhm_trip_footer_hint" text="Osamatkamittari seuraa puidun alan ja puhtaan viljan määrää nykyisellä pellolla. Nollattavissa milloin vain." />
+        <text name="rhm_detail_area" text="Pellon kokonaispuitu pinta-ala" />
+        <text name="rhm_detail_clean_grain" text="puhdasta viljaa" />
+        <text name="rhm_detail_yield" text="Keskimääräinen sato puidulla alalla" />
+        <text name="rhm_detail_throughput" text="Nykyinen puintiteho" />
+        <text name="rhm_detail_lost_grain" text="hukattua viljaa" />
+        <text name="rhm_detail_loss_rating" text="Hävikkiprosentti suhteessa biologiseen satoon" />
+        <text name="rhm_detail_financial_loss" text="Satohävikistä aiheutuva taloudellinen tappio" />
+        <text name="rhm_detail_speed" text="Puimurin keskimääräinen työnopeus" />
+        <text name="rhm_detail_load" text="Moottorin keskimääräinen kuormitus" />
+        <text name="rhm_detail_duration" text="Aktiivisen työjakson kesto" />
+        <text name="rhm_detail_wear" text="Puimakoneiston mekaaninen kuluminen" />
+        <text name="rhm_rating_normal" text="Ihanteellinen (&lt; 1,5 %)" />
+        <text name="rhm_rating_moderate" text="Kohtalainen (1,5 - 3,0 %)" />
+        <text name="rhm_rating_elevated" text="Kohonnut (&gt; 3,0 %)" />
+        <text name="rhm_rating_critical" text="Kriittinen (&gt; 4,5 %)" />
+        <text name="rhm_tab_fields" text="Tilan Pellot" />
+        <text name="rhm_tab_fields_desc" text="Yksityiskohtainen katsaus sadonkorjuusta, sadoista, hävikistä ja urakointitöistä lohkoittain." />
+        <text name="rhm_card_field_land" text="PELTOALA &amp; EDISTYMINEN" />
+        <text name="rhm_card_field_yield" text="TUOTANTO &amp; SATO" />
+        <text name="rhm_card_field_losses" text="HÄVIKKI &amp; LAATU" />
+        <text name="rhm_fields_total_owned" text="Omat pellot" />
+        <text name="rhm_fields_best_yield" text="Paras sato" />
+        <text name="rhm_fields_owned" text="Oma" />
+        <text name="rhm_fields_contract" text="Urakka" />
+        <text name="rhm_fields_no_data" text="Ei tallennettuja peltoja" />
+        <text name="rhm_contract_tag" text="(Urakka)" />
+        <text name="rhm_status_completed" text="Korjattu" />
+        <text name="rhm_status_idle_yard" text="Tilalla (odottaa)" />
+        <text name="rhm_fields_external" text="Ulkopuolinen" />
+        <text name="rhm_field_transit" text="Matkalla / Ajo" />
+        <text name="rhm_detail_loss_money" text="Satohävikin taloudellinen menetys" />
+        <text name="rhm_cause_none" text="Optimaalinen toiminta (ei hävikkiä)" />
+        <text name="rhm_fields_all_overview" text="[*] Tilan yleiskatsaus (kaikki pellot)" />
+        <text name="rhm_field_operations" text="Puintikerrat" />
+        <text name="rhm_fields_nominal_area" text="Nimellispinta-ala" />
+        <text name="rhm_status_in_progress" text="Käynnissä" />
+        <text name="rhm_fields_harvested_area" text="Puitu ala" />
+        <text name="rhm_ops_one" text="puinti" />
+        <text name="rhm_ops_few" text="puintia" />
+        <text name="rhm_ops_many" text="puintia" />
+        <text name="rhm_loss_disabled" text="Simulaatio poistettu käytöstä" />
+        <text name="rhm_loss_disabled_desc" text="Satohävikin simulaatio on poistettu käytöstä modin asetuksissa." />
+        <text name="rhm_filter_active" text="Käytössä" />
+        <text name="rhm_filter_all" text="Kaikki" />
+        <text name="rhm_filter_sold" text="Myydyt" />
+        <text name="rhm_status_sold" text="Myyty (Arkistoitu)" />
+        <text name="rhm_field_sold" text="[Myyty]" />
+        <text name="rhm_driver_sold" text="Poistettu käytöstä" />
+        <text name="rhm_fleet_no_sold_combines" text="Ei myytyjä puimureita arkistossa" />
+        <text name="rhm_fleet_total_count_active" text="Aktiiviset puimurit" />
+        <text name="rhm_fleet_total_count_sold" text="Myydyt puimurit" />
+        <text name="rhm_slopeloss_short" text="Rinnehäviöt" />
+        <text name="rhm_slopeloss_long" text="Simuloi viljan kasautumista seulaston toiselle puolelle yli 4° rinteissä (jopa 5% häviö). Kytke pois poistaaksesi maaston kallistushäviöt." />
+        <text name="rhm_weedload_short" text="Rikkakasvien vastus" />
+        <text name="rhm_weedload_long" text="Mehevät ja sitkeät rikkakasvit kietoutuvat puintikelan ympärille lisäten moottorin kuormitusta (jopa +25%). Kytke pois estääksesi tehohäviöt." />
+            <text name="rhm_fleet_badge_mission" text="[Sopimus]" />
+        <text name="rhm_fleet_badge_leased" text="[Vuokrattu]" />
+    </texts>
+</l10n>

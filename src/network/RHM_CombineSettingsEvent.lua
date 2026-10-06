@@ -76,7 +76,7 @@ function RHM_CombineSettingsEvent:writeStream(streamId, connection)
         streamWriteUInt8(streamId, s.upperSieve or 50)
         streamWriteUInt8(streamId, s.lowerSieve or 50)
         streamWriteUInt8(streamId, s.feeder or 50)
-        streamWriteUInt8(streamId, s.targetEngineLoad or 95)
+        streamWriteUInt8(streamId, s.targetEngineLoad or 80)
         streamWriteString(streamId, self.cropName or "")
         streamWriteString(streamId, self.mode or "")
     else
@@ -97,7 +97,7 @@ end
 function RHM_CombineSettingsEvent:run(connection)
     -- EN: Safety checks for vehicle and components
     -- UA: Перевірки безпеки для транспорту та компонентів
-    if not self.vehicle or not self.vehicle:getIsSynchronized() then
+    if not self.vehicle or (self.vehicle.getIsSynchronized and not self.vehicle:getIsSynchronized()) or self.vehicle.isDeleted then
         return
     end
     
@@ -194,8 +194,9 @@ function RHM_CombineSettingsEvent:run(connection)
                 -- EN: Apply a single parameter change (e.g. "fan" = 65).
                 -- UA: Застосовуємо зміну одного параметру (наприклад "fan" = 65).
                 if mem.currentSettings[self.parameter] ~= nil then
-                    local maxVal = self.parameter == "targetEngineLoad" and 110 or 100
-                    mem.currentSettings[self.parameter] = math.max(0, math.min(maxVal, self.value))
+                    local minVal = self.parameter == "targetEngineLoad" and 70 or 0
+                    local maxVal = 100
+                    mem.currentSettings[self.parameter] = math.max(minVal, math.min(maxVal, self.value))
                     if self.parameter ~= "targetEngineLoad" then
                         mem.autoSwitchEnabled = false
                         mem.mode = "MANUAL"
@@ -296,8 +297,9 @@ function RHM_CombineSettingsEvent:run(connection)
             end
         elseif self.parameter ~= "AUTO_SET" then
             if mem.currentSettings[self.parameter] ~= nil then
-                local maxVal = self.parameter == "targetEngineLoad" and 110 or 100
-                mem.currentSettings[self.parameter] = math.max(0, math.min(maxVal, self.value))
+                local minVal = self.parameter == "targetEngineLoad" and 70 or 0
+                local maxVal = 100
+                mem.currentSettings[self.parameter] = math.max(minVal, math.min(maxVal, self.value))
                 if self.parameter ~= "targetEngineLoad" then
                     mem.autoSwitchEnabled = false
                     mem.mode = "MANUAL"

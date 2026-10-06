@@ -40,6 +40,31 @@ local SECTIONS_ORDERED = {
     { key = "DISCHARGE",  label = "rhm_ui_section_discharge"  },
 }
 
+local function renderPanelSlice(overlay, sx, sy, sw, sh, uvs)
+    if sw <= 0 or sh <= 0 or not uvs then return end
+    overlay:setPosition(sx, sy)
+    overlay:setDimension(sw, sh)
+    overlay:setUVs(uvs)
+    overlay:render()
+end
+
+local TIER_CONFIGS = {
+    [1] = { labelKey = "rhm_ui_tier1_manual", defaultLabel = "TIER 1 - MANUAL",  bg = {0.08, 0.09, 0.10, 0.85}, border = {1.0, 1.0, 1.0, 0.12}, text = {0.70, 0.72, 0.76, 1.0} },
+    [2] = { labelKey = "rhm_ui_tier2_sensors", defaultLabel = "TIER 2 - SENSORS", bg = {0.12, 0.10, 0.04, 0.85}, border = {0.95, 0.72, 0.18, 0.60}, text = {0.95, 0.72, 0.18, 1.0} },
+    [3] = { labelKey = "rhm_ui_tier3_monitor", defaultLabel = "TIER 3 - MONITOR", bg = {0.08, 0.12, 0.04, 0.85}, border = {0.529, 0.706, 0.0, 0.60}, text = {0.529, 0.706, 0.0, 1.0} },
+    [4] = { labelKey = "rhm_ui_tier4_opti",    defaultLabel = "TIER 4 - AI OPTI", bg = {0.05, 0.06, 0.07, 0.90}, border = {0.529, 0.706, 0.0, 0.80}, text = {1.0, 1.0, 1.0, 1.0} }
+}
+
+local function getTierConfig(packageLevel)
+    local level = math.min(4, math.max(1, packageLevel or 1))
+    local cfg = TIER_CONFIGS[level] or TIER_CONFIGS[1]
+    if not cfg.label or cfg._lastLang ~= (g_i18n and g_i18n.currentLanguage) then
+        cfg.label = (g_i18n and g_i18n:hasText(cfg.labelKey)) and g_i18n:getText(cfg.labelKey) or cfg.defaultLabel
+        cfg._lastLang = g_i18n and g_i18n.currentLanguage
+    end
+    return cfg
+end
+
 function RHMCombineCalibrationGUI.new(modDirectory)
     local self = setmetatable({}, CombineCalibrationGUI_mt)
     self.modDirectory = modDirectory
@@ -131,31 +156,31 @@ function RHMCombineCalibrationGUI.new(modDirectory)
     self.dragOffsetTabletY = 0
     self.hasCustomPosition = false
 
-    local bgTexture = self.modDirectory .. "textures/hud_icons.dds"
+    local bgTexture = self.modDirectory .. "textures/rhm_atlas.dds"
     self.overlay = Overlay.new(bgTexture, 0, 0, 1, 1)
     if GuiUtils and GuiUtils.getUVs then
-        self.overlay:setUVs(GuiUtils.getUVs({388, 4, 56, 56}, {512, 64}))
+        self.overlay:setUVs(GuiUtils.getUVs({516, 260, 56, 56}, {1024, 1024}))
     else
-        self.overlay:setUVs({0.758, 0.062, 0.758, 0.937, 0.867, 0.062, 0.867, 0.937})
+        self.overlay:setUVs({0.5039, 0.2539, 0.5039, 0.3086, 0.5586, 0.2539, 0.5586, 0.3086})
     end
 
-    local panelTexturePath = Utils.getFilename("textures/panelRounded.dds", self.modDirectory)
+    local panelTexturePath = Utils.getFilename("textures/rhm_atlas.dds", self.modDirectory)
     self.roundedOverlay = Overlay.new(panelTexturePath, 0, 0, 1, 1)
 
     local pxUVs = {
-        topLeft     = {  0,  0,  5,  5 },
-        top         = {  5,  0, 54,  5 },
-        topRight    = { 59,  0,  5,  5 },
-        left        = {  0,  5,  5, 54 },
-        center      = {  5,  5, 54, 54 },
-        right       = { 59,  5,  5, 54 },
-        bottomLeft  = {  0, 59,  5,  5 },
-        bottom      = {  5, 59, 54,  5 },
-        bottomRight = { 59, 59,  5,  5 }
+        topLeft     = {  0, 384,  5,  5 },
+        top         = {  5, 384, 54,  5 },
+        topRight    = { 59, 384,  5,  5 },
+        left        = {  0, 389,  5, 54 },
+        center      = {  5, 389, 54, 54 },
+        right       = { 59, 389,  5, 54 },
+        bottomLeft  = {  0, 443,  5,  5 },
+        bottom      = {  5, 443, 54,  5 },
+        bottomRight = { 59, 443,  5,  5 }
     }
     self.roundedUVs = {}
     for key, coords in pairs(pxUVs) do
-        self.roundedUVs[key] = GuiUtils.getUVs(coords, {64, 64})
+        self.roundedUVs[key] = GuiUtils.getUVs(coords, {1024, 1024})
     end
 
     return self
@@ -327,18 +352,18 @@ function RHMCombineCalibrationGUI:close()
     local camTarget = (vehicle and vehicle.spec_enterable and vehicle)
                    or (self.activeVehicle and self.activeVehicle.spec_enterable and self.activeVehicle)
 
-    local otherModOwnsCursor = false
+    local otherSystemOwnsCursor = false
     if CpHud and CpHud.isHudActive then
-        otherModOwnsCursor = true
+        otherSystemOwnsCursor = true
     end
     if AutoDrive and AutoDrive.isEditorModeEnabled and AutoDrive:isEditorModeEnabled() then
-        otherModOwnsCursor = true
+        otherSystemOwnsCursor = true
     end
     if VehicleMouseCursor and VehicleMouseCursor._cursorOwned then
-        otherModOwnsCursor = true
+        otherSystemOwnsCursor = true
     end
 
-    if not otherModOwnsCursor then
+    if not otherSystemOwnsCursor then
         g_inputBinding:setShowMouseCursor(false)
     end
 
@@ -351,10 +376,12 @@ function RHMCombineCalibrationGUI:close()
 end
 
 function RHMCombineCalibrationGUI:cycleCrop(direction)
-    local spec = self.activeVehicle.spec_rhm_Combine
+    local spec = self.activeVehicle and self.activeVehicle.spec_rhm_Combine
+    if not spec or not spec.combineMemory then return end
+
     local machineType = spec.machineType or "grain"
     local crops = RHM_CombineSettingsDatabase:getCropNamesForMachineType(machineType, self.activeVehicle)
-    if #crops == 0 then return end
+    if not crops or #crops == 0 then return end
 
     local current = spec.combineMemory.currentCrop
     local canonicalCurrent = RHM_CombineSettingsDatabase and RHM_CombineSettingsDatabase.getCanonicalCropName and RHM_CombineSettingsDatabase:getCanonicalCropName(current)
@@ -501,7 +528,8 @@ function RHMCombineCalibrationGUI:draw()
         local sectionsShown = 0
         for _, section in ipairs(SECTIONS_ORDERED) do
             for _, p in ipairs(activeParams) do
-                if PARAM_SECTION_MAP[p] == section.key then
+                local sKey = PARAM_SECTION_MAP[p] or "SEPARATION"
+                if sKey == section.key then
                     sectionsShown = sectionsShown + 1
                     break
                 end
@@ -597,13 +625,7 @@ function RHMCombineCalibrationGUI:draw()
 
     -- Tier Badge
     local packageLevel = (spec and spec.packageLevel) or 1
-    local tierConfigs = {
-        [1] = { label = g_i18n:hasText("rhm_ui_tier1_manual") and g_i18n:getText("rhm_ui_tier1_manual") or "TIER 1 - MANUAL",  bg = {0.08, 0.09, 0.10, 0.85}, border = {1.0, 1.0, 1.0, 0.12}, text = {0.70, 0.72, 0.76, 1.0} },
-        [2] = { label = g_i18n:hasText("rhm_ui_tier2_sensors") and g_i18n:getText("rhm_ui_tier2_sensors") or "TIER 2 - SENSORS", bg = {0.12, 0.10, 0.04, 0.85}, border = {0.95, 0.72, 0.18, 0.60}, text = {0.95, 0.72, 0.18, 1.0} },
-        [3] = { label = g_i18n:hasText("rhm_ui_tier3_monitor") and g_i18n:getText("rhm_ui_tier3_monitor") or "TIER 3 - MONITOR", bg = {0.08, 0.12, 0.04, 0.85}, border = {0.529, 0.706, 0.0, 0.60}, text = {0.529, 0.706, 0.0, 1.0} },
-        [4] = { label = g_i18n:hasText("rhm_ui_tier4_opti") and g_i18n:getText("rhm_ui_tier4_opti") or "TIER 4 - AI OPTI", bg = {0.05, 0.06, 0.07, 0.90}, border = {0.529, 0.706, 0.0, 0.80}, text = {1.0, 1.0, 1.0, 1.0} }
-    }
-    local tier = tierConfigs[math.min(4, math.max(1, packageLevel))] or tierConfigs[1]
+    local tier = getTierConfig(packageLevel)
 
     local badgeW = 0.058
     local badgeH = 0.018
@@ -725,7 +747,7 @@ function RHMCombineCalibrationGUI:draw()
         cutterWidth = resolveCutterWidth(v)
     end
 
-    local widthStr = (cutterWidth and cutterWidth > 0) and string.format("%.1f m", cutterWidth) or "—"
+    local widthStr = (cutterWidth and cutterWidth > 0) and string.format("%.1f m", cutterWidth) or "--"
 
     -- Engine Horsepower Telemetry
     local engineHp = nil
@@ -758,7 +780,7 @@ function RHMCombineCalibrationGUI:draw()
             end
         end
     end
-    local hpStr = engineHp and string.format("%.0f HP", engineHp) or "—"
+    local hpStr = engineHp and string.format("%.0f HP", engineHp) or "--"
 
     -- Telemetry Badges (Cutter Width & Horsepower)
     local infoCapsuleH = 0.018
@@ -836,6 +858,10 @@ function RHMCombineCalibrationGUI:draw()
     end
 
     local machineType = spec.machineType or (memory and memory.machineType) or "grain"
+    local harvestContext = self:getHarvestContext(machineType)
+    local cachedCropSettings = (RHM_CombineSettingsDatabase and memory.currentCrop)
+        and RHM_CombineSettingsDatabase:getSettingsForCrop(memory.currentCrop, harvestContext)
+        or nil
 
     -- ── Tier 3+ Live Telemetry Cards ────────────────────────────────────────
     if packageLevel >= 3 then
@@ -850,8 +876,7 @@ function RHMCombineCalibrationGUI:draw()
         local effPenalty = 0
         local lossPenalty = 0
         if memory.currentCrop then
-            local context = self:getHarvestContext(machineType)
-            effPenalty, lossPenalty, _ = memory:checkSettingsForCrop(memory.currentCrop, context)
+            effPenalty, lossPenalty, _ = memory:checkSettingsForCrop(memory.currentCrop, harvestContext)
         end
         local isArcadeMotor = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.difficultyMotor == 1)
         local isArcadeLoss = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.difficultyLoss == 1)
@@ -880,14 +905,14 @@ function RHMCombineCalibrationGUI:draw()
         local cx2 = cx1 + cardW + cardGap
         self:drawRect(cx2, cy, cardW, cardH, ui.colors.statsCardBg)
         self:drawBorder(cx2, cy, cardW, cardH, ui.colors.statsCardBorder, 1)
-        local speedVal = math.max(0, effPenalty)
-        local speedColor = (speedVal <= 0.05) and ui.colors.success or ((speedVal <= 2.0) and ui.colors.warning or ui.colors.error)
-        local speedPrefix = (speedVal <= 0.05) and "" or "-"
+        local penaltyVal = math.max(0, effPenalty)
+        local efficiencyVal = math.max(0, 100.0 - penaltyVal)
+        local speedColor = (penaltyVal <= 0.05) and ui.colors.success or ((penaltyVal <= 2.0) and ui.colors.warning or ui.colors.error)
         local cardEffText = g_i18n:hasText("rhm_ui_card_efficiency") and g_i18n:getText("rhm_ui_card_efficiency") or "EFFICIENCY"
         setTextColor(unpack(ui.colors.textDim))
         renderText(cx2 + cardW * 0.5, cy + cardH * 0.56, ui.statusSize * 0.85, cardEffText)
         setTextColor(unpack(speedColor))
-        renderText(cx2 + cardW * 0.5, cy + cardH * 0.14, ui.fontSize, string.format("%s%.1f%%", speedPrefix, speedVal))
+        renderText(cx2 + cardW * 0.5, cy + cardH * 0.14, ui.fontSize, string.format("%.1f%%", efficiencyVal))
 
         -- Card 3: Predicted Loss
         local cx3 = cx2 + cardW + cardGap
@@ -896,9 +921,11 @@ function RHMCombineCalibrationGUI:draw()
         local cardLossText = g_i18n:hasText("rhm_ui_card_predicted_loss") and g_i18n:getText("rhm_ui_card_predicted_loss") or "PREDICTED LOSS"
         setTextColor(unpack(ui.colors.textDim))
         renderText(cx3 + cardW * 0.5, cy + cardH * 0.56, ui.statusSize * 0.85, cardLossText)
-        if isForage then
+        local isCropLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
+        if isForage or (not isCropLossEnabled) then
             setTextColor(unpack(ui.colors.textDim))
-            renderText(cx3 + cardW * 0.5, cy + cardH * 0.14, ui.fontSize, "N/A")
+            local offLabel = (not isCropLossEnabled) and "OFF" or "N/A"
+            renderText(cx3 + cardW * 0.5, cy + cardH * 0.14, ui.fontSize, offLabel)
         else
             local settingsLoss = math.max(0, lossPenalty)
             local wearLoss = (spec.loadCalculator and spec.loadCalculator.totalWearLoss) or 0
@@ -936,30 +963,85 @@ function RHMCombineCalibrationGUI:draw()
 
     -- [<] CROP NAME [>]
     local cropNavX = x + ui.margin
-    local arrowW = 0.020
+    local arrowW = 0.018
     self:drawButton(cropNavX, cy + 0.004, arrowW, ui.buttonH + 0.004, "<", function()
         self:cycleCrop(-1)
     end)
 
     local cropName = getLocalizedCropName(memory.currentCrop)
-    local cropBoxW = 0.135
-    local cropBoxX = cropNavX + arrowW + 0.004
+    local cropBoxW = 0.110
+    local cropBoxX = cropNavX + arrowW + 0.003
     self:drawRect(cropBoxX, cy + 0.004, cropBoxW, ui.buttonH + 0.004, {0.0, 0.0, 0.0, 0.50})
     self:drawBorder(cropBoxX, cy + 0.004, cropBoxW, ui.buttonH + 0.004, {1.0, 1.0, 1.0, 0.12}, 1)
     setTextBold(true)
     setTextAlignment(RenderText.ALIGN_CENTER)
     setTextColor(unpack(ui.colors.text))
-    renderText(cropBoxX + cropBoxW * 0.5, cy + 0.009, ui.fontSize, cropName)
+    renderText(cropBoxX + cropBoxW * 0.5, cy + 0.009, ui.fontSize * 0.95, cropName)
     setTextBold(false)
 
-    self:drawButton(cropBoxX + cropBoxW + 0.004, cy + 0.004, arrowW, ui.buttonH + 0.004, ">", function()
+    self:drawButton(cropBoxX + cropBoxW + 0.003, cy + 0.004, arrowW, ui.buttonH + 0.004, ">", function()
         self:cycleCrop(1)
     end)
 
-    -- AUTO Calibration Button
-    local autoBtnW = 0.115
+    -- Environmental Condition Indicator Badge
+    local autoBtnW = 0.110
     local autoBtnX = x + w - ui.margin - autoBtnW
     local autoBtnH = ui.buttonH + 0.004
+
+    local rightArrowEnd = cropBoxX + cropBoxW + 0.003 + arrowW
+    local badgeX = rightArrowEnd + 0.006
+    local badgeW = autoBtnX - badgeX - 0.006
+
+    if badgeW > 0.04 then
+        local liveMoisture = (spec and spec.data and spec.data.moisture) or 0
+        local liveWeed = (spec and spec.data and spec.data.weedRatio) or 0
+
+        -- Ambient standing crop moisture fallback when stationary / cutter off
+        if liveMoisture <= 0 and RHM_MoistureAdapter and RHM_MoistureAdapter.getStandingCropMoisture then
+            local fillType = spec and (spec.lastFillType or (spec.combineMemory and spec.combineMemory.currentCrop))
+            liveMoisture = RHM_MoistureAdapter.getStandingCropMoisture(self.activeVehicle, fillType) or 0
+        end
+
+        local envText = ""
+        local envColor = ui.colors.textDim
+        local envBg = {0.0, 0.0, 0.0, 0.45}
+        local envBorder = {1.0, 1.0, 1.0, 0.10}
+
+        if liveWeed > 0.03 and liveMoisture > 14.5 then
+            local label = g_i18n:hasText("rhm_ui_env_damp_weeds") and g_i18n:getText("rhm_ui_env_damp_weeds") or "DAMP & WEEDY"
+            envText = string.format("%s (%.0f%% / %.0f%%)", label, liveMoisture, liveWeed * 100)
+            envColor = ui.colors.warning
+            envBorder = {ui.colors.warning[1], ui.colors.warning[2], ui.colors.warning[3], 0.35}
+        elseif liveWeed > 0.03 then
+            local label = g_i18n:hasText("rhm_ui_env_weeds") and g_i18n:getText("rhm_ui_env_weeds") or "WEEDS"
+            envText = string.format("%s: %.0f%%", label, liveWeed * 100)
+            envColor = ui.colors.warning
+            envBorder = {ui.colors.warning[1], ui.colors.warning[2], ui.colors.warning[3], 0.35}
+        elseif liveMoisture > 14.5 then
+            local label = g_i18n:hasText("rhm_ui_env_moisture") and g_i18n:getText("rhm_ui_env_moisture") or "HIGH MOISTURE"
+            envText = string.format("%s: %.1f%%", label, liveMoisture)
+            envColor = ui.colors.warning
+            envBorder = {ui.colors.warning[1], ui.colors.warning[2], ui.colors.warning[3], 0.35}
+        elseif liveMoisture > 0 then
+            local label = g_i18n:hasText("rhm_ui_env_optimal") and g_i18n:getText("rhm_ui_env_optimal") or "OPTIMAL"
+            envText = string.format("%s (%.1f%%)", label, liveMoisture)
+            envColor = ui.colors.success
+            envBorder = {ui.colors.success[1], ui.colors.success[2], ui.colors.success[3], 0.25}
+        else
+            local label = g_i18n:hasText("rhm_ui_env_optimal") and g_i18n:getText("rhm_ui_env_optimal") or "OPTIMAL CONDITIONS"
+            envText = label
+            envColor = ui.colors.success
+            envBorder = {ui.colors.success[1], ui.colors.success[2], ui.colors.success[3], 0.25}
+        end
+
+        self:drawRect(badgeX, cy + 0.004, badgeW, ui.buttonH + 0.004, envBg)
+        self:drawBorder(badgeX, cy + 0.004, badgeW, ui.buttonH + 0.004, envBorder, 1)
+        setTextBold(true)
+        setTextAlignment(RenderText.ALIGN_CENTER)
+        setTextColor(unpack(envColor))
+        renderText(badgeX + badgeW * 0.5, cy + 0.009, ui.fontSize * 0.80, envText)
+        setTextBold(false)
+    end
 
     if packageLevel >= 4 then
         local btnAutoText = g_i18n:hasText("rhm_ui_btn_ai_auto") and g_i18n:getText("rhm_ui_btn_ai_auto") or "AI AUTO-CALIB"
@@ -999,7 +1081,8 @@ function RHMCombineCalibrationGUI:draw()
     for _, section in ipairs(SECTIONS_ORDERED) do
         local hasAny = false
         for _, p in ipairs(activeParams) do
-            if PARAM_SECTION_MAP[p] == section.key then
+            local sKey = PARAM_SECTION_MAP[p] or "SEPARATION"
+            if sKey == section.key then
                 hasAny = true
                 break
             end
@@ -1019,11 +1102,12 @@ function RHMCombineCalibrationGUI:draw()
             renderText(x + ui.margin + 0.006, cy + 0.006, ui.sectionSize, sLabel)
 
             for _, p in ipairs(activeParams) do
-                if PARAM_SECTION_MAP[p] == section.key and not drawnParams[p] then
+                local sKey = PARAM_SECTION_MAP[p] or "SEPARATION"
+                if sKey == section.key and not drawnParams[p] then
                     cy = cy - ui.lineHeight
                     local labelKey = RHM_CombineSettingsDatabase:getParamLabel(machineType, p)
                     local label = g_i18n:hasText(labelKey) and g_i18n:getText(labelKey) or p
-                    self:drawParameterRow(x + ui.margin, cy, secW, p, label, memory, ui, machineType, packageLevel)
+                    self:drawParameterRow(x + ui.margin, cy, secW, p, label, memory, ui, machineType, packageLevel, cachedCropSettings)
                     drawnParams[p] = true
                 end
             end
@@ -1047,14 +1131,14 @@ function RHMCombineCalibrationGUI:draw()
             cy = cy - ui.lineHeight
             local labelKey = RHM_CombineSettingsDatabase:getParamLabel(machineType, p)
             local label = g_i18n:hasText(labelKey) and g_i18n:getText(labelKey) or p
-            self:drawParameterRow(x + ui.margin, cy, secW, p, label, memory, ui, machineType, packageLevel)
+            self:drawParameterRow(x + ui.margin, cy, secW, p, label, memory, ui, machineType, packageLevel, cachedCropSettings)
             drawnParams[p] = true
         end
     end
 
     cy = cy - ui.lineHeight
     local loadLabel = g_i18n:hasText("rhm_target_load") and g_i18n:getText("rhm_target_load") or "Target Engine Load"
-    self:drawParameterRow(x + ui.margin, cy, secW, "targetEngineLoad", loadLabel, memory, ui, machineType, packageLevel)
+    self:drawParameterRow(x + ui.margin, cy, secW, "targetEngineLoad", loadLabel, memory, ui, machineType, packageLevel, cachedCropSettings)
 
     cy = cy - ui.margin * 0.8
     self:drawRect(x + ui.margin, cy, w - ui.margin * 2, pixelH, ui.colors.separator)
@@ -1155,7 +1239,7 @@ end
 
 ---EN: Draws an interactive parameter row with direct track slider and [-][+] micro-buttons.
 ---UA: Малює інтерактивний рядок параметра з прямим трек-слайдером та мікро-кнопками [-][+].
-function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, ui, machineType, packageLevel)
+function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory, ui, machineType, packageLevel, cachedCropSettings)
     local val = memory.currentSettings[param] or 0
     local optimal = 0
     local tolerance = 5
@@ -1168,16 +1252,17 @@ function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory
         self.hoveredParameter = param
     end
 
-    -- Query optimal value from DB
-    if RHM_CombineSettingsDatabase and memory.currentCrop then
+    -- Query optimal value from DB (use cached settings if available to avoid per-row allocations)
+    local settings = cachedCropSettings
+    if not settings and RHM_CombineSettingsDatabase and memory.currentCrop then
         local context = self:getHarvestContext(machineType)
-        local settings = RHM_CombineSettingsDatabase:getSettingsForCrop(memory.currentCrop, context)
-        if settings and settings[param] then
-            optimal = settings[param].optimal
-            tolerance = settings[param].tolerance or 5
-            isOptimal = math.abs(val - optimal) <= tolerance
-            hasOptimal = true
-        end
+        settings = RHM_CombineSettingsDatabase:getSettingsForCrop(memory.currentCrop, context)
+    end
+    if settings and settings[param] then
+        optimal = settings[param].optimal
+        tolerance = settings[param].tolerance or 5
+        isOptimal = math.abs(val - optimal) <= tolerance
+        hasOptimal = true
     end
 
     -- Format physical value
@@ -1324,54 +1409,14 @@ function RHMCombineCalibrationGUI:drawParameterRow(x, y, w, param, label, memory
         param = param
     })
 
-    -- Smart Step Function
-    local function performSmartStep(direction)
-        if param == "targetEngineLoad" then
-            local newLoad = math.max(50, math.min(100, val + (direction * 5)))
-            memory:updateSetting(param, newLoad)
-            return
-        end
-
-        if RHM_UnitConverter and RHM_UnitConverter.percentToPhysical then
-            local physVal = RHM_UnitConverter.percentToPhysical(param, val, machineType)
-            local range = RHM_UnitConverter.getPhysicalRange(param, machineType)
-
-            if range then
-                local stepValue = (range.unit == "RPM") and 10 or 0.5
-                local targetPhysVal = physVal
-
-                local snapped = math.floor((physVal / stepValue) + 0.5) * stepValue
-                if math.abs(physVal - snapped) > 0.01 then
-                    if direction > 0 then
-                        targetPhysVal = math.ceil(physVal / stepValue) * stepValue
-                    else
-                        targetPhysVal = math.floor(physVal / stepValue) * stepValue
-                    end
-                else
-                    targetPhysVal = snapped + (stepValue * direction)
-                end
-
-                local targetPercent = RHM_UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
-                if math.abs(targetPercent - val) < 0.5 then
-                    targetPercent = val + direction
-                end
-                memory:updateSetting(param, math.floor(targetPercent + 0.5))
-            else
-                memory:updateSetting(param, val + direction)
-            end
-        else
-            memory:updateSetting(param, val + direction)
-        end
-    end
-
     -- Micro Fine-Tuning Buttons [-] and [+]
     local btnY = y + (ui.lineHeight - microBtnH) * 0.5
     self:drawButton(btnStartX, btnY, microBtnW, microBtnH, "-", function()
-        performSmartStep(-1)
+        self:stepParameter(param, -1, false)
     end)
 
     self:drawButton(btnStartX + microBtnW + 0.003, btnY, microBtnW, microBtnH, "+", function()
-        performSmartStep(1)
+        self:stepParameter(param, 1, false)
     end)
 end
 
@@ -1444,7 +1489,13 @@ function RHMCombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOv
     end
 
     local btnFontSize = (text == "X") and (self.ui.fontSize * 1.15) or self.ui.fontSize
-    local offsetY = (text == "X") and (btnFontSize * 0.35) or (self.ui.fontSize * 0.38)
+    if getTextWidth and text and text ~= "X" and text ~= "+" and text ~= "-" and text ~= "<" and text ~= ">" then
+        local tw = getTextWidth(btnFontSize, text)
+        if tw and tw > (w - 0.008) and tw > 0 and w > 0.01 then
+            btnFontSize = btnFontSize * ((w - 0.008) / tw)
+        end
+    end
+    local offsetY = (text == "X") and (btnFontSize * 0.35) or (btnFontSize * 0.38)
     renderText(x + w * 0.5, y + h * 0.5 - offsetY, btnFontSize, text)
     setTextBold(false)
 
@@ -1482,26 +1533,18 @@ function RHMCombineCalibrationGUI:drawPanelBackground(x, y, w, h, color)
     local overlay = self.roundedOverlay
     overlay:setColor(r, g, b, a)
 
-    local function renderSlice(sx, sy, sw, sh, uvs)
-        if sw <= 0 or sh <= 0 or not uvs then return end
-        overlay:setPosition(sx, sy)
-        overlay:setDimension(sw, sh)
-        overlay:setUVs(uvs)
-        overlay:render()
-    end
-
     local uvs = self.roundedUVs
-    renderSlice(leftX, bottomY, cornerW, cornerH, uvs.bottomLeft)
-    renderSlice(centerX, bottomY, centerW, cornerH, uvs.bottom)
-    renderSlice(rightX, bottomY, cornerW, cornerH, uvs.bottomRight)
+    renderPanelSlice(overlay, leftX, bottomY, cornerW, cornerH, uvs.bottomLeft)
+    renderPanelSlice(overlay, centerX, bottomY, centerW, cornerH, uvs.bottom)
+    renderPanelSlice(overlay, rightX, bottomY, cornerW, cornerH, uvs.bottomRight)
 
-    renderSlice(leftX, centerY, cornerW, centerH, uvs.left)
-    renderSlice(centerX, centerY, centerW, centerH, uvs.center)
-    renderSlice(rightX, centerY, cornerW, centerH, uvs.right)
+    renderPanelSlice(overlay, leftX, centerY, cornerW, centerH, uvs.left)
+    renderPanelSlice(overlay, centerX, centerY, centerW, centerH, uvs.center)
+    renderPanelSlice(overlay, rightX, centerY, cornerW, centerH, uvs.right)
 
-    renderSlice(leftX, topY, cornerW, cornerH, uvs.topLeft)
-    renderSlice(centerX, topY, centerW, cornerH, uvs.top)
-    renderSlice(rightX, topY, cornerW, cornerH, uvs.topRight)
+    renderPanelSlice(overlay, leftX, topY, cornerW, cornerH, uvs.topLeft)
+    renderPanelSlice(overlay, centerX, topY, centerW, cornerH, uvs.top)
+    renderPanelSlice(overlay, rightX, topY, cornerW, cornerH, uvs.topRight)
 end
 
 function RHMCombineCalibrationGUI:drawRect(x, y, w, h, color)
@@ -1570,6 +1613,64 @@ function RHMCombineCalibrationGUI:checkHover(x, y, w, h)
     return mx >= x and mx <= x + w and my >= y and my <= y + h
 end
 
+---EN: Steps a parameter value up or down according to physical step size and alignment grid.
+---UA: Змінює значення параметра на один крок відповідно до фізичного кроку та сітки вирівнювання.
+function RHMCombineCalibrationGUI:stepParameter(param, direction, isFast)
+    local spec = self.activeVehicle and self.activeVehicle.spec_rhm_Combine
+    if not spec or not spec.combineMemory or not param then return end
+
+    local memory = spec.combineMemory
+    local val = memory.currentSettings[param] or 0
+    local machineType = spec.machineType or "grain"
+
+    if param == "targetEngineLoad" then
+        local step = isFast and 10 or 5
+        local snapped = math.floor((val / step) + 0.5) * step
+        local newLoad
+        if math.abs(val - snapped) > 0.01 then
+            if direction > 0 then
+                newLoad = math.ceil(val / step) * step
+            else
+                newLoad = math.floor(val / step) * step
+            end
+        else
+            newLoad = snapped + (direction * step)
+        end
+        newLoad = math.max(70, math.min(100, newLoad))
+        memory:updateSetting(param, newLoad)
+        return
+    end
+
+    if RHM_UnitConverter and RHM_UnitConverter.percentToPhysical and RHM_UnitConverter.getPhysicalRange then
+        local physVal = RHM_UnitConverter.percentToPhysical(param, val, machineType)
+        local range = RHM_UnitConverter.getPhysicalRange(param, machineType)
+        if range then
+            local stepValue = (range.step or ((range.unit == "RPM") and 10 or 1.0)) * (isFast and 5 or 1)
+            local targetPhysVal = physVal
+
+            local snapped = math.floor((physVal / stepValue) + 0.5) * stepValue
+            if math.abs(physVal - snapped) > 0.01 then
+                if direction > 0 then
+                    targetPhysVal = math.ceil(physVal / stepValue) * stepValue
+                else
+                    targetPhysVal = math.floor(physVal / stepValue) * stepValue
+                end
+            else
+                targetPhysVal = snapped + (stepValue * direction)
+            end
+
+            local targetPercent = RHM_UnitConverter.physicalToPercent(param, targetPhysVal, machineType)
+            if math.abs(targetPercent - val) < 0.5 then
+                targetPercent = val + (direction * (isFast and 5 or 1))
+            end
+            memory:updateSetting(param, math.max(0, math.min(100, math.floor(targetPercent + 0.5))))
+            return
+        end
+    end
+
+    memory:updateSetting(param, math.max(0, math.min(100, val + (direction * (isFast and 5 or 1)))))
+end
+
 function RHMCombineCalibrationGUI:updateSliderFromMouse(slider, posX)
     local param = slider.param
     local spec = self.activeVehicle and self.activeVehicle.spec_rhm_Combine
@@ -1580,7 +1681,7 @@ function RHMCombineCalibrationGUI:updateSliderFromMouse(slider, posX)
 
     if param == "targetEngineLoad" then
         percent = math.floor(percent / 5 + 0.5) * 5
-        percent = math.max(50, math.min(100, percent))
+        percent = math.max(70, math.min(100, percent))
         spec.combineMemory:updateSetting(param, percent)
         return
     end
@@ -1590,15 +1691,15 @@ function RHMCombineCalibrationGUI:updateSliderFromMouse(slider, posX)
         local physVal = RHM_UnitConverter.percentToPhysical(param, percent, machineType)
         local range = RHM_UnitConverter.getPhysicalRange(param, machineType)
         if range then
-            local step = (range.unit == "RPM") and 10 or 0.5
+            local step = range.step or ((range.unit == "RPM") and 10 or 1.0)
             local snappedPhys = math.floor((physVal / step) + 0.5) * step
             local snappedPercent = RHM_UnitConverter.physicalToPercent(param, snappedPhys, machineType)
-            spec.combineMemory:updateSetting(param, math.floor(snappedPercent + 0.5))
+            spec.combineMemory:updateSetting(param, math.max(0, math.min(100, math.floor(snappedPercent + 0.5))))
             return
         end
     end
 
-    spec.combineMemory:updateSetting(param, percent)
+    spec.combineMemory:updateSetting(param, math.max(0, math.min(100, percent)))
 end
 
 function RHMCombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
@@ -1639,22 +1740,9 @@ function RHMCombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
         if isDown then
             local wheelUp = button == Input.MOUSE_BUTTON_WHEEL_UP
             local delta = wheelUp and 1 or -1
-            if Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift) then
-                delta = delta * 5
-            end
-
-            local param = self.hoveredParameter
-            if param and self.activeVehicle and self.activeVehicle.spec_rhm_Combine then
-                local spec = self.activeVehicle.spec_rhm_Combine
-                if spec.combineMemory then
-                    local currentVal = spec.combineMemory.currentSettings[param] or 50
-                    if param == "targetEngineLoad" then
-                        local newLoad = math.max(50, math.min(100, currentVal + (delta * 5)))
-                        spec.combineMemory:updateSetting(param, newLoad)
-                    else
-                        spec.combineMemory:updateSetting(param, math.max(0, math.min(100, currentVal + delta)))
-                    end
-                end
+            local isFast = Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift)
+            if self.hoveredParameter then
+                self:stepParameter(self.hoveredParameter, delta, isFast)
             end
         end
         return true
@@ -1709,7 +1797,16 @@ function RHMCombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
         return true
     end
 
-    -- While modal calibration GUI is open, consume all mouse button presses/releases
+    -- EN: Allow dragging and clicking the small HUD even while calibration tablet is open
+    -- UA: Дозволяємо перетягувати та клацати малий HUD навіть при відкритому планшеті калібрування
+    if g_realisticHarvestManager and g_realisticHarvestManager.hud then
+        local hud = g_realisticHarvestManager.hud
+        if hud.isDragging or (hud.isMouseOver and hud:isMouseOver(posX, posY)) then
+            return false
+        end
+    end
+
+    -- While modal calibration GUI is open, consume all other mouse button presses/releases
     -- so clicks outside the tablet never trigger vehicle tools, IC actions, or camera jumps.
     if isDown or isUp then
         return true
@@ -1717,38 +1814,42 @@ function RHMCombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
 end
 
 function RHMCombineCalibrationGUI:handleWheelScroll(direction, posX, posY)
-    local delta = direction
-    if Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift) then
-        delta = delta * 5
-    end
-
-    if self.activeVehicle and self.activeVehicle.spec_rhm_Combine then
-        local spec = self.activeVehicle.spec_rhm_Combine
-        if spec.combineMemory and self.hoveredParameter then
-            local currentVal = spec.combineMemory.currentSettings[self.hoveredParameter] or 50
-            if self.hoveredParameter == "targetEngineLoad" then
-                local newLoad = math.max(50, math.min(100, currentVal + (delta * 5)))
-                spec.combineMemory:updateSetting(self.hoveredParameter, newLoad)
-            else
-                spec.combineMemory:updateSetting(self.hoveredParameter, math.max(0, math.min(100, currentVal + delta)))
-            end
-        end
-    end
+    if not self.hoveredParameter then return end
+    local isFast = Input.isKeyPressed(Input.KEY_lshift) or Input.isKeyPressed(Input.KEY_rshift)
+    self:stepParameter(self.hoveredParameter, direction, isFast)
 end
 
 function RHMCombineCalibrationGUI:getHarvestContext(machineType)
+    local dayTimeHours, isRaining = 12.0, false
+    if RHM_MoistureAdapter and RHM_MoistureAdapter.getEnvironmentContext then
+        dayTimeHours, isRaining = RHM_MoistureAdapter.getEnvironmentContext()
+    end
+
     if self.activeVehicle and self.activeVehicle.spec_rhm_Combine then
         local rhmSpec = self.activeVehicle.spec_rhm_Combine
+        local m = (rhmSpec.data and rhmSpec.data.moisture) or 0
+        if m <= 0 and RHM_MoistureAdapter and RHM_MoistureAdapter.getStandingCropMoisture then
+            local fillType = rhmSpec.lastFillType or (rhmSpec.combineMemory and rhmSpec.combineMemory.currentCrop)
+            m = RHM_MoistureAdapter.getStandingCropMoisture(self.activeVehicle, fillType) or 0
+        end
+
         return {
             machineType = machineType or rhmSpec.machineType or "grain",
-            moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0,
+            moisture = m,
+            weedRatio = (rhmSpec.data and rhmSpec.data.weedRatio) or (rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentWeedRatio) or 0,
             yield = (rhmSpec.data and rhmSpec.data.yield) or 0,
             isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,
             fillType = rhmSpec.lastFillType,
             fruitType = rhmSpec.lastFruitType,
+            dayTime = dayTimeHours,
+            isRaining = isRaining,
         }
     end
-    return { machineType = machineType or "grain" }
+    return {
+        machineType = machineType or "grain",
+        dayTime = dayTimeHours,
+        isRaining = isRaining,
+    }
 end
 
 rhm_log("RHM [UI]: [OK] RHMCombineCalibrationGUI (Obsidian CEBIS In-Cab Terminal) loaded")

@@ -1,275 +1,508 @@
-<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
-        <text name="rhm_section_simulation" text="Realistic Harvesting - Simulation"/>
-        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Affichage"/>
-        <text name="input_RHM_OPEN_MENU" text="Menu Récolte"/>
-        <text name="input_RHM_TOGGLE_HUD" text="Basculer l'affichage HUD"/>
-        <text name="input_RHM_CLOSE_NOTIFICATION" text="Fermer la notification"/>
-        <text name="rhm_hud_load" text="CHARGE"/>
-        <text name="rhm_hud_loss" text="PERTE"/>
-        <text name="rhm_hud_moist" text="HUMID"/>
-        <text name="rhm_ai_settings_retained" text="Réglages manuels conservés"/>
-        <text name="rhm_ai_auto_tuned" text="Auto-calibré"/>
-        <text name="rhm_difficulty" text="Difficulté"/>
-        <text name="rhm_difficulty_motor" text="Puissance moteur"/>
-        <text name="rhm_difficulty_motor_short" text="Moteur"/>
-        <text name="rhm_difficulty_motor_long" text="Détermine la physique de charge moteur. Arcade = Désactivé (sans surcharge), Normal = +35% de réserve, Réaliste = 100% physique authentique."/>
-        <text name="rhm_difficulty_loss" text="Perte de récolte"/>
-        <text name="rhm_difficulty_loss_short" text="Perte"/>
-        <text name="rhm_difficulty_loss_long" text="Détermine les pertes de récolte. Arcade = 0% (aucune perte), Normal = pertes standard, Réaliste = pertes augmentées (200%)."/>
-        <text name="rhm_diff_1" text="Arcade"/>
-        <text name="rhm_difficulty_long" text="Arcade: Sans surcharge ni perte (pur vanilla). Normal: Physique équilibrée (+35%). Réaliste: Simulation pure (0%)."/>
-        <text name="rhm_diff_2" text="Normal"/>
-        <text name="rhm_diff_3" text="Réaliste"/>
-        <text name="rhm_show_yield" text="Afficher le moniteur de rendement"/>
-        <text name="rhm_show_yield_short" text="Afficher rendement"/>
+        <text name="rhm_section_simulation" text="Realistic Harvesting - Simulation" />
+        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Affichage" />
+        <text name="input_RHM_OPEN_MENU" text="Menu Récolte" />
+        <text name="input_RHM_TOGGLE_HUD" text="Basculer l'affichage HUD" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Activer/Désactiver le curseur" />
+        <text name="input_RHM_CLOSE_NOTIFICATION" text="Fermer la notification" />
+        <text name="rhm_hud_load" text="CHARGE" />
+        <text name="rhm_hud_loss" text="PERTE" />
+        <text name="rhm_hud_moist" text="HUMID" />
+        <text name="rhm_ai_settings_retained" text="Réglages manuels conservés" />
+        <text name="rhm_ai_auto_tuned" text="Auto-calibré" />
+        <text name="rhm_difficulty" text="Difficulté" />
+        <text name="rhm_difficulty_motor" text="Puissance moteur" />
+        <text name="rhm_difficulty_motor_short" text="Moteur" />
+        <text name="rhm_difficulty_motor_long" text="Détermine la physique de charge moteur. Arcade = Désactivé (sans surcharge), Normal = +35% de réserve, Réaliste = 100% physique authentique." />
+        <text name="rhm_difficulty_loss" text="Perte de récolte" />
+        <text name="rhm_difficulty_loss_short" text="Perte" />
+        <text name="rhm_difficulty_loss_long" text="Détermine les pertes de récolte. Arcade = 0% (aucune perte), Normal = pertes standard, Réaliste = pertes augmentées (200%)." />
+        <text name="rhm_diff_1" text="Arcade" />
+        <text name="rhm_difficulty_long" text="Arcade: Sans surcharge ni perte (pur vanilla). Normal: Physique équilibrée (+35%). Réaliste: Simulation pure (0%)." />
+        <text name="rhm_diff_2" text="Normal" />
+        <text name="rhm_diff_3" text="Réaliste" />
+        <text name="rhm_show_yield" text="Afficher le moniteur de rendement" />
+        <text name="rhm_show_yield_short" text="Afficher rendement" />
         <text name="rhm_show_yield_long"><![CDATA[
             Afficher le rendement en temps réel dans le HUD (t/ha ou bu/ac)
         ]]></text>
-        <text name="rhm_yield_label" text="Rendement"/>
-        <text name="rhm_hud_short" text="Afficher HUD"/>
-        <text name="rhm_hud_long" text="Afficher les infos de récolte"/>
-        <text name="rhm_speedlimit_short" text="Limiteur de vitesse"/>
+        <text name="rhm_yield_label" text="Rendement" />
+        <text name="rhm_hud_short" text="Afficher HUD" />
+        <text name="rhm_hud_long" text="Afficher les infos de récolte" />
+        <text name="rhm_speedlimit_short" text="Limiteur de vitesse" />
         <text name="rhm_speedlimit_long"><![CDATA[
             Limiter automatiquement la vitesse de la moissonneuse en fonction de la charge du moteur
         ]]></text>
-        <text name="rhm_croploss_short" text="Activer perte de récolte"/>
-        <text name="rhm_croploss_long" text="Calculer la perte de récolte en cas de surcharge"/>
-        <text name="rhm_show_speed_short" text="Afficher vitesse"/>
-        <text name="rhm_show_speed_long" text="Afficher la vitesse actuelle et recommandée dans le HUD"/>
-        <text name="rhm_show_load_short" text="Afficher charge moteur"/>
-        <text name="rhm_show_load_long" text="Afficher le pourcentage de charge moteur dans le HUD"/>
-        <text name="rhm_show_productivity_short" text="Afficher productivité"/>
-        <text name="rhm_show_productivity_long" text="Afficher le débit (t/h) dans le HUD"/>
-        <text name="rhm_show_croploss_short" text="Afficher perte"/>
-        <text name="rhm_show_moisture_short" text="Afficher l'humidité"/>
-        <text name="rhm_show_moisture_long" text="Afficher le pourcentage d'humidité dans le HUD"/>
-        <text name="rhm_moisture_enable_short" text="Pénalité d'humidité"/>
-        <text name="rhm_moisture_enable_long"><![CDATA[
-            Appliquer une pénalité de charge selon l'humidité (Nécessite Moisture System)
-            ]]></text>
-        <text name="rhm_ui_title_main" text="Calibrage Moissonneuse"/>
-        <text name="rhm_ui_page_settings" text="Paramètres"/>
-        <text name="rhm_ui_page_profiles" text="Profils"/>
-        <text name="rhm_ui_current_crop" text="Culture Actuelle"/>
-        <text name="rhm_ui_load" text="Charge Moteur"/>
-        <text name="rhm_ui_loss" text="Perte"/>
-        <text name="rhm_ui_fan_speed" text="Vitesse Ventilateur"/>
-        <text name="rhm_ui_rotor_speed" text="Vitesse Rotor"/>
-        <text name="rhm_ui_upper_sieve" text="Grille Supérieure"/>
-        <text name="rhm_ui_lower_sieve" text="Grille Inférieure"/>
-        <text name="rhm_ui_feeder_speed" text="Écartement du contre-batteur"/>
-        <text name="rhm_ui_mode_auto" text="AUTO"/>
-        <text name="rhm_ui_mode_manual" text="MANUEL"/>
-        <text name="rhm_ui_btn_reset" text="RÉINIT."/>
-        <text name="rhm_ui_profile_create" text="NOUVEAU PROFIL"/>
-        <text name="rhm_ui_profile_save" text="SAUVER"/>
-        <text name="rhm_ui_profile_load" text="CHARGER"/>
-        <text name="rhm_ui_profile_delete" text="SUPPRIMER"/>
-        <text name="rhm_ui_profile_name_placeholder" text="Nom du profil..."/>
-        <text name="rhm_hud_yield_label" text="RNDMT"/>
-        <text name="rhm_hud_load_label" text="CHRG"/>
-        <text name="rhm_hud_loss_label" text="PERTE"/>
-        <text name="rhm_loss_level_low" text="FAIBLE"/>
-        <text name="rhm_loss_level_med" text="MOYEN"/>
-        <text name="rhm_loss_level_high" text="ÉLEVÉ"/>
-        <text name="rhm_show_croploss_long" text="Afficher le pourcentage de perte dans le HUD"/>
-        <text name="rhm_show_load_warn_short" text="Afficher avertissements de charge"/>
+        <text name="rhm_croploss_short" text="Activer perte de récolte" />
+        <text name="rhm_croploss_long" text="Calculer la perte de récolte en cas de surcharge" />
+        <text name="rhm_show_speed_short" text="Afficher vitesse" />
+        <text name="rhm_show_speed_long" text="Afficher la vitesse actuelle et recommandée dans le HUD" />
+        <text name="rhm_show_load_short" text="Afficher charge moteur" />
+        <text name="rhm_show_load_long" text="Afficher le pourcentage de charge moteur dans le HUD" />
+        <text name="rhm_show_productivity_short" text="Afficher productivité" />
+        <text name="rhm_show_productivity_long" text="Afficher le débit (t/h) dans le HUD" />
+        <text name="rhm_show_croploss_short" text="Afficher perte" />
+        <text name="rhm_show_moisture_short" text="Afficher l'humidité" />
+        <text name="rhm_show_moisture_long" text="Afficher le pourcentage d'humidité dans le HUD" />
+        <text name="rhm_moisture_enable_short" text="Impact d'humidité" />
+        <text name="rhm_moisture_enable_long" text="Simule la résistance accrue au battage et les pertes de séparation par temps humide, rosée ou pluie. Désactiver pour récolter sans pénalités météo." />
+        <text name="rhm_ui_title_main" text="Calibrage Moissonneuse" />
+        <text name="rhm_ui_page_settings" text="Paramètres" />
+        <text name="rhm_ui_page_profiles" text="Profils" />
+        <text name="rhm_ui_current_crop" text="Culture Actuelle" />
+        <text name="rhm_ui_load" text="Charge Moteur" />
+        <text name="rhm_ui_loss" text="Perte" />
+        <text name="rhm_ui_fan_speed" text="Vitesse Ventilateur" />
+        <text name="rhm_ui_rotor_speed" text="Vitesse Rotor" />
+        <text name="rhm_ui_upper_sieve" text="Grille Supérieure" />
+        <text name="rhm_ui_lower_sieve" text="Grille Inférieure" />
+        <text name="rhm_ui_feeder_speed" text="Écartement du contre-batteur" />
+        <text name="rhm_ui_mode_auto" text="AUTO" />
+        <text name="rhm_ui_mode_manual" text="MANUEL" />
+        <text name="rhm_ui_btn_reset" text="RÉINIT." />
+        <text name="rhm_ui_profile_create" text="NOUVEAU PROFIL" />
+        <text name="rhm_ui_profile_save" text="SAUVER" />
+        <text name="rhm_ui_profile_load" text="CHARGER" />
+        <text name="rhm_ui_profile_delete" text="SUPPRIMER" />
+        <text name="rhm_ui_profile_name_placeholder" text="Nom du profil..." />
+        <text name="rhm_hud_yield_label" text="RNDMT" />
+        <text name="rhm_hud_load_label" text="CHRG" />
+        <text name="rhm_hud_loss_label" text="PERTE" />
+        <text name="rhm_loss_level_low" text="FAIBLE" />
+        <text name="rhm_loss_level_med" text="MOYEN" />
+        <text name="rhm_loss_level_high" text="ÉLEVÉ" />
+        <text name="rhm_show_croploss_long" text="Afficher le pourcentage de perte dans le HUD" />
+        <text name="rhm_show_load_warn_short" text="Afficher avertissements de charge" />
         <text name="rhm_show_load_warn_long"><![CDATA[
             Afficher des avertissements clignotants en cas de surcharge (Élevée/Critique)
         ]]></text>
-        <text name="rhm_overload_sounds_short" text="Sons de surcharge et contrainte"/>
+        <text name="rhm_overload_sounds_short" text="Sons de surcharge et contrainte" />
         <text name="rhm_overload_sounds_long"><![CDATA[Émettre une alarme de cabine et des bruits de batteur lorsque la moissonneuse est surchargée ou subit des pertes.]]></text>
-        <text name="rhm_section_audio" text="Realistic Harvesting - Audio"/>
-        <text name="rhm_alarm_sounds_short" text="Avertisseur de surcharge"/>
-        <text name="rhm_alarm_sounds_long" text="Mode de l'avertisseur sonore en cabine en cas de surcharge sévère (105%+) ou de pertes élevées (&gt;5%)."/>
-        <text name="rhm_alarm_mode_smart" text="Intelligent (3 bips)"/>
-        <text name="rhm_alarm_mode_continuous" text="Continu"/>
-        <text name="rhm_alarm_mode_off" text="Désactivé"/>
-        <text name="rhm_sound_volume_short" text="Volume sonore"/>
-        <text name="rhm_sound_volume_long" text="Règle le volume de l'avertisseur sonore de surcharge en cabine."/>
-        <text name="rhm_target_load" text="Charge Cible"/>
-        <text name="rhm_gui_title" text="Paramètres Moissonneuse"/>
-        <text name="rhm_gui_crop" text="Culture:"/>
-        <text name="rhm_gui_none" text="AUCUN"/>
-        <text name="rhm_gui_btn_auto" text="AUTO"/>
-        <text name="rhm_gui_btn_load_preset" text="Charger profil"/>
-        <text name="rhm_gui_btn_save" text="Sauvegarder"/>
-        <text name="rhm_gui_btn_reset" text="Réinitialiser"/>
-        <text name="rhm_gui_engine_load" text="Charge moteur: %.0f%%"/>
-        <text name="rhm_gui_loss" text="Perte: %.1f%%"/>
-        <text name="rhm_gui_preview_loss" text="Perte (aperçu): %.1f%%"/>
-        <text name="rhm_gui_close_hint" text="RShift+K pour fermer"/>
-        <text name="rhm_gui_no_combine" text="Aucune moissonneuse"/>
-        <text name="rhm_gui_not_init" text="Moissonneuse non initialisée"/>
-        <text name="rhm_ui_drum_speed" text="Vitesse du tambour"/>
-        <text name="rhm_ui_roller_speed" text="Vitesse du rouleau"/>
-        <text name="rhm_ui_picker_speed" text="Vitesse du cueilleur"/>
-        <text name="rhm_ui_forage_fan" text="Accélérateur"/>
-        <text name="rhm_ui_forage_drum" text="Tambour hacheur"/>
-        <text name="rhm_ui_forage_feeder" text="Rouleaux d'alimentation"/>
-        <text name="rhm_ui_root_roller" text="Rouleaux de nettoyage"/>
-        <text name="rhm_ui_root_feeder" text="Tapis cribleur"/>
-        <text name="rhm_ui_grape_shaker" text="Vitesse secoueurs"/>
-        <text name="rhm_ui_olive_shaker" text="Vitesse batteurs"/>
-        <text name="rhm_ui_grape_conveyor" text="Vitesse convoyeur"/>
-        <text name="rhm_ui_grape_fan" text="Turbines d'aspiration"/>
-        <text name="rhm_units_short" text="Unités"/>
-        <text name="rhm_units_long" text="Choisissez le système de mesure (vitesse, masse, superficie)"/>
-        <text name="rhm_unit_metric" text="Métrique (km/h, t/h, ha)"/>
-        <text name="rhm_unit_imperial" text="Impérial (mph, ton/h, ac)"/>
-        <text name="rhm_unit_bushels" text="Impérial avec boisseaux (mph, bu/h, ac)"/>
-        <text name="rhm_reset" text="Réinitialiser les paramètres RH"/>
-        <text name="rhm_loss_low" text="FAIBLE"/>
-        <text name="rhm_loss_med" text="MOYEN"/>
-        <text name="rhm_loss_high" text="ÉLEVÉ"/>
-        <text name="rhm_warning_turn_on_combine" text="Allumez d'abord la moissonneuse !"/>
-        <text name="rhm_warning_turn_on_cutter" text="Allumez la barre de coupe !"/>
-        <text name="rhm_warn_overload_high" text="Moissonneuse surchargée ! Réduisez la vitesse."/>
-        <text name="rhm_warn_overload_critical" text="MOISSONNEUSE SURCHARGÉE CRITIQUEMENT ! Grosses pertes !"/>
-        <text name="rhm_configuration_title" text="Systèmes Realistic Harvesting"/>
-        <text name="rhm_package_standard" text="Tier 1: Mecanique de base"/>
-        <text name="rhm_package_sensor" text="Tier 2: Pack Capteurs"/>
-        <text name="rhm_package_yield" text="Tier 3: Telemetrie &amp; Moniteur"/>
-        <text name="rhm_package_opti" text="Tier 4: Pilote automatique AI Opti-Harvest"/>
-        <text name="rhm_msg_req_level_4" text="Nécessite le pack Opti-Harvest AI (Niveau 4)."/>
-        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Récoltez quelques mètres pour lancer l'étalonnage automatique !"/>
-        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Étalonnage automatique réussi pour %s !"/>
-
+        <text name="rhm_section_audio" text="Realistic Harvesting - Audio de cabine" />
+        <text name="rhm_alarm_sounds_short" text="Avertisseur de surcharge" />
+        <text name="rhm_alarm_sounds_long" text="Mode de l'avertisseur sonore en cabine en cas de surcharge sévère (105%+) ou de pertes élevées (&gt;5%)." />
+        <text name="rhm_alarm_mode_smart" text="Intelligent (3 bips)" />
+        <text name="rhm_alarm_mode_continuous" text="Continu" />
+        <text name="rhm_alarm_mode_off" text="Désactivé" />
+        <text name="rhm_sound_volume_short" text="Volume sonore" />
+        <text name="rhm_sound_volume_long" text="Règle le volume de l'avertisseur sonore de surcharge en cabine." />
+        <text name="rhm_target_load" text="Charge Cible" />
+        <text name="rhm_gui_title" text="Paramètres Moissonneuse" />
+        <text name="rhm_gui_crop" text="Culture:" />
+        <text name="rhm_gui_none" text="AUCUN" />
+        <text name="rhm_gui_btn_auto" text="AUTO" />
+        <text name="rhm_gui_btn_load_preset" text="Charger profil" />
+        <text name="rhm_gui_btn_save" text="Sauvegarder" />
+        <text name="rhm_gui_btn_reset" text="Réinitialiser" />
+        <text name="rhm_gui_engine_load" text="Charge moteur: %.0f%%" />
+        <text name="rhm_gui_loss" text="Perte: %.1f%%" />
+        <text name="rhm_gui_preview_loss" text="Perte (aperçu): %.1f%%" />
+        <text name="rhm_gui_close_hint" text="RShift+K pour fermer" />
+        <text name="rhm_gui_no_combine" text="Aucune moissonneuse" />
+        <text name="rhm_gui_not_init" text="Moissonneuse non initialisée" />
+        <text name="rhm_ui_drum_speed" text="Vitesse du tambour" />
+        <text name="rhm_ui_roller_speed" text="Vitesse du rouleau" />
+        <text name="rhm_ui_picker_speed" text="Vitesse du cueilleur" />
+        <text name="rhm_ui_forage_fan" text="Accélérateur" />
+        <text name="rhm_ui_forage_drum" text="Tambour hacheur" />
+        <text name="rhm_ui_forage_feeder" text="Rouleaux d'alimentation" />
+        <text name="rhm_ui_root_roller" text="Rouleaux de nettoyage" />
+        <text name="rhm_ui_root_feeder" text="Tapis cribleur" />
+        <text name="rhm_ui_grape_shaker" text="Vitesse secoueurs" />
+        <text name="rhm_ui_olive_shaker" text="Vitesse batteurs" />
+        <text name="rhm_ui_grape_conveyor" text="Vitesse convoyeur" />
+        <text name="rhm_ui_grape_fan" text="Turbines d'aspiration" />
+        <text name="rhm_units_short" text="Unités" />
+        <text name="rhm_units_long" text="Choisissez le système de mesure (vitesse, masse, superficie)" />
+        <text name="rhm_unit_metric" text="Métrique (km/h, t/h, ha)" />
+        <text name="rhm_unit_imperial" text="Impérial (mph, ton/h, ac)" />
+        <text name="rhm_unit_bushels" text="Impérial avec boisseaux (mph, bu/h, ac)" />
+        <text name="rhm_reset" text="Réinitialiser les paramètres RH" />
+        <text name="rhm_loss_low" text="FAIBLE" />
+        <text name="rhm_loss_med" text="MOYEN" />
+        <text name="rhm_loss_high" text="ÉLEVÉ" />
+        <text name="rhm_warning_turn_on_combine" text="Allumez d'abord la moissonneuse !" />
+        <text name="rhm_warning_turn_on_cutter" text="Allumez la barre de coupe !" />
+        <text name="rhm_warn_overload_high" text="Moissonneuse surchargée ! Réduisez la vitesse." />
+        <text name="rhm_warn_overload_critical" text="MOISSONNEUSE SURCHARGÉE CRITIQUEMENT ! Grosses pertes !" />
+        <text name="rhm_configuration_title" text="Systèmes Realistic Harvesting" />
+        <text name="rhm_package_standard" text="Tier 1: Mecanique de base" />
+        <text name="rhm_package_sensor" text="Tier 2: Pack Capteurs" />
+        <text name="rhm_package_yield" text="Tier 3: Telemetrie &amp; Moniteur" />
+        <text name="rhm_package_opti" text="Tier 4: Pilote automatique AI Opti-Harvest" />
+        <text name="rhm_msg_req_level_4" text="Nécessite le pack Opti-Harvest AI (Niveau 4)." />
+        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Récoltez quelques mètres pour lancer l'étalonnage automatique !" />
+        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Étalonnage automatique réussi pour %s !" />
         <!-- ================================================================= -->
         <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-9)                       -->
         <!-- ================================================================= -->
-        <text name="rhm_help_category" text="Realistic Harvesting"/>
-        <text name="rhm_help_title" text="Realistic Harvesting Guide"/>
-        <text name="rhm_help_overview_title" text="1. Realistic Harvesting Physics"/>
-        <text name="rhm_help_overview_sub1" text="Engine Power &amp; Load"/>
-        <text name="rhm_help_overview_1" text="Realistic Harvesting replaces artificial speed limits with dynamic engine load physics. Live engine strain accounts for header drive, threshing resistance, crop density, and soil friction for root crops. In heavy crop stands, the hydrostatic drive smoothly decelerates the combine to prevent drum choking."/>
-        <text name="rhm_help_overview_sub2" text="Crop Density &amp; Cruise Speed"/>
-        <text name="rhm_help_overview_2" text="Heavy, fibrous crops like canola or sunflower demand considerably more engine power per ton than wheat. Harvesting speed will naturally adjust to crop density. Aim for an engine load between 85% and 90% on the HUD for peak performance without grain loss."/>
-        <text name="rhm_help_hud_title" text="2. In-Game HUD &amp; Telemetry"/>
-        <text name="rhm_help_hud_sub1" text="Harvester Telemetry Display"/>
-        <text name="rhm_help_hud_1" text="Boarding a harvester activates a compact 4-cell HUD showing engine load, ground speed, crop yield, and productivity in tons per hour. Upgraded machines allow clicking cells to toggle speed to grain loss percentage and yield to live grain moisture."/>
-        <text name="rhm_help_hud_sub2" text="Customization &amp; Dragging"/>
-        <text name="rhm_help_hud_2" text="You can position the HUD anywhere on screen: right-click in the cab to activate the mouse cursor and drag the panel. In the game settings menu (ESC), customize metric or imperial units and adjust the overload alert sound."/>
-        <text name="rhm_help_hud_sub3" text="HUD Indicators Overview"/>
-        <text name="rhm_help_hud_3_load" text="Cell 1: Engine Load. Green is safe, yellow is optimum (90–105%), red is overload."/>
-        <text name="rhm_help_hud_3_yield" text="Cell 3: Live field yield in tons per hectare (or bushels per acre)."/>
-        <text name="rhm_help_hud_3_productivity" text="Cell 4: Harvester productivity in processed tons per hour (t/h)."/>
-        <text name="rhm_help_hud_3_moisture" text="Cell 3 (Click): Grain moisture percentage (Tier 3+ with Precision Farming or Moisture System)."/>
-        <text name="rhm_help_hud_3_loss" text="Cell 2 (Click): Sieve grain loss percentage (unlocked with Tier 2 sensor package)."/>
-        <text name="rhm_help_hud_3_speed" text="Cell 2: Current forward operating speed in km/h or mph."/>
-        <text name="rhm_help_calibration_title" text="3. Combine Calibration Terminal (Shift+K)"/>
-        <text name="rhm_help_calibration_main_sub" text="Tuning Your Harvester"/>
-        <text name="rhm_help_calibration_main_text" text="Press Right Shift + K in the cab to open the calibration terminal. Different crops require specific drum speeds, fan airflow, and sieve gaps. A poorly tuned combine loses grain and overloads the engine. Tier 2 combines can save custom crop profiles, while Tier 4 harvesters can auto-tune with a single click on the AUTO button."/>
-        <text name="rhm_help_calibration_rotor_sub" text="Threshing Drum &amp; Concave"/>
-        <text name="rhm_help_calibration_rotor_text" text="Drum RPM and concave clearance determine threshing quality. Small grains like wheat and barley require high speeds to beat kernels from heads. Fragile crops like corn and soybeans need lower RPM to prevent grain cracking."/>
-        <text name="rhm_help_calibration_fan_sub" text="Cleaning Fan &amp; Sieves"/>
-        <text name="rhm_help_calibration_fan_text" text="The fan blows away chaff while sieves separate clean grain into the hopper. Light seeds like canola require gentle airflow so they are not blown out the back. Corn needs strong air to lift heavy cob residue."/>
-        <text name="rhm_help_calibration_perf_sub" text="Target Engine Load"/>
-        <text name="rhm_help_calibration_perf_text" text="The target load slider sets how hard the automatic transmission pushes the combine (default 88%). A higher value speeds up fieldwork near the limit, while a lower value guarantees zero losses and saves fuel."/>
-        <text name="rhm_help_special_title" text="4. Forage Harvesters, Root Crops &amp; Cotton"/>
-        <text name="rhm_help_special_sub1" text="Forage Harvesters"/>
-        <text name="rhm_help_special_1" text="Forage harvesters chop standing corn or pickup grass windrows straight into trailers. They have zero crop loss. The calibration terminal lets you adjust chopper drum speed and blower accelerator power."/>
-        <text name="rhm_help_special_sub2" text="Root Harvesters &amp; Special Machinery"/>
-        <text name="rhm_help_special_2" text="Potato and beet harvesters draw heavy engine power from underground share drag. Settings control cleaning roller speed and haulm blowers. Cotton pickers and wide-span NEXAT rigs are also fully supported."/>
-        <text name="rhm_help_loss_title" text="5. Crop Loss &amp; Live Tank Deduction"/>
-        <text name="rhm_help_loss_sub1" text="Overload Grain Loss"/>
-        <text name="rhm_help_loss_1" text="Grain loss begins gently above 80% engine load. Losses remain negligible up to 90%, but climb noticeably past 100%. Running deep into the red zone (&gt;110%) risks clogging the threshing drum completely."/>
-        <text name="rhm_help_loss_sub2" text="Live Grain Tank Deduction"/>
-        <text name="rhm_help_loss_2" text="Harvest losses are fully physical: lost liters are subtracted directly from the combine hopper in real time. Misconfigured sieves or drums can waste up to 25% of your harvest, so watch the HUD and keep settings tuned."/>
-                <text name="rhm_help_loss_sub3" text="Usure mécanique &amp; Lames émoussées"/>
-        <text name="rhm_help_loss_3" text="L'usure du matériel dégrade sensiblement l'efficacité de la récolte. Des lames de coupe émoussées égrènent les épis et les gousses sur pied (jusqu'à +3% de perte et +15% de résistance PDF). Un batteur et des grilles usés laissent échapper du grain non séparé (jusqu'à +3% de perte). Un entretien régulier à l'atelier évite ces pertes."/>
-<text name="rhm_help_difficulty_title" text="6. Speed Controller &amp; Headland Memory"/>
-        <text name="rhm_help_difficulty_sub1" text="Smooth Cruise Control"/>
-        <text name="rhm_help_difficulty_1" text="The hydrostatic transmission dynamically adapts speed to crop density. When entering a pass, the combine holds steady until the drum fills. It brakes gently in dense patches and smoothly speeds up in lighter stands."/>
-        <text name="rhm_help_difficulty_sub2" text="Headland Turn Memory"/>
-        <text name="rhm_help_difficulty_2" text="Lifting the header on the headland locks your cruising speed into memory. When you lower the header into the next row, the combine accelerates right back to that pace without sluggish crawl."/>
-        <text name="rhm_help_upgrades_title" text="7. Electronics Packages &amp; Tiers 1–4"/>
-        <text name="rhm_help_upgrades_sub1" text="Tier 1: Factory Mechanical"/>
-        <text name="rhm_help_upgrades_1" text="Standard factory equipment. Settings are adjusted manually, and loss and moisture sensors are not yet installed."/>
-        <text name="rhm_help_upgrades_sub2" text="Tier 2: Sensor Package"/>
-        <text name="rhm_help_upgrades_2" text="Installs loss sensors on the sieves (displayed on HUD) and unlocks saving and loading custom calibration profiles in the terminal."/>
-        <text name="rhm_help_upgrades_sub3" text="Tier 3: Telemetry &amp; Moisture"/>
-        <text name="rhm_help_upgrades_3" text="Adds live grain moisture monitoring to the HUD and improves hired worker tuning precision to keep losses minimal."/>
-        <text name="rhm_help_upgrades_sub4" text="Tier 4: Opti-Harvest AI"/>
-        <text name="rhm_help_upgrades_4" text="Flagship smart package: unlocks the AUTO button in the calibration terminal to instantly dial in perfect settings and halves moisture penalties."/>
-        <text name="rhm_help_moisture_title" text="8. Moisture Dynamics &amp; Weather"/>
-        <text name="rhm_help_moisture_sub1" text="Crop Moisture Impact"/>
-        <text name="rhm_help_moisture_1" text="The mod tracks crop moisture using Moisture System or Precision Farming mods. Wet straw and damp grain create heavy friction in the drum, increasing engine load and raising sieve losses."/>
-        <text name="rhm_help_moisture_sub2" text="Rain &amp; Night Dew"/>
-        <text name="rhm_help_moisture_2" text="Rain and morning dew soak the crop. Harvesting in wet conditions forces the combine to crawl and burns much more fuel. Plan major harvesting runs for warm, dry afternoon hours."/>
-        <text name="rhm_help_cropsettings_title" text="9. AI Helpers &amp; Crop Guide"/>
-        <text name="rhm_help_cropsettings_grain_sub" text="AI Workers &amp; Courseplay"/>
-        <text name="rhm_help_cropsettings_grain_text" text="Full support for game AI workers, Courseplay, and AutoDrive. The server regulates travel speed so helpers cruise without choking. When an AI takes over, it respects your calibrated settings and will never worsen them."/>
-        <text name="rhm_help_cropsettings_forage_sub" text="Grains &amp; Oilseeds Quick Guide"/>
-        <text name="rhm_help_cropsettings_forage_text" text="Wheat and barley prefer high rotor speed (~750 RPM) and strong fan blast. Canola requires gentle air (~650 RPM) to keep light seeds inside. For corn and soybeans, lower rotor RPM (~360) and open sieves wider."/>
-        <text name="rhm_help_cropsettings_root_sub" text="Forage &amp; Root Crops Quick Guide"/>
-        <text name="rhm_help_cropsettings_root_text" text="Corn silage needs high drum speed (~1150 RPM), while grass silage runs well at ~800 RPM. On potatoes, keep cleaning rollers moderate (~400 RPM) to protect skins from bruising."/>
+        <!-- ================================================================= -->
+        <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
+        <!-- ================================================================= -->
+        <text name="rhm_help_category" text="Realistic Harvesting" />
+        <text name="rhm_help_title" text="Guide Realistic Harvesting" />
 
-        <text name="rhm_ui_section_separation" text="Séparation"/>
-        <text name="rhm_ui_section_cleaning" text="Nettoyage"/>
-        <text name="rhm_ui_section_discharge" text="Éjection"/>
-        <text name="rhm_ui_section_performance" text="Performance"/>
-        <text name="rhm_ui_tier1_manual" text="TIER 1 - MECANIQUE"/>
-        <text name="rhm_ui_tier2_sensors" text="TIER 2 - CAPTEURS"/>
-        <text name="rhm_ui_tier3_monitor" text="TIER 3 - TELEMETRIE"/>
-        <text name="rhm_ui_tier4_opti" text="TIER 4 - AI OPTI"/>
-        <text name="rhm_ui_arcade_badge" text="ARCADE"/>
-        <text name="rhm_ui_card_engine_load" text="CHARGE MOTEUR"/>
-        <text name="rhm_ui_card_efficiency" text="EFFICACITÉ"/>
-        <text name="rhm_ui_card_predicted_loss" text="PERTE ESTIMÉE"/>
-        <text name="rhm_ui_btn_ai_auto" text="AUTO-CALIB IA"/>
-        <text name="rhm_ui_btn_auto_locked" text="AUTO (VERROUILLÉ)"/>
-        <text name="rhm_ui_btn_load_preset" text="CHARGER"/>
-        <text name="rhm_ui_btn_save_profile" text="SAUVEGARDER"/>
-        <text name="rhm_ui_btn_load_locked" text="CHARGER (VERR.)"/>
-        <text name="rhm_ui_btn_save_locked" text="SAUV. (VERR.)"/>
-        <text name="rhm_ui_btn_reset_defaults" text="RÉINITIALISER AUX VALEURS D'USINE"/>
-        <text name="rhm_ui_status_optimal" text="OPTIMAL"/>
-        <text name="rhm_ui_status_low" text="TROP BAS"/>
-        <text name="rhm_ui_status_high" text="TROP HAUT"/>
-        <text name="rhm_msg_req_tier4" text="Nécessite IA Opti-Harvest (Tier 4)"/>
-        <text name="rhm_msg_req_tier3" text="Les profils nécessitent l'Écran de télémétrie (Tier 3)"/>
-        <text name="rhm_msg_req_tier2" text="Les profils nécessitent le Pack Capteurs (Tier 2 ou supérieur)"/>
-        <text name="rhm_msg_profile_saved" text="Profil enregistré : %s"/>
-        <text name="rhm_msg_profile_loaded" text="Profil chargé : %s"/>
-        <text name="rhm_msg_profile_not_found" text="Aucun profil enregistré pour cette culture"/>
-        <text name="rhm_ui_combine_not_init" text="Moissonneuse non initialisée"/>
-        <text name="rhm_unit_t_per_hour" text="t/h"/>
-        <text name="rhm_unit_ha_per_hour" text="ha/h"/>
-        <text name="rhm_setting_ai_tuning" text="Réglage des ouvriers IA"/>
-        <text name="rhm_setting_ai_tuning_long" text="Définit comment les ouvriers et Courseplay gèrent le calibrage de la moissonneuse. 'Garder mes réglages' conserve strictement vos réglages manuels et profils. 'Toujours auto-ajuster' recalcule selon le niveau électronique. 'Désactivé' empêche toute modification par les ouvriers."/>
-        <text name="rhm_setting_ai_tuning_keep" text="Garder mes réglages"/>
-        <text name="rhm_setting_ai_tuning_auto" text="Toujours auto-ajuster"/>
-        <text name="rhm_setting_ai_tuning_disabled" text="Désactivé"/>
-        <text name="rhm_crop_straw_windrow" text="Andain de paille"/>
-        <text name="rhm_crop_grass_windrow" text="Andain d'herbe"/>
-        <text name="rhm_crop_drygrass_windrow" text="Andain de foin"/>
-        <text name="rhm_crop_alfalfa_windrow" text="Andain de luzerne"/>
-        <text name="rhm_crop_clover_windrow" text="Andain de trèfle"/>
-        <text name="rhm_crop_maize_forage" text="Ensilage de maïs"/>
-        <text name="rhm_windrow_format" text="Andain : %s"/>
-    
-        <text name="rhm_setting_enableTutorials" text="Astuces et didacticiel"/>
-        <text name="rhm_setting_enableTutorials_long" text="Affiche des astuces interactives et des conseils lors de la récolte."/>
-        <text name="rhm_ui_btn_close_notification" text="OK (Entrée / Clic gauche)"/>
-        <text name="rhm_tut_welcome_title" text="Realistic Harvesting"/>
-        <text name="rhm_tut_welcome_msg" text="Bienvenue dans Realistic Harvesting ! La vitesse s&apos;ajuste selon la charge moteur, la densité et la barre de coupe. Consultez votre HUD et ouvrez le terminal avec (Maj droite + K)."/>
-        <text name="rhm_tut_overload_title" text="Surcharge Moteur"/>
-        <text name="rhm_tut_overload_msg" text="Le moteur est sous forte contrainte ! La transmission hydrostatique ralentit pour éviter le bourrage du batteur. Relevez la coupe ou réduisez la largeur travaillée."/>
-        <text name="rhm_tut_loss_title" text="Pertes Excessives"/>
-        <text name="rhm_tut_loss_msg" text="Les pertes de grains sont anormalement élevées ! Les réglages du rotor ou des grilles ne sont pas adaptés. Ouvrez (Maj droite + K) pour recalibrer."/>
-        <text name="rhm_tut_moisture_title" text="Humidité Élevée"/>
-        <text name="rhm_tut_moisture_msg" text="L&apos;humidité de la culture est élevée ou la pluie commence ! La paille humide augmente la résistance et la charge moteur. Récoltez de préférence par temps sec."/>
-        <text name="rhm_tut_headland_title" text="Mémoire de Vitesse"/>
-        <text name="rhm_tut_headland_msg" text="En relevant la barre de coupe en bout de champ, la vitesse de récolte est mémorisée. Vous reprendrez la ligne suivante de façon fluide sans à-coups."/>
-        <text name="rhm_tut_upgrade_title" text="Améliorations Batteuse"/>
-        <text name="rhm_tut_upgrade_msg" text="Les batteuses de base nécessitent des réglages manuels. Améliorez l&apos;électronique à l&apos;atelier : Capteurs (Niveau 2), Télémétrie (Niveau 3) ou IA Opti-Harvest (Niveau 4)."/>
-        <text name="rhm_setting_wear_loss_short" text="Pertes dues à l'usure"/>
-        <text name="rhm_setting_wear_loss_long" text="Simule les pertes de grains causées par l'usure du matériel. Des lames émoussées égrènent les cultures (jusqu'à +3% de perte et +15% de traînée). Un batteur et des grilles usés laissent échapper du grain (jusqu'à +3% de perte)."/>
-        <text name="rhm_ui_wear_loss" text="Perte par usure"/>
-        <text name="rhm_ui_cutter_wear" text="Usure de la barre de coupe"/>
-        <text name="rhm_ui_combine_wear" text="Usure du batteur"/>
+        <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
+        <text name="rhm_help_overview_title" text="1. Physique de charge moteur &amp; Vitesse" />
+        <text name="rhm_help_overview_sub1" text="Bilan de puissance : traînée mécanique &amp; battage" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting remplace la vitesse de récolte fixe et arcade par un modèle physique de bilan de puissance moteur conforme aux normes ASABE et DLG. Dans le jeu de base, la moissonneuse avance toujours à la vitesse maximale de la coupe quelle que soit la densité du végétal. Avec ce mod, toute la puissance utile du moteur est répartie dynamiquement entre quatre charges réelles : la traînée de base de la transmission et de l'hydrostatique (8% pour les moissonneuses-batteuses, 10% pour les arracheuses lourdes), l'entraînement mécanique du lamier et du rabatteur, l'énergie absorbée pour frictionner et faire passer la biomasse à travers le batteur ou rotor, ainsi que la résistance supplémentaire due à l'humidité ou aux adventices. Le pourcentage de charge moteur affiché indique la fraction exacte de chevaux sollicités à chaque seconde." />
+        <text name="rhm_help_overview_sub2" text="Régulation automatique de vitesse &amp; Anti-bourrage" />
+        <text name="rhm_help_overview_2" text="Plus besoin de deviner ou d'ajuster sans cesse votre régulateur de vitesse. Baissez la coupe, enclenchez le batteur et entrez dans la culture : la moissonneuse attaque la parcelle à une vitesse d'entrée sécurisée de 5,5 km/h, permettant à la matière de remplir régulièrement le convoyeur sans à-coup sur le batteur. Ensuite, le régulateur hydrostatique intelligent module la vitesse d'avancement pour caler le moteur dans sa plage idéale de rendement (environ 80–90%). En cas de passage dans un maquis dense ou en montée raide, l'automatisme ralentit en douceur la machine (temps de réaction de 0,45 s) pour éviter le calage moteur et le bourrage du batteur. En culture clairsemée, la machine accélère fluidement. La vitesse reste toujours plafonnée par la limite d'usine de la coupe." />
+        <text name="rhm_help_overview_sub3" text="Broyeur de paille &amp; Gain de vitesse en andainage" />
+        <text name="rhm_help_overview_3" text="Le mode de gestion de la paille dicte directement la réserve de puissance disponible pour l'avancement. Le broyeur de paille est un rotor massif tournant à plus de 3 000 tr/min. Hacher et éparpiller la paille absorbe de 15% à 20% de la puissance totale du moteur (surtout dans les pailles fibreuses comme l'avoine, l'orge ou le seigle). Si votre machine peine à avancer sous forte charge, basculez la paille en mode andainage avec la commande habituelle du jeu. Le rotor du broyeur est débrayé, libérant des dizaines de chevaux pour le système de battage, ce qui accroît immédiatement la vitesse de travail de 1,5 à 3 km/h à charge moteur égale." />
+
+        <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
+        <text name="rhm_help_hud_title" text="2. HUD interactif &amp; Commandes" />
+        <text name="rhm_help_hud_sub1" text="Panneau de télémétrie : description des 4 cellules" />
+        <text name="rhm_help_hud_1" text="En montant à bord, une capsule de télémétrie en verre sombre apparaît en bas de l'écran. Elle affiche quatre données fondamentales : la cellule 1 indique la charge moteur en pourcentage avec code couleur dynamique (vert jusqu'à 85% pour un régime serein ; jaune de 85% à 95% pour la zone de productivité optimale ; rouge au-delà de 95% signalant une surcharge). La cellule 2 affiche le niveau réel de pertes de grain en pourcentage ou la vitesse préconisée. La cellule 3 indique l'humidité actuelle de la culture en pourcentage ou le débit de chantier en hectares par heure. La cellule 4 présente le rendement instantané de la parcelle (t/ha ou bu/ac) ou le débit horaire de battage (t/h ou l/h)." />
+        <text name="rhm_help_hud_sub2" text="Déplacement à la souris (LMB), aimantation &amp; Modes" />
+        <text name="rhm_help_hud_2" text="Le panneau HUD peut être positionné librement sur votre écran. Maintenez le bouton gauche de la souris (LMB) enfoncé sur le HUD et déplacez-le à votre convenance pour dégager la vue depuis la cabine. À l'approche des bords de l'écran ou de la ligne inférieure du menu d'aide F1, une aimantation automatique verrouille proprement le panneau. De plus, le panneau est interactif : un simple clic gauche sur les cellules 2, 3 ou 4 bascule instantanément l'affichage des données secondaires (par exemple passer des tonnes par heure aux hectares par heure, ou alterner entre pourcentage de perte et vitesse suggérée)." />
+        <text name="rhm_help_hud_sub3" text="Disponibilité des capteurs &amp; Tirets (--%) sur vieux modèles" />
+        <text name="rhm_help_hud_3" text="Si vous pilotez une moissonneuse d'entrée de gamme ou ancienne et observez des tirets (--%) au lieu des pertes ou de l'humidité, il s'agit d'un comportement réaliste voulu et non d'une anomalie. Les machines d'origine (Tier 1) sont dépourvues de capteurs piézoélectriques de perte et d'humidimètres optiques ; le chauffeur conduit au bruit du moteur et à la propreté du grain dans la trémie. Les capteurs de grille deviennent actifs après l'installation du pack électronique Tier 2 à l'atelier, et la mesure numérique d'humidité dès le Tier 3. Lors des arrêts pour vidanger ou des demi-tours en bout de champ, le HUD verrouille les dernières valeurs stables pour éviter les scintillements à zéro." />
+
+        <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
+        <text name="rhm_help_calibration_title" text="3. Console de calibrage en cabine (Shift+K)" />
+        <text name="rhm_help_calibration_main_sub" text="Réglages sur machines de base (Tier 1) : manuel" />
+        <text name="rhm_help_calibration_main_text" text="Pressez Maj droite + K en cabine pour afficher la console tactile de réglages. Sur les machines de base (Tier 1), la mémoire numérique est absente : les boutons d'enregistrement, de chargement et le pilote automatique sont cadenassés, et les plages optimales sont masquées. Pour régler cette machine : utilisez le bouton de réinitialisation en bas pour replacer les curseurs à 50% neutre. Ajustez ensuite selon les règles de l'art : pour les céréales à paille (blé, orge), maintenez le batteur à 60–70%, la soufflerie à 65–75% et l'ouverture des grilles à 50–60%. Pour les gros grains fragiles (maïs, tournesol), la vitesse du batteur doit impérativement être réduite à 35–45% sous peine de briser le grain en menue paille." />
+        <text name="rhm_help_calibration_rotor_sub" text="Calibrage sur Tier 2–3 : zones vertes &amp; Profils" />
+        <text name="rhm_help_calibration_rotor_text" text="Après modernisation de la machine au niveau Tier 2, chaque curseur s'habille d'une bande verte optimale (« sweet-spot »), calculée spécifiquement pour la récolte engagée dans le convoyeur. Marche à suivre : fauchez sur quelques mètres pour que la machine identifie la plante, ouvrez la console (Shift+K) et amenez chaque curseur dans sa zone verte avec [-] et [+]. Cliquez immédiatement sur « SAUVEGARDER » ! La machine consigne ces réglages en mémoire. Dès lors, le bouton « CHARGER » devient opérationnel : lorsque vous récolterez à nouveau cette culture, un clic sur « CHARGER » restituera instantanément vos paramètres. Sur Tier 3, des cartes dynamiques de charge moteur, de rendement mécanique et de pertes estimées s'affichent." />
+        <text name="rhm_help_calibration_presets_sub" text="Auto-calibrage instantané sur machines Tier 4" />
+        <text name="rhm_help_calibration_presets_text" text="Les possesseurs de moissonneuses dotées du pack haut de gamme Tier 4 (Opti-Harvest AI) n'ont plus à régler manuellement les curseurs ni à gérer de fichiers. En haut à droite, le bouton « AI AUTO-CALIB » se déverrouille : un appui analyse l'humidité ainsi que la densité de végétation et applique en une seconde les réglages de battage optimaux issus de la base agronomique. De surcroît, le régulateur actif ajuste en direct toutes les 2 secondes le régime du batteur et du vent dès qu'il traverse des bas-fonds humides ou des zones sales." />
+
+                        <!-- PAGE 4: CROP CALIBRATION HANDBOOK (RPM & MM) -->
+        <text name="rhm_help_presets_title" text="4. Guide de réglage des cultures (RPM &amp; mm)" />
+        <text name="rhm_help_presets_sub1" text="Réglages universels : Pourquoi RPM et mm sont identiques sur toutes les machines" />
+        <text name="rhm_help_presets_1" text="Sur la tablette en cabine (Maj Droite + K), tous les paramètres sont affichés en unités physiques réelles : tours par minute (RPM ou tr/min) et écartements (mm). Règle agronomique fondamentale : les réglages optimaux de base sont IDENTIQUES quelle que soit la moissonneuse, sa puissance (de 300 à 800 ch) ou sa largeur de coupe ! La biologie du blé ou du maïs ne varie pas : le blé requiert toujours ~800 RPM au batteur/rotor et ~960 RPM au ventilateur, sinon le grain reste non battu ou est soufflé avec les menues pailles. La puissance moteur et la largeur de coupe définissent seulement le débit (t/h) et la vitesse d'avancement (km/h), régulés automatiquement par RHM pour éviter tout bourrage." />
+        <text name="rhm_help_presets_sub2" text="Céréales, maïs, oléagineux et protéagineux" />
+        <text name="rhm_help_presets_2" text="Pour les batteuses standard (Tier 1) sans affichage des zones vertes, appliquez ces valeurs d'usine :&#10;&#10;- Blé : Vitesse Rotor 780–820 RPM | Écartement du contre-batteur 5–7 mm | Vitesse Ventilateur 940–980 RPM | Grille Supérieure 14–15 mm | Grille Inférieure 6–8 mm.&#10;&#10;- Orge : Rotor 780–820 RPM | Contre-batteur 6–8 mm | Ventilateur 980–1020 RPM | Grille Sup. 14–15 mm | Grille Inf. 7–9 mm (barbes dures nécessitant un fort flux).&#10;&#10;- Avoine : Rotor 680–720 RPM | Contre-batteur 5–7 mm | Ventilateur 730–770 RPM | Grille Sup. 14–16 mm | Grille Inf. 6–8 mm (balles légères ; vent &gt;850 RPM souffle les grains).&#10;&#10;- Maïs grain : Rotor 310–350 RPM | Contre-batteur 28–32 mm | Ventilateur 930–970 RPM | Grille Sup. 19–21 mm | Grille Inf. 11–13 mm (ATTENTION : vitesse rotor minimale pour ne pas briser les rafles !).&#10;&#10;- Tournesol : Rotor 340–380 RPM | Contre-batteur 23–27 mm | Ventilateur 730–770 RPM | Grille Sup. 17–19 mm | Grille Inf. 9–11 mm (battage doux préservant les capitules).&#10;&#10;- Colza : Rotor 480–520 RPM | Contre-batteur 16–19 mm | Ventilateur 680–720 RPM | Grille Sup. 8–10 mm | Grille Inf. 3–5 mm (graines fines ; vent &gt;750 RPM éjecte la récolte).&#10;&#10;- Soja : Rotor 540–580 RPM | Contre-batteur 17–19 mm | Ventilateur 960–1000 RPM | Grille Sup. 15–17 mm | Grille Inf. 8–10 mm.&#10;&#10;- Pois, Féveroles : Rotor 410–450 RPM | Contre- Riz &amp; Riz long grain: Rotor 700–740 RPM | Contre-batteur 6–8 mm | Ventilateur 1030–1070 RPM | Grille supérieure 15–17 mm | Grille inférieure 6–8 mm (paille abrasive et humide).&#10;&#10;- Sorgho: Rotor 580–620 RPM | Contre-batteur 17–19 mm | Ventilateur 1080–1120 RPM | Grille supérieure 14–16 mm | Grille inférieure 7–8 mm (les panicules denses exigent un débit d'air puissant).&#10;&#10;- Semences d'herbe (Trèfle, Pavot) : Rotor 780–820 RPM | Contre-batteur 4–6 mm | Ventilateur 430–470 RPM | Grille Sup. 6–8 mm | Grille Inf. 2–4 mm (vent minimal !)." />
+        <text name="rhm_help_presets_sub3" text="Ensileuses, récolteuses de racines et machines spéciales" />
+        <text name="rhm_help_presets_3" text="Pour le matériel spécialisé, Shift+K adapte les organes de travail :&#10;&#10;- Ensileuses : Aucune perte de grain (0%). Ensilage de maïs — Soufflerie 1300–1350 RPM, Tambour hacheur 1150–1170 RPM, Rouleaux d'alimentation 470–500 RPM. Pick-up d'andains (foin/paille) — Soufflerie 1150–1200 RPM, Tambour 1070–1100 RPM, Rouleaux 450–470 RPM. Coupe directe d'herbe — Soufflerie 1230–1270 RPM, Tambour 1120–1140 RPM, Rouleaux 410–430 RPM. Peuplier (copeaux) — Soufflerie 1350–1400 RPM, Rotor hacheur 1180–1200 RPM, Rouleaux d'alimentation 380–400 RPM.&#10;&#10;- Récolteuses de racines : Pommes de terre — Turbine 600–620 RPM, Rouleaux nettoyeurs 190–210 RPM, Tapis 300–320 RPM (préserve les tubercules). Betterave sucrière, Betterave rouge — Soufflerie 630–650 RPM, Rouleaux 230–250 RPM, Convoyeur 290–310 RPM. Carottes — Turbine 620–640 RPM, Rouleaux 200–220 RPM, Tapis 300–310 RPM. Oignons — Turbine 840–860 RPM, Rouleaux 200–220 RPM, Tapis 260–270 RPM.&#10;&#10;- Récolteuses de légumes: Haricots verts (Green Beans) — Ventilateur de nettoyage 700–720 RPM, Rotor cueilleur 170–190 RPM, Élévateur 280–300 RPM. Épinards (Spinach) — Ventilateur 550–580 RPM, Rotor de coupe 140–160 RPM, Élévateur 270–290 RPM (récolte douce des feuilles délicates).&#10;&#10;- Coton : Soufflerie 3600–3800 RPM, Broches 210–230 RPM, Tambours 210–230 RPM.&#10;&#10;- Canne à sucre (Sugar Cane): Extracteur primaire 1150–1200 RPM, Rouleaux tronçonneurs 180–200 RPM, Convoyeur élévateur 280–300 RPM.&#10;&#10;- Raisin : Secoueurs 450–470 RPM, Convoyeur 110–120 RPM, Extracteurs 1250–1300 RPM.&#10;&#10;- Olives : Secoueurs 540–560 RPM, Convoyeur 105–115 RPM, Extracteurs 1300–1350 RPM." />
+        <text name="rhm_help_presets_sub4" text="Humidité des cultures : Conséquences et ajustements en direct" />
+        <text name="rhm_help_presets_4" text="RHM prend en charge les mods d'humidité externes et intègre une simulation météo diurne autonome (rosée du matin 16–18%, créneau d'après-midi sec 11–13.5%, pluie &gt;22%). Seuil de sécurité de base : 14.0% (colza : 9.0%). Chaque 1% d'humidité au-delà ajoute +2% de charge moteur et +0.35% de pertes inévitables par adhérence des grains à la paille mouillée.&#10;&#10;Règle de correction lorsque l'humidité dépasse 14% :&#10;&#10;1. Augmentez le rotor de +50...80 RPM (ex. 860 au lieu de 800 RPM pour le blé) pour faciliter l'évacuation de la paille humide.&#10;&#10;2. Augmentez le ventilateur de +30...50 RPM (990 au lieu de 950 RPM) pour soulever la paille broyée humide.&#10;&#10;3. Ouvrez la grille supérieure de +1...2 mm en plus.&#10;&#10;Sur Tier 2–3, la plage verte se décale automatiquement ; sur Tier 4, l'IA ajuste tout en direct." />
+        <text name="rhm_help_presets_sub5" text="Cultures moddées et cartes personnalisées : Profils &amp; Auto-détection" />
+        <text name="rhm_help_presets_5" text="1. Cultures moddées intégrées à RHM :&#10;&#10;- Seigle, Triticale, Épeautre : régler comme le blé (Rotor 780–820 RPM, Contre-batteur 5–7 mm, Ventilateur 940–980 RPM, Grilles 14/7 mm).&#10;&#10;- Sarrasin : Rotor 530–570 RPM, Contre-batteur 12–14 mm, Ventilateur 730–770 RPM, Grilles 12/6 mm.&#10;&#10;- Millet : Rotor 780–820 RPM, Contre-batteur 5–7 mm, Ventilateur 850–890 RPM, Grilles 14/7 mm.&#10;&#10;- Lin, Moutarde : Rotor 830–870 RPM, Contre-batteur 14–16 mm, Ventilateur 780–820 RPM, Grilles 9/4 mm.&#10;&#10;- Pavot : Rotor 430–470 RPM, Contre-batteur 12–14 mm, Ventilateur 430–470 RPM, Grilles 7/3 mm (micro-graines !).&#10;&#10;- Chanvre : Rotor 630–670 RPM, Contre-batteur 12–14 mm, Ventilateur 830–870 RPM, Grilles 14/7 mm.&#10;&#10;- Carthame : comme le tournesol (Rotor 340–380 RPM, Ventilateur 730–770 RPM, Grilles 18/10 mm).&#10;&#10;- Trèfle / Graminées : Rotor 780–820 RPM, Contre-batteur 4–6 mm, Ventilateur 430–470 RPM, Grilles 7/3 mm.&#10;&#10;- Luzerne (fourrage) : Ensileuse — Soufflerie ~1250, Tambour ~1130, Rouleaux ~420 RPM.&#10;&#10;2. Détection physique des cultures inconnues : RHM lit la masse volumique du grain et la présence de paille sur la carte. Règle des 4 familles (Tier 1) : céréales paillées = comme le blé ; oléagineux fins = comme le colza ; grosses légumineuses = comme les pois ; petites graines d'herbe = vent au minimum. Sur Tier 2–4, la zone verte s'ajuste automatiquement." />
+
+        <!-- PAGE 5: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) -->
+        <text name="rhm_help_trip_title" text="5. Compteur de parcelle &amp; Flotte (Shift+J)" />
+        <text name="rhm_help_trip_sub1" text="Journal de bord de la parcelle : comptabilité précise" />
+        <text name="rhm_help_trip_1" text="Pressez Maj droite + J en cabine pour accéder au centre analytique articulé en 4 onglets. Le premier onglet agit comme un odomètre de parcelle rigoureux : il cumule la surface fauchée en hectares, pèse la masse récoltée en tonnes et en litres, chronomètre le temps de travail effectif (hors vidanges et manœuvres en fourrière) et calcule le rendement moyen ainsi que le débit de chantier horaire en tonnes et en hectares. Vous connaissez ainsi la productivité exacte de la parcelle bien avant de livrer au silo." />
+        <text name="rhm_help_trip_sub2" text="Pertes financières, note du chauffeur &amp; Diagnostic" />
+        <text name="rhm_help_trip_2" text="L'odomètre enregistre non seulement les tonnes perdues, mais chiffre le préjudice financier en monnaie du jeu (€, $ ou £) d'après les cours du marché. Un algorithme agronomique note la conduite de [A] (conduite exemplaire, moins de 1% de perte) à [E] (mauvaise conduite, pertes lourdes). Sous la note, quatre barres de diagnostic détaillent l'origine exacte des pertes : vitesse excessive, humidité du végétal, usure des sections de scie ou dévers latéral sur les pentes." />
+        <text name="rhm_help_trip_sub3" text="Remise à zéro rapide en cabine (Maj droite + R)" />
+        <text name="rhm_help_trip_3" text="À l'entrée d'une nouvelle parcelle ou pour un essai, inutile d'ouvrir les menus : maintenez Maj droite + R pendant 1 seconde au volant de la machine. Le compteur revient immédiatement à zéro avec bip de confirmation et notification à l'écran. De plus, une option de remise à zéro automatique (Smart) dans les réglages du jeu remet le compteur à zéro dès le changement de numéro de champ ou de culture en trémie." />
+        <text name="rhm_help_trip_sub4" text="Registre parcellaire, historique &amp; Flotte" />
+        <text name="rhm_help_trip_4" text="L'onglet « Parcelles de la ferme » récapitule vos champs avec superficie et rendements passés. L'onglet « Bilan de saison » trace l'évolution mensuelle et annuelle des récoltes. L'onglet « Flotte » permet au chef d'exploitation de surveiller l'ensemble des chantiers en direct : opérateur actif (joueur ou ouvrier), culture, vitesse, charge moteur, débit t/h, usure de la scie et pack électronique monté." />
+
+        <!-- PAGE 6: CROP LOSSES & ROOT CAUSES -->
+        <text name="rhm_help_croploss_title" text="6. Pertes de récolte &amp; Diagnostic des causes" />
+        <text name="rhm_help_croploss_sub1" text="Déduction physique du grain directement dans la trémie" />
+        <text name="rhm_help_croploss_1" text="Dans Realistic Harvesting, les pertes ne sont pas des données décoratives. Le grain non séparé ou expulsé par-dessus les grilles avec les pailles et menues pailles est physiquement déduit en temps réel directement du volume de la trémie ! Rouler trop vite ampute visiblement votre récolte, vous faisant livrer 5% à 15% de grain en moins par hectare. En mode andainage, ce grain perdu est déposé dans l'andain de paille. Sur ensileuses et récolteuses de coton, la perte de grain est désactivée car toute la biomasse est ensilée ou pressée." />
+        <text name="rhm_help_croploss_sub2" text="Quatre facteurs de perte &amp; Comment les corriger" />
+        <text name="rhm_help_croploss_2" text="Les pertes globales résultent de quatre phénomènes : 1. Vitesse et surcharge : selon la norme ISO 8210, les pertes s'amorcent dès 80% de charge moteur, dépassent le seuil toléré de 1% à 95% de charge, et provoquent un engorgement sévère du caisson au-delà de 110% avec éjection massive au sol. Solution : maintenir la charge entre 85 et 90%. 2. Humidité et rosée : au-delà de 14% d'humidité, la paille mouillée colle et piège les grains (+0,35% de perte par point d'humidité excédentaire). Solution : moissonner aux heures chaudes ensoleillées. 3. Usure de scie : des sections émoussées (usure > 15%) égrènent les épis avant la coupe (jusqu'à 3% de perte). Solution : affûter ou remplacer les sections en atelier. 4. Dévers : un dévers de plus de 4° tasse la matière d'un côté du caisson (jusqu'à 5% de perte)." />
+        <text name="rhm_help_croploss_sub3" text="Avertisseur sonore de cabine (Smart Buzzer) : alarme" />
+        <text name="rhm_help_croploss_3" text="Dès que la charge moteur excède 95% ou que les pertes dépassent 5%, la console émet une tonalité d'alerte agricole. En mode préconisé Smart Buzzer, l'avertisseur émet trois bips feutrés de 0,3 seconde suivis d'un temps mort de 18 secondes, prévenant le chauffeur sans stridence continue. Alarme entendue ? Ralentissez, contrôlez l'ouverture des grilles dans Shift+K ou désengagez le broyeur de paille : les pertes cesseront aussitôt. Le volume est ajustable de 0% à 100% dans les options." />
+
+        <!-- PAGE 7: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) -->
+        <text name="rhm_help_upgrades_title" text="7. Packs électroniques (Tiers 1–4)" />
+        <text name="rhm_help_upgrades_sub1" text="Modernisation en atelier : 4 niveaux selon vos moyens" />
+        <text name="rhm_help_upgrades_1" text="Toute moissonneuse (à l'achat en concession ou déjà remisée sur l'exploitation) peut recevoir un pack électronique RHM. Entrez dans la zone d'atelier, ouvrez la configuration et sélectionnez « RHM Pack Électronique ». Quatre paliers sont disponibles : Tier 1 « Standard » (0 €, base mécanique d'usine), Tier 2 « Pack Capteurs » (3 500 €), Tier 3 « Contrôleur de rendement » (8 500 €) et Tier 4 « Opti-Harvest AI » (15 000 €). Le niveau installé apparaît en tête du menu Shift+K et dans le registre de flotte." />
+        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Mécanique pure) vs Tier 2 (Pack Capteurs)" />
+        <text name="rhm_help_upgrades_2" text="Les machines Tier 1 reposent sur une mécanique simple sans capteurs : le HUD montre des tirets au lieu des pertes, la console n'affiche aucune zone repère, le chauffeur conduit à l'oreille et les ouvriers commettent d'importantes erreurs de réglage (jusqu'à ±18%). Le pack Tier 2 (3 500 €) constitue l'amélioration de base indispensable : il monte des capteurs piézoélectriques de perte aux grilles (affichage réel en % sur le HUD) et débloque les zones cibles vertes dans Shift+K. L'erreur des ouvriers tombe à ±10%." />
+        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Télémétrie &amp; Profils) et Tier 4 (Opti-Harvest AI)" />
+        <text name="rhm_help_upgrades_3" text="Le pack Tier 3 (8 500 €) ajoute un capteur optique d'humidité (% humidité sur HUD), ouvre les jauges de charge et de rendement mécanique dans Shift+K, permet la sauvegarde de profils personnalisés et le suivi de flotte dans Shift+J (erreur des ouvriers réduite à ±4%). Le pack d'élite Tier 4 (15 000 €) déploie le pilote automatique intégral : le bouton « AI AUTO-CALIB » règle la machine en un clic, la régulation continue ajuste batteur et vent toutes les 2 secondes selon l'humidité, la pénalité d'humidité est amortie de 50%, et les ouvriers travaillent avec 0% d'erreur." />
+
+        <!-- PAGE 8: AI WORKERS & AUTOPILOTS -->
+        <text name="rhm_help_ai_workers_title" text="8. Ouvriers agricoles &amp; Pilotes automatiques" />
+        <text name="rhm_help_ai_workers_sub1" text="Régulation de vitesse &amp; Freinage des ouvriers" />
+        <text name="rhm_help_ai_workers_1" text="Les ouvriers de l'IA de base et les systèmes automatisés ne roulent plus pied au plancher en semant le grain derrière eux. RHM contrôle leur allure directement au niveau de la gestion moteur, maintenant fermement les aides dans la plage sécurisée de 85–95% de charge. Si en dévers ou en gros volume les pertes dépassent le seuil toléré par l'exploitation (2,0%), la moissonneuse ralentit automatiquement l'ouvrier pour protéger votre récolte." />
+        <text name="rhm_help_ai_workers_sub2" text="Compétence des ouvriers : impact du niveau d'équipement" />
+        <text name="rhm_help_ai_workers_2" text="Lorsqu'un ouvrier prend les commandes, il ajuste lui-même les réglages de la batteuse. La qualité de son travail dépend intimement du pack électronique installé : sur Tier 1, l'ouvrier agit comme un débutant, commettant jusqu'à ±18% d'erreur (engendrant pertes de grain ou surconsommation de carburant). Sur Tier 2, l'écart descend à ±10%, sur Tier 3 à ±4%, et sur Tier 4 avec Opti-Harvest, l'ouvrier récolte avec 0% d'erreur comme un professionnel chevronné." />
+        <text name="rhm_help_ai_workers_sub3" text="Maintien des réglages joueur &amp; Vidange en marche" />
+        <text name="rhm_help_ai_workers_3" text="Si vous avez étalonné vous-même la batteuse dans Shift+K ou sauvegardé un profil, vérifiez les paramètres : l'option « Réglages ouvriers » est réglée par défaut sur « Garder les miens ». Dans ce mode, l'ouvrier ne touche jamais à vos réglages. Le mode « Auto-ajustement » l'autorise à recalculer selon la machine, et « Désactivé » interdit toute modification. La vidange en marche dans les bennes de transbordement est parfaitement assurée sans stopper la récolte." />
+
+        <!-- PAGE 9: CROP MOISTURE & DIURNAL WEATHER -->
+        <text name="rhm_help_moisture_title" text="9. Humidité du végétal &amp; Cycle météo diurne" />
+        <text name="rhm_help_moisture_sub1" text="Cycle diurne de l'humidité : choisir les bonnes heures" />
+        <text name="rhm_help_moisture_1" text="Le mod gère un cycle diurne harmonique autonome de l'humidité et lit les données des systèmes météo installés. L'humidité varie naturellement sur 24 heures : entre 03h00 et 08h00 du matin, une rosée abondante porte l'humidité du grain à 16–18% — faucher est alors déconseillé en raison d'une forte résistance au battage. De 08h00 à 11h30, le soleil matinal dissipe l'eau. Le créneau royal pour moissonner s'étend de 11h30 à 18h30 : le soleil ramène la plante à un taux idéal de 11–13%, la paille devient cassante, la machine avance sans peine et les pertes deviennent nulles. Après 19h30, la rosée du soir remonte." />
+        <text name="rhm_help_moisture_sub2" text="Pourquoi il est proscrit de faucher sous la pluie" />
+        <text name="rhm_help_moisture_2" text="Sous la pluie, l'humidité végétale franchit allègrement les 22%. La paille détrempée perd sa fluidité, forme un matelas feutré compact et colmate le convoyeur ainsi que les grilles. Les grains adhèrent à la paille mouillée et sont éjectés dehors (jusqu'à 10% de perte sèche au champ), tandis que le moteur étouffe sous un effort mécanique triplé. Conseil : dès les premières gouttes, stoppez la machine et attendez une éclaircie. Travailler sous la pluie ne génère que pertes et dépenses." />
+        <text name="rhm_help_moisture_sub3" text="Régler sa batteuse pour récolter en conditions humides (14–16%)" />
+        <text name="rhm_help_moisture_3" text="S'il faut impérativement rentrer du grain humide (14–16%), ne poussez pas les curseurs au maximum à l'aveugle ! Ouvrez Shift+K : avec l'humidité, les bandes vertes de référence pour le batteur et la soufflerie remontent d'elles-mêmes. Ajustez les curseurs pour rester strictement dans cette zone verte décalée : un batteur plus rapide en zone verte déchiquette la paille humide sans caler, et un vent plus soutenu décolle les menues pailles chargées d'eau. Attention : un vent poussé trop haut dans le rouge soufflera le bon grain hors de la machine ! Restez dans la zone verte pour 0% de perte de réglage. Sur Tier 4, Opti-Harvest gère tout automatiquement." />
+
+        <!-- PAGE 10: FORAGE, ROOT CROPS & SPECIAL MACHINERY -->
+        <text name="rhm_help_special_title" text="10. Ensileuses, arracheuses &amp; Machines spéciales" />
+        <text name="rhm_help_special_sub1" text="Ensileuses automotrices : répartition de puissance &amp; andains" />
+        <text name="rhm_help_special_1" text="Les ensileuses hachent l'intégralité du végétal en ensilage ; les pertes de grain y sont donc rigoureusement nulles (0%). L'effort moteur se répartit entre trois organes : les rouleaux d'alimentation (18%), le rotor hacheur (62%) et l'accélérateur d'éjection dans la goulotte (20%). Lors du ramassage d'andains d'herbe ou de paille au pick-up, surveillez la régularité de l'andain : des paquets denses saturent les rouleaux d'alimentation (goulot d'étranglement), provoquant un pic de charge et un net ralentissement." />
+        <text name="rhm_help_special_sub2" text="Arracheuses de racines : pourquoi rouler à 5–8 km/h" />
+        <text name="rhm_help_special_2" text="Les tubercules et racines (pommes de terre, betteraves, carottes, panais, oignons) exigent un effort de traction colossal : les socs tranchent le sol en profondeur, prélevant 7 chevaux par mètre de largeur en sus des 10% de résistance hydrostatique du châssis lourd. Ainsi, les intégrales betteravières et arracheuses ne dépassent pas 5 à 8 km/h même avec des moteurs de plus de 600 ch. Les légumes de surface (haricots, pois, épinards) ne labourent pas la terre, mais leurs peignes demandent une puissance conséquente pour cueillir les gousses." />
+        <text name="rhm_help_special_sub3" text="Coton, vigne, olives &amp; Porteurs modulaires (NEXAT / NEXCO)" />
+        <text name="rhm_help_special_3" text="Les récolteuses de coton consomment jusqu'à 55 ch par tonne de coton graine pour animer les broches et presser les balles rondes. Les machines à vendanger et secoueurs d'olives simulent la traînée des batteurs et des aspirateurs. Si vous utilisez le porteur grand gabarit NEXAT de 1 100 ch avec son module de récolte NEXCO, RHM transmet fidèlement la puissance motrice à travers toutes les liaisons articulées sans perte de rendement." />
+
+        <!-- PAGE 11: DIFFICULTY MODES & SETTINGS -->
+        <text name="rhm_help_difficulty_title" text="11. Niveaux de difficulté &amp; Réglages" />
+        <text name="rhm_help_difficulty_sub1" text="Modes de jeu : choisir entre Arcade, Modéré et Réaliste" />
+        <text name="rhm_help_difficulty_1" text="Si vous ne souhaitez pas calculer la puissance ni régler les organes de battage, sélectionnez un profil allégé dans le menu pause (Échap → Paramètres de jeu) : la difficulté moteur sur « Arcade » (niveau 1) neutralise la physique de charge et supprime les ralentissements. La difficulté des pertes sur « Arcade » élimine toute perte de grain — la machine récolte à pleine vitesse comme dans le jeu de base. Le niveau 2 (« Modéré ») pardonne les imprécisions, tandis que le niveau 3 (« Réaliste ») active la simulation intégrale DLG avec déduction effective en trémie." />
+        <text name="rhm_help_difficulty_sub2" text="Interrupteurs physiques ciblés : jeu sur mesure" />
+        <text name="rhm_help_difficulty_2" text="Inutile de tout désactiver d'un bloc — modulez les règles à votre goût : désactivez les « Pertes d'usure » pour ne pas surveiller la scie ; coupez les « Pertes de dévers » sur les cartes de montagne ; désactivez la « Simulation d'humidité » pour moissonner de nuit ou sous la pluie sans pénalité. L'option « Boost de puissance » permet d'injecter de +5% à +50% de réserve de chevaux, très précieux sur les reliefs accidentés." />
+        <text name="rhm_help_difficulty_sub3" text="Signaux sonores, unités de mesure &amp; Multijoueur" />
+        <text name="rhm_help_difficulty_3" text="Côté son, choisissez l'alarme en mode « Smart Buzzer » (trois impulsions discrètes), continu ou coupé, et ajustez le volume de 0% à 100% avec test sonore immédiat. Les unités basculent entre Métrique (t/ha, t/h), Impérial et Boisseaux. En partie multijoueur, les lois physiques sont administrées par l'hôte du serveur, tandis que l'emplacement du HUD, le volume sonore et les unités restent personnalisés par chaque joueur." />
+        <text name="rhm_ui_section_separation" text="Séparation" />
+        <text name="rhm_ui_section_cleaning" text="Nettoyage" />
+        <text name="rhm_ui_section_discharge" text="Éjection" />
+        <text name="rhm_ui_section_performance" text="Performance" />
+        <text name="rhm_ui_tier1_manual" text="TIER 1 - MECANIQUE" />
+        <text name="rhm_ui_tier2_sensors" text="TIER 2 - CAPTEURS" />
+        <text name="rhm_ui_tier3_monitor" text="TIER 3 - TELEMETRIE" />
+        <text name="rhm_ui_tier4_opti" text="TIER 4 - AI OPTI" />
+        <text name="rhm_ui_arcade_badge" text="ARCADE" />
+        <text name="rhm_ui_card_engine_load" text="CHARGE MOTEUR" />
+        <text name="rhm_ui_card_efficiency" text="EFFICACITÉ" />
+        <text name="rhm_ui_card_predicted_loss" text="PERTE ESTIMÉE" />
+        <text name="rhm_ui_btn_ai_auto" text="AUTO-CALIB IA" />
+        <text name="rhm_ui_btn_auto_locked" text="AUTO (VERROUILLÉ)" />
+        <text name="rhm_ui_btn_load_preset" text="CHARGER" />
+        <text name="rhm_ui_btn_save_profile" text="SAUVEGARDER" />
+        <text name="rhm_ui_btn_load_locked" text="CHARGER (VERR.)" />
+        <text name="rhm_ui_btn_save_locked" text="SAUV. (VERR.)" />
+        <text name="rhm_ui_btn_reset_defaults" text="RÉINITIALISER AUX VALEURS D'USINE" />
+        <text name="rhm_ui_status_optimal" text="OPTIMAL" />
+        <text name="rhm_ui_status_low" text="TROP BAS" />
+        <text name="rhm_ui_status_high" text="TROP HAUT" />
+        <text name="rhm_ui_env_optimal" text="CONDITIONS OPTIMALES" />
+        <text name="rhm_ui_env_moisture" text="HUMIDITÉ ÉLEVÉE" />
+        <text name="rhm_ui_env_weeds" text="INFESTATION DE MAUVAISES HERBES" />
+        <text name="rhm_ui_env_damp_weeds" text="HUMIDE ET ENHERBÉ" />
+        <text name="rhm_msg_req_tier4" text="Nécessite IA Opti-Harvest (Tier 4)" />
+        <text name="rhm_msg_req_tier3" text="Les profils nécessitent l'Écran de télémétrie (Tier 3)" />
+        <text name="rhm_msg_req_tier2" text="Les profils nécessitent le Pack Capteurs (Tier 2 ou supérieur)" />
+        <text name="rhm_msg_profile_saved" text="Profil enregistré : %s" />
+        <text name="rhm_msg_profile_loaded" text="Profil chargé : %s" />
+        <text name="rhm_msg_profile_not_found" text="Aucun profil enregistré pour cette culture" />
+        <text name="rhm_ui_combine_not_init" text="Moissonneuse non initialisée" />
+        <text name="rhm_unit_t_per_hour" text="t/h" />
+        <text name="rhm_unit_ha_per_hour" text="ha/h" />
+        <text name="rhm_setting_ai_tuning" text="Réglage des ouvriers IA" />
+        <text name="rhm_setting_ai_tuning_long" text="Définit comment les ouvriers et Courseplay gèrent le calibrage de la moissonneuse. 'Garder mes réglages' conserve strictement vos réglages manuels et profils. 'Toujours auto-ajuster' recalcule selon le niveau électronique. 'Désactivé' empêche toute modification par les ouvriers." />
+        <text name="rhm_setting_ai_tuning_keep" text="Garder mes réglages" />
+        <text name="rhm_setting_ai_tuning_auto" text="Toujours auto-ajuster" />
+        <text name="rhm_setting_ai_tuning_disabled" text="Désactivé" />
+        <text name="rhm_crop_straw_windrow" text="Andain de paille" />
+        <text name="rhm_crop_grass_windrow" text="Andain d'herbe" />
+        <text name="rhm_crop_drygrass_windrow" text="Andain de foin" />
+        <text name="rhm_crop_alfalfa_windrow" text="Andain de luzerne" />
+        <text name="rhm_crop_clover_windrow" text="Andain de trèfle" />
+        <text name="rhm_crop_maize_forage" text="Ensilage de maïs" />
+        <text name="rhm_windrow_format" text="Andain : %s" />
+        <text name="rhm_setting_enableTutorials" text="Astuces et didacticiel" />
+        <text name="rhm_setting_enableTutorials_long" text="Affiche des astuces interactives et des conseils lors de la récolte." />
+        <text name="rhm_ui_btn_close_notification" text="OK (Entrée / Clic gauche)" />
+        <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
+        <text name="rhm_tut_welcome_msg" text="Bienvenue dans Realistic Harvesting ! La vitesse s'ajuste selon la charge moteur, la densité et la barre de coupe. Consultez votre HUD et ouvrez le terminal avec (Maj droite + K)." />
+        <text name="rhm_tut_overload_title" text="Surcharge Moteur" />
+        <text name="rhm_tut_overload_msg" text="Le moteur est sous forte contrainte ! La transmission hydrostatique ralentit pour éviter le bourrage du batteur. Relevez la coupe ou réduisez la largeur travaillée." />
+        <text name="rhm_tut_loss_title" text="Pertes Excessives" />
+        <text name="rhm_tut_loss_msg" text="Les pertes de grains sont anormalement élevées ! Les réglages du rotor ou des grilles ne sont pas adaptés. Ouvrez (Maj droite + K) pour recalibrer." />
+        <text name="rhm_tut_moisture_title" text="Humidité Élevée" />
+        <text name="rhm_tut_moisture_msg" text="L'humidité de la culture est élevée ou la pluie commence ! La paille humide augmente la résistance et la charge moteur. Récoltez de préférence par temps sec." />
+        <text name="rhm_tut_headland_title" text="Mémoire de Vitesse" />
+        <text name="rhm_tut_headland_msg" text="En relevant la barre de coupe en bout de champ, la vitesse de récolte est mémorisée. Vous reprendrez la ligne suivante de façon fluide sans à-coups." />
+        <text name="rhm_tut_upgrade_title" text="Améliorations Batteuse" />
+        <text name="rhm_tut_upgrade_msg" text="Les batteuses de base nécessitent des réglages manuels. Améliorez l'électronique à l'atelier : Capteurs (Niveau 2), Télémétrie (Niveau 3) ou IA Opti-Harvest (Niveau 4)." />
+        <text name="rhm_tut_hud_drag_title" text="HUD Interactif" />
+        <text name="rhm_tut_hud_drag_msg" text="Vous pouvez repositionner le HUD n'importe où sur l'écran en maintenant le clic gauche (LMB) sur le panneau, ou l'ancrer magnétiquement sous le menu F1 et les bords de l'écran." />
+        <text name="rhm_tut_trip_title" text="Compteur de Champ &amp; Journal" />
+        <text name="rhm_tut_trip_msg" text="Appuyez sur Shift+J pour consulter le bilan de rendement, l'impact financier des pertes et l'état de la flotte. Pour réinitialiser rapidement le compteur sur une nouvelle parcelle, maintenez Shift+R pendant 1 seconde en cabine !" />
+        <text name="rhm_tut_chopper_title" text="Charge du Broyeur de Paille" />
+        <text name="rhm_tut_chopper_msg" text="Le broyage de la paille consomme 15 à 20% de puissance moteur supplémentaire par rapport à la dépose en andain. Si vous avez besoin de plus de vitesse dans les cultures denses, passez en mode andain." />
+        <text name="rhm_setting_wear_loss_short" text="Pertes dues à l'usure" />
+        <text name="rhm_setting_wear_loss_long" text="Simule les pertes de grains causées par l'usure du matériel. Des lames émoussées égrènent les cultures (jusqu'à +3% de perte et +15% de traînée). Un batteur et des grilles usés laissent échapper du grain (jusqu'à +3% de perte)." />
+        <text name="rhm_ui_wear_loss" text="Perte par usure" />
+        <text name="rhm_ui_cutter_wear" text="Usure de la barre de coupe" />
+        <text name="rhm_ui_combine_wear" text="Usure du batteur" />
+        <!-- Harvest History & Field Trip Telemetry -->
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="Historique de récolte &amp; Compteur de champ" />
+        <text name="input_RHM_QUICK_RESET_TRIP" text="Réinitialiser le compteur de champ (Maintenir)" />
+        <text name="rhm_trip_reset_done" text="Compteur de champ réinitialisé !" />
+        <text name="rhm_tab_trip" text="Champ actuel / Compteur" />
+        <text name="rhm_tab_trip_desc" text="Télémétrie en direct du volume récolté, de la surface travaillée, du rendement moyen et des pertes de l'opération." />
+        <text name="rhm_tab_analytics" text="Causes de pertes &amp; Évaluation" />
+        <text name="rhm_tab_analytics_desc" text="Répartition des pertes, note d'efficacité de l'opérateur et recommandations de l'ordinateur de bord." />
+        <text name="rhm_tab_fleet" text="Batteuses au champ" />
+        <text name="rhm_tab_fleet_desc" text="Télémétrie en temps réel, débit et statut de toutes les moissonneuses-batteuses de l'exploitation." />
+        <text name="rhm_tab_settings" text="Paramètres Ferme &amp; IA" />
+        <text name="rhm_tab_settings_desc" text="Configuration du limiteur pour ouvriers IA, des repousses d'adventices et de la réinitialisation automatique." />
+        <text name="rhm_driver_parked" text="Sans conducteur" />
+        <text name="rhm_driver_cp_ai" text="IA (Courseplay)" />
+        <text name="rhm_driver_hired_ai" text="Ouvrier IA" />
+        <text name="rhm_driver_player" text="Joueur" />
+        <text name="rhm_driver_idle_on" text="Ralenti" />
+        <text name="rhm_field_yard" text="Ferme / Dépôt" />
+        <text name="rhm_field_format" text="Champ %d" />
+        <text name="rhm_fleet_driver" text="Conducteur / Opérateur" />
+        <text name="rhm_fleet_cutter" text="Largeur de coupe" />
+        <text name="rhm_fleet_grain_tank" text="Remplissage trémie" />
+        <text name="rhm_fleet_throughput" text="Débit" />
+        <text name="rhm_fleet_realtime_yield" text="Rendement instantané" />
+        <text name="rhm_fleet_crop_loss" text="Taux de perte" />
+        <text name="rhm_fleet_wear_state" text="Usure machine" />
+        <text name="rhm_fleet_total_count" text="Total batteuses" />
+        <text name="rhm_btn_subtab_fleet" text="PARC DE BATTEUSES" />
+        <text name="rhm_btn_subtab_history" text="HISTORIQUE DE CAMPAGNE / CHAMPS" />
+        <text name="rhm_season_all_time" text="Toutes les campagnes (Historique)" />
+        <text name="rhm_season_format" text="Campagne %d (Année %d)" />
+        <text name="rhm_season_current_suffix" text="[Actuelle]" />
+        <text name="rhm_card_season_harvest" text="RÉCOLTE ET SURFACE DE CAMPAGNE" />
+        <text name="rhm_card_season_losses" text="PERTES ET FINANCES DE CAMPAGNE" />
+        <text name="rhm_card_season_telemetry" text="MÉTRIQUES ET TEMPS DE RÉCOLTE" />
+        <text name="rhm_season_operations" text="Opérations terminées" />
+        <text name="rhm_season_active_status" text="Campagne active" />
+        <text name="rhm_season_archived_status" text="Campagne archivée" />
+        <text name="rhm_season_all_time_status" text="Historique complet" />
+        <text name="rhm_hist_total_area" text="Surface totale récoltée" />
+        <text name="rhm_hist_total_harvest" text="Récolte nette totale" />
+        <text name="rhm_hist_avg_loss" text="Pertes moyennes" />
+        <text name="rhm_hist_total_money" text="Perte financière totale" />
+        <text name="rhm_col_season" text="Saison" />
+        <text name="rhm_col_status" text="Statut" />
+        <text name="rhm_hist_empty" text="Aucun enregistrement de saison pour le moment" />
+        <text name="rhm_status_harvesting" text="En récolte (actif)" />
+        <text name="rhm_status_on_field_idle" text="Au champ (au ralenti)" />
+        <text name="rhm_status_on_field_stopped" text="Au champ (arrêté)" />
+        <text name="rhm_status_in_transit" text="Sur route / Déplacement" />
+        <text name="rhm_status_in_cab" text="Occupé (Joueur)" />
+        <text name="rhm_status_parked_yard" text="Stationné à la ferme" />
+        <text name="rhm_card_field_harvest" text="CHAMP ET CULTURE ACTUELS" />
+        <text name="rhm_field_number" text="Numéro de champ" />
+        <text name="rhm_trip_no_field" text="Hors champ" />
+        <text name="rhm_crop_type" text="Culture" />
+        <text name="rhm_harvested_area" text="Surface récoltée" />
+        <text name="rhm_clean_harvest" text="Récolte propre" />
+        <text name="rhm_average_yield" text="Rendement moyen" />
+        <text name="rhm_card_loss_finances" text="PERTES &amp; FINANCES" />
+        <text name="rhm_loss_volume" text="Volume perdu" />
+        <text name="rhm_loss_share" text="Taux de pertes" />
+        <text name="rhm_financial_loss" text="Impact financier" />
+        <text name="rhm_card_performance" text="PERFORMANCE &amp; TEMPS" />
+        <text name="rhm_avg_working_speed" text="Vitesse moyenne de travail" />
+        <text name="rhm_avg_engine_load" text="Charge moyenne moteur" />
+        <text name="rhm_session_duration" text="Durée de session" />
+        <text name="rhm_btn_reset_trip" text="Réinitialiser le compteur de champ" />
+        <text name="rhm_causes_title" text="CAUSES PRINCIPALES DE PERTES" />
+        <text name="rhm_cause_speed" text="Vitesse &amp; Surcharge du batteur" />
+        <text name="rhm_cause_moisture" text="Humidité de la récolte &amp; Rosée" />
+        <text name="rhm_cause_wear" text="Usure barre de coupe &amp; Batteur" />
+        <text name="rhm_cause_slope" text="Pente du champ &amp; Inclinaison" />
+        <text name="rhm_scorecard_title" text="TABLEAU D'EFFICACITÉ DE L'OPÉRATEUR" />
+        <text name="rhm_rank_title_a" text="Rang A : Optimal" />
+        <text name="rhm_rank_desc_a" text="Taux de perte inférieur à 1,5%. Réglage de la machine et vitesse parfaitement équilibrés." />
+        <text name="rhm_rank_title_b" text="Rang B : Acceptable" />
+        <text name="rhm_rank_desc_b" text="Taux de perte entre 1,5% et 3,0%. Légers ajustements de vitesse ou de contre-batteur recommandés." />
+        <text name="rhm_rank_title_c" text="Rang C : Pertes élevées" />
+        <text name="rhm_rank_desc_c" text="Taux de perte entre 3,0% et 4,5%. Réduisez la vitesse ou vérifiez l'affûtage des couteaux." />
+        <text name="rhm_rank_title_d" text="Rang D : Pertes critiques" />
+        <text name="rhm_rank_desc_d" text="Taux de perte supérieur à 4,5% ! Surcharge sévère des grilles ou calibrage inadapté." />
+        <text name="rhm_guidance_title" text="CONSEILS DE L'ORDINATEUR DE BORD" />
+        <text name="rhm_advice_perfect" text="Efficacité optimale. Tous les paramètres de séparation et la vitesse sont équilibrés." />
+        <text name="rhm_advice_speed" text="Pertes principalement causées par une vitesse excessive. Ralentissez pour décharger les grilles." />
+        <text name="rhm_advice_moisture" text="Pertes causées par une forte humidité ou rosée. Attendez le séchage ou réduisez la vitesse." />
+        <text name="rhm_advice_wear" text="Pertes accrues dues à l'usure des couteaux ou des batteurs. Effectuez un entretien en atelier." />
+        <text name="rhm_advice_slope" text="Le dévers en pente entraîne une charge asymétrique du caisson. Ralentissez sur les pentes." />
+        <text name="rhm_col_machine" text="Machine" />
+        <text name="rhm_col_hours" text="Heures de travail" />
+        <text name="rhm_col_harvested" text="Récolté" />
+        <text name="rhm_col_lost" text="Pertes" />
+        <text name="rhm_col_rank" text="Rang" />
+        <text name="rhm_fleet_no_combines" text="Aucune moissonneuse trouvée" />
+        <text name="rhm_setting_ai_limiter_title" text="LIMITEUR DE VITESSE IA" />
+        <text name="rhm_setting_ai_limiter_desc" text="Limite automatiquement la vitesse de travail des ouvriers IA lorsque les pertes dépassent le seuil." />
+        <text name="rhm_setting_ai_threshold_title" text="SEUIL DE PERTES IA" />
+        <text name="rhm_setting_ai_threshold_desc" text="Pourcentage maximum de pertes toléré avant que l'ouvrier IA ne ralentisse automatiquement." />
+        <text name="rhm_setting_volunteer_title" text="REPOUSSES D'ADVENTICES" />
+        <text name="rhm_setting_volunteer_desc" text="Génère des repousses spontanées et mauvaises herbes derrière la batteuse en zone de fortes pertes (&gt;3%)." />
+        <text name="rhm_setting_autoreset_title" text="RÉINITIALISATION AUTO AU CHANGEMENT DE CHAMP" />
+        <text name="rhm_setting_autoreset_desc" text="Archive et réinitialise automatiquement le compteur de champ en passant à un autre champ." />
+        <text name="rhm_setting_autoreset_smart" text="Intelligent (Champ / Culture)" />
+        <text name="rhm_setting_autoreset_crop" text="Changement de culture uniquement" />
+        <text name="rhm_setting_autoreset_disabled" text="Désactivé (Manuel)" />
+        <text name="rhm_col_field" text="Champ" />
+        <text name="rhm_col_speed" text="Vitesse" />
+        <text name="rhm_col_load" text="Charge" />
+        <text name="rhm_col_loss" text="Perte" />
+        <text name="rhm_col_tank" text="Trémie" />
+        <text name="rhm_col_area" text="Superficie" />
+        <text name="rhm_col_money" text="Perte ($)" />
+        <text name="rhm_col_driver" text="Conducteur" />
+        <text name="rhm_col_cutter" text="Barre de coupe" />
+        <text name="rhm_col_throughput" text="Débit" />
+        <text name="rhm_col_yield" text="Rendement" />
+        <text name="rhm_col_wear" text="Usure" />
+        <text name="rhm_kpi_field" text="CHAMP" />
+        <text name="rhm_kpi_crop" text="CULTURE" />
+        <text name="rhm_kpi_area" text="SUPERFICIE" />
+        <text name="rhm_kpi_harvest" text="PRODUCTION" />
+        <text name="rhm_kpi_yield" text="RENDEMENT" />
+        <text name="rhm_kpi_loss" text="PERTE" />
+        <text name="rhm_kpi_speed" text="VITESSE" />
+        <text name="rhm_efficiency_index" text="Indice d'efficacité" />
+        <text name="rhm_trip_footer_hint" text="Le compteur de parcelle enregistre la superficie récoltée et le grain propre pour le champ actif. Réinitialisable à tout moment." />
+        <text name="rhm_detail_area" text="Superficie totale récoltée du champ" />
+        <text name="rhm_detail_clean_grain" text="de grain propre" />
+        <text name="rhm_detail_yield" text="Rendement moyen sur la surface récoltée" />
+        <text name="rhm_detail_throughput" text="Débit de battage actuel" />
+        <text name="rhm_detail_lost_grain" text="de grain perdu" />
+        <text name="rhm_detail_loss_rating" text="Taux de perte par rapport au rendement biologique" />
+        <text name="rhm_detail_financial_loss" text="Impact financier des pertes de récolte" />
+        <text name="rhm_detail_speed" text="Vitesse d'avancement moyenne de la batteuse" />
+        <text name="rhm_detail_load" text="Charge moteur moyenne" />
+        <text name="rhm_detail_duration" text="Durée de session active" />
+        <text name="rhm_detail_wear" text="Usure mécanique du batteur" />
+        <text name="rhm_rating_normal" text="Optimal (&lt; 1,5 %)" />
+        <text name="rhm_rating_moderate" text="Modéré (1,5 - 3,0 %)" />
+        <text name="rhm_rating_elevated" text="Élevé (&gt; 3,0 %)" />
+        <text name="rhm_rating_critical" text="Critique (&gt; 4,5 %)" />
+        <text name="rhm_tab_fields" text="Champs de la ferme" />
+        <text name="rhm_tab_fields_desc" text="Vue détaillée de la production, des rendements, des pertes et des contrats pour chaque champ." />
+        <text name="rhm_card_field_land" text="TERRAIN &amp; PROGRESSION" />
+        <text name="rhm_card_field_yield" text="PRODUCTION &amp; RENDEMENT" />
+        <text name="rhm_card_field_losses" text="PERTES &amp; QUALITÉ" />
+        <text name="rhm_fields_total_owned" text="Champs possédés" />
+        <text name="rhm_fields_best_yield" text="Meilleur rendement" />
+        <text name="rhm_fields_owned" text="Possédé" />
+        <text name="rhm_fields_contract" text="Contrat" />
+        <text name="rhm_fields_no_data" text="Aucun champ enregistré" />
+        <text name="rhm_contract_tag" text="(Contrat)" />
+        <text name="rhm_status_completed" text="Récolté" />
+        <text name="rhm_status_idle_yard" text="À la ferme (en attente)" />
+        <text name="rhm_fields_external" text="Externe" />
+        <text name="rhm_field_transit" text="En transit / Route" />
+        <text name="rhm_detail_loss_money" text="Impact financier des pertes de récolte" />
+        <text name="rhm_cause_none" text="Fonctionnement optimal (aucune perte)" />
+        <text name="rhm_fields_all_overview" text="[*] Vue d'ensemble (tous les champs)" />
+        <text name="rhm_field_operations" text="Opérations de récolte" />
+        <text name="rhm_fields_nominal_area" text="Surface nominale" />
+        <text name="rhm_status_in_progress" text="En cours" />
+        <text name="rhm_fields_harvested_area" text="Surface récoltée" />
+        <text name="rhm_ops_one" text="récolte" />
+        <text name="rhm_ops_few" text="récoltes" />
+        <text name="rhm_ops_many" text="récoltes" />
+        <text name="rhm_loss_disabled" text="Simulation désactivée" />
+        <text name="rhm_loss_disabled_desc" text="La simulation des pertes de récolte est désactivée dans les paramètres du mod." />
+        <text name="rhm_filter_active" text="En service" />
+        <text name="rhm_filter_all" text="Toutes" />
+        <text name="rhm_filter_sold" text="Vendues" />
+        <text name="rhm_status_sold" text="Vendu (Archivé)" />
+        <text name="rhm_field_sold" text="[Vendu]" />
+        <text name="rhm_driver_sold" text="Déclassé" />
+        <text name="rhm_fleet_no_sold_combines" text="Aucune moissonneuse vendue dans les archives" />
+        <text name="rhm_fleet_total_count_active" text="Batteuses actives" />
+        <text name="rhm_fleet_total_count_sold" text="Batteuses vendues" />
+        <text name="rhm_slopeloss_short" text="Pertes en dévers" />
+        <text name="rhm_slopeloss_long" text="Simule l'accumulation du grain d'un côté des grilles sur les pentes et coteaux de plus de 4° (jusqu'à 5% de pertes). Désactiver pour ignorer l'inclinaison du terrain." />
+        <text name="rhm_weedload_short" text="Résistance des adventices" />
+        <text name="rhm_weedload_long" text="Les adventices fibreuses et humides s'enroulent autour du rotor et augmentent la charge moteur et la résistance mécanique (jusqu'à +25%). Désactiver pour annuler l'impact des mauvaises herbes." />
+            <text name="rhm_fleet_badge_mission" text="[Contrat]" />
+        <text name="rhm_fleet_badge_leased" text="[Loué]" />
     </texts>
 </l10n>

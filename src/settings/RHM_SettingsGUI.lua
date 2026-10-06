@@ -17,10 +17,6 @@ end
 -- UA: Реєструє всі консольні команди для налаштувань мода і керування комбайном.
 --     Викликається один раз під час ініціалізації. Команди з'являються в консолі FS25.
 function RHMSettingsGUI:registerConsoleCommands()
-    -- EN: Deprecated joint difficulty setter — kept for backward compatibility.
-    -- UA: Застарілий спільний параметр складності — збережено для зворотної сумісності.
-    addConsoleCommand("rhmSetDifficulty", "[Deprecated] Set both difficulties (1=Arcade, 2=Normal, 3=Realistic). Use rhmSetDifficultyMotor and rhmSetDifficultyLoss instead.", "consoleCommandSetDifficulty", self)
-
     -- EN: Separate difficulty commands for fine-grained control.
     -- UA: Окремі команди складності для детального керування.
     addConsoleCommand("rhmSetDifficultyMotor", "Set engine load difficulty (1=Arcade, 2=Normal, 3=Realistic)", "consoleCommandSetDifficultyMotor", self)
@@ -30,12 +26,6 @@ function RHMSettingsGUI:registerConsoleCommands()
     addConsoleCommand("rhmToggleCropLoss", "Toggle crop loss on/off", "consoleCommandToggleCropLoss", self)
     addConsoleCommand("rhmToggleHUD", "Toggle HUD on/off", "consoleCommandToggleHUD", self)
     addConsoleCommand("rhmShowSettings", "Show current settings", "consoleCommandShowSettings", self)
-
-    -- EN: Deprecated HUD position commands — drag-and-drop replaced them.
-    -- UA: Застарілі команди позиції HUD — замінені перетягуванням.
-    addConsoleCommand("rhmSetHUDOffset", "Set HUD vertical offset (100-500)", "consoleCommandSetHUDOffset", self)
-    addConsoleCommand("rhmMoveHUDLeft", "Move HUD to the left by 10px", "consoleCommandMoveHUDLeft", self)
-    addConsoleCommand("rhmMoveHUDRight", "Move HUD to the right by 10px", "consoleCommandMoveHUDRight", self)
 
     addConsoleCommand("rhmResetSettings", "Reset all settings to defaults", "consoleCommandResetSettings", self)
     addConsoleCommand("rhmResetHUD", "Reset HUD position to default", "consoleCommandResetHUD", self)
@@ -51,31 +41,7 @@ function RHMSettingsGUI:registerConsoleCommands()
     addConsoleCommand("rhm_profiles", "List all saved profiles", "consoleCommandCombineProfiles", self)
 end
 
--- EN: [Deprecated] Sets both motor and loss difficulty to the same value.
---     Players should use rhmSetDifficultyMotor / rhmSetDifficultyLoss separately.
--- UA: [Застаріло] Встановлює складність двигуна та втрат на одне значення.
---     Гравцям слід використовувати rhmSetDifficultyMotor / rhmSetDifficultyLoss окремо.
-function RHMSettingsGUI:consoleCommandSetDifficulty(difficulty)
-    if not g_realisticHarvestManager or not g_realisticHarvestManager.settings then
-        return "Error: RHM not initialized"
-    end
 
-    local settings = g_realisticHarvestManager.settings
-
-    if not settings:canChangeServerSettings() then
-        return "Error: Admin only - you cannot change server settings"
-    end
-
-    local diff = tonumber(difficulty)
-    if not diff or diff < 1 or diff > 3 then
-        return "Invalid difficulty. Use 1 (Arcade), 2 (Normal), or 3 (Realistic). For separate control use rhmSetDifficultyMotor and rhmSetDifficultyLoss"
-    end
-
-    settings:setDifficulty(diff)  -- EN: Sets both Motor and Loss / UA: Встановлює і Motor і Loss
-    settings:save()
-    local names = {"Arcade", "Normal", "Realistic"}
-    return string.format("[Deprecated] Both difficulties set to: %s. Consider using rhmSetDifficultyMotor / rhmSetDifficultyLoss", names[diff] or "?")
-end
 
 -- EN: Sets engine load (motor) difficulty independently. Admin only.
 -- UA: Встановлює складність навантаження двигуна незалежно. Тільки для адміністратора.
@@ -177,44 +143,31 @@ function RHMSettingsGUI:consoleCommandShowSettings()
     local userRole = settings:isAdmin() and "Administrator" or "User"
 
     local info = string.format(
-        "=== RHM RHMSettings ===\n" ..
+        "=== Realistic Harvesting Settings ===\n" ..
         "Role: %s\n" ..
-        "\n[Server RHMSettings]\n" ..
+        "\n[Server Settings]\n" ..
         "Difficulty Motor: %s\n" ..
         "Difficulty Loss: %s\n" ..
         "Speed Limiting: %s\n" ..
         "Crop Loss: %s\n" ..
-        "\n[Personal RHMSettings]\n" ..
+        "Wear Loss: %s\n" ..
+        "Moisture System: %s\n" ..
+        "\n[Client Settings]\n" ..
         "Show HUD: %s\n" ..
-        "HUD Offset X: %d\n" ..
-        "HUD Offset Y: %d\n" ..
         "Unit System: %s",
         userRole,
         settings.getDifficultyMotorName and settings:getDifficultyMotorName() or tostring(settings.difficultyMotor),
         settings.getDifficultyLossName and settings:getDifficultyLossName() or tostring(settings.difficultyLoss),
         settings.enableSpeedLimit and "ON" or "OFF",
         settings.enableCropLoss and "ON" or "OFF",
+        settings.enableWearLoss and "ON" or "OFF",
+        settings.enableMoisture and "ON" or "OFF",
         settings.showHUD and "ON" or "OFF",
-        settings.hudOffsetX or 0,
-        settings.hudOffsetY or 0,
         settings.unitSystem == 1 and "Metric" or (settings.unitSystem == 2 and "Imperial" or "Bushels")
     )
     return info
 end
 
--- EN: [Deprecated] HUD offset commands replaced by drag-and-drop.
--- UA: [Застаріло] Команди зміщення HUD замінені перетягуванням.
-function RHMSettingsGUI:consoleCommandSetHUDOffset(offset)
-    return "WARNING: This command is deprecated. Please use Right Click to drag the HUD, or use rhmResetHUD to reset position."
-end
-
-function RHMSettingsGUI:consoleCommandMoveHUDLeft()
-    return "WARNING: This command is deprecated. Please use Right Click to drag the HUD."
-end
-
-function RHMSettingsGUI:consoleCommandMoveHUDRight()
-    return "WARNING: This command is deprecated. Please use Right Click to drag the HUD."
-end
 
 -- EN: Resets all settings to factory defaults and refreshes the UI and HUD position.
 -- UA: Скидає всі налаштування до заводських значень та оновлює UI і позицію HUD.

@@ -2,10 +2,12 @@
 <modDesc descVersion="111">
     <author>exekx</author>
     <manufacturer>exekx</manufacturer>
-    <version>1.6.0.0</version>
+    <version>1.6.2.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
+        <de>Realistic Harvesting</de>
+        <fr>Realistic Harvesting</fr>
     </title>
     <description>
 <en><![CDATA[Adds realistic harvesting mechanics to your combines.
@@ -17,6 +19,7 @@ Features:
 - Yield Monitor (t/ha, bu/ac) with real-time field fluctuations
 - Customizable HUD with live speed, load, yield, loss, moisture & productivity
 - Touchscreen Combine Calibration Terminal (Right Shift + K) with map crop extraction
+- Fullscreen Field Job Counter & Fleet Harvest History (Right Shift + J)
 - 4-Tier Electronics Progression: Manual, Sensors, Telemetry Monitor & Opti-Harvest AI
 - Multi-tier AI Worker & Courseplay auto-tuning based on electronics package
 - Full savegame persistence for active combine settings and custom crop profiles
@@ -36,6 +39,7 @@ Funktionen:
 - Ertragsmonitor (t/ha, bu/ac) mit realistischen Feldschwankungen
 - Anpassbares HUD mit Echtzeit-Messwerten (Last, Geschwindigkeit, Ertrag, Verlust, Feuchtigkeit)
 - Mähdrescher-Kalibrierungsterminal (Rechts-Shift + K) mit Erkennung von Map-Früchten
+- Feldzähler & Flotten-Erntehistorie im Vollbildmodus (Rechts-Shift + J)
 - 4 Elektronik-Stufen: Manuell, Sensor-Kit, Telemetrie-Monitor & Opti-Harvest KI
 - Mehrstufige automatische Anpassung für KI-Helfer & Courseplay
 - Vollständige Speicherung aktiver Einstellungen und Profile im Spielstand
@@ -55,6 +59,7 @@ Fonctionnalités:
 - Moniteur de rendement (t/ha, bu/ac) avec fluctuations réelles du champ
 - HUD personnalisable avec métriques en temps réel (charge, vitesse, rendement, pertes, humidité)
 - Terminal tactile de calibrage de récolte (Shift Droit + K)
+- Compteur de champ et historique de récolte en plein écran (Shift Droit + J)
 - Progression sur 4 niveaux d'électronique: Manuel, Capteurs, Écran Télémétrie & IA Opti-Harvest
 - Réglage automatique multi-niveaux pour ouvriers IA & Courseplay
 - Sauvegarde complète des profils et réglages actifs dans la partie
@@ -65,234 +70,6 @@ Fonctionnalités:
 - Guide d'aide interactif de 9 pages dans le menu ESC
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
-<pl><![CDATA[Dodaje realistyczną mechanikę żniw do Twoich kombajnów.
-
-Funkcje:
-- Dynamiczne obliczanie obciążenia silnika na podstawie przepustowości (t/h, masa/s)
-- Automatyczny ogranicznik prędkości zapobiegający przeciążeniu maszyny
-- Wizualny i fizyczny wskaźnik strat plonów z realnymi stratami
-- Monitor plonu (t/ha, bu/ac) z realistycznymi wahaniami polowymi
-- Konfigurowalny HUD z danymi w czasie rzeczywistym (obciążenie, prędkość, plon, straty, wilgotność)
-- Dotykowy terminal kalibracji kombajnu (Prawy Shift + K) z wykrywaniem upraw mapy
-- 4 poziomy elektroniki: Ręczny, Pakiet czujników, Monitor telemetrii i Opti-Harvest AI
-- Wielopoziomowe strojenie pomocników AI (AI Worker i Courseplay)
-- Pełny zapis aktywnych ustawień i profili kombajnu w pliku zapisu gry
-- Pełne wsparcie dla trybu wieloosobowego z ustawieniami po stronie serwera
-- Obsługa zbóż, sieczkarni, roślin okopowych (ziemniaki, buraki, marchew, cebula, szpinak) i bawełny
-- Obsługa podbieraczy (zbiór z wałów) oraz eksperymentalne wsparcie dla NEXAT
-- Płynna integracja z Precision Farming i Moisture System
-- Rozbudowany 9-stronicowy przewodnik pomocy w menu ESC
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></pl>
-<es><![CDATA[Añade mecánicas de cosecha realistas a tus cosechadoras.
-
-Características:
-- Cálculo dinámico de carga del motor basado en el flujo de masa (t/h, masa/seg)
-- Limitador automático de velocidad para evitar sobrecargas
-- Indicador visual y físico de pérdida de grano con penalizaciones reales
-- Monitor de rendimiento (t/ha, bu/ac) con fluctuaciones reales del terreno
-- HUD personalizable con telemetría en tiempo real (velocidad, carga, rendimiento, pérdidas, humedad)
-- Terminal táctil de calibración de cosechadora (Shift Derecho + K)
-- Progresión de 4 niveles electrónicos: Manual, Sensores, Monitor de Telemetría y Opti-Harvest AI
-- Ajuste automático multinivel para trabajadores IA y Courseplay
-- Persistencia total en la partida guardada para configuraciones y perfiles
-- Soporte multijugador completo con ajustes en el servidor
-- Soporte para grano, forraje, raíces (patatas, remolachas, zanahorias, cebollas, espinacas) y algodón
-- Soporte para cabezales recolectores (hilerado) y soporte experimental para NEXAT
-- Integración perfecta con Precision Farming y Moisture System
-- Guía interactiva de ayuda de 9 páginas en el menú ESC
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></es>
-<it><![CDATA[Aggiunge meccaniche di raccolta realistiche alle tue mietitrebbiatrici.
-
-Caratteristiche:
-- Calcolo dinamico del carico motore basato sul flusso di massa (t/h, massa/sec)
-- Limitatore automatico di velocità per prevenire il sovraccarico
-- Indicatore visivo e fisico di perdita di raccolto con penalità realistiche
-- Monitor della resa (t/ha, bu/ac) con fluttuazioni in campo
-- HUD personalizzabile con metriche in tempo reale (carico, velocità, resa, perdite, umidità)
-- Terminale touch di calibrazione mietitrebbia (Shift Destro + K)
-- Progressione elettronica a 4 livelli: Manuale, Sensori, Monitor Telemetria & Opti-Harvest AI
-- Regolazione automatica per aiutanti IA e Courseplay
-- Salvataggio completo nel savegame di profili e impostazioni attive
-- Supporto multiplayer completo con impostazioni lato server
-- Supporto per granella, foraggio, radici (patate, barbabietole, carote, cipolle, spinaci) e cotone
-- Supporto per pick-up per andane e supporto sperimentale NEXAT
-- Integrazione perfetta con Precision Farming e Moisture System
-- Guida d'aiuto interattiva di 9 pagine nel menu ESC
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></it>
-<cz><![CDATA[Přidává realistickou mechaniku sklizně pro vaše sklízecí mlátičky.
-
-Funkce:
-- Dynamický výpočet zatížení motoru na základě průtoku hmoty (t/h, hmotnost/s)
-- Automatické omezování rychlosti zabraňující přetížení
-- Vizuální a fyzický indikátor ztrát zrna s reálnými postihy
-- Monitor výnosu (t/ha, bu/ac) s reálnými odchylkami na poli
-- Přizpůsobitelný HUD s telemetrií v reálném čase (zatížení, rychlost, výnos, ztráty, vlhkost)
-- Dotykový kalibrační terminál sklízeče (Pravý Shift + K) s načítáním plodin mapy
-- 4 úrovně elektroniky: Manuální, Sada senzorů, Monitor telemetrie a Opti-Harvest AI
-- Vícestupňové automatické ladění pro AI pracovníky a Courseplay
-- Kompletní ukládání aktivních nastavení a profilů do uložené pozice
-- Plná podpora hry pro více hráčů se serverovými nastaveními
-- Podpora pro obilí, řezačky, okopaniny (brambory, řepa, mrkev, cibule, špenát) a bavlnu
-- Podpora sběracích adaptérů (řádkování) a experimentální podpora pro NEXAT
-- Bezproblémová integrace s Precision Farming a Moisture System
-- Podrobný 9stránkový průvodce nápovědou v menu ESC
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></cz>
-<pt><![CDATA[Adiciona mecânicas de colheita realistas às suas colheitadeiras.
-
-Recursos:
-- Cálculo dinâmico de carga do motor com base no fluxo de massa (t/h, massa/seg)
-- Limitador automático de velocidade para evitar sobrecarga
-- Indicador visual e físico de perda de grãos com penalidades reais
-- Monitor de produtividade (t/ha, bu/ac) com variações reais da lavoura
-- HUD personalizável com telemetria em tempo real (carga, velocidade, produtividade, perdas, umidade)
-- Terminal touchscreen de calibração da colheitadeira (Shift Direito + K)
-- Progressão eletrônica de 4 níveis: Manual, Sensores, Monitor de Telemetria e Opti-Harvest AI
-- Calibração automática multinível para trabalhadores de IA e Courseplay
-- Salvamento completo das configurações ativas e perfis no jogo salvo
-- Suporte total para multijogador com configurações do servidor
-- Suporte para grãos, forragem, raízes (batatas, beterrabas, cenouras, cebolas, espinafre) e algodão
-- Suporte para plataformas recolhedoras (enleiramento) e suporte experimental para NEXAT
-- Integração perfeita com Precision Farming e Moisture System
-- Guia interativo de ajuda de 9 páginas no menu ESC
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></pt>
-<br><![CDATA[Adiciona mecânicas de colheita realistas às suas colheitadeiras.
-
-Recursos:
-- Cálculo dinâmico de carga do motor com base no fluxo de massa (t/h, massa/seg)
-- Limitador automático de velocidade para evitar sobrecarga
-- Indicador visual e físico de perda de grãos com penalidades reais
-- Monitor de produtividade (t/ha, bu/ac) com variações reais da lavoura
-- HUD personalizável com telemetria em tempo real (carga, velocidade, produtividade, perdas, umidade)
-- Terminal touchscreen de calibração da colheitadeira (Shift Direito + K)
-- Progressão eletrônica de 4 níveis: Manual, Sensores, Monitor de Telemetria e Opti-Harvest AI
-- Calibração automática multinível para trabalhadores de IA e Courseplay
-- Salvamento completo das configurações ativas e perfis no jogo salvo
-- Suporte total para multijogador com configurações do servidor
-- Suporte para grãos, forragem, raízes (batatas, beterrabas, cenouras, cebolas, espinafre) e algodão
-- Suporte para plataformas recolhedoras (enleiramento) e suporte experimental para NEXAT
-- Integração perfeita com Precision Farming e Moisture System
-- Guia interativo de ajuda de 9 páginas no menu ESC
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></br>
-<uk><![CDATA[Додає реалістичну механіку збирання врожаю для ваших комбайнів.
-
-Особливості:
-- Динамічний розрахунок навантаження двигуна залежно від потоку маси (т/год, маса/сек)
-- Автоматичне обмеження швидкості для запобігання перевантаженню комбайна
-- Візуальний та фізичний індикатор втрат врожаю з реальними втратами з бункера
-- Монітор врожайності (т/га, бу/акр) з реалістичними коливаннями
-- Налаштовуваний HUD з метриками в реальному часі (навантаження, швидкість, врожайність, втрати, вологість)
-- Сенсорний термінал калібрування комбайна (Right Shift + K) з вилученням культур карти
-- 4 рівні електроніки: Базовий ручний, Сенсорний набір, Монітор телеметрії та Opti-Harvest AI
-- Інтелектуальне авто-налаштування наймитів (AI Worker та Courseplay) за рівнем електроніки
-- Повне збереження налаштувань та обраних профілів комбайна у сейвгеймі
-- Повна підтримка мультиплеєра та налаштувань сервера
-- Підтримка зернових, кормозбиральних, коренеплодів (картопля, буряк, морква, цибуля, шпинат) та бавовни
-- Підтримка жаток-підбирачів (валкування) та експериментальна підтримка шасі NEXAT
-- Безшовна інтеграція з Precision Farming та Moisture System
-- Детальний 9-сторінковий інтерактивний довідник у меню гри (ESC)
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></uk>
-<ru><![CDATA[Добавляет реалистичную механику уборки урожая для ваших комбайнов.
-
-Особенности:
-- Динамический расчет нагрузки двигателя на основе потока массы (т/ч, масса/сек)
-- Автоматическое ограничение скорости для предотвращения перегрузки комбайна
-- Визуальный и физический индикатор потерь урожая с реальными потерями из бункера
-- Монитор урожайности (т/га, бу/акр) с реалистичными полевыми колебаниями
-- Настраиваемый HUD с телеметрией в реальном времени (нагрузка, скорость, урожайность, потери, влажность)
-- Сенсорный терминал калибровки комбайна (Right Shift + K) с автоопределением культур карты
-- 4 уровня электроники: Ручной, Набор датчиков, Монитор телеметрии и Opti-Harvest AI
-- Интеллектуальная автонастройка для наемных рабочих (AI Worker и Courseplay)
-- Полное сохранение настроек и профилей комбайна в сохранении игры
-- Полная поддержка мультиплеера с настройками на стороне сервера
-- Поддержка зерновых, кормоуборочных, корнеплодов (картофель, свекла, морковь, лук, шпинат) и хлопка
-- Поддержка жаток-подборщиков (валкование) и экспериментальная поддержка шасси NEXAT
-- Полная интеграция с Precision Farming и Moisture System
-- Подробный 9-страничный интерактивный справочник в меню ESC
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></ru>
-<hu><![CDATA[Valósághű betakarítási mechanikákat ad hozzá a kombájnjaidhoz.
-
-Funkciók:
-- Dinamikus motorterhelés-számítás a tömegáram (t/h, tömeg/mp) alapján
-- Automatikus sebességkorlátozás a túlterhelés elkerülése érdekében
-- Vizuális és fizikai terményveszteség-jelző valós veszteségekkel
-- Hozamfigyelő (t/ha, bu/ac) valósághű szántóföldi ingadozásokkal
-- Testreszabható HUD valós idejű adatokkal (terhelés, sebesség, hozam, veszteség, nedvesség)
-- Érintőképernyős kalibrációs terminál (Jobb Shift + K) a térkép növényeinek felismerésével
-- 4 elektronikai szint: Kézi, Érzékelő készlet, Telemetria monitor & Opti-Harvest MI
-- Többszintű automatikus finomhangolás AI munkásokhoz és Courseplay-hez
-- Aktív beállítások és egyéni profilok mentése a játékmentésbe
-- Teljes többjátékos támogatás, szerveroldali beállításokkal
-- Gabona, silózó, gyökérzöldség (burgonya, répa, sárgarépa, hagyma, spenót) és gyapot támogatása
-- Rendfelszedő adapterek (rendre vágás) és kísérleti NEXAT támogatás
-- Zökkenőmentes integráció a Precision Farming és Moisture System modokkal
-- Részletes 9 oldalas interaktív súgó az ESC menüben
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></hu>
-<nl><![CDATA[Voegt realistische oogstmechanica toe aan uw maaidorsers.
-
-Functies:
-- Dynamische motorbelastingberekening op basis van massastroom (t/u, massa/sec)
-- Automatische snelheidsbegrenzer om overbelasting van de machine te voorkomen
-- Visuele en fysieke oogstverliesindicator met echte verliezen
-- Opbrengstmonitor (t/ha, bu/ac) met realistische veldfluctuaties
-- Aanpasbare HUD met realtime statistieken (belasting, snelheid, opbrengst, verlies, vocht)
-- Touchscreen maaidorser-kalibratieterminal (Rechter Shift + K)
-- 4 elektronicaniveaus: Handmatig, Sensorset, Telemetriemonitor & Opti-Harvest AI
-- Automatische meertrapsafstelling voor AI-helpers en Courseplay
-- Volledig behoud van actieve instellingen en profielen in het opgeslagen spel
-- Volledige multiplayer-ondersteuning met serverinstellingen
-- Ondersteuning voor graan, hakselaars, wortelgewassen (aardappelen, bieten, wortels, uien, spinazie) en katoen
-- Ondersteuning voor opraapvoorzetstukken (zwad) en experimentele NEXAT-ondersteuning
-- Naadloze integratie met Precision Farming en Moisture System
-- Interactieve handleiding van 9 pagina's in het ESC-menu
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></nl>
-<ro><![CDATA[Adaugă mecanici realiste de recoltare pentru combinele dumneavoastră.
-
-Caracteristici:
-- Calcul dinamic al sarcinii motorului în funcție de debitul de masă (t/h, masă/sec)
-- Limitator automat de viteză pentru a preveni suprasolicitarea combinei
-- Indicator vizual și fizic al pierderilor de recoltă cu penalizări reale
-- Monitor de randament (t/ha, bu/ac) cu fluctuații reale de producție
-- HUD configurabil cu telemetrie în timp real (sarcină, viteză, randament, pierderi, umiditate)
-- Terminal touchscreen de calibrare a combinei (Shift Dreapta + K)
-- 4 niveluri de electronică: Manual, Kit Senzori, Monitor Telemetrie și Opti-Harvest AI
-- Calibrare automată pe mai multe niveluri pentru lucrători AI și Courseplay
-- Salvare completă a setărilor active și a profilelor în salvarea jocului
-- Suport multiplayer complet cu setări pe partea de server
-- Suport pentru cereale, furaje, rădăcinoase (cartofi, sfeclă, morcovi, ceapă, spanac) și bumbac
-- Suport pentru hedere pick-up (brazdă) și suport experimental NEXAT
-- Integrare perfectă cu Precision Farming și Moisture System
-- Ghid interactiv de ajutor cu 9 pagini în meniul ESC
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></ro>
-<tr><![CDATA[Biçerdöverlerinize gerçekçi hasat mekanikleri ekler.
-
-Özellikler:
-- Kütle akışına (t/sa, kütle/sn) dayalı dinamik motor yükü hesaplaması
-- Biçerdöverin aşırı yüklenmesini önlemek için otomatik hız sınırlayıcı
-- Gerçek kayıp cezalarına sahip görsel ve fiziksel ürün kaybı göstergesi
-- Gerçekçi tarla dalgalanmalarıyla verim monitörü (t/ha, bu/ac)
-- Gerçek zamanlı telemetri verilerine sahip özelleştirilebilir HUD (yük, hız, verim, kayıp, nem)
-- Dokunmatik biçerdöver kalibrasyon terminali (Sağ Shift + K)
-- 4 Elektronik Seviyesi: Manuel, Sensör Kiti, Telemetri Monitörü ve Opti-Harvest AI
-- AI İşçiler ve Courseplay için çok aşamalı akıllı otomatik ayar
-- Aktif ayarların ve özel profillerin kayıt dosyasına tam olarak kaydedilmesi
-- Sunucu tarafı ayarlarla tam çok oyunculu (Multiplayer) desteği
-- Tahıl, silaj, kök bitkiler (patates, pancar, havuç, soğan, ıspanak) ve pamuk desteği
-- Toplama tablaları (namlu) ve deneysel NEXAT desteği
-- Precision Farming ve Moisture System ile kusursuz entegrasyon
-- ESC menüsünde 9 sayfalık kapsamlı etkileşimli yardım rehberi
-
-GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></tr>
     </description>
     <iconFilename>icon_FS25_RealisticHarvesting.dds</iconFilename>
     <multiplayer supported="true"/>
@@ -304,6 +81,9 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></tr>
     <actions>
         <action name="RHM_OPEN_MENU" category="VEHICLE" />
         <action name="RHM_TOGGLE_HUD" category="VEHICLE" />
+        <action name="RHM_OPEN_HARVEST_MENU" category="ONFOOT VEHICLE" axisType="HALF" ignoreComboMask="false" />
+        <action name="RHM_QUICK_RESET_TRIP" category="VEHICLE" />
+        <action name="RHM_TOGGLE_MOUSE_CURSOR" category="VEHICLE" />
         <action name="RHM_CLOSE_NOTIFICATION" displayCategory="PLAYER_INTERACTIVE" />
     </actions>
     
@@ -313,6 +93,15 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></tr>
         </actionBinding>
         <actionBinding action="RHM_TOGGLE_HUD">
             <binding device="KB_MOUSE_DEFAULT" input="KEY_rshift KEY_h" />
+        </actionBinding>
+        <actionBinding action="RHM_OPEN_HARVEST_MENU">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_rshift KEY_j" />
+        </actionBinding>
+        <actionBinding action="RHM_QUICK_RESET_TRIP">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_rshift KEY_r" />
+        </actionBinding>
+        <actionBinding action="RHM_TOGGLE_MOUSE_CURSOR">
+            <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_MIDDLE" />
         </actionBinding>
         <actionBinding action="RHM_CLOSE_NOTIFICATION">
             <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_LEFT" />
@@ -330,8 +119,8 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></tr>
     <helpLines>
         <!-- Title category for GUI -->
         <category title="$l10n_rhm_help_category">
-            <!-- ===== PAGE 1: OVERVIEW & PHYSICS ===== -->
-            <page title="$l10n_rhm_help_overview_title" iconSliceId="rhmHelp_overview.tab">
+            <!-- ===== PAGE 1: ENGINE LOAD PHYSICS & SPEED ===== -->
+            <page title="$l10n_rhm_help_overview_title" iconSliceId="rhmUi.tab_overview">
                 <paragraph>
                     <title text="$l10n_rhm_help_overview_sub1"/>
                     <text text="$l10n_rhm_help_overview_1"/>
@@ -340,10 +129,14 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></tr>
                     <title text="$l10n_rhm_help_overview_sub2"/>
                     <text text="$l10n_rhm_help_overview_2"/>
                 </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_overview_sub3"/>
+                    <text text="$l10n_rhm_help_overview_3"/>
+                </paragraph>
             </page>
 
-            <!-- ===== PAGE 2: HUD & TELEMETRY ===== -->
-            <page title="$l10n_rhm_help_hud_title" iconSliceId="rhmHelp_hud.tab">
+            <!-- ===== PAGE 2: INTERACTIVE HUD & TELEMETRY ===== -->
+            <page title="$l10n_rhm_help_hud_title" iconSliceId="rhmUi.tab_hud">
                 <paragraph>
                     <title text="$l10n_rhm_help_hud_sub1"/>
                     <text text="$l10n_rhm_help_hud_1"/>
@@ -354,27 +147,12 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></tr>
                 </paragraph>
                 <paragraph>
                     <title text="$l10n_rhm_help_hud_sub3"/>
-                    <text text="$l10n_rhm_help_hud_3_load"/>
-                </paragraph>
-                <paragraph>
-                    <text text="$l10n_rhm_help_hud_3_yield"/>
-                </paragraph>
-                <paragraph>
-                    <text text="$l10n_rhm_help_hud_3_productivity"/>
-                </paragraph>
-                <paragraph>
-                    <text text="$l10n_rhm_help_hud_3_moisture"/>
-                </paragraph>
-                <paragraph>
-                    <text text="$l10n_rhm_help_hud_3_loss"/>
-                </paragraph>
-                <paragraph>
-                    <text text="$l10n_rhm_help_hud_3_speed"/>
+                    <text text="$l10n_rhm_help_hud_3"/>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 3: CALIBRATION ===== -->
-            <page title="$l10n_rhm_help_calibration_title" iconSliceId="rhmHelp_calibration.tab">
+            <!-- ===== PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) ===== -->
+            <page title="$l10n_rhm_help_calibration_title" iconSliceId="rhmUi.tab_calibration">
                 <paragraph>
                     <title text="$l10n_rhm_help_calibration_main_sub"/>
                     <text text="$l10n_rhm_help_calibration_main_text"/>
@@ -384,57 +162,73 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></tr>
                     <text text="$l10n_rhm_help_calibration_rotor_text"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_calibration_fan_sub"/>
-                    <text text="$l10n_rhm_help_calibration_fan_text"/>
-                </paragraph>
-                <paragraph>
-                    <title text="$l10n_rhm_help_calibration_perf_sub"/>
-                    <text text="$l10n_rhm_help_calibration_perf_text"/>
+                    <title text="$l10n_rhm_help_calibration_presets_sub"/>
+                    <text text="$l10n_rhm_help_calibration_presets_text"/>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 4: SPECIAL COMBINES ===== -->
-            <page title="$l10n_rhm_help_special_title" iconSliceId="rhmHelp_special.tab">
+            <!-- ===== PAGE 4: CROP CALIBRATION HANDBOOK (RPM & MM) ===== -->
+            <page title="$l10n_rhm_help_presets_title" iconSliceId="rhmUi.tab_calibration">
                 <paragraph>
-                    <title text="$l10n_rhm_help_special_sub1"/>
-                    <text text="$l10n_rhm_help_special_1"/>
+                    <title text="$l10n_rhm_help_presets_sub1"/>
+                    <text text="$l10n_rhm_help_presets_1"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_special_sub2"/>
-                    <text text="$l10n_rhm_help_special_2"/>
-                </paragraph>
-            </page>
-
-            <!-- ===== PAGE 5: CROP LOST ===== -->
-            <page title="$l10n_rhm_help_loss_title" iconSliceId="rhmHelp_croploss.tab">
-                <paragraph>
-                    <title text="$l10n_rhm_help_loss_sub1"/>
-                    <text text="$l10n_rhm_help_loss_1"/>
+                    <title text="$l10n_rhm_help_presets_sub2"/>
+                    <text text="$l10n_rhm_help_presets_2"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_loss_sub2"/>
-                    <text text="$l10n_rhm_help_loss_2"/>
+                    <title text="$l10n_rhm_help_presets_sub3"/>
+                    <text text="$l10n_rhm_help_presets_3"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_loss_sub3"/>
-                    <text text="$l10n_rhm_help_loss_3"/>
+                    <title text="$l10n_rhm_help_presets_sub4"/>
+                    <text text="$l10n_rhm_help_presets_4"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_presets_sub5"/>
+                    <text text="$l10n_rhm_help_presets_5"/>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 6: DIFFICULTY ===== -->
-            <page title="$l10n_rhm_help_difficulty_title" iconSliceId="rhmHelp_difficulty.tab">
+            <!-- ===== PAGE 5: FIELD JOB COUNTER & FLEET RECORDS (SHIFT+J / SHIFT+R) ===== -->
+            <page title="$l10n_rhm_help_trip_title" iconSliceId="rhmUi.tab_trip">
                 <paragraph>
-                    <title text="$l10n_rhm_help_difficulty_sub1"/>
-                    <text text="$l10n_rhm_help_difficulty_1"/>
+                    <title text="$l10n_rhm_help_trip_sub1"/>
+                    <text text="$l10n_rhm_help_trip_1"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_difficulty_sub2"/>
-                    <text text="$l10n_rhm_help_difficulty_2"/>
+                    <title text="$l10n_rhm_help_trip_sub2"/>
+                    <text text="$l10n_rhm_help_trip_2"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_trip_sub3"/>
+                    <text text="$l10n_rhm_help_trip_3"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_trip_sub4"/>
+                    <text text="$l10n_rhm_help_trip_4"/>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 7: UPGRADES ===== -->
-            <page title="$l10n_rhm_help_upgrades_title" iconSliceId="rhmHelp_upgrades.tab">
+            <!-- ===== PAGE 6: CROP LOSSES & ROOT CAUSES ===== -->
+            <page title="$l10n_rhm_help_croploss_title" iconSliceId="rhmUi.tab_croploss">
+                <paragraph>
+                    <title text="$l10n_rhm_help_croploss_sub1"/>
+                    <text text="$l10n_rhm_help_croploss_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_croploss_sub2"/>
+                    <text text="$l10n_rhm_help_croploss_2"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_croploss_sub3"/>
+                    <text text="$l10n_rhm_help_croploss_3"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 7: ELECTRONICS PROGRESSION PACKAGES (TIERS 1-4) ===== -->
+            <page title="$l10n_rhm_help_upgrades_title" iconSliceId="rhmUi.tab_upgrades">
                 <paragraph>
                     <title text="$l10n_rhm_help_upgrades_sub1"/>
                     <text text="$l10n_rhm_help_upgrades_1"/>
@@ -447,14 +241,26 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></tr>
                     <title text="$l10n_rhm_help_upgrades_sub3"/>
                     <text text="$l10n_rhm_help_upgrades_3"/>
                 </paragraph>
+            </page>
+
+            <!-- ===== PAGE 8: AI WORKERS & AUTOPILOTS ===== -->
+            <page title="$l10n_rhm_help_ai_workers_title" iconSliceId="rhmUi.tab_ai_workers">
                 <paragraph>
-                    <title text="$l10n_rhm_help_upgrades_sub4"/>
-                    <text text="$l10n_rhm_help_upgrades_4"/>
+                    <title text="$l10n_rhm_help_ai_workers_sub1"/>
+                    <text text="$l10n_rhm_help_ai_workers_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_ai_workers_sub2"/>
+                    <text text="$l10n_rhm_help_ai_workers_2"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_ai_workers_sub3"/>
+                    <text text="$l10n_rhm_help_ai_workers_3"/>
                 </paragraph>
             </page>
 
-            <!-- ===== PAGE 8: MOISTURE SYSTEM ===== -->
-            <page title="$l10n_rhm_help_moisture_title" iconSliceId="rhmHelp_moisture.tab">
+            <!-- ===== PAGE 9: CROP MOISTURE & DIURNAL WEATHER ===== -->
+            <page title="$l10n_rhm_help_moisture_title" iconSliceId="rhmUi.tab_moisture">
                 <paragraph>
                     <title text="$l10n_rhm_help_moisture_sub1"/>
                     <text text="$l10n_rhm_help_moisture_1"/>
@@ -463,20 +269,41 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></tr>
                     <title text="$l10n_rhm_help_moisture_sub2"/>
                     <text text="$l10n_rhm_help_moisture_2"/>
                 </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_moisture_sub3"/>
+                    <text text="$l10n_rhm_help_moisture_3"/>
+                </paragraph>
             </page>
-            <!-- ===== PAGE 9: CROP SETTINGS GUIDE ===== -->
-            <page title="$l10n_rhm_help_cropsettings_title" iconSliceId="rhmHelp_overview.tab">
+
+            <!-- ===== PAGE 10: FORAGE, ROOT CROPS & SPECIAL MACHINERY ===== -->
+            <page title="$l10n_rhm_help_special_title" iconSliceId="rhmUi.tab_special">
                 <paragraph>
-                    <title text="$l10n_rhm_help_cropsettings_grain_sub"/>
-                    <text text="$l10n_rhm_help_cropsettings_grain_text"/>
+                    <title text="$l10n_rhm_help_special_sub1"/>
+                    <text text="$l10n_rhm_help_special_1"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_cropsettings_forage_sub"/>
-                    <text text="$l10n_rhm_help_cropsettings_forage_text"/>
+                    <title text="$l10n_rhm_help_special_sub2"/>
+                    <text text="$l10n_rhm_help_special_2"/>
                 </paragraph>
                 <paragraph>
-                    <title text="$l10n_rhm_help_cropsettings_root_sub"/>
-                    <text text="$l10n_rhm_help_cropsettings_root_text"/>
+                    <title text="$l10n_rhm_help_special_sub3"/>
+                    <text text="$l10n_rhm_help_special_3"/>
+                </paragraph>
+            </page>
+
+            <!-- ===== PAGE 11: DIFFICULTY MODES & SETTINGS ===== -->
+            <page title="$l10n_rhm_help_difficulty_title" iconSliceId="rhmUi.tab_difficulty">
+                <paragraph>
+                    <title text="$l10n_rhm_help_difficulty_sub1"/>
+                    <text text="$l10n_rhm_help_difficulty_1"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_difficulty_sub2"/>
+                    <text text="$l10n_rhm_help_difficulty_2"/>
+                </paragraph>
+                <paragraph>
+                    <title text="$l10n_rhm_help_difficulty_sub3"/>
+                    <text text="$l10n_rhm_help_difficulty_3"/>
                 </paragraph>
             </page>
         </category>

@@ -8,6 +8,14 @@
 RHM_CombineMemory = {}
 local CombineMemory_mt = Class(RHM_CombineMemory)
 
+local function getEnvironmentContext()
+    if RHM_MoistureAdapter and RHM_MoistureAdapter.getEnvironmentContext then
+        return RHM_MoistureAdapter.getEnvironmentContext()
+    end
+    return 12.0, false
+end
+RHM_CombineMemory.getEnvironmentContext = getEnvironmentContext
+
 -- EN: Creates a new RHM_CombineMemory instance tied to a specific combine vehicle.
 --     Initializes all parameters to 50% and sets AUTO mode as default.
 -- UA: Створює новий екземпляр RHM_CombineMemory, прив'язаний до конкретного комбайна.
@@ -31,7 +39,7 @@ function RHM_CombineMemory.new(combine, machineType)
         local offset = math.random(-8, 8)
         self.currentSettings[paramName] = math.max(25, math.min(75, 50 + offset))
     end
-    self.currentSettings["targetEngineLoad"] = 88
+    self.currentSettings["targetEngineLoad"] = 80
 
     self.currentYieldCalibration = 1.0
 
@@ -84,13 +92,17 @@ function RHM_CombineMemory:autoConfigureForCrop(cropName, forceOptimal, context)
 
     if not context and self.combine and self.combine.spec_rhm_Combine then
         local rhmSpec = self.combine.spec_rhm_Combine
+        local dayTimeHours, isRaining = getEnvironmentContext()
         context = {
             machineType = self.machineType,
             moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0,
             yield = (rhmSpec.data and rhmSpec.data.yield) or 0,
+            weedRatio = (rhmSpec.data and rhmSpec.data.weedRatio) or (rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentWeedRatio) or 0,
             isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,
             fillType = rhmSpec.lastFillType,
             fruitType = rhmSpec.lastFruitType,
+            dayTime = dayTimeHours,
+            isRaining = isRaining,
         }
     end
 
@@ -154,12 +166,17 @@ function RHM_CombineMemory:autoConfigureForCrop(cropName, forceOptimal, context)
     end
 
     self.currentCrop = cropName
+
+    if RHM_Api and RHM_Api.dispatch then
+        RHM_Api.dispatch("onSettingsChanged", self.combine, self.currentSettings, self.mode)
+    end
+
     return true
 end
 
----EN: Automatically tunes the combine settings for an active AI Worker or Courseplay helper
+---EN: Automatically tunes the combine settings for an active automated worker
 ---    based on the machine's installed electronics package level (Tiers 1–4).
----UA: Автоматично налаштовує комбайн для наймита або Courseplay відповідно до встановленого
+---UA: Автоматично налаштовує комбайн для наймита або автопілота відповідно до встановленого
 ---    рівня електроніки (Тір 1–4).
 function RHM_CombineMemory:applyAiWorkerTuning(cropName, context)
     if not cropName or cropName == "" then
@@ -304,13 +321,17 @@ function RHM_CombineMemory:applyAiWorkerTuning(cropName, context)
     -- 2. Fall back to electronics package tier-based tuning when no profile is saved
     if not context and self.combine and self.combine.spec_rhm_Combine then
         local rhmSpec = self.combine.spec_rhm_Combine
+        local dayTimeHours, isRaining = getEnvironmentContext()
         context = {
             machineType = self.machineType,
             moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0,
             yield = (rhmSpec.data and rhmSpec.data.yield) or 0,
+            weedRatio = (rhmSpec.data and rhmSpec.data.weedRatio) or (rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentWeedRatio) or 0,
             isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,
             fillType = rhmSpec.lastFillType,
             fruitType = rhmSpec.lastFruitType,
+            dayTime = dayTimeHours,
+            isRaining = isRaining,
         }
     end
 
@@ -530,7 +551,7 @@ function RHM_CombineMemory:loadUserPreset()
                     self.currentSettings[paramName] = profile[paramName]
                 end
             end
-            self.currentSettings.targetEngineLoad = profile.targetEngineLoad or 88
+            self.currentSettings.targetEngineLoad = profile.targetEngineLoad or 80
             self.mode = "MANUAL"
             self.autoSwitchEnabled = false
             self.isCalibrated = true
@@ -561,12 +582,16 @@ function RHM_CombineMemory:checkSettingsForCrop(cropName, context, returnWarning
         local rhmSpec = self.combine.spec_rhm_Combine
         self._cachedContext = self._cachedContext or {}
         local ctx = self._cachedContext
+        local dayTimeHours, isRaining = getEnvironmentContext()
         ctx.machineType = self.machineType
         ctx.moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0
         ctx.yield = (rhmSpec.data and rhmSpec.data.yield) or 0
+        ctx.weedRatio = (rhmSpec.data and rhmSpec.data.weedRatio) or (rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentWeedRatio) or 0
         ctx.isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false
         ctx.fillType = rhmSpec.lastFillType
         ctx.fruitType = rhmSpec.lastFruitType
+        ctx.dayTime = dayTimeHours
+        ctx.isRaining = isRaining
         context = ctx
     end
 
@@ -691,7 +716,7 @@ end
 function RHM_CombineMemory:setParameter(paramName, value)
     if self.currentSettings[paramName] ~= nil then
         if paramName == "targetEngineLoad" then
-            self.currentSettings[paramName] = math.max(70, math.min(110, value))
+            self.currentSettings[paramName] = math.max(70, math.min(100, value))
             return true
         end
         self.currentSettings[paramName] = math.max(0, math.min(100, value))
@@ -867,6 +892,10 @@ function RHM_CombineMemory:switchCrop(newCropName)
             end
         end
     end
+
+    if RHM_Api and RHM_Api.dispatch then
+        RHM_Api.dispatch("onCropChanged", self.combine, newCropName)
+    end
 end
 
 -- ============================================================================
@@ -884,6 +913,10 @@ function RHM_CombineMemory:updateSetting(param, value)
         if param ~= "targetEngineLoad" then
             self.autoSwitchEnabled = false
             self.mode = "MANUAL"
+        end
+
+        if RHM_Api and RHM_Api.dispatch then
+            RHM_Api.dispatch("onSettingsChanged", self.combine, self.currentSettings, self.mode)
         end
 
         if g_client and self.combine then
@@ -958,19 +991,32 @@ function RHM_CombineMemory:updateAutoTrim(dt)
         return
     end
 
+    -- EN: Auto-trim ONLY when the combine is actively harvesting in motion (speed >= 1.0 km/h).
+    --     When stationary, waiting for unloader, or paused, settings remain rock-solid.
+    -- UA: Підлаштовуємо налаштування ТІЛЬКИ під час реального руху та збирання (швидкість >= 1.0 км/год).
+    --     Коли комбайн стоїть, чекає розвантаження або на паузі — налаштування зафіксовані.
+    local speed = (self.combine and self.combine.getLastSpeed and self.combine:getLastSpeed()) or 0
+    if speed < 1.0 then
+        return
+    end
+
     self.autoTrimTimer = (self.autoTrimTimer or 0) + dt
     if self.autoTrimTimer < 2000 then
         return
     end
     self.autoTrimTimer = 0
 
+    local dayTimeHours, isRaining = getEnvironmentContext()
     local context = {
         machineType = self.machineType,
         moisture = (rhmSpec.data and rhmSpec.data.moisture) or 0,
         yield = (rhmSpec.data and rhmSpec.data.yield) or 0,
+        weedRatio = (rhmSpec.data and rhmSpec.data.weedRatio) or (rhmSpec.loadCalculator and rhmSpec.loadCalculator.currentWeedRatio) or 0,
         isPickup = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.isPickup) or false,
         fillType = rhmSpec.lastFillType,
         fruitType = rhmSpec.lastFruitType,
+        dayTime = dayTimeHours,
+        isRaining = isRaining,
     }
 
     local optimalSettings = RHM_CombineSettingsDatabase:getSettingsForCrop(self.currentCrop, context)
