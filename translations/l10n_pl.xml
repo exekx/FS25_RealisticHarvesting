@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD i Wyświetlanie" />
         <text name="input_RHM_OPEN_MENU" text="Menu Kombajnu" />
         <text name="input_RHM_TOGGLE_HUD" text="Przełącz HUD żniw" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Przełącz kursor myszy" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Zamknij powiadomienie" />
         <text name="rhm_hud_load" text="OBCIĄŻ" />
         <text name="rhm_hud_loss" text="STRATY" />
@@ -486,7 +487,7 @@
         <text name="rhm_ops_many" text="zbiorów" />
         <text name="rhm_loss_disabled" text="Symulacja wyłączona" />
         <text name="rhm_loss_disabled_desc" text="Symulacja strat plonów jest wyłączona w ustawieniach modu." />
-        <text name="rhm_filter_active" text="W eksploatacji" />
+        <text name="rhm_filter_active" text="Aktywne" />
         <text name="rhm_filter_all" text="Wszystkie" />
         <text name="rhm_filter_sold" text="Sprzedane" />
         <text name="rhm_status_sold" text="Sprzedany (Archiwum)" />

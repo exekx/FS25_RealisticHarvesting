@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Anzeige" />
         <text name="input_RHM_OPEN_MENU" text="Mähdrescher-Menü" />
         <text name="input_RHM_TOGGLE_HUD" text="Ernte-HUD umschalten" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Mauszeiger umschalten" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Hinweis schließen" />
         <text name="rhm_hud_load" text="LAST" />
         <text name="rhm_hud_loss" text="VERLUST" />

@@ -13,18 +13,18 @@
 
         <!-- Top Navigation & Filter Bar -->
         <GuiElement profile="rhmTopNavContainer" position="20px -70px" size="1360px 38px">
-            <Button id="btnSubTabFleet" profile="rhmSubTabFleetActive" position="0px 0px" size="260px 34px" text="$l10n_rhm_btn_subtab_fleet" onClick="onClickSubTabFleet">
+            <Button id="btnSubTabFleet" profile="rhmSubTabFleetActive" position="0px 0px" size="280px 34px" text="$l10n_rhm_btn_subtab_fleet" onClick="onClickSubTabFleet">
                 <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_tab_fleet" position="14px -6px" size="22px 22px" />
             </Button>
-            <Button id="btnSubTabHistory" profile="rhmSubTabHistory" position="270px 0px" size="330px 34px" text="$l10n_rhm_btn_subtab_history" onClick="onClickSubTabHistory">
+            <Button id="btnSubTabHistory" profile="rhmSubTabHistory" position="290px 0px" size="480px 34px" text="$l10n_rhm_btn_subtab_history" onClick="onClickSubTabHistory">
                 <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_tab_history" position="14px -6px" size="22px 22px" />
             </Button>
 
             <!-- Fleet Filter Bar (Active / All / Sold) aligned on the right edge at 1360px -->
-            <GuiElement id="fleetFilterBar" profile="rhmTopNavContainer" position="1000px 0px" size="360px 34px">
-                <Button id="btnFilterActive" profile="rhmSubTabFilterActive" position="0px 0px" size="116px 34px" text="$l10n_rhm_filter_active" onClick="onClickFilterActive" />
-                <Button id="btnFilterAll" profile="rhmSubTabFilter" position="122px 0px" size="116px 34px" text="$l10n_rhm_filter_all" onClick="onClickFilterAll" />
-                <Button id="btnFilterSold" profile="rhmSubTabFilter" position="244px 0px" size="116px 34px" text="$l10n_rhm_filter_sold" onClick="onClickFilterSold" />
+            <GuiElement id="fleetFilterBar" profile="rhmTopNavContainer" position="988px 0px" size="372px 34px">
+                <Button id="btnFilterActive" profile="rhmSubTabFilterActive" position="0px 0px" size="120px 34px" text="$l10n_rhm_filter_active" onClick="onClickFilterActive" />
+                <Button id="btnFilterAll" profile="rhmSubTabFilter" position="126px 0px" size="120px 34px" text="$l10n_rhm_filter_all" onClick="onClickFilterAll" />
+                <Button id="btnFilterSold" profile="rhmSubTabFilter" position="252px 0px" size="120px 34px" text="$l10n_rhm_filter_sold" onClick="onClickFilterSold" />
             </GuiElement>
         </GuiElement>
 

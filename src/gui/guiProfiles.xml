@@ -224,7 +224,7 @@
 
     <!-- Sub-Tab Button Profiles -->
     <Profile name="rhmSubTabFleet" extends="baseReference" with="anchorTopLeft">
-        <size value="260px 34px" />
+        <size value="280px 34px" />
         <imageSliceId value="gui.colorPreset" />
         <imageColor value="$preset_fs25_colorGreyDark_50" />
         <imageSelectedColor value="$preset_fs25_colorMainHighlight" />
@@ -246,7 +246,7 @@
     </Profile>
 
     <Profile name="rhmSubTabHistory" extends="baseReference" with="anchorTopLeft">
-        <size value="330px 34px" />
+        <size value="480px 34px" />
         <imageSliceId value="gui.colorPreset" />
         <imageColor value="$preset_fs25_colorGreyDark_50" />
         <imageSelectedColor value="$preset_fs25_colorMainHighlight" />
@@ -269,7 +269,7 @@
 
     <!-- Sub-Tab Filter Button Profiles (For Active / All / Sold fleet filters) -->
     <Profile name="rhmSubTabFilter" extends="baseReference" with="anchorTopLeft">
-        <size value="116px 34px" />
+        <size value="120px 34px" />
         <imageSliceId value="gui.colorPreset" />
         <imageColor value="$preset_fs25_colorGreyDark_50" />
         <imageFocusedColor value="$preset_fs25_colorGreyDark_50" />
@@ -287,7 +287,7 @@
     </Profile>
 
     <Profile name="rhmSubTabFilterActive" extends="rhmSubTabFilter">
-        <size value="116px 34px" />
+        <size value="120px 34px" />
         <imageColor value="$preset_fs25_colorMainHighlight" />
         <imageFocusedColor value="$preset_fs25_colorMainHighlight" />
         <imageHighlightedColor value="$preset_fs25_colorMainHighlight" />

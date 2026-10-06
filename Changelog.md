@@ -1,6 +1,11 @@
 # Realistic Harvesting - Changelog
 
 Changelog 1.6.2.0:
+- ADDED: Interactive in-cab mouse cursor mode toggled via Middle Mouse Button (MMB) with camera rotation suspension, allowing direct HUD repositioning and cell metric cycling.
+- IMPROVED: Seamless HUD interaction while the calibration tablet (Shift+K) is open, enabling direct HUD dragging and metric selection without closing the menu.
+- IMPROVED: Added explicit F1 Controls Help text and visibility registration for in-cab combine actions (Combine Settings Menu, HUD toggle, Harvest Records, Mouse Cursor).
+- FIXED: Resolved text-icon collisions and cramped sub-tab button borders across fullscreen GUI menus for longer localizations (Spanish, French, Italian, Portuguese).
+- IMPROVED: Enhanced menu button geometry and added automatic font size scaling in terminal controls to prevent localized text overflow.
 - ADDED: Unified single-texture atlas (rhm_atlas) consolidating all scattered HUD, UI, and tab icons into an optimized 1024x1024 DXT5 texture with full 9-level mipmaps.
 - ADDED: Complete base game crop database physics presets (Sugarcane, Poplar, Beetroot, Green Bean) and calibration handbook entries across all 27 languages.
 - IMPROVED: Standardized HUD icon bounding box scale, enlarged weed canopy icon (+42%), and optimized cell layout eliminating text overflow on double-digit values.

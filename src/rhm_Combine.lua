@@ -181,7 +181,13 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
                     g_realisticHarvestManager:toggleMenu(self)
                 end
             end, false, true, false, true, nil)
-        g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
+        if eventId then
+            g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
+            if g_i18n:hasText("input_RHM_OPEN_MENU") then
+                g_inputBinding:setActionEventText(eventId, g_i18n:getText("input_RHM_OPEN_MENU"))
+            end
+            g_inputBinding:setActionEventTextVisibility(eventId, true)
+        end
         -- RHM_Debug.log("Combine", "RHM: [NEXAT] Registered RHM_OPEN_MENU for non-combine vehicle: " .. tostring(vehicle:getFullName()))
     end
     if InputAction.RHM_TOGGLE_HUD then
@@ -191,7 +197,13 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
                     g_realisticHarvestManager:toggleHUD()
                 end
             end, false, true, false, true, nil)
-        g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
+        if eventId then
+            g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
+            if g_i18n:hasText("input_RHM_TOGGLE_HUD") then
+                g_inputBinding:setActionEventText(eventId, g_i18n:getText("input_RHM_TOGGLE_HUD"))
+            end
+            g_inputBinding:setActionEventTextVisibility(eventId, true)
+        end
     end
     if InputAction.RHM_OPEN_HARVEST_MENU then
         local _, eventId = vehicle:addActionEvent(vehicle._rhmActionEvents, InputAction.RHM_OPEN_HARVEST_MENU, vehicle,
@@ -200,7 +212,28 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
                     g_realisticHarvestManager:showHarvestHistoryGUI()
                 end
             end, false, true, false, true, nil)
-        g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_NORMAL)
+        if eventId then
+            g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_NORMAL)
+            if g_i18n:hasText("input_RHM_OPEN_HARVEST_MENU") then
+                g_inputBinding:setActionEventText(eventId, g_i18n:getText("input_RHM_OPEN_HARVEST_MENU"))
+            end
+            g_inputBinding:setActionEventTextVisibility(eventId, true)
+        end
+    end
+    if InputAction.RHM_TOGGLE_MOUSE_CURSOR then
+        local _, eventId = vehicle:addActionEvent(vehicle._rhmActionEvents, InputAction.RHM_TOGGLE_MOUSE_CURSOR, vehicle,
+            function(self, ...)
+                if g_realisticHarvestManager then
+                    g_realisticHarvestManager:toggleMouseCursor(self)
+                end
+            end, false, true, false, true, nil, nil, true, true)
+        if eventId then
+            g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_NORMAL)
+            if g_i18n:hasText("input_RHM_TOGGLE_MOUSE_CURSOR") then
+                g_inputBinding:setActionEventText(eventId, g_i18n:getText("input_RHM_TOGGLE_MOUSE_CURSOR"))
+            end
+            g_inputBinding:setActionEventTextVisibility(eventId, true)
+        end
     end
 end
 
@@ -2989,22 +3022,57 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
             -- Реєструємо дію Відкриття Меню (RShift+K)
             if InputAction.RHM_OPEN_MENU then
                 local _, menuEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_OPEN_MENU, self, rhm_Combine.actionOpenMenu, false, true, false, true, nil)
-                g_inputBinding:setActionEventTextPriority(menuEventId, GS_PRIO_HIGH)
+                if menuEventId then
+                    g_inputBinding:setActionEventTextPriority(menuEventId, GS_PRIO_HIGH)
+                    if g_i18n:hasText("input_RHM_OPEN_MENU") then
+                        g_inputBinding:setActionEventText(menuEventId, g_i18n:getText("input_RHM_OPEN_MENU"))
+                    end
+                    g_inputBinding:setActionEventTextVisibility(menuEventId, true)
+                end
             end
             -- Реєструємо дію Перемикання HUD (RShift+H)
             if InputAction.RHM_TOGGLE_HUD then
                 local _, hudEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_TOGGLE_HUD, self, rhm_Combine.actionToggleHUD, false, true, false, true, nil)
-                g_inputBinding:setActionEventTextPriority(hudEventId, GS_PRIO_HIGH)
+                if hudEventId then
+                    g_inputBinding:setActionEventTextPriority(hudEventId, GS_PRIO_HIGH)
+                    if g_i18n:hasText("input_RHM_TOGGLE_HUD") then
+                        g_inputBinding:setActionEventText(hudEventId, g_i18n:getText("input_RHM_TOGGLE_HUD"))
+                    end
+                    g_inputBinding:setActionEventTextVisibility(hudEventId, true)
+                end
             end
             -- Реєструємо дію Відкриття Журналу Врожаю (RShift+J)
             if InputAction.RHM_OPEN_HARVEST_MENU then
                 local _, hMenuEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_OPEN_HARVEST_MENU, self, rhm_Combine.actionOpenHarvestMenu, false, true, false, true, nil)
-                g_inputBinding:setActionEventTextPriority(hMenuEventId, GS_PRIO_NORMAL)
+                if hMenuEventId then
+                    g_inputBinding:setActionEventTextPriority(hMenuEventId, GS_PRIO_NORMAL)
+                    if g_i18n:hasText("input_RHM_OPEN_HARVEST_MENU") then
+                        g_inputBinding:setActionEventText(hMenuEventId, g_i18n:getText("input_RHM_OPEN_HARVEST_MENU"))
+                    end
+                    g_inputBinding:setActionEventTextVisibility(hMenuEventId, true)
+                end
             end
             -- Реєструємо дію Швидкого Скидання Одометра (Затискання RShift+R)
             if InputAction.RHM_QUICK_RESET_TRIP then
                 local _, resetEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_QUICK_RESET_TRIP, self, rhm_Combine.actionQuickResetTrip, true, true, false, true, nil)
-                g_inputBinding:setActionEventTextPriority(resetEventId, GS_PRIO_LOW)
+                if resetEventId then
+                    g_inputBinding:setActionEventTextPriority(resetEventId, GS_PRIO_LOW)
+                    if g_i18n:hasText("input_RHM_QUICK_RESET_TRIP") then
+                        g_inputBinding:setActionEventText(resetEventId, g_i18n:getText("input_RHM_QUICK_RESET_TRIP"))
+                    end
+                    g_inputBinding:setActionEventTextVisibility(resetEventId, false)
+                end
+            end
+            -- Реєструємо дію Перемикання Курсора Миші (MMB / Middle Mouse Click)
+            if InputAction.RHM_TOGGLE_MOUSE_CURSOR then
+                local _, cursorEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_TOGGLE_MOUSE_CURSOR, self, rhm_Combine.actionToggleMouseCursor, false, true, false, true, nil, nil, true, true)
+                if cursorEventId then
+                    g_inputBinding:setActionEventTextPriority(cursorEventId, GS_PRIO_NORMAL)
+                    if g_i18n:hasText("input_RHM_TOGGLE_MOUSE_CURSOR") then
+                        g_inputBinding:setActionEventText(cursorEventId, g_i18n:getText("input_RHM_TOGGLE_MOUSE_CURSOR"))
+                    end
+                    g_inputBinding:setActionEventTextVisibility(cursorEventId, true)
+                end
             end
         end
     end
@@ -3040,6 +3108,12 @@ function rhm_Combine:actionToggleHUD(actionName, inputValue, callbackState, isAn
     end
 end
 
+function rhm_Combine:actionToggleMouseCursor(actionName, inputValue, callbackState, isAnalog)
+    if g_realisticHarvestManager then
+        g_realisticHarvestManager:toggleMouseCursor(self)
+    end
+end
+
 -- EN: Clean up cursor, camera states, and audio when leaving the vehicle.
 -- UA: Очищаємо стани курсора, камери та звуків при виході з транспортного засобу.
 function rhm_Combine:onLeaveVehicle(wasEntered)
@@ -3052,6 +3126,9 @@ function rhm_Combine:onLeaveVehicle(wasEntered)
         if g_realisticHarvestManager then
             if g_realisticHarvestManager.calibrationGUI and g_realisticHarvestManager.calibrationGUI.isOpen then
                 g_realisticHarvestManager.calibrationGUI:close()
+            end
+            if g_realisticHarvestManager.isCursorVisible then
+                g_realisticHarvestManager:setMouseCursorVisible(false, self)
             end
         end
         if self.spec_enterable and self.spec_enterable.cameras then

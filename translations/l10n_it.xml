@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD e Visualizzazione" />
         <text name="input_RHM_OPEN_MENU" text="Menu Mietitrebbia" />
         <text name="input_RHM_TOGGLE_HUD" text="Attiva/Disattiva HUD raccolta" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Attiva/Disattiva cursore mouse" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Chiudi notifica" />
         <text name="rhm_hud_load" text="CARICO" />
         <text name="rhm_hud_loss" text="PERDITA" />
@@ -345,8 +346,8 @@
         <text name="rhm_fleet_crop_loss" text="Tasso di perdita" />
         <text name="rhm_fleet_wear_state" text="Usura macchina" />
         <text name="rhm_fleet_total_count" text="Totale mietitrebbiatrici" />
-        <text name="rhm_btn_subtab_fleet" text="FLOTTA MIETITREBBIATRICI" />
-        <text name="rhm_btn_subtab_history" text="CRONOLOGIA STAGIONALE / TUTTI I CAMPI" />
+        <text name="rhm_btn_subtab_fleet" text="FLOTTA MIETITREBBIE" />
+        <text name="rhm_btn_subtab_history" text="CRONOLOGIA STAGIONALE / CAMPI" />
         <text name="rhm_season_all_time" text="Tutte le stagioni (Storico)" />
         <text name="rhm_season_format" text="Stagione %d (Anno %d)" />
         <text name="rhm_season_current_suffix" text="[Attuale]" />

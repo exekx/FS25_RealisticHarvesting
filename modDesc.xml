@@ -83,6 +83,7 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
         <action name="RHM_TOGGLE_HUD" category="VEHICLE" />
         <action name="RHM_OPEN_HARVEST_MENU" category="ONFOOT VEHICLE" axisType="HALF" ignoreComboMask="false" />
         <action name="RHM_QUICK_RESET_TRIP" category="VEHICLE" />
+        <action name="RHM_TOGGLE_MOUSE_CURSOR" category="VEHICLE" />
         <action name="RHM_CLOSE_NOTIFICATION" displayCategory="PLAYER_INTERACTIVE" />
     </actions>
     
@@ -98,6 +99,9 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
         </actionBinding>
         <actionBinding action="RHM_QUICK_RESET_TRIP">
             <binding device="KB_MOUSE_DEFAULT" input="KEY_rshift KEY_r" />
+        </actionBinding>
+        <actionBinding action="RHM_TOGGLE_MOUSE_CURSOR">
+            <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_MIDDLE" />
         </actionBinding>
         <actionBinding action="RHM_CLOSE_NOTIFICATION">
             <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_LEFT" />

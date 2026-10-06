@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD y Visualización" />
         <text name="input_RHM_OPEN_MENU" text="Menú Cosechadora" />
         <text name="input_RHM_TOGGLE_HUD" text="Alternar HUD de cosecha" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Alternar cursor del ratón" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Cerrar notificación" />
         <text name="rhm_hud_load" text="CARGA" />
         <text name="rhm_hud_loss" text="PÉRDIDA" />
@@ -346,7 +347,7 @@
         <text name="rhm_fleet_wear_state" text="Desgaste de máquina" />
         <text name="rhm_fleet_total_count" text="Total cosechadoras" />
         <text name="rhm_btn_subtab_fleet" text="FLOTA DE COSECHADORAS" />
-        <text name="rhm_btn_subtab_history" text="HISTORIAL DE CAMPAÑA / TODOS LOS CAMPOS" />
+        <text name="rhm_btn_subtab_history" text="HISTORIAL DE CAMPAÑA / CAMPOS" />
         <text name="rhm_season_all_time" text="Todas las campañas (Histórico)" />
         <text name="rhm_season_format" text="Campaña %d (Año %d)" />
         <text name="rhm_season_current_suffix" text="[Actual]" />

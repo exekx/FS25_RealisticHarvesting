@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Tampilan" />
         <text name="input_RHM_OPEN_MENU" text="Menu Pengaturan Combine" />
         <text name="input_RHM_TOGGLE_HUD" text="Alihkan HUD Pemanenan" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Alihkan Kursor Mouse" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Tutup Notifikasi" />
         <text name="rhm_hud_load" text="BEBAN" />
         <text name="rhm_hud_loss" text="SUSUT" />
@@ -406,7 +407,7 @@
         <text name="rhm_col_hours" text="Jam Kerja" />
         <text name="rhm_col_harvested" text="Dipanen" />
         <text name="rhm_col_lost" text="Kehilangan" />
-        <text name="rhm_col_rank" text="Peringkat" />
+        <text name="rhm_col_rank" text="Kelas" />
         <text name="rhm_fleet_no_combines" text="Tidak ada pemanen ditemukan" />
         <text name="rhm_setting_ai_limiter_title" text="PEMBATAS KECEPATAN AI" />
         <text name="rhm_setting_ai_limiter_desc" text="Membatasi kecepatan otomatis pekerja bantuan saat tingkat kehilangan melebihi batas." />

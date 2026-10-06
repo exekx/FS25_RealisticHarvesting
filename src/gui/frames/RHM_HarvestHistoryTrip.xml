@@ -124,7 +124,7 @@
         <Text profile="rhmFooterText" position="20px -616px" size="940px 38px" text="$l10n_rhm_trip_footer_hint" />
 
         <!-- Reset Trip Button -->
-        <Button id="resetButton" profile="rhmActionButton" position="1020px -614px" size="360px 38px" text="$l10n_rhm_btn_reset_trip" inputAction="MENU_EXTRA_1" onClick="onClickResetTrip">
+        <Button id="resetButton" profile="rhmActionButton" position="980px -614px" size="400px 38px" text="$l10n_rhm_btn_reset_trip" inputAction="MENU_EXTRA_1" onClick="onClickResetTrip">
             <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_reset" position="16px -8px" size="22px 22px" />
         </Button>
     </GuiElement>

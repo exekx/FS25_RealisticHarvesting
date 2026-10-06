@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Affichage" />
         <text name="input_RHM_OPEN_MENU" text="Menu Récolte" />
         <text name="input_RHM_TOGGLE_HUD" text="Basculer l'affichage HUD" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Activer/Désactiver le curseur" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Fermer la notification" />
         <text name="rhm_hud_load" text="CHARGE" />
         <text name="rhm_hud_loss" text="PERTE" />
@@ -348,7 +349,7 @@
         <text name="rhm_fleet_wear_state" text="Usure machine" />
         <text name="rhm_fleet_total_count" text="Total batteuses" />
         <text name="rhm_btn_subtab_fleet" text="PARC DE BATTEUSES" />
-        <text name="rhm_btn_subtab_history" text="HISTORIQUE DE CAMPAGNE / TOUS LES CHAMPS" />
+        <text name="rhm_btn_subtab_history" text="HISTORIQUE DE CAMPAGNE / CHAMPS" />
         <text name="rhm_season_all_time" text="Toutes les campagnes (Historique)" />
         <text name="rhm_season_format" text="Campagne %d (Année %d)" />
         <text name="rhm_season_current_suffix" text="[Actuelle]" />

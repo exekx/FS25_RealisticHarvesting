@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD та Відображення" />
         <text name="input_RHM_OPEN_MENU" text="Меню Налаштувань Жнив" />
         <text name="input_RHM_TOGGLE_HUD" text="Перемкнути HUD жнив" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Курсор миші (вкл/викл)" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Закрити підказку" />
         <text name="rhm_hud_load" text="НАВАНТ" />
         <text name="rhm_hud_loss" text="ВТРАТИ" />

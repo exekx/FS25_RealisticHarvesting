@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD és Megjelenítés" />
         <text name="input_RHM_OPEN_MENU" text="Kombájn Menü" />
         <text name="input_RHM_TOGGLE_HUD" text="Betakarítási HUD ki/be" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Egérmutató váltása" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Értesítés bezárása" />
         <text name="rhm_hud_load" text="TERHELÉS" />
         <text name="rhm_hud_loss" text="VESZT" />

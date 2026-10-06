@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Visning" />
         <text name="input_RHM_OPEN_MENU" text="Mejetærskerindstillinger" />
         <text name="input_RHM_TOGGLE_HUD" text="Slå høst-HUD til/fra" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Slå musemarkør til/fra" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Luk meddelelse" />
         <text name="rhm_hud_load" text="BELASTN." />
         <text name="rhm_hud_loss" text="TAB" />

@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Hiển thị" />
         <text name="input_RHM_OPEN_MENU" text="Menu cài đặt máy gặt" />
         <text name="input_RHM_TOGGLE_HUD" text="Bật/Tắt HUD thu hoạch" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Bật/Tắt con trỏ chuột" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Đóng thông báo" />
         <text name="rhm_hud_load" text="TẢI" />
         <text name="rhm_hud_loss" text="THẤT THOÁT" />
@@ -429,7 +430,7 @@
         <text name="rhm_col_driver" text="Người vận hành" />
         <text name="rhm_col_cutter" text="Hàm cắt" />
         <text name="rhm_col_throughput" text="Năng suất xử lý" />
-        <text name="rhm_col_yield" text="Năng suất cây trồng" />
+        <text name="rhm_col_yield" text="Năng suất" />
         <text name="rhm_col_wear" text="Hao mòn" />
         <text name="rhm_kpi_field" text="RUỘNG" />
         <text name="rhm_kpi_crop" text="CÂY TRỒNG" />
@@ -482,7 +483,7 @@
         <text name="rhm_ops_many" text="lần" />
         <text name="rhm_loss_disabled" text="Đã tắt mô phỏng" />
         <text name="rhm_loss_disabled_desc" text="Mô phỏng tổn thất thu hoạch đã bị tắt trong cài đặt bản mod." />
-        <text name="rhm_filter_active" text="Đang hoạt động" />
+        <text name="rhm_filter_active" text="Hoạt động" />
         <text name="rhm_filter_all" text="Tất cả" />
         <text name="rhm_filter_sold" text="Đã bán" />
         <text name="rhm_status_sold" text="Đã bán (Lưu trữ)" />

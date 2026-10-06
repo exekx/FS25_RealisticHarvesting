@@ -83,6 +83,45 @@ function RHM_RealisticHarvestManager:toggleMenu(vehicle)
     end
 end
 
+-- EN: Toggles interactive mouse cursor mode for HUD interaction and camera suspension.
+-- UA: Перемикає режим інтерактивного курсора миші для взаємодії з HUD та призупинення камери.
+function RHM_RealisticHarvestManager:toggleMouseCursor(vehicle)
+    if not self.mission or not self.mission:getIsClient() then return end
+
+    -- If calibration tablet is open, cursor is already active and managed by it
+    if self.calibrationGUI and self.calibrationGUI.isOpen then
+        return
+    end
+
+    local now = g_time or 0
+    if self.lastCursorToggleTime and (now - self.lastCursorToggleTime) < 250 then
+        return
+    end
+    self.lastCursorToggleTime = now
+
+    local targetVehicle = vehicle or self:getControlledVehicle()
+    self:setMouseCursorVisible(not self.isCursorVisible, targetVehicle)
+end
+
+-- EN: Sets cursor visibility state and freezes or restores vehicle camera rotation.
+-- UA: Встановлює стан видимості курсора та заморожує або відновлює обертання камери.
+function RHM_RealisticHarvestManager:setMouseCursorVisible(visible, vehicle)
+    if not self.mission or not self.mission:getIsClient() then return end
+
+    local targetVehicle = vehicle or self:getControlledVehicle()
+    self.isCursorVisible = visible == true
+    self.lastCursorToggleTime = g_time or 0
+
+    if g_inputBinding and g_inputBinding.setShowMouseCursor then
+        g_inputBinding:setShowMouseCursor(self.isCursorVisible)
+    end
+
+    local camTarget = targetVehicle
+    if camTarget and camTarget.spec_enterable then
+        RHMInputUtil.setCameraRotation(camTarget, not self.isCursorVisible, self.savedCameraRotatableInfo)
+    end
+end
+
 -- EN: Shows the fullscreen Harvest History and Trip Telemetry GUI.
 -- UA: Відкриває повноекранне меню історії збору врожаю та одометра поля.
 function RHM_RealisticHarvestManager:showHarvestHistoryGUI()
@@ -320,10 +359,7 @@ function RHM_RealisticHarvestManager:update(dt)
             self.calibrationGUI:close()
         end
         if self.isCursorVisible then
-            self.isCursorVisible = false
-            if g_inputBinding and g_inputBinding.setShowMouseCursor then
-                g_inputBinding:setShowMouseCursor(false)
-            end
+            self:setMouseCursorVisible(false)
         end
         return
     end
@@ -466,8 +502,28 @@ function RHM_RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button
         return true
     end
 
-    if self.hud then
-        return self.hud:mouseEvent(posX, posY, isDown, isUp, button)
+    if self.hud and self.hud:mouseEvent(posX, posY, isDown, isUp, button) then
+        return true
+    end
+
+    -- EN: When standalone cursor mode is active:
+    --     Toggle off on Middle Mouse Button (MMB / button 3).
+    --     Do NOT capture or interfere with Right Mouse Button (RMB / button 2) to preserve clean compatibility with auxiliary menus and vehicle controls.
+    -- UA: Коли автономний курсор активний:
+    --     Вимикаємо на клік коліщатка (MMB / button 3).
+    --     НЕ перехоплюємо та не чіпаємо ПКМ (RMB / button 2), щоб зберегти повну сумісність із зовнішніми меню та керуванням техніки.
+    if self.isCursorVisible then
+        local isMMB = (button == 3) or (Input and button == Input.MOUSE_BUTTON_MIDDLE)
+        if isDown and isMMB then
+            self:toggleMouseCursor()
+            return true
+        end
+
+        local isLMB = (button == 1) or (Input and button == Input.MOUSE_BUTTON_LEFT)
+        if isLMB and (isDown or isUp) then
+            -- Consume LMB outside HUD so in-cab clicks don't trigger vehicle implements while cursor mode is active
+            return true
+        end
     end
 
     return false
@@ -485,6 +541,10 @@ function RHM_RealisticHarvestManager:keyEvent(unicode, sym, modifier, isDown)
     if isDown and sym == Input.KEY_esc then
         if self.calibrationGUI and self.calibrationGUI.isOpen then
             self.calibrationGUI:close()
+            return true
+        end
+        if self.isCursorVisible then
+            self:setMouseCursorVisible(false)
             return true
         end
     end

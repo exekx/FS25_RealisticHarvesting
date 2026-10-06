@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD e Visualização" />
         <text name="input_RHM_OPEN_MENU" text="Menu Colheitadeira" />
         <text name="input_RHM_TOGGLE_HUD" text="Alternar HUD de colheita" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Alternar cursor do mouse" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Fechar Notificação" />
         <text name="rhm_hud_load" text="CARGA" />
         <text name="rhm_hud_loss" text="PERDA" />
@@ -344,7 +345,7 @@
         <text name="rhm_fleet_wear_state" text="Desgaste da máquina" />
         <text name="rhm_fleet_total_count" text="Total de colheitadeiras" />
         <text name="rhm_btn_subtab_fleet" text="FROTA DE COLHEITADEIRAS" />
-        <text name="rhm_btn_subtab_history" text="HISTÓRICO DA SAFRA / TODOS OS CAMPOS" />
+        <text name="rhm_btn_subtab_history" text="HISTÓRICO DA SAFRA / CAMPOS" />
         <text name="rhm_season_all_time" text="Todas as Safras (Histórico)" />
         <text name="rhm_season_format" text="Safra %d (Ano %d)" />
         <text name="rhm_season_current_suffix" text="[Atual]" />

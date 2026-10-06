@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD 및 디스플레이" />
         <text name="input_RHM_OPEN_MENU" text="콤바인 설정 메뉴" />
         <text name="input_RHM_TOGGLE_HUD" text="수확 HUD 켜기/끄기" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="마우스 커서 전환" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="알림 닫기" />
         <text name="rhm_hud_load" text="부하" />
         <text name="rhm_hud_loss" text="손실" />

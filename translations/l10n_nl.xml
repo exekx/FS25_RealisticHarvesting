@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Weergave" />
         <text name="input_RHM_OPEN_MENU" text="Menu Maaidorser-instellingen" />
         <text name="input_RHM_TOGGLE_HUD" text="Oogst-HUD in-/uitschakelen" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Muiscursor in-/uitschakelen" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Melding sluiten" />
         <text name="rhm_hud_load" text="BELAST" />
         <text name="rhm_hud_loss" text="VERLIES" />

@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD a Zobrazení" />
         <text name="input_RHM_OPEN_MENU" text="Menu Kombajnu" />
         <text name="input_RHM_TOGGLE_HUD" text="Přepnout HUD sklizně" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Přepnout kurzor myši" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Zavřít oznámení" />
         <text name="rhm_hud_load" text="ZÁTĚŽ" />
         <text name="rhm_hud_loss" text="ZTRÁTA" />

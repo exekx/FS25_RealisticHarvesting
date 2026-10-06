@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD și Afișaj" />
         <text name="input_RHM_OPEN_MENU" text="Meniu Setări Combină" />
         <text name="input_RHM_TOGGLE_HUD" text="Comută HUD Recoltare" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Comutare cursor mouse" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Închide notificarea" />
         <text name="rhm_hud_load" text="SARCINĂ" />
         <text name="rhm_hud_loss" text="PIERDERI" />

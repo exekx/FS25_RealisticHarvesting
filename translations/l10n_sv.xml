@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Grafik" />
         <text name="input_RHM_OPEN_MENU" text="Skördetröskans inställningsmeny" />
         <text name="input_RHM_TOGGLE_HUD" text="Växla skörde-HUD" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Växla muspekare" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Stäng avisering" />
         <text name="rhm_hud_load" text="BELASTN." />
         <text name="rhm_hud_loss" text="FÖRLUST" />

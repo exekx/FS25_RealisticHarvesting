@@ -5,6 +5,7 @@
     <text name="rhm_section_visuals" text="Realistic Harvesting - HUD и Отображение" />
     <text name="input_RHM_OPEN_MENU" text="Меню Настроек Жатвы" />
     <text name="input_RHM_TOGGLE_HUD" text="Переключить HUD жатвы" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Курсор мыши (вкл/выкл)" />
     <text name="input_RHM_CLOSE_NOTIFICATION" text="Закрыть подсказку" />
     <text name="rhm_hud_load" text="НАГРУЗ" />
     <text name="rhm_hud_loss" text="ПОТЕРИ" />

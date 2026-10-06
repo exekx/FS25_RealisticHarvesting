@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD 與儀表" />
         <text name="input_RHM_OPEN_MENU" text="聯合收割機設置選單" />
         <text name="input_RHM_TOGGLE_HUD" text="切換收割 HUD 顯示" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="切換滑鼠游標" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="關閉通知" />
         <text name="rhm_hud_load" text="負載" />
         <text name="rhm_hud_loss" text="損失" />

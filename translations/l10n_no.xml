@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Visning" />
         <text name="input_RHM_OPEN_MENU" text="Skurtreskerinnstillinger" />
         <text name="input_RHM_TOGGLE_HUD" text="Slå treske-HUD på/av" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Slå musepeker på/av" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Lukk varsel" />
         <text name="rhm_hud_load" text="BELASTN." />
         <text name="rhm_hud_loss" text="TAP" />

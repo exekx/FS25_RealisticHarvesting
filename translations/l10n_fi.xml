@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD ja näkymä" />
         <text name="input_RHM_OPEN_MENU" text="Puimurin asetukset" />
         <text name="input_RHM_TOGGLE_HUD" text="Kytke puinti-HUD päälle/pois" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Hiiren osoitin päälle/pois" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Sulje ilmoitus" />
         <text name="rhm_hud_load" text="KUORMA" />
         <text name="rhm_hud_loss" text="HÄVIKKI" />

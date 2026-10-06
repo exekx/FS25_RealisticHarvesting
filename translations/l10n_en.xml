@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; Visuals" />
         <text name="input_RHM_OPEN_MENU" text="Combine Settings Menu" />
         <text name="input_RHM_TOGGLE_HUD" text="Toggle Harvesting HUD" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Toggle Mouse Cursor" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Close Notification" />
         <text name="rhm_hud_load" text="LOAD" />
         <text name="rhm_hud_loss" text="LOSS" />

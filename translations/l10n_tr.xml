@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD ve Görseller" />
         <text name="input_RHM_OPEN_MENU" text="Biçerdöver Ayar Menüsü" />
         <text name="input_RHM_TOGGLE_HUD" text="Hasat HUD Aç/Kapat" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Fare İmlecini Aç/Kapat" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="Bildirimi Kapat" />
         <text name="rhm_hud_load" text="YÜK" />
         <text name="rhm_hud_loss" text="KAYIP" />

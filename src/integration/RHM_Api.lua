@@ -1125,5 +1125,13 @@ function RHM_Api.isWeedLoadEnabled()
     return (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableWeedLoad ~= false) or false
 end
 
+---EN: Returns true if in-cab interactive mouse cursor mode is currently active.
+---UA: Повертає true, якщо режим інтерактивного курсора миші в кабіні активний.
+---@return boolean
+function RHM_Api.isMouseCursorVisible()
+    return (g_realisticHarvestManager and g_realisticHarvestManager.isCursorVisible == true) or false
+end
+
+
 
 

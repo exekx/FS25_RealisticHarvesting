@@ -5,6 +5,7 @@
         <text name="rhm_section_visuals" text="Realistic Harvesting - HUD &amp; ディスプレイ" />
         <text name="input_RHM_OPEN_MENU" text="コンバイン設定メニュー" />
         <text name="input_RHM_TOGGLE_HUD" text="収穫HUDの表示切替" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="マウスカーソル切替" />
         <text name="input_RHM_CLOSE_NOTIFICATION" text="通知を閉じる" />
         <text name="rhm_hud_load" text="負荷" />
         <text name="rhm_hud_loss" text="損失" />

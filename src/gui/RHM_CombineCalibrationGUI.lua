@@ -1489,7 +1489,13 @@ function RHMCombineCalibrationGUI:drawButton(x, y, w, h, text, callback, colorOv
     end
 
     local btnFontSize = (text == "X") and (self.ui.fontSize * 1.15) or self.ui.fontSize
-    local offsetY = (text == "X") and (btnFontSize * 0.35) or (self.ui.fontSize * 0.38)
+    if getTextWidth and text and text ~= "X" and text ~= "+" and text ~= "-" and text ~= "<" and text ~= ">" then
+        local tw = getTextWidth(btnFontSize, text)
+        if tw and tw > (w - 0.008) and tw > 0 and w > 0.01 then
+            btnFontSize = btnFontSize * ((w - 0.008) / tw)
+        end
+    end
+    local offsetY = (text == "X") and (btnFontSize * 0.35) or (btnFontSize * 0.38)
     renderText(x + w * 0.5, y + h * 0.5 - offsetY, btnFontSize, text)
     setTextBold(false)
 
@@ -1791,7 +1797,16 @@ function RHMCombineCalibrationGUI:mouseEvent(posX, posY, isDown, isUp, button)
         return true
     end
 
-    -- While modal calibration GUI is open, consume all mouse button presses/releases
+    -- EN: Allow dragging and clicking the small HUD even while calibration tablet is open
+    -- UA: Дозволяємо перетягувати та клацати малий HUD навіть при відкритому планшеті калібрування
+    if g_realisticHarvestManager and g_realisticHarvestManager.hud then
+        local hud = g_realisticHarvestManager.hud
+        if hud.isDragging or (hud.isMouseOver and hud:isMouseOver(posX, posY)) then
+            return false
+        end
+    end
+
+    -- While modal calibration GUI is open, consume all other mouse button presses/releases
     -- so clicks outside the tablet never trigger vehicle tools, IC actions, or camera jumps.
     if isDown or isUp then
         return true
