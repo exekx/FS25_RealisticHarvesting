@@ -498,5 +498,34 @@
         <text name="rhm_weedload_long" text="水分の多い繊維質の雑草が脱穀胴に巻き付き、機械的抵抗とエンジン負荷を増加させます（最大+25%）。雑草が動力に影響しないようにするにはオフにしてください。" />
             <text name="rhm_fleet_badge_mission" text="[契約]" />
         <text name="rhm_fleet_badge_leased" text="[リース]" />
+        <text name="rhm_cause_settings" text="機械設定とキャリブレーション" />
+        <text name="rhm_advice_settings" text="未最適化の機械設定によるロスが優勢です。現在の作物に合わせてコンケーブ隙間、ドラム回転数、チャフシーブを調整してください。" />
+        <text name="rhm_fuel_consumption" text="燃料消費量" />
+        <text name="rhm_fuel_used" text="使用燃料" />
+        <text name="rhm_fuel_rate" text="燃料消費率" />
+        <text name="rhm_cluster_merged" text="結合圃場" />
+        <text name="rhm_gross_revenue" text="粗収穫収入" />
+        <text name="rhm_fuel_expense" text="燃料費" />
+        <text name="rhm_net_margin" text="純営業利益率" />
+        <text name="rhm_tut_calib_warn_title" text="コンバインの調整" />
+        <text name="rhm_tut_calib_warn_msg" text="コンバインはまだ%s向けに設定されていません！クリアランスや回転数、選別板の不一致はエンジン負荷と重大なロスを招きます。Shift+Kを押して推奨設定をロードしてください。" />
+        <text name="rhm_tut_calib_warn_params_msg" text="%sの最適でない設定を検出（%sが許容範囲外）！処理能力低下とロス増加の原因となります。Shift+Kで調整してください。" />
+        <text name="rhm_tut_calib_ok_title" text="最適設定を確認" />
+        <text name="rhm_tut_calib_ok_msg" text="%s向けにすべての脱穀・選別機構が許容範囲内で最適に調整されています。最高効率で稼働中です！" />
+        <text name="rhm_tut_weed_title" text="雑草による抵抗" />
+        <text name="rhm_tut_weed_msg" text="ヘッダー下の密生した雑草は刈取り・脱穀抵抗を大幅に増加させます（+15〜25%負荷）。詰まりを防ぐため自動的に減速します。" />
+        <text name="rhm_tut_slope_title" text="傾斜による選別ロス" />
+        <text name="rhm_tut_slope_msg" text="傾斜地での作業は選別板を傾け、穀粒が片寄ってチャフと共に機外へ排出されます。傾斜地では作業速度を落としてください。" />
+        <text name="rhm_tut_wear_title" text="刈刃と脱穀機構の摩耗" />
+        <text name="rhm_tut_wear_msg" text="摩耗した刈刃や脱穀部品は送り込み抵抗を高め、ヘッダー手前での脱粒ロスを引き起こします。整備工場でメンテナンスを行ってください。" />
+        <text name="rhm_field_progress" text="収穫の進捗状況" />
+        <text name="rhm_filter_owned" text="所有地" />
+        <text name="rhm_filter_contracts" text="受託作業" />
+        <text name="rhm_hud_style_title" text="HUD表示モード" />
+        <text name="rhm_hud_style_desc" text="コンパクトな1行テレメトリバー（4セル）と拡張収量モニター（質量流量、平均収量、作業面積、オドメーターを含む8セル）を切り替えます。" />
+        <text name="rhm_hud_style_compact" text="コンパクト（4セル）" />
+        <text name="rhm_hud_style_expanded" text="収量モニター（8セル）" />
+
+
     </texts>
 </l10n>

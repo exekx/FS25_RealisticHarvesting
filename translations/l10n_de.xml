@@ -430,7 +430,7 @@
         <text name="rhm_col_loss" text="Verlust" />
         <text name="rhm_col_tank" text="Tank" />
         <text name="rhm_col_area" text="Fläche" />
-        <text name="rhm_col_money" text="Verlust ($)" />
+        <text name="rhm_col_money" text="Verlust" />
         <text name="rhm_col_driver" text="Fahrer" />
         <text name="rhm_col_cutter" text="Schneidwerk" />
         <text name="rhm_col_throughput" text="Durchsatz" />
@@ -502,5 +502,34 @@
         <text name="rhm_weedload_long" text="Saftige und faserige Unkräuter wickeln sich um Dreschorgane und erhöhen den mechanischen Widerstand sowie die Motorlast (bis zu +25%). Ausschalten, damit Unkraut die Leistung nicht beeinträchtigt." />
             <text name="rhm_fleet_badge_mission" text="[Vertrag]" />
         <text name="rhm_fleet_badge_leased" text="[Gemietet]" />
+        <text name="rhm_cause_settings" text="Maschineneinstellung &amp; Kalibrierung" />
+        <text name="rhm_advice_settings" text="Hauptverluste durch suboptimale Maschineneinstellung. Korbabstand, Trommeldrehzahl und Siebe für die aktuelle Frucht anpassen." />
+        <text name="rhm_fuel_consumption" text="Kraftstoffverbrauch" />
+        <text name="rhm_fuel_used" text="Verbrauchter Kraftstoff" />
+        <text name="rhm_fuel_rate" text="Verbrauchsrate" />
+        <text name="rhm_cluster_merged" text="Zusammengelegtes Feld" />
+        <text name="rhm_gross_revenue" text="Bruttoertrag" />
+        <text name="rhm_fuel_expense" text="Kraftstoffkosten" />
+        <text name="rhm_net_margin" text="Nettomarge" />
+        <text name="rhm_tut_calib_warn_title" text="MÄHDRESCHER-EINSTELLUNG" />
+        <text name="rhm_tut_calib_warn_msg" text="Der Mähdrescher ist noch nicht für %s kalibriert! Ein Betrieb mit unpassendem Korbabstand, Trommeldrehzahl oder Sieben führt zu hoher Motorlast und Körnerverlusten. Drücken Sie Shift+K, um Werkseinstellungen zu laden." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Suboptimale Einstellungen für %s erkannt (%s außerhalb der Toleranz)! Dies verringert den Durchsatz und erhöht Verluste. Drücken Sie Shift+K zum Kalibrieren." />
+        <text name="rhm_tut_calib_ok_title" text="OPTIMALE EINSTELLUNG BESTÄTIGT" />
+        <text name="rhm_tut_calib_ok_msg" text="Alle Drusch- und Reinigungssysteme sind optimal für %s eingestellt. Die Maschine arbeitet mit maximaler Effizienz!" />
+        <text name="rhm_tut_weed_title" text="UNKRAUTWIDERSTAND" />
+        <text name="rhm_tut_weed_msg" text="Dichte, feuchte Unkrautnester erhöhen den Schneid- und Druschwiderstand (+15–25% Motorlast). Der Fahrgeschwindigkeitsregler bremst automatisch ab, um Verstopfungen zu verhindern." />
+        <text name="rhm_tut_slope_title" text="HANGBEDINGTE VERLUSTE" />
+        <text name="rhm_tut_slope_msg" text="An Hanglagen neigt sich der Siebkasten, wodurch sich das Erntegut einseitig sammelt und Körner überlaufen. Reduzieren Sie am Hang das Tempo." />
+        <text name="rhm_tut_wear_title" text="MESSER- UND VERSCHLEISSVERLUSTE" />
+        <text name="rhm_tut_wear_msg" text="Abgenutzte Messerklingen und stumpfe Druschelemente erhöhen den Einzugswiderstand und führen zu Ährenverlusten am Schneidwerk. Warten Sie die Maschine in der Werkstatt." />
+        <text name="rhm_field_progress" text="Erntefortschritt" />
+        <text name="rhm_filter_owned" text="Eigene" />
+        <text name="rhm_filter_contracts" text="Verträge" />
+        <text name="rhm_hud_style_title" text="HUD-Anzeigemodus" />
+        <text name="rhm_hud_style_desc" text="Wählen Sie zwischen der kompakten einzeiligen Telemetrieleiste (4 Zellen) und dem erweiterten Ertragsmonitor (8 Zellen mit Massenstrom, Durchschnittsertrag, Flächenfortschritt und Zähler)." />
+        <text name="rhm_hud_style_compact" text="Kompakt (4 Zellen)" />
+        <text name="rhm_hud_style_expanded" text="Ertragsmonitor (8 Zellen)" />
+
+
     </texts>
 </l10n>

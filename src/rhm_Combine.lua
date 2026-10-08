@@ -113,7 +113,8 @@ function rhm_Combine.registerEventListeners(vehicleType)
     -- INPUT: Реєструємо події введення
     SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", rhm_Combine)
 
-    -- LIFECYCLE: Видалення та вихід з техніки
+    -- LIFECYCLE: Вхід, вихід та видалення техніки
+    SpecializationUtil.registerEventListener(vehicleType, "onEnterVehicle", rhm_Combine)
     SpecializationUtil.registerEventListener(vehicleType, "onDelete", rhm_Combine)
     SpecializationUtil.registerEventListener(vehicleType, "onLeaveVehicle", rhm_Combine)
 end
@@ -597,7 +598,7 @@ function rhm_Combine:onPostLoad(savegame)
     if tracker then
         local farmId = (self.getOwnerFarmId and self:getOwnerFarmId()) or 1
         local farm = tracker.farms and tracker.farms[farmId]
-        local machineKey = self.configFileName or (self.getFullName and self:getFullName()) or "Harvester"
+        local machineKey = (RHM_HarvestTracker and RHM_HarvestTracker.getMachineKey and RHM_HarvestTracker.getMachineKey(self)) or self.configFileName or "Harvester"
         if farm and farm.combineTrips and farm.combineTrips[machineKey] then
             self.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
         end
@@ -1159,6 +1160,10 @@ end
 ---    Суворо ігнорує засохлі/оприскані бур'яни та чистий ґрунт без бур'янів.
 ---    Повертає коефіцієнт забур'яненості в діапазоні [0.00, 1.00].
 function rhm_Combine.getLiveWeedRatio(vehicle)
+    if g_realisticHarvestManager and g_realisticHarvestManager.settings and not g_realisticHarvestManager.settings:getEnableWeedLoad() then
+        return 0.0
+    end
+
     local mission = g_currentMission
     if not mission then
         return 0.0
@@ -1175,21 +1180,28 @@ function rhm_Combine.getLiveWeedRatio(vehicle)
         local liveStates = {}
         local deadStates = {}
         local rep = weedSystem.getHerbicideReplacements and weedSystem:getHerbicideReplacements()
-        if rep and rep.weed and rep.weed.replacements then
-            for sourceState, targetState in pairs(rep.weed.replacements) do
-                -- In GIANTS Engine FS25:
-                -- sourceState represents active growing weed stages.
-                -- targetState represents withered/dead weed stages produced by herbicide application.
-                liveStates[sourceState] = true
-                if targetState ~= 0 then
-                    deadStates[targetState] = true
-                end
+        local repTable = nil
+        if type(rep) == "table" then
+            if rep.weed and rep.weed.replacements then
+                repTable = rep.weed.replacements
+            elseif rep.replacements then
+                repTable = rep.replacements
+            else
+                repTable = rep
             end
         end
 
-        -- Strictly remove any withered/dead/sprayed states from liveStates
-        for deadState, _ in pairs(deadStates) do
-            liveStates[deadState] = nil
+        if repTable then
+            for sourceState, targetState in pairs(repTable) do
+                if type(sourceState) == "number" and type(targetState) == "number" then
+                    -- sourceState represents active growing weed stages.
+                    -- targetState represents withered/dead weed stages produced by herbicide application.
+                    liveStates[sourceState] = true
+                    if targetState ~= 0 then
+                        deadStates[targetState] = true
+                    end
+                end
+            end
         end
 
         -- Fallback: if replacements table is empty, query weedSystem factors
@@ -1205,12 +1217,16 @@ function rhm_Combine.getLiveWeedRatio(vehicle)
         end
 
         -- Fallback default for FS25 standard weed density map:
-        -- In FS25: 1 (small pre-emergent), 2 (medium pre-emergent), 3 (small),
-        -- 4 (medium), 5 (large/flowering), 6 (partial) are live; 7..9 are withered.
+        -- In FS25: states 1..3 are live growing weeds; states >= 4 are withered or dead.
         if not next(liveStates) then
-            for st = 1, 6 do
+            for st = 1, 3 do
                 liveStates[st] = true
             end
+        end
+
+        -- Strictly remove any withered/dead/sprayed states from liveStates
+        for deadState, _ in pairs(deadStates) do
+            liveStates[deadState] = nil
         end
 
         local mapId, firstChannel, numChannels = weedSystem:getDensityMapData()
@@ -1239,6 +1255,10 @@ function rhm_Combine.getLiveWeedRatio(vehicle)
                 activeCutter = cutter
             end
         end
+    end
+
+    if not activeCutter or (activeCutter.getIsTurnedOn and not activeCutter:getIsTurnedOn()) then
+        return 0.0
     end
 
     local sx, sy, sz = nil, nil, nil
@@ -1313,31 +1333,59 @@ function rhm_Combine.getLiveWeedRatio(vehicle)
         return 0.0
     end
 
-    -- Look-ahead distance: 1.2m ahead of the cutterbar into uncut crop
-    -- to sample standing weeds BEFORE the knife destroys them in the density map
-    local lookAhead = 1.2
+    -- Look-ahead distance: 1.0m ahead of the cutterbar into uncut crop
+    local lookAhead = 1.0
     local numSamples = math.max(3, math.min(9, math.ceil(cutterWidth / 1.8)))
-    local firstChan = rhm_Combine.weedFirstChannel
-    local mask = rhm_Combine.weedChannelMask
-    local liveStates = rhm_Combine.weedLiveStates
+    local firstChan = rhm_Combine.weedFirstChannel or 0
+    local mask = rhm_Combine.weedChannelMask or 15
+    local liveStates = rhm_Combine.weedLiveStates or { [1] = true, [2] = true, [3] = true }
 
     local liveCount = 0
+    local validSamples = 0
     local terrainRoot = mission.terrainRootNode
 
     for i = 0, numSamples - 1 do
-        local t = (numSamples == 1) and 0.5 or (0.05 + 0.90 * (i / (numSamples - 1)))
+        -- Sample strictly within the central 70% swath (0.15 to 0.85) to avoid ditch/roadside verge overhang
+        local t = (numSamples == 1) and 0.5 or (0.15 + 0.70 * (i / (numSamples - 1)))
         local px = sx + (wx - sx) * t + fx * lookAhead
         local pz = sz + (wz - sz) * t + fz * lookAhead
         local py = (terrainRoot and getTerrainHeightAtWorldPos(terrainRoot, px, 0, pz)) or (sy + (wy - sy) * t)
 
-        local d = getDensityAtWorldPos(mapId, px, py, pz)
-        local s = bit32.band(bit32.rshift(d, firstChan), mask)
-        if liveStates[s] then
-            liveCount = liveCount + 1
+        -- 1. Ensure sample coordinate is within an authentic field
+        local inField = false
+        if g_fieldManager and g_fieldManager.getFieldAtWorldPosition then
+            local f = g_fieldManager:getFieldAtWorldPosition(px, pz)
+            if f ~= nil then
+                inField = true
+            end
+        else
+            inField = true
+        end
+
+        -- 2. Validate that this point is actually within standing cultivated crop (not grass or unknown)
+        local isCropArea = false
+        if inField and FSDensityMapUtil and FSDensityMapUtil.getFieldFruitTypeAtWorldPos then
+            local ft = FSDensityMapUtil.getFieldFruitTypeAtWorldPos(px, pz)
+            if ft and ft ~= FruitType.UNKNOWN and ft ~= 0 and ft ~= FruitType.GRASS then
+                isCropArea = true
+            end
+        end
+
+        if isCropArea then
+            validSamples = validSamples + 1
+            local d = getDensityAtWorldPos(mapId, px, py, pz)
+            local s = bit32.band(bit32.rshift(d, firstChan), mask)
+            if liveStates[s] then
+                liveCount = liveCount + 1
+            end
         end
     end
 
-    return liveCount / numSamples
+    if validSamples == 0 then
+        return 0.0
+    end
+
+    return liveCount / validSamples
 end
 
 -- EN: Override for getSpeedLimit. Returns a dynamically calculated speed cap from RHM_LoadCalculator
@@ -1994,6 +2042,20 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
     end
 
+    -- EN: Continuously refresh motorized carrier fuel reference so driving transit never leaks into harvest tickets
+    -- UA: Безперервно оновлюємо показник палива носія, щоб переїзд до поля не потрапляв у лічильник збирання
+    local carrier = (rhm_Combine and rhm_Combine.getMotorizedCarrier and rhm_Combine.getMotorizedCarrier(self)) or self
+    if carrier and carrier.getFillUnitFillLevel and carrier.spec_motorized then
+        local fuelIdx = (RHM_HarvestTracker and RHM_HarvestTracker.getFuelFillUnitIndex and RHM_HarvestTracker.getFuelFillUnitIndex(carrier))
+        if fuelIdx then
+            local currFuel = carrier:getFillUnitFillLevel(fuelIdx) or 0
+            if spec._rhmCutterWasDisengaged or (spec._rhmTimeSinceLastHarvest or 0) > 2.0 or carrier._rhmLastHarvestFuel == nil then
+                carrier._rhmLastHarvestFuel = currFuel
+            end
+            carrier._rhmLastFuelLevel = currFuel
+        end
+    end
+
     spec._rhmRoadCheckTimer = (spec._rhmRoadCheckTimer or 0) + dt
     if spec._rhmRoadCheckTimer >= 500 then
         spec._rhmRoadCheckTimer = 0
@@ -2001,8 +2063,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             local wx, _, wz = getWorldTranslation(self.rootNode)
             local fid = 0
             if RHM_HarvestTracker and RHM_HarvestTracker.getFieldAtWorldPosition then
-                local _, detectedFid = RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, self)
-                fid = detectedFid or 0
+                local _, detectedFid, detectedFml = RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, self)
+                fid = (detectedFid and detectedFid > 0 and detectedFid) or (detectedFml and detectedFml > 0 and detectedFml) or 0
             end
             if fid == 0 then
                 spec._rhmTimeOutsideField = (spec._rhmTimeOutsideField or 0) + 0.5
@@ -2135,8 +2197,38 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
     end
 
-    -- WEEDS: Retrieve live weed presence at cutter bar (strictly ignoring sprayed/withered dead weeds)
-    local rawWeed = rhm_Combine.getLiveWeedRatio(self)
+    local currentSpeed = (self.getLastSpeed and self:getLastSpeed()) or 0
+
+    -- WEEDS: Retrieve live weed presence at cutter bar (throttled to 350ms intervals to preserve FPS)
+    local isCutterTurnedOn = false
+    if self.spec_combine and self.spec_combine.attachedCutters then
+        for cutter, _ in pairs(self.spec_combine.attachedCutters) do
+            if cutter.getIsTurnedOn and cutter:getIsTurnedOn() then
+                isCutterTurnedOn = true
+                break
+            end
+        end
+    end
+    if not isCutterTurnedOn and self.getAttachedImplements then
+        for _, impl in pairs(self:getAttachedImplements()) do
+            if impl.object and impl.object.getIsTurnedOn and impl.object:getIsTurnedOn() and impl.object.spec_cutter then
+                isCutterTurnedOn = true
+                break
+            end
+        end
+    end
+
+    if not isCutterTurnedOn or currentSpeed < 0.5 then
+        spec.rawWeedRatio = 0.0
+        spec.currentWeedRatio = 0.0
+    else
+        spec.weedSampleTimer = (spec.weedSampleTimer or 0) + dt
+        if spec.weedSampleTimer >= 350 or spec.rawWeedRatio == nil then
+            spec.weedSampleTimer = 0
+            spec.rawWeedRatio = rhm_Combine.getLiveWeedRatio(self)
+        end
+    end
+    local rawWeed = spec.rawWeedRatio or 0.0
     local prevWeed = spec.currentWeedRatio or 0
     local alphaWeed = 1.0 - math.exp(-dt / 1500.0)
     local smoothedWeed = prevWeed + (rawWeed - prevWeed) * alphaWeed
@@ -2153,7 +2245,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     
     -- EN: Suppress stationary mass flow (< 0.5 km/h) so lowering header while waiting doesn't generate false t/h
     -- UA: Блокуємо розрахунок потоку при зупинці (< 0.5 км/год) щоб опускання жатки на місці не давало хибних т/год
-    local currentSpeed = (self.getLastSpeed and self:getLastSpeed()) or 0
     if currentSpeed < 0.5 then
         massKg = 0
         liters = 0
@@ -2211,12 +2302,19 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         -- HARVEST TRACKER & FIELD TRIP TELEMETRY INTEGRATION
         local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
         if tracker then
-            local fieldId = 0
             local wx, _, wz = getWorldTranslation(self.rootNode)
-            if RHM_HarvestTracker and RHM_HarvestTracker.getFieldAtWorldPosition then
-                local _, fid = RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, self)
-                fieldId = fid or 0
+            spec._fieldCheckTimer = (spec._fieldCheckTimer or 0) + dt
+            local distMovedSq = (wx - (spec._lastFieldCheckX or 0))^2 + (wz - (spec._lastFieldCheckZ or 0))^2
+            if spec._fieldCheckTimer >= 1000 or distMovedSq >= 36.0 or spec._lastDetectedFieldId == nil or spec._lastDetectedFieldId == 0 then
+                spec._fieldCheckTimer = 0
+                spec._lastFieldCheckX = wx
+                spec._lastFieldCheckZ = wz
+                if RHM_HarvestTracker and RHM_HarvestTracker.getFieldAtWorldPosition then
+                    local _, fid, fmlId = RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, self)
+                    spec._lastDetectedFieldId = (fid and fid > 0 and fid) or (fmlId and fmlId > 0 and fmlId) or 0
+                end
             end
+            local fieldId = spec._lastDetectedFieldId or 0
 
             local farmId = self:getOwnerFarmId() or 1
             local lossReasons = spec.loadCalculator:getLossBreakdown()
@@ -3114,6 +3212,31 @@ function rhm_Combine:actionToggleMouseCursor(actionName, inputValue, callbackSta
     end
 end
 
+-- EN: Self-healing check on vehicle enter: ensure indoor cameras keep allowTranslation = false.
+-- UA: Самозцілення при вході в комбайн: гарантуємо, що салонні камери мають allowTranslation = false.
+function rhm_Combine:onEnterVehicle(isControlling)
+    if self.isClient and self.spec_enterable and self.spec_enterable.cameras then
+        for _, camera in pairs(self.spec_enterable.cameras) do
+            local isIndoor = camera.isInside or (camera.rotateNode ~= nil and camera.rotateNode == camera.cameraNode)
+            if isIndoor then
+                if camera.allowTranslation then
+                    camera.allowTranslation = false
+                end
+                if camera.origTransX ~= nil and camera.origTransY ~= nil and camera.origTransZ ~= nil then
+                    if camera.transX ~= camera.origTransX or camera.transY ~= camera.origTransY or camera.transZ ~= camera.origTransZ then
+                        camera.transX = camera.origTransX
+                        camera.transY = camera.origTransY
+                        camera.transZ = camera.origTransZ
+                        if camera.cameraNode and entityExists(camera.cameraNode) then
+                            setTranslation(camera.cameraNode, camera.origTransX, camera.origTransY, camera.origTransZ)
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
 -- EN: Clean up cursor, camera states, and audio when leaving the vehicle.
 -- UA: Очищаємо стани курсора, камери та звуків при виході з транспортного засобу.
 function rhm_Combine:onLeaveVehicle(wasEntered)
@@ -3134,7 +3257,20 @@ function rhm_Combine:onLeaveVehicle(wasEntered)
         if self.spec_enterable and self.spec_enterable.cameras then
             for _, camera in pairs(self.spec_enterable.cameras) do
                 camera.isRotatable = true
-                camera.allowTranslation = true
+                local isIndoor = camera.isInside or (camera.rotateNode ~= nil and camera.rotateNode == camera.cameraNode)
+                if isIndoor then
+                    camera.allowTranslation = false
+                    if camera.origTransX ~= nil and camera.origTransY ~= nil and camera.origTransZ ~= nil then
+                        camera.transX = camera.origTransX
+                        camera.transY = camera.origTransY
+                        camera.transZ = camera.origTransZ
+                        if camera.cameraNode and entityExists(camera.cameraNode) then
+                            setTranslation(camera.cameraNode, camera.origTransX, camera.origTransY, camera.origTransZ)
+                        end
+                    end
+                else
+                    camera.allowTranslation = true
+                end
                 camera.allowZoom = true
                 if camera.rotSpeed == 0 and camera._rhmSavedRotSpeed then
                     camera.rotSpeed = camera._rhmSavedRotSpeed
@@ -3185,7 +3321,7 @@ function rhm_Combine:resetTrip()
     if tracker then
         local farmId = (self.getOwnerFarmId and self:getOwnerFarmId()) or 1
         local farm = tracker:getFarmData(farmId)
-        local machineKey = self.configFileName or (self.getFullName and self:getFullName()) or "Harvester"
+        local machineKey = (RHM_HarvestTracker and RHM_HarvestTracker.getMachineKey and RHM_HarvestTracker.getMachineKey(self)) or self.configFileName or "Harvester"
         if farm and farm.combineTrips and farm.combineTrips[machineKey] then
             farm.combineTrips[machineKey] = spec.trip
         end

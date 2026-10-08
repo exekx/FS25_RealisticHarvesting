@@ -430,7 +430,7 @@
         <text name="rhm_col_loss" text="Pérdidas" />
         <text name="rhm_col_tank" text="Tolva" />
         <text name="rhm_col_area" text="Área" />
-        <text name="rhm_col_money" text="Pérdida ($)" />
+        <text name="rhm_col_money" text="Pérdida" />
         <text name="rhm_col_driver" text="Operador" />
         <text name="rhm_col_cutter" text="Cabezal" />
         <text name="rhm_col_throughput" text="Productividad" />
@@ -502,5 +502,34 @@
         <text name="rhm_weedload_long" text="Las malezas verdes y fibrosas se enrollan en los cilindros y aumentan la resistencia mecánica y la carga del motor (hasta +25%). Desactiva para anular el impacto de la maleza." />
             <text name="rhm_fleet_badge_mission" text="[Contrato]" />
         <text name="rhm_fleet_badge_leased" text="[Alquilada]" />
+        <text name="rhm_cause_settings" text="Ajustes y calibración de la máquina" />
+        <text name="rhm_advice_settings" text="Pérdida dominante por calibración no optimizada. Ajuste la holgura del cóncavo, la velocidad del cilindro y las cribas para el cultivo actual." />
+        <text name="rhm_fuel_consumption" text="Consumo de combustible" />
+        <text name="rhm_fuel_used" text="Combustible utilizado" />
+        <text name="rhm_fuel_rate" text="Tasa de combustible" />
+        <text name="rhm_cluster_merged" text="Campo combinado" />
+        <text name="rhm_gross_revenue" text="Ingresos brutos de cosecha" />
+        <text name="rhm_fuel_expense" text="Gasto de combustible" />
+        <text name="rhm_net_margin" text="Margen operativo neto" />
+        <text name="rhm_tut_calib_warn_title" text="CALIBRACIÓN DE LA COSECHADORA" />
+        <text name="rhm_tut_calib_warn_msg" text="¡La cosechadora aún no está calibrada para %s! Trabajar con holguras, rotor o cribas desajustadas genera sobrecarga del motor y graves pérdidas de grano. Presione Shift+K para cargar un ajuste óptimo de fábrica." />
+        <text name="rhm_tut_calib_warn_params_msg" text="¡Ajustes no óptimos detectados para %s (%s fuera de tolerancia)! Esto limita el rendimiento y aumenta pérdidas. Presione Shift+K para calibrar." />
+        <text name="rhm_tut_calib_ok_title" text="CALIBRACIÓN ÓPTIMA VERIFICADA" />
+        <text name="rhm_tut_calib_ok_msg" text="Todos los sistemas de trilla y limpieza están calibrados dentro de la tolerancia óptima para %s. ¡Trabajando con máxima eficiencia!" />
+        <text name="rhm_tut_weed_title" text="RESISTENCIA POR MALEZA" />
+        <text name="rhm_tut_weed_msg" text="Las matas densas de maleza bajo el cabezal aumentan significativamente la resistencia al corte y a la trilla (+15–25% de carga). El avance se ralentiza automáticamente para evitar atascos." />
+        <text name="rhm_tut_slope_title" text="PÉRDIDAS EN PENDIENTE" />
+        <text name="rhm_tut_slope_msg" text="Trabajar en laderas inclina el cajón de cribas, acumulando el grano en un lado y provocando pérdidas por expulsión. Reduzca la velocidad en pendientes." />
+        <text name="rhm_tut_wear_title" text="DESGASTE DE CUCHILLAS Y ROTOR" />
+        <text name="rhm_tut_wear_msg" text="Cuchillas desgastadas y elementos de trilla romos aumentan la resistencia y provocan desgrane involuntario en el corte. Repare su maquinaria en el taller." />
+        <text name="rhm_field_progress" text="Progreso de cosecha" />
+        <text name="rhm_filter_owned" text="Propiedad" />
+        <text name="rhm_filter_contracts" text="Contratos" />
+        <text name="rhm_hud_style_title" text="Modo de visualización del HUD" />
+        <text name="rhm_hud_style_desc" text="Seleccione entre la barra de telemetría compacta de una fila (4 celdas) y el monitor de rendimiento ampliado (8 celdas con caudal másico, rendimiento medio, avance de superficie y odómetro)." />
+        <text name="rhm_hud_style_compact" text="Compacto (4 celdas)" />
+        <text name="rhm_hud_style_expanded" text="Monitor de rendimiento (8 celdas)" />
+
+
     </texts>
 </l10n>

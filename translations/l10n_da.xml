@@ -426,7 +426,7 @@
         <text name="rhm_col_loss" text="Spild" />
         <text name="rhm_col_tank" text="Kornbeholder" />
         <text name="rhm_col_area" text="Areal" />
-        <text name="rhm_col_money" text="Tab ($)" />
+        <text name="rhm_col_money" text="Tab" />
         <text name="rhm_col_driver" text="Fører" />
         <text name="rhm_col_cutter" text="Skærebord" />
         <text name="rhm_col_throughput" text="Gennemstrømning" />
@@ -498,5 +498,34 @@
         <text name="rhm_weedload_long" text="Fugtigt og trægt ukrudt øger den mekaniske modstand og motorbelastningen (op til +25%). Slå fra for at forhindre, at ukrudt påvirker motoreffekten." />
             <text name="rhm_fleet_badge_mission" text="[Kontrakt]" />
         <text name="rhm_fleet_badge_leased" text="[Lejet]" />
+        <text name="rhm_cause_settings" text="Maskinindstillinger &amp; kalibrering" />
+        <text name="rhm_advice_settings" text="Dominerende tab forårsaget af uoptimal maskinkalibrering. Juster broafstand, tromlehastighed og sold for den aktuelle afgrøde." />
+        <text name="rhm_fuel_consumption" text="Brændstofforbrug" />
+        <text name="rhm_fuel_used" text="Brugt brændstof" />
+        <text name="rhm_fuel_rate" text="Brændstofrate" />
+        <text name="rhm_cluster_merged" text="Sammenlagt mark" />
+        <text name="rhm_gross_revenue" text="Brutto høstindtægt" />
+        <text name="rhm_fuel_expense" text="Brændstofudgift" />
+        <text name="rhm_net_margin" text="Netto driftsmargin" />
+        <text name="rhm_tut_calib_warn_title" text="MEJETÆRSKER INDSTILLING" />
+        <text name="rhm_tut_calib_warn_msg" text="Mejetærskeren er ikke kalibreret til %s endnu! Forkerte indstillinger medfører motoroverbelastning og kornspild. Tryk Shift+K for fabriksindstillinger." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Suboptimale indstillinger fundet for %s (%s uden for tolerance)! Det mindsker kapaciteten og øger spild. Tryk Shift+K for at kalibrere." />
+        <text name="rhm_tut_calib_ok_title" text="OPTIMAL KALIBRERING BEKRÆFTET" />
+        <text name="rhm_tut_calib_ok_msg" text="Alle tærske- og rensemekanismer er optimalt indstillet til %s. Maskinen kører med maksimal effektivitet!" />
+        <text name="rhm_tut_weed_title" text="UKRUDTSMODSTAND" />
+        <text name="rhm_tut_weed_msg" text="Tæt ukrudt under skærebordet øger skære- og tærskemodstand betydeligt (+15–25% motorbelastning). Hastigheden sænkes automatisk for at undgå blokering." />
+        <text name="rhm_tut_slope_title" text="SPILD PÅ SKRÅNINGER" />
+        <text name="rhm_tut_slope_msg" text="Arbejde på skråninger hælder soldkassen, så korn samles i den ene side og blæses ud med avnerne. Sænk farten på skråninger." />
+        <text name="rhm_tut_wear_title" text="SLID PÅ KNIVE OG TÆRSKER" />
+        <text name="rhm_tut_wear_msg" text="Slidte knivblade og sløve tærskeelementer øger trækkraftbehovet og medfører spild foran skærebordet. Få maskinen serviceret på værkstedet." />
+        <text name="rhm_field_progress" text="Høstfremskridt" />
+        <text name="rhm_filter_owned" text="Egne" />
+        <text name="rhm_filter_contracts" text="Kontrakter" />
+        <text name="rhm_hud_style_title" text="HUD-visningstilstand" />
+        <text name="rhm_hud_style_desc" text="Vælg mellem den kompakte telemetribjælke på én række (4 celler) og den udvidede udbyttemonitor (8 celler med massestrøm, gennemsnitligt udbytte, markfremskridt og tæller)." />
+        <text name="rhm_hud_style_compact" text="Kompakt (4 celler)" />
+        <text name="rhm_hud_style_expanded" text="Udbyttemonitor (8 celler)" />
+
+
     </texts>
 </l10n>

@@ -1908,11 +1908,9 @@ end
 ---EN: Returns instantaneous breakdown of loss causes in percentage
 ---UA: Повертає моментальний розподіл причин втрат у відсотках
 function RHM_LoadCalculator:getLossBreakdown()
-    -- EN: Combine speed overload and improper concave/settings under thresher overload
-    --     so all 4 UI scorecard categories are accurately represented.
-    local thresherLoss = (self.baseLoss or 0) + (self.settingsAddedLoss or 0)
     return {
-        speedPct = thresherLoss,
+        speedPct = self.baseLoss or 0,
+        settingsPct = self.settingsAddedLoss or 0,
         moisturePct = self.moistureLoss or 0,
         wearPct = self.wearLoss or 0,
         slopePct = self.slopeLoss or 0

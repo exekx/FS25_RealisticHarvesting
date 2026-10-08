@@ -428,7 +428,7 @@
         <text name="rhm_col_loss" text="Perdas" />
         <text name="rhm_col_tank" text="Tanque" />
         <text name="rhm_col_area" text="Área" />
-        <text name="rhm_col_money" text="Perda ($)" />
+        <text name="rhm_col_money" text="Perda" />
         <text name="rhm_col_driver" text="Operador" />
         <text name="rhm_col_cutter" text="Plataforma" />
         <text name="rhm_col_throughput" text="Capacidade" />
@@ -500,5 +500,34 @@
         <text name="rhm_weedload_long" text="Plantas daninhas suculentas e fibrosas aumentam a resistência mecânica e a carga do motor (até +25%). Desative para que as daninhas não afetem a potência." />
             <text name="rhm_fleet_badge_mission" text="[Contrato]" />
         <text name="rhm_fleet_badge_leased" text="[Alugada]" />
+        <text name="rhm_cause_settings" text="Configurações e calibração da máquina" />
+        <text name="rhm_advice_settings" text="Perda dominante causada por calibração não otimizada. Ajuste a folga do côncavo, velocidade do cilindro e peneiras para a cultura atual." />
+        <text name="rhm_fuel_consumption" text="Consumo de combustível" />
+        <text name="rhm_fuel_used" text="Combustível usado" />
+        <text name="rhm_fuel_rate" text="Taxa de combustível" />
+        <text name="rhm_cluster_merged" text="Campo agrupado" />
+        <text name="rhm_gross_revenue" text="Receita bruta da colheita" />
+        <text name="rhm_fuel_expense" text="Despesa de combustível" />
+        <text name="rhm_net_margin" text="Margem operacional líquida" />
+        <text name="rhm_tut_calib_warn_title" text="CALIBRAÇÃO DA COLHEITADEIRA" />
+        <text name="rhm_tut_calib_warn_msg" text="A colheitadeira ainda não está calibrada para %s! Operar com côncavo, rotor ou peneiras desajustadas causa sobrecarga no motor e altas perdas de grãos. Pressione Shift+K para carregar o ajuste de fábrica." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Ajustes incorretos detectados para %s (%s fora da tolerância)! Isso reduz o rendimento e gera perdas. Pressione Shift+K para calibrar." />
+        <text name="rhm_tut_calib_ok_title" text="CALIBRAÇÃO IDEAL CONFIRMADA" />
+        <text name="rhm_tut_calib_ok_msg" text="Todos os componentes de trilha e limpeza estão calibrados na faixa ideal para %s. Operando com eficiência máxima!" />
+        <text name="rhm_tut_weed_title" text="RESISTÊNCIA DE PLANTAS DANINHAS" />
+        <text name="rhm_tut_weed_msg" text="Manchas densas de plantas daninhas aumentam muito o arrasto no corte e no rotor (+15–25% de carga). A velocidade é reduzida automaticamente para evitar embuchamento." />
+        <text name="rhm_tut_slope_title" text="PERDAS EM INCLINAÇÃO" />
+        <text name="rhm_tut_slope_msg" text="Operar em encostas inclina o bandejão e peneiras, acumulando grãos em uma das laterais e causando perdas na palha. Reduza a velocidade em terrenos inclinados." />
+        <text name="rhm_tut_wear_title" text="DESGASTE DE FACAS E ROTOR" />
+        <text name="rhm_tut_wear_msg" text="Facas gastas e elementos de trilha cegos elevam o arrasto e provocam debulha prematura na plataforma. Faça a manutenção na oficina." />
+        <text name="rhm_field_progress" text="Progresso da colheita" />
+        <text name="rhm_filter_owned" text="Próprias" />
+        <text name="rhm_filter_contracts" text="Contratos" />
+        <text name="rhm_hud_style_title" text="Modo de exibição do HUD" />
+        <text name="rhm_hud_style_desc" text="Selecione entre a barra de telemetria compacta de linha única (4 células) e o monitor de produtividade expandido (8 células com fluxo de massa, produtividade média, progresso do campo e odômetro)." />
+        <text name="rhm_hud_style_compact" text="Compacto (4 células)" />
+        <text name="rhm_hud_style_expanded" text="Monitor de produtividade (8 células)" />
+
+
     </texts>
 </l10n>

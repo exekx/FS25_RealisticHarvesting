@@ -44,6 +44,7 @@ RHMSettingsManager.CLIENT_SETTINGS = {
     "hudPosY",
     "hudDocked",
     "unitSystem",
+    "hudStyle",
     "enableAlarmSound",
     "alarmMode",
     "soundVolume",
@@ -71,7 +72,8 @@ RHMSettingsManager.defaultConfig = {
     alarmMode = 1,
     soundVolume = 1.0,
     enableTutorials = true,
-    unitSystem = 1
+    unitSystem = 1,
+    hudStyle = 2
 }
 
 -- EN: Creates a new RHMSettingsManager instance.
@@ -175,7 +177,7 @@ function RHMSettingsManager:loadClientSettings(settingsObject)
         if xml then
             for _, key in ipairs(self.CLIENT_SETTINGS) do
                 local xmlKey = self.XMLTAG.."."..key
-                if key == "unitSystem" or key == "alarmMode" then
+                if key == "unitSystem" or key == "alarmMode" or key == "hudStyle" then
                     settingsObject[key] = xml:getInt(xmlKey, self.defaultConfig[key] or 1)
                 elseif key == "hudPosX" or key == "hudPosY" then
                     -- EN: HUD position stored as float (nil if not set = auto positioning).
@@ -283,7 +285,7 @@ function RHMSettingsManager:saveClientSettings(settingsObject)
     if xml then
         for _, key in ipairs(self.CLIENT_SETTINGS) do
             local xmlKey = self.XMLTAG.."."..key
-            if key == "unitSystem" or key == "alarmMode" then
+            if key == "unitSystem" or key == "alarmMode" or key == "hudStyle" then
                 xml:setInt(xmlKey, settingsObject[key] or 1)
             elseif key == "hudPosX" or key == "hudPosY" then
                 -- EN: Only save position if it has been explicitly set (not nil = auto).

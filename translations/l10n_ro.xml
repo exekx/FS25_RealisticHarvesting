@@ -428,7 +428,7 @@
         <text name="rhm_col_loss" text="Pierderi" />
         <text name="rhm_col_tank" text="Buncăr" />
         <text name="rhm_col_area" text="Suprafață" />
-        <text name="rhm_col_money" text="Pierdere ($)" />
+        <text name="rhm_col_money" text="Pierdere" />
         <text name="rhm_col_driver" text="Operator" />
         <text name="rhm_col_cutter" text="Heder" />
         <text name="rhm_col_throughput" text="Capacitate de treierare" />
@@ -500,5 +500,34 @@
         <text name="rhm_weedload_long" text="Buruienile fibroase se înfășoară pe tambur și măresc rezistența mecanică și sarcina motorului (până la +25%). Dezactivați pentru a anula impactul buruienilor." />
             <text name="rhm_fleet_badge_mission" text="[Contract]" />
         <text name="rhm_fleet_badge_leased" text="[Închiriat]" />
+        <text name="rhm_cause_settings" text="Setări și calibrare combină" />
+        <text name="rhm_advice_settings" text="Pierderi cauzate de reglarea neoptimizată a combinei. Reglați distanța bătătorului, turația tobei și sitele pentru recolta curentă." />
+        <text name="rhm_fuel_consumption" text="Consum de combustibil" />
+        <text name="rhm_fuel_used" text="Combustibil consumat" />
+        <text name="rhm_fuel_rate" text="Rată de combustibil" />
+        <text name="rhm_cluster_merged" text="Teren comasat" />
+        <text name="rhm_gross_revenue" text="Venit brut din recoltă" />
+        <text name="rhm_fuel_expense" text="Cheltuieli cu combustibilul" />
+        <text name="rhm_net_margin" text="Marjă operațională netă" />
+        <text name="rhm_tut_calib_warn_title" text="CALIBRAREA COMBINEI" />
+        <text name="rhm_tut_calib_warn_msg" text="Combina nu este încă calibrată pentru %s! Reglajele necorespunzătoare duc la suprasolicitarea motorului și pierderi mari de boabe. Apăsați Shift+K pentru presetarea optimă din fabrică." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Reglaje neoptime detectate pentru %s (%s în afara toleranței)! Reduce debitul de lucru și sporește pierderile. Apăsați Shift+K pentru calibrare." />
+        <text name="rhm_tut_calib_ok_title" text="CALIBRARE OPTIMĂ CONFIRMATĂ" />
+        <text name="rhm_tut_calib_ok_msg" text="Toate mecanismele de treierat și curățare sunt calibrate în toleranța optimă pentru %s. Eficiență maximă de lucru!" />
+        <text name="rhm_tut_weed_title" text="REZISTENȚA BURUIENILOR" />
+        <text name="rhm_tut_weed_msg" text="Buruienile dense sub heder sporesc considerabil rezistența la tăiere și treierare (+15–25% sarcină motor). Viteza scade automat pentru a preveni înfundarea." />
+        <text name="rhm_tut_slope_title" text="PIERDERI PE PANTE" />
+        <text name="rhm_tut_slope_msg" text="Lucrul pe teren înclinat înclină sitele de curățare, aglomerând boabele pe o parte și aruncându-le cu pleava. Reduceți viteza pe pante." />
+        <text name="rhm_tut_wear_title" text="UZURA CUȚITELOR ȘI ROTORULUI" />
+        <text name="rhm_tut_wear_msg" text="Cuțitele tocite și elementele uzate de treier sporesc rezistența și provoacă scuturarea boabelor înainte de heder. Reparați utilajul la atelier." />
+        <text name="rhm_field_progress" text="Progresul recoltării" />
+        <text name="rhm_filter_owned" text="Proprii" />
+        <text name="rhm_filter_contracts" text="Contracte" />
+        <text name="rhm_hud_style_title" text="Mod afișare HUD" />
+        <text name="rhm_hud_style_desc" text="Alegeți între bara de telemetrie compactă cu un singur rând (4 celule) și monitorul de recoltare extins (8 celule cu debit masic, randament mediu, progres suprafață și odometru)." />
+        <text name="rhm_hud_style_compact" text="Compact (4 celule)" />
+        <text name="rhm_hud_style_expanded" text="Monitor recoltare (8 celule)" />
+
+
     </texts>
 </l10n>

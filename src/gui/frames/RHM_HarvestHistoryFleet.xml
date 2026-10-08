@@ -11,21 +11,11 @@
 
         <Text profile="rhmDescriptiveText" text="$l10n_rhm_tab_fleet_desc" position="20px -46px" width="1400px" />
 
-        <!-- Top Navigation & Filter Bar -->
-        <GuiElement profile="rhmTopNavContainer" position="20px -70px" size="1360px 38px">
-            <Button id="btnSubTabFleet" profile="rhmSubTabFleetActive" position="0px 0px" size="280px 34px" text="$l10n_rhm_btn_subtab_fleet" onClick="onClickSubTabFleet">
-                <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_tab_fleet" position="14px -6px" size="22px 22px" />
-            </Button>
-            <Button id="btnSubTabHistory" profile="rhmSubTabHistory" position="290px 0px" size="480px 34px" text="$l10n_rhm_btn_subtab_history" onClick="onClickSubTabHistory">
-                <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_tab_history" position="14px -6px" size="22px 22px" />
-            </Button>
-
-            <!-- Fleet Filter Bar (Active / All / Sold) aligned on the right edge at 1360px -->
-            <GuiElement id="fleetFilterBar" profile="rhmTopNavContainer" position="988px 0px" size="372px 34px">
-                <Button id="btnFilterActive" profile="rhmSubTabFilterActive" position="0px 0px" size="120px 34px" text="$l10n_rhm_filter_active" onClick="onClickFilterActive" />
-                <Button id="btnFilterAll" profile="rhmSubTabFilter" position="126px 0px" size="120px 34px" text="$l10n_rhm_filter_all" onClick="onClickFilterAll" />
-                <Button id="btnFilterSold" profile="rhmSubTabFilter" position="252px 0px" size="120px 34px" text="$l10n_rhm_filter_sold" onClick="onClickFilterSold" />
-            </GuiElement>
+        <!-- Fleet Filter Bar (Active / All / Sold) -->
+        <GuiElement id="fleetFilterBar" profile="rhmTopNavContainer" position="20px -70px" size="1360px 38px">
+            <Button id="btnFilterActive" profile="rhmSubTabFilterActive" position="0px 0px" size="140px 34px" text="$l10n_rhm_filter_active" onClick="onClickFilterActive" />
+            <Button id="btnFilterAll" profile="rhmSubTabFilter" position="148px 0px" size="140px 34px" text="$l10n_rhm_filter_all" onClick="onClickFilterAll" />
+            <Button id="btnFilterSold" profile="rhmSubTabFilter" position="296px 0px" size="140px 34px" text="$l10n_rhm_filter_sold" onClick="onClickFilterSold" />
         </GuiElement>
 
         <!-- ================================================================= -->
@@ -50,7 +40,7 @@
 
                 <!-- Row 1: Field & Crop -->
                 <Text profile="rhmCardSubValue" position="20px -44px" size="190px 13px" text="$l10n_rhm_col_field" />
-                <Text profile="rhmCardHighlightValue" id="card1FieldNumber" position="20px -60px" size="190px 28px" text="--" />
+                <Text profile="rhmCardValue" id="card1FieldNumber" position="20px -60px" size="190px 28px" text="--" />
 
                 <Text profile="rhmCardSubValue" position="220px -44px" size="195px 13px" text="$l10n_rhm_crop_type" />
                 <Text profile="rhmCardValue" id="card1CropType" position="220px -60px" size="195px 28px" text="--" />
@@ -64,7 +54,7 @@
 
                 <!-- Row 3: Grain Tank (Full Width) -->
                 <Text profile="rhmCardSubValue" position="20px -152px" size="400px 13px" text="$l10n_rhm_col_tank" />
-                <Text profile="rhmCardHighlightValue" id="card1GrainTank" position="20px -168px" size="400px 26px" text="0 L (0%)" textSize="20px" />
+                <Text profile="rhmCardValue" id="card1GrainTank" position="20px -168px" size="400px 26px" text="0 L (0%)" textSize="20px" />
             </GuiElement>
 
             <!-- CARD 2: Performance & Harvest -->
@@ -77,11 +67,11 @@
                 <Text profile="rhmCardValue" id="card2SpeedText" position="20px -60px" size="190px 28px" text="0.0 km/h" />
 
                 <Text profile="rhmCardSubValue" position="220px -44px" size="195px 13px" text="$l10n_rhm_col_throughput" />
-                <Text profile="rhmCardHighlightValue" id="card2ThroughputText" position="220px -60px" size="195px 28px" text="0.0 t/h" />
+                <Text profile="rhmCardValue" id="card2ThroughputText" position="220px -60px" size="195px 28px" text="0.0 t/h" />
 
                 <!-- Row 2: Harvested & Realtime Yield -->
                 <Text profile="rhmCardSubValue" position="20px -98px" size="190px 13px" text="$l10n_rhm_col_harvested" />
-                <Text profile="rhmCardHighlightValue" id="card2HarvestedText" position="20px -114px" size="190px 28px" text="0.0 t" textSize="20px" />
+                <Text profile="rhmCardValue" id="card2HarvestedText" position="20px -114px" size="190px 28px" text="0.0 t" textSize="20px" />
 
                 <Text profile="rhmCardSubValue" position="220px -98px" size="195px 13px" text="$l10n_rhm_col_yield" />
                 <Text profile="rhmCardValue" id="card2YieldText" position="220px -114px" size="195px 28px" text="0.00 t/ha" />
@@ -98,21 +88,21 @@
 
                 <!-- Row 1: Engine Load & Loss % -->
                 <Text profile="rhmCardSubValue" position="20px -44px" size="190px 13px" text="$l10n_rhm_col_load" />
-                <Text profile="rhmCardHighlightValue" id="card3EngineLoad" position="20px -60px" size="190px 28px" text="0%" />
+                <Text profile="rhmCardValue" id="card3EngineLoad" position="20px -60px" size="190px 28px" text="0%" />
 
                 <Text profile="rhmCardSubValue" position="220px -44px" size="195px 13px" text="$l10n_rhm_col_loss" />
-                <Text profile="rhmCardWarningValue" id="card3LossPct" position="220px -60px" size="195px 28px" text="0.00%" />
+                <Text profile="rhmCardValue" id="card3LossPct" position="220px -60px" size="195px 28px" text="0.00%" />
 
                 <!-- Row 2: Loss Volume & Efficiency Rank -->
                 <Text profile="rhmCardSubValue" position="20px -98px" size="190px 13px" text="$l10n_rhm_loss_volume" />
-                <Text profile="rhmCardWarningValue" id="card3LossVolume" position="20px -114px" size="190px 28px" text="0.0 t" textSize="20px" />
+                <Text profile="rhmCardValue" id="card3LossVolume" position="20px -114px" size="190px 28px" text="0.0 t" textSize="20px" />
 
                 <Text profile="rhmCardSubValue" position="220px -98px" size="195px 13px" text="$l10n_rhm_col_rank" />
-                <Text profile="rhmCardHighlightValue" id="card3RankText" position="220px -114px" size="195px 28px" text="[A]" textSize="20px" />
+                <Text profile="rhmCardValue" id="card3RankText" position="220px -114px" size="195px 28px" text="[A]" textSize="20px" />
 
                 <!-- Row 3: Wear State (Full Width) -->
                 <Text profile="rhmCardSubValue" position="20px -152px" size="400px 13px" text="$l10n_rhm_col_wear" />
-                <Text profile="rhmCardWarningValue" id="card3WearText" position="20px -168px" size="400px 26px" text="0%" textSize="20px" />
+                <Text profile="rhmCardValue" id="card3WearText" position="20px -168px" size="400px 26px" text="0%" textSize="20px" />
             </GuiElement>
 
             <!-- Fleet Table Header -->
@@ -128,7 +118,7 @@
             </GuiElement>
 
             <!-- Fleet Table Content -->
-            <SmoothList id="fleetTable" profile="rhmTable" position="20px -406px" size="1360px 250px">
+            <SmoothList id="fleetTable" profile="rhmTable" position="20px -406px" size="1360px 250px" onClick="onClickListItem" onSelectionChanged="onListSelectionChanged">
                 <ListItem profile="rhmListItem">
                     <Text profile="rhmRowCellLeft" name="machineName" position="10px 0px" size="310px 38px" />
                     <Text profile="rhmRowCellLeft" name="fieldStr" position="330px 0px" size="120px 38px" />
@@ -146,123 +136,6 @@
             </ThreePartBitmap>
         </GuiElement>
 
-        <!-- ================================================================= -->
-        <!-- VIEW MODE 2: SEASON HISTORY PANEL                                 -->
-        <!-- ================================================================= -->
-        <GuiElement id="historyPanel" profile="rhmSubPanel" position="0px 0px" size="1400px 700px" visible="false">
-            <!-- Season Switcher / Selector Header -->
-            <GuiElement profile="rhmStatusBandContainer" position="20px -110px" size="1360px 38px">
-                <RoundCorner profile="rhmMachineHeaderBox" />
-                <Button id="btnPrevSeason" profile="rhmSelectorButton" position="8px -4px" size="32px 30px" text="&lt;" onClick="onClickPrevSeason" />
-                <Button id="btnNextSeason" profile="rhmSelectorButton" position="44px -4px" size="32px 30px" text="&gt;" onClick="onClickNextSeason" />
-                <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_tab_history" position="88px -7px" size="24px 24px" />
-                <Text profile="rhmStatusText" id="selectedSeasonTitle" position="122px -8px" size="780px 22px" text="--" />
-                <Text profile="rhmCardHeaderVehicle" id="seasonSummaryCountText" position="930px -8px" size="410px 22px" text="--" textAlignment="right" />
-            </GuiElement>
 
-            <!-- CARD 1: Season Harvest & Area -->
-            <GuiElement profile="rhmCardContainer" position="20px -156px" size="440px 214px">
-                <RoundCorner profile="rhmCardSurface" />
-                <Text profile="rhmCardTitle" position="20px -16px" size="400px 20px" text="$l10n_rhm_card_season_harvest" />
-
-                <!-- Row 1: Harvested Area & Average Yield -->
-                <Text profile="rhmCardSubValue" position="20px -44px" size="190px 13px" text="$l10n_rhm_col_area" />
-                <Text profile="rhmCardValue" id="seasonCardArea" position="20px -60px" size="190px 28px" text="0.00 ha" />
-
-                <Text profile="rhmCardSubValue" position="220px -44px" size="195px 13px" text="$l10n_rhm_col_yield" />
-                <Text profile="rhmCardHighlightValue" id="seasonCardYield" position="220px -60px" size="195px 28px" text="0.00 t/ha" />
-
-                <!-- Row 2: Clean Harvest & Throughput -->
-                <Text profile="rhmCardSubValue" position="20px -98px" size="190px 13px" text="$l10n_rhm_clean_harvest" />
-                <Text profile="rhmCardHighlightValue" id="seasonCardHarvestVolume" position="20px -114px" size="190px 28px" text="0.0 t" textSize="20px" />
-
-                <Text profile="rhmCardSubValue" position="220px -98px" size="195px 13px" text="$l10n_rhm_col_throughput" />
-                <Text profile="rhmCardValue" id="seasonCardThroughput" position="220px -114px" size="195px 28px" text="0.0 t/h" />
-
-                <!-- Row 3: Top Crops (Full Width) -->
-                <Text profile="rhmCardSubValue" position="20px -152px" size="400px 13px" text="$l10n_rhm_kpi_crop" />
-                <Text profile="rhmCardValue" id="seasonCardTopCrops" position="20px -168px" size="400px 26px" text="--" textSize="18px" />
-            </GuiElement>
-
-            <!-- CARD 2: Season Losses & Finances -->
-            <GuiElement profile="rhmCardContainer" position="480px -156px" size="440px 214px">
-                <RoundCorner profile="rhmCardSurface" />
-                <Text profile="rhmCardTitle" position="20px -16px" size="400px 20px" text="$l10n_rhm_card_season_losses" />
-
-                <!-- Row 1: Loss Volume & Loss Share -->
-                <Text profile="rhmCardSubValue" position="20px -44px" size="190px 13px" text="$l10n_rhm_loss_volume" />
-                <Text profile="rhmCardWarningValue" id="seasonCardLossVolume" position="20px -60px" size="190px 28px" text="0.0 t" />
-
-                <Text profile="rhmCardSubValue" position="220px -44px" size="195px 13px" text="$l10n_rhm_loss_share" />
-                <Text profile="rhmCardWarningValue" id="seasonCardLossPercent" position="220px -60px" size="195px 28px" text="0.00%" />
-
-                <!-- Row 2: Financial Losses & Efficiency Class -->
-                <Text profile="rhmCardSubValue" position="20px -98px" size="190px 13px" text="$l10n_rhm_financial_loss" />
-                <Text profile="rhmCardAlertValue" id="seasonCardLossMoney" position="20px -114px" size="190px 28px" text="-$0" textSize="20px" />
-
-                <Text profile="rhmCardSubValue" position="220px -98px" size="195px 13px" text="$l10n_rhm_efficiency_index" />
-                <Text profile="rhmCardHighlightValue" id="seasonCardEfficiencyRank" position="220px -114px" size="195px 28px" text="[A]" textSize="20px" />
-
-                <!-- Row 3: Dominant Cause Banner (Full Width) -->
-                <Text profile="rhmCardSubValue" position="20px -152px" size="400px 13px" text="$l10n_rhm_causes_title" />
-                <Text profile="rhmCardWarningValue" id="seasonCardDominantCause" position="20px -168px" size="400px 26px" text="--" textSize="18px" />
-            </GuiElement>
-
-            <!-- CARD 3: Season Performance & Working Time -->
-            <GuiElement profile="rhmCardContainer" position="940px -156px" size="440px 214px">
-                <RoundCorner profile="rhmCardSurface" />
-                <Text profile="rhmCardTitle" position="20px -16px" size="400px 20px" text="$l10n_rhm_card_season_telemetry" />
-
-                <!-- Row 1: Avg Working Speed & Avg Engine Load -->
-                <Text profile="rhmCardSubValue" position="20px -44px" size="190px 13px" text="$l10n_rhm_avg_working_speed" />
-                <Text profile="rhmCardValue" id="seasonCardAvgSpeed" position="20px -60px" size="190px 28px" text="0.0 km/h" />
-
-                <Text profile="rhmCardSubValue" position="220px -44px" size="195px 13px" text="$l10n_rhm_avg_engine_load" />
-                <Text profile="rhmCardHighlightValue" id="seasonCardAvgLoad" position="220px -60px" size="195px 28px" text="0%" />
-
-                <!-- Row 2: Working Duration & Completed Operations -->
-                <Text profile="rhmCardSubValue" position="20px -98px" size="190px 13px" text="$l10n_rhm_session_duration" />
-                <Text profile="rhmCardValue" id="seasonCardDuration" position="20px -114px" size="190px 28px" text="00:00" textSize="20px" />
-
-                <Text profile="rhmCardSubValue" position="220px -98px" size="195px 13px" text="$l10n_rhm_season_operations" />
-                <Text profile="rhmCardHighlightValue" id="seasonCardOperations" position="220px -114px" size="195px 28px" text="0" textSize="20px" />
-
-                <!-- Row 3: Status (Full Width) -->
-                <Text profile="rhmCardSubValue" position="20px -152px" size="400px 13px" text="$l10n_rhm_col_status" />
-                <Text profile="rhmCardValue" id="seasonCardStatusText" position="20px -168px" size="400px 26px" text="--" textSize="18px" />
-            </GuiElement>
-
-            <!-- History Table Header Box -->
-            <GuiElement profile="rhmTableHeaderContainer" position="20px -378px" size="1360px 26px">
-                <RoundCorner profile="rhmTableHeaderBox" />
-                <Button profile="rhmTableHeader" position="10px -3px" size="90px 20px" text="$l10n_rhm_col_season" handleFocus="false" />
-                <Button profile="rhmTableHeader" position="110px -3px" size="110px 20px" text="$l10n_rhm_col_field" handleFocus="false" />
-                <Button profile="rhmTableHeader" position="230px -3px" size="220px 20px" text="$l10n_rhm_crop_type" handleFocus="false" />
-                <Button profile="rhmTableHeader" position="460px -3px" size="160px 20px" text="$l10n_rhm_col_area" handleFocus="false" />
-                <Button profile="rhmTableHeader" position="630px -3px" size="200px 20px" text="$l10n_rhm_col_harvested" handleFocus="false" />
-                <Button profile="rhmTableHeader" position="840px -3px" size="160px 20px" text="$l10n_rhm_col_yield" handleFocus="false" />
-                <Button profile="rhmTableHeader" position="1010px -3px" size="150px 20px" text="$l10n_rhm_col_loss" handleFocus="false" />
-                <Button profile="rhmTableHeader" position="1170px -3px" size="170px 20px" text="$l10n_rhm_col_money" handleFocus="false" />
-            </GuiElement>
-
-            <!-- History Table Content -->
-            <SmoothList id="historyTable" profile="rhmTable" position="20px -406px" size="1360px 250px">
-                <ListItem profile="rhmListItem">
-                    <Text profile="rhmRowCellLeft" name="histYear" position="10px 0px" size="90px 38px" />
-                    <Text profile="rhmRowCellLeft" name="histField" position="110px 0px" size="110px 38px" />
-                    <Text profile="rhmRowCellLeft" name="histCrop" position="230px 0px" size="220px 38px" />
-                    <Text profile="rhmRowCellLeft" name="histArea" position="460px 0px" size="160px 38px" />
-                    <Text profile="rhmRowCellLeft" name="histHarvested" position="630px 0px" size="200px 38px" />
-                    <Text profile="rhmRowCellLeft" name="histYield" position="840px 0px" size="160px 38px" />
-                    <Text profile="rhmRowCellLeft" name="histLoss" position="1010px 0px" size="150px 38px" />
-                    <Text profile="rhmRowCellLeft" name="histMoney" position="1170px 0px" size="170px 38px" />
-                </ListItem>
-            </SmoothList>
-
-            <!-- Scrollbar Slider -->
-            <ThreePartBitmap profile="rhmSliderBox" position="1385px -406px" size="6px 250px">
-                <Slider profile="fs25_listSlider" dataElementId="historyTable" />
-            </ThreePartBitmap>
-        </GuiElement>
     </GuiElement>
 </GUI>

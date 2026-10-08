@@ -17,40 +17,49 @@
             <Text profile="rhmCardTitle" position="24px -16px" size="620px 24px" text="$l10n_rhm_causes_title" />
 
             <!-- Cause 1: Speed & Overload -->
-            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_speed" position="24px -60px" size="24px 24px" />
-            <Text profile="rhmCardValue" position="58px -60px" size="375px 22px" text="$l10n_rhm_cause_speed" textSize="16px" />
-            <Text profile="rhmCardHighlightValue" id="speedValText" position="440px -60px" size="200px 22px" text="0.0% (0 L)" textSize="16px" textAlignment="right" />
-            <Text profile="rhmGaugeEdgeLabel" position="58px -90px" size="24px 14px" text="0%" />
-            <Bitmap id="speedBarBg" profile="rhmGaugeTrack" position="86px -93px" size="500px 8px" />
-            <Bitmap id="speedBarFill" profile="rhmGaugeFill" position="86px -93px" size="10px 8px" />
-            <Text profile="rhmGaugeEdgeLabel" position="596px -90px" size="36px 14px" text="100%" textAlignment="right" />
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_speed" position="24px -52px" size="24px 24px" />
+            <Text profile="rhmCardValue" position="58px -52px" size="375px 22px" text="$l10n_rhm_cause_speed" textSize="16px" />
+            <Text profile="rhmCardValue" id="speedValText" position="440px -52px" size="200px 22px" text="0.0% (0 L)" textSize="16px" textAlignment="right" />
+            <Text profile="rhmGaugeEdgeLabel" position="58px -80px" size="24px 14px" text="0%" />
+            <Bitmap id="speedBarBg" profile="rhmGaugeTrack" position="86px -83px" size="500px 8px" />
+            <Bitmap id="speedBarFill" profile="rhmGaugeFill" position="86px -83px" size="10px 8px" />
+            <Text profile="rhmGaugeEdgeLabel" position="596px -80px" size="36px 14px" text="100%" textAlignment="right" />
 
-            <!-- Cause 2: Moisture & Dew -->
-            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_moisture" position="24px -140px" size="24px 24px" />
-            <Text profile="rhmCardValue" position="58px -140px" size="375px 22px" text="$l10n_rhm_cause_moisture" textSize="16px" />
-            <Text profile="rhmCardHighlightValue" id="moistureValText" position="440px -140px" size="200px 22px" text="0.0% (0 L)" textSize="16px" textAlignment="right" />
-            <Text profile="rhmGaugeEdgeLabel" position="58px -170px" size="24px 14px" text="0%" />
-            <Bitmap id="moistureBarBg" profile="rhmGaugeTrack" position="86px -173px" size="500px 8px" />
-            <Bitmap id="moistureBarFill" profile="rhmGaugeFill" position="86px -173px" size="10px 8px" />
-            <Text profile="rhmGaugeEdgeLabel" position="596px -170px" size="36px 14px" text="100%" textAlignment="right" />
+            <!-- Cause 2: Machine Settings & Calibration -->
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_settings" position="24px -126px" size="24px 24px" />
+            <Text profile="rhmCardValue" position="58px -126px" size="375px 22px" text="$l10n_rhm_cause_settings" textSize="16px" />
+            <Text profile="rhmCardValue" id="settingsValText" position="440px -126px" size="200px 22px" text="0.0% (0 L)" textSize="16px" textAlignment="right" />
+            <Text profile="rhmGaugeEdgeLabel" position="58px -154px" size="24px 14px" text="0%" />
+            <Bitmap id="settingsBarBg" profile="rhmGaugeTrack" position="86px -157px" size="500px 8px" />
+            <Bitmap id="settingsBarFill" profile="rhmGaugeFill" position="86px -157px" size="10px 8px" />
+            <Text profile="rhmGaugeEdgeLabel" position="596px -154px" size="36px 14px" text="100%" textAlignment="right" />
 
-            <!-- Cause 3: Mechanical Wear -->
-            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_wear" position="24px -220px" size="24px 24px" />
-            <Text profile="rhmCardValue" position="58px -220px" size="375px 22px" text="$l10n_rhm_cause_wear" textSize="16px" />
-            <Text profile="rhmCardHighlightValue" id="wearValText" position="440px -220px" size="200px 22px" text="0.0% (0 L)" textSize="16px" textAlignment="right" />
-            <Text profile="rhmGaugeEdgeLabel" position="58px -250px" size="24px 14px" text="0%" />
-            <Bitmap id="wearBarBg" profile="rhmGaugeTrack" position="86px -253px" size="500px 8px" />
-            <Bitmap id="wearBarFill" profile="rhmGaugeFill" position="86px -253px" size="10px 8px" />
-            <Text profile="rhmGaugeEdgeLabel" position="596px -250px" size="36px 14px" text="100%" textAlignment="right" />
+            <!-- Cause 3: Moisture & Dew -->
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_moisture" position="24px -200px" size="24px 24px" />
+            <Text profile="rhmCardValue" position="58px -200px" size="375px 22px" text="$l10n_rhm_cause_moisture" textSize="16px" />
+            <Text profile="rhmCardValue" id="moistureValText" position="440px -200px" size="200px 22px" text="0.0% (0 L)" textSize="16px" textAlignment="right" />
+            <Text profile="rhmGaugeEdgeLabel" position="58px -228px" size="24px 14px" text="0%" />
+            <Bitmap id="moistureBarBg" profile="rhmGaugeTrack" position="86px -231px" size="500px 8px" />
+            <Bitmap id="moistureBarFill" profile="rhmGaugeFill" position="86px -231px" size="10px 8px" />
+            <Text profile="rhmGaugeEdgeLabel" position="596px -228px" size="36px 14px" text="100%" textAlignment="right" />
 
-            <!-- Cause 4: Field Slopes -->
-            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_slope" position="24px -300px" size="24px 24px" />
-            <Text profile="rhmCardValue" position="58px -300px" size="375px 22px" text="$l10n_rhm_cause_slope" textSize="16px" />
-            <Text profile="rhmCardHighlightValue" id="slopeValText" position="440px -300px" size="200px 22px" text="0.0% (0 L)" textSize="16px" textAlignment="right" />
-            <Text profile="rhmGaugeEdgeLabel" position="58px -330px" size="24px 14px" text="0%" />
-            <Bitmap id="slopeBarBg" profile="rhmGaugeTrack" position="86px -333px" size="500px 8px" />
-            <Bitmap id="slopeBarFill" profile="rhmGaugeFill" position="86px -333px" size="10px 8px" />
-            <Text profile="rhmGaugeEdgeLabel" position="596px -330px" size="36px 14px" text="100%" textAlignment="right" />
+            <!-- Cause 4: Mechanical Wear -->
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_wear" position="24px -274px" size="24px 24px" />
+            <Text profile="rhmCardValue" position="58px -274px" size="375px 22px" text="$l10n_rhm_cause_wear" textSize="16px" />
+            <Text profile="rhmCardValue" id="wearValText" position="440px -274px" size="200px 22px" text="0.0% (0 L)" textSize="16px" textAlignment="right" />
+            <Text profile="rhmGaugeEdgeLabel" position="58px -302px" size="24px 14px" text="0%" />
+            <Bitmap id="wearBarBg" profile="rhmGaugeTrack" position="86px -305px" size="500px 8px" />
+            <Bitmap id="wearBarFill" profile="rhmGaugeFill" position="86px -305px" size="10px 8px" />
+            <Text profile="rhmGaugeEdgeLabel" position="596px -302px" size="36px 14px" text="100%" textAlignment="right" />
+
+            <!-- Cause 5: Field Slopes -->
+            <Bitmap profile="rhmIcon" imageSliceId="rhmUi.icon_cause_slope" position="24px -348px" size="24px 24px" />
+            <Text profile="rhmCardValue" position="58px -348px" size="375px 22px" text="$l10n_rhm_cause_slope" textSize="16px" />
+            <Text profile="rhmCardValue" id="slopeValText" position="440px -348px" size="200px 22px" text="0.0% (0 L)" textSize="16px" textAlignment="right" />
+            <Text profile="rhmGaugeEdgeLabel" position="58px -376px" size="24px 14px" text="0%" />
+            <Bitmap id="slopeBarBg" profile="rhmGaugeTrack" position="86px -379px" size="500px 8px" />
+            <Bitmap id="slopeBarFill" profile="rhmGaugeFill" position="86px -379px" size="10px 8px" />
+            <Text profile="rhmGaugeEdgeLabel" position="596px -376px" size="36px 14px" text="100%" textAlignment="right" />
         </GuiElement>
 
         <!-- RIGHT PANEL: Scorecard & Operator Recommendations -->
@@ -59,7 +68,7 @@
             <Text profile="rhmCardTitle" position="24px -16px" size="620px 24px" text="$l10n_rhm_scorecard_title" />
 
             <!-- Operator Efficiency Rank -->
-            <Text profile="rhmCardHighlightValue" id="rankBadgeText" position="24px -56px" size="90px 48px" text="[A]" textSize="42px" />
+            <Text profile="rhmCardValue" id="rankBadgeText" position="24px -56px" size="90px 48px" text="[A]" textSize="42px" />
             <Text profile="rhmSectionTitle" id="rankTitleText" position="120px -58px" size="520px 26px" text="Rank A: Optimal" textSize="20px" />
             <Text profile="rhmCardDetailText" id="rankDescText" position="120px -88px" size="520px 44px" text="..." textSize="14px" textMaxNumLines="2" />
 

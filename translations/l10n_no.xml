@@ -426,7 +426,7 @@
         <text name="rhm_col_loss" text="Spill" />
         <text name="rhm_col_tank" text="Korntank" />
         <text name="rhm_col_area" text="Areal" />
-        <text name="rhm_col_money" text="Tap ($)" />
+        <text name="rhm_col_money" text="Tap" />
         <text name="rhm_col_driver" text="Fører" />
         <text name="rhm_col_cutter" text="Skjærebord" />
         <text name="rhm_col_throughput" text="Gjennomstrømming" />
@@ -498,5 +498,34 @@
         <text name="rhm_weedload_long" text="Saftig og trevlete ugras tvinner seg rundt tresketrommelen og øker motorbelastningen (opptil +25%). Slå av for å hindre ugrasets påvirkning på motoren." />
             <text name="rhm_fleet_badge_mission" text="[Kontrakt]" />
         <text name="rhm_fleet_badge_leased" text="[Leid]" />
+        <text name="rhm_cause_settings" text="Maskininnstillinger og kalibrering" />
+        <text name="rhm_advice_settings" text="Hovedtap forårsaket av uoptimal maskinkalibrering. Juster broavstand, trommelhastighet og såld for gjeldende vekst." />
+        <text name="rhm_fuel_consumption" text="Drivstofforbruk" />
+        <text name="rhm_fuel_used" text="Brukt drivstoff" />
+        <text name="rhm_fuel_rate" text="Drivstoffrate" />
+        <text name="rhm_cluster_merged" text="Sammenslått jorde" />
+        <text name="rhm_gross_revenue" text="Brutto innhøstingsinntekt" />
+        <text name="rhm_fuel_expense" text="Drivstoffutgift" />
+        <text name="rhm_net_margin" text="Netto driftsmargin" />
+        <text name="rhm_tut_calib_warn_title" text="SKURTRESKER INNSTILLINGER" />
+        <text name="rhm_tut_calib_warn_msg" text="Treskeren er ikke kalibrert for %s ennå! Feil innstillinger gir motoroverbelastning og kornsvinn. Trykk Shift+K for fabrikkprofil." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Suboptimale innstillinger funnet for %s (%s utenfor toleranse)! Dette gir tapt kapasitet og kornsvinn. Trykk Shift+K for å kalibrere." />
+        <text name="rhm_tut_calib_ok_title" text="OPTIMALE INNSTILLINGER BEKREFTET" />
+        <text name="rhm_tut_calib_ok_msg" text="Alle treske- og rensemekanismer er optimalt justert for %s. Maskinen yter maksimalt!" />
+        <text name="rhm_tut_weed_title" text="UGRESSMOTSTAND" />
+        <text name="rhm_tut_weed_msg" text="Tett ugress under skjærebordet øker kutt- og treskemotstanden kraftig (+15–25% motorbelastning). Hastigheten bremses for å hindre blokkering." />
+        <text name="rhm_tut_slope_title" text="TRESKESVINN I HELLINGER" />
+        <text name="rhm_tut_slope_msg" text="Kjøring i sidehelling tilter såldkassen, slik at kornet samler seg på én side og kastes ut med agnene. Reduser farten i hellinger." />
+        <text name="rhm_tut_wear_title" text="SLITASJE PÅ KNIV OG TRESKER" />
+        <text name="rhm_tut_wear_msg" text="Slitte knivblader og treskeelementer øker motstanden og fører til kornspill foran skjærebordet. Utfør vedlikehold på verkstedet." />
+        <text name="rhm_field_progress" text="Høstefremdrift" />
+        <text name="rhm_filter_owned" text="Egne" />
+        <text name="rhm_filter_contracts" text="Kontrakter" />
+        <text name="rhm_hud_style_title" text="HUD-visningsmodus" />
+        <text name="rhm_hud_style_desc" text="Velg mellom den kompakte telemetrilinjen på én rad (4 celler) og den utvidede avlingsmonitoren (8 celler med massestrøm, gjennomsnittlig avling, arealfremdrift og teller)." />
+        <text name="rhm_hud_style_compact" text="Kompakt (4 celler)" />
+        <text name="rhm_hud_style_expanded" text="Avlingsmonitor (8 celler)" />
+
+
     </texts>
 </l10n>

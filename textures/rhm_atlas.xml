@@ -46,6 +46,8 @@
     <slice id="cause_wear" uvs="448px 320px 64px 64px"/>
     <slice id="icon_cause_slope" uvs="512px 320px 64px 64px"/>
     <slice id="cause_slope" uvs="512px 320px 64px 64px"/>
+    <slice id="icon_cause_settings" uvs="256px 0px 128px 128px"/>
+    <slice id="cause_settings" uvs="256px 0px 128px 128px"/>
     <slice id="icon_reset" uvs="576px 320px 64px 64px"/>
     <slice id="action_reset" uvs="576px 320px 64px 64px"/>
     <slice id="icon_advice" uvs="640px 320px 64px 64px"/>

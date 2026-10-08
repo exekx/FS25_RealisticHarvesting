@@ -428,7 +428,7 @@
         <text name="rhm_col_loss" text="Kayıp" />
         <text name="rhm_col_tank" text="Depo" />
         <text name="rhm_col_area" text="Alan" />
-        <text name="rhm_col_money" text="Kayıp ($)" />
+        <text name="rhm_col_money" text="Kayıp" />
         <text name="rhm_col_driver" text="Operatör" />
         <text name="rhm_col_cutter" text="Tabla" />
         <text name="rhm_col_throughput" text="İşleme Kapasitesi" />
@@ -500,5 +500,34 @@
         <text name="rhm_weedload_long" text="Lifli ve sulu yabancı otlar batöre sarılarak mekanik direnci ve motor yükünü artırır (+%25'e kadar). Otların gücü etkilemesini önlemek için kapatın." />
             <text name="rhm_fleet_badge_mission" text="[Sözleşme]" />
         <text name="rhm_fleet_badge_leased" text="[Kiralık]" />
+        <text name="rhm_cause_settings" text="Makine Ayarları ve Kalibrasyon" />
+        <text name="rhm_advice_settings" text="Optimum olmayan kalibrasyondan kaynaklanan kayıp. Mevcut ürün için batör açıklığını, tambur hızını ve elekleri ayarlayın." />
+        <text name="rhm_fuel_consumption" text="Yakıt Tüketimi" />
+        <text name="rhm_fuel_used" text="Kullanılan Yakıt" />
+        <text name="rhm_fuel_rate" text="Yakıt Oranı" />
+        <text name="rhm_cluster_merged" text="Birleştirilmiş Tarla" />
+        <text name="rhm_gross_revenue" text="Brüt Hasat Geliri" />
+        <text name="rhm_fuel_expense" text="Yakıt Gideri" />
+        <text name="rhm_net_margin" text="Net Faaliyet Marjı" />
+        <text name="rhm_tut_calib_warn_title" text="BİÇERDÖVER KALİBRASYONU" />
+        <text name="rhm_tut_calib_warn_msg" text="Biçerdöver henüz %s için kalibre edilmedi! Yanlış batur açıklığı, devir veya elek ayarları motor yükünü ve dane kaybını artırır. Fabrika ayarlarını yüklemek için Shift+K tuşuna basın." />
+        <text name="rhm_tut_calib_warn_params_msg" text="%s için uygun olmayan ayarlar tespit edildi (%s tolerans dışı)! Bu durum verimi düşürür ve dane kaybını artırır. Kalibre etmek için Shift+K tuşuna basın." />
+        <text name="rhm_tut_calib_ok_title" text="OPTİMAL AYARLAR DOĞRULANDI" />
+        <text name="rhm_tut_calib_ok_msg" text="Tüm harmanlama ve elek mekanizmaları %s için en uygun toleransta ayarlandı. Biçerdöver maksimum verimle çalışıyor!" />
+        <text name="rhm_tut_weed_title" text="YABANCI OT DİRENCİ" />
+        <text name="rhm_tut_weed_msg" text="Tabla altındaki yoğun yabani otlar kesme ve harmanlama direncini önemli ölçüde artırır (+%15–25 motor yükü). Tıkanmayı önlemek için hız otomatik düşürülür." />
+        <text name="rhm_tut_slope_title" text="EĞİMDE DANE KAYBI" />
+        <text name="rhm_tut_slope_msg" text="Eğimli arazide çalışmak elekleri eğerek danelerin bir tarafta birikmesine ve kavuzla atılmasına neden olur. Eğimlerde ilerleme hızını düşürün." />
+        <text name="rhm_tut_wear_title" text="BIÇAK VE BATUR AŞINMASI" />
+        <text name="rhm_tut_wear_msg" text="Aşınmış tabla bıçakları ve körelmiş harmanlama parçaları direnci artırır ve dökülme kayıplarına yol açar. Atölyede bakım yaptırın." />
+        <text name="rhm_field_progress" text="Hasat İlerlemesi" />
+        <text name="rhm_filter_owned" text="Mülk" />
+        <text name="rhm_filter_contracts" text="Sözleşmeler" />
+        <text name="rhm_hud_style_title" text="HUD Görüntüleme Modu" />
+        <text name="rhm_hud_style_desc" text="Kompakt tek satırlı telemetri çubuğu (4 hücre) ile genişletilmiş verim monitörü (kütle akışı, ortalama verim, alan tamamlama ve sayaç içeren 8 hücre) arasında seçim yapın." />
+        <text name="rhm_hud_style_compact" text="Kompakt (4 Hücre)" />
+        <text name="rhm_hud_style_expanded" text="Verim Monitörü (8 Hücre)" />
+
+
     </texts>
 </l10n>

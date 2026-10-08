@@ -434,7 +434,7 @@
     <text name="rhm_col_loss" text="Потери" />
     <text name="rhm_col_tank" text="Бункер" />
     <text name="rhm_col_area" text="Площадь" />
-    <text name="rhm_col_money" text="Потери ($)" />
+    <text name="rhm_col_money" text="Потери" />
     <text name="rhm_col_driver" text="Оператор" />
     <text name="rhm_col_cutter" text="Жатка" />
     <text name="rhm_col_throughput" text="Производительность" />
@@ -502,5 +502,34 @@
         <text name="rhm_weedload_long" text="Зеленые и волокнистые сорняки наматываются на барабан и увеличивают механическое сопротивление и нагрузку на двигатель (до +25%). Отключите, чтобы сорняки не влияли на мощность." />
           <text name="rhm_fleet_badge_mission" text="[Контракт]" />
         <text name="rhm_fleet_badge_leased" text="[Аренда]" />
+        <text name="rhm_cause_settings" text="Настройки и калибровка" />
+        <text name="rhm_advice_settings" text="Потери вызваны неоптимальной калибровкой комбайна. Отрегулируйте зазор подбарабанья, обороты барабана и решета под текущую культуру." />
+        <text name="rhm_fuel_consumption" text="Расход топлива" />
+        <text name="rhm_fuel_used" text="Израсходовано топлива" />
+        <text name="rhm_fuel_rate" text="Удельный расход" />
+        <text name="rhm_cluster_merged" text="Объединённое поле" />
+        <text name="rhm_gross_revenue" text="Валовой доход" />
+        <text name="rhm_fuel_expense" text="Расходы на топливо" />
+        <text name="rhm_net_margin" text="Чистая прибыль" />
+        <text name="rhm_tut_calib_warn_title" text="НАСТРОЙКА КОМБАЙНА" />
+        <text name="rhm_tut_calib_warn_msg" text="Комбайн ещё не настроен под культуру %s! Работа с неотрегулированным зазором подбарабанья, оборотами или решетами вызывает перегрузку двигателя и потери зерна. Нажмите Shift+K для заводского пресета." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Обнаружены неоптимальные настройки для %s (%s вне допуска)! Это снижает производительность и увеличивает потери. Нажмите Shift+K для калибровки." />
+        <text name="rhm_tut_calib_ok_title" text="ОПТИМАЛЬНАЯ НАСТРОЙКА ПОДТВЕРЖДЕНА" />
+        <text name="rhm_tut_calib_ok_msg" text="Все узлы обмолота и очистки настроены в пределах оптимального допуска для культуры %s. Машина работает с максимальным КПД!" />
+        <text name="rhm_tut_weed_title" text="СОПРОТИВЛЕНИЕ СОРНЯКОВ" />
+        <text name="rhm_tut_weed_msg" text="Густая влажная биомасса сорняков создаёт повышенное сопротивление резанию и барабану (+15–25% нагрузки). Комбайн автоматически снижает скорость во избежание забивания." />
+        <text name="rhm_tut_slope_title" text="ПОТЕРИ НА СКЛОНАХ" />
+        <text name="rhm_tut_slope_msg" text="Работа на поперечных склонах наклоняет решетный стан, из-за чего зерно скатывается к краю и сходит вместе с половой. Снижайте скорость на косогорах." />
+        <text name="rhm_tut_wear_title" text="ИЗНОС НОЖЕЙ И БАРАБАНА" />
+        <text name="rhm_tut_wear_msg" text="Изношенные сегменты косы и затупленные бичи барабана увеличивают сопротивление и вызывают осыпание зерна перед жаткой. Обслужите технику в мастерской." />
+        <text name="rhm_field_progress" text="Прогресс уборки" />
+        <text name="rhm_filter_owned" text="Собственные" />
+        <text name="rhm_filter_contracts" text="Контракты" />
+        <text name="rhm_hud_style_title" text="Режим отображения HUD" />
+        <text name="rhm_hud_style_desc" text="Выбор между компактной однострочной панелью (4 ячейки) и расширенным монитором урожайности (8 ячеек с потоком массы, средней урожайностью, площадью поля и одометром)." />
+        <text name="rhm_hud_style_compact" text="Компактный (4 ячейки)" />
+        <text name="rhm_hud_style_expanded" text="Монитор урожайности (8 ячеек)" />
+
+
     </texts>
 </l10n>

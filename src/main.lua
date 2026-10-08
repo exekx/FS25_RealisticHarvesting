@@ -23,6 +23,7 @@ end
 -- EN: Load all subsystem scripts in dependency order.
 -- UA: Завантажуємо всі підсистемні скрипти у порядку залежностей.
 source(modDirectory .. "src/utils/RHM_Debug.lua")
+source(modDirectory .. "src/utils/RHM_DiagnosticTool.lua")
 source(modDirectory .. "src/settings/RHM_Configuration.lua")
 source(modDirectory .. "src/settings/RHM_SettingsManager.lua")
 source(modDirectory .. "src/settings/RHM_Settings.lua")
@@ -31,6 +32,7 @@ source(modDirectory .. "src/network/RHM_SettingsSyncEvent.lua")
 source(modDirectory .. "src/network/RHM_SettingsSync.lua")
 source(modDirectory .. "src/utils/RHM_InputUtil.lua")
 source(modDirectory .. "src/utils/RHM_UnitConverter.lua")
+source(modDirectory .. "src/utils/RHM_UIColors.lua")
 source(modDirectory .. "src/integration/RHM_MoistureAdapter.lua")
 source(modDirectory .. "src/settings/RHM_SettingsUI.lua")
 source(modDirectory .. "src/hud/RHM_NotificationManager.lua")
@@ -95,6 +97,10 @@ local function loadedMission(mission, node)
     -- UA: Безпечно ініціалізуємо коефіцієнти бушелів (FruitType доступний тільки після завантаження місії).
     if RHM_UnitConverter and RHM_UnitConverter.initBushelCoefficients then
         RHM_UnitConverter.initBushelCoefficients()
+    end
+
+    if RHM_DiagnosticTool and RHM_DiagnosticTool.init then
+        RHM_DiagnosticTool:init()
     end
 
     if RHM_MoistureAdapter and RHM_MoistureAdapter.initialize then
@@ -224,6 +230,10 @@ local function onMissionUpdate(mission, dt)
 
     if rhm then
         rhm:update(dt)
+    end
+
+    if RHM_DiagnosticTool and RHM_DiagnosticTool.update then
+        RHM_DiagnosticTool:update(dt)
     end
 
     isUpdating = false

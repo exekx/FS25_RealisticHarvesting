@@ -13,7 +13,7 @@
 -- ============================================================================
 
 RHM_Api = {}
-RHM_Api.VERSION = "1.6.2.0"
+RHM_Api.VERSION = "1.6.3.0"
 RHM_Api.listeners = {}
 
 -- ============================================================================
@@ -362,22 +362,74 @@ function RHM_Api.getWorkingWidth(vehicle)
     if not combine or not combine.spec_rhm_Combine then
         return nil
     end
+
+    local function resolveObjWidth(obj)
+        if not obj then return 0 end
+        local w = 0
+        if obj.getWorkingWidth then
+            local raw = obj:getWorkingWidth()
+            if raw and tonumber(raw) and tonumber(raw) > 0 then
+                w = tonumber(raw)
+            end
+        end
+        if w == 0 and obj.spec_cutter and obj.spec_cutter.workingWidth then
+            local raw = obj.spec_cutter.workingWidth
+            if raw and tonumber(raw) and tonumber(raw) > 0 then
+                w = tonumber(raw)
+            end
+        end
+        if w == 0 and obj.configFileName and g_storeManager and g_storeManager.getItemByXMLFilename then
+            local item = g_storeManager:getItemByXMLFilename(obj.configFileName)
+            if item and item.specs and item.specs.workingWidth then
+                local rawW = tostring(item.specs.workingWidth)
+                local parsed = tonumber(string.match(rawW, "%d+%.?%d*"))
+                if parsed and parsed > 0 then
+                    w = parsed
+                end
+            end
+        end
+        if w == 0 and obj.xmlFile and obj.xmlFile.getValue then
+            local rawW = obj.xmlFile:getValue("vehicle.storeData.specs.workingWidth")
+            if rawW then
+                local parsed = tonumber(string.match(tostring(rawW), "%d+%.?%d*"))
+                if parsed and parsed > 0 then
+                    w = parsed
+                end
+            end
+        end
+        if w == 0 and obj.spec_workArea and obj.spec_workArea.workAreas and MathUtil and getWorldTranslation then
+            for _, wa in pairs(obj.spec_workArea.workAreas) do
+                if wa.start and wa.width then
+                    local sx, _, sz = getWorldTranslation(wa.start)
+                    local wx, _, wz = getWorldTranslation(wa.width)
+                    local areaWidth = MathUtil.vector2Length(wx - sx, wz - sz)
+                    if areaWidth > w then w = areaWidth end
+                end
+            end
+        end
+        return w
+    end
+
+    local bestWidth = 0
     if combine.spec_combine and combine.spec_combine.attachedCutters then
         for cutter, _ in pairs(combine.spec_combine.attachedCutters) do
-            if cutter.getWorkingWidth then
-                local w = cutter:getWorkingWidth()
-                if w and w > 0 then return w end
-            end
-            if cutter.spec_cutter and cutter.spec_cutter.workingWidth then
-                return cutter.spec_cutter.workingWidth
+            local cw = resolveObjWidth(cutter)
+            if cw > bestWidth then bestWidth = cw end
+        end
+    end
+    if bestWidth == 0 and combine.getAttachedImplements then
+        for _, imp in pairs(combine:getAttachedImplements()) do
+            local obj = imp.object
+            if obj then
+                local cw = resolveObjWidth(obj)
+                if cw > bestWidth then bestWidth = cw end
             end
         end
     end
-    if combine.getWorkingWidth then
-        local w = combine:getWorkingWidth()
-        if w and w > 0 then return w end
+    if bestWidth == 0 then
+        bestWidth = resolveObjWidth(combine)
     end
-    return 0.0
+    return bestWidth > 0 and bestWidth or 0.0
 end
 
 -- ============================================================================
@@ -398,6 +450,23 @@ function RHM_Api.getTonPerHour(vehicle)
         return combine.spec_rhm_Combine.loadCalculator:getTonPerHour() or 0.0
     end
     return nil
+end
+
+---EN: Returns instantaneous mass flow rate in active or specified unit system (kg/s, lbs/s, or bu/min).
+---UA: Повертає миттєвий потік маси у вказаній або активній системі одиниць (кг/с, фунт/с або буш/хв).
+---@param vehicle table|nil
+---@param system number|nil Optional unit system (1=Metric, 2=Imperial, 3=Bushels)
+---@return number|nil flowRate or nil if unmanaged
+---@return string|nil unitSuffix or nil if unmanaged
+function RHM_Api.getFlowRate(vehicle, system)
+    local tph = RHM_Api.getTonPerHour(vehicle)
+    if tph ~= nil and RHM_UnitConverter and RHM_UnitConverter.convertFlowRate then
+        local combine = RHM_Api.findCombine(vehicle)
+        local fruitType = combine and combine.spec_combine and combine.spec_combine.lastValidInputFruitType
+        local lph = RHM_Api.getLitersPerHour(vehicle) or 0
+        return RHM_UnitConverter.convertFlowRate(tph, system, fruitType, lph)
+    end
+    return nil, nil
 end
 
 ---EN: Returns instantaneous processed throughput in liters per hour (L/h).
@@ -821,12 +890,15 @@ end
 function RHM_Api.getCombineTrip(vehicle)
     local combine = RHM_Api.findCombine(vehicle)
     if not combine then return nil end
+    if combine.spec_rhm_Combine and combine.spec_rhm_Combine.trip then
+        return combine.spec_rhm_Combine.trip
+    end
     local tracker = RHM_Api.getHarvestTracker()
     if tracker then
         local farmId = (combine.getOwnerFarmId and combine:getOwnerFarmId()) or 1
         local farm = tracker:getFarmData(farmId)
         if farm and farm.combineTrips then
-            local machineKey = combine.configFileName or (combine.getFullName and combine:getFullName()) or "Harvester"
+            local machineKey = (RHM_HarvestTracker and RHM_HarvestTracker.getMachineKey and RHM_HarvestTracker.getMachineKey(combine)) or combine.configFileName or (combine.getFullName and combine:getFullName()) or "Harvester"
             if farm.combineTrips[machineKey] then
                 if combine.spec_rhm_Combine then
                     combine.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
@@ -834,9 +906,6 @@ function RHM_Api.getCombineTrip(vehicle)
                 return farm.combineTrips[machineKey]
             end
         end
-    end
-    if combine.spec_rhm_Combine and combine.spec_rhm_Combine.trip then
-        return combine.spec_rhm_Combine.trip
     end
     return nil
 end
@@ -1020,6 +1089,91 @@ function RHM_Api.getFieldAtWorldPosition(wx, wz, vehicle)
     return nil, 0, 0
 end
 
+---EN: Returns total diesel fuel consumed (in liters) by a specific combine harvester during current trip.
+---UA: Повертає загальну витрату дизельного пального (у літрах) конкретним комбайном за поточну сесію.
+---@param vehicle table|nil
+---@return number fuelUsedL
+function RHM_Api.getCombineFuelUsed(vehicle)
+    local trip = RHM_Api.getCombineTrip(vehicle)
+    if trip then
+        return trip.fuelUsedL or 0
+    end
+    return 0
+end
+
+---EN: Returns fuel consumption rates per hectare and per metric ton for a specific combine.
+---UA: Повертає питому витрату пального на гектар (л/га) та на тонну (л/т) для комбайна.
+---@param vehicle table|nil
+---@return number lPerHa
+---@return number lPerTon
+function RHM_Api.getCombineFuelRate(vehicle)
+    local trip = RHM_Api.getCombineTrip(vehicle)
+    if trip then
+        local fuelL = trip.fuelUsedL or 0
+        local cDensity = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and RHM_UnitConverter.getCropDensityTonsPerLiter(trip.fillTypeIndex or trip.cropName)) or 0.00075
+        local massTons = (trip.harvestedMassKg and trip.harvestedMassKg > 0) and (trip.harvestedMassKg / 1000.0) or ((trip.harvestedLiters or 0) * cDensity)
+        local lPerHa = (areaHa > 0.01) and (fuelL / areaHa) or 0
+        local lPerTon = (massTons > 0.01) and (fuelL / massTons) or 0
+        return lPerHa, lPerTon
+    end
+    return 0, 0
+end
+
+---EN: Returns the master field ID and member list for any clustered / merged field.
+---UA: Повертає майстер-номер поля та список об'єднаних контурів для заданого поля.
+---@param fieldId number
+---@param farmId number|nil
+---@return number masterFieldId
+---@return table members
+function RHM_Api.getFieldCluster(fieldId, farmId)
+    local tracker = RHM_Api.getHarvestTracker()
+    if tracker and fieldId and fieldId > 0 then
+        local farm = tracker:getFarmData(farmId or 1)
+        if farm then
+            local masterId = (farm.fieldClusterMembers and farm.fieldClusterMembers[fieldId]) or fieldId
+            local members = (farm.fieldClusters and farm.fieldClusters[masterId] and farm.fieldClusters[masterId].members) or { [masterId] = true }
+            local memberList = {}
+            for mId, _ in pairs(members) do
+                table.insert(memberList, mId)
+            end
+            table.sort(memberList)
+            return masterId, memberList
+        end
+    end
+    return fieldId or 0, { fieldId or 0 }
+end
+
+---EN: Returns authentic nominal area of a field in hectares (aggregated if part of a cluster).
+---UA: Повертає номінальну площу поля в гектарах (об'єднану якщо це кластер).
+---@param fieldId number
+---@param farmId number|nil
+---@return number nominalAreaHa
+function RHM_Api.getFieldNominalArea(fieldId, farmId)
+    if RHM_HarvestTracker and RHM_HarvestTracker.getFieldNominalAreaHa then
+        return RHM_HarvestTracker.getFieldNominalAreaHa(fieldId, nil, nil, farmId) or 0
+    end
+    return 0
+end
+
+---EN: Returns economic ledger metrics (gross revenue, fuel expense, grain loss money, net operating margin) for a field.
+---UA: Повертає фінансовий баланс поля (валовий дохід, витрати на пальне, вартість втрат, чистий операційний прибуток).
+---@param fieldId number
+---@param farmId number|nil
+---@return table|nil ledger
+function RHM_Api.getFieldEconomicLedger(fieldId, farmId)
+    local fStat = RHM_Api.getFieldStats(fieldId, farmId)
+    if fStat then
+        return {
+            grossRevenue = fStat.grossRevenue or 0,
+            fuelExpense = fStat.fuelExpense or 0,
+            fuelUsedL = fStat.fuelUsedL or 0,
+            lossMoney = fStat.lossMoney or 0,
+            netMargin = fStat.netMargin or 0
+        }
+    end
+    return nil
+end
+
 -- ============================================================================
 -- 10. UNIT SYSTEM & FORMATTING HELPERS
 -- ============================================================================
@@ -1131,6 +1285,30 @@ end
 function RHM_Api.isMouseCursorVisible()
     return (g_realisticHarvestManager and g_realisticHarvestManager.isCursorVisible == true) or false
 end
+
+---EN: Returns unified UI color palette database
+---UA: Повертає базу єдиної кольорової палітри інтерфейсу
+---@return table|nil
+function RHM_Api.getUIColors()
+    return RHM_UIColors
+end
+
+---EN: Returns active HUD display style (1=Compact 4 cells, 2=Yield Monitor 8 cells).
+---UA: Повертає активний стиль відображення HUD (1=Компактний 4 комірки, 2=Монітор врожайності 8 комірок).
+---@return number
+function RHM_Api.getHudStyle()
+    return (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.hudStyle) or 2
+end
+
+---EN: Sets active HUD display style (1=Compact 4 cells, 2=Yield Monitor 8 cells).
+---UA: Встановлює активний стиль відображення HUD (1=Компактний 4 комірки, 2=Монітор врожайності 8 комірок).
+---@param style number
+function RHM_Api.setHudStyle(style)
+    if g_realisticHarvestManager and g_realisticHarvestManager.settings then
+        g_realisticHarvestManager.settings:setHudStyle(style)
+    end
+end
+
 
 
 

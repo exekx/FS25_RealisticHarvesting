@@ -370,7 +370,7 @@
         <text name="rhm_col_loss" text="Loss" />
         <text name="rhm_col_tank" text="Tank" />
         <text name="rhm_col_area" text="Area" />
-        <text name="rhm_col_money" text="Loss ($)" />
+        <text name="rhm_col_money" text="Loss" />
         <text name="rhm_col_driver" text="Operator" />
         <text name="rhm_col_cutter" text="Header" />
         <text name="rhm_col_throughput" text="Throughput" />
@@ -502,5 +502,34 @@
         <text name="rhm_weedload_long" text="Juicy and fibrous weeds wrap around threshing cylinders and increase mechanical resistance and engine load (up to +25%). Turn off to prevent weeds from affecting engine power." />
             <text name="rhm_fleet_badge_mission" text="[Contract]" />
         <text name="rhm_fleet_badge_leased" text="[Leased]" />
+        <text name="rhm_cause_settings" text="Machine Settings &amp; Calibration" />
+        <text name="rhm_advice_settings" text="Dominant loss caused by unoptimized machine calibration. Adjust concave clearance, drum speed, and sieves for the current crop." />
+        <text name="rhm_fuel_consumption" text="Fuel Consumption" />
+        <text name="rhm_fuel_used" text="Fuel Used" />
+        <text name="rhm_fuel_rate" text="Fuel Rate" />
+        <text name="rhm_cluster_merged" text="Merged Field" />
+        <text name="rhm_gross_revenue" text="Gross Crop Revenue" />
+        <text name="rhm_fuel_expense" text="Fuel Expense" />
+        <text name="rhm_net_margin" text="Net Operating Margin" />
+        <text name="rhm_tut_calib_warn_title" text="COMBINE CALIBRATION" />
+        <text name="rhm_tut_calib_warn_msg" text="The combine is not yet calibrated for %s! Operating with unadjusted clearance, rotor speed, or sieves causes extra engine load and severe grain losses. Press Shift+K to load an optimal factory preset." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Suboptimal settings detected for %s (%s out of tolerance)! Operating with misaligned components causes high power drag and crop losses. Press Shift+K to calibrate." />
+        <text name="rhm_tut_calib_ok_title" text="OPTIMAL CALIBRATION VERIFIED" />
+        <text name="rhm_tut_calib_ok_msg" text="All combine threshing and cleaning mechanisms are calibrated within optimal tolerance for %s. Operating at maximum efficiency!" />
+        <text name="rhm_tut_weed_title" text="WEED RESISTANCE" />
+        <text name="rhm_tut_weed_msg" text="Dense green weed patches under the cutterbar significantly increase cutting resistance and drum drag (+15-25% load). The speed controller slows down automatically to prevent intake clogging." />
+        <text name="rhm_tut_slope_title" text="SLOPE CROP LOSS" />
+        <text name="rhm_tut_slope_msg" text="Operating on hillside slopes tilts the cleaning shoe, causing grain to pool on one side of the chaffer and cascade out with the chaff. Reduce ground speed on cross-slopes to minimize losses." />
+        <text name="rhm_tut_wear_title" text="CUTTER &amp; KNIFE WEAR" />
+        <text name="rhm_tut_wear_msg" text="Worn cutterbar knife sections and dull threshing elements increase intake drag and cause grain shattering losses at the header. Service your machinery at the workshop to restore peak performance." />
+        <text name="rhm_field_progress" text="Harvest Progress" />
+        <text name="rhm_filter_owned" text="Owned" />
+        <text name="rhm_filter_contracts" text="Contracts" />
+        <text name="rhm_hud_style_title" text="HUD Display Mode" />
+        <text name="rhm_hud_style_desc" text="Select between the compact single-row telemetry bar (4 cells) and the expanded in-cab Yield Monitor (8 cells with mass flow, session yield, area completion, and odometer)." />
+        <text name="rhm_hud_style_compact" text="Compact (4 Cells)" />
+        <text name="rhm_hud_style_expanded" text="Yield Monitor (8 Cells)" />
+
+
     </texts>
 </l10n>

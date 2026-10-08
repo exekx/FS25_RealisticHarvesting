@@ -498,5 +498,34 @@
         <text name="rhm_weedload_long" text="多汁且多纖維的雜草纏繞脫粒滾筒，增加機械阻力及引擎負載（最高+25%）。關閉以防止雜草影響引擎功率。" />
             <text name="rhm_fleet_badge_mission" text="[合約]" />
         <text name="rhm_fleet_badge_leased" text="[租賃]" />
+        <text name="rhm_cause_settings" text="機器設定與校準" />
+        <text name="rhm_advice_settings" text="主要損失源於機器校準未最佳化。請針對當前作物調整凹板間隙、滾筒轉速與篩網。" />
+        <text name="rhm_fuel_consumption" text="油耗" />
+        <text name="rhm_fuel_used" text="已用燃油" />
+        <text name="rhm_fuel_rate" text="燃油消耗率" />
+        <text name="rhm_cluster_merged" text="合併田塊" />
+        <text name="rhm_gross_revenue" text="收穫總收益" />
+        <text name="rhm_fuel_expense" text="燃油費用" />
+        <text name="rhm_net_margin" text="淨營業利潤" />
+        <text name="rhm_tut_calib_warn_title" text="聯合收割機校準" />
+        <text name="rhm_tut_calib_warn_msg" text="收割機尚未針對 %s 進行校準！間隙或轉速設定不當會導致引擎負載過重與嚴重的作物損失。請按 Shift+K 載入原廠最佳預設。" />
+        <text name="rhm_tut_calib_warn_params_msg" text="偵測到 %s 的次佳設定（%s 超出容許範圍）！這會降低通過量並增加損失。請按 Shift+K 進行校準。" />
+        <text name="rhm_tut_calib_ok_title" text="已確認最佳校準" />
+        <text name="rhm_tut_calib_ok_msg" text="針對 %s，所有脫粒與清選機構均已校準在最佳容許範圍內。正以最高效率作業中！" />
+        <text name="rhm_tut_weed_title" text="雜草阻力" />
+        <text name="rhm_tut_weed_msg" text="割台下密集的綠色雜草會顯著增加切割與脫粒滾筒阻力（+15–25% 引擎負載）。系統將自動減速以防止進料堵塞。" />
+        <text name="rhm_tut_slope_title" text="坡地收穫損失" />
+        <text name="rhm_tut_slope_msg" text="在坡地作業會使篩箱傾斜，導致穀物集中於一側並隨糠皮排出。在斜坡上請減慢作業車速以減少損失。" />
+        <text name="rhm_tut_wear_title" text="割刀與滾筒磨損" />
+        <text name="rhm_tut_wear_msg" text="磨損的割刀片與鈍化的脫粒元件會增加進料阻力並導致割台前落粒損失。請至維修廠檢修機器。" />
+        <text name="rhm_field_progress" text="採收進度" />
+        <text name="rhm_filter_owned" text="自有地" />
+        <text name="rhm_filter_contracts" text="契約作業" />
+        <text name="rhm_hud_style_title" text="HUD顯示模式" />
+        <text name="rhm_hud_style_desc" text="在緊湊單行遙測列（4格）與擴展產量監視器（包含質量流量、平均產量、作業面積與計程器的8格）之間切換。" />
+        <text name="rhm_hud_style_compact" text="緊湊（4格）" />
+        <text name="rhm_hud_style_expanded" text="產量監視器（8格）" />
+
+
     </texts>
 </l10n>

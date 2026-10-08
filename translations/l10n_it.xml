@@ -430,7 +430,7 @@
         <text name="rhm_col_loss" text="Perdita" />
         <text name="rhm_col_tank" text="Serbatoio" />
         <text name="rhm_col_area" text="Area" />
-        <text name="rhm_col_money" text="Perdita ($)" />
+        <text name="rhm_col_money" text="Perdita" />
         <text name="rhm_col_driver" text="Operatore" />
         <text name="rhm_col_cutter" text="Barra falciante" />
         <text name="rhm_col_throughput" text="Portata" />
@@ -502,5 +502,34 @@
         <text name="rhm_weedload_long" text="Le infestanti verdi e fibrose aumentano la resistenza meccanica e il carico del motore (fino a +25%). Disattiva per escludere l'impatto delle infestanti sulla potenza." />
             <text name="rhm_fleet_badge_mission" text="[Contratto]" />
         <text name="rhm_fleet_badge_leased" text="[Noleggiata]" />
+        <text name="rhm_cause_settings" text="Impostazioni e calibrazione macchina" />
+        <text name="rhm_advice_settings" text="Perdita dominante dovuta a calibrazione non ottimizzata. Regolare l'apertura del controbattitore, i giri del rotore e i crivelli per la coltura attuale." />
+        <text name="rhm_fuel_consumption" text="Consumo carburante" />
+        <text name="rhm_fuel_used" text="Carburante utilizzato" />
+        <text name="rhm_fuel_rate" text="Tasso di carburante" />
+        <text name="rhm_cluster_merged" text="Campo unito" />
+        <text name="rhm_gross_revenue" text="Ricavo lordo del raccolto" />
+        <text name="rhm_fuel_expense" text="Spesa per carburante" />
+        <text name="rhm_net_margin" text="Margine operativo netto" />
+        <text name="rhm_tut_calib_warn_title" text="REGOLAZIONE MIETITREBBIA" />
+        <text name="rhm_tut_calib_warn_msg" text="La mietitrebbia non è ancora calibrata per %s! Operare con regolazioni errate provoca sovraccarico del motore e gravi perdite di granella. Premi Maiusc+K per caricare un profilo ottimale." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Rilevati parametri non ottimali per %s (%s fuori tolleranza)! Ciò riduce la produttività e aumenta le perdite. Premi Maiusc+K per calibrare." />
+        <text name="rhm_tut_calib_ok_title" text="CALIBRAZIONE OTTIMALE VERIFICATA" />
+        <text name="rhm_tut_calib_ok_msg" text="Tutti i componenti di trebbiatura e pulizia sono calibrati entro la tolleranza per %s. La mietitrebbia lavora alla massima efficienza!" />
+        <text name="rhm_tut_weed_title" text="RESISTENZA DA INFESTANTI" />
+        <text name="rhm_tut_weed_msg" text="Chiazze fitte di erbacce sotto la barra aumentano notevolmente lo sforzo di taglio e del battitore (+15–25% di carico). La velocità viene ridotta per evitare intasamenti." />
+        <text name="rhm_tut_slope_title" text="PERDITE IN PENDENZA" />
+        <text name="rhm_tut_slope_msg" text="Lavorare su forti pendenze inclina i crivelli, ammassando il prodotto su un lato e scaricando granella all'esterno. Rallenta sulle pendenze per ridurre le perdite." />
+        <text name="rhm_tut_wear_title" text="USURA LAME E BATTITORE" />
+        <text name="rhm_tut_wear_msg" text="Lame usurate ed elementi di trebbiatura consumati aumentano la resistenza e causano la sgranellatura alla barra. Esegui la manutenzione in officina." />
+        <text name="rhm_field_progress" text="Avanzamento raccolta" />
+        <text name="rhm_filter_owned" text="Proprietà" />
+        <text name="rhm_filter_contracts" text="Contratti" />
+        <text name="rhm_hud_style_title" text="Modalità display HUD" />
+        <text name="rhm_hud_style_desc" text="Seleziona tra la barra di telemetria compatta a riga singola (4 celle) e il monitor di resa esteso (8 celle con flusso di massa, resa media, avanzamento del campo e contatore)." />
+        <text name="rhm_hud_style_compact" text="Compatto (4 celle)" />
+        <text name="rhm_hud_style_expanded" text="Monitor di resa (8 celle)" />
+
+
     </texts>
 </l10n>

@@ -51,7 +51,7 @@ function RHM_HarvestHistoryAnalytics:getActiveTrip()
             trip = activeCombine.spec_rhm_Combine.trip
         end
         if farm and farm.combineTrips then
-            local machineKey = activeCombine.configFileName or (activeCombine.getFullName and activeCombine:getFullName()) or "Harvester"
+            local machineKey = (RHM_HarvestTracker and RHM_HarvestTracker.getMachineKey and RHM_HarvestTracker.getMachineKey(activeCombine)) or activeCombine.configFileName or "Harvester"
             if farm.combineTrips[machineKey] then
                 trip = farm.combineTrips[machineKey]
             end
@@ -82,54 +82,58 @@ function RHM_HarvestHistoryAnalytics:updateData()
 
     local isLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
 
-    local r = trip.reasons or { speed = 0, moisture = 0, wear = 0, slope = 0 }
+    local r = trip.reasons or { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 }
     local totalLost = isLossEnabled and (trip.lostLiters or 0) or 0
-    local sumReasons = (r.speed or 0) + (r.moisture or 0) + (r.wear or 0) + (r.slope or 0)
+    local sumReasons = (r.speed or 0) + (r.settings or 0) + (r.moisture or 0) + (r.wear or 0) + (r.slope or 0)
     if sumReasons <= 0.001 then sumReasons = 1.0 end
 
     local speedPct = isLossEnabled and math.min(100, ((r.speed or 0) / sumReasons) * 100.0) or 0
+    local settingsPct = isLossEnabled and math.min(100, ((r.settings or 0) / sumReasons) * 100.0) or 0
     local moisturePct = isLossEnabled and math.min(100, ((r.moisture or 0) / sumReasons) * 100.0) or 0
     local wearPct = isLossEnabled and math.min(100, ((r.wear or 0) / sumReasons) * 100.0) or 0
     local slopePct = isLossEnabled and math.min(100, ((r.slope or 0) / sumReasons) * 100.0) or 0
 
     -- Update Values & Subtexts
     local speedL = isLossEnabled and (r.speed or 0) or 0
+    local settingsL = isLossEnabled and (r.settings or 0) or 0
     local moistL = isLossEnabled and (r.moisture or 0) or 0
     local wearL = isLossEnabled and (r.wear or 0) or 0
     local slopeL = isLossEnabled and (r.slope or 0) or 0
 
     if self.speedValText then self.speedValText:setText(string.format("%.1f%% (%.0f L)", speedPct, speedL)) end
+    if self.settingsValText then self.settingsValText:setText(string.format("%.1f%% (%.0f L)", settingsPct, settingsL)) end
     if self.moistureValText then self.moistureValText:setText(string.format("%.1f%% (%.0f L)", moisturePct, moistL)) end
     if self.wearValText then self.wearValText:setText(string.format("%.1f%% (%.0f L)", wearPct, wearL)) end
     if self.slopeValText then self.slopeValText:setText(string.format("%.1f%% (%.0f L)", slopePct, slopeL)) end
 
-    -- Update Progress Bar widths (proportional to background size)
-    local function setBarFillWidth(fillElem, bgElem, pct)
+    -- Update Progress Bar widths and colors (proportional to background size)
+    local function updateCauseRow(valText, fillElem, bgElem, pct)
         if fillElem and bgElem and bgElem.size then
             local bgW = bgElem.size[1] or (640 / 1920)
             local fillW = math.max(0.005, (pct / 100.0) * bgW)
             fillElem:setSize(fillW, nil)
+            local col = RHM_UIColors.getLossColor(pct)
+            fillElem:setImageColor(nil, col[1], col[2], col[3], col[4] or 1.0)
+            if valText then
+                RHM_UIColors.applyTextColor(valText, pct > 0.05 and col or RHM_UIColors.WHITE)
+            end
         end
     end
-    setBarFillWidth(self.speedBarFill, self.speedBarBg, speedPct)
-    setBarFillWidth(self.moistureBarFill, self.moistureBarBg, moisturePct)
-    setBarFillWidth(self.wearBarFill, self.wearBarBg, wearPct)
-    setBarFillWidth(self.slopeBarFill, self.slopeBarBg, slopePct)
+    updateCauseRow(self.speedValText, self.speedBarFill, self.speedBarBg, speedPct)
+    updateCauseRow(self.settingsValText, self.settingsBarFill, self.settingsBarBg, settingsPct)
+    updateCauseRow(self.moistureValText, self.moistureBarFill, self.moistureBarBg, moisturePct)
+    updateCauseRow(self.wearValText, self.wearBarFill, self.wearBarBg, wearPct)
+    updateCauseRow(self.slopeValText, self.slopeBarFill, self.slopeBarBg, slopePct)
 
     -- Scorecard Badge
     local rank = isLossEnabled and (trip.efficiencyRank or "A") or "A"
-    local rCol, gCol, bCol = 0.58, 0.77, 0.11
-    if rank == "B" then
-        rCol, gCol, bCol = 0.75, 0.85, 0.15
-    elseif rank == "C" then
-        rCol, gCol, bCol = 0.95, 0.60, 0.15
-    elseif rank == "D" then
-        rCol, gCol, bCol = 0.92, 0.28, 0.28
-    end
+    local rankCol = RHM_UIColors and RHM_UIColors.getRankColor and RHM_UIColors.getRankColor(rank) or {0.61, 0.85, 0.15, 1.0}
     if self.rankBadgeText then
         self.rankBadgeText:setText("[" .. rank .. "]")
-        if self.rankBadgeText.setTextColor then
-            self.rankBadgeText:setTextColor(rCol, gCol, bCol, 1.0)
+        if RHM_UIColors and RHM_UIColors.applyTextColor then
+            RHM_UIColors.applyTextColor(self.rankBadgeText, rankCol)
+        elseif self.rankBadgeText.setTextColor then
+            self.rankBadgeText:setTextColor(rankCol[1], rankCol[2], rankCol[3], rankCol[4] or 1.0)
         end
     end
 

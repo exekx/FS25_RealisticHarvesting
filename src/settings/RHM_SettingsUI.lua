@@ -308,6 +308,20 @@ function RHMSettingsUI.inject(settings)
     RHMSettingsUI.hudOption = addBinaryRow(settingsPage, generalLayout, "show_hud", "rhm_hud_short", "rhm_hud_long",
         settings.showHUD, function(val) settings.showHUD = val; settings:save() end)
 
+    local hudStyleOptions = {
+        g_i18n:hasText("rhm_hud_style_compact") and g_i18n:getText("rhm_hud_style_compact") or "Compact (4 Cells)",
+        g_i18n:hasText("rhm_hud_style_expanded") and g_i18n:getText("rhm_hud_style_expanded") or "Yield Monitor (8 Cells)",
+    }
+    RHMSettingsUI.hudStyleOption = addMultiRow(settingsPage, generalLayout, "hud_style", "rhm_hud_style_title", "rhm_hud_style_desc",
+        hudStyleOptions, settings.hudStyle or 2,
+        function(val)
+            settings.hudStyle = val
+            settings:save()
+            if g_realisticHarvestManager and g_realisticHarvestManager.hud and g_realisticHarvestManager.hud.updateLayout then
+                g_realisticHarvestManager.hud:updateLayout()
+            end
+        end)
+
     RHMSettingsUI.yieldOption = addBinaryRow(settingsPage, generalLayout, "show_yield", "rhm_show_yield_short", "rhm_show_yield_long",
         settings.showYield, function(val) settings.showYield = val; settings:save() end)
 
@@ -440,6 +454,7 @@ function RHMSettingsUI.refreshUI(settings)
     setOpt(RHMSettingsUI.moistureEnableOption,  settings.enableMoisture   and 2 or 1, not isAdmin)
 
     setOpt(RHMSettingsUI.hudOption,         settings.showHUD           and 2 or 1, false)
+    setOpt(RHMSettingsUI.hudStyleOption,    settings.hudStyle or 2,                false)
     setOpt(RHMSettingsUI.yieldOption,       settings.showYield         and 2 or 1, false)
     setOpt(RHMSettingsUI.loadOption,        settings.showLoad          and 2 or 1, false)
     setOpt(RHMSettingsUI.speedDisplayOption,settings.showSpeed         and 2 or 1, false)

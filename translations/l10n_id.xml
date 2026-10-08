@@ -426,7 +426,7 @@
         <text name="rhm_col_loss" text="Kehilangan" />
         <text name="rhm_col_tank" text="Tangki" />
         <text name="rhm_col_area" text="Luas" />
-        <text name="rhm_col_money" text="Kerugian ($)" />
+        <text name="rhm_col_money" text="Kerugian" />
         <text name="rhm_col_driver" text="Operator" />
         <text name="rhm_col_cutter" text="Pisau Pemotong" />
         <text name="rhm_col_throughput" text="Kapasitas Olah" />
@@ -498,5 +498,34 @@
         <text name="rhm_weedload_long" text="Gulma berserat dan basah melilit silinder perontok sehingga meningkatkan beban mesin (hingga +25%). Matikan agar gulma tidak membebani mesin." />
             <text name="rhm_fleet_badge_mission" text="[Kontrak]" />
         <text name="rhm_fleet_badge_leased" text="[Sewa]" />
+        <text name="rhm_cause_settings" text="Pengaturan &amp; Kalibrasi Mesin" />
+        <text name="rhm_advice_settings" text="Kehilangan dominan akibat kalibrasi mesin yang belum optimal. Sesuaikan celah cekung, kecepatan silinder, dan ayakan untuk tanaman saat ini." />
+        <text name="rhm_fuel_consumption" text="Konsumsi Bahan Bakar" />
+        <text name="rhm_fuel_used" text="Bahan Bakar Terpakai" />
+        <text name="rhm_fuel_rate" text="Laju Bahan Bakar" />
+        <text name="rhm_cluster_merged" text="Lahan Gabungan" />
+        <text name="rhm_gross_revenue" text="Pendapatan Kotor Panen" />
+        <text name="rhm_fuel_expense" text="Biaya Bahan Bakar" />
+        <text name="rhm_net_margin" text="Margin Operasional Bersih" />
+        <text name="rhm_tut_calib_warn_title" text="KALIBRASI COMBINE" />
+        <text name="rhm_tut_calib_warn_msg" text="Combine belum dikalibrasi untuk tanaman %s! Setelan yang tidak sesuai menyebabkan beban mesin berlebih dan kehilangan hasil panen. Tekan Shift+K untuk memuat prasetel pabrik." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Setelan suboptimal terdeteksi untuk %s (%s di luar toleransi)! Ini membatasi kapasitas dan meningkatkan kehilangan hasil. Tekan Shift+K untuk mengalibrasi." />
+        <text name="rhm_tut_calib_ok_title" text="KALIBRASI OPTIMAL TERKONFIRMASI" />
+        <text name="rhm_tut_calib_ok_msg" text="Semua mekanisme perontokan dan pembersihan telah diatur dalam toleransi optimal untuk %s. Beroperasi pada efisiensi maksimal!" />
+        <text name="rhm_tut_weed_title" text="RESISTANSI GULMA" />
+        <text name="rhm_tut_weed_msg" text="Area gulma lebat di bawah header meningkatkan hambatan pemotongan dan drum (+15–25% beban). Kecepatan diturunkan otomatis untuk mencegah sumbatan." />
+        <text name="rhm_tut_slope_title" text="KEHILANGAN HASIL DI LERENG" />
+        <text name="rhm_tut_slope_msg" text="Bekerja di lereng memiringkan saringan, menyebabkan biji-bijian menumpuk di satu sisi dan terbuang bersama sekam. Kurangi kecepatan di lereng." />
+        <text name="rhm_tut_wear_title" text="KEAUSAN PISAU DAN ROTOR" />
+        <text name="rhm_tut_wear_msg" text="Pisau pemotong yang aus dan komponen perontok tumpul meningkatkan hambatan serta menyebabkan kerontokan di header. Lakukan servis di bengkel." />
+        <text name="rhm_field_progress" text="Kemajuan Panen" />
+        <text name="rhm_filter_owned" text="Milik Sendiri" />
+        <text name="rhm_filter_contracts" text="Kontrak" />
+        <text name="rhm_hud_style_title" text="Mode Tampilan HUD" />
+        <text name="rhm_hud_style_desc" text="Pilih antara bilah telemetri ringkas satu baris (4 sel) dan monitor hasil panen yang diperluas (8 sel dengan aliran massa, hasil rata-rata, penyelesaian area, dan odometer)." />
+        <text name="rhm_hud_style_compact" text="Ringkas (4 Sel)" />
+        <text name="rhm_hud_style_expanded" text="Monitor Hasil Panen (8 Sel)" />
+
+
     </texts>
 </l10n>

@@ -430,7 +430,7 @@
         <text name="rhm_col_loss" text="Straty" />
         <text name="rhm_col_tank" text="Zbiornik" />
         <text name="rhm_col_area" text="Obszar" />
-        <text name="rhm_col_money" text="Straty ($)" />
+        <text name="rhm_col_money" text="Straty" />
         <text name="rhm_col_driver" text="Operator" />
         <text name="rhm_col_cutter" text="Heder" />
         <text name="rhm_col_throughput" text="Przepustowość" />
@@ -502,5 +502,34 @@
         <text name="rhm_weedload_long" text="Soczyste i włókniste chwasty owijają się wokół bębna i zwiększają opór mechaniczny oraz obciążenie silnika (do +25%). Wyłącz, aby chwasty nie obciążały silnika." />
             <text name="rhm_fleet_badge_mission" text="[Kontrakt]" />
         <text name="rhm_fleet_badge_leased" text="[Wynajem]" />
+        <text name="rhm_cause_settings" text="Ustawienia i kalibracja maszyny" />
+        <text name="rhm_advice_settings" text="Główne straty wynikają z nieoptymalnych ustawień maszyny. Wyreguluj szczelinę klepiska, obroty bębna i sita dla bieżącej uprawy." />
+        <text name="rhm_fuel_consumption" text="Zużycie paliwa" />
+        <text name="rhm_fuel_used" text="Zużyte paliwo" />
+        <text name="rhm_fuel_rate" text="Wskaźnik paliwa" />
+        <text name="rhm_cluster_merged" text="Scalone pole" />
+        <text name="rhm_gross_revenue" text="Przychód brutto ze zbioru" />
+        <text name="rhm_fuel_expense" text="Koszt paliwa" />
+        <text name="rhm_net_margin" text="Marża operacyjna netto" />
+        <text name="rhm_tut_calib_warn_title" text="KALIBRACJA KOMBAJNU" />
+        <text name="rhm_tut_calib_warn_msg" text="Kombajn nie jest jeszcze skalibrowany dla %s! Praca z niedopasowaną szczeliną klepiska, obrotami bębna lub sitami powoduje przeciążenie silnika i straty ziarna. Naciśnij Shift+K, aby załadować profil fabryczny." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Wykryto nieoptymalne ustawienia dla %s (%s poza zakresem tolerancji)! Ogranicza to wydajność i zwiększa straty. Naciśnij Shift+K, aby skalibrować kombajn." />
+        <text name="rhm_tut_calib_ok_title" text="OPTYMALNA KALIBRACJA POTWIERDZONA" />
+        <text name="rhm_tut_calib_ok_msg" text="Wszystkie mechanizmy młócące i czyszczące są skalibrowane w optymalnej tolerancji dla %s. Kombajn pracuje z maksymalną wydajnością!" />
+        <text name="rhm_tut_weed_title" text="OPÓR ZACHWASZCZENIA" />
+        <text name="rhm_tut_weed_msg" text="Gęste kępy chwastów pod hederem znacznie zwiększają opór cięcia i młócenia (+15–25% obciążenia silnika). Prędkość jest redukowana, aby uniknąć zapchania." />
+        <text name="rhm_tut_slope_title" text="STRATY NA ZBOCZACH" />
+        <text name="rhm_tut_slope_msg" text="Praca na pochyłościach powoduje zsypywanie się ziarna na jedną stronę sit i wyrzucanie go z plewami. Zmniejsz prędkość na zboczach, by ograniczyć straty." />
+        <text name="rhm_tut_wear_title" text="ZUŻYCIE NOŻY I BĘBNA" />
+        <text name="rhm_tut_wear_msg" text="Zużyte żyletki kosy i stępione elementy młócące zwiększają opór i powodują osypywanie się kłosów przed hederem. Przeprowadź serwis w warsztacie." />
+        <text name="rhm_field_progress" text="Postęp zbioru" />
+        <text name="rhm_filter_owned" text="Własne" />
+        <text name="rhm_filter_contracts" text="Kontrakty" />
+        <text name="rhm_hud_style_title" text="Tryb wyświetlania HUD" />
+        <text name="rhm_hud_style_desc" text="Wybór między kompaktowym jednorzędowym paskiem telemetrii (4 komórki) a rozszerzonym monitorem plonów (8 komórek z przepływem masy, średnim plonem, postępem pola i licznikiem)." />
+        <text name="rhm_hud_style_compact" text="Kompaktowy (4 komórki)" />
+        <text name="rhm_hud_style_expanded" text="Monitor plonów (8 komórek)" />
+
+
     </texts>
 </l10n>

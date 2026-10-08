@@ -47,6 +47,11 @@ RHMSettings.AUTO_RESET_SMART = 1       -- EN: Smart (Field or Crop change, merge
 RHMSettings.AUTO_RESET_CROP_ONLY = 2  -- EN: Crop Change Only / UA: Лише зміна культури
 RHMSettings.AUTO_RESET_DISABLED = 3   -- EN: Disabled (Manual Only) / UA: Вимкнено (Вручну)
 
+-- EN: HUD layout style constants.
+-- UA: Константи стилю компонування HUD.
+RHMSettings.HUD_STYLE_COMPACT = 1     -- EN: Compact (1 row, 4 cells) / UA: Компактний (1 рядок, 4 комірки)
+RHMSettings.HUD_STYLE_EXPANDED = 2    -- EN: Yield Monitor (2 rows, 8 cells) / UA: Монітор врожайності (2 рядки, 8 комірок)
+
 -- EN: Creates and initializes a new RHMSettings instance with default values.
 -- UA: Створює та ініціалізує новий екземпляр RHMSettings зі значеннями за замовчуванням.
 function RHMSettings.new(manager)
@@ -82,6 +87,7 @@ function RHMSettings.new(manager)
     self.showCropLoss = true
     self.showSpeed = true
     self.showMoisture = true
+    self.hudStyle = RHMSettings.HUD_STYLE_EXPANDED -- EN: 1=Compact (4 cells), 2=Yield Monitor (8 cells)
 
     -- EN: HUD position (client-side). nil = automatic positioning.
     -- UA: Позиція HUD (клієнтська). nil = автоматичне позиціонування.
@@ -312,6 +318,21 @@ end
 ---UA: Встановлює чи увімкнено опір та навантаження від бур'янів
 function RHMSettings:setEnableWeedLoad(enabled)
     self.enableWeedLoad = enabled
+    if self.save then
+        self:save()
+    end
+end
+
+---EN: Gets HUD layout style (1=Compact, 2=Yield Monitor)
+---UA: Повертає стиль HUD (1=Компактний, 2=Монітор врожайності)
+function RHMSettings:getHudStyle()
+    return self.hudStyle or RHMSettings.HUD_STYLE_EXPANDED
+end
+
+---EN: Sets HUD layout style (1=Compact, 2=Yield Monitor)
+---UA: Встановлює стиль HUD (1=Компактний, 2=Монітор врожайності)
+function RHMSettings:setHudStyle(style)
+    self.hudStyle = style or RHMSettings.HUD_STYLE_EXPANDED
     if self.save then
         self:save()
     end

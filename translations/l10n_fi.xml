@@ -426,7 +426,7 @@
         <text name="rhm_col_loss" text="Hävikki" />
         <text name="rhm_col_tank" text="Viljasäiliö" />
         <text name="rhm_col_area" text="Pinta-ala" />
-        <text name="rhm_col_money" text="Hävikki ($)" />
+        <text name="rhm_col_money" text="Hävikki" />
         <text name="rhm_col_driver" text="Kuljettaja" />
         <text name="rhm_col_cutter" text="Leikkuupöytä" />
         <text name="rhm_col_throughput" text="Läpäisykyky" />
@@ -498,5 +498,34 @@
         <text name="rhm_weedload_long" text="Mehevät ja sitkeät rikkakasvit kietoutuvat puintikelan ympärille lisäten moottorin kuormitusta (jopa +25%). Kytke pois estääksesi tehohäviöt." />
             <text name="rhm_fleet_badge_mission" text="[Sopimus]" />
         <text name="rhm_fleet_badge_leased" text="[Vuokrattu]" />
+        <text name="rhm_cause_settings" text="Koneen asetukset ja kalibrointi" />
+        <text name="rhm_advice_settings" text="Pääasiallinen hävikki johtuu optimoimattomasta kalibroinnista. Säädä puintiväliä, kelan nopeutta ja seuloja nykyiselle kasville." />
+        <text name="rhm_fuel_consumption" text="Polttoaineenkulutus" />
+        <text name="rhm_fuel_used" text="Käytetty polttoaine" />
+        <text name="rhm_fuel_rate" text="Kulutusnopeus" />
+        <text name="rhm_cluster_merged" text="Yhdistetty pelto" />
+        <text name="rhm_gross_revenue" text="Sadon bruttotulo" />
+        <text name="rhm_fuel_expense" text="Polttoainekulu" />
+        <text name="rhm_net_margin" text="Nettokate" />
+        <text name="rhm_tut_calib_warn_title" text="PUIMURIN SÄÄDÖT" />
+        <text name="rhm_tut_calib_warn_msg" text="Leikkuupuimuria ei ole vielä kalibroitu kasville %s! Väärät säädöt aiheuttavat moottorin ylikuormitusta ja jyvähävikkiä. Paina Shift+K ladataksesi tehdasasetukset." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Epäoptimaaliset säädöt havaittu kasville %s (%s toleranssin ulkopuolella)! Tämä heikentää tehoa ja lisää hävikkiä. Paina Shift+K säätääksesi." />
+        <text name="rhm_tut_calib_ok_title" text="OPTIMAALISET SÄÄDÖT VAHVISTETTU" />
+        <text name="rhm_tut_calib_ok_msg" text="Kaikki puinti- ja puhdistusmekanismit on säädetty optimaaliseen toleranssiin kasville %s. Puimuri toimii huipputeholla!" />
+        <text name="rhm_tut_weed_title" text="RIKKAKASVIEN VASTUS" />
+        <text name="rhm_tut_weed_msg" text="Tiheä rikkakasvusto leikkuupöydän alla lisää leikkuu- ja puintivastusta (+15–25% kuormitus). Nopeus hidastuu automaattisesti tukkeutumisen estämiseksi." />
+        <text name="rhm_tut_slope_title" text="RINNENHÄVIKKI" />
+        <text name="rhm_tut_slope_msg" text="Rinteessä puitaessa seulat kallistuvat, jolloin vilja kasaantuu toiselle puolelle ja karkaa ruumenien mukana. Hidasta vauhtia rinteissä." />
+        <text name="rhm_tut_wear_title" text="TERÄN JA PUINTIKONEISTON KULUMINEN" />
+        <text name="rhm_tut_wear_msg" text="Kuluneet terälaput ja puintielementit lisäävät tehonkorkeutta ja varistavat jyviä pöydän edessä. Huolla kone korjaamolla." />
+        <text name="rhm_field_progress" text="Sadonkorjuun edistyminen" />
+        <text name="rhm_filter_owned" text="Omat" />
+        <text name="rhm_filter_contracts" text="Sopimukset" />
+        <text name="rhm_hud_style_title" text="HUD-näyttötila" />
+        <text name="rhm_hud_style_desc" text="Valitse kompaktin yksirivisen telemetriapalkin (4 solua) ja laajennetun satomonitorin (8 solua massavirralla, keskisadolla, peltoprosentilla ja mittarilla) välillä." />
+        <text name="rhm_hud_style_compact" text="Kompakti (4 solua)" />
+        <text name="rhm_hud_style_expanded" text="Satomonitori (8 solua)" />
+
+
     </texts>
 </l10n>

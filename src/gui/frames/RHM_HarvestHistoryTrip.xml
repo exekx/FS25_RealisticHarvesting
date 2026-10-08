@@ -26,19 +26,19 @@
 
             <!-- Row 1: Field Number & Crop Type Split -->
             <Text profile="rhmCardSubValue" position="20px -56px" size="180px 14px" text="$l10n_rhm_field_number" />
-            <Text profile="rhmCardValue" id="fieldNumberText" position="20px -74px" size="180px 28px" text="--" />
+            <Text profile="rhmCardValue" id="fieldNumberText" position="20px -74px" size="190px 28px" text="--" textSize="20px" />
 
             <Text profile="rhmCardSubValue" position="220px -56px" size="200px 14px" text="$l10n_rhm_crop_type" />
             <Text profile="rhmCardValue" id="cropTypeText" position="220px -74px" size="200px 28px" text="--" />
 
             <!-- Row 2: Harvested Area -->
             <Text profile="rhmCardSubValue" position="20px -116px" size="400px 14px" text="$l10n_rhm_harvested_area" />
-            <Text profile="rhmCardHighlightValue" id="harvestedAreaText" position="20px -134px" size="400px 32px" text="0.00 ha" textSize="28px" />
-            <Text profile="rhmCardDetailText" position="20px -170px" size="400px 14px" text="$l10n_rhm_detail_area" />
+            <Text profile="rhmCardValue" id="harvestedAreaText" position="20px -134px" size="400px 32px" text="0.00 ha" textSize="28px" />
+            <Text profile="rhmCardDetailText" id="harvestedAreaSubText" position="20px -170px" size="400px 14px" text="$l10n_rhm_detail_area" />
 
             <!-- Row 3: Clean Grain Harvest -->
             <Text profile="rhmCardSubValue" position="20px -196px" size="400px 14px" text="$l10n_rhm_clean_harvest" />
-            <Text profile="rhmCardHighlightValue" id="harvestedVolumeText" position="20px -212px" size="400px 32px" text="0.0 t" textSize="28px" />
+            <Text profile="rhmCardValue" id="harvestedVolumeText" position="20px -212px" size="400px 32px" text="0.0 t" textSize="28px" />
             <Text profile="rhmCardDetailText" id="harvestedVolumeSubText" position="20px -248px" size="400px 14px" text="0 L clean grain" />
 
             <!-- Row 4: Average Yield -->
@@ -48,7 +48,7 @@
 
             <!-- Row 5: Fleet Throughput -->
             <Text profile="rhmCardSubValue" position="20px -356px" size="400px 14px" text="$l10n_rhm_fleet_throughput" />
-            <Text profile="rhmCardHighlightValue" id="avgThroughputText" position="20px -374px" size="400px 32px" text="0.0 t/h" textSize="28px" />
+            <Text profile="rhmCardValue" id="avgThroughputText" position="20px -374px" size="400px 32px" text="0.0 t/h" textSize="28px" />
             <Text profile="rhmCardDetailText" position="20px -410px" size="400px 14px" text="$l10n_rhm_detail_throughput" />
         </GuiElement>
 
@@ -57,14 +57,18 @@
             <RoundCorner profile="rhmCardSurface" />
             <Text profile="rhmCardTitle" position="20px -16px" size="400px 24px" text="$l10n_rhm_card_performance" />
 
-            <!-- Row 1: Working Speed -->
-            <Text profile="rhmCardSubValue" position="20px -56px" size="400px 14px" text="$l10n_rhm_avg_working_speed" />
-            <Text profile="rhmCardValue" id="avgSpeedText" position="20px -74px" size="400px 32px" text="0.0 km/h" textSize="28px" />
-            <Text profile="rhmCardDetailText" position="20px -110px" size="400px 14px" text="$l10n_rhm_detail_speed" />
+            <!-- Row 1: Working Speed & Fuel Consumption Split -->
+            <Text profile="rhmCardSubValue" position="20px -56px" size="180px 14px" text="$l10n_rhm_avg_working_speed" />
+            <Text profile="rhmCardValue" id="avgSpeedText" position="20px -74px" size="180px 32px" text="0.0 km/h" textSize="28px" />
+            <Text profile="rhmCardDetailText" position="20px -110px" size="180px 14px" text="$l10n_rhm_detail_speed" />
+
+            <Text profile="rhmCardSubValue" position="220px -56px" size="200px 14px" text="$l10n_rhm_fuel_consumption" />
+            <Text profile="rhmCardValue" id="fuelUsedText" position="220px -74px" size="200px 32px" text="0.0 L" textSize="28px" />
+            <Text profile="rhmCardDetailText" id="fuelRateText" position="220px -110px" size="200px 14px" text="0.0 L/ha · 0.0 L/t" />
 
             <!-- Row 2: Engine Load -->
             <Text profile="rhmCardSubValue" position="20px -136px" size="400px 14px" text="$l10n_rhm_avg_engine_load" />
-            <Text profile="rhmCardHighlightValue" id="avgLoadText" position="20px -154px" size="400px 32px" text="0%" textSize="28px" />
+            <Text profile="rhmCardValue" id="avgLoadText" position="20px -154px" size="400px 32px" text="0%" textSize="28px" />
             <Text profile="rhmGaugeEdgeLabel" position="20px -192px" size="24px 14px" text="0%" />
             <Bitmap id="loadBarBg" profile="rhmGaugeTrack" position="48px -195px" size="324px 8px" />
             <Bitmap id="loadBarFill" profile="rhmGaugeFill" position="48px -195px" size="10px 8px" />
@@ -79,7 +83,7 @@
 
             <!-- Row 4: Machine Model -->
             <Text profile="rhmCardSubValue" position="20px -280px" size="400px 14px" text="$l10n_rhm_col_machine" />
-            <Text profile="rhmCardHighlightValue" id="combineModelText" position="20px -298px" size="400px 28px" text="Harvester" textSize="22px" />
+            <Text profile="rhmCardValue" id="combineModelText" position="20px -298px" size="400px 28px" text="Harvester" textSize="22px" />
 
             <!-- Row 5: Powertrain Guidance Advice Box -->
             <Text profile="rhmCardSubValue" position="20px -340px" size="400px 14px" text="$l10n_rhm_col_status" />
@@ -93,12 +97,12 @@
 
             <!-- Row 1: Loss Volume -->
             <Text profile="rhmCardSubValue" position="20px -56px" size="400px 14px" text="$l10n_rhm_loss_volume" />
-            <Text profile="rhmCardWarningValue" id="lossVolumeText" position="20px -74px" size="400px 32px" text="0.0 t" textSize="28px" />
+            <Text profile="rhmCardValue" id="lossVolumeText" position="20px -74px" size="400px 32px" text="0.0 t" textSize="28px" />
             <Text profile="rhmCardDetailText" id="lossVolumeSubText" position="20px -110px" size="400px 14px" text="0 L grain lost" />
 
             <!-- Row 2: Loss Share % & Gauge -->
             <Text profile="rhmCardSubValue" position="20px -136px" size="400px 14px" text="$l10n_rhm_loss_share" />
-            <Text profile="rhmCardWarningValue" id="lossPercentText" position="20px -154px" size="400px 32px" text="0.00%" textSize="28px" />
+            <Text profile="rhmCardValue" id="lossPercentText" position="20px -154px" size="400px 32px" text="0.00%" textSize="28px" />
             <Text profile="rhmGaugeEdgeLabel" position="20px -192px" size="24px 14px" text="0%" />
             <Bitmap id="lossBarBg" profile="rhmGaugeTrack" position="48px -195px" size="324px 8px" />
             <Bitmap id="lossBarFill" profile="rhmGaugeFill" position="48px -195px" size="10px 8px" />
@@ -106,12 +110,12 @@
 
             <!-- Row 3: Financial Losses -->
             <Text profile="rhmCardSubValue" position="20px -220px" size="400px 14px" text="$l10n_rhm_financial_loss" />
-            <Text profile="rhmCardAlertValue" id="lossMoneyText" position="20px -238px" size="400px 32px" text="-$0" textSize="28px" />
+            <Text profile="rhmCardValue" id="lossMoneyText" position="20px -238px" size="400px 32px" text="-$0" textSize="28px" />
             <Text profile="rhmCardDetailText" position="20px -274px" size="400px 14px" text="$l10n_rhm_detail_financial_loss" />
 
             <!-- Row 4: Operator Efficiency Rank -->
             <Text profile="rhmCardSubValue" position="20px -300px" size="400px 14px" text="$l10n_rhm_efficiency_index" />
-            <Text profile="rhmCardHighlightValue" id="efficiencyRankBadge" position="20px -318px" size="50px 32px" text="[A]" textSize="28px" />
+            <Text profile="rhmCardValue" id="efficiencyRankBadge" position="20px -318px" size="50px 32px" text="[A]" textSize="28px" />
             <Text profile="rhmSectionTitle" id="efficiencyRankTitle" position="76px -322px" size="344px 24px" text="Rank A" textSize="16px" />
             <Text profile="rhmCardDetailText" id="efficiencyRankDesc" position="20px -354px" size="400px 32px" text="..." textMaxNumLines="2" />
 

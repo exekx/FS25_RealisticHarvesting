@@ -426,7 +426,7 @@
         <text name="rhm_col_loss" text="Förlust" />
         <text name="rhm_col_tank" text="Spannmålstank" />
         <text name="rhm_col_area" text="Areal" />
-        <text name="rhm_col_money" text="Förlust ($)" />
+        <text name="rhm_col_money" text="Förlust" />
         <text name="rhm_col_driver" text="Förare" />
         <text name="rhm_col_cutter" text="Skärbord" />
         <text name="rhm_col_throughput" text="Genomströmning" />
@@ -498,5 +498,34 @@
         <text name="rhm_weedload_long" text="Saftigt och trådigt ogräs virar sig runt tröskverket och ökar mekaniskt motstånd samt motorbelastning (upp till +25%). Slå av för att ta bort ogräspåverkan." />
             <text name="rhm_fleet_badge_mission" text="[Kontrakt]" />
         <text name="rhm_fleet_badge_leased" text="[Hyrd]" />
+        <text name="rhm_cause_settings" text="Maskininställningar och kalibrering" />
+        <text name="rhm_advice_settings" text="Dominerande förlust orsakad av icke-optimerad kalibrering. Justera broavstånd, cylinderhastighet och såll för aktuell gröda." />
+        <text name="rhm_fuel_consumption" text="Bränsleförbrukning" />
+        <text name="rhm_fuel_used" text="Förbrukat bränsle" />
+        <text name="rhm_fuel_rate" text="Bränslehastighet" />
+        <text name="rhm_cluster_merged" text="Sammanslaget fält" />
+        <text name="rhm_gross_revenue" text="Brutto skördeintäkt" />
+        <text name="rhm_fuel_expense" text="Bränslekostnad" />
+        <text name="rhm_net_margin" text="Netto rörelsemarginal" />
+        <text name="rhm_tut_calib_warn_title" text="SKÖRDETRÖSKANS INSTÄLLNING" />
+        <text name="rhm_tut_calib_warn_msg" text="Tröskan är ännu inte kalibrerad för %s! Felaktiga inställningar ger överbelastning och spill. Tryck Shift+K för fabriksinställningar." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Icke-optimala inställningar upptäckta för %s (%s utanför tolerans)! Minskar kapaciteten och ökar spillet. Tryck Shift+K för att kalibrera." />
+        <text name="rhm_tut_calib_ok_title" text="OPTIMALA INSTÄLLNINGAR BEKRÄFTADE" />
+        <text name="rhm_tut_calib_ok_msg" text="Alla trösk- och reningsmekanismer är kalibrerade inom optimal tolerans för %s. Maskinen arbetar med maximal effektivitet!" />
+        <text name="rhm_tut_weed_title" text="OGRÄSMOTSTÅND" />
+        <text name="rhm_tut_weed_msg" text="Täta ogrässamlingar under skärbordet ökar motståndet i skärning och tröska (+15–25% motorlast). Hastigheten sänks automatiskt mot stopp." />
+        <text name="rhm_tut_slope_title" text="SLUTTNINGSSPILL" />
+        <text name="rhm_tut_slope_msg" text="Arbete i lutning lutar sållkassan, vilket gör att grödan samlas på ena sidan och blåses ut med agnarna. Sänk hastigheten i backar." />
+        <text name="rhm_tut_wear_title" text="SLITAGE PÅ KNIV OCH TRÖSKA" />
+        <text name="rhm_tut_wear_msg" text="Slitna knivblad och tröskelement ökar motståndet och orsakar spillsäd framför skärbordet. Serva maskinen på verkstaden." />
+        <text name="rhm_field_progress" text="Skördeförlopp" />
+        <text name="rhm_filter_owned" text="Egna" />
+        <text name="rhm_filter_contracts" text="Kontrakt" />
+        <text name="rhm_hud_style_title" text="HUD-visningsläge" />
+        <text name="rhm_hud_style_desc" text="Välj mellan den kompakta telemetriraden (4 celler) och den utökade skördemonitorn (8 celler med massflöde, medelskörd, fältförlopp och mätare)." />
+        <text name="rhm_hud_style_compact" text="Kompakt (4 celler)" />
+        <text name="rhm_hud_style_expanded" text="Skördemonitor (8 celler)" />
+
+
     </texts>
 </l10n>

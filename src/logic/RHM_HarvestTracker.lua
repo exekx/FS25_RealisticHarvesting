@@ -203,21 +203,15 @@ function RHM_HarvestTracker.getVehicleRentalState(combine)
     return isMission, isLeased
 end
 
----EN: Strips AI worker or hired driver suffixes (e.g. " (Helper A)", " (Ayudante de IA H)")
----UA: Очищає суфікси наймитів та ШІ-працівників з назви машини
+---EN: Strips driver or AI worker suffixes (e.g. " (Helper A)", " (PlayerName)") appended by GIANTS getFullName()
+---UA: Очищає суфікси водіїв та наймитів (наприклад " (Helper A)"), додані GIANTS getFullName()
 function RHM_HarvestTracker.stripHelperSuffix(str)
     if not str or type(str) ~= "string" then return str end
-    local cleaned = string.gsub(str, "%s*%b()$", function(b)
-        local inner = string.lower(b)
-        if inner:find("ia", 1, true) or inner:find("ai", 1, true) or inner:find("helper", 1, true)
-           or inner:find("ayudante", 1, true) or inner:find("ouvrier", 1, true) or inner:find("helfer", 1, true)
-           or inner:find("pomocnik", 1, true) or inner:find("работник", 1, true) or inner:find("наймит", 1, true)
-           or inner:find("pracownik", 1, true) or inner:find("driver", 1, true) then
-            return ""
-        end
-        return b
-    end)
-    return cleaned
+    local cleaned = string.gsub(str, "%s*%b()$", "")
+    if cleaned and cleaned ~= "" then
+        return cleaned
+    end
+    return str
 end
 
 ---EN: Prunes any orphaned contract/mission combines from farm fleet stats.
@@ -225,7 +219,10 @@ end
 function RHM_HarvestTracker:pruneMissionFleetStats(farmId)
     local farm = self:getFarmData(farmId or 1)
     if farm and farm.fleetStats then
-        local liveVehicles = (g_currentMission and g_currentMission.vehicleSystem and g_currentMission.vehicleSystem.getVehicles and g_currentMission.vehicleSystem:getVehicles()) or (g_currentMission and g_currentMission.vehicles) or {}
+        local liveVehicles = (g_currentMission and g_currentMission.vehicleSystem and g_currentMission.vehicleSystem.vehicles)
+            or (g_currentMission and g_currentMission.vehicleSystem and g_currentMission.vehicleSystem.getVehicles and g_currentMission.vehicleSystem:getVehicles())
+            or (g_currentMission and g_currentMission.vehicles)
+            or {}
         local liveKeys = {}
         for _, veh in pairs(liveVehicles) do
             if type(veh) == "table" then
@@ -245,6 +242,17 @@ function RHM_HarvestTracker:pruneMissionFleetStats(farmId)
                     if farm.combineTrips then
                         farm.combineTrips[key] = nil
                     end
+                    self.isDirty = true
+                end
+            end
+        end
+
+        -- Prune orphaned machine odometers for vehicles no longer present on map
+        if farm.combineTrips then
+            for mKey, _ in pairs(farm.combineTrips) do
+                local baseKey = string.match(mKey, "^([^#]+)") or mKey
+                if not liveKeys[mKey] and not liveKeys[baseKey] then
+                    farm.combineTrips[mKey] = nil
                     self.isDirty = true
                 end
             end
@@ -276,12 +284,40 @@ function RHM_HarvestTracker:pruneMissionFleetStats(farmId)
     end
 end
 
+---EN: Resolves a unique, persistent key for a combine machine instance
+---UA: Визначає унікальний, постійний ключ для конкретного екземпляра комбайна
+function RHM_HarvestTracker.getMachineKey(combine)
+    if not combine then return "Harvester" end
+    local spec = combine.spec_rhm_Combine
+    if spec and spec.machineId and spec.machineId ~= "" then
+        return spec.machineId
+    end
+
+    local rawName = (combine.getName and combine:getName()) or (combine.getFullName and combine:getFullName()) or "Harvester"
+    local cleanName = RHM_HarvestTracker.stripHelperSuffix(rawName)
+    local baseKey = combine.configFileName or cleanName
+
+    local license = (combine.getLicensePlateText and combine:getLicensePlateText()) or ""
+    local idPart = tostring(combine.rootNode or combine.id or "0")
+    local machineKey = nil
+    if license ~= "" then
+        machineKey = string.format("%s_%s", baseKey, license)
+    else
+        machineKey = string.format("%s#%s", baseKey, idPart)
+    end
+
+    if spec then
+        spec.machineId = machineKey
+    end
+    return machineKey
+end
+
 ---EN: Returns the isolated trip odometer for a specific combine
 ---UA: Повертає ізольований одометр сесії для конкретного комбайна
 function RHM_HarvestTracker:getCombineTrip(farmId, combine)
     if not combine then return nil end
     local farm = self:getFarmData(farmId or (combine.getOwnerFarmId and combine:getOwnerFarmId()) or 1)
-    local machineKey = combine.configFileName or (combine.getFullName and combine:getFullName()) or "Harvester"
+    local machineKey = RHM_HarvestTracker.getMachineKey(combine)
     if farm and farm.combineTrips and farm.combineTrips[machineKey] then
         local mTrip = farm.combineTrips[machineKey]
         if combine.spec_rhm_Combine then
@@ -307,8 +343,10 @@ function RHM_HarvestTracker:createDefaultFarmData()
             harvestedAreaHa = 0,
             lostLiters = 0,
             lossMoney = 0,
+            fuelUsedL = 0,
             reasons = {
                 speed = 0,
+                settings = 0,
                 moisture = 0,
                 wear = 0,
                 slope = 0
@@ -327,6 +365,8 @@ function RHM_HarvestTracker:createDefaultFarmData()
         yearlyStats = {},
         seasonHistory = {},
         fieldHeatmaps = {},
+        fieldClusters = {},
+        fieldClusterMembers = {},
         farmSettings = {
             aiSpeedLimiter = true,
             aiMaxLossPct = 2.0,
@@ -368,6 +408,10 @@ function RHM_HarvestTracker.getDominantLossFactor(reasons)
     local maxVal = reasons.speed or 0
     local dominant = "speed"
 
+    if (reasons.settings or 0) > maxVal then
+        maxVal = reasons.settings
+        dominant = "settings"
+    end
     if (reasons.moisture or 0) > maxVal then
         maxVal = reasons.moisture
         dominant = "moisture"
@@ -384,6 +428,585 @@ function RHM_HarvestTracker.getDominantLossFactor(reasons)
     return dominant
 end
 
+---EN: Resolves the effective master field ID for any merged/clustered field
+---UA: Повертає майстер-номер поля для будь-якого об'єднаного в кластер контуру
+function RHM_HarvestTracker:getMasterFieldId(farmId, fieldId)
+    if not fieldId or fieldId <= 0 then return fieldId or 0 end
+    local farm = self:getFarmData(farmId or 1)
+    if farm and farm.fieldClusterMembers and farm.fieldClusterMembers[fieldId] then
+        local curr = farm.fieldClusterMembers[fieldId]
+        local visited = { [fieldId] = true }
+        while farm.fieldClusterMembers[curr] and farm.fieldClusterMembers[curr] ~= curr and not visited[curr] do
+            visited[curr] = true
+            curr = farm.fieldClusterMembers[curr]
+        end
+        return curr
+    end
+    return fieldId
+end
+
+---EN: Builds or returns cached farmland centers, bounding boxes, and geographic adjacency graph.
+---UA: Будує або повертає кеш центрів, меж земельних ділянок та граф географічної суміжності.
+function RHM_HarvestTracker:getFarmlandGraph()
+    if self._farmlandGraph then
+        return self._farmlandGraph
+    end
+
+    local graph = {
+        centers = {},
+        boxes = {},
+        neighbors = {},
+        borderPoints = {}
+    }
+
+    if not g_farmlandManager or not g_farmlandManager.getFarmlandIdAtWorldPosition then
+        self._farmlandGraph = graph
+        return graph
+    end
+
+    local mapSize = 4096
+    if g_currentMission then
+        if g_currentMission.terrainRootNode and g_currentMission.terrainRootNode ~= 0 and getTerrainSize then
+            local tSize = getTerrainSize(g_currentMission.terrainRootNode)
+            if tSize and tSize > 0 then
+                mapSize = tSize
+            end
+        elseif g_currentMission.terrainSize and g_currentMission.terrainSize > 0 then
+            mapSize = g_currentMission.terrainSize
+        end
+    end
+
+    local halfSize = mapSize * 0.5
+    local step = (mapSize > 4096) and 48 or 32
+
+    local accum = {}
+    local lastColFml = {}
+
+    for z = -halfSize, halfSize, step do
+        local lastRowFmlId = 0
+        local lastRowFmlX = -halfSize - 999
+
+        for x = -halfSize, halfSize, step do
+            local fmlId = g_farmlandManager:getFarmlandIdAtWorldPosition(x, z) or 0
+
+            if fmlId > 0 then
+                local acc = accum[fmlId]
+                if not acc then
+                    acc = { sumX = 0, sumZ = 0, count = 0, minX = x, maxX = x, minZ = z, maxZ = z }
+                    accum[fmlId] = acc
+                else
+                    acc.sumX = acc.sumX + x
+                    acc.sumZ = acc.sumZ + z
+                    acc.count = acc.count + 1
+                    if x < acc.minX then acc.minX = x end
+                    if x > acc.maxX then acc.maxX = x end
+                    if z < acc.minZ then acc.minZ = z end
+                    if z > acc.maxZ then acc.maxZ = z end
+                end
+
+                graph.neighbors[fmlId] = graph.neighbors[fmlId] or {}
+                graph.borderPoints[fmlId] = graph.borderPoints[fmlId] or {}
+
+                -- Horizontal bridge across boundaries / roads (<= 70m)
+                if lastRowFmlId > 0 and lastRowFmlId ~= fmlId and (x - lastRowFmlX) <= 70 then
+                    graph.neighbors[fmlId][lastRowFmlId] = true
+                    graph.neighbors[lastRowFmlId] = graph.neighbors[lastRowFmlId] or {}
+                    graph.neighbors[lastRowFmlId][fmlId] = true
+
+                    local bx = (lastRowFmlX + x) * 0.5
+                    local bz = z
+                    graph.borderPoints[fmlId][lastRowFmlId] = graph.borderPoints[fmlId][lastRowFmlId] or {}
+                    if #graph.borderPoints[fmlId][lastRowFmlId] < 5 then
+                        table.insert(graph.borderPoints[fmlId][lastRowFmlId], { x = bx, z = bz })
+                    end
+                    graph.borderPoints[lastRowFmlId] = graph.borderPoints[lastRowFmlId] or {}
+                    graph.borderPoints[lastRowFmlId][fmlId] = graph.borderPoints[lastRowFmlId][fmlId] or {}
+                    if #graph.borderPoints[lastRowFmlId][fmlId] < 5 then
+                        table.insert(graph.borderPoints[lastRowFmlId][fmlId], { x = bx, z = bz })
+                    end
+                end
+                lastRowFmlId = fmlId
+                lastRowFmlX = x
+
+                -- Vertical bridge across boundaries / roads (<= 70m)
+                local colData = lastColFml[x]
+                if colData and colData.id > 0 and colData.id ~= fmlId and (z - colData.z) <= 70 then
+                    local northFml = colData.id
+                    graph.neighbors[fmlId][northFml] = true
+                    graph.neighbors[northFml] = graph.neighbors[northFml] or {}
+                    graph.neighbors[northFml][fmlId] = true
+
+                    local bx = x
+                    local bz = (colData.z + z) * 0.5
+                    graph.borderPoints[fmlId][northFml] = graph.borderPoints[fmlId][northFml] or {}
+                    if #graph.borderPoints[fmlId][northFml] < 5 then
+                        table.insert(graph.borderPoints[fmlId][northFml], { x = bx, z = bz })
+                    end
+                    graph.borderPoints[northFml] = graph.borderPoints[northFml] or {}
+                    graph.borderPoints[northFml][fmlId] = graph.borderPoints[northFml][fmlId] or {}
+                    if #graph.borderPoints[northFml][fmlId] < 5 then
+                        table.insert(graph.borderPoints[northFml][fmlId], { x = bx, z = bz })
+                    end
+                end
+                lastColFml[x] = { id = fmlId, z = z }
+            end
+        end
+    end
+
+    for fmlId, data in pairs(accum) do
+        if data.count > 0 then
+            graph.centers[fmlId] = {
+                x = data.sumX / data.count,
+                z = data.sumZ / data.count
+            }
+            graph.boxes[fmlId] = {
+                minX = data.minX,
+                maxX = data.maxX,
+                minZ = data.minZ,
+                maxZ = data.maxZ
+            }
+        end
+    end
+
+    self._farmlandGraph = graph
+    return graph
+end
+
+---EN: Resolves 2D world center coordinates for any field or farmland parcel
+---UA: Визначає 2D координати центру будь-якого поля чи земельної ділянки
+function RHM_HarvestTracker:getFieldCenter(fieldId)
+    if not fieldId or fieldId <= 0 then return nil, nil end
+    local graph = self:getFarmlandGraph()
+    if graph and graph.centers and graph.centers[fieldId] then
+        return graph.centers[fieldId].x, graph.centers[fieldId].z
+    end
+    if g_fieldManager and g_fieldManager.getFieldById then
+        local f = g_fieldManager:getFieldById(fieldId)
+        if f then
+            if f.getCenterOfFieldWorldPosition then
+                return f:getCenterOfFieldWorldPosition()
+            elseif f.rootNode and f.rootNode ~= 0 and entityExists(f.rootNode) then
+                local cx, _, cz = getWorldTranslation(f.rootNode)
+                return cx, cz
+            elseif f.fieldPositionX and f.fieldPositionZ then
+                return f.fieldPositionX, f.fieldPositionZ
+            elseif f.posX and f.posZ then
+                return f.posX, f.posZ
+            end
+        end
+    end
+    return nil, nil
+end
+
+---EN: Calculates horizontal distance between centers of two fields or farmland parcels
+---UA: Обчислює горизонтальну відстань між центрами двох полів або земельних ділянок
+function RHM_HarvestTracker:getFieldDistance(fieldIdA, fieldIdB)
+    if not fieldIdA or not fieldIdB or fieldIdA <= 0 or fieldIdB <= 0 or fieldIdA == fieldIdB then
+        return 0.0
+    end
+    local ax, az = self:getFieldCenter(fieldIdA)
+    local bx, bz = self:getFieldCenter(fieldIdB)
+    if ax and az and bx and bz then
+        return MathUtil.vector2Length(ax - bx, az - bz)
+    end
+    return 999.0
+end
+
+---EN: Queries all owned authentic field IDs and farmland parcel IDs for a given farm.
+---UA: Отримує всі номери власних зареєстрованих полів та земельних ділянок для заданої ферми.
+function RHM_HarvestTracker:getOwnedFieldIds(farmId)
+    local farm = self:getFarmData(farmId or 1)
+    local ownedIds = {}
+    local ownedFarmlands = {}
+    if g_farmlandManager then
+        if g_farmlandManager.getOwnedFarmlandIdsByFarmId then
+            local ids = g_farmlandManager:getOwnedFarmlandIdsByFarmId(farmId or 1)
+            if ids then
+                for _, id in pairs(ids) do
+                    if type(id) == "number" and id > 0 then
+                        ownedFarmlands[id] = true
+                        ownedIds[id] = true
+                    end
+                end
+            end
+        end
+        if g_farmlandManager.farmlands then
+            for fmlId, fml in pairs(g_farmlandManager.farmlands) do
+                local owner = fml.ownerFarmId
+                if (not owner or owner == 0) and g_farmlandManager.getFarmlandOwner then
+                    owner = g_farmlandManager:getFarmlandOwner(fmlId)
+                end
+                if owner == (farmId or 1) then
+                    ownedFarmlands[fmlId] = true
+                    ownedIds[fmlId] = true
+                end
+            end
+        end
+    end
+
+    if g_fieldManager then
+        local fieldList = nil
+        if g_fieldManager.getFields then
+            fieldList = g_fieldManager:getFields()
+        end
+        if not fieldList or (type(fieldList) == "table" and next(fieldList) == nil) then
+            fieldList = g_fieldManager.fields or g_fieldManager.fieldList or g_fieldManager.idToField
+        end
+        if fieldList then
+            for _, field in pairs(fieldList) do
+                local fid = (field.getId and field:getId()) or field.fieldId or field.id
+                if fid and fid > 0 then
+                    local fFarmland = (field.getFarmland and field:getFarmland()) or field.farmland
+                    local fmlId = (fFarmland and ((fFarmland.getId and fFarmland:getId()) or fFarmland.id))
+                               or field.farmlandId or (field.farmland and (field.farmland.id or field.farmland.farmlandId))
+                    if (not fmlId or fmlId == 0) and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
+                        if field.rootNode and field.rootNode ~= 0 and entityExists(field.rootNode) then
+                            local wx, _, wz = getWorldTranslation(field.rootNode)
+                            fmlId = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz) or 0
+                        elseif field.fieldPositionX and field.fieldPositionZ then
+                            fmlId = g_farmlandManager:getFarmlandIdAtWorldPosition(field.fieldPositionX, field.fieldPositionZ) or 0
+                        end
+                    end
+                    if fmlId and fmlId > 0 and ownedFarmlands[fmlId] then
+                        ownedIds[fid] = true
+                    end
+                end
+            end
+        end
+    end
+
+    for fmlId, _ in pairs(ownedFarmlands) do
+        ownedIds[fmlId] = true
+    end
+
+    return ownedIds
+end
+
+---EN: Evaluates whether two fields are physically connected / plowed together on the terrain.
+---UA: Перевіряє, чи два поля фізично з'єднані (розорані разом) на карті.
+function RHM_HarvestTracker:areFieldsPhysicallyConnected(farmId, fieldIdA, fieldIdB, combine)
+    if not fieldIdA or not fieldIdB or fieldIdA <= 0 or fieldIdB <= 0 or fieldIdA == fieldIdB then
+        return false
+    end
+
+    local farm = self:getFarmData(farmId or 1)
+    if not farm then return false end
+
+    -- 1. Already members of the same cluster
+    if self:getMasterFieldId(farmId, fieldIdA) == self:getMasterFieldId(farmId, fieldIdB) then
+        return true
+    end
+
+    -- 2. Verify farmland ownership for both fields
+    local fA = g_fieldManager and g_fieldManager.getFieldById and g_fieldManager:getFieldById(fieldIdA)
+    local fB = g_fieldManager and g_fieldManager.getFieldById and g_fieldManager:getFieldById(fieldIdB)
+
+    local fmlA = (fA and (fA.farmlandId or (fA.farmland and (fA.farmland.id or fA.farmland.farmlandId)))) or fieldIdA
+    local fmlB = (fB and (fB.farmlandId or (fB.farmland and (fB.farmland.id or fB.farmland.farmlandId)))) or fieldIdB
+
+    if g_farmlandManager and g_farmlandManager.getFarmlandOwner then
+        local ownerA = g_farmlandManager:getFarmlandOwner(fmlA)
+        local ownerB = g_farmlandManager:getFarmlandOwner(fmlB)
+        if (ownerA ~= nil and ownerA > 0 and ownerA ~= farmId) or (ownerB ~= nil and ownerB > 0 and ownerB ~= farmId) then
+            return false
+        end
+    end
+
+    -- 3. Check Crop Consistency
+    -- Separate fields growing different crops can NEVER be merged into the same harvest cluster
+    if FSDensityMapUtil and FSDensityMapUtil.getFieldFruitTypeAtWorldPos then
+        local cAx, cAz = self:getFieldCenter(fieldIdA)
+        local cBx, cBz = self:getFieldCenter(fieldIdB)
+        local cropA = (cAx and cAz and FSDensityMapUtil.getFieldFruitTypeAtWorldPos(cAx, cAz)) or FruitType.UNKNOWN
+        local cropB = (cBx and cBz and FSDensityMapUtil.getFieldFruitTypeAtWorldPos(cBx, cBz)) or FruitType.UNKNOWN
+        if cropA ~= FruitType.UNKNOWN and cropB ~= FruitType.UNKNOWN and cropA ~= cropB then
+            return false
+        end
+    end
+
+    -- 4. Check physical field ground continuity across the boundary using native FSDensityMapUtil
+    local graph = self:getFarmlandGraph()
+    local isBordering = false
+    if graph and graph.neighbors and graph.neighbors[fmlA] and graph.neighbors[fmlA][fmlB] then
+        isBordering = true
+    end
+
+    if not isBordering and graph and graph.boxes and graph.boxes[fmlA] and graph.boxes[fmlB] then
+        local bA = graph.boxes[fmlA]
+        local bB = graph.boxes[fmlB]
+        local dx = math.max(0, math.max(bA.minX - bB.maxX, bB.minX - bA.maxX))
+        local dz = math.max(0, math.max(bA.minZ - bB.maxZ, bB.minZ - bA.maxZ))
+        local boxDist = math.sqrt(dx * dx + dz * dz)
+        if boxDist <= 65.0 then
+            isBordering = true
+        end
+    end
+
+    if isBordering then
+        -- Native GIANTS Engine density map verification:
+        -- Query the boundary points between the two field parcels with exact terrain elevation (Y).
+        -- Distinguishes genuine plowed ground from unplowed roadways or ditch grass.
+        if FSDensityMapUtil and FSDensityMapUtil.getFieldDataAtWorldPosition and graph then
+            local terrainRoot = g_currentMission and g_currentMission.terrainRootNode
+
+            local function checkPoint(px, pz)
+                local py = 0
+                if terrainRoot and terrainRoot ~= 0 and getTerrainHeightAtWorldPos then
+                    py = getTerrainHeightAtWorldPos(terrainRoot, px, 0, pz) or 0
+                end
+                local isOnField = FSDensityMapUtil.getFieldDataAtWorldPosition(px, py, pz)
+                if isOnField == true then
+                    return true
+                end
+                if FSDensityMapUtil.getFieldFruitTypeAtWorldPos then
+                    local fType = FSDensityMapUtil.getFieldFruitTypeAtWorldPos(px, pz)
+                    if fType and fType ~= FruitType.UNKNOWN then
+                        return true
+                    end
+                end
+                return false
+            end
+
+            -- 1. Check exact sampled border contact points between fmlA and fmlB if recorded
+            local pts = (graph.borderPoints and graph.borderPoints[fmlA] and graph.borderPoints[fmlA][fmlB])
+                     or (graph.borderPoints and graph.borderPoints[fmlB] and graph.borderPoints[fmlB][fmlA])
+            if pts and #pts > 0 then
+                for _, pt in ipairs(pts) do
+                    if checkPoint(pt.x, pt.z) then
+                        return true
+                    end
+                end
+            end
+
+            -- 2. Check geometry bounding box border points
+            if graph.boxes and graph.boxes[fmlA] and graph.boxes[fmlB] then
+                local bA = graph.boxes[fmlA]
+                local bB = graph.boxes[fmlB]
+                local isXSeparated = (bA.maxX < bB.minX) or (bB.maxX < bA.minX)
+                local isZSeparated = (bA.maxZ < bB.minZ) or (bB.maxZ < bA.minZ)
+
+                local samplePoints = {}
+                if isXSeparated and not isZSeparated then
+                    local mx = (bA.maxX < bB.minX) and ((bA.maxX + bB.minX) * 0.5) or ((bB.maxX + bA.minX) * 0.5)
+                    local minZ = math.max(bA.minZ, bB.minZ)
+                    local maxZ = math.min(bA.maxZ, bB.maxZ)
+                    table.insert(samplePoints, { x = mx, z = (minZ + maxZ) * 0.5 })
+                    table.insert(samplePoints, { x = mx, z = minZ * 0.75 + maxZ * 0.25 })
+                    table.insert(samplePoints, { x = mx, z = minZ * 0.25 + maxZ * 0.75 })
+                elseif isZSeparated and not isXSeparated then
+                    local mz = (bA.maxZ < bB.minZ) and ((bA.maxZ + bB.minZ) * 0.5) or ((bB.maxZ + bA.minZ) * 0.5)
+                    local minX = math.max(bA.minX, bB.minX)
+                    local maxX = math.min(bA.maxX, bB.maxX)
+                    table.insert(samplePoints, { x = (minX + maxX) * 0.5, z = mz })
+                    table.insert(samplePoints, { x = minX * 0.75 + maxX * 0.25, z = mz })
+                    table.insert(samplePoints, { x = minX * 0.25 + maxX * 0.75, z = mz })
+                else
+                    local mx = (math.max(bA.minX, bB.minX) + math.min(bA.maxX, bB.maxX)) * 0.5
+                    local mz = (math.max(bA.minZ, bB.minZ) + math.min(bA.maxZ, bB.maxZ)) * 0.5
+                    if bA.maxX < bB.minX then mx = (bA.maxX + bB.minX) * 0.5
+                    elseif bB.maxX < bA.minX then mx = (bB.maxX + bA.minX) * 0.5 end
+                    if bA.maxZ < bB.minZ then mz = (bA.maxZ + bB.minZ) * 0.5
+                    elseif bB.maxZ < bA.minZ then mz = (bB.maxZ + bA.minZ) * 0.5 end
+                    table.insert(samplePoints, { x = mx, z = mz })
+
+                    if graph.centers and graph.centers[fmlA] and graph.centers[fmlB] then
+                        local cA = graph.centers[fmlA]
+                        local cB = graph.centers[fmlB]
+                        table.insert(samplePoints, { x = (cA.x + cB.x) * 0.5, z = (cA.z + cB.z) * 0.5 })
+                    end
+                end
+
+                for _, pt in ipairs(samplePoints) do
+                    if checkPoint(pt.x, pt.z) then
+                        return true
+                    end
+                end
+            end
+
+            -- Boundary has no cultivated field ground or crop: separate unmerged fields!
+            return false
+        end
+
+        return true
+    end
+
+    return false
+end
+
+---EN: Discovers all connected/merged fields via transitive Breadth-First Search (BFS) graph traversal.
+---UA: Проактивно виявляє всі зв'язані/об'єднані поля за допомогою транзитивного хвильового пошуку (BFS).
+function RHM_HarvestTracker:discoverAndClusterMergedFields(farmId, startFieldId, combine)
+    if not startFieldId or startFieldId <= 0 then return end
+    local farm = self:getFarmData(farmId or 1)
+    if not farm then return end
+
+    local existingMaster = self:getMasterFieldId(farmId, startFieldId)
+    local ownedIds = self:getOwnedFieldIds(farmId)
+    ownedIds[startFieldId] = true
+
+    -- Transitive BFS traversal across owned fields starting strictly from seed field
+    local queue = { startFieldId }
+    local visited = { [startFieldId] = true }
+    local clusterGroup = { [startFieldId] = true }
+
+    while #queue > 0 do
+        local currentField = table.remove(queue, 1)
+        for candId, _ in pairs(ownedIds) do
+            if not visited[candId] then
+                if self:areFieldsPhysicallyConnected(farmId, currentField, candId) then
+                    visited[candId] = true
+                    clusterGroup[candId] = true
+                    table.insert(queue, candId)
+                end
+            end
+        end
+    end
+
+    local count = 0
+    local sortedMembers = {}
+    for mId, _ in pairs(clusterGroup) do
+        count = count + 1
+        table.insert(sortedMembers, mId)
+    end
+    table.sort(sortedMembers)
+
+    local masterId = existingMaster or startFieldId or sortedMembers[1]
+
+    -- Purge any orphaned members previously associated with existingMaster that are NOT physically connected
+    if existingMaster and farm.fieldClusters and farm.fieldClusters[existingMaster] then
+        local orphaned = {}
+        for oldMId, _ in pairs(farm.fieldClusters[existingMaster].members or {}) do
+            if not clusterGroup[oldMId] then
+                table.insert(orphaned, oldMId)
+            end
+        end
+        for _, oldMId in ipairs(orphaned) do
+            self:unclusterField(farmId, oldMId)
+        end
+    end
+
+    if count > 1 then
+        for _, mId in ipairs(sortedMembers) do
+            if mId ~= masterId then
+                self:clusterFields(farmId, masterId, mId)
+            end
+        end
+
+        local memberStr = table.concat(sortedMembers, ", ")
+        print(string.format("Info: RHM_Diag: Transitive Field Cluster active: Master Field %d (Members: [%s])", masterId, memberStr))
+    else
+        -- Clean up single-member cluster if all other members were unclustered
+        if existingMaster and farm.fieldClusters and farm.fieldClusters[existingMaster] then
+            local remaining = 0
+            for _ in pairs(farm.fieldClusters[existingMaster].members or {}) do
+                remaining = remaining + 1
+            end
+            if remaining <= 1 then
+                farm.fieldClusters[existingMaster] = nil
+                farm.fieldClusterMembers[existingMaster] = nil
+            end
+        end
+    end
+end
+
+---EN: Clusters a member field under a master field, merging existing stats and clusters
+---UA: Об'єднує підпорядковане поле з майстер-полем у єдиний кластер
+function RHM_HarvestTracker:clusterFields(farmId, masterId, memberId)
+    if not masterId or not memberId or masterId <= 0 or memberId <= 0 or masterId == memberId then return end
+    local farm = self:getFarmData(farmId or 1)
+    farm.fieldClusters = farm.fieldClusters or {}
+    farm.fieldClusterMembers = farm.fieldClusterMembers or {}
+
+    local targetMaster = farm.fieldClusterMembers[masterId] or masterId
+    local memberExistingMaster = farm.fieldClusterMembers[memberId]
+
+    farm.fieldClusters[targetMaster] = farm.fieldClusters[targetMaster] or { members = { [targetMaster] = true } }
+    farm.fieldClusters[targetMaster].members[targetMaster] = true
+    farm.fieldClusters[targetMaster].members[memberId] = true
+    farm.fieldClusterMembers[memberId] = targetMaster
+
+    if memberExistingMaster and memberExistingMaster ~= targetMaster and farm.fieldClusters[memberExistingMaster] then
+        for childId, _ in pairs(farm.fieldClusters[memberExistingMaster].members) do
+            farm.fieldClusters[targetMaster].members[childId] = true
+            farm.fieldClusterMembers[childId] = targetMaster
+        end
+        farm.fieldClusters[memberExistingMaster] = nil
+    end
+
+    -- Merge member fieldStats into master fieldStats
+    if farm.fieldStats and farm.fieldStats[memberId] then
+        local mStat = farm.fieldStats[memberId]
+        local tStat = farm.fieldStats[targetMaster]
+        if not tStat then
+            farm.fieldStats[targetMaster] = mStat
+            tStat = mStat
+            tStat.fieldId = targetMaster
+        else
+            tStat.harvestedLiters = (tStat.harvestedLiters or 0) + (mStat.harvestedLiters or 0)
+            tStat.harvestedMassKg = (tStat.harvestedMassKg or 0) + (mStat.harvestedMassKg or 0)
+            tStat.harvestedAreaHa = (tStat.harvestedAreaHa or 0) + (mStat.harvestedAreaHa or 0)
+            tStat.sessionDuration = (tStat.sessionDuration or 0) + (mStat.sessionDuration or 0)
+            tStat.lostLiters = (tStat.lostLiters or 0) + (mStat.lostLiters or 0)
+            tStat.lossMoney = (tStat.lossMoney or 0) + (mStat.lossMoney or 0)
+            tStat.fuelUsedL = (tStat.fuelUsedL or 0) + (mStat.fuelUsedL or 0)
+            tStat.operationsCount = math.max(tStat.operationsCount or 0, mStat.operationsCount or 0)
+            if mStat.reasons then
+                tStat.reasons = tStat.reasons or { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 }
+                for rK, rV in pairs(mStat.reasons) do
+                    tStat.reasons[rK] = (tStat.reasons[rK] or 0) + rV
+                end
+            end
+            if mStat.cropVolumes then
+                tStat.cropVolumes = tStat.cropVolumes or {}
+                for cK, cV in pairs(mStat.cropVolumes) do
+                    tStat.cropVolumes[cK] = (tStat.cropVolumes[cK] or 0) + cV
+                end
+            end
+        end
+        farm.fieldStats[memberId] = nil
+    end
+
+    self.isDirty = true
+end
+
+---EN: Removes a member field from its cluster
+---UA: Вилучає поле з кластера
+function RHM_HarvestTracker:unclusterField(farmId, memberId)
+    if not memberId or memberId <= 0 then return end
+    local farm = self:getFarmData(farmId or 1)
+    if not farm or not farm.fieldClusterMembers then return end
+    local masterId = farm.fieldClusterMembers[memberId]
+    if masterId and farm.fieldClusters and farm.fieldClusters[masterId] then
+        farm.fieldClusters[masterId].members[memberId] = nil
+        local hasOther = false
+        for cId, _ in pairs(farm.fieldClusters[masterId].members) do
+            if cId ~= masterId then hasOther = true break end
+        end
+        if not hasOther then
+            farm.fieldClusters[masterId] = nil
+        end
+    end
+    farm.fieldClusterMembers[memberId] = nil
+    self.isDirty = true
+end
+
+---EN: Returns sorted list of all member fields in a cluster
+---UA: Повертає відсортований список усіх номерів полів у кластері
+function RHM_HarvestTracker:getClusterMembers(farmId, masterId)
+    local farm = self:getFarmData(farmId or 1)
+    if not farm or not masterId or masterId <= 0 then return { masterId or 0 } end
+    local trueMaster = (farm.fieldClusterMembers and farm.fieldClusterMembers[masterId]) or masterId
+    if not farm.fieldClusters or not farm.fieldClusters[trueMaster] then
+        return { masterId }
+    end
+    local list = {}
+    for cId, _ in pairs(farm.fieldClusters[trueMaster].members) do
+        table.insert(list, cId)
+    end
+    table.sort(list)
+    return list
+end
+
 ---EN: Detects whether a given field is currently an active contract / mission for the specified farm.
 ---UA: Визначає, чи є дане поле активним контрактом (місією) для заданої ферми.
 ---@param fieldId number
@@ -395,23 +1018,33 @@ function RHM_HarvestTracker.isContractField(fieldId, farmId)
 
     -- Farmland ownership check: if our farm owns the farmland, it is never a contract
     if g_farmlandManager then
-        if g_farmlandManager.getFarmlandOwner then
-            local owner = g_farmlandManager:getFarmlandOwner(fieldId)
-            if owner == farm then
-                return false
-            end
-        end
+        local fmlId = 0
         if g_fieldManager and g_fieldManager.getFieldById then
             local field = g_fieldManager:getFieldById(fieldId)
             if field then
-                local fmlId = field.farmlandId or (field.farmland and (field.farmland.id or field.farmland.farmlandId))
-                if (not fmlId or fmlId == 0) and field.rootNode and field.rootNode ~= 0 and entityExists(field.rootNode) and g_farmlandManager.getFarmlandIdAtWorldPosition then
-                    local wx, _, wz = getWorldTranslation(field.rootNode)
-                    fmlId = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
+                fmlId = field.farmlandId or (field.farmland and (field.farmland.id or field.farmland.farmlandId))
+                if (not fmlId or fmlId == 0) and g_farmlandManager.getFarmlandIdAtWorldPosition then
+                    local cx, cz = nil, nil
+                    if field.rootNode and field.rootNode ~= 0 and entityExists(field.rootNode) then
+                        cx, _, cz = getWorldTranslation(field.rootNode)
+                    elseif field.node and field.node ~= 0 and entityExists(field.node) then
+                        cx, _, cz = getWorldTranslation(field.node)
+                    elseif field.fieldPositionX and field.fieldPositionZ then
+                        cx, cz = field.fieldPositionX, field.fieldPositionZ
+                    elseif field.posX and field.posZ then
+                        cx, cz = field.posX, field.posZ
+                    end
+                    if cx and cz then
+                        fmlId = g_farmlandManager:getFarmlandIdAtWorldPosition(cx, cz)
+                    end
                 end
-                if fmlId and fmlId > 0 and g_farmlandManager.getFarmlandOwner and g_farmlandManager:getFarmlandOwner(fmlId) == farm then
-                    return false
-                end
+            end
+        end
+
+        if fmlId and fmlId > 0 and g_farmlandManager.getFarmlandOwner then
+            local owner = g_farmlandManager:getFarmlandOwner(fmlId)
+            if owner == farm then
+                return false
             end
         end
     end
@@ -477,7 +1110,8 @@ function RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, vehicle)
             if fid > 0 then
                 local fFarmland = (f.getFarmland and f:getFarmland()) or f.farmland
                 local fmlId = (fFarmland and ((fFarmland.getId and fFarmland:getId()) or fFarmland.id))
-                           or f.farmlandId or (f.farmland and (f.farmland.id or f.farmland.farmlandId)) or fid
+                           or f.farmlandId or (f.farmland and (f.farmland.id or f.farmland.farmlandId))
+                           or (g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition and g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)) or 0
                 return f, fid, fmlId
             end
         end
@@ -495,13 +1129,27 @@ function RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, vehicle)
         elseif g_farmlandManager.getFarmlandIdAtWorldPosition then
             fmlId = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz) or 0
         end
+        if fmlId > 0 and not farmland and g_farmlandManager.getFarmlandById then
+            farmland = g_farmlandManager:getFarmlandById(fmlId)
+        end
     end
 
     -- 3. FS25 GIANTS Engine 10 native: check if farmland has an authentic Field object attached
-    if farmland and farmland.getField then
-        local f = farmland:getField()
+    if farmland then
+        local f = (farmland.getField and farmland:getField()) or farmland.field
         if f then
-            local fid = (f.getId and f:getId()) or f.fieldId or f.id or 0
+            local fid = (f.getId and f:getId()) or f.fieldId or f.id or f.fieldIndex or 0
+            if fid > 0 then
+                return f, fid, fmlId
+            end
+        end
+    end
+
+    -- Check FieldManager farmland mapping if present
+    if g_fieldManager and fmlId > 0 and g_fieldManager.farmlandIdFieldMapping then
+        local f = g_fieldManager.farmlandIdFieldMapping[fmlId]
+        if f then
+            local fid = (f.getId and f:getId()) or f.fieldId or f.id or f.fieldIndex or 0
             if fid > 0 then
                 return f, fid, fmlId
             end
@@ -535,21 +1183,8 @@ function RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, vehicle)
         return nil, 0, 0
     end
 
-    -- 4. Match against registered fields in g_fieldManager
-    if g_fieldManager then
-        -- Check direct getFieldById with fmlId (in FS25 farmlandId often corresponds 1:1 to fieldId)
-        if g_fieldManager.getFieldById and fmlId > 0 then
-            local f = g_fieldManager:getFieldById(fmlId)
-            if f then
-                local fid = (f.getId and f:getId()) or f.fieldId or f.id or fmlId
-                local fFarmland = (f.getFarmland and f:getFarmland()) or f.farmland
-                local ffml = (fFarmland and ((fFarmland.getId and fFarmland:getId()) or fFarmland.id)) or f.farmlandId
-                if not ffml or ffml == 0 or ffml == fmlId then
-                    return f, fid, fmlId
-                end
-            end
-        end
-
+    -- 4. Match against authentic registered fields in g_fieldManager
+    if g_fieldManager and fmlId > 0 then
         local fieldList = nil
         if g_fieldManager.getFields then
             fieldList = g_fieldManager:getFields()
@@ -557,66 +1192,77 @@ function RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, vehicle)
         if not fieldList or (type(fieldList) == "table" and next(fieldList) == nil) then
             fieldList = g_fieldManager.fields or g_fieldManager.fieldList or g_fieldManager.idToField
         end
-
-        local candidateFields = {}
-        if fieldList then
-            for _, f in pairs(fieldList) do
-                local fid = (f.getId and f:getId()) or f.fieldId or f.id
-                if fid and fid > 0 then
-                    local fFarmland = (f.getFarmland and f:getFarmland()) or f.farmland
-                    local ffml = (fFarmland and ((fFarmland.getId and fFarmland:getId()) or fFarmland.id)) or f.farmlandId
-                    if (not ffml or ffml == 0) and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
-                        if f.rootNode and f.rootNode ~= 0 and entityExists(f.rootNode) then
-                            local fx, _, fz = getWorldTranslation(f.rootNode)
-                            ffml = g_farmlandManager:getFarmlandIdAtWorldPosition(fx, fz)
-                        elseif f.fieldPositionX and f.fieldPositionZ then
-                            ffml = g_farmlandManager:getFarmlandIdAtWorldPosition(f.fieldPositionX, f.fieldPositionZ)
-                        elseif f.posX and f.posZ then
-                            ffml = g_farmlandManager:getFarmlandIdAtWorldPosition(f.posX, f.posZ)
-                        end
+        if not fieldList or (type(fieldList) == "table" and next(fieldList) == nil) then
+            if g_fieldManager.getFieldByIndex then
+                fieldList = {}
+                for i = 1, 255 do
+                    local f = g_fieldManager:getFieldByIndex(i)
+                    if f then
+                        table.insert(fieldList, f)
                     end
-
-                    -- Check if field belongs to this farmland parcel or shares 1:1 ID mapping
-                    local isMatch = (ffml == fmlId)
-                    if not isMatch and fid == fmlId then
-                        isMatch = true
-                    end
-
-                    if isMatch then
-                        table.insert(candidateFields, { field = f, id = fid })
+                end
+            elseif g_fieldManager.getFieldById then
+                fieldList = {}
+                for id = 1, 255 do
+                    local f = g_fieldManager:getFieldById(id)
+                    if f then
+                        table.insert(fieldList, f)
                     end
                 end
             end
         end
 
-        if #candidateFields == 1 then
-            return candidateFields[1].field, candidateFields[1].id, fmlId
-        elseif #candidateFields > 1 then
-            -- Multiple fields on same parcel: pick closest center
-            local bestField = candidateFields[1].field
-            local bestId = candidateFields[1].id
+        if fieldList then
+            local bestField = nil
+            local bestId = 0
             local bestDistSq = math.huge
-            for _, cand in ipairs(candidateFields) do
-                local cx, cz = nil, nil
-                local f = cand.field
-                if f.rootNode and f.rootNode ~= 0 and entityExists(f.rootNode) then
-                    cx, _, cz = getWorldTranslation(f.rootNode)
-                elseif f.fieldPositionX and f.fieldPositionZ then
-                    cx, cz = f.fieldPositionX, f.fieldPositionZ
-                elseif f.posX and f.posZ then
-                    cx, cz = f.posX, f.posZ
-                end
-                local distSq = 0
-                if cx and cz then
-                    distSq = (cx - wx)^2 + (cz - wz)^2
-                end
-                if distSq < bestDistSq then
-                    bestDistSq = distSq
-                    bestField = f
-                    bestId = cand.id
+            local fallbackField = nil
+            local fallbackId = 0
+            local maxAllowedDistSq = 800.0 * 800.0 -- Within 800 meters of field center
+
+            for _, f in pairs(fieldList) do
+                local fid = (f.getId and f:getId()) or f.fieldId or f.id or f.fieldIndex
+                if fid and fid > 0 then
+                    local fFarmland = (f.getFarmland and f:getFarmland()) or f.farmland
+                    local ffml = (fFarmland and ((fFarmland.getId and fFarmland:getId()) or fFarmland.id))
+                              or f.farmlandId or (f.farmland and (f.farmland.id or f.farmland.farmlandId))
+
+                    local cx, cz = nil, nil
+                    if f.getCenterOfFieldWorldPosition then
+                        cx, cz = f:getCenterOfFieldWorldPosition()
+                    elseif f.rootNode and f.rootNode ~= 0 and entityExists(f.rootNode) then
+                        cx, _, cz = getWorldTranslation(f.rootNode)
+                    elseif f.fieldPositionX and f.fieldPositionZ then
+                        cx, cz = f.fieldPositionX, f.fieldPositionZ
+                    elseif f.posX and f.posZ then
+                        cx, cz = f.posX, f.posZ
+                    end
+
+                    if (not ffml or ffml == 0) and cx and cz and g_farmlandManager and g_farmlandManager.getFarmlandIdAtWorldPosition then
+                        ffml = g_farmlandManager:getFarmlandIdAtWorldPosition(cx, cz)
+                    end
+
+                    -- Check if field belongs to this farmland parcel
+                    if ffml == fmlId then
+                        fallbackField = f
+                        fallbackId = fid
+                        if cx and cz then
+                            local distSq = (cx - wx)^2 + (cz - wz)^2
+                            if distSq < bestDistSq then
+                                bestDistSq = distSq
+                                bestField = f
+                                bestId = fid
+                            end
+                        end
+                    end
                 end
             end
-            return bestField, bestId, fmlId
+
+            if bestField and bestDistSq <= maxAllowedDistSq then
+                return bestField, bestId, fmlId
+            elseif fallbackField and fallbackId > 0 then
+                return fallbackField, fallbackId, fmlId
+            end
         end
     end
 
@@ -639,13 +1285,52 @@ function RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, vehicle)
     return nil, 0, fmlId
 end
 
+---Resolves authentic diesel tank fill unit index on motorized carrier
+function RHM_HarvestTracker.getFuelFillUnitIndex(carrier)
+    if not carrier or not carrier.getFillUnitFillLevel then
+        return nil
+    end
+
+    local dieselIdx = g_fillTypeManager and g_fillTypeManager:getFillTypeIndexByName("DIESEL")
+    if dieselIdx and carrier.getConsumerFillUnitIndex then
+        local idx = carrier:getConsumerFillUnitIndex(dieselIdx)
+        if idx then
+            return idx
+        end
+    end
+
+    if carrier.spec_motorized and carrier.spec_motorized.consumers then
+        for _, consumer in ipairs(carrier.spec_motorized.consumers) do
+            if consumer.fillType == dieselIdx or (dieselIdx and consumer.fillType == dieselIdx) then
+                if consumer.fillUnitIndex then
+                    return consumer.fillUnitIndex
+                end
+            end
+        end
+    end
+
+    if carrier.getFillUnits and dieselIdx then
+        for idx, unit in ipairs(carrier:getFillUnits()) do
+            if unit.fillType == dieselIdx or (unit.supportedFillTypes and unit.supportedFillTypes[dieselIdx]) then
+                return idx
+            end
+        end
+    end
+
+    if carrier.spec_motorized and carrier.spec_motorized.fuelFillUnitIndex then
+        return carrier.spec_motorized.fuelFillUnitIndex
+    end
+
+    return nil
+end
+
 ---Processes a single harvesting simulation tick on the server
 function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg, areaHa, fieldId, totalLossPct, lossReasons, speedKmh, loadRatio, dt)
     if not g_currentMission:getIsServer() then return end
     if liters <= 0 then return end
 
     local farm = self:getFarmData(farmId)
-    local machineKey = combine.configFileName or (combine.getFullName and combine:getFullName()) or "Harvester"
+    local machineKey = RHM_HarvestTracker.getMachineKey(combine)
     local trip = farm.currentTrip
 
     -- Maintain per-machine trip record
@@ -662,6 +1347,7 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
                 harvestedMassKg = trip.harvestedMassKg or 0,
                 lostLiters = trip.lostLiters or 0,
                 lossMoney = trip.lossMoney or 0,
+                fuelUsedL = trip.fuelUsedL or 0,
                 sessionDuration = trip.sessionDuration or 0,
                 avgSpeedSum = trip.avgSpeedSum or 0,
                 avgSpeedCount = trip.avgSpeedCount or 0,
@@ -670,6 +1356,7 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
                 efficiencyRank = trip.efficiencyRank or RHM_HarvestTracker.RANK_A,
                 reasons = {
                     speed = trip.reasons and trip.reasons.speed or 0,
+                    settings = trip.reasons and trip.reasons.settings or 0,
                     moisture = trip.reasons and trip.reasons.moisture or 0,
                     wear = trip.reasons and trip.reasons.wear or 0,
                     slope = trip.reasons and trip.reasons.slope or 0
@@ -687,13 +1374,14 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
                 harvestedMassKg = 0,
                 lostLiters = 0,
                 lossMoney = 0,
+                fuelUsedL = 0,
                 sessionDuration = 0,
                 avgSpeedSum = 0,
                 avgSpeedCount = 0,
                 avgLoadSum = 0,
                 avgLoadCount = 0,
                 efficiencyRank = RHM_HarvestTracker.RANK_A,
-                reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 },
+                reasons = { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 },
                 isActive = true
             }
         end
@@ -724,39 +1412,56 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
     end
 
     if mTrip then
+        if fieldId > 0 and mTrip._rhmLastProactiveCheckField ~= fieldId then
+            mTrip._rhmLastProactiveCheckField = fieldId
+            self:discoverAndClusterMergedFields(farmId, fieldId, combine)
+        end
+
         local currentFillType = (combine.spec_rhm_Combine and combine.spec_rhm_Combine.lastFillType) or FillType.UNKNOWN
         local cropChanged = (currentFillType ~= FillType.UNKNOWN 
                             and mTrip.fillTypeIndex ~= FillType.UNKNOWN 
                             and mTrip.fillTypeIndex ~= currentFillType 
                             and (mTrip.harvestedLiters or 0) > 50)
-        local fieldChanged = (fieldId > 0 and mTrip.fieldId > 0 and mTrip.fieldId ~= fieldId and ((mTrip.harvestedLiters or 0) > 50 or (mTrip.harvestedAreaHa or 0) > 0.01))
+        local currentMaster = self:getMasterFieldId(farmId, mTrip.fieldId)
+        local newMaster = (fieldId > 0) and self:getMasterFieldId(farmId, fieldId) or 0
+        local fieldChanged = (newMaster > 0 and currentMaster > 0 and currentMaster ~= newMaster and ((mTrip.harvestedLiters or 0) > 50 or (mTrip.harvestedAreaHa or 0) > 0.01))
 
         local shouldReset = false
 
-        if autoResetMode == 1 then -- Mode 1: Smart (Merged fields protected)
+        if autoResetMode == 1 then -- Mode 1: Smart (Merged fields protected via graph clustering)
             if cropChanged then
                 shouldReset = true
+                rhm_log(string.format("[RHM_HarvestTracker] Crop changed during operation -> archiving session for Field %d", currentMaster))
             elseif fieldChanged then
-                local isTransit = false
-                local combineSpec = combine.spec_rhm_Combine
-                if combineSpec then
-                    -- Transit condition 1: combine spent significant time outside field ground (> 15s)
-                    if (combineSpec._rhmTimeOutsideField or 0) > 15.0 then
-                        isTransit = true
-                    -- Transit condition 2: cutter was disengaged/raised AND combine hasn't harvested for > 25 seconds
-                    elseif combineSpec._rhmCutterWasDisengaged and (combineSpec._rhmTimeSinceLastHarvest or 0) > 25.0 then
-                        isTransit = true
-                    end
-                end
+                -- Check if newMaster is physically connected / adjacent to currentMaster
+                local isConnected = self:areFieldsPhysicallyConnected(farmId, currentMaster, newMaster)
 
-                if isTransit then
-                    shouldReset = true
-                else
-                    -- Merged fields: Continuous harvesting across boundaries or short headland turn
-                    -- Update fieldId seamlessly without wiping trip odometer
-                    mTrip.fieldId = fieldId
+                if isConnected then
+                    -- Merged fields: Continuous harvesting across boundaries
+                    -- Automatically cluster these fields and run transitive BFS expansion
+                    self:clusterFields(farmId, currentMaster, newMaster)
+                    self:discoverAndClusterMergedFields(farmId, currentMaster)
+                    local unifiedMaster = self:getMasterFieldId(farmId, currentMaster)
+                    fieldId = unifiedMaster
+                    mTrip.fieldId = unifiedMaster
                     if updateFarmTrip then
-                        trip.fieldId = fieldId
+                        trip.fieldId = unifiedMaster
+                    end
+                    shouldReset = false
+                    rhm_log(string.format("[RHM_HarvestTracker] Harvest crossed boundary: connected Field %d merged under Master Field %d", newMaster, unifiedMaster))
+                else
+                    -- Distinct, separate, unconnected field across the map!
+                    -- Archive previous session and start fresh trip for the new field
+                    shouldReset = true
+                    rhm_log(string.format("[RHM_HarvestTracker] Field change to separate unconnected Field %d (Previous: %d) -> archiving session", newMaster, currentMaster))
+                end
+            else
+                -- Same master or single field: harmonize field IDs to cluster master
+                if currentMaster > 0 then
+                    fieldId = currentMaster
+                    mTrip.fieldId = currentMaster
+                    if updateFarmTrip then
+                        trip.fieldId = currentMaster
                     end
                 end
             end
@@ -811,11 +1516,38 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
         end
     end
 
-    -- Accumulate harvest throughput
+    -- Compute authentic physical diesel fuel consumption from vehicle engine
+    local carrier = (rhm_Combine and rhm_Combine.getMotorizedCarrier and rhm_Combine.getMotorizedCarrier(combine)) or combine
+    local fuelThisTick = 0
+    local fuelUnitIndex = RHM_HarvestTracker.getFuelFillUnitIndex(carrier)
+
+    if carrier and fuelUnitIndex and carrier.getFillUnitFillLevel then
+        local currentFuel = carrier:getFillUnitFillLevel(fuelUnitIndex) or 0
+        local lastFuel = carrier._rhmLastHarvestFuel
+        if lastFuel ~= nil and currentFuel >= 0 then
+            local diff = lastFuel - currentFuel
+            -- Positive drop within realistic operating range for harvest interval (0.0001 to 5.0 L)
+            if diff > 0.0001 and diff < 5.0 then
+                fuelThisTick = diff
+                carrier._rhmLastHarvestFuel = currentFuel
+            elseif diff < -0.1 then
+                -- Tank refueled during field operation
+                carrier._rhmLastHarvestFuel = currentFuel
+            end
+        else
+            carrier._rhmLastHarvestFuel = currentFuel
+        end
+    elseif carrier and carrier.spec_motorized and carrier.spec_motorized.lastFuelUsage and carrier.spec_motorized.lastFuelUsage > 0 then
+        -- Secondary fallback only if tank fillUnit level is unavailable
+        fuelThisTick = (carrier.spec_motorized.lastFuelUsage / 3600000.0) * dt
+    end
+
+    -- Accumulate harvest throughput and fuel
     if updateFarmTrip then
         trip.harvestedLiters = trip.harvestedLiters + liters
         trip.harvestedMassKg = trip.harvestedMassKg + massKg
         trip.harvestedAreaHa = trip.harvestedAreaHa + areaHa
+        trip.fuelUsedL = (trip.fuelUsedL or 0) + fuelThisTick
         trip.sessionDuration = trip.sessionDuration + (dt * 0.001)
         trip.isActive = true
     end
@@ -823,6 +1555,7 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
     mTrip.harvestedLiters = mTrip.harvestedLiters + liters
     mTrip.harvestedMassKg = mTrip.harvestedMassKg + massKg
     mTrip.harvestedAreaHa = mTrip.harvestedAreaHa + areaHa
+    mTrip.fuelUsedL = (mTrip.fuelUsedL or 0) + fuelThisTick
     mTrip.sessionDuration = mTrip.sessionDuration + (dt * 0.001)
     mTrip.isActive = true
 
@@ -856,31 +1589,34 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
     end
     mTrip.lossMoney = mTrip.lossMoney + lossMoneyThisTick
 
-    -- Partition loss reasons proportionally
+    -- Partition loss reasons proportionally (including calibration/settings)
     if lossReasons and lostLiters > 0 then
-        local sumPcts = (lossReasons.speedPct or 0) + (lossReasons.moisturePct or 0) + (lossReasons.wearPct or 0) + (lossReasons.slopePct or 0)
+        local sumPcts = (lossReasons.speedPct or 0) + (lossReasons.settingsPct or 0) + (lossReasons.moisturePct or 0) + (lossReasons.wearPct or 0) + (lossReasons.slopePct or 0)
         if sumPcts > 0.001 then
             local spdAdd = lostLiters * ((lossReasons.speedPct or 0) / sumPcts)
+            local setAdd = lostLiters * ((lossReasons.settingsPct or 0) / sumPcts)
             local mstAdd = lostLiters * ((lossReasons.moisturePct or 0) / sumPcts)
             local wearAdd = lostLiters * ((lossReasons.wearPct or 0) / sumPcts)
             local slpAdd = lostLiters * ((lossReasons.slopePct or 0) / sumPcts)
 
             if updateFarmTrip then
-                trip.reasons.speed = trip.reasons.speed + spdAdd
-                trip.reasons.moisture = trip.reasons.moisture + mstAdd
-                trip.reasons.wear = trip.reasons.wear + wearAdd
-                trip.reasons.slope = trip.reasons.slope + slpAdd
+                trip.reasons.speed = (trip.reasons.speed or 0) + spdAdd
+                trip.reasons.settings = (trip.reasons.settings or 0) + setAdd
+                trip.reasons.moisture = (trip.reasons.moisture or 0) + mstAdd
+                trip.reasons.wear = (trip.reasons.wear or 0) + wearAdd
+                trip.reasons.slope = (trip.reasons.slope or 0) + slpAdd
             end
 
-            mTrip.reasons.speed = mTrip.reasons.speed + spdAdd
-            mTrip.reasons.moisture = mTrip.reasons.moisture + mstAdd
-            mTrip.reasons.wear = mTrip.reasons.wear + wearAdd
-            mTrip.reasons.slope = mTrip.reasons.slope + slpAdd
+            mTrip.reasons.speed = (mTrip.reasons.speed or 0) + spdAdd
+            mTrip.reasons.settings = (mTrip.reasons.settings or 0) + setAdd
+            mTrip.reasons.moisture = (mTrip.reasons.moisture or 0) + mstAdd
+            mTrip.reasons.wear = (mTrip.reasons.wear or 0) + wearAdd
+            mTrip.reasons.slope = (mTrip.reasons.slope or 0) + slpAdd
         else
             if updateFarmTrip then
-                trip.reasons.speed = trip.reasons.speed + lostLiters
+                trip.reasons.speed = (trip.reasons.speed or 0) + lostLiters
             end
-            mTrip.reasons.speed = mTrip.reasons.speed + lostLiters
+            mTrip.reasons.speed = (mTrip.reasons.speed or 0) + lostLiters
         end
     end
 
@@ -922,7 +1658,7 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
     local isMission, isLeased = RHM_HarvestTracker.getVehicleRentalState(combine)
     local rawName = (combine.getName and combine:getName()) or (combine.getFullName and combine:getFullName()) or "Harvester"
     local cleanName = RHM_HarvestTracker.stripHelperSuffix(rawName)
-    local machineKey = combine.configFileName or cleanName
+    local machineKey = RHM_HarvestTracker.getMachineKey(combine)
     if not farm.fleetStats[machineKey] then
         farm.fleetStats[machineKey] = {
             name = cleanName,
@@ -955,13 +1691,14 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
             harvestedAreaHa = 0,
             lostLiters = 0,
             lossMoney = 0,
+            fuelUsedL = 0,
             sessionDuration = 0,
             avgSpeedSum = 0,
             avgSpeedCount = 0,
             avgLoadSum = 0,
             avgLoadCount = 0,
             fieldOperations = 0,
-            reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 },
+            reasons = { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 },
             cropVolumes = {}
         }
     end
@@ -969,6 +1706,7 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
     yStat.harvestedLiters = yStat.harvestedLiters + liters
     yStat.harvestedMassKg = yStat.harvestedMassKg + massKg
     yStat.harvestedAreaHa = yStat.harvestedAreaHa + areaHa
+    yStat.fuelUsedL = (yStat.fuelUsedL or 0) + fuelThisTick
     yStat.sessionDuration = yStat.sessionDuration + (dt * 0.001)
     yStat.lostLiters = yStat.lostLiters + lostLiters
     yStat.lossMoney = yStat.lossMoney + lossMoneyThisTick
@@ -983,14 +1721,15 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
     end
 
     if lossReasons and lostLiters > 0 then
-        local sumPcts = (lossReasons.speedPct or 0) + (lossReasons.moisturePct or 0) + (lossReasons.wearPct or 0) + (lossReasons.slopePct or 0)
+        local sumPcts = (lossReasons.speedPct or 0) + (lossReasons.settingsPct or 0) + (lossReasons.moisturePct or 0) + (lossReasons.wearPct or 0) + (lossReasons.slopePct or 0)
         if sumPcts > 0.001 then
-            yStat.reasons.speed = yStat.reasons.speed + (lostLiters * ((lossReasons.speedPct or 0) / sumPcts))
-            yStat.reasons.moisture = yStat.reasons.moisture + (lostLiters * ((lossReasons.moisturePct or 0) / sumPcts))
-            yStat.reasons.wear = yStat.reasons.wear + (lostLiters * ((lossReasons.wearPct or 0) / sumPcts))
-            yStat.reasons.slope = yStat.reasons.slope + (lostLiters * ((lossReasons.slopePct or 0) / sumPcts))
+            yStat.reasons.speed = (yStat.reasons.speed or 0) + (lostLiters * ((lossReasons.speedPct or 0) / sumPcts))
+            yStat.reasons.settings = (yStat.reasons.settings or 0) + (lostLiters * ((lossReasons.settingsPct or 0) / sumPcts))
+            yStat.reasons.moisture = (yStat.reasons.moisture or 0) + (lostLiters * ((lossReasons.moisturePct or 0) / sumPcts))
+            yStat.reasons.wear = (yStat.reasons.wear or 0) + (lostLiters * ((lossReasons.wearPct or 0) / sumPcts))
+            yStat.reasons.slope = (yStat.reasons.slope or 0) + (lostLiters * ((lossReasons.slopePct or 0) / sumPcts))
         else
-            yStat.reasons.speed = yStat.reasons.speed + lostLiters
+            yStat.reasons.speed = (yStat.reasons.speed or 0) + lostLiters
         end
     end
 
@@ -1011,6 +1750,7 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
                 harvestedAreaHa = 0,
                 lostLiters = 0,
                 lossMoney = 0,
+                fuelUsedL = 0,
                 sessionDuration = 0,
                 avgSpeedSum = 0,
                 avgSpeedCount = 0,
@@ -1020,24 +1760,79 @@ function RHM_HarvestTracker:onCombineHarvestTick(combine, farmId, liters, massKg
                 lastCrop = activeCropName or "--",
                 operationsCount = 0,
                 lastYear = currentYear,
-                reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 },
+                reasons = { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 },
                 cropVolumes = {}
             }
+        else
+            -- Check for season or crop transition
+            local fStat = farm.fieldStats[fieldId]
+            local prevCrop = fStat.lastCrop or fStat.lastCropName or "--"
+            local prevYear = fStat.lastYear or currentYear
+            local isNewYear = (currentYear > prevYear)
+            local isNewCrop = (prevCrop ~= "--" and prevCrop ~= "UNKNOWN" and activeCropName and activeCropName ~= "--" and activeCropName ~= "UNKNOWN" and prevCrop ~= activeCropName)
+            if isNewYear or isNewCrop then
+                -- Archive previous harvest session to seasonHistory
+                if (fStat.harvestedAreaHa or 0) > 0.05 or (fStat.harvestedLiters or 0) > 50 then
+                    local totalBio = (fStat.harvestedLiters or 0) + (fStat.lostLiters or 0)
+                    local lossPct = (totalBio > 0) and (((fStat.lostLiters or 0) / totalBio) * 100.0) or 0
+                    local archiveRecord = {
+                        year = prevYear,
+                        fieldId = fieldId,
+                        cropName = prevCrop,
+                        harvested = fStat.harvestedLiters or 0,
+                        harvestedMassKg = fStat.harvestedMassKg or 0,
+                        lost = fStat.lostLiters or 0,
+                        lossMoney = fStat.lossMoney or 0,
+                        fuelUsed = fStat.fuelUsedL or 0,
+                        areaHa = fStat.harvestedAreaHa or 0,
+                        efficiencyRank = RHM_HarvestTracker.calculateEfficiencyRank(lossPct),
+                        dominantReason = RHM_HarvestTracker.getDominantLossFactor(fStat.reasons),
+                        timestamp = (getDate and getDate("%Y-%m-%d %H:%M:%S")) or (g_currentMission and g_currentMission.time) or 0
+                    }
+                    farm.seasonHistory = farm.seasonHistory or {}
+                    table.insert(farm.seasonHistory, 1, archiveRecord)
+                    if #farm.seasonHistory > 50 then
+                        table.remove(farm.seasonHistory)
+                    end
+                end
+
+                -- Reset stats for the new crop / new season
+                fStat.harvestedLiters = 0
+                fStat.harvestedMassKg = 0
+                fStat.harvestedAreaHa = 0
+                fStat.lostLiters = 0
+                fStat.lossMoney = 0
+                fStat.fuelUsedL = 0
+                fStat.sessionDuration = 0
+                fStat.avgSpeedSum = 0
+                fStat.avgSpeedCount = 0
+                fStat.avgLoadSum = 0
+                fStat.avgLoadCount = 0
+                fStat.isContract = isContract
+                fStat.lastCrop = activeCropName or "--"
+                fStat.lastCropName = activeCropName or "--"
+                fStat.operationsCount = 0
+                fStat.lastYear = currentYear
+                fStat.reasons = { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 }
+                fStat.cropVolumes = {}
+            end
         end
         local fStat = farm.fieldStats[fieldId]
         fStat.harvestedLiters = (fStat.harvestedLiters or 0) + liters
         fStat.harvestedMassKg = (fStat.harvestedMassKg or 0) + massKg
         fStat.harvestedAreaHa = (fStat.harvestedAreaHa or 0) + areaHa
+        fStat.fuelUsedL = (fStat.fuelUsedL or 0) + fuelThisTick
         fStat.sessionDuration = (fStat.sessionDuration or 0) + (dt * 0.001)
         fStat.lostLiters = (fStat.lostLiters or 0) + lostLiters
         fStat.lossMoney = (fStat.lossMoney or 0) + lossMoneyThisTick
         fStat.isContract = (fStat.isContract == true) or isContract
         fStat.lastYear = currentYear
-        fStat.reasons = fStat.reasons or { speed = 0, moisture = 0, wear = 0, slope = 0 }
+        fStat.reasons = fStat.reasons or { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 }
         if lossReasons and lostLiters > 0 then
-            local sumPcts = (lossReasons.speedPct or 0) + (lossReasons.moisturePct or 0) + (lossReasons.wearPct or 0) + (lossReasons.slopePct or 0)
+            local sumPcts = (lossReasons.speedPct or 0) + (lossReasons.settingsPct or 0) + (lossReasons.moisturePct or 0) + (lossReasons.wearPct or 0) + (lossReasons.slopePct or 0)
             if sumPcts > 0.001 then
                 fStat.reasons.speed = (fStat.reasons.speed or 0) + (lostLiters * ((lossReasons.speedPct or 0) / sumPcts))
+                fStat.reasons.settings = (fStat.reasons.settings or 0) + (lostLiters * ((lossReasons.settingsPct or 0) / sumPcts))
                 fStat.reasons.moisture = (fStat.reasons.moisture or 0) + (lostLiters * ((lossReasons.moisturePct or 0) / sumPcts))
                 fStat.reasons.wear = (fStat.reasons.wear or 0) + (lostLiters * ((lossReasons.wearPct or 0) / sumPcts))
                 fStat.reasons.slope = (fStat.reasons.slope or 0) + (lostLiters * ((lossReasons.slopePct or 0) / sumPcts))
@@ -1118,13 +1913,14 @@ function RHM_HarvestTracker:archiveTripToHistory(farmId)
                 harvestedAreaHa = 0,
                 lostLiters = 0,
                 lossMoney = 0,
+                fuelUsedL = 0,
                 sessionDuration = 0,
                 avgSpeedSum = 0,
                 avgSpeedCount = 0,
                 avgLoadSum = 0,
                 avgLoadCount = 0,
                 fieldOperations = 0,
-                reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 },
+                reasons = { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 },
                 cropVolumes = {}
             }
         end
@@ -1133,13 +1929,17 @@ function RHM_HarvestTracker:archiveTripToHistory(farmId)
         local totalBio = trip.harvestedLiters + trip.lostLiters
         local lossPct = (totalBio > 0) and ((trip.lostLiters / totalBio) * 100.0) or 0
 
+        local fStat = trip.fieldId and trip.fieldId > 0 and farm.fieldStats and farm.fieldStats[trip.fieldId]
+        local actualYear = (fStat and fStat.lastYear) or currentYear
+
         local record = {
-            year = currentYear,
+            year = actualYear,
             fieldId = trip.fieldId,
             cropName = trip.cropName,
             harvested = trip.harvestedLiters,
             lost = trip.lostLiters,
             lossMoney = trip.lossMoney,
+            fuelUsed = trip.fuelUsedL or 0,
             areaHa = trip.harvestedAreaHa,
             efficiencyRank = trip.efficiencyRank,
             dominantReason = RHM_HarvestTracker.getDominantLossFactor(trip.reasons),
@@ -1162,7 +1962,8 @@ function RHM_HarvestTracker:archiveTripToHistory(farmId)
         harvestedAreaHa = 0,
         lostLiters = 0,
         lossMoney = 0,
-        reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 },
+        fuelUsedL = 0,
+        reasons = { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 },
         sessionDuration = 0,
         avgSpeedSum = 0,
         avgSpeedCount = 0,
@@ -1198,13 +1999,14 @@ function RHM_HarvestTracker:archiveAndResetCombineTrip(farmId, machineKey, combi
                 harvestedAreaHa = 0,
                 lostLiters = 0,
                 lossMoney = 0,
+                fuelUsedL = 0,
                 sessionDuration = 0,
                 avgSpeedSum = 0,
                 avgSpeedCount = 0,
                 avgLoadSum = 0,
                 avgLoadCount = 0,
                 fieldOperations = 0,
-                reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 },
+                reasons = { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 },
                 cropVolumes = {}
             }
         end
@@ -1212,14 +2014,19 @@ function RHM_HarvestTracker:archiveAndResetCombineTrip(farmId, machineKey, combi
 
         local totalBio = (mTrip.harvestedLiters or 0) + (mTrip.lostLiters or 0)
         local lossPct = (totalBio > 0) and (((mTrip.lostLiters or 0) / totalBio) * 100.0) or 0
+        local fStat = mTrip.fieldId and mTrip.fieldId > 0 and farm.fieldStats and farm.fieldStats[mTrip.fieldId]
+        local actualYear = (fStat and fStat.lastYear) or mTrip.lastYear or currentYear
+
         local record = {
-            year = currentYear,
+            year = actualYear,
             fieldId = mTrip.fieldId or 0,
             isContract = (mTrip.isContract == true),
             cropName = mTrip.cropName or "UNKNOWN",
             harvested = mTrip.harvestedLiters or 0,
+            harvestedMassKg = mTrip.harvestedMassKg or 0,
             lost = mTrip.lostLiters or 0,
             lossMoney = mTrip.lossMoney or 0,
+            fuelUsed = mTrip.fuelUsedL or 0,
             areaHa = mTrip.harvestedAreaHa or 0,
             efficiencyRank = mTrip.efficiencyRank or "A",
             dominantReason = RHM_HarvestTracker.getDominantLossFactor(mTrip.reasons),
@@ -1245,13 +2052,14 @@ function RHM_HarvestTracker:archiveAndResetCombineTrip(farmId, machineKey, combi
     mTrip.harvestedAreaHa = 0
     mTrip.lostLiters = 0
     mTrip.lossMoney = 0
+    mTrip.fuelUsedL = 0
     mTrip.sessionDuration = 0
     mTrip.avgSpeedSum = 0
     mTrip.avgSpeedCount = 0
     mTrip.avgLoadSum = 0
     mTrip.avgLoadCount = 0
     mTrip.efficiencyRank = RHM_HarvestTracker.RANK_A
-    mTrip.reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 }
+    mTrip.reasons = { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 }
     mTrip.isActive = false
     mTrip.fieldId = 0
     mTrip.isContract = false
@@ -1273,13 +2081,14 @@ function RHM_HarvestTracker:archiveAndResetCombineTrip(farmId, machineKey, combi
         farm.currentTrip.harvestedAreaHa = 0
         farm.currentTrip.lostLiters = 0
         farm.currentTrip.lossMoney = 0
+        farm.currentTrip.fuelUsedL = 0
         farm.currentTrip.sessionDuration = 0
         farm.currentTrip.avgSpeedSum = 0
         farm.currentTrip.avgSpeedCount = 0
         farm.currentTrip.avgLoadSum = 0
         farm.currentTrip.avgLoadCount = 0
         farm.currentTrip.efficiencyRank = RHM_HarvestTracker.RANK_A
-        farm.currentTrip.reasons = { speed = 0, moisture = 0, wear = 0, slope = 0 }
+        farm.currentTrip.reasons = { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 }
         farm.currentTrip.isActive = false
         farm.currentTrip.fieldId = 0
         farm.currentTrip.isContract = false
@@ -1365,7 +2174,21 @@ function RHM_HarvestTracker:getSeasonSummary(farmId, targetYear)
     local function mergeStat(stat)
         if not stat then return end
         summary.harvestedLiters = summary.harvestedLiters + (stat.harvestedLiters or 0)
-        summary.harvestedMassKg = summary.harvestedMassKg + (stat.harvestedMassKg or ((stat.harvestedLiters or 0) * 0.75))
+        local statMass = stat.harvestedMassKg
+        if (not statMass or statMass <= 0) and (stat.harvestedLiters or 0) > 0 then
+            local fallbackDensity = 0.00075
+            if stat.cropVolumes then
+                local topVol = 0
+                for cName, vol in pairs(stat.cropVolumes) do
+                    if vol > topVol and RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter then
+                        topVol = vol
+                        fallbackDensity = RHM_UnitConverter.getCropDensityTonsPerLiter(cName)
+                    end
+                end
+            end
+            statMass = (stat.harvestedLiters or 0) * fallbackDensity * 1000.0
+        end
+        summary.harvestedMassKg = summary.harvestedMassKg + (statMass or 0)
         summary.harvestedAreaHa = summary.harvestedAreaHa + (stat.harvestedAreaHa or 0)
         summary.lostLiters = summary.lostLiters + (stat.lostLiters or 0)
         summary.lossMoney = summary.lossMoney + (stat.lossMoney or 0)
@@ -1400,8 +2223,9 @@ function RHM_HarvestTracker:getSeasonSummary(farmId, targetYear)
         -- Legacy savegame bootstrap: if yearlyStats was empty, extract totals from seasonHistory
         if summary.harvestedLiters <= 0 and farm.seasonHistory and #farm.seasonHistory > 0 then
             for _, rec in ipairs(farm.seasonHistory) do
+                local recDensity = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and RHM_UnitConverter.getCropDensityTonsPerLiter(rec.cropName)) or 0.00075
                 summary.harvestedLiters = summary.harvestedLiters + (rec.harvested or 0)
-                summary.harvestedMassKg = summary.harvestedMassKg + ((rec.harvested or 0) * 0.75)
+                summary.harvestedMassKg = summary.harvestedMassKg + ((rec.harvestedMassKg and rec.harvestedMassKg > 0) and rec.harvestedMassKg or ((rec.harvested or 0) * recDensity * 1000.0))
                 summary.harvestedAreaHa = summary.harvestedAreaHa + (rec.areaHa or 0)
                 summary.lostLiters = summary.lostLiters + (rec.lost or 0)
                 summary.lossMoney = summary.lossMoney + (rec.lossMoney or 0)
@@ -1424,8 +2248,9 @@ function RHM_HarvestTracker:getSeasonSummary(farmId, targetYear)
                 if rec.year == y then
                     count = count + 1
                     if not farm.yearlyStats or not farm.yearlyStats[y] then
+                        local recDensity = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and RHM_UnitConverter.getCropDensityTonsPerLiter(rec.cropName)) or 0.00075
                         summary.harvestedLiters = summary.harvestedLiters + (rec.harvested or 0)
-                        summary.harvestedMassKg = summary.harvestedMassKg + ((rec.harvested or 0) * 0.75)
+                        summary.harvestedMassKg = summary.harvestedMassKg + ((rec.harvestedMassKg and rec.harvestedMassKg > 0) and rec.harvestedMassKg or ((rec.harvested or 0) * recDensity * 1000.0))
                         summary.harvestedAreaHa = summary.harvestedAreaHa + (rec.areaHa or 0)
                         summary.lostLiters = summary.lostLiters + (rec.lost or 0)
                         summary.lossMoney = summary.lossMoney + (rec.lossMoney or 0)
@@ -1442,12 +2267,23 @@ function RHM_HarvestTracker:getSeasonSummary(farmId, targetYear)
     end
 
     -- Derived calculated values
-    summary.harvestedTons = (summary.harvestedMassKg or 0) * 0.001
-    if summary.harvestedTons <= 0 and summary.harvestedLiters > 0 then
-        summary.harvestedTons = summary.harvestedLiters * 0.00075
+    local domDensity = 0.00075
+    if RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and summary.cropVolumes then
+        local topVol = 0
+        for cName, vol in pairs(summary.cropVolumes) do
+            if vol > topVol then
+                topVol = vol
+                domDensity = RHM_UnitConverter.getCropDensityTonsPerLiter(cName)
+            end
+        end
     end
 
-    summary.lostTons = (summary.lostLiters or 0) * 0.00075
+    summary.harvestedTons = (summary.harvestedMassKg or 0) * 0.001
+    if summary.harvestedTons <= 0 and summary.harvestedLiters > 0 then
+        summary.harvestedTons = summary.harvestedLiters * domDensity
+    end
+
+    summary.lostTons = (summary.lostLiters or 0) * domDensity
     summary.avgYield = (summary.harvestedAreaHa > 0.01) and (summary.harvestedTons / summary.harvestedAreaHa) or 0
 
     local workHours = (summary.sessionDuration or 0) / 3600.0
@@ -1486,6 +2322,131 @@ function RHM_HarvestTracker:getSeasonSummary(farmId, targetYear)
     return summary
 end
 
+---EN: Resolves raw individual field nominal area in hectares (single parcel)
+---UA: Визначає сиру площу однієї окремої ділянки в гектарах
+function RHM_HarvestTracker.getSingleFieldNominalAreaHa(fieldId, field, fmlId)
+    local aHa = 0
+    local targetFmlId = fmlId
+
+    local fObj = field
+    if not fObj and fieldId and fieldId > 0 and g_fieldManager and g_fieldManager.getFieldById then
+        fObj = g_fieldManager:getFieldById(fieldId)
+    end
+    if fObj then
+        if fObj.areaHa and fObj.areaHa > 0 then
+            aHa = fObj.areaHa
+        elseif fObj.fieldArea and fObj.fieldArea > 0 then
+            aHa = (fObj.fieldArea > 100) and (fObj.fieldArea / 10000.0) or fObj.fieldArea
+        elseif fObj.areaInHa and fObj.areaInHa > 0 then
+            aHa = fObj.areaInHa
+        elseif fObj.area and fObj.area > 0 then
+            aHa = (fObj.area > 100) and (fObj.area / 10000.0) or fObj.area
+        elseif fObj.getArea then
+            local a = fObj:getArea() or 0
+            aHa = (a > 100) and (a / 10000.0) or a
+        end
+
+        if not targetFmlId or targetFmlId <= 0 then
+            if fObj.farmlandId and fObj.farmlandId > 0 then
+                targetFmlId = fObj.farmlandId
+            elseif fObj.farmlandIndex and fObj.farmlandIndex > 0 then
+                targetFmlId = fObj.farmlandIndex
+            elseif fObj.farmland and type(fObj.farmland) == "table" and fObj.farmland.id then
+                targetFmlId = fObj.farmland.id
+            elseif g_farmlandManager then
+                if fObj.fieldPositionX and fObj.fieldPositionZ then
+                    targetFmlId = g_farmlandManager:getFarmlandIdAtWorldPosition(fObj.fieldPositionX, fObj.fieldPositionZ)
+                elseif fObj.posX and fObj.posZ then
+                    targetFmlId = g_farmlandManager:getFarmlandIdAtWorldPosition(fObj.posX, fObj.posZ)
+                elseif fObj.rootNode and fObj.rootNode ~= 0 and entityExists(fObj.rootNode) then
+                    local wx, _, wz = getWorldTranslation(fObj.rootNode)
+                    targetFmlId = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
+                end
+            end
+        end
+    end
+
+    if (not targetFmlId or targetFmlId <= 0) and fieldId and fieldId > 0 then
+        targetFmlId = fieldId
+    end
+
+    if aHa <= 0 and g_farmlandManager then
+        local fl = nil
+        if g_farmlandManager.getFarmlandById and targetFmlId and targetFmlId > 0 then
+            fl = g_farmlandManager:getFarmlandById(targetFmlId)
+        end
+        if not fl and g_farmlandManager.farmlands and targetFmlId and targetFmlId > 0 then
+            fl = g_farmlandManager.farmlands[targetFmlId]
+        end
+
+        if fl then
+            if fl.field and fl.field.areaHa and fl.field.areaHa > 0 then
+                aHa = fl.field.areaHa
+            elseif fl.totalFieldArea and fl.totalFieldArea > 0 then
+                aHa = (fl.totalFieldArea > 100) and (fl.totalFieldArea / 10000.0) or fl.totalFieldArea
+            elseif fl.areaInHa and fl.areaInHa > 0 then
+                aHa = fl.areaInHa
+            elseif fl.totalArea and fl.totalArea > 0 then
+                aHa = (fl.totalArea > 100) and (fl.totalArea / 10000.0) or fl.totalArea
+            elseif fl.area and fl.area > 0 then
+                aHa = (fl.area > 100) and (fl.area / 10000.0) or fl.area
+            end
+        end
+
+        if aHa <= 0 and targetFmlId and targetFmlId > 0 and g_farmlandManager.getFarmlandArea then
+            local areaFromMethod = g_farmlandManager:getFarmlandArea(targetFmlId) or 0
+            if areaFromMethod > 0 then
+                aHa = (areaFromMethod > 100) and (areaFromMethod / 10000.0) or areaFromMethod
+            end
+        end
+
+        if aHa <= 0 and fieldId and fieldId > 0 and g_farmlandManager.farmlands then
+            for _, flItem in pairs(g_farmlandManager.farmlands) do
+                if flItem.field and (flItem.field.fieldId == fieldId or flItem.field.id == fieldId or flItem.id == fieldId) then
+                    if flItem.field.areaHa and flItem.field.areaHa > 0 then
+                        aHa = flItem.field.areaHa
+                        break
+                    elseif flItem.totalFieldArea and flItem.totalFieldArea > 0 then
+                        aHa = (flItem.totalFieldArea > 100) and (flItem.totalFieldArea / 10000.0) or flItem.totalFieldArea
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    return aHa or 0
+end
+
+---EN: Resolves authentic nominal field area in hectares (aggregated if part of a merged cluster)
+---UA: Визначає номінальну площу поля в гектарах (об'єднану якщо це частина кластера)
+function RHM_HarvestTracker.getFieldNominalAreaHa(fieldId, field, fmlId, farmId)
+    local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
+    if tracker and fieldId and fieldId > 0 then
+        local fId = farmId or 1
+        if g_currentMission and g_currentMission.getFarmId then
+            local activeFid = g_currentMission:getFarmId()
+            if activeFid and activeFid > 0 and activeFid ~= FarmManager.SPECTATOR_FARM_ID then
+                fId = activeFid
+            end
+        end
+
+        local masterId = tracker:getMasterFieldId(fId, fieldId)
+        local members = tracker:getClusterMembers(fId, masterId)
+        if members and #members > 1 then
+            local totalClusterArea = 0
+            for _, mId in ipairs(members) do
+                totalClusterArea = totalClusterArea + RHM_HarvestTracker.getSingleFieldNominalAreaHa(mId, nil, nil)
+            end
+            if totalClusterArea > 0 then
+                return totalClusterArea
+            end
+        end
+    end
+
+    return RHM_HarvestTracker.getSingleFieldNominalAreaHa(fieldId, field, fmlId)
+end
+
 ---EN: Queries all farm fields (both owned land and active/completed contract fields) with production metrics.
 ---UA: Отримує повний список полів ферми (власні угіддя та контрактні роботи) з метриками врожайності.
 ---@param farmId number
@@ -1494,6 +2455,15 @@ function RHM_HarvestTracker:getFarmFields(farmId)
     local farm = self:getFarmData(farmId)
     local result = {}
     local seen = {}
+
+    -- 0. Proactively discover and cluster contiguous owned farmlands
+    local ownedFieldIds = self:getOwnedFieldIds(farmId)
+    for ownedId, _ in pairs(ownedFieldIds) do
+        local mId = self:getMasterFieldId(farmId, ownedId)
+        if not mId or mId == ownedId then
+            self:discoverAndClusterMergedFields(farmId, ownedId, nil)
+        end
+    end
 
     -- 1. Query owned farmlands from FarmlandManager
     local ownedFarmlands = {}
@@ -1555,44 +2525,23 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                 local fid = g_farmlandManager:getFarmlandIdAtWorldPosition(field.posX, field.posZ)
                 if fid and fid > 0 then return fid end
             end
+            if field.node and field.node ~= 0 and entityExists(field.node) then
+                local wx, _, wz = getWorldTranslation(field.node)
+                local fid = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
+                if fid and fid > 0 then return fid end
+            end
             if field.mapMarker and field.mapMarker ~= 0 and entityExists(field.mapMarker) then
                 local wx, _, wz = getWorldTranslation(field.mapMarker)
                 local fid = g_farmlandManager:getFarmlandIdAtWorldPosition(wx, wz)
                 if fid and fid > 0 then return fid end
             end
         end
-        local fid = (field.getId and field:getId()) or field.fieldId or field.id
-        if fid and fid > 0 and ownedFarmlands[fid] then
-            return fid
-        end
         return 0
     end
 
     -- Helper to calculate nominal area in hectares
     local function resolveFieldAreaHa(field, fmlId)
-        local aHa = 0
-        if field then
-            if field.areaInHa and field.areaInHa > 0 then
-                aHa = field.areaInHa
-            elseif field.fieldArea and field.fieldArea > 0 then
-                aHa = (field.fieldArea > 100) and (field.fieldArea / 10000.0) or field.fieldArea
-            elseif field.area and field.area > 0 then
-                aHa = (field.area > 100) and (field.area / 10000.0) or field.area
-            elseif field.getArea then
-                local a = field:getArea() or 0
-                aHa = (a > 100) and (a / 10000.0) or a
-            end
-        end
-        if aHa <= 0 and fmlId and fmlId > 0 and g_farmlandManager then
-            if g_farmlandManager.getFarmlandArea then
-                aHa = g_farmlandManager:getFarmlandArea(fmlId) or 0
-            end
-            if aHa <= 0 and g_farmlandManager.farmlands and g_farmlandManager.farmlands[fmlId] then
-                local fl = g_farmlandManager.farmlands[fmlId]
-                aHa = fl.areaInHa or fl.area or (fl.totalArea and fl.totalArea / 10000.0) or 0
-            end
-        end
-        return aHa
+        return RHM_HarvestTracker.getSingleFieldNominalAreaHa(nil, field, fmlId)
     end
 
     -- 2. Query fields from game engine FieldManager
@@ -1623,7 +2572,6 @@ function RHM_HarvestTracker:getFarmFields(farmId)
             if fid and fid > 0 then
                 local fmlId = resolveFarmlandId(field)
                 local isOwned = (fmlId > 0 and ownedFarmlands[fmlId] == true)
-                             or (fid > 0 and ownedFarmlands[fid] == true)
                              or (fmlId > 0 and g_farmlandManager and g_farmlandManager.getFarmlandOwner and g_farmlandManager:getFarmlandOwner(fmlId) == farmId)
 
                 if isOwned then
@@ -1681,6 +2629,7 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                         harvestedMassKg = totalHMass,
                         lostLiters = totalLostL,
                         lossMoney = totalMoney,
+                        fuelUsedL = (fStat and fStat.fuelUsedL) or 0,
                         sessionDuration = totalDuration,
                         lastCrop = cropName,
                         cropVolumes = (fStat and fStat.cropVolumes) or {},
@@ -1704,31 +2653,12 @@ function RHM_HarvestTracker:getFarmFields(farmId)
             local totalMoney = (fStat and fStat.lossMoney) or 0
             local totalDuration = (fStat and fStat.sessionDuration) or 0
 
-            -- Check if this farmland corresponds to a real registered engine field (e.g. Field 5 with grass)
-            local isRealField = false
-            local fieldObj = nil
-            if g_fieldManager and g_fieldManager.getFieldById then
-                fieldObj = g_fieldManager:getFieldById(fmlId)
-                if fieldObj then
-                    isRealField = true
-                end
-            end
-            if not isRealField and fieldList then
-                for _, f in pairs(fieldList) do
-                    local fid = f.fieldId or f.id
-                    if fid == fmlId then
-                        isRealField = true
-                        fieldObj = f
-                        break
-                    end
-                end
-            end
-
-            -- Include if it is an actual registered field OR if the player actively harvested a custom plot!
+            -- Include if parcel belongs to an active cluster, or player actively harvested a custom plot on this parcel!
             -- Unharvested non-field parcels (e.g. farm base yard 44, woods 63, empty meadows 39) are excluded.
-            if isRealField or totalHLiters > 50 or totalHArea > 0.05 then
+            local isClustered = (farm.fieldClusterMembers and farm.fieldClusterMembers[fmlId] ~= nil) or (farm.fieldClusters and farm.fieldClusters[fmlId] ~= nil)
+            if isClustered or totalHLiters > 50 or totalHArea > 0.05 then
                 seen[fmlId] = true
-                local areaHa = resolveFieldAreaHa(fieldObj, fmlId)
+                local areaHa = resolveFieldAreaHa(nil, fmlId)
 
                 local cropName = (fStat and (fStat.lastCropName or fStat.lastCrop)) or "--"
                 if cropName == "--" and farm.currentTrip and farm.currentTrip.fieldId == fmlId and farm.currentTrip.cropName and farm.currentTrip.cropName ~= "--" and farm.currentTrip.cropName ~= "UNKNOWN" then
@@ -1762,7 +2692,7 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                     end
                 end
 
-                local fReasons = (fStat and fStat.reasons) or { speed = 0, moisture = 0, wear = 0, slope = 0 }
+                local fReasons = (fStat and fStat.reasons) or { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 }
                 local ops = (fStat and fStat.operationsCount) or 0
                 if ops == 0 and (totalHLiters > 50 or totalHArea > 0.01) then
                     ops = 1
@@ -1778,6 +2708,7 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                     harvestedMassKg = totalHMass,
                     lostLiters = totalLostL,
                     lossMoney = totalMoney,
+                    fuelUsedL = (fStat and fStat.fuelUsedL) or 0,
                     sessionDuration = totalDuration,
                     lastCrop = cropName,
                     cropVolumes = (fStat and fStat.cropVolumes) or {},
@@ -1812,7 +2743,7 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                         cropName = farm.currentTrip.cropName
                     end
 
-                    local fReasons = fStat.reasons or { speed = 0, moisture = 0, wear = 0, slope = 0 }
+                    local fReasons = fStat.reasons or { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 }
 
                     -- Resolve authentic nominal area for contract/external field from fieldManager!
                     local areaHa = 0
@@ -1833,7 +2764,7 @@ function RHM_HarvestTracker:getFarmFields(farmId)
 
                     table.insert(result, {
                         fieldId = fid,
-                        isOwned = false,
+                        isOwned = not isContract,
                         isContract = isContract,
                         nominalAreaHa = areaHa,
                         harvestedAreaHa = totalHArea,
@@ -1841,6 +2772,7 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                         harvestedMassKg = totalHMass,
                         lostLiters = totalLostL,
                         lossMoney = totalMoney,
+                        fuelUsedL = fStat.fuelUsedL or 0,
                         sessionDuration = totalDuration,
                         lastCrop = cropName,
                         cropVolumes = fStat.cropVolumes or {},
@@ -1892,6 +2824,7 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                     local liveReasons = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.reasons) or nil
                     local fReasons = {
                         speed = (liveReasons and liveReasons.speed) or 0,
+                        settings = (liveReasons and liveReasons.settings) or 0,
                         moisture = (liveReasons and liveReasons.moisture) or 0,
                         wear = (liveReasons and liveReasons.wear) or 0,
                         slope = (liveReasons and liveReasons.slope) or 0
@@ -1907,6 +2840,7 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                         harvestedMassKg = liveHarvMass,
                         lostLiters = liveLostL,
                         lossMoney = liveMoney,
+                        fuelUsedL = (farm.currentTrip and farm.currentTrip.fieldId == fid and farm.currentTrip.fuelUsedL) or 0,
                         sessionDuration = liveDuration,
                         lastCrop = cropName,
                         cropVolumes = {},
@@ -1917,6 +2851,103 @@ function RHM_HarvestTracker:getFarmFields(farmId)
                 end
             end
         end
+    end
+
+    -- 6. Consolidate merged/clustered fields into unified master entries
+    if farm.fieldClusterMembers and next(farm.fieldClusterMembers) ~= nil then
+        local masterMap = {}
+        local nonClusterResult = {}
+        local clusterChildMap = {}
+
+        for _, entry in ipairs(result) do
+            local fid = entry.fieldId
+            local masterId = farm.fieldClusterMembers[fid]
+            if not masterId or masterId == fid then
+                masterMap[fid] = entry
+                table.insert(nonClusterResult, entry)
+            else
+                clusterChildMap[masterId] = clusterChildMap[masterId] or {}
+                table.insert(clusterChildMap[masterId], entry)
+            end
+        end
+
+        for masterId, children in pairs(clusterChildMap) do
+            local master = masterMap[masterId]
+            if not master and #children > 0 then
+                -- Master was not directly in result, promote first child as master representative
+                master = children[1]
+                master.fieldId = masterId
+                masterMap[masterId] = master
+                table.insert(nonClusterResult, master)
+                table.remove(children, 1)
+            end
+
+            if master then
+                master.clusterMembers = master.clusterMembers or { masterId }
+                local memberSet = {}
+                for _, m in ipairs(master.clusterMembers) do memberSet[m] = true end
+
+                for _, child in ipairs(children) do
+                    if not memberSet[child.fieldId] then
+                        table.insert(master.clusterMembers, child.fieldId)
+                        memberSet[child.fieldId] = true
+                    end
+                    master.nominalAreaHa = (master.nominalAreaHa or 0) + (child.nominalAreaHa or 0)
+                    master.harvestedAreaHa = (master.harvestedAreaHa or 0) + (child.harvestedAreaHa or 0)
+                    master.harvestedLiters = (master.harvestedLiters or 0) + (child.harvestedLiters or 0)
+                    master.harvestedMassKg = (master.harvestedMassKg or 0) + (child.harvestedMassKg or 0)
+                    master.lostLiters = (master.lostLiters or 0) + (child.lostLiters or 0)
+                    master.lossMoney = (master.lossMoney or 0) + (child.lossMoney or 0)
+                    master.fuelUsedL = (master.fuelUsedL or 0) + (child.fuelUsedL or 0)
+                    master.sessionDuration = (master.sessionDuration or 0) + (child.sessionDuration or 0)
+                    master.operationsCount = math.max(master.operationsCount or 0, child.operationsCount or 0)
+                    if (not master.lastCrop or master.lastCrop == "--") and child.lastCrop and child.lastCrop ~= "--" then
+                        master.lastCrop = child.lastCrop
+                    end
+                    if child.reasons then
+                        master.reasons = master.reasons or { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 }
+                        for rK, rV in pairs(child.reasons) do
+                            master.reasons[rK] = (master.reasons[rK] or 0) + (rV or 0)
+                        end
+                    end
+                end
+
+                -- Ensure all registered cluster members from farm.fieldClusters are accounted for
+                if farm.fieldClusters and farm.fieldClusters[masterId] and farm.fieldClusters[masterId].members then
+                    for cId, _ in pairs(farm.fieldClusters[masterId].members) do
+                        if not memberSet[cId] then
+                            table.insert(master.clusterMembers, cId)
+                            memberSet[cId] = true
+                            local extraArea = resolveFieldAreaHa(nil, cId)
+                            master.nominalAreaHa = (master.nominalAreaHa or 0) + extraArea
+                        end
+                    end
+                end
+
+                table.sort(master.clusterMembers)
+            else
+                for _, child in ipairs(children) do
+                    table.insert(nonClusterResult, child)
+                end
+            end
+        end
+        result = nonClusterResult
+    end
+
+    -- 7. Compute financial ledger and completion percentage for each field
+    for _, f in ipairs(result) do
+        local pricePerLiter = 0.35
+        if g_currentMission and g_currentMission.economyManager and f.lastCrop and f.lastCrop ~= "--" then
+            local ftIdx = g_fillTypeManager and g_fillTypeManager:getFillTypeIndexByName(f.lastCrop)
+            if ftIdx and ftIdx ~= FillType.UNKNOWN then
+                if g_currentMission.economyManager.getPricePerLiter then
+                    pricePerLiter = g_currentMission.economyManager:getPricePerLiter(ftIdx) or pricePerLiter
+                end
+            end
+        end
+        f.grossRevenue = (f.harvestedLiters or 0) * pricePerLiter
+        f.fuelExpense = (f.fuelUsedL or 0) * 1.45 -- Realistic diesel benchmark ~ $1.45/L
+        f.netMargin = f.grossRevenue - f.fuelExpense - (f.lossMoney or 0)
     end
 
     table.sort(result, function(a, b) return (a.fieldId or 0) < (b.fieldId or 0) end)
@@ -1953,7 +2984,7 @@ function RHM_HarvestTracker:resetTripForCombine(farmId, combine, user)
         if combine.resetTrip then
             combine:resetTrip()
         end
-        local machineKey = combine.configFileName or (combine.getFullName and combine:getFullName()) or "Harvester"
+        local machineKey = RHM_HarvestTracker.getMachineKey(combine)
         self:archiveAndResetCombineTrip(farmId, machineKey, combine)
         return true
     end
@@ -2017,6 +3048,7 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
         setXMLFloat(xmlFile, tripKey .. "#harvestedArea", trip.harvestedAreaHa or 0)
         setXMLFloat(xmlFile, tripKey .. "#lost", trip.lostLiters or 0)
         setXMLFloat(xmlFile, tripKey .. "#lossMoney", trip.lossMoney or 0)
+        setXMLFloat(xmlFile, tripKey .. "#fuelUsedL", trip.fuelUsedL or 0)
         setXMLFloat(xmlFile, tripKey .. "#duration", trip.sessionDuration or 0)
         setXMLFloat(xmlFile, tripKey .. "#avgSpeedSum", trip.avgSpeedSum or 0)
         setXMLInt(xmlFile, tripKey .. "#avgSpeedCount", trip.avgSpeedCount or 0)
@@ -2030,6 +3062,7 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
         end
 
         setXMLFloat(xmlFile, tripKey .. ".reasons#speed", trip.reasons.speed or 0)
+        setXMLFloat(xmlFile, tripKey .. ".reasons#settings", trip.reasons.settings or 0)
         setXMLFloat(xmlFile, tripKey .. ".reasons#moisture", trip.reasons.moisture or 0)
         setXMLFloat(xmlFile, tripKey .. ".reasons#wear", trip.reasons.wear or 0)
         setXMLFloat(xmlFile, tripKey .. ".reasons#slope", trip.reasons.slope or 0)
@@ -2049,6 +3082,7 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
                 setXMLFloat(xmlFile, mKey .. "#harvestedArea", mTrip.harvestedAreaHa or 0)
                 setXMLFloat(xmlFile, mKey .. "#lost", mTrip.lostLiters or 0)
                 setXMLFloat(xmlFile, mKey .. "#lossMoney", mTrip.lossMoney or 0)
+                setXMLFloat(xmlFile, mKey .. "#fuelUsedL", mTrip.fuelUsedL or 0)
                 setXMLFloat(xmlFile, mKey .. "#duration", mTrip.sessionDuration or 0)
                 setXMLFloat(xmlFile, mKey .. "#avgSpeedSum", mTrip.avgSpeedSum or 0)
                 setXMLInt(xmlFile, mKey .. "#avgSpeedCount", mTrip.avgSpeedCount or 0)
@@ -2060,6 +3094,7 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
 
                 if mTrip.reasons then
                     setXMLFloat(xmlFile, mKey .. ".reasons#speed", mTrip.reasons.speed or 0)
+                    setXMLFloat(xmlFile, mKey .. ".reasons#settings", mTrip.reasons.settings or 0)
                     setXMLFloat(xmlFile, mKey .. ".reasons#moisture", mTrip.reasons.moisture or 0)
                     setXMLFloat(xmlFile, mKey .. ".reasons#wear", mTrip.reasons.wear or 0)
                     setXMLFloat(xmlFile, mKey .. ".reasons#slope", mTrip.reasons.slope or 0)
@@ -2104,6 +3139,7 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
                 setXMLFloat(xmlFile, sKey .. "#harvestedArea", yStat.harvestedAreaHa or 0)
                 setXMLFloat(xmlFile, sKey .. "#lost", yStat.lostLiters or 0)
                 setXMLFloat(xmlFile, sKey .. "#lossMoney", yStat.lossMoney or 0)
+                setXMLFloat(xmlFile, sKey .. "#fuelUsedL", yStat.fuelUsedL or 0)
                 setXMLFloat(xmlFile, sKey .. "#duration", yStat.sessionDuration or 0)
                 setXMLFloat(xmlFile, sKey .. "#avgSpeedSum", yStat.avgSpeedSum or 0)
                 setXMLInt(xmlFile, sKey .. "#avgSpeedCount", yStat.avgSpeedCount or 0)
@@ -2113,6 +3149,7 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
 
                 if yStat.reasons then
                     setXMLFloat(xmlFile, sKey .. ".reasons#speed", yStat.reasons.speed or 0)
+                    setXMLFloat(xmlFile, sKey .. ".reasons#settings", yStat.reasons.settings or 0)
                     setXMLFloat(xmlFile, sKey .. ".reasons#moisture", yStat.reasons.moisture or 0)
                     setXMLFloat(xmlFile, sKey .. ".reasons#wear", yStat.reasons.wear or 0)
                     setXMLFloat(xmlFile, sKey .. ".reasons#slope", yStat.reasons.slope or 0)
@@ -2144,6 +3181,7 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
                 setXMLFloat(xmlFile, fKey .. "#duration", fStat.sessionDuration or 0)
                 setXMLFloat(xmlFile, fKey .. "#lost", fStat.lostLiters or 0)
                 setXMLFloat(xmlFile, fKey .. "#lossMoney", fStat.lossMoney or 0)
+                setXMLFloat(xmlFile, fKey .. "#fuelUsedL", fStat.fuelUsedL or 0)
                 setXMLInt(xmlFile, fKey .. "#operationsCount", fStat.operationsCount or 0)
                 setXMLBool(xmlFile, fKey .. "#isContract", fStat.isContract == true)
                 setXMLString(xmlFile, fKey .. "#lastCropName", fStat.lastCropName or fStat.lastCrop or "--")
@@ -2154,6 +3192,7 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
                 setXMLInt(xmlFile, fKey .. "#lastYear", fStat.lastYear or 1)
                 local r = fStat.reasons or {}
                 setXMLFloat(xmlFile, fKey .. "#reasonSpeed", r.speed or 0)
+                setXMLFloat(xmlFile, fKey .. "#reasonSettings", r.settings or 0)
                 setXMLFloat(xmlFile, fKey .. "#reasonMoisture", r.moisture or 0)
                 setXMLFloat(xmlFile, fKey .. "#reasonWear", r.wear or 0)
                 setXMLFloat(xmlFile, fKey .. "#reasonSlope", r.slope or 0)
@@ -2170,11 +3209,31 @@ function RHM_HarvestTracker:saveToXMLFile(xmlFile, rootKey)
             setXMLBool(xmlFile, eKey .. "#isContract", entry.isContract == true)
             setXMLString(xmlFile, eKey .. "#cropName", entry.cropName or "UNKNOWN")
             setXMLFloat(xmlFile, eKey .. "#harvested", entry.harvested or 0)
+            setXMLFloat(xmlFile, eKey .. "#harvestedMass", entry.harvestedMassKg or 0)
             setXMLFloat(xmlFile, eKey .. "#lost", entry.lost or 0)
             setXMLFloat(xmlFile, eKey .. "#lossMoney", entry.lossMoney or 0)
             setXMLFloat(xmlFile, eKey .. "#areaHa", entry.areaHa or 0)
             setXMLString(xmlFile, eKey .. "#efficiencyRank", entry.efficiencyRank or "A")
             setXMLString(xmlFile, eKey .. "#dominantReason", entry.dominantReason or "speed")
+        end
+
+        -- Field Clusters (Merged fields persistence)
+        local clusterKey = farmKey .. ".fieldClusters"
+        local clIdx = 0
+        if farm.fieldClusters then
+            for masterId, cluster in pairs(farm.fieldClusters) do
+                local cEntryKey = string.format("%s.cluster(%d)", clusterKey, clIdx)
+                setXMLInt(xmlFile, cEntryKey .. "#masterId", masterId)
+                local mIdx = 0
+                if cluster.members then
+                    for memberId, _ in pairs(cluster.members) do
+                        local mEntryKey = string.format("%s.member(%d)", cEntryKey, mIdx)
+                        setXMLInt(xmlFile, mEntryKey .. "#fieldId", memberId)
+                        mIdx = mIdx + 1
+                    end
+                end
+                clIdx = clIdx + 1
+            end
         end
 
         farmIndex = farmIndex + 1
@@ -2203,6 +3262,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
             farm.currentTrip.harvestedAreaHa = getXMLFloat(xmlFile, tripKey .. "#harvestedArea") or 0
             farm.currentTrip.lostLiters = getXMLFloat(xmlFile, tripKey .. "#lost") or 0
             farm.currentTrip.lossMoney = getXMLFloat(xmlFile, tripKey .. "#lossMoney") or 0
+            farm.currentTrip.fuelUsedL = getXMLFloat(xmlFile, tripKey .. "#fuelUsedL") or 0
             farm.currentTrip.sessionDuration = getXMLFloat(xmlFile, tripKey .. "#duration") or 0
             farm.currentTrip.avgSpeedSum = getXMLFloat(xmlFile, tripKey .. "#avgSpeedSum") or 0
             farm.currentTrip.avgSpeedCount = getXMLInt(xmlFile, tripKey .. "#avgSpeedCount") or 0
@@ -2215,6 +3275,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
             farm.currentTrip.lastMachineKey = getXMLString(xmlFile, tripKey .. "#lastMachineKey")
 
             farm.currentTrip.reasons.speed = getXMLFloat(xmlFile, tripKey .. ".reasons#speed") or 0
+            farm.currentTrip.reasons.settings = getXMLFloat(xmlFile, tripKey .. ".reasons#settings") or 0
             farm.currentTrip.reasons.moisture = getXMLFloat(xmlFile, tripKey .. ".reasons#moisture") or 0
             farm.currentTrip.reasons.wear = getXMLFloat(xmlFile, tripKey .. ".reasons#wear") or 0
             farm.currentTrip.reasons.slope = getXMLFloat(xmlFile, tripKey .. ".reasons#slope") or 0
@@ -2242,6 +3303,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                     harvestedAreaHa = getXMLFloat(xmlFile, mKey .. "#harvestedArea") or 0,
                     lostLiters = getXMLFloat(xmlFile, mKey .. "#lost") or 0,
                     lossMoney = getXMLFloat(xmlFile, mKey .. "#lossMoney") or 0,
+                    fuelUsedL = getXMLFloat(xmlFile, mKey .. "#fuelUsedL") or 0,
                     sessionDuration = getXMLFloat(xmlFile, mKey .. "#duration") or 0,
                     avgSpeedSum = getXMLFloat(xmlFile, mKey .. "#avgSpeedSum") or 0,
                     avgSpeedCount = getXMLInt(xmlFile, mKey .. "#avgSpeedCount") or 0,
@@ -2252,6 +3314,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                     isContract = getXMLBool(xmlFile, mKey .. "#isContract") or false,
                     reasons = {
                         speed = getXMLFloat(xmlFile, mKey .. ".reasons#speed") or 0,
+                        settings = getXMLFloat(xmlFile, mKey .. ".reasons#settings") or 0,
                         moisture = getXMLFloat(xmlFile, mKey .. ".reasons#moisture") or 0,
                         wear = getXMLFloat(xmlFile, mKey .. ".reasons#wear") or 0,
                         slope = getXMLFloat(xmlFile, mKey .. ".reasons#slope") or 0
@@ -2320,6 +3383,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                 harvestedAreaHa = getXMLFloat(xmlFile, sKey .. "#harvestedArea") or 0,
                 lostLiters = getXMLFloat(xmlFile, sKey .. "#lost") or 0,
                 lossMoney = getXMLFloat(xmlFile, sKey .. "#lossMoney") or 0,
+                fuelUsedL = getXMLFloat(xmlFile, sKey .. "#fuelUsedL") or 0,
                 sessionDuration = getXMLFloat(xmlFile, sKey .. "#duration") or 0,
                 avgSpeedSum = getXMLFloat(xmlFile, sKey .. "#avgSpeedSum") or 0,
                 avgSpeedCount = getXMLInt(xmlFile, sKey .. "#avgSpeedCount") or 0,
@@ -2328,6 +3392,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                 fieldOperations = getXMLInt(xmlFile, sKey .. "#fieldOperations") or 0,
                 reasons = {
                     speed = getXMLFloat(xmlFile, sKey .. ".reasons#speed") or 0,
+                    settings = getXMLFloat(xmlFile, sKey .. ".reasons#settings") or 0,
                     moisture = getXMLFloat(xmlFile, sKey .. ".reasons#moisture") or 0,
                     wear = getXMLFloat(xmlFile, sKey .. ".reasons#wear") or 0,
                     slope = getXMLFloat(xmlFile, sKey .. ".reasons#slope") or 0
@@ -2364,6 +3429,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                 isContract = getXMLBool(xmlFile, eKey .. "#isContract") or false,
                 cropName = getXMLString(xmlFile, eKey .. "#cropName") or "UNKNOWN",
                 harvested = getXMLFloat(xmlFile, eKey .. "#harvested") or 0,
+                harvestedMassKg = getXMLFloat(xmlFile, eKey .. "#harvestedMass") or 0,
                 lost = getXMLFloat(xmlFile, eKey .. "#lost") or 0,
                 lossMoney = getXMLFloat(xmlFile, eKey .. "#lossMoney") or 0,
                 areaHa = getXMLFloat(xmlFile, eKey .. "#areaHa") or 0,
@@ -2390,6 +3456,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                     sessionDuration = getXMLFloat(xmlFile, fKey .. "#duration") or 0,
                     lostLiters = getXMLFloat(xmlFile, fKey .. "#lost") or 0,
                     lossMoney = getXMLFloat(xmlFile, fKey .. "#lossMoney") or 0,
+                    fuelUsedL = getXMLFloat(xmlFile, fKey .. "#fuelUsedL") or 0,
                     operationsCount = getXMLInt(xmlFile, fKey .. "#operationsCount") or 0,
                     isContract = getXMLBool(xmlFile, fKey .. "#isContract") or false,
                     lastCropName = getXMLString(xmlFile, fKey .. "#lastCropName") or "--",
@@ -2401,6 +3468,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                     lastYear = getXMLInt(xmlFile, fKey .. "#lastYear") or 1,
                     reasons = {
                         speed = getXMLFloat(xmlFile, fKey .. "#reasonSpeed") or 0,
+                        settings = getXMLFloat(xmlFile, fKey .. "#reasonSettings") or 0,
                         moisture = getXMLFloat(xmlFile, fKey .. "#reasonMoisture") or 0,
                         wear = getXMLFloat(xmlFile, fKey .. "#reasonWear") or 0,
                         slope = getXMLFloat(xmlFile, fKey .. "#reasonSlope") or 0
@@ -2440,8 +3508,9 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                         }
                         farm.fieldStats[fId] = fStat
                     end
+                    local entryDensity = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and RHM_UnitConverter.getCropDensityTonsPerLiter(entry.cropName)) or 0.00075
                     fStat.harvestedLiters = fStat.harvestedLiters + (entry.harvested or 0)
-                    fStat.harvestedMassKg = fStat.harvestedMassKg + ((entry.harvested or 0) * 0.75)
+                    fStat.harvestedMassKg = fStat.harvestedMassKg + ((entry.harvestedMassKg and entry.harvestedMassKg > 0) and entry.harvestedMassKg or ((entry.harvested or 0) * entryDensity * 1000.0))
                     fStat.harvestedAreaHa = fStat.harvestedAreaHa + (entry.areaHa or 0)
                     fStat.lostLiters = fStat.lostLiters + (entry.lost or 0)
                     fStat.lossMoney = fStat.lossMoney + (entry.lossMoney or 0)
@@ -2462,6 +3531,44 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
             end
         end
 
+        -- Field Clusters
+        local clusterKey = farmKey .. ".fieldClusters"
+        local clIdx = 0
+        farm.fieldClusters = farm.fieldClusters or {}
+        farm.fieldClusterMembers = farm.fieldClusterMembers or {}
+        while true do
+            local cEntryKey = string.format("%s.cluster(%d)", clusterKey, clIdx)
+            if not hasXMLProperty(xmlFile, cEntryKey) then break end
+            local masterId = getXMLInt(xmlFile, cEntryKey .. "#masterId")
+            if masterId and masterId > 0 then
+                local validMembers = { [masterId] = true }
+                local mIdx = 0
+                while true do
+                    local mEntryKey = string.format("%s.member(%d)", cEntryKey, mIdx)
+                    if not hasXMLProperty(xmlFile, mEntryKey) then break end
+                    local memberId = getXMLInt(xmlFile, mEntryKey .. "#fieldId")
+                    if memberId and memberId > 0 and memberId ~= masterId then
+                        validMembers[memberId] = true
+                    end
+                    mIdx = mIdx + 1
+                end
+                local memberCount = 0
+                for _ in pairs(validMembers) do
+                    memberCount = memberCount + 1
+                end
+                if memberCount > 1 then
+                    farm.fieldClusters[masterId] = { members = validMembers }
+                    for memId, _ in pairs(validMembers) do
+                        farm.fieldClusterMembers[memId] = masterId
+                    end
+                else
+                    farm.fieldClusters[masterId] = nil
+                    farm.fieldClusterMembers[masterId] = nil
+                end
+            end
+            clIdx = clIdx + 1
+        end
+
         farmIndex = farmIndex + 1
     end
 
@@ -2474,8 +3581,13 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                     local farmId = (vehicle.getOwnerFarmId and vehicle:getOwnerFarmId()) or 1
                     local farm = self.farms[farmId]
                     if farm and farm.combineTrips then
-                        local machineKey = vehicle.configFileName or (vehicle.getFullName and vehicle:getFullName()) or "Harvester"
+                        local machineKey = (RHM_HarvestTracker and RHM_HarvestTracker.getMachineKey and RHM_HarvestTracker.getMachineKey(vehicle)) or vehicle.configFileName or (vehicle.getFullName and vehicle:getFullName()) or "Harvester"
                         if farm.combineTrips[machineKey] then
+                            vehicle.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
+                        elseif vehicle.configFileName and farm.combineTrips[vehicle.configFileName] then
+                            -- Migrate legacy savegame trip keyed by configFileName
+                            farm.combineTrips[machineKey] = farm.combineTrips[vehicle.configFileName]
+                            farm.combineTrips[vehicle.configFileName] = nil
                             vehicle.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
                         elseif farm.currentTrip and (farm.currentTrip.harvestedLiters or 0) > 0 and (farm.currentTrip.lastMachineKey == nil or farm.currentTrip.lastMachineKey == machineKey) then
                             farm.combineTrips[machineKey] = {
@@ -2487,6 +3599,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                                 harvestedMassKg = farm.currentTrip.harvestedMassKg or 0,
                                 lostLiters = farm.currentTrip.lostLiters or 0,
                                 lossMoney = farm.currentTrip.lossMoney or 0,
+                                fuelUsedL = farm.currentTrip.fuelUsedL or 0,
                                 sessionDuration = farm.currentTrip.sessionDuration or 0,
                                 avgSpeedSum = farm.currentTrip.avgSpeedSum or 0,
                                 avgSpeedCount = farm.currentTrip.avgSpeedCount or 0,
@@ -2495,6 +3608,7 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                                 efficiencyRank = farm.currentTrip.efficiencyRank or RHM_HarvestTracker.RANK_A,
                                 reasons = {
                                     speed = farm.currentTrip.reasons and farm.currentTrip.reasons.speed or 0,
+                                    settings = farm.currentTrip.reasons and farm.currentTrip.reasons.settings or 0,
                                     moisture = farm.currentTrip.reasons and farm.currentTrip.reasons.moisture or 0,
                                     wear = farm.currentTrip.reasons and farm.currentTrip.reasons.wear or 0,
                                     slope = farm.currentTrip.reasons and farm.currentTrip.reasons.slope or 0

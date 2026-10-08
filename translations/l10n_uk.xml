@@ -369,7 +369,7 @@
         <text name="rhm_col_loss" text="Втрати" />
         <text name="rhm_col_tank" text="Бункер" />
         <text name="rhm_col_area" text="Площа" />
-        <text name="rhm_col_money" text="Збитки ($)" />
+        <text name="rhm_col_money" text="Збитки" />
         <text name="rhm_col_driver" text="Оператор" />
         <text name="rhm_col_cutter" text="Жатка" />
         <text name="rhm_col_throughput" text="Продуктивність" />
@@ -501,5 +501,34 @@
         <text name="rhm_weedload_long" text="Зелені бур'яни з високим вмістом соку та волокон намотуються на барабан і збільшують механічний опір та навантаження на двигун комбайна (до +25%). Вимкніть, якщо бур'яни не повинні впливати на потужність." />
             <text name="rhm_fleet_badge_mission" text="[Контракт]" />
         <text name="rhm_fleet_badge_leased" text="[Оренда]" />
+        <text name="rhm_cause_settings" text="Налаштування та калібрування" />
+        <text name="rhm_advice_settings" text="Втрати спричинені неоптимальним налаштуванням комбайна. Відрегулюйте зазор підбарабання, оберти барабана та решета під поточну культуру." />
+        <text name="rhm_fuel_consumption" text="Витрата пального" />
+        <text name="rhm_fuel_used" text="Використано пального" />
+        <text name="rhm_fuel_rate" text="Питома витрата" />
+        <text name="rhm_cluster_merged" text="Об'єднане поле" />
+        <text name="rhm_gross_revenue" text="Валовий дохід" />
+        <text name="rhm_fuel_expense" text="Витрати на пальне" />
+        <text name="rhm_net_margin" text="Чистий прибуток" />
+        <text name="rhm_tut_calib_warn_title" text="НАЛАШТУВАННЯ КОМБАЙНА" />
+        <text name="rhm_tut_calib_warn_msg" text="Комбайн ще не налаштовано під культуру %s! Робота з невідповідним зазором, обертами ротора чи решетами спричиняє зайве навантаження на двигун та втрати зерна. Натисніть Shift+K, щоб завантажити оптимальний пресет." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Виявлено невідповідні налаштування для %s (%s поза межами допуску)! Це спричиняє зниження продуктивності та втрати зерна. Натисніть Shift+K для калібрування." />
+        <text name="rhm_tut_calib_ok_title" text="ОПТИМАЛЬНІ НАЛАШТУВАННЯ" />
+        <text name="rhm_tut_calib_ok_msg" text="Усі механізми обмолоту та очистки комбайна налаштовані в межах оптимального допуску для культури %s. Машина працює з максимальним ККД!" />
+        <text name="rhm_tut_weed_title" text="ЗАСМІЧЕНІСТЬ БУР'ЯНАМИ" />
+        <text name="rhm_tut_weed_msg" text="Густа волога біомаса бур'янів суттєво збільшує опір на косі та барабані (+15–25% навантаження). Комбайн автоматично сповільнюється, щоб запобігти забиванню жатки." />
+        <text name="rhm_tut_slope_title" text="ВТРАТИ НА СХИЛАХ" />
+        <text name="rhm_tut_slope_msg" text="Робота на поперечних схилах нахиляє решітний стан, через що зерно зсувається в один бік і сходить разом з половою. Зменшуйте швидкість на косогорах, щоб мінімізувати втрати." />
+        <text name="rhm_tut_wear_title" text="ЗНОШЕННЯ НОЖІВ І РОТОРА" />
+        <text name="rhm_tut_wear_msg" text="Зношені сегменти коси жатки та притуплені елементи обмолоту збільшують опір зрізу й спричиняють осипання зерна перед жаткою. Обслужіть техніку в майстерні для відновлення повного ККД." />
+        <text name="rhm_field_progress" text="Прогрес збирання" />
+        <text name="rhm_filter_owned" text="Власні" />
+        <text name="rhm_filter_contracts" text="Контракти" />
+        <text name="rhm_hud_style_title" text="Режим відображення HUD" />
+        <text name="rhm_hud_style_desc" text="Вибір між компактною однорядковою панеллю (4 комірки) та розширеним монітором врожайності (8 комірок із потоком маси, середньою врожайністю, площею поля та лічильником)." />
+        <text name="rhm_hud_style_compact" text="Компактний (4 комірки)" />
+        <text name="rhm_hud_style_expanded" text="Монітор врожайності (8 комірок)" />
+
+
     </texts>
 </l10n>

@@ -430,7 +430,7 @@
         <text name="rhm_col_loss" text="Ztráty" />
         <text name="rhm_col_tank" text="Zásobník" />
         <text name="rhm_col_area" text="Plocha" />
-        <text name="rhm_col_money" text="Ztráta ($)" />
+        <text name="rhm_col_money" text="Ztráta" />
         <text name="rhm_col_driver" text="Řidič" />
         <text name="rhm_col_cutter" text="Lišta" />
         <text name="rhm_col_throughput" text="Průchodnost" />
@@ -502,5 +502,34 @@
         <text name="rhm_weedload_long" text="Šťavnatý a vláknitý plevel se namotává na mláticí buben a zvyšuje mechanický odpor i zatížení motoru (až +25%). Vypněte pro eliminaci vlivu plevelů na výkon." />
             <text name="rhm_fleet_badge_mission" text="[Zakázka]" />
         <text name="rhm_fleet_badge_leased" text="[Pronajato]" />
+        <text name="rhm_cause_settings" text="Nastavení a kalibrace stroje" />
+        <text name="rhm_advice_settings" text="Hlavní ztráta způsobená neoptimálním nastavením. Upravte mezeru koše, otáčky bubnu a síta pro aktuální plodinu." />
+        <text name="rhm_fuel_consumption" text="Spotřeba paliva" />
+        <text name="rhm_fuel_used" text="Spotřebované palivo" />
+        <text name="rhm_fuel_rate" text="Měrná spotřeba" />
+        <text name="rhm_cluster_merged" text="Sloučené pole" />
+        <text name="rhm_gross_revenue" text="Hrubý příjem ze sklizně" />
+        <text name="rhm_fuel_expense" text="Náklady na palivo" />
+        <text name="rhm_net_margin" text="Čistá provozní marže" />
+        <text name="rhm_tut_calib_warn_title" text="KALIBRACE SKLÍZECÍ MLÁTIČKY" />
+        <text name="rhm_tut_calib_warn_msg" text="Kombajn ještě není zkalibrován pro %s! Práce se špatným nastavením mláticího koše, rotoru nebo sít vede k přetížení motoru a ztrátám zrna. Stiskněte Shift+K pro tovární profil." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Zjištěno nevhodné nastavení pro %s (%s mimo toleranci)! Způsobuje snížení výkonu a ztráty zrna. Stiskněte Shift+K pro kalibraci." />
+        <text name="rhm_tut_calib_ok_title" text="OPTIMÁLNÍ NASTAVENÍ OVĚŘENO" />
+        <text name="rhm_tut_calib_ok_msg" text="Všechny mechanismy mlácení a čištění jsou nastaveny v optimální toleranci pro %s. Stroj pracuje s maximální účinností!" />
+        <text name="rhm_tut_weed_title" text="ODPOR ZAPLEVELENÍ" />
+        <text name="rhm_tut_weed_msg" text="Hustý plevel pod lištou výrazně zvyšuje odpor sečení i bubnu (+15–25% zatížení). Kombajn automaticky zpomaluje, aby nedošlo k ucpání." />
+        <text name="rhm_tut_slope_title" text="ZTRÁTY VE SVAHU" />
+        <text name="rhm_tut_slope_msg" text="Při práci ve svahu se materiál na sítech sesouvá k jedné straně a zrno uniká s plevami. Snižte na svahu rychlost jízdy." />
+        <text name="rhm_tut_wear_title" text="OPOTŘEBENÍ ŽACÍ LIŠTY A ROTORU" />
+        <text name="rhm_tut_wear_msg" text="Opotřebené žabky kosy a tupé mláticí lišty zvyšují odpor vkládání a způsobují ztráty zrna před lištou. Opravte stroj v dílně." />
+        <text name="rhm_field_progress" text="Postup sklizně" />
+        <text name="rhm_filter_owned" text="Vlastní" />
+        <text name="rhm_filter_contracts" text="Smlouvy" />
+        <text name="rhm_hud_style_title" text="Režim zobrazení HUD" />
+        <text name="rhm_hud_style_desc" text="Vyberte mezi kompaktním jednorázovým telemetrickým panelem (4 buňky) a rozšířeným monitorem výnosu (8 buněk s průtokem hmoty, průměrným výnosem, postupem pole a počítadlem)." />
+        <text name="rhm_hud_style_compact" text="Kompaktní (4 buňky)" />
+        <text name="rhm_hud_style_expanded" text="Monitor výnosu (8 buněk)" />
+
+
     </texts>
 </l10n>

@@ -432,7 +432,7 @@
         <text name="rhm_col_loss" text="Perte" />
         <text name="rhm_col_tank" text="Trémie" />
         <text name="rhm_col_area" text="Superficie" />
-        <text name="rhm_col_money" text="Perte ($)" />
+        <text name="rhm_col_money" text="Perte" />
         <text name="rhm_col_driver" text="Conducteur" />
         <text name="rhm_col_cutter" text="Barre de coupe" />
         <text name="rhm_col_throughput" text="Débit" />
@@ -504,5 +504,34 @@
         <text name="rhm_weedload_long" text="Les adventices fibreuses et humides s'enroulent autour du rotor et augmentent la charge moteur et la résistance mécanique (jusqu'à +25%). Désactiver pour annuler l'impact des mauvaises herbes." />
             <text name="rhm_fleet_badge_mission" text="[Contrat]" />
         <text name="rhm_fleet_badge_leased" text="[Loué]" />
+        <text name="rhm_cause_settings" text="Réglages &amp; Étalonnage de la machine" />
+        <text name="rhm_advice_settings" text="Pertes dominantes dues à des réglages non optimisés. Ajustez l'écartement du contre-batteur, la vitesse du batteur et les grilles pour la culture en cours." />
+        <text name="rhm_fuel_consumption" text="Consommation de carburant" />
+        <text name="rhm_fuel_used" text="Carburant consommé" />
+        <text name="rhm_fuel_rate" text="Débit de carburant" />
+        <text name="rhm_cluster_merged" text="Champ fusionné" />
+        <text name="rhm_gross_revenue" text="Revenu brut de récolte" />
+        <text name="rhm_fuel_expense" text="Dépense de carburant" />
+        <text name="rhm_net_margin" text="Marge opérationnelle nette" />
+        <text name="rhm_tut_calib_warn_title" text="RÉGLAGE DE LA MOISSONNEUSE" />
+        <text name="rhm_tut_calib_warn_msg" text="La moissonneuse n'est pas encore calibrée pour %s ! Travailler avec des réglages inadaptés entraîne une surcharge moteur et de lourdes pertes de grains. Appuyez sur Maj+K pour charger un préréglage d'usine." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Réglages sous-optimaux détectés pour %s (%s hors tolérance) ! Cela réduit le débit et augmente les pertes. Appuyez sur Maj+K pour calibrer." />
+        <text name="rhm_tut_calib_ok_title" text="RÉGLAGES OPTIMAUX CONFIRMÉS" />
+        <text name="rhm_tut_calib_ok_msg" text="Tous les organes de battage et de nettoyage sont parfaitement réglés pour %s. La machine fonctionne à son rendement maximal !" />
+        <text name="rhm_tut_weed_title" text="RÉSISTANCE DES ADVENTICES" />
+        <text name="rhm_tut_weed_msg" text="Les zones denses de mauvaises herbes augmentent considérablement la résistance à la coupe et au batteur (+15–25% de charge). La vitesse est automatiquement réduite pour éviter le bourrage." />
+        <text name="rhm_tut_slope_title" text="PERTES EN DÉVERS" />
+        <text name="rhm_tut_slope_msg" text="Le travail en pente incline les grilles, accumulant la récolte d'un côté et expulsant le grain avec la paille. Ralentissez dans les pentes pour limiter les pertes." />
+        <text name="rhm_tut_wear_title" text="USURE DES SECTIONS ET DU BATTEUR" />
+        <text name="rhm_tut_wear_msg" text="Des sections de barre de coupe émoussées et des organes de battage usés augmentent la résistance et causent l'égrenage avant la coupe. Entretenez votre matériel à l'atelier." />
+        <text name="rhm_field_progress" text="Progression de récolte" />
+        <text name="rhm_filter_owned" text="Propriété" />
+        <text name="rhm_filter_contracts" text="Contrats" />
+        <text name="rhm_hud_style_title" text="Mode d&apos;affichage du HUD" />
+        <text name="rhm_hud_style_desc" text="Choisissez entre la barre de télémétrie compacte à ligne unique (4 cases) et le moniteur de rendement étendu (8 cases avec débit massique, rendement moyen, avancement de surface et odomètre)." />
+        <text name="rhm_hud_style_compact" text="Compact (4 cases)" />
+        <text name="rhm_hud_style_expanded" text="Moniteur de rendement (8 cases)" />
+
+
     </texts>
 </l10n>

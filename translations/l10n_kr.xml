@@ -498,5 +498,34 @@
         <text name="rhm_weedload_long" text="수분이 많고 질긴 잡초가 탈곡 드럼에 감겨 기계적 저항과 엔진 부하를 증가시킵니다 (최대 +25%). 잡초가 엔진 출력에 영향을 주지 않도록 하려면 끄십시오." />
             <text name="rhm_fleet_badge_mission" text="[계약]" />
         <text name="rhm_fleet_badge_leased" text="[임대]" />
+        <text name="rhm_cause_settings" text="기계 설정 및 보정" />
+        <text name="rhm_advice_settings" text="최적화되지 않은 기계 보정으로 인한 주요 손실입니다. 현재 작물에 맞게 컨케이브 간극, 드럼 속도 및 체를 조정하십시오." />
+        <text name="rhm_fuel_consumption" text="연료 소비량" />
+        <text name="rhm_fuel_used" text="사용 연료" />
+        <text name="rhm_fuel_rate" text="연료 소비율" />
+        <text name="rhm_cluster_merged" text="병합된 필드" />
+        <text name="rhm_gross_revenue" text="총 수확 수익" />
+        <text name="rhm_fuel_expense" text="연료비" />
+        <text name="rhm_net_margin" text="순 영업 마진" />
+        <text name="rhm_tut_calib_warn_title" text="콤바인 설정 필요" />
+        <text name="rhm_tut_calib_warn_msg" text="콤바인이 아직 %s 작물에 맞게 보정되지 않았습니다! 맞지 않는 간극이나 회전수는 엔진 과부하 및 곡물 손실을 유발합니다. Shift+K를 눌러 권장 설정을 불러오세요." />
+        <text name="rhm_tut_calib_warn_params_msg" text="%s에 최적화되지 않은 설정 감지(%s 허용치 초과)! 작업 효율이 떨어지고 손실이 발생합니다. Shift+K로 보정하세요." />
+        <text name="rhm_tut_calib_ok_title" text="최적 설정 확인 완료" />
+        <text name="rhm_tut_calib_ok_msg" text="%s 작물에 맞게 모든 탈곡 및 선별 장치가 최적 허용치 내로 보정되었습니다. 최고 효율로 가동 중입니다!" />
+        <text name="rhm_tut_weed_title" text="잡초 부하 저항" />
+        <text name="rhm_tut_weed_msg" text="헤더 아래 빽빽한 잡초는 절단 및 탈곡 저항을 크게 증가시킵니다(+15~25% 부하). 막힘을 방지하기 위해 자동으로 감속합니다." />
+        <text name="rhm_tut_slope_title" text="경사지 곡물 손실" />
+        <text name="rhm_tut_slope_msg" text="경사지에서 작업하면 선별 체가 기울어져 곡물이 한쪽으로 쏠리고 부산물과 함께 방출됩니다. 경사로에서는 작업 속도를 줄이세요." />
+        <text name="rhm_tut_wear_title" text="칼날 및 탈곡부 마모" />
+        <text name="rhm_tut_wear_msg" text="마모된 칼날과 탈곡 부품은 부하를 늘리고 헤더 앞 곡물 탈립 손실을 발생시킵니다. 정비소에서 장비를 점검하세요." />
+        <text name="rhm_field_progress" text="수확 진행률" />
+        <text name="rhm_filter_owned" text="소유지" />
+        <text name="rhm_filter_contracts" text="계약" />
+        <text name="rhm_hud_style_title" text="HUD 표시 모드" />
+        <text name="rhm_hud_style_desc" text="컴팩트 단일 행 원격 측정 표시줄(4개 셀)과 확장된 수확량 모니터(질량 유량, 평균 수확량, 작업 면적 및 적산계 포함 8개 셀) 간에 전환합니다." />
+        <text name="rhm_hud_style_compact" text="컴팩트 (4개 셀)" />
+        <text name="rhm_hud_style_expanded" text="수확량 모니터 (8개 셀)" />
+
+
     </texts>
 </l10n>

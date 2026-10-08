@@ -426,7 +426,7 @@
         <text name="rhm_col_loss" text="Hao hụt" />
         <text name="rhm_col_tank" text="Thùng" />
         <text name="rhm_col_area" text="Diện tích" />
-        <text name="rhm_col_money" text="Thiệt hại ($)" />
+        <text name="rhm_col_money" text="Thiệt hại" />
         <text name="rhm_col_driver" text="Người vận hành" />
         <text name="rhm_col_cutter" text="Hàm cắt" />
         <text name="rhm_col_throughput" text="Năng suất xử lý" />
@@ -498,5 +498,34 @@
         <text name="rhm_weedload_long" text="Cỏ dại mọng nước và nhiều xơ quấn vào trống đập làm tăng lực cản cơ học và tải động cơ (lên tới +25%). Tắt để cỏ dại không ảnh hưởng công suất." />
             <text name="rhm_fleet_badge_mission" text="[Hợp đồng]" />
         <text name="rhm_fleet_badge_leased" text="[Thuê]" />
+        <text name="rhm_cause_settings" text="Cài đặt &amp; Hiệu chuẩn máy" />
+        <text name="rhm_advice_settings" text="Hao hụt chủ yếu do hiệu chuẩn máy chưa tối ưu. Điều chỉnh khe hở máng đập, tốc độ trục đập và sàng cho loại cây trồng hiện tại." />
+        <text name="rhm_fuel_consumption" text="Tiêu thụ nhiên liệu" />
+        <text name="rhm_fuel_used" text="Nhiên liệu đã dùng" />
+        <text name="rhm_fuel_rate" text="Định mức nhiên liệu" />
+        <text name="rhm_cluster_merged" text="Thửa ruộng gộp" />
+        <text name="rhm_gross_revenue" text="Doanh thu thu hoạch gộp" />
+        <text name="rhm_fuel_expense" text="Chi phí nhiên liệu" />
+        <text name="rhm_net_margin" text="Biên lợi nhuận hoạt động ròng" />
+        <text name="rhm_tut_calib_warn_title" text="HIỆU CHUẨN MÁY GẶT" />
+        <text name="rhm_tut_calib_warn_msg" text="Máy gặt chưa được hiệu chuẩn cho %s! Thiết lập không phù hợp gây quá tải động cơ và thất thoát hạt nghiêm trọng. Nhấn Shift+K để tải cấu hình tối ưu của nhà sản xuất." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Phát hiện thiết lập chưa tối ưu cho %s (%s vượt quá dung sai)! Điều này làm giảm công suất và tăng thất thoát. Nhấn Shift+K để hiệu chuẩn." />
+        <text name="rhm_tut_calib_ok_title" text="ĐÃ XÁC NHẬN CẤU HÌNH TỐI ƯU" />
+        <text name="rhm_tut_calib_ok_msg" text="Tất cả các bộ phận đập và sàng lọc đã được hiệu chuẩn trong phạm vi dung sai tối ưu cho %s. Máy đang hoạt động với hiệu suất tối đa!" />
+        <text name="rhm_tut_weed_title" text="LỰC CẢN DO CỎ DẠI" />
+        <text name="rhm_tut_weed_msg" text="Mật độ cỏ dại dày đặc dưới hàm cắt làm tăng đáng kể lực cản cắt và trống đập (+15–25% tải). Tốc độ tự động giảm để chống nghẽn buồng đập." />
+        <text name="rhm_tut_slope_title" text="THẤT THOÁT HẠT TRÊN DỐC" />
+        <text name="rhm_tut_slope_msg" text="Làm việc trên sườn dốc làm nghiêng hệ thống sàng, khiến hạt dồn về một bên và bị thổi bay ra ngoài cùng trấu. Hãy giảm tốc độ khi đi trên dốc." />
+        <text name="rhm_tut_wear_title" text="HAO MÒN LƯỠI DAO VÀ TRỐNG ĐẬP" />
+        <text name="rhm_tut_wear_msg" text="Lưỡi dao mòn và các bộ phận đập cùn làm tăng lực cản hút và làm rụng hạt trước hàm cắt. Hãy bảo dưỡng máy tại xưởng." />
+        <text name="rhm_field_progress" text="Tiến độ thu hoạch" />
+        <text name="rhm_filter_owned" text="Sở hữu" />
+        <text name="rhm_filter_contracts" text="Hợp đồng" />
+        <text name="rhm_hud_style_title" text="Chế độ hiển thị HUD" />
+        <text name="rhm_hud_style_desc" text="Chọn giữa thanh đo từ xa một hàng nhỏ gọn (4 ô) và màn hình năng suất mở rộng (8 ô với lưu lượng khối lượng, năng suất trung bình, tiến độ diện tích và đồng hồ đo)." />
+        <text name="rhm_hud_style_compact" text="Nhỏ gọn (4 Ô)" />
+        <text name="rhm_hud_style_expanded" text="Màn hình năng suất (8 Ô)" />
+
+
     </texts>
 </l10n>

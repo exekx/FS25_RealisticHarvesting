@@ -52,12 +52,8 @@ function RHM_HarvestHistoryFleet:onFrameOpen()
 end
 
 function RHM_HarvestHistoryFleet:updateData()
-    self:updateViewModeUI()
-    if self.viewMode == "history" then
-        self:updateHistoryData()
-    else
-        self:updateTables()
-    end
+    self:updateFilterUI()
+    self:updateTables()
 end
 
 function RHM_HarvestHistoryFleet:onFrameClose()
@@ -70,9 +66,7 @@ function RHM_HarvestHistoryFleet:update(dt)
     self.refreshTimer = (self.refreshTimer or 0) + dt
     if self.refreshTimer >= 1000 then
         self.refreshTimer = 0
-        if self.viewMode == "fleet" then
-            self:updateTables()
-        end
+        self:updateTables()
     end
 end
 
@@ -514,7 +508,7 @@ function RHM_HarvestHistoryFleet:updateTables()
                                  or "Harvester"
                     local stripSuffix = (RHM_HarvestTracker and RHM_HarvestTracker.stripHelperSuffix) or function(s) return s end
                     local baseName = stripSuffix(rawName)
-                    local machineKey = vehicle.configFileName or (targetHarv and targetHarv.configFileName) or baseName
+                    local machineKey = (RHM_HarvestTracker and RHM_HarvestTracker.getMachineKey and RHM_HarvestTracker.getMachineKey(targetHarv or vehicle)) or vehicle.configFileName or baseName
                     
                     -- Disambiguation for multiple vehicles of the same model
                     modelCount[baseName] = (modelCount[baseName] or 0) + 1
@@ -576,19 +570,11 @@ function RHM_HarvestHistoryFleet:updateTables()
                         driverStr = (g_i18n and g_i18n:hasText("rhm_driver_idle_on") and g_i18n:getText("rhm_driver_idle_on")) or "Running (Idle)"
                     end
 
-                    -- Machine trip resolution from tracker or vehicle spec
-                    local mTrip = nil
-                    if farm and farm.combineTrips then
-                        mTrip = farm.combineTrips[machineKey] or farm.combineTrips[vehicle.configFileName] or farm.combineTrips[targetHarv.configFileName] or farm.combineTrips[baseName]
-                        if not mTrip then
-                            local nBase = string.gsub(string.lower(tostring(baseName or "harvester")), "\\", "/")
-                            for k, tr in pairs(farm.combineTrips) do
-                                if string.gsub(string.lower(tostring(k)), "\\", "/"):find(nBase, 1, true) then
-                                    mTrip = tr
-                                    break
-                                end
-                            end
-                        end
+                    -- Machine trip resolution from vehicle spec or isolated tracker entry
+                    local mTrip = (targetHarv and targetHarv.spec_rhm_Combine and targetHarv.spec_rhm_Combine.trip)
+                               or (vehicle and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.trip)
+                    if not mTrip and farm and farm.combineTrips then
+                        mTrip = farm.combineTrips[machineKey]
                     end
                     if not mTrip and targetHarv.spec_rhm_Combine and targetHarv.spec_rhm_Combine.trip then
                         mTrip = targetHarv.spec_rhm_Combine.trip
@@ -679,20 +665,28 @@ function RHM_HarvestHistoryFleet:updateTables()
                             end
                         end
                         statusText = (g_i18n and g_i18n:hasText("rhm_status_harvesting") and g_i18n:getText("rhm_status_harvesting")) or "Harvesting"
+                        statusCode = "HARVESTING"
                     elseif onField and isTurnedOn and speedKmh <= 0.5 then
                         statusText = (g_i18n and g_i18n:hasText("rhm_status_on_field_idle") and g_i18n:getText("rhm_status_on_field_idle")) or "On Field (Idling)"
+                        statusCode = "IDLE"
                     elseif onField and not isTurnedOn then
                         statusText = (g_i18n and g_i18n:hasText("rhm_status_on_field_stopped") and g_i18n:getText("rhm_status_on_field_stopped")) or "On Field (Stopped)"
+                        statusCode = "PARKED"
                     elseif onField and speedKmh > 0.5 then
                         statusText = (g_i18n and g_i18n:hasText("rhm_status_in_transit") and g_i18n:getText("rhm_status_in_transit")) or "In Transit"
+                        statusCode = "TRANSIT"
                     elseif not onField and speedKmh > 0.5 then
                         statusText = (g_i18n and g_i18n:hasText("rhm_status_in_transit") and g_i18n:getText("rhm_status_in_transit")) or "In Transit"
+                        statusCode = "TRANSIT"
                     elseif not onField and isTurnedOn then
                         statusText = (g_i18n and g_i18n:hasText("rhm_status_idle_yard") and g_i18n:getText("rhm_status_idle_yard")) or "At Base (Idling)"
+                        statusCode = "IDLE"
                     elseif isControlled then
                         statusText = (g_i18n and g_i18n:hasText("rhm_status_in_cab") and g_i18n:getText("rhm_status_in_cab")) or "Occupied"
+                        statusCode = "OCCUPIED"
                     else
                         statusText = (g_i18n and g_i18n:hasText("rhm_status_parked_yard") and g_i18n:getText("rhm_status_parked_yard")) or "Parked at Base"
+                        statusCode = "PARKED"
                     end
 
                     -- Header working width
@@ -772,7 +766,7 @@ function RHM_HarvestHistoryFleet:updateTables()
 
                     -- 2. Direct from machine's active or recent trip in harvest tracker (already resolved in mTrip)
                     if not mTrip and farm and farm.combineTrips then
-                        mTrip = farm.combineTrips[machineKey] or farm.combineTrips[vehicle.configFileName] or farm.combineTrips[targetHarv.configFileName] or farm.combineTrips[baseName]
+                        mTrip = farm.combineTrips[machineKey]
                     end
 
                     if cropStr == "--" and mTrip then
@@ -853,20 +847,8 @@ function RHM_HarvestHistoryFleet:updateTables()
                     local lastYield = (rhmSpec and rhmSpec.loadCalculator and rhmSpec.loadCalculator.lastValidYield) or 0
                     local damage = (vehicle.getDamageAmount and vehicle:getDamageAmount()) or 0
 
-                    -- Tracker cumulative records & fuzzy key lookup
-                    local stat = fleetStats[machineKey]
-                    if not stat then
-                        local nKey = string.gsub(string.lower(tostring(machineKey or baseName or "harvester")), "\\", "/")
-                        local nBase = string.gsub(string.lower(tostring(baseName or "harvester")), "\\", "/")
-                        for k, v in pairs(fleetStats) do
-                            local nk = string.gsub(string.lower(tostring(k)), "\\", "/")
-                            if nk == nKey or (nBase ~= "" and (nk:find(nBase, 1, true) or nBase:find(nk, 1, true))) then
-                                stat = v
-                                break
-                            end
-                        end
-                    end
-                    stat = stat or {}
+                    -- Tracker cumulative records for this specific machine instance
+                    local stat = fleetStats[machineKey] or {}
                     local totalHarvestedL = stat.totalHarvested or 0
                     local totalLostL = stat.totalLost or 0
 
@@ -887,10 +869,12 @@ function RHM_HarvestHistoryFleet:updateTables()
 
                     local avgYield = 0
                     if mTrip and mTrip.harvestedAreaHa and mTrip.harvestedAreaHa > 0.01 and totalHarvestedL > 0 then
-                        local massKg = mTrip.harvestedMassKg or (totalHarvestedL * 0.75)
+                        local cDensity = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and RHM_UnitConverter.getCropDensityTonsPerLiter(mTrip.fillTypeIndex or mTrip.cropName)) or 0.00075
+                        local massKg = mTrip.harvestedMassKg or (totalHarvestedL * cDensity * 1000.0)
                         avgYield = (massKg * 0.001) / mTrip.harvestedAreaHa
                     elseif farm and farm.currentTrip and farm.currentTrip.harvestedAreaHa and farm.currentTrip.harvestedAreaHa > 0.01 and (farm.currentTrip.lastMachineKey == machineKey or isControlled) then
-                        avgYield = ((farm.currentTrip.harvestedMassKg or (farm.currentTrip.harvestedLiters * 0.75)) * 0.001) / farm.currentTrip.harvestedAreaHa
+                        local cDensity = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and RHM_UnitConverter.getCropDensityTonsPerLiter(farm.currentTrip.fillTypeIndex or farm.currentTrip.cropName)) or 0.00075
+                        avgYield = ((farm.currentTrip.harvestedMassKg or (farm.currentTrip.harvestedLiters * cDensity * 1000.0)) * 0.001) / farm.currentTrip.harvestedAreaHa
                     end
 
                     local totalBio = totalHarvestedL + totalLostL
@@ -909,6 +893,7 @@ function RHM_HarvestHistoryFleet:updateTables()
                         crop = cropStr,
                         driver = driverStr,
                         status = statusText,
+                        statusCode = statusCode,
                         cutterWidth = widthM,
                         fillLevel = fillLevel,
                         capacity = capacity,
@@ -968,6 +953,7 @@ function RHM_HarvestHistoryFleet:updateTables()
                     crop = "--",
                     driver = soldDriver,
                     status = soldStatus,
+                    statusCode = "SOLD",
                     cutterWidth = 0,
                     fillLevel = 0,
                     capacity = 0,
@@ -1059,9 +1045,9 @@ function RHM_HarvestHistoryFleet:updateTables()
     local playerCombine = RHM_HarvestTracker and RHM_HarvestTracker.findPlayerEnteredCombine and RHM_HarvestTracker.findPlayerEnteredCombine()
     local playerIndex = nil
     if playerCombine then
-        local pName = playerCombine:getFullName() or ""
+        local pKey = RHM_HarvestTracker and RHM_HarvestTracker.getMachineKey and RHM_HarvestTracker.getMachineKey(playerCombine)
         for idx, entry in ipairs(self.fleetData) do
-            if entry.vehicle == playerCombine or (entry.vehicle and playerCombine and entry.vehicle.rootVehicle == playerCombine.rootVehicle) or (pName ~= "" and entry.name:find(pName, 1, true)) then
+            if entry.vehicle == playerCombine or (entry.vehicle and playerCombine and entry.vehicle.rootVehicle == playerCombine.rootVehicle) or (pKey and entry.machineKey == pKey) then
                 playerIndex = idx
                 break
             end
@@ -1160,7 +1146,8 @@ function RHM_HarvestHistoryFleet:updateSelectedCardData()
         end
     end
     if self.card2HarvestedText then
-        local harvTons = (entry.totalHarvestedL or 0) * 0.00075
+        local density = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and RHM_UnitConverter.getCropDensityTonsPerLiter(entry.crop or entry.fillTypeIndex)) or 0.00075
+        local harvTons = (entry.totalHarvestedL or 0) * density
         self.card2HarvestedText:setText(RHM_UnitConverter.formatMass(harvTons, sys))
     end
     if self.card2YieldText then
@@ -1182,34 +1169,46 @@ function RHM_HarvestHistoryFleet:updateSelectedCardData()
     if self.card3EngineLoad then
         if entry.isSold then
             self.card3EngineLoad:setText("--")
+            RHM_UIColors.applyTextColor(self.card3EngineLoad, RHM_UIColors.GRAY)
         else
             self.card3EngineLoad:setText(string.format("%.0f%%", (entry.engineLoad or 0) * 100.0))
+            RHM_UIColors.applyTextColor(self.card3EngineLoad, RHM_UIColors.getLoadColor(entry.engineLoad))
         end
     end
     if self.card3LossPct then
         if isLossEnabled then
-            self.card3LossPct:setText(string.format("%.2f%%", entry.cropLoss or 0))
+            local lp = entry.cropLoss or 0
+            self.card3LossPct:setText(string.format("%.2f%%", lp))
+            RHM_UIColors.applyTextColor(self.card3LossPct, RHM_UIColors.getLossColor(lp))
         else
             self.card3LossPct:setText("OFF")
+            RHM_UIColors.applyTextColor(self.card3LossPct, RHM_UIColors.GRAY)
         end
     end
     if self.card3LossVolume then
         if isLossEnabled then
-            local lostTons = (entry.totalLostL or 0) * 0.00075
+            local density = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and RHM_UnitConverter.getCropDensityTonsPerLiter(entry.crop or entry.fillTypeIndex)) or 0.00075
+            local lostTons = (entry.totalLostL or 0) * density
             self.card3LossVolume:setText(RHM_UnitConverter.formatMass(lostTons, sys))
+            RHM_UIColors.applyTextColor(self.card3LossVolume, RHM_UIColors.getLossColor(entry.cropLoss))
         else
             self.card3LossVolume:setText("--")
+            RHM_UIColors.applyTextColor(self.card3LossVolume, RHM_UIColors.GRAY)
         end
     end
     if self.card3RankText then
         local rank = isLossEnabled and (entry.rank or "A") or "A"
         self.card3RankText:setText(string.format("[%s]", rank))
+        RHM_UIColors.applyTextColor(self.card3RankText, RHM_UIColors.getRankColor(rank))
     end
     if self.card3WearText then
         if entry.isSold then
             self.card3WearText:setText("--")
+            RHM_UIColors.applyTextColor(self.card3WearText, RHM_UIColors.GRAY)
         else
-            self.card3WearText:setText(string.format("%.0f%%", (entry.damage or 0) * 100.0))
+            local dmg = entry.damage or 0
+            self.card3WearText:setText(string.format("%.0f%%", dmg * 100.0))
+            RHM_UIColors.applyTextColor(self.card3WearText, RHM_UIColors.getWearColor(dmg))
         end
     end
 end
@@ -1339,15 +1338,19 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
     if self.seasonCardLossVolume then
         if isLossEnabled then
             self.seasonCardLossVolume:setText(RHM_UnitConverter.formatMass(summary.lostTons or 0, sys))
+            RHM_UIColors.applyTextColor(self.seasonCardLossVolume, RHM_UIColors.getLossColor(summary.lossPct or 0))
         else
             self.seasonCardLossVolume:setText("--")
+            RHM_UIColors.applyTextColor(self.seasonCardLossVolume, RHM_UIColors.GRAY)
         end
     end
     if self.seasonCardLossPercent then
         if isLossEnabled then
             self.seasonCardLossPercent:setText(string.format("%.2f%%", summary.lossPct or 0))
+            RHM_UIColors.applyTextColor(self.seasonCardLossPercent, RHM_UIColors.getLossColor(summary.lossPct or 0))
         else
             self.seasonCardLossPercent:setText("OFF")
+            RHM_UIColors.applyTextColor(self.seasonCardLossPercent, RHM_UIColors.GRAY)
         end
     end
 
@@ -1359,10 +1362,14 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
             moneyStr = string.format("-$%.0f", summary.lossMoney or 0)
         end
     end
-    if self.seasonCardLossMoney then self.seasonCardLossMoney:setText(moneyStr) end
+    if self.seasonCardLossMoney then
+        self.seasonCardLossMoney:setText(moneyStr)
+        RHM_UIColors.applyTextColor(self.seasonCardLossMoney, (isLossEnabled and (summary.lossMoney or 0) > 0) and RHM_UIColors.RED or RHM_UIColors.WHITE)
+    end
     if self.seasonCardEfficiencyRank then
         local rk = isLossEnabled and (summary.efficiencyRank or "A") or "A"
         self.seasonCardEfficiencyRank:setText(string.format("[%s]", rk))
+        RHM_UIColors.applyTextColor(self.seasonCardEfficiencyRank, RHM_UIColors.getRankColor(rk))
     end
 
     local reasonKey = "rhm_cause_" .. tostring(summary.dominantReason or "speed")
@@ -1376,7 +1383,10 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
     if self.seasonCardAvgSpeed then
         self.seasonCardAvgSpeed:setText(RHM_UnitConverter.formatSpeed(summary.avgSpeed or 0, sys))
     end
-    if self.seasonCardAvgLoad then self.seasonCardAvgLoad:setText(string.format("%.0f%%", summary.avgLoad or 0)) end
+    if self.seasonCardAvgLoad then
+        self.seasonCardAvgLoad:setText(string.format("%.0f%%", summary.avgLoad or 0))
+        RHM_UIColors.applyTextColor(self.seasonCardAvgLoad, RHM_UIColors.getLoadColor((summary.avgLoad or 0) / 100.0))
+    end
 
     local totalSecs = math.floor(summary.sessionDuration or 0)
     local hrs = math.floor(totalSecs / 3600)
@@ -1405,7 +1415,8 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
             local harvL = rec.harvested or 0
             local lostL = isLossEnabled and (rec.lost or 0) or 0
             local money = isLossEnabled and (rec.lossMoney or 0) or 0
-            local harvT = harvL * 0.00075
+            local cDensity = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and RHM_UnitConverter.getCropDensityTonsPerLiter(rec.cropName)) or 0.00075
+            local harvT = (rec.harvestedMassKg and rec.harvestedMassKg > 0) and (rec.harvestedMassKg * 0.001) or (harvL * cDensity)
             local yieldTha = (area > 0.001) and (harvT / area) or 0
 
             local bioVol = harvL + lostL
@@ -1445,6 +1456,8 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
                 harvested = string.format("%s (%.0f L)", RHM_UnitConverter.formatMass(harvT, sys), harvL),
                 yield = RHM_UnitConverter.formatYield(yieldTha, sys),
                 loss = isLossEnabled and string.format("%.2f%%", lossPct) or "OFF",
+                lossPct = isLossEnabled and lossPct or nil,
+                lossMoney = money,
                 money = rowMoney
             })
         end
@@ -1474,7 +1487,8 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
                 for cName, cVol in pairs(summary.cropVolumes) do
                     if cVol > 10 then
                         hasCrops = true
-                        local cTons = cVol * 0.00075
+                        local cDensity = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and RHM_UnitConverter.getCropDensityTonsPerLiter(cName)) or 0.00075
+                        local cTons = cVol * cDensity
                         local cDisplay = cName
                         if g_fillTypeManager then
                             local ft = g_fillTypeManager:getFillTypeByName(cName)
@@ -1493,6 +1507,8 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
                             harvested = string.format("%s (%.0f L)", RHM_UnitConverter.formatMass(cTons, sys), cVol),
                             yield = (cYield > 0.01) and RHM_UnitConverter.formatYield(cYield, sys) or "--",
                             loss = isLossEnabled and string.format("%.2f%%", lossPct) or "OFF",
+                            lossPct = isLossEnabled and lossPct or nil,
+                            lossMoney = money,
                             money = rowMoney
                         })
                     end
@@ -1500,7 +1516,7 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
             end
 
             if not hasCrops then
-                local harvT = totalL * 0.00075
+                local harvT = (summary.harvestedMassKg and summary.harvestedMassKg > 0) and (summary.harvestedMassKg * 0.001) or (totalL * 0.00075)
                 table.insert(self.historyData, {
                     year = yTag,
                     field = sumFieldLabel,
@@ -1509,6 +1525,8 @@ function RHM_HarvestHistoryFleet:updateHistoryData()
                     harvested = string.format("%s (%.0f L)", RHM_UnitConverter.formatMass(harvT, sys), totalL),
                     yield = (summary.avgYield and summary.avgYield > 0.01) and RHM_UnitConverter.formatYield(summary.avgYield, sys) or "--",
                     loss = isLossEnabled and string.format("%.2f%%", lossPct) or "OFF",
+                    lossPct = isLossEnabled and lossPct or nil,
+                    lossMoney = money,
                     money = rowMoney
                 })
             end
@@ -1576,10 +1594,24 @@ function RHM_HarvestHistoryFleet:populateCellForItemInSection(list, section, ind
         if ydElem and ydElem.setText then ydElem:setText(entry.yield) end
 
         local lElem = cell:getDescendantByName("histLoss")
-        if lElem and lElem.setText then lElem:setText(entry.loss) end
+        if lElem and lElem.setText then
+            lElem:setText(entry.loss)
+            if entry.lossPct ~= nil then
+                RHM_UIColors.applyTextColor(lElem, RHM_UIColors.getLossColor(entry.lossPct))
+            else
+                RHM_UIColors.applyTextColor(lElem, RHM_UIColors.GRAY)
+            end
+        end
 
         local mElem = cell:getDescendantByName("histMoney")
-        if mElem and mElem.setText then mElem:setText(entry.money) end
+        if mElem and mElem.setText then
+            mElem:setText(entry.money)
+            if entry.lossMoney and entry.lossMoney > 0 then
+                RHM_UIColors.applyTextColor(mElem, RHM_UIColors.RED)
+            else
+                RHM_UIColors.applyTextColor(mElem, RHM_UIColors.WHITE)
+            end
+        end
         return
     end
 
@@ -1604,7 +1636,10 @@ function RHM_HarvestHistoryFleet:populateCellForItemInSection(list, section, ind
     if fieldElem and fieldElem.setText then fieldElem:setText(entry.field or "--") end
 
     local statElem = cell:getDescendantByName("statusStr")
-    if statElem and statElem.setText then statElem:setText(entry.status or "--") end
+    if statElem and statElem.setText then
+        statElem:setText(entry.status or "--")
+        RHM_UIColors.applyTextColor(statElem, RHM_UIColors.getStatusColor(entry.statusCode))
+    end
 
     local sys = (RHM_UnitConverter and RHM_UnitConverter.getActiveSystem and RHM_UnitConverter.getActiveSystem()) or 1
     local isLossEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss)
@@ -1622,17 +1657,22 @@ function RHM_HarvestHistoryFleet:populateCellForItemInSection(list, section, ind
     if loadElem and loadElem.setText then
         if entry.isSold then
             loadElem:setText("--")
+            RHM_UIColors.applyTextColor(loadElem, RHM_UIColors.GRAY)
         else
             loadElem:setText(string.format("%.0f%%", (entry.engineLoad or 0) * 100.0))
+            RHM_UIColors.applyTextColor(loadElem, RHM_UIColors.getLoadColor(entry.engineLoad))
         end
     end
 
     local lossElem = cell:getDescendantByName("lossStr")
     if lossElem and lossElem.setText then
         if isLossEnabled then
-            lossElem:setText(string.format("%.2f%%", entry.cropLoss or 0))
+            local lp = entry.cropLoss or 0
+            lossElem:setText(string.format("%.2f%%", lp))
+            RHM_UIColors.applyTextColor(lossElem, RHM_UIColors.getLossColor(lp))
         else
             lossElem:setText("OFF")
+            RHM_UIColors.applyTextColor(lossElem, RHM_UIColors.GRAY)
         end
     end
 
@@ -1644,6 +1684,13 @@ function RHM_HarvestHistoryFleet:populateCellForItemInSection(list, section, ind
         else
             tankElem:setText("--")
         end
+    end
+end
+
+function RHM_HarvestHistoryFleet:onClickListItem(list, section, index)
+    if list == self.fleetTable and index and index >= 1 and index <= #self.fleetData then
+        self.selectedIndex = index
+        self:updateSelectedCardData()
     end
 end
 

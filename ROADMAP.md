@@ -42,6 +42,7 @@ Based on community feedback and core realism targets, the following major system
 │ 1. Harvest History & Trip UI  │ Field trip odometer, loss causes, seasons   │
 │ 2. Machine Types & Dynamics   │ Walker vs Single-Rotor vs Twin-Rotor/Hybrid │
 │ 3. Feeder Clogging System     │ Slip clutch, reverse feed, hard blockage    │
+│ 4. Asymmetric Trade-Offs & AI │ Sieve trade-offs, tailings load, strategies │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -111,4 +112,31 @@ Based on community feedback and core realism targets, the following major system
 
 ---
 
+### Milestone 4: Asymmetric Threshing Physics & Multi-Strategy Automation (Trade-Off Dynamics)
+*Realistic multi-criteria calibration physics: balancing grain loss vs. cleaning shoe load, grain cleanliness, and mechanical power.*
+
+*   **Directional Asymmetric Sieve & Cleaning Physics:**
+    *   **Over-Opening Upper Chaffer / Sieves:**
+        *   Opening sieves beyond factory tolerance does *not* produce grain loss; instead, sieve losses drop to near zero as grain easily passes through.
+        *   **Trade-Off Penalty:** Excess MOG (material other than grain), broken straw, and unthreshed ears flood the tailings/returns elevator. Dramatically increases tailings volume ($0\text{--}100\%$), drawing extra engine power ($P_{process}$) and risking shoe overloading in high-yield crops.
+    *   **Under-Opening Sieves:**
+        *   Ultra-clean grain in the tank, but steep exponential grain loss cascading out of the rear of the machine over the shoe.
+    *   **Rotor Speed vs. Grain Integrity & Power:**
+        *   Over-spinning the rotor/cylinder guarantees 100% threshing separation (eliminates unthreshed head losses), but incurs severe engine power drag ($P_{process}$), crushes straw (reducing swathed straw volume), and increases grain crack/damage risk.
+        *   Under-spinning saves engine horsepower and preserves straw length, but leaves unthreshed kernels in the heads/pods (direct unthreshed crop loss).
+    *   **Fan RPM Aerodynamics:**
+        *   Excessive air velocity lifts and ejects light grains (canola, oats, grass) with the chaff.
+        *   Insufficient air fails to fluidize the chaff mat on the sieves, causing mat compaction and shoe stall.
+
+*   **Operator Automation Strategies (Tier 4 / Opti-Harvest AI Integration):**
+    *   **Manual Mode (`MANUAL`):** Full operator freedom to deliberately push settings beyond standard margins to favor minimum loss or maximum speed based on field conditions.
+    *   **Automation Strategy Selector (Tier 4 `AUTO` Mode):**
+        *   Introduces operator strategy profiles directly on the in-cab calibration terminal (inspired by flagship combine optimization systems):
+            1.  **"Minimum Loss / Throughput" (Максимальна продуктивність / Мінімум втрат):** Biases sieves towards the upper boundary and elevates rotor speed for zero grain loss at higher field speeds, accepting heavier tailings recirculation.
+            2.  **"Maximum Grain Cleanliness" (Ідеальна чистота зерна):** Restricts sieves and optimizes fan velocity for highest sample purity without foreign material.
+            3.  **"Balanced / Fuel Economy" (Збалансований заводський режим):** Precise center of the physical crop tolerance band for optimum fuel efficiency, throughput, and zero blockage.
+
+---
+
 *Note: This roadmap reflects active development priorities and may be adjusted based on community feedback, technical feasibility, and GIANTS Engine updates.*
+

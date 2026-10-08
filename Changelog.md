@@ -1,5 +1,26 @@
 # Realistic Harvesting - Changelog
 
+Changelog 1.6.3.0:
+- ADDED: In-cab Yield Monitor HUD display mode (8 cells across 2 rows) featuring live mass flow rate (kg/s, lbs/s, bu/min), session average yield, field completion percentage, and clean mass odometer.
+- ADDED: Customizable HUD Display Mode setting in pause menu (Compact 4-cell vs. Yield Monitor 8-cell) with seamless live layout resizing, dynamic F1 menu docking, and magnetic snap rescaling.
+- IMPROVED: Interactive click-to-cycle metrics across all HUD cells with two-row cursor routing and graceful muted indicators when specific telemetry sensors are turned off.
+- ADDED: Harvester diesel fuel consumption tracking with live trip and field efficiency metrics (L, L/ha, L/t).
+- IMPROVED: Segregated calibration/settings losses from ground speed overload in loss breakdown scorecard.
+- ADDED: Seasonal crop totals summary widget in harvest records.
+- ADDED: Field harvesting progress percentage with completion status badges.
+- ADDED: Comprehensive field financial intelligence (gross revenue, fuel expense, net operating margin).
+- ADDED: Smart merged fields and clustering system with continuous harvesting and AI course contour recognition.
+- ADDED: Intelligent onboarding tutorial hints for active crop calibration verification, weed canopy resistance, hillside slope losses, and cutterbar wear.
+- IMPROVED: Centralized high-contrast UI color theme matching native vibrant game colors across all fullscreen menus.
+- IMPROVED: Optimized field statistics table column layout preventing header and currency text truncation.
+- ADDED: Interactive filter bar for Farm Fields (All / Owned / Contracts) with dedicated category metric aggregation.
+- FIXED: Machine telemetry isolation preventing identical harvester models from sharing or duplicating trip odometers and field statistics.
+- FIXED: Mini HUD telemetry display smoothing buffer leak when switching from an active harvester to a stationary vehicle.
+- OPTIMIZED: Multi-harvester performance and framerate stability via throttled weed density map sampling and spatial caching.
+- FIXED: Spatial field detection eliminating false field aliasing on bought non-field farmlands.
+- IMPROVED: Farm Fields season navigation preserving active season title in header and immediately accounting for in-progress fields.
+- FIXED: Seasonal field accounting accurately differentiating contract missions from farm-owned land.
+
 Changelog 1.6.2.0:
 - ADDED: Interactive in-cab mouse cursor mode toggled via Middle Mouse Button (MMB) with camera rotation suspension, allowing direct HUD repositioning and cell metric cycling.
 - IMPROVED: Seamless HUD interaction while the calibration tablet (Shift+K) is open, enabling direct HUD dragging and metric selection without closing the menu.

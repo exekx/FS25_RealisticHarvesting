@@ -179,7 +179,7 @@
     <Profile name="rhmCardHeaderVehicle" extends="baseReference" with="anchorTopLeft">
         <textSize value="14px"/>
         <textBold value="true"/>
-        <textColor value="$preset_fs25_colorMainHighlight"/>
+        <textColor value="$preset_fs25_colorMainLight"/>
         <textAlignment value="right"/>
         <textVerticalAlignment value="middle"/>
     </Profile>

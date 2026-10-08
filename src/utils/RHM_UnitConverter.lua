@@ -68,6 +68,37 @@ RHM_UnitConverter.BUSHEL_DEFAULT = 36.76
 
 RHM_UnitConverter.METER_TO_FEET = 3.28084
 
+---EN: Resolves crop density in metric tons per liter (t/L) from g_fillTypeManager.
+---    Returns 0.00075 t/L as standard fallback if fillType or massPerLiter is unavailable.
+---UA: Визначає густину культури в метричних тоннах на літр (т/л) через g_fillTypeManager.
+---    Повертає 0.00075 т/л як стандартне резервне значення, якщо fillType або massPerLiter недоступні.
+function RHM_UnitConverter.getCropDensityTonsPerLiter(cropNameOrFillType)
+    if not cropNameOrFillType or cropNameOrFillType == "--" or cropNameOrFillType == "UNKNOWN" then
+        return 0.00075
+    end
+    if g_fillTypeManager then
+        local ft = nil
+        if type(cropNameOrFillType) == "number" then
+            ft = g_fillTypeManager:getFillTypeByIndex(cropNameOrFillType)
+        elseif type(cropNameOrFillType) == "string" then
+            ft = g_fillTypeManager:getFillTypeByName(cropNameOrFillType)
+            if not ft and g_fillTypeManager.getFillTypeByName then
+                ft = g_fillTypeManager:getFillTypeByName(string.upper(cropNameOrFillType))
+            end
+            if not ft and g_fillTypeManager.getFillTypeIndexByName then
+                local idx = g_fillTypeManager:getFillTypeIndexByName(cropNameOrFillType) or g_fillTypeManager:getFillTypeIndexByName(string.upper(cropNameOrFillType))
+                if idx and idx ~= FillType.UNKNOWN then
+                    ft = g_fillTypeManager:getFillTypeByIndex(idx)
+                end
+            end
+        end
+        if ft and ft.massPerLiter and ft.massPerLiter > 0 then
+            return ft.massPerLiter
+        end
+    end
+    return 0.00075
+end
+
 -- EN: Returns the currently active unit system (1=Metric, 2=Imperial, 3=Bushels).
 --     Checks mod settings first, then falls back to base game settings.
 -- UA: Повертає поточно активну систему одиниць (1=Метрична, 2=Імперська, 3=Бушелі).
@@ -127,6 +158,33 @@ function RHM_UnitConverter.convertProductivity(tonnesPerHour, system, fruitType,
     else
         return (tonnesPerHour or 0), "t/h"
     end
+end
+
+-- EN: Converts instantaneous mass flow rate (throughput) from metric tonnes/hr to active unit system.
+--     Metric: kg/s (or t/h)
+--     Imperial: lbs/s (or ton/h)
+--     Bushels: bu/min (or bu/h)
+-- UA: Конвертує миттєвий потік маси (витрату) з метричних т/год у активну систему одиниць.
+function RHM_UnitConverter.convertFlowRate(tonnesPerHour, system, fruitType, litersPerHour)
+    system = system or RHM_UnitConverter.getActiveSystem()
+    local tph = tonnesPerHour or 0
+    if system == RHM_UnitConverter.SYSTEM_BUSHELS then
+        local buPerHour, _ = RHM_UnitConverter.convertProductivity(tph, system, fruitType, litersPerHour)
+        return buPerHour / 60.0, "bu/min"
+    elseif system == RHM_UnitConverter.SYSTEM_IMPERIAL then
+        local lbsPerSec = (tph * 1000.0 / 3600.0) * 2.20462
+        return lbsPerSec, "lbs/s"
+    else
+        local kgPerSec = (tph * 1000.0 / 3600.0)
+        return kgPerSec, "kg/s"
+    end
+end
+
+-- EN: Formats instantaneous mass flow rate with unit suffix.
+-- UA: Форматує миттєвий потік маси з позначенням одиниці.
+function RHM_UnitConverter.formatFlowRate(tonnesPerHour, system, fruitType, litersPerHour)
+    local val, suffix = RHM_UnitConverter.convertFlowRate(tonnesPerHour, system, fruitType, litersPerHour)
+    return string.format("%.1f %s", val, suffix)
 end
 
 -- EN: Converts an area value from hectares to the active unit system.

@@ -430,7 +430,7 @@
         <text name="rhm_col_loss" text="Veszteség" />
         <text name="rhm_col_tank" text="Tartály" />
         <text name="rhm_col_area" text="Terület" />
-        <text name="rhm_col_money" text="Veszteség ($)" />
+        <text name="rhm_col_money" text="Veszteség" />
         <text name="rhm_col_driver" text="Gépkezelő" />
         <text name="rhm_col_cutter" text="Vágóasztal" />
         <text name="rhm_col_throughput" text="Áteresztőképesség" />
@@ -502,5 +502,34 @@
         <text name="rhm_weedload_long" text="A nedvdús és rostos gyomok a dobra tekerednek, növelve a mechanikai ellenállást és a motorterhelést (akár +25%). Kapcsolja ki a motorterhelés mellőzéséhez." />
             <text name="rhm_fleet_badge_mission" text="[Szerződés]" />
         <text name="rhm_fleet_badge_leased" text="[Bérelt]" />
+        <text name="rhm_cause_settings" text="Gépbeállítások és kalibrálás" />
+        <text name="rhm_advice_settings" text="Fő veszteség a nem optimális beállítás miatt. Állítsa be a kosárhézagot, a dobfordulatszámot és a rostákat a jelenlegi terményhez." />
+        <text name="rhm_fuel_consumption" text="Üzemanyag-fogyasztás" />
+        <text name="rhm_fuel_used" text="Felhasznált üzemanyag" />
+        <text name="rhm_fuel_rate" text="Fajlagos fogyasztás" />
+        <text name="rhm_cluster_merged" text="Egyesített tábla" />
+        <text name="rhm_gross_revenue" text="Bruttó betakarítási bevétel" />
+        <text name="rhm_fuel_expense" text="Üzemanyag-kiadás" />
+        <text name="rhm_net_margin" text="Nettó működési árrés" />
+        <text name="rhm_tut_calib_warn_title" text="KOMBÁJN BEÁLLÍTÁSA" />
+        <text name="rhm_tut_calib_warn_msg" text="A kombájn még nincs kalibrálva a(z) %s növényhez! A nem megfelelő dobhézag, fordulatszám vagy rosták túlterhelik a motort és szemveszteséget okoznak. Nyomja meg a Shift+K gombot az optimális beállításhoz." />
+        <text name="rhm_tut_calib_warn_params_msg" text="Nem megfelelő beállítások észlelve a(z) %s kultúrához (%s tűréshatáron kívül)! Csökkenti a kapacitást és növeli a veszteséget. Nyomja meg a Shift+K gombot a kalibráláshoz." />
+        <text name="rhm_tut_calib_ok_title" text="OPTIMÁLIS BEÁLLÍTÁS ELLENŐRIZVE" />
+        <text name="rhm_tut_calib_ok_msg" text="Minden cséplő- és tisztítórendszer az optimális tűréshatáron belül van beállítva a(z) %s növényhez. Maximális hatékonyság!" />
+        <text name="rhm_tut_weed_title" text="GYOMELLENÁLLÁS" />
+        <text name="rhm_tut_weed_msg" text="A sűrű zöld gyomfoltok jelentősen növelik a vágási és cséplési ellenállást (+15–25% motorterhelés). A gép automatikusan lelassul az eltömődés megelőzése érdekében." />
+        <text name="rhm_tut_slope_title" text="LEJTŐS VESZTESÉGEK" />
+        <text name="rhm_tut_slope_msg" text="A lejtőn végzett munka megdönti a rostaszekrényt, a termény félrehordódik és szemveszteség keletkezik. Csökkentse a sebességet domboldalon." />
+        <text name="rhm_tut_wear_title" text="KASZAPENGE ÉS DOB KOPÁSA" />
+        <text name="rhm_tut_wear_msg" text="A kopott kaszapengék és tompa cséplőelemek növelik az ellenállást és pergési veszteséget okoznak a vágóasztalnál. Javíttassa meg gépét a műhelyben." />
+        <text name="rhm_field_progress" text="Betakarítási folyamat" />
+        <text name="rhm_filter_owned" text="Saját" />
+        <text name="rhm_filter_contracts" text="Szerződések" />
+        <text name="rhm_hud_style_title" text="HUD megjelenítési mód" />
+        <text name="rhm_hud_style_desc" text="Válasszon a kompakt egysoros telemetriai sáv (4 cella) és a kibővített hozammonitor (8 cella tömegárammal, átlaghozammal, területi állapottal és számlálóval) között." />
+        <text name="rhm_hud_style_compact" text="Kompakt (4 cella)" />
+        <text name="rhm_hud_style_expanded" text="Hozammonitor (8 cella)" />
+
+
     </texts>
 </l10n>

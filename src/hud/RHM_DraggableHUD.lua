@@ -64,12 +64,18 @@ function RHMDraggableHUD.new(modDirectory, settings)
         cell1 = "load",
         cell2 = "loss",
         cell3 = "moisture",
-        cell4 = "yield"
+        cell4 = "yield",
+        cell4_weed = "weed",
+        cell5 = "flowRate",
+        cell6 = "yield",
+        cell7 = "area",
+        cell8 = "mass"
     }
 
     self.uiScale = 1.0
-    self.width = 0.172
-    self.height = 0.042
+    self.width = 0.176
+    local hudStyle = (settings and settings.hudStyle) or 2
+    self.height = (hudStyle == 2 and 0.082 or 0.042)
 
     self.rectOverlay = nil
     self.bgTopOverlay = nil
@@ -90,7 +96,8 @@ function RHMDraggableHUD:load()
         self.uiScale = g_gameSettings:getValue("uiScale") or 1.0
     end
 
-    self.height = 0.042 * self.uiScale
+    local hudStyle = (self.settings and self.settings.hudStyle) or 2
+    self.height = (hudStyle == 2 and 0.082 or 0.042) * self.uiScale
     self.width  = 0.176 * self.uiScale
 
     -- 1. Load authentic FS25 rounded panel texture from unified atlas
@@ -142,8 +149,21 @@ function RHMDraggableHUD:load()
     rhm_log("RHM [UI]: RHMDraggableHUD (PF style) loaded successfully")
 end
 
+function RHMDraggableHUD:updateLayout()
+    local hudStyle = (self.settings and self.settings.hudStyle) or 2
+    self.height = (hudStyle == 2 and 0.082 or 0.042) * (self.uiScale or 1.0)
+    self.cachedCells = nil
+    if self.isSnapped then
+        local dockX, dockY, dockW = self:getDockedPosition()
+        self.x = dockX
+        self.y = dockY
+        self.width = dockW
+    end
+end
+
 function RHMDraggableHUD:loadIcons(uiScale)
-    self.height = 0.042 * self.uiScale
+    local hudStyle = (self.settings and self.settings.hudStyle) or 2
+    self.height = (hudStyle == 2 and 0.082 or 0.042) * self.uiScale
     self.width  = 0.176 * self.uiScale
 
     local iconHeight = 0.024 * self.uiScale
@@ -161,7 +181,10 @@ function RHMDraggableHUD:loadIcons(uiScale)
         loss         = {256,   256, iconPx, iconPx},
         speed        = {320,   256, iconPx, iconPx},
         weed         = {384,   256, iconPx, iconPx},
-        area_rate    = {448,   256, iconPx, iconPx}
+        area_rate    = {448,   256, iconPx, iconPx},
+        field        = {64,    320, iconPx, iconPx},
+        trip         = {0,     320, iconPx, iconPx},
+        history      = {256,   320, iconPx, iconPx}
     }
 
     for name, uvRect in pairs(iconDefs) do
@@ -579,13 +602,37 @@ function RHMDraggableHUD:setPosition(x, y)
 end
 
 function RHMDraggableHUD:setVehicle(vehicle)
-    if self.vehicle ~= vehicle then
+    local vehicleChanged = (self.vehicle ~= vehicle)
+    if vehicleChanged then
         self.cachedCells = nil
         self.displayTimer = 0
     end
     self.vehicle = vehicle
     if vehicle then
-        self:update(0)
+        local spec = vehicle.spec_rhm_Combine
+        local vData = spec and spec.data
+        if vehicleChanged then
+            -- Immediately snap raw and smoothed data to prevent previous vehicle's values leaking
+            self.data = self.data or {}
+            self.displayData = self.displayData or {}
+            self.data.load             = (vData and vData.load) or 0
+            self.data.yield            = (vData and vData.yield) or 0
+            self.data.cropLoss         = (vData and vData.cropLoss) or 0
+            self.data.tonPerHour       = (vData and vData.tonPerHour) or 0
+            self.data.litersPerHour    = (vData and vData.litersPerHour) or 0
+            self.data.recommendedSpeed = (vData and vData.recommendedSpeed) or 0
+            self.data.targetSpeed      = (vData and (vData.targetSpeed or vData.recommendedSpeed)) or 0
+            self.data.moisture         = (vData and vData.moisture) or 0
+            self.data.hectaresPerHour  = (vData and vData.hectaresPerHour) or 0
+            self.data.speed            = (vehicle.getLastSpeed and vehicle:getLastSpeed()) or 0
+            self.data.weedRatio        = (vData and vData.weedRatio) or 0
+
+            for k, v in pairs(self.data) do
+                self.displayData[k] = v
+            end
+        else
+            self:update(0)
+        end
     else
         for k, _ in pairs(self.data) do
             self.data[k] = 0
@@ -748,10 +795,11 @@ function RHMDraggableHUD:drawDockSnapPlaceholder(dockX, dockY, dockW, dockH)
     local slotW = dockW + (padX * 2)
     local slotH = (dockH or self.height) + (padY * 2)
 
+    local greenBase = (RHM_UIColors and RHM_UIColors.GREEN) or {0.61, 0.85, 0.15, 1.0}
     local pulse = 0.85 + 0.15 * math.sin((g_time or 0) * 0.008)
-    local r = 0.529 * pulse
-    local g = 0.706 * pulse
-    local b = 0.0
+    local r = greenBase[1] * pulse
+    local g = greenBase[2] * pulse
+    local b = greenBase[3] * pulse
 
     -- 1. Outer rounded rectangle in magnetic green
     SNAP_OUTER_COLOR[1] = r
@@ -779,6 +827,12 @@ function RHMDraggableHUD:draw()
     if not self.roundedOverlay then return end
 
     -- Update docked coordinates dynamically each frame to track F1 toggle & PF movement
+    local hudStyle = (self.settings and self.settings.hudStyle) or 2
+    local expectedHeight = (hudStyle == 2 and 0.082 or 0.042) * self.uiScale
+    if math.abs(self.height - expectedHeight) > 0.001 then
+        self:updateLayout()
+    end
+
     local dockX, dockY, dockW = self:getDockedPosition()
     self.width = dockW
 
@@ -807,95 +861,73 @@ function RHMDraggableHUD:draw()
     -- 2. Authentic FS25 Translucent Rounded Background for HUD
     self:drawPanelBackground(x, y, w, h, HUD_BG_COLOR)
 
-    -- ── Build 4-Column PF-Style Stacked Cells ───────────────────────────────
+    -- ── Render Stacked Cells ──────────────────────────────────────────────
     local cells = self.cachedCells or self:buildActiveCells()
     local numCells = #cells
     if numCells == 0 then return end
 
-    local cellW = w / numCells
-    local borderW = 0.0006
+    if hudStyle == 1 then
+        -- Compact 1-row rendering (cells 1 to 4)
+        local cellW = w / math.max(1, numCells)
+        local borderW = 0.0006
+        local iconH = 0.022 * self.uiScale
+        local iconW = iconH / g_screenAspectRatio
+        local numTextSize  = 0.0145 * self.uiScale
+        local unitTextSize = 0.0078 * self.uiScale
 
-    local iconH = 0.022 * self.uiScale
-    local iconW = iconH / g_screenAspectRatio
-    local numTextSize  = 0.0145 * self.uiScale
-    local unitTextSize = 0.0078 * self.uiScale
-
-    local currentX = x
-    for i, cell in ipairs(cells) do
-        local cellEndX = currentX + cellW
-
-        -- Thin vertical divider between cells (exact PF style)
-        if i < numCells then
-            self:drawRect(cellEndX - borderW, y + 0.007 * self.uiScale, borderW, h - 0.014 * self.uiScale, 1.0, 1.0, 1.0, 0.12)
-        end
-
-        -- Icon (vertically centered on the left of cell)
-        local icon = self.icons[cell.iconName]
-        local iconX = currentX + 0.0022 * self.uiScale
-        local iconY = y + (h - iconH) * 0.50
-        if icon then
-            icon:setPosition(iconX, iconY)
-            icon:setDimension(iconW, iconH)
-            icon:setColor(1.0, 1.0, 1.0, 0.95)
-            icon:render()
-        end
-
-        -- Two-line stacked typography: number on top, unit on bottom (or centered if no unit)
-        local textX = iconX + iconW + 0.0020 * self.uiScale
-        local hasUnit = (cell.unitStr and cell.unitStr ~= "")
-        local currentNumSize = (cell.numStr and #cell.numStr >= 5) and (numTextSize * 0.93) or numTextSize
-        local topY = hasUnit and (y + h * 0.49) or (y + (h - currentNumSize) * 0.50 + 0.0010 * self.uiScale)
-        local botY = y + h * 0.17
-
-        setTextBold(true)
-        setTextAlignment(RenderText.ALIGN_LEFT)
-        if cell.color then
-            setTextColor(cell.color[1], cell.color[2], cell.color[3], cell.color[4] or 0.98)
-        else
-            setTextColor(0.98, 0.98, 0.98, 0.98)
-        end
-        renderText(textX, topY, currentNumSize, cell.numStr)
-
-        if hasUnit then
-            if cell.rankColor and cell.unitStr and cell.unitStr:sub(1, 1) == "[" then
-                local closeIdx = cell.unitStr:find("%]")
-                if closeIdx then
-                    local rankPart = cell.unitStr:sub(1, closeIdx)
-                    local restPart = cell.unitStr:sub(closeIdx + 1)
-                    restPart = restPart:match("^%s*(.-)$") or restPart
-                    local rankTextSize = 0.0078 * self.uiScale
-                    setTextBold(true)
-                    setTextColor(cell.rankColor[1], cell.rankColor[2], cell.rankColor[3], 1.0)
-                    renderText(textX, botY, rankTextSize, rankPart)
-                    local rkW = (getTextWidth and getTextWidth(rankTextSize, rankPart)) or (0.0070 * self.uiScale)
-                    setTextBold(false)
-                    setTextColor(0.72, 0.74, 0.78, 0.90)
-                    renderText(textX + rkW + (0.0012 * self.uiScale), botY, rankTextSize, restPart)
-                else
-                    setTextBold(false)
-                    setTextColor(0.72, 0.74, 0.78, 0.90)
-                    renderText(textX, botY, unitTextSize, cell.unitStr)
-                end
-            else
-                setTextBold(false)
-                setTextColor(0.72, 0.74, 0.78, 0.90)
-                renderText(textX, botY, unitTextSize, cell.unitStr)
+        local currentX = x
+        for i, cell in ipairs(cells) do
+            local cellEndX = currentX + cellW
+            if i < numCells then
+                self:drawRect(cellEndX - borderW, y + 0.007 * self.uiScale, borderW, h - 0.014 * self.uiScale, 1.0, 1.0, 1.0, 0.12)
             end
+            self:renderCell(cell, currentX, y, cellW, h, iconW, iconH, numTextSize, unitTextSize, cellEndX)
+            currentX = cellEndX
+        end
+    else
+        -- Expanded 2-row rendering (Row 1: cells 1..4, Row 2: cells 5..8)
+        local rowH = h * 0.5
+        local cols = 4
+        local cellW = w / cols
+        local borderW = 0.0006
+        local iconH = 0.020 * self.uiScale
+        local iconW = iconH / g_screenAspectRatio
+        local numTextSize  = 0.0135 * self.uiScale
+        local unitTextSize = 0.0075 * self.uiScale
+
+        -- Horizontal divider between Row 1 and Row 2
+        local midY = y + rowH
+        self:drawRect(x + 0.006 * self.uiScale, midY - borderW * 0.5, w - 0.012 * self.uiScale, borderW, 1.0, 1.0, 1.0, 0.12)
+
+        -- Row 1: Machine & Field Conditions (cells 1 to 4)
+        local row1Y = midY
+        local curX = x
+        for c = 1, cols do
+            local cell = cells[c]
+            local cellEndX = curX + cellW
+            if c < cols then
+                self:drawRect(cellEndX - borderW, row1Y + 0.004 * self.uiScale, borderW, rowH - 0.008 * self.uiScale, 1.0, 1.0, 1.0, 0.12)
+            end
+            if cell then
+                self:renderCell(cell, curX, row1Y, cellW, rowH, iconW, iconH, numTextSize, unitTextSize, cellEndX)
+            end
+            curX = cellEndX
         end
 
-        -- Dynamic Colored Underline Indicator (exact PF style: centered under text, strictly contained in cell)
-        if cell.indicatorColor then
-            local numW = (getTextWidth and getTextWidth(currentNumSize, cell.numStr)) or (0.018 * self.uiScale)
-            local indX = textX
-            local maxIndW = math.max(0.008 * self.uiScale, cellEndX - indX - 0.0020 * self.uiScale)
-            local indW = math.min(math.max(0.014 * self.uiScale, numW), maxIndW)
-            local indH = 0.0020 * self.uiScale
-            local indY = y + 0.0035 * self.uiScale
-            local c = cell.indicatorColor
-            self:drawRect(indX, indY, indW, indH, c[1], c[2], c[3], c[4] or 0.95)
+        -- Row 2: Yield & Production Monitor (cells 5 to 8)
+        local row2Y = y
+        curX = x
+        for c = 1, cols do
+            local cell = cells[4 + c]
+            local cellEndX = curX + cellW
+            if c < cols then
+                self:drawRect(cellEndX - borderW, row2Y + 0.004 * self.uiScale, borderW, rowH - 0.008 * self.uiScale, 1.0, 1.0, 1.0, 0.12)
+            end
+            if cell then
+                self:renderCell(cell, curX, row2Y, cellW, rowH, iconW, iconH, numTextSize, unitTextSize, cellEndX)
+            end
+            curX = cellEndX
         end
-
-        currentX = cellEndX
     end
 
     local spec = self.vehicle and self.vehicle.spec_rhm_Combine
@@ -912,8 +944,80 @@ function RHMDraggableHUD:draw()
     setTextAlignment(RenderText.ALIGN_LEFT)
 end
 
+function RHMDraggableHUD:renderCell(cell, cellX, cellY, cellW, cellH, iconW, iconH, numTextSize, unitTextSize, cellEndX)
+    -- Icon (vertically centered on the left of cell)
+    local icon = self.icons[cell.iconName]
+    local iconX = cellX + 0.0022 * self.uiScale
+    local iconY = cellY + (cellH - iconH) * 0.50
+    if icon then
+        icon:setPosition(iconX, iconY)
+        icon:setDimension(iconW, iconH)
+        icon:setColor(1.0, 1.0, 1.0, 0.95)
+        icon:render()
+    end
+
+    -- Two-line stacked typography: number on top, unit on bottom (or centered if no unit)
+    local textX = iconX + iconW + 0.0020 * self.uiScale
+    local hasUnit = (cell.unitStr and cell.unitStr ~= "")
+    local currentNumSize = (cell.numStr and #cell.numStr >= 5) and (numTextSize * 0.93) or numTextSize
+    local topY = hasUnit and (cellY + cellH * 0.49) or (cellY + (cellH - currentNumSize) * 0.50 + 0.0010 * self.uiScale)
+    local botY = cellY + cellH * 0.17
+
+    setTextBold(true)
+    setTextAlignment(RenderText.ALIGN_LEFT)
+    if cell.color then
+        setTextColor(cell.color[1], cell.color[2], cell.color[3], cell.color[4] or 0.98)
+    else
+        setTextColor(0.98, 0.98, 0.98, 0.98)
+    end
+    renderText(textX, topY, currentNumSize, cell.numStr)
+
+    if hasUnit then
+        if cell.rankColor and cell.unitStr and cell.unitStr:sub(1, 1) == "[" then
+            local closeIdx = cell.unitStr:find("%]")
+            if closeIdx then
+                local rankPart = cell.unitStr:sub(1, closeIdx)
+                local restPart = cell.unitStr:sub(closeIdx + 1)
+                restPart = restPart:match("^%s*(.-)$") or restPart
+                local rankTextSize = unitTextSize
+                setTextBold(true)
+                setTextColor(cell.rankColor[1], cell.rankColor[2], cell.rankColor[3], 1.0)
+                renderText(textX, botY, rankTextSize, rankPart)
+                local grayCol = (RHM_UIColors and RHM_UIColors.GRAY) or {0.65, 0.68, 0.72, 1.0}
+                local rkW = (getTextWidth and getTextWidth(rankTextSize, rankPart)) or (0.0070 * self.uiScale)
+                setTextBold(false)
+                setTextColor(grayCol[1], grayCol[2], grayCol[3], 0.90)
+                renderText(textX + rkW + (0.0012 * self.uiScale), botY, rankTextSize, restPart)
+            else
+                local grayCol = (RHM_UIColors and RHM_UIColors.GRAY) or {0.65, 0.68, 0.72, 1.0}
+                setTextBold(false)
+                setTextColor(grayCol[1], grayCol[2], grayCol[3], 0.90)
+                renderText(textX, botY, unitTextSize, cell.unitStr)
+            end
+        else
+            local grayCol = (RHM_UIColors and RHM_UIColors.GRAY) or {0.65, 0.68, 0.72, 1.0}
+            setTextBold(false)
+            setTextColor(grayCol[1], grayCol[2], grayCol[3], 0.90)
+            renderText(textX, botY, unitTextSize, cell.unitStr)
+        end
+    end
+
+    -- Dynamic Colored Underline Indicator (exact PF style: centered under text, strictly contained in cell)
+    if cell.indicatorColor then
+        local numW = (getTextWidth and getTextWidth(currentNumSize, cell.numStr)) or (0.018 * self.uiScale)
+        local indX = textX
+        local maxIndW = math.max(0.008 * self.uiScale, cellEndX - indX - 0.0020 * self.uiScale)
+        local indW = math.min(math.max(0.014 * self.uiScale, numW), maxIndW)
+        local indH = 0.0020 * self.uiScale
+        local indY = cellY + 0.0030 * self.uiScale
+        local c = cell.indicatorColor
+        self:drawRect(indX, indY, indW, indH, c[1], c[2], c[3], c[4] or 0.95)
+    end
+end
+
 function RHMDraggableHUD:buildActiveCells()
     local cells = {}
+    local hudStyle = (self.settings and self.settings.hudStyle) or 2
     local unitSystem = (RHM_UnitConverter and RHM_UnitConverter.getActiveSystem and RHM_UnitConverter.getActiveSystem()) or (self.settings and self.settings.unitSystem) or 1
     local fruitType = nil
     if self.vehicle and self.vehicle.spec_combine then
@@ -927,26 +1031,13 @@ function RHMDraggableHUD:buildActiveCells()
         packageLevel = self.vehicle.spec_rhm_Combine.packageLevel or 1
     end
 
-    local hasAuxTelemetry = false
-    if self.vehicle and (self.vehicle.spec_precisionFarmingStatistic ~= nil or self.vehicle.spec_extendedCombine ~= nil) then
-        hasAuxTelemetry = true
-    end
-
-    local function getL10n(key, fallback)
-        if g_i18n and g_i18n:hasText(key) then
-            return g_i18n:getText(key)
-        end
-        return fallback
-    end
-
-    -- Query active trip for cumulative field session telemetry and quality rank
+    local farmId = (self.vehicle and self.vehicle.getOwnerFarmId and self.vehicle:getOwnerFarmId()) or 1
     local trip = (self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.trip)
     local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
     if not trip and tracker and self.vehicle then
-        local farmId = self.vehicle.getOwnerFarmId and self.vehicle:getOwnerFarmId() or 1
         local farm = tracker:getFarmData(farmId)
         if farm and farm.combineTrips then
-            local machineKey = self.vehicle.configFileName or (self.vehicle.getFullName and self.vehicle:getFullName()) or "Harvester"
+            local machineKey = (RHM_HarvestTracker and RHM_HarvestTracker.getMachineKey and RHM_HarvestTracker.getMachineKey(self.vehicle)) or self.vehicle.configFileName or (self.vehicle.getFullName and self.vehicle:getFullName()) or "Harvester"
             trip = farm.combineTrips[machineKey]
         end
         trip = trip or (farm and farm.currentTrip)
@@ -955,21 +1046,47 @@ function RHMDraggableHUD:buildActiveCells()
     local function rhm_getLocalizedUnit(unitKey)
         if not unitKey or unitKey == "" then return "" end
         local lang = g_languageShort or (g_i18n and g_i18n.languageShort) or "en"
-        if lang == "ru" then
-            if unitKey == "t/ha" then return "т/га"
-            elseif unitKey == "t/h" then return "т/ч"
-            elseif unitKey == "ha/h" then return "га/ч"
-            elseif unitKey == "km/h" then return "км/ч"
-            elseif unitKey == "t" then return "т"
-            elseif unitKey == "ha" then return "га"
-            end
-        elseif lang == "uk" then
+        if lang == "uk" then
             if unitKey == "t/ha" then return "т/га"
             elseif unitKey == "t/h" then return "т/год"
             elseif unitKey == "ha/h" then return "га/год"
             elseif unitKey == "km/h" then return "км/год"
+            elseif unitKey == "kg/s" then return "кг/с"
+            elseif unitKey == "lbs/s" then return "фунт/с"
+            elseif unitKey == "bu/min" then return "буш/хв"
+            elseif unitKey == "bu/h" then return "буш/год"
+            elseif unitKey == "bu/ac" then return "буш/акр"
+            elseif unitKey == "ac/h" then return "акр/год"
             elseif unitKey == "t" then return "т"
             elseif unitKey == "ha" then return "га"
+            elseif unitKey == "ac" then return "акр"
+            elseif unitKey == "bu" then return "буш"
+            elseif unitKey == "kL" then return "кЛ"
+            elseif unitKey == "L" then return "л"
+            elseif unitKey == "h" then return "год"
+            elseif unitKey == "min" then return "хв"
+            elseif unitKey == "HP" then return "к.с."
+            end
+        elseif lang == "ru" then
+            if unitKey == "t/ha" then return "т/га"
+            elseif unitKey == "t/h" then return "т/ч"
+            elseif unitKey == "ha/h" then return "га/ч"
+            elseif unitKey == "km/h" then return "км/ч"
+            elseif unitKey == "kg/s" then return "кг/с"
+            elseif unitKey == "lbs/s" then return "фунт/с"
+            elseif unitKey == "bu/min" then return "буш/мин"
+            elseif unitKey == "bu/h" then return "буш/ч"
+            elseif unitKey == "bu/ac" then return "буш/акр"
+            elseif unitKey == "ac/h" then return "акр/ч"
+            elseif unitKey == "t" then return "т"
+            elseif unitKey == "ha" then return "га"
+            elseif unitKey == "ac" then return "акр"
+            elseif unitKey == "bu" then return "буш"
+            elseif unitKey == "kL" then return "кЛ"
+            elseif unitKey == "L" then return "л"
+            elseif unitKey == "h" then return "ч"
+            elseif unitKey == "min" then return "мин"
+            elseif unitKey == "HP" then return "л.с."
             end
         end
         if unitKey == "t/h" and g_i18n and g_i18n:hasText("rhm_unit_t_per_hour") then
@@ -985,23 +1102,23 @@ function RHMDraggableHUD:buildActiveCells()
     local tripLossSubStr = nil
     local tripHarvestSubStr = nil
     local tripAreaSubStr = nil
-    if trip and trip.harvestedLiters and trip.harvestedLiters > 0 then
+    local tripAreaHa = (trip and trip.harvestedAreaHa) or 0
+    local tripLiters = (trip and trip.harvestedLiters) or 0
+    local tripMassKg = (trip and trip.harvestedMassKg) or (tripLiters * 0.75)
+    local tripTons = tripMassKg * 0.001
+    local tripDuration = (trip and trip.sessionDuration) or 0
+
+    if trip and tripLiters > 0 then
         local rk = trip.efficiencyRank or "A"
         tripRank = rk
-        if rk == "B" then tripRankColor = {0.80, 0.85, 0.20, 1.0}
-        elseif rk == "C" then tripRankColor = {1.0, 0.60, 0.0, 1.0}
-        elseif rk == "D" then tripRankColor = {0.95, 0.25, 0.20, 1.0}
-        else tripRankColor = {0.55, 0.72, 0.0, 1.0}
-        end
+        tripRankColor = (RHM_UIColors and RHM_UIColors.getRankColor and RHM_UIColors.getRankColor(rk)) or {0.61, 0.85, 0.15, 1.0}
 
-        local totalBio = (trip.harvestedLiters or 0) + (trip.lostLiters or 0)
+        local totalBio = tripLiters + (trip.lostLiters or 0)
         local tripLossPct = (totalBio > 0) and (((trip.lostLiters or 0) / totalBio) * 100.0) or 0
         tripLossSubStr = string.format("[%s] %.1f%%", rk, tripLossPct)
 
-        local massKg = trip.harvestedMassKg or (trip.harvestedLiters * 0.75)
-        local tripTons = massKg * 0.001
         if RHM_UnitConverter and RHM_UnitConverter.convertMass then
-            local val, suffix = RHM_UnitConverter.convertMass(tripTons, unitSystem, fruitType, trip.harvestedLiters)
+            local val, suffix = RHM_UnitConverter.convertMass(tripTons, unitSystem, fruitType, tripLiters)
             local locSuffix = rhm_getLocalizedUnit(suffix)
             if suffix == "bu" then
                 tripHarvestSubStr = string.format("%.0f %s", val, locSuffix)
@@ -1012,7 +1129,6 @@ function RHMDraggableHUD:buildActiveCells()
             tripHarvestSubStr = string.format("%.1f %s", tripTons, rhm_getLocalizedUnit("t"))
         end
 
-        local tripAreaHa = trip.harvestedAreaHa or 0
         if tripAreaHa > 0.005 then
             if RHM_UnitConverter and RHM_UnitConverter.convertArea then
                 local val, suffix = RHM_UnitConverter.convertArea(tripAreaHa, unitSystem)
@@ -1024,22 +1140,55 @@ function RHMDraggableHUD:buildActiveCells()
         end
     end
 
+    local grayCol = (RHM_UIColors and RHM_UIColors.GRAY) or {0.65, 0.68, 0.72, 1.0}
     local d = self.displayData or self.data
 
-    -- 1. Engine Load Cell (pinned to Cell 1)
-    if self.settings.showLoad then
-        local loadVal = d.load or 0
-        local loadColor, indColor = self:getLoadColors(loadVal)
+    -- ── 1. Cell 1: Engine Load (% <-> HP) ───────────────────────────
+    if self.settings.showLoad == false then
         table.insert(cells, {
             iconName = "load",
-            numStr = string.format("%.0f%%", loadVal),
-            unitStr = "",
-            color = loadColor,
-            indicatorColor = indColor
+            numStr = "--",
+            unitStr = "OFF",
+            color = grayCol
         })
+    else
+        local loadVal = d.load or 0
+        local loadColor, indColor = self:getLoadColors(loadVal)
+        local mode1 = self.displayModes.cell1 or "load"
+        if mode1 == "loadHp" then
+            local calc = self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.loadCalculator
+            local effHp = (calc and calc.lastEffectiveHp) or (calc and calc:getEnginePowerHp(self.vehicle)) or 0
+            if effHp > 10 then
+                local curHp = (loadVal / 100.0) * effHp
+                local locHp = rhm_getLocalizedUnit("HP")
+                table.insert(cells, {
+                    iconName = "load",
+                    numStr = string.format("%.0f", curHp),
+                    unitStr = string.format("/ %.0f %s", effHp, locHp),
+                    color = loadColor,
+                    indicatorColor = indColor
+                })
+            else
+                table.insert(cells, {
+                    iconName = "load",
+                    numStr = string.format("%.0f%%", loadVal),
+                    unitStr = "",
+                    color = loadColor,
+                    indicatorColor = indColor
+                })
+            end
+        else
+            table.insert(cells, {
+                iconName = "load",
+                numStr = string.format("%.0f%%", loadVal),
+                unitStr = "",
+                color = loadColor,
+                indicatorColor = indColor
+            })
+        end
     end
 
-    -- 2. Cell 2: Speed OR Crop Loss
+    -- ── 2. Cell 2: Speed OR Crop Loss ──────────────────────────────
     local isCropLossEnabled = (self.settings and self.settings.enableCropLoss ~= false)
     local hasLossSensor = (packageLevel >= 2) and (machineType ~= "forage" and machineType ~= "cotton")
     local canShowLoss = hasLossSensor and isCropLossEnabled and (self.settings and self.settings.showCropLoss ~= false)
@@ -1089,131 +1238,403 @@ function RHMDraggableHUD:buildActiveCells()
         })
     end
 
-    -- 3. Cell 3: Moisture OR Weeds
+    -- ── 3. Cell 3: Moisture (Compact: Moisture <-> Weed; Expanded: Moisture)
     local isWeedLoadEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableWeedLoad ~= false)
     local areWeedsInGame = (g_currentMission and g_currentMission.missionInfo and g_currentMission.missionInfo.weedsEnabled ~= false)
     local canShowWeeds = isWeedLoadEnabled and areWeedsInGame and (self.settings and self.settings.showWeeds ~= false)
     local canShowMoisture = (self.settings and self.settings.showMoisture ~= false)
 
-    local mode3 = self.displayModes.cell3 or "moisture"
-    if mode3 == "weed" and not canShowWeeds then
-        mode3 = "moisture"
-    elseif mode3 == "moisture" and not canShowMoisture then
-        mode3 = canShowWeeds and "weed" or "moisture"
+    if hudStyle == 1 then
+        -- Compact Mode: Cell 3 toggles between moisture and weed
+        local mode3 = self.displayModes.cell3 or "moisture"
+        if mode3 == "weed" and not canShowWeeds then
+            mode3 = "moisture"
+        elseif mode3 == "moisture" and not canShowMoisture then
+            mode3 = canShowWeeds and "weed" or "moisture"
+        end
+
+        if mode3 == "weed" then
+            local wVal = (d.weedRatio or 0) * 100
+            local valStr = (wVal <= 0.05) and "0.0%" or string.format("%.1f%%", wVal)
+            local whiteCol = (RHM_UIColors and RHM_UIColors.WHITE) or {1.0, 1.0, 1.0, 1.0}
+            local greenCol = (RHM_UIColors and RHM_UIColors.GREEN) or {0.61, 0.85, 0.15, 1.0}
+            local yellowCol = (RHM_UIColors and RHM_UIColors.YELLOW) or {0.95, 0.85, 0.12, 1.0}
+            local redCol = (RHM_UIColors and RHM_UIColors.RED) or {0.96, 0.22, 0.20, 1.0}
+
+            local textColor = whiteCol
+            local indColor = greenCol
+            if wVal > 20 then
+                textColor = redCol
+                indColor = redCol
+            elseif wVal > 5 then
+                textColor = whiteCol
+                indColor = yellowCol
+            end
+            table.insert(cells, {
+                iconName = "weed",
+                numStr = valStr,
+                unitStr = "",
+                color = textColor,
+                indicatorColor = indColor
+            })
+        else
+            local mVal = d.moisture or 0
+            local valStr = (mVal <= 0.1) and "--" or string.format("%.1f%%", mVal)
+            local mColor = {0.98, 0.98, 0.98, 1.0}
+            local indColor = nil
+            if mVal > 0.1 then
+                if mVal > 20 then
+                    mColor = {0.95, 0.28, 0.28, 1.0}
+                    indColor = {0.95, 0.28, 0.28, 1.0}
+                elseif mVal > 14 then
+                    mColor = {0.98, 0.75, 0.20, 1.0}
+                    indColor = {0.95, 0.80, 0.20, 0.95}
+                else
+                    mColor = {0.45, 0.80, 0.98, 1.0}
+                    indColor = {0.35, 0.75, 0.98, 0.95}
+                end
+            end
+            table.insert(cells, {
+                iconName = "moisture",
+                numStr = valStr,
+                unitStr = "",
+                color = mColor,
+                indicatorColor = indColor
+            })
+        end
+
+    else
+        -- Expanded Mode: Cell 3 is Dedicated Moisture
+        if not canShowMoisture then
+            table.insert(cells, {
+                iconName = "moisture",
+                numStr = "--",
+                unitStr = "OFF",
+                color = grayCol
+            })
+        else
+            local mVal = d.moisture or 0
+            local valStr = (mVal <= 0.1) and "--" or string.format("%.1f%%", mVal)
+            local mColor = {0.98, 0.98, 0.98, 1.0}
+            local indColor = nil
+            local statusStr = ""
+            if mVal > 0.1 then
+                if mVal > 20 then
+                    mColor = {0.95, 0.28, 0.28, 1.0}
+                    indColor = {0.95, 0.28, 0.28, 1.0}
+                    statusStr = "WET"
+                elseif mVal > 14 then
+                    mColor = {0.98, 0.75, 0.20, 1.0}
+                    indColor = {0.95, 0.80, 0.20, 0.95}
+                    statusStr = "DAMP"
+                else
+                    mColor = {0.45, 0.80, 0.98, 1.0}
+                    indColor = {0.35, 0.75, 0.98, 0.95}
+                    statusStr = "OPT"
+                end
+            end
+            local unitLabel = (self.displayModes.cell3 == "moistureStatus" and mVal > 0.1) and statusStr or ""
+            table.insert(cells, {
+                iconName = "moisture",
+                numStr = valStr,
+                unitStr = unitLabel,
+                color = mColor,
+                indicatorColor = indColor
+            })
+        end
     end
 
-    if mode3 == "weed" then
-        local wVal = (d.weedRatio or 0) * 100
-        local valStr = (wVal <= 0.05) and "0.0%" or string.format("%.1f%%", wVal)
-        local textColor = {0.98, 0.98, 0.98, 1.0}
-        local indColor = {0.529, 0.706, 0.0, 1.0}
-        if wVal > 20 then
-            textColor = {0.95, 0.28, 0.28, 1.0}
-            indColor = {0.95, 0.28, 0.28, 1.0}
-        elseif wVal > 5 then
-            textColor = {0.98, 0.98, 0.98, 1.0}
-            indColor = {0.95, 0.80, 0.20, 0.95}
+    -- ── 4. Cell 4: Compact Mode: Production; Expanded Mode: Weeds ───
+    if hudStyle == 1 then
+        -- Compact Mode: Cycle Yield <-> Throughput <-> Work Rate
+        local mode4 = self.displayModes.cell4 or "yield"
+        if mode4 == "hectaresPerHour" then
+            local haVal = d.hectaresPerHour or 0
+            local dispArea = haVal
+            local areaUnit = "ha/h"
+            if RHM_UnitConverter and RHM_UnitConverter.convertArea then
+                local areaVal, areaSuffix = RHM_UnitConverter.convertArea(haVal, unitSystem)
+                dispArea = areaVal
+                areaUnit = areaSuffix .. "/h"
+            end
+            local isStationary = (d.speed or 0) < 0.5
+            local valStr = (isStationary or dispArea <= 0.05) and "0.0" or string.format("%.1f", dispArea)
+            local locAreaUnit = rhm_getLocalizedUnit(areaUnit)
+            local unitLabel = locAreaUnit
+            if tripAreaSubStr then
+                unitLabel = string.format("%s | %s", locAreaUnit, tripAreaSubStr)
+            end
+            table.insert(cells, {
+                iconName = "area_rate",
+                numStr = valStr,
+                unitStr = unitLabel,
+                color = {0.98, 0.98, 0.98, 1.0}
+            })
+        elseif mode4 == "tonPerHour" then
+            local prodVal = d.tonPerHour or 0
+            local isStationary = (d.speed or 0) < 0.5
+            local valStr, suffixStr
+            if RHM_UnitConverter and RHM_UnitConverter.convertProductivity then
+                local val, suffix = RHM_UnitConverter.convertProductivity(prodVal, unitSystem, fruitType, d.litersPerHour)
+                valStr = (isStationary or prodVal <= 0.05) and "0.0" or string.format("%.1f", val)
+                suffixStr = suffix or "t/h"
+            else
+                valStr = (isStationary or prodVal <= 0.05) and "0.0" or string.format("%.1f", prodVal)
+                suffixStr = "t/h"
+            end
+            local locProdUnit = rhm_getLocalizedUnit(suffixStr)
+            local unitLabel = locProdUnit
+            if tripHarvestSubStr then
+                unitLabel = string.format("%s | %s", locProdUnit, tripHarvestSubStr)
+            end
+            table.insert(cells, {
+                iconName = "productivity",
+                numStr = valStr,
+                unitStr = unitLabel,
+                color = {0.98, 0.98, 0.98, 1.0}
+            })
+        else
+            local yieldVal = d.yield or 0
+            local valStr, suffixStr
+            if RHM_UnitConverter and RHM_UnitConverter.convertYield then
+                local val, suffix = RHM_UnitConverter.convertYield(yieldVal, unitSystem, fruitType)
+                valStr = string.format("%.1f", val)
+                suffixStr = suffix or "t/ha"
+            else
+                valStr = string.format("%.1f", yieldVal)
+                suffixStr = "t/ha"
+            end
+            local locYieldUnit = rhm_getLocalizedUnit(suffixStr)
+            local unitLabel = locYieldUnit
+            if tripHarvestSubStr then
+                unitLabel = string.format("%s | %s", locYieldUnit, tripHarvestSubStr)
+            end
+            table.insert(cells, {
+                iconName = "yield",
+                numStr = valStr,
+                unitStr = unitLabel,
+                color = {0.98, 0.98, 0.98, 1.0}
+            })
         end
+
+    else
+        -- Expanded Mode: Cell 4 is Dedicated Weeds
+        if not canShowWeeds then
+            table.insert(cells, {
+                iconName = "weed",
+                numStr = "--",
+                unitStr = "OFF",
+                color = grayCol
+            })
+        else
+            local wVal = (d.weedRatio or 0) * 100
+            local whiteCol = (RHM_UIColors and RHM_UIColors.WHITE) or {1.0, 1.0, 1.0, 1.0}
+            local greenCol = (RHM_UIColors and RHM_UIColors.GREEN) or {0.61, 0.85, 0.15, 1.0}
+            local yellowCol = (RHM_UIColors and RHM_UIColors.YELLOW) or {0.95, 0.85, 0.12, 1.0}
+            local redCol = (RHM_UIColors and RHM_UIColors.RED) or {0.96, 0.22, 0.20, 1.0}
+
+            local textColor = whiteCol
+            local indColor = greenCol
+            if wVal > 20 then
+                textColor = redCol
+                indColor = redCol
+            elseif wVal > 5 then
+                textColor = whiteCol
+                indColor = yellowCol
+            end
+
+            local valStr = (wVal <= 0.05) and "0.0%" or string.format("%.1f%%", wVal)
+            local unitLabel = ""
+            if self.displayModes.cell4_weed == "weedDrag" then
+                local dragPct = math.min(25.0, (d.weedRatio or 0) * 25.0)
+                valStr = string.format("+%.1f%%", dragPct)
+                unitLabel = "DRAG"
+            end
+
+            table.insert(cells, {
+                iconName = "weed",
+                numStr = valStr,
+                unitStr = unitLabel,
+                color = textColor,
+                indicatorColor = indColor
+            })
+        end
+    end
+
+    -- ── If Compact Mode, we're done with 4 cells! ────────────────────
+    if hudStyle == 1 then
+        return cells
+    end
+
+    -- ══════════════════════════════════════════════════════════════════
+    -- ── EXPANDED MODE: ROW 2 (CELLS 5 to 8) ──────────────────────────
+    -- ══════════════════════════════════════════════════════════════════
+
+    -- ── 5. Cell 5: Flow Rate / Caudal (kg/s <-> t/h) ────────────────
+    if self.settings.showProductivity == false then
         table.insert(cells, {
-            iconName = "weed",
-            numStr = valStr,
-            unitStr = "",
-            color = textColor,
-            indicatorColor = indColor
+            iconName = "productivity",
+            numStr = "--",
+            unitStr = "OFF",
+            color = grayCol
         })
     else
-        local mVal = d.moisture or 0
-        local valStr = (mVal <= 0.1) and "--" or string.format("%.1f%%", mVal)
-        local mColor = {0.98, 0.98, 0.98, 1.0}
-        local indColor = nil
-        if mVal > 0.1 then
-            if mVal > 20 then
-                mColor = {0.95, 0.28, 0.28, 1.0}
-                indColor = {0.95, 0.28, 0.28, 1.0}
-            elseif mVal > 14 then
-                mColor = {0.98, 0.75, 0.20, 1.0}
-                indColor = {0.95, 0.80, 0.20, 0.95}
-            else
-                mColor = {0.45, 0.80, 0.98, 1.0}
-                indColor = {0.35, 0.75, 0.98, 0.95}
-            end
+        local tph = d.tonPerHour or 0
+        local isStationary = (d.speed or 0) < 0.5
+        local mode5 = self.displayModes.cell5 or "flowRate"
+
+        if mode5 == "tonPerHour" then
+            local val, suffix = RHM_UnitConverter.convertProductivity(tph, unitSystem, fruitType, d.litersPerHour)
+            local valStr = (isStationary or tph <= 0.05) and "0.0" or string.format("%.1f", val)
+            local unitLabel = rhm_getLocalizedUnit(suffix or "t/h")
+            table.insert(cells, {
+                iconName = "productivity",
+                numStr = valStr,
+                unitStr = unitLabel,
+                color = {0.98, 0.98, 0.98, 1.0}
+            })
+        else
+            local val, suffix = RHM_UnitConverter.convertFlowRate(tph, unitSystem, fruitType, d.litersPerHour)
+            local valStr = (isStationary or tph <= 0.05) and "0.0" or string.format("%.1f", val)
+            local unitLabel = rhm_getLocalizedUnit(suffix or "kg/s")
+            table.insert(cells, {
+                iconName = "productivity",
+                numStr = valStr,
+                unitStr = unitLabel,
+                color = {0.98, 0.98, 0.98, 1.0}
+            })
         end
-        table.insert(cells, {
-            iconName = "moisture",
-            numStr = valStr,
-            unitStr = "",
-            color = mColor,
-            indicatorColor = indColor
-        })
     end
 
-    -- 4. Cell 4: Field Production Metrics (Yield t/ha, Throughput t/h, Work Rate ha/h)
-    local mode4 = self.displayModes.cell4 or "yield"
-    if mode4 == "hectaresPerHour" then
+    -- ── 6. Cell 6: Yield (Instantaneous <-> Session Average) ────────
+    if self.settings.showYield == false then
+        table.insert(cells, {
+            iconName = "yield",
+            numStr = "--",
+            unitStr = "OFF",
+            color = grayCol
+        })
+    else
+        local mode6 = self.displayModes.cell6 or "yield"
+        if mode6 == "avgYield" then
+            local sessionAvgYieldTha = (tripAreaHa > 0.005 and tripMassKg > 0) and ((tripMassKg * 0.001) / tripAreaHa) or 0
+            if sessionAvgYieldTha > 0.05 then
+                local val, suffix = RHM_UnitConverter.convertYield(sessionAvgYieldTha, unitSystem, fruitType)
+                local valStr = string.format("%.1f", val)
+                local unitLabel = string.format("[AVG] %s", rhm_getLocalizedUnit(suffix or "t/ha"))
+                table.insert(cells, {
+                    iconName = "yield",
+                    numStr = valStr,
+                    unitStr = unitLabel,
+                    rankColor = tripRankColor,
+                    color = {0.98, 0.98, 0.98, 1.0}
+                })
+            else
+                local _, suffix = RHM_UnitConverter.convertYield(1.0, unitSystem, fruitType)
+                table.insert(cells, {
+                    iconName = "yield",
+                    numStr = "--",
+                    unitStr = string.format("[AVG] %s", rhm_getLocalizedUnit(suffix or "t/ha")),
+                    color = grayCol
+                })
+            end
+        else
+            local yieldVal = d.yield or 0
+            local val, suffix = RHM_UnitConverter.convertYield(yieldVal, unitSystem, fruitType)
+            local valStr = string.format("%.1f", val)
+            local unitLabel = rhm_getLocalizedUnit(suffix or "t/ha")
+            table.insert(cells, {
+                iconName = "yield",
+                numStr = valStr,
+                unitStr = unitLabel,
+                color = {0.98, 0.98, 0.98, 1.0}
+            })
+        end
+    end
+
+    -- ── 7. Cell 7: Area & Work Rate (Session Area + % <-> ha/h) ──────
+    local mode7 = self.displayModes.cell7 or "area"
+    if mode7 == "workRate" then
         local haVal = d.hectaresPerHour or 0
-        local dispArea = haVal
-        local areaUnit = "ha/h"
-        if RHM_UnitConverter and RHM_UnitConverter.convertArea then
-            local areaVal, areaSuffix = RHM_UnitConverter.convertArea(haVal, unitSystem)
-            dispArea = areaVal
-            areaUnit = areaSuffix .. "/h"
-        end
+        local dispArea, areaSuffix = RHM_UnitConverter.convertArea(haVal, unitSystem)
         local isStationary = (d.speed or 0) < 0.5
-        local valStr = (isStationary or dispArea <= 0.05) and "0.0" or string.format("%.1f", dispArea)
-        local locAreaUnit = rhm_getLocalizedUnit(areaUnit)
-        local unitLabel = locAreaUnit
-        if tripAreaSubStr then
-            unitLabel = string.format("%s | %s", locAreaUnit, tripAreaSubStr)
-        end
+        local valStr = (isStationary or haVal <= 0.05) and "0.0" or string.format("%.1f", dispArea)
+        local unitLabel = rhm_getLocalizedUnit((areaSuffix or "ha") .. "/h")
         table.insert(cells, {
             iconName = "area_rate",
             numStr = valStr,
             unitStr = unitLabel,
             color = {0.98, 0.98, 0.98, 1.0}
         })
-    elseif mode4 == "tonPerHour" then
-        local prodVal = d.tonPerHour or 0
-        local isStationary = (d.speed or 0) < 0.5
-        local valStr, suffixStr
-        if RHM_UnitConverter and RHM_UnitConverter.convertProductivity then
-            local val, suffix = RHM_UnitConverter.convertProductivity(prodVal, unitSystem, fruitType, d.litersPerHour)
-            valStr = (isStationary or prodVal <= 0.05) and "0.0" or string.format("%.1f", val)
-            suffixStr = suffix or "t/h"
-        else
-            valStr = (isStationary or prodVal <= 0.05) and "0.0" or string.format("%.1f", prodVal)
-            suffixStr = "t/h"
+    else
+        local val, suffix = RHM_UnitConverter.convertArea(tripAreaHa, unitSystem)
+        local locSuffix = rhm_getLocalizedUnit(suffix or "ha")
+        local valStr = (tripAreaHa > 0.005) and string.format("%.1f", val) or "0.0"
+        local unitLabel = locSuffix
+
+        local fid = (trip and (trip.masterFieldId or trip.fieldId)) or 0
+        if fid > 0 and RHM_HarvestTracker and RHM_HarvestTracker.getFieldNominalAreaHa then
+            local nomHa = RHM_HarvestTracker.getFieldNominalAreaHa(fid, nil, nil, farmId)
+            if nomHa and nomHa > 0.05 and tripAreaHa > 0.005 then
+                local pct = math.min(100.0, (tripAreaHa / nomHa) * 100.0)
+                unitLabel = string.format("%s (%.0f%%)", locSuffix, pct)
+            end
         end
-        local locProdUnit = rhm_getLocalizedUnit(suffixStr)
-        local unitLabel = locProdUnit
-        if tripHarvestSubStr then
-            unitLabel = string.format("%s | %s", locProdUnit, tripHarvestSubStr)
+
+        table.insert(cells, {
+            iconName = "field",
+            numStr = valStr,
+            unitStr = unitLabel,
+            color = {0.98, 0.98, 0.98, 1.0}
+        })
+    end
+
+    -- ── 8. Cell 8: Clean Harvested Mass (t <-> Volume kL <-> Time) ──
+    local mode8 = self.displayModes.cell8 or "mass"
+    if mode8 == "volume" then
+        local valStr = ""
+        local unitLabel = ""
+        if tripLiters >= 1000 then
+            valStr = string.format("%.1f", tripLiters / 1000)
+            unitLabel = rhm_getLocalizedUnit("kL")
+        else
+            valStr = string.format("%.0f", tripLiters)
+            unitLabel = rhm_getLocalizedUnit("L")
         end
         table.insert(cells, {
-            iconName = "productivity",
+            iconName = "trip",
+            numStr = valStr,
+            unitStr = unitLabel,
+            color = {0.98, 0.98, 0.98, 1.0}
+        })
+    elseif mode8 == "time" then
+        local valStr = ""
+        local unitLabel = ""
+        if tripDuration >= 3600 then
+            local hrs = math.floor(tripDuration / 3600)
+            local mins = math.floor((tripDuration % 3600) / 60)
+            valStr = string.format("%d:%02d", hrs, mins)
+            unitLabel = rhm_getLocalizedUnit("h")
+        else
+            local mins = math.floor(tripDuration / 60)
+            local secs = math.floor(tripDuration % 60)
+            valStr = string.format("%02d:%02d", mins, secs)
+            unitLabel = rhm_getLocalizedUnit("min")
+        end
+        table.insert(cells, {
+            iconName = "history",
             numStr = valStr,
             unitStr = unitLabel,
             color = {0.98, 0.98, 0.98, 1.0}
         })
     else
-        local yieldVal = d.yield or 0
-        local valStr, suffixStr
-        if RHM_UnitConverter and RHM_UnitConverter.convertYield then
-            local val, suffix = RHM_UnitConverter.convertYield(yieldVal, unitSystem, fruitType)
-            valStr = string.format("%.1f", val)
-            suffixStr = suffix or "t/ha"
-        else
-            valStr = string.format("%.1f", yieldVal)
-            suffixStr = "t/ha"
-        end
-        local locYieldUnit = rhm_getLocalizedUnit(suffixStr)
-        local unitLabel = locYieldUnit
-        if tripHarvestSubStr then
-            unitLabel = string.format("%s | %s", locYieldUnit, tripHarvestSubStr)
-        end
+        local val, suffix = RHM_UnitConverter.convertMass(tripTons, unitSystem, fruitType, tripLiters)
+        local locSuffix = rhm_getLocalizedUnit(suffix or "t")
+        local valStr = (tripTons > 0.01) and ((suffix == "bu") and string.format("%.0f", val) or string.format("%.1f", val)) or "0.0"
         table.insert(cells, {
-            iconName = "yield",
+            iconName = "trip",
             numStr = valStr,
-            unitStr = unitLabel,
+            unitStr = locSuffix,
             color = {0.98, 0.98, 0.98, 1.0}
         })
     end
@@ -1222,31 +1643,39 @@ function RHMDraggableHUD:buildActiveCells()
 end
 
 function RHMDraggableHUD:getLoadColors(load)
+    local redCol = (RHM_UIColors and RHM_UIColors.RED) or {0.96, 0.22, 0.20, 1.0}
+    local orangeCol = (RHM_UIColors and RHM_UIColors.ORANGE) or {0.98, 0.52, 0.10, 1.0}
+    local yellowCol = (RHM_UIColors and RHM_UIColors.YELLOW) or {0.95, 0.85, 0.12, 1.0}
+    local greenCol = (RHM_UIColors and RHM_UIColors.GREEN) or {0.61, 0.85, 0.15, 1.0}
+    local whiteCol = (RHM_UIColors and RHM_UIColors.WHITE) or {1.0, 1.0, 1.0, 1.0}
+
     if load >= 105 then
         local pulse = 0.70 + 0.30 * math.sin((g_time or 0) * 0.012)
-        local c = {1.0 * pulse, 0.18 * pulse, 0.18 * pulse, 1.0}
+        local c = {redCol[1] * pulse, redCol[2] * pulse, redCol[3] * pulse, 1.0}
         return c, c
     elseif load >= 95 then
-        local c = {1.0, 0.50, 0.10, 0.95}
-        return {0.98, 0.98, 0.98, 1.0}, c
+        return whiteCol, orangeCol
     elseif load >= 80 then
-        local c = {0.95, 0.80, 0.20, 0.95}
-        return {0.98, 0.98, 0.98, 1.0}, c
+        return whiteCol, yellowCol
     else
-        return {0.98, 0.98, 0.98, 1.0}, {0.529, 0.706, 0.0, 1.0}
+        return whiteCol, greenCol
     end
 end
 
 function RHMDraggableHUD:getLossColors(loss)
+    local redCol = (RHM_UIColors and RHM_UIColors.RED) or {0.96, 0.22, 0.20, 1.0}
+    local orangeCol = (RHM_UIColors and RHM_UIColors.ORANGE) or {0.98, 0.52, 0.10, 1.0}
+    local greenCol = (RHM_UIColors and RHM_UIColors.GREEN) or {0.61, 0.85, 0.15, 1.0}
+    local whiteCol = (RHM_UIColors and RHM_UIColors.WHITE) or {1.0, 1.0, 1.0, 1.0}
+
     if loss > 3.0 then
         local pulse = 0.70 + 0.30 * math.sin((g_time or 0) * 0.012)
-        local c = {1.0 * pulse, 0.18 * pulse, 0.18 * pulse, 1.0}
+        local c = {redCol[1] * pulse, redCol[2] * pulse, redCol[3] * pulse, 1.0}
         return c, c
     elseif loss > 1.5 then
-        local c = {0.95, 0.80, 0.20, 0.95}
-        return {0.98, 0.98, 0.98, 1.0}, c
+        return whiteCol, orangeCol
     else
-        return {0.98, 0.98, 0.98, 1.0}, {0.529, 0.706, 0.0, 1.0}
+        return whiteCol, greenCol
     end
 end
 
@@ -1256,14 +1685,13 @@ function RHMDraggableHUD:isMouseOver(posX, posY)
            posY >= self.y and posY <= (self.y + self.height)
 end
 
-function RHMDraggableHUD:handleCellClick(clickedCol)
-    local cells = self.cachedCells or self:buildActiveCells()
-    local cell = cells and cells[clickedCol]
-    if not cell then return false end
-
+function RHMDraggableHUD:handleCellClickCompact(clickedCol)
     local handled = false
-    if clickedCol == 2 or cell.iconName == "loss" or cell.iconName == "speed" then
-        -- Column 2: Toggle between grain loss (%) and ground speed (km/h)
+    if clickedCol == 1 then
+        local cur = self.displayModes.cell1 or "load"
+        self.displayModes.cell1 = (cur == "load") and "loadHp" or "load"
+        handled = true
+    elseif clickedCol == 2 then
         local pkgLevel = (self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.packageLevel) or 1
         local mType = self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.machineType
         local isCropLossEnabled = (self.settings and self.settings.enableCropLoss ~= false)
@@ -1273,16 +1701,10 @@ function RHMDraggableHUD:handleCellClick(clickedCol)
         if curMode == "loss" then
             self.displayModes.cell2 = "speed"
         else
-            if canShowLoss then
-                self.displayModes.cell2 = "loss"
-            else
-                self.displayModes.cell2 = "speed"
-            end
+            self.displayModes.cell2 = canShowLoss and "loss" or "speed"
         end
         handled = true
-
-    elseif clickedCol == 3 or cell.iconName == "moisture" or cell.iconName == "weed" then
-        -- Column 3: Toggle between crop moisture (%) and weed infestation (%)
+    elseif clickedCol == 3 then
         local isWeedLoadEnabled = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableWeedLoad ~= false)
         local areWeedsInGame = (g_currentMission and g_currentMission.missionInfo and g_currentMission.missionInfo.weedsEnabled ~= false)
         local canShowWeeds = isWeedLoadEnabled and areWeedsInGame and (self.settings and self.settings.showWeeds ~= false)
@@ -1290,22 +1712,12 @@ function RHMDraggableHUD:handleCellClick(clickedCol)
 
         local curMode = self.displayModes.cell3 or "moisture"
         if curMode == "moisture" then
-            if canShowWeeds then
-                self.displayModes.cell3 = "weed"
-            else
-                self.displayModes.cell3 = "moisture"
-            end
+            self.displayModes.cell3 = canShowWeeds and "weed" or "moisture"
         else
-            if canShowMoisture then
-                self.displayModes.cell3 = "moisture"
-            else
-                self.displayModes.cell3 = "weed"
-            end
+            self.displayModes.cell3 = canShowMoisture and "moisture" or "weed"
         end
         handled = true
-
-    elseif clickedCol == 4 or clickedCol == #cells or cell.iconName == "productivity" or cell.iconName == "area_rate" or (cell.iconName == "yield" and clickedCol == 4) then
-        -- Column 4: Cycle between yield (t/ha), throughput (t/h), and work rate (ha/h)
+    elseif clickedCol == 4 then
         local curMode = self.displayModes.cell4 or "yield"
         if curMode == "yield" then
             self.displayModes.cell4 = "tonPerHour"
@@ -1325,6 +1737,94 @@ function RHMDraggableHUD:handleCellClick(clickedCol)
     return false
 end
 
+function RHMDraggableHUD:handleCellClickExpanded(cellIndex)
+    local handled = false
+    if cellIndex == 1 then
+        local cur = self.displayModes.cell1 or "load"
+        self.displayModes.cell1 = (cur == "load") and "loadHp" or "load"
+        handled = true
+    elseif cellIndex == 2 then
+        local pkgLevel = (self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.packageLevel) or 1
+        local mType = self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.machineType
+        local isCropLossEnabled = (self.settings and self.settings.enableCropLoss ~= false)
+        local canShowLoss = (pkgLevel >= 2) and (mType ~= "forage" and mType ~= "cotton") and isCropLossEnabled and (self.settings and self.settings.showCropLoss ~= false)
+
+        local curMode = self.displayModes.cell2 or "loss"
+        if curMode == "loss" then
+            self.displayModes.cell2 = "speed"
+        else
+            self.displayModes.cell2 = canShowLoss and "loss" or "speed"
+        end
+        handled = true
+    elseif cellIndex == 3 then
+        local cur = self.displayModes.cell3 or "moisture"
+        self.displayModes.cell3 = (cur == "moisture") and "moistureStatus" or "moisture"
+        handled = true
+    elseif cellIndex == 4 then
+        local cur = self.displayModes.cell4_weed or "weed"
+        self.displayModes.cell4_weed = (cur == "weed") and "weedDrag" or "weed"
+        handled = true
+    elseif cellIndex == 5 then
+        local cur = self.displayModes.cell5 or "flowRate"
+        self.displayModes.cell5 = (cur == "flowRate") and "tonPerHour" or "flowRate"
+        handled = true
+    elseif cellIndex == 6 then
+        local cur = self.displayModes.cell6 or "yield"
+        self.displayModes.cell6 = (cur == "yield") and "avgYield" or "yield"
+        handled = true
+    elseif cellIndex == 7 then
+        local cur = self.displayModes.cell7 or "area"
+        self.displayModes.cell7 = (cur == "area") and "workRate" or "area"
+        handled = true
+    elseif cellIndex == 8 then
+        local cur = self.displayModes.cell8 or "mass"
+        if cur == "mass" then
+            self.displayModes.cell8 = "volume"
+        elseif cur == "volume" then
+            self.displayModes.cell8 = "time"
+        else
+            self.displayModes.cell8 = "mass"
+        end
+        handled = true
+    end
+
+    if handled then
+        self.cachedCells = nil
+        self.displayTimer = 9999
+        return true
+    end
+    return false
+end
+
+function RHMDraggableHUD:handleClickAt(posX, posY)
+    local hudStyle = (self.settings and self.settings.hudStyle) or 2
+    local w = self.width
+    local h = self.height
+    local cellW = w / 4
+    local col = math.floor((posX - self.x) / cellW) + 1
+    col = math.max(1, math.min(4, col))
+
+    local handled = false
+    if hudStyle == 1 then
+        handled = self:handleCellClickCompact(col)
+    else
+        local isRow1 = (posY >= (self.y + h * 0.5))
+        local cellIndex = isRow1 and col or (4 + col)
+        handled = self:handleCellClickExpanded(cellIndex)
+    end
+
+    return handled
+end
+
+function RHMDraggableHUD:handleCellClick(clickedCol)
+    local hudStyle = (self.settings and self.settings.hudStyle) or 2
+    if hudStyle == 1 then
+        return self:handleCellClickCompact(clickedCol)
+    else
+        return self:handleCellClickExpanded(clickedCol)
+    end
+end
+
 function RHMDraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
     -- 1. Mouse Button Down (LMB): initiate drag or potential click
     local isLMB = (button == 1) or (Input and button == Input.MOUSE_BUTTON_LEFT)
@@ -1337,9 +1837,8 @@ function RHMDraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
             self.dragInitialHudY = self.y
             self.hasMoved = false
             self.isNearDock = false
-            local numCols = (self.cachedCells and #self.cachedCells) or 4
-            local cellW = self.width / math.max(1, numCols)
-            self.clickCell = math.floor((posX - self.x) / cellW) + 1
+            self.clickPosX = posX
+            self.clickPosY = posY
             return true
         end
     end
@@ -1362,7 +1861,7 @@ function RHMDraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
             local dockX, dockY, dockW = self:getDockedPosition()
             local uiScale = self.uiScale or 1.0
             local snapRadiusX = 0.048 * uiScale
-            local snapRadiusY = 0.038 * uiScale
+            local snapRadiusY = ((self.settings and self.settings.hudStyle == 2) and 0.060 or 0.038) * uiScale
 
             if math.abs(rawX - dockX) <= snapRadiusX and math.abs(rawY - dockY) <= snapRadiusY then
                 self.isNearDock = true
@@ -1380,8 +1879,8 @@ function RHMDraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
     if self.isDragging and isUp then
         self.isDragging = false
         if not self.hasMoved then
-            -- Stationary click without drag: cycle cell metric (zero flicker/border)
-            self:handleCellClick(self.clickCell or 1)
+            -- Stationary click without drag: cycle cell metric with row & column detection
+            self:handleClickAt(self.clickPosX or posX, self.clickPosY or posY)
         else
             -- Drag release: commit new position or snap back to automatic dock
             if self.isNearDock then
