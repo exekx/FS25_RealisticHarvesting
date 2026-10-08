@@ -322,6 +322,17 @@ function RHMSettingsUI.inject(settings)
             end
         end)
 
+    local hudLayoutOptions = {
+        g_i18n:hasText("rhm_hud_layout_oem") and g_i18n:getText("rhm_hud_layout_oem") or "OEM Modern (Inline)",
+        g_i18n:hasText("rhm_hud_layout_card") and g_i18n:getText("rhm_hud_layout_card") or "Precision Card (Header Top)",
+    }
+    RHMSettingsUI.hudLayoutOption = addMultiRow(settingsPage, generalLayout, "hud_layout", "rhm_hud_layout_title", "rhm_hud_layout_desc",
+        hudLayoutOptions, (settings.hudLayout == 2) and 2 or 1,
+        function(val)
+            settings:setHudLayout(val)
+        end)
+
+
     RHMSettingsUI.yieldOption = addBinaryRow(settingsPage, generalLayout, "show_yield", "rhm_show_yield_short", "rhm_show_yield_long",
         settings.showYield, function(val) settings.showYield = val; settings:save() end)
 
@@ -455,6 +466,7 @@ function RHMSettingsUI.refreshUI(settings)
 
     setOpt(RHMSettingsUI.hudOption,         settings.showHUD           and 2 or 1, false)
     setOpt(RHMSettingsUI.hudStyleOption,    settings.hudStyle or 2,                false)
+    setOpt(RHMSettingsUI.hudLayoutOption,   (settings.hudLayout == 2) and 2 or 1,  false)
     setOpt(RHMSettingsUI.yieldOption,       settings.showYield         and 2 or 1, false)
     setOpt(RHMSettingsUI.loadOption,        settings.showLoad          and 2 or 1, false)
     setOpt(RHMSettingsUI.speedDisplayOption,settings.showSpeed         and 2 or 1, false)

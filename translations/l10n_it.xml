@@ -529,7 +529,28 @@
         <text name="rhm_hud_style_desc" text="Seleziona tra la barra di telemetria compatta a riga singola (4 celle) e il monitor di resa esteso (8 celle con flusso di massa, resa media, avanzamento del campo e contatore)." />
         <text name="rhm_hud_style_compact" text="Compatto (4 celle)" />
         <text name="rhm_hud_style_expanded" text="Monitor di resa (8 celle)" />
-
-
+        <!-- HUD Layout Variants & Headers -->
+        <text name="rhm_hud_layout_title" text="Variante layout HUD" />
+        <text name="rhm_hud_layout_desc" text="Scegli la disposizione delle celle: OEM Moderno (unità in linea), Scheda di precisione (intestazioni in alto), Minimalista pulito (solo icone e valori) o Classico sovrapposto (su due livelli)." />
+        <text name="rhm_hud_layout_oem" text="OEM Moderno (In linea)" />
+        <text name="rhm_hud_layout_card" text="Scheda di precisione (Intestazione in alto)" />
+        <text name="rhm_hud_layout_clean" text="Minimalista pulito" />
+        <text name="rhm_hud_layout_stacked" text="Classico sovrapposto" />
+        <text name="rhm_hud_hdr_load" text="CARICO" />
+        <text name="rhm_hud_hdr_loss" text="PERDITE" />
+        <text name="rhm_hud_hdr_speed" text="VELOCITÀ" />
+        <text name="rhm_hud_hdr_moisture" text="UMIDITÀ" />
+        <text name="rhm_hud_hdr_weed" text="ERBACCIE" />
+        <text name="rhm_hud_hdr_productivity" text="PORTATA" />
+        <text name="rhm_hud_hdr_yield" text="RESA" />
+        <text name="rhm_hud_hdr_area_rate" text="RITMO" />
+        <text name="rhm_hud_hdr_field" text="AREA" />
+        <text name="rhm_hud_hdr_trip" text="MASSA TOT" />
+        <text name="rhm_hud_hdr_history" text="TEMPO" />
+        <text name="rhm_hud_hdr_power" text="POTENZA" />
+        <text name="rhm_hud_hdr_weed_drag" text="RESISTENZA" />
+        <text name="rhm_hud_hdr_throughput" text="PRODUTTIVITÀ" />
+        <text name="rhm_hud_hdr_avg_yield" text="RESA MEDIA" />
+        <text name="rhm_hud_hdr_volume" text="VOLUME" />
     </texts>
 </l10n>

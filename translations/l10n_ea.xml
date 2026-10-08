@@ -529,7 +529,28 @@
         <text name="rhm_hud_style_desc" text="在紧凑单行遥测栏（4格）和扩展产量监视器（包含质量流量、平均产量、作业面积和计程器的8格）之间切换。" />
         <text name="rhm_hud_style_compact" text="紧凑（4格）" />
         <text name="rhm_hud_style_expanded" text="产量监视器（8格）" />
-
-
+        <!-- HUD Layout Variants & Headers -->
+        <text name="rhm_hud_layout_title" text="Variante de diseño del HUD" />
+        <text name="rhm_hud_layout_desc" text="Elija la disposición de las celdas: OEM Moderno (unidades en línea), Tarjeta de precisión (encabezados arriba), Minimalista limpio (solo iconos y valores) o Clásico apilado (dos niveles)." />
+        <text name="rhm_hud_layout_oem" text="OEM Moderno (En línea)" />
+        <text name="rhm_hud_layout_card" text="Tarjeta de precisión (Encabezado arriba)" />
+        <text name="rhm_hud_layout_clean" text="Minimalista limpio" />
+        <text name="rhm_hud_layout_stacked" text="Clásico apilado" />
+        <text name="rhm_hud_hdr_load" text="CARGA" />
+        <text name="rhm_hud_hdr_loss" text="PÉRDIDAS" />
+        <text name="rhm_hud_hdr_speed" text="VELOCIDAD" />
+        <text name="rhm_hud_hdr_moisture" text="HUMEDAD" />
+        <text name="rhm_hud_hdr_weed" text="MALEZA" />
+        <text name="rhm_hud_hdr_productivity" text="CAUDAL" />
+        <text name="rhm_hud_hdr_yield" text="RENDIMIENTO" />
+        <text name="rhm_hud_hdr_area_rate" text="RITMO" />
+        <text name="rhm_hud_hdr_field" text="ÁREA" />
+        <text name="rhm_hud_hdr_trip" text="MASA TOTAL" />
+        <text name="rhm_hud_hdr_history" text="TIEMPO" />
+        <text name="rhm_hud_hdr_power" text="POTENCIA" />
+        <text name="rhm_hud_hdr_weed_drag" text="RESISTENCIA" />
+        <text name="rhm_hud_hdr_throughput" text="RENDIMIENTO HORA" />
+        <text name="rhm_hud_hdr_avg_yield" text="RENDIMIENTO MEDIO" />
+        <text name="rhm_hud_hdr_volume" text="VOLUMEN" />
     </texts>
 </l10n>

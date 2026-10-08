@@ -527,7 +527,28 @@
         <text name="rhm_hud_style_desc" text="Selecione entre a barra de telemetria compacta de linha única (4 células) e o monitor de produtividade expandido (8 células com fluxo de massa, produtividade média, progresso do campo e odômetro)." />
         <text name="rhm_hud_style_compact" text="Compacto (4 células)" />
         <text name="rhm_hud_style_expanded" text="Monitor de produtividade (8 células)" />
-
-
+        <!-- HUD Layout Variants & Headers -->
+        <text name="rhm_hud_layout_title" text="Variante de layout do HUD" />
+        <text name="rhm_hud_layout_desc" text="Escolha a disposição das células: OEM Moderno (unidades em linha), Cartão de precisão (cabeçalhos acima), Minimalista limpo (apenas ícones e valores) ou Clássico empilhado (dois níveis)." />
+        <text name="rhm_hud_layout_oem" text="OEM Moderno (Em linha)" />
+        <text name="rhm_hud_layout_card" text="Cartão de precisão (Cabeçalho acima)" />
+        <text name="rhm_hud_layout_clean" text="Minimalista limpo" />
+        <text name="rhm_hud_layout_stacked" text="Clássico empilhado" />
+        <text name="rhm_hud_hdr_load" text="CARGA" />
+        <text name="rhm_hud_hdr_loss" text="PERDAS" />
+        <text name="rhm_hud_hdr_speed" text="VELOCIDADE" />
+        <text name="rhm_hud_hdr_moisture" text="UMIDADE" />
+        <text name="rhm_hud_hdr_weed" text="ERVAS" />
+        <text name="rhm_hud_hdr_productivity" text="FLUXO" />
+        <text name="rhm_hud_hdr_yield" text="PRODUTIV" />
+        <text name="rhm_hud_hdr_area_rate" text="RITMO" />
+        <text name="rhm_hud_hdr_field" text="ÁREA" />
+        <text name="rhm_hud_hdr_trip" text="MASSA TOTAL" />
+        <text name="rhm_hud_hdr_history" text="TEMPO" />
+        <text name="rhm_hud_hdr_power" text="POTÊNCIA" />
+        <text name="rhm_hud_hdr_weed_drag" text="RESISTÊNCIA" />
+        <text name="rhm_hud_hdr_throughput" text="RENDIMENTO" />
+        <text name="rhm_hud_hdr_avg_yield" text="PRODUTIV. MÉDIA" />
+        <text name="rhm_hud_hdr_volume" text="VOLUME" />
     </texts>
 </l10n>

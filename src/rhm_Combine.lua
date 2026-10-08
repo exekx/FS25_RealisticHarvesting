@@ -73,6 +73,7 @@ function rhm_Combine.registerXMLPaths(schema, basePath)
     schema:register(XMLValueType.INT,    cur .. "#targetEngineLoad", "Target engine load", 80)
     schema:register(XMLValueType.BOOL,   cur .. "#isCalibrated",    "Combine calibration status", true)
     schema:register(XMLValueType.STRING, cur .. "#calibratedCrops", "List of calibrated crops", "")
+    schema:register(XMLValueType.STRING, cur .. "#machineId",       "Persistent machine identifier", "")
 end
 
 -- EN: Mirrors registerXMLPaths for the savegame vehicles.xml schema.
@@ -617,10 +618,10 @@ function rhm_Combine:addFillUnitFillLevel(superFunc, ...)
     
     local spec = self.spec_rhm_Combine
     if spec and actualAdded and type(actualAdded) == "number" and actualAdded > 0 then
-        -- Рахуємо якщо ми активно косимо (lastRawArea > 0) або це увімкнений виноградо/оливкозбиральний комбайн
+        -- Рахуємо якщо ми активно косимо (всередині addCutterArea, або lastRawArea > 0, або виноградо/оливкозбиральний комбайн)
         local isGrapeOrOlive = (spec.machineType == "grape" or spec.machineType == "olive" 
             or (spec.combineMemory and (spec.combineMemory.machineType == "grape" or spec.combineMemory.machineType == "olive")))
-        local isHarvestingActive = (spec.lastRawArea and spec.lastRawArea > 0) or (isGrapeOrOlive and self:getIsTurnedOn())
+        local isHarvestingActive = spec._isInsideAddCutterArea or (spec.lastRawArea and spec.lastRawArea > 0) or (isGrapeOrOlive and self:getIsTurnedOn())
         if isHarvestingActive then
             -- EN: Cotton Harvester fix: Ignore massive instant internal transfers (e.g. spool unloading)
             -- UA: Фікс бавовняних комбайнів: ігноруємо масивні миттєві внутрішні переміщення (напр. розвантаження котушки)
@@ -727,12 +728,16 @@ end
 function rhm_Combine:addCutterArea(superFunc, ...)
     local area, realArea, inputFruitType, outputFillType, strawRatio, strawGroundType, farmId, cutterLoad = ...
     
-    -- EN: Call super first to get the real data (liters, crop type) before we intercept.
-    -- UA: Викликаємо super спочатку щоб отримати реальні дані (літри, тип культури) перед перехопленням.
+    local spec = self.spec_rhm_Combine
+    if spec then
+        spec._isInsideAddCutterArea = true
+    end
     local r1, r2, r3, r4, r5, r6, r7, r8, r9, r10 = superFunc(self, ...)
+    if spec then
+        spec._isInsideAddCutterArea = false
+    end
     local retLiters = r1
     
-    local spec = self.spec_rhm_Combine
     if not spec or not spec.loadCalculator then
         return r1, r2, r3, r4, r5, r6, r7, r8, r9, r10
     end
@@ -2267,6 +2272,24 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     --     Це робить втрати врожаю видимими як реальне зменшення рівня наповнення бункера.
     local totalCropLossThisTick = spec.loadCalculator:calculateTotalCropLoss(self)
 
+    -- EN: Accumulate telemetry deltas across frames so pulsed cutter deliveries conserve all area, time and grain.
+    -- UA: Накопичуємо дельти телеметрії між кадрами, щоб дискретні імпульси жатки зберігали всю площу, час та зерно.
+    local isActivelyHarvesting = isCutterTurnedOn and currentSpeed >= 0.5 and (liters > 0 or (spec._rhmTimeSinceLastHarvest or 0) < 1.0)
+    if isActivelyHarvesting then
+        spec._trackerDtBuffer = (spec._trackerDtBuffer or 0) + dt
+        spec._trackerAreaBuffer = (spec._trackerAreaBuffer or 0) + (areaForYield or 0)
+        spec._trackerLitersBuffer = (spec._trackerLitersBuffer or 0) + (liters or 0)
+        spec._trackerMassBuffer = (spec._trackerMassBuffer or 0) + (massKg or 0)
+    else
+        -- If machine is stopped or disengaged, discard empty idle delta if no pending grain remains
+        if (spec._trackerLitersBuffer or 0) <= 0 then
+            spec._trackerDtBuffer = 0
+            spec._trackerAreaBuffer = 0
+            spec._trackerLitersBuffer = 0
+            spec._trackerMassBuffer = 0
+        end
+    end
+
     if liters > 0 and self.isServer then
         -- EN: Calculate total crop loss including settings deviation penalty.
         -- UA: Розраховуємо загальні втрати врожаю включаючи штраф за відхилення налаштувань.
@@ -2298,32 +2321,41 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                 end
             end
         end
+    end
 
-        -- HARVEST TRACKER & FIELD TRIP TELEMETRY INTEGRATION
-        local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
-        if tracker then
-            local wx, _, wz = getWorldTranslation(self.rootNode)
-            spec._fieldCheckTimer = (spec._fieldCheckTimer or 0) + dt
-            local distMovedSq = (wx - (spec._lastFieldCheckX or 0))^2 + (wz - (spec._lastFieldCheckZ or 0))^2
-            if spec._fieldCheckTimer >= 1000 or distMovedSq >= 36.0 or spec._lastDetectedFieldId == nil or spec._lastDetectedFieldId == 0 then
-                spec._fieldCheckTimer = 0
-                spec._lastFieldCheckX = wx
-                spec._lastFieldCheckZ = wz
-                if RHM_HarvestTracker and RHM_HarvestTracker.getFieldAtWorldPosition then
-                    local _, fid, fmlId = RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, self)
-                    spec._lastDetectedFieldId = (fid and fid > 0 and fid) or (fmlId and fmlId > 0 and fmlId) or 0
-                end
+    -- HARVEST TRACKER & FIELD TRIP TELEMETRY INTEGRATION
+    local tracker = g_realisticHarvestManager and g_realisticHarvestManager.harvestTracker
+    if tracker and self.isServer and (spec._trackerLitersBuffer or 0) > 0 then
+        local wx, _, wz = getWorldTranslation(self.rootNode)
+        spec._fieldCheckTimer = (spec._fieldCheckTimer or 0) + dt
+        local distMovedSq = (wx - (spec._lastFieldCheckX or 0))^2 + (wz - (spec._lastFieldCheckZ or 0))^2
+        if spec._fieldCheckTimer >= 1000 or distMovedSq >= 36.0 or spec._lastDetectedFieldId == nil or spec._lastDetectedFieldId == 0 then
+            spec._fieldCheckTimer = 0
+            spec._lastFieldCheckX = wx
+            spec._lastFieldCheckZ = wz
+            if RHM_HarvestTracker and RHM_HarvestTracker.getFieldAtWorldPosition then
+                local _, fid, fmlId = RHM_HarvestTracker.getFieldAtWorldPosition(wx, wz, self)
+                spec._lastDetectedFieldId = (fid and fid > 0 and fid) or (fmlId and fmlId > 0 and fmlId) or 0
             end
-            local fieldId = spec._lastDetectedFieldId or 0
-
-            local farmId = self:getOwnerFarmId() or 1
-            local lossReasons = spec.loadCalculator:getLossBreakdown()
-            local speedKmh = self:getLastSpeed()
-            local loadRatio = spec.loadCalculator.engineLoad or 0
-            local areaHaThisTick = (areaForYield or 0) / 10000.0
-
-            tracker:onCombineHarvestTick(self, farmId, liters, massKg, areaHaThisTick, fieldId, totalCropLossThisTick, lossReasons, speedKmh, loadRatio, dt)
         end
+        local fieldId = spec._lastDetectedFieldId or 0
+
+        local farmId = self:getOwnerFarmId() or 1
+        local lossReasons = spec.loadCalculator:getLossBreakdown()
+        local speedKmh = self:getLastSpeed()
+        local loadRatio = spec.loadCalculator.engineLoad or 0
+        local areaHaThisTick = (spec._trackerAreaBuffer or 0) / 10000.0
+        local flushLiters = spec._trackerLitersBuffer
+        local flushMassKg = spec._trackerMassBuffer
+        local flushDt = spec._trackerDtBuffer or dt
+
+        -- Clear buffers once transferred to tracker
+        spec._trackerLitersBuffer = 0
+        spec._trackerMassBuffer = 0
+        spec._trackerAreaBuffer = 0
+        spec._trackerDtBuffer = 0
+
+        tracker:onCombineHarvestTick(self, farmId, flushLiters, flushMassKg, areaHaThisTick, fieldId, totalCropLossThisTick, lossReasons, speedKmh, loadRatio, flushDt)
     end
     -- ========================================================================
     
@@ -2660,6 +2692,10 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     if #calibList > 0 then
         xmlFile:setValue(cur .. "#calibratedCrops", table.concat(calibList, " "))
     end
+
+    if spec.machineId and spec.machineId ~= "" and not spec.machineId:find("#%d+$") then
+        xmlFile:setValue(cur .. "#machineId", spec.machineId)
+    end
     
     rhm_log(string.format("RHM [Combine]: RHM: [SAVE] Saved combine state for %s: crop=%s, fan=%s, upper=%s, lower=%s, rotor=%s, feeder=%s, load=%s", 
         self:getName() or "?",
@@ -2812,6 +2848,11 @@ function rhm_Combine:loadFromSavegame(savegame)
         for crop in string.gmatch(savedCalibCropsStr, "%S+") do
             spec.combineMemory.calibratedCrops[crop] = true
         end
+    end
+
+    local savedMachineId = readString(cur .. "#machineId", nil)
+    if savedMachineId and savedMachineId ~= "" and not savedMachineId:find("#%d+$") then
+        spec.machineId = savedMachineId
     end
 
     self._rhmSettingsLoadedFromSavegame = true

@@ -1150,8 +1150,10 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
         local totalSecs = math.floor(entry.totalWorkSecs or 0)
         local hrs = math.floor(totalSecs / 3600)
         local mins = math.floor((totalSecs % 3600) / 60)
+        local secs = math.floor(totalSecs % 60)
+        local durStr = (hrs > 0) and string.format("%02d:%02d:%02d", hrs, mins, secs) or string.format("%02d:%02d min", mins, secs)
         if self.fieldSummaryWorkDuration then
-            self.fieldSummaryWorkDuration:setText(string.format("%02d:%02d", hrs, mins))
+            self.fieldSummaryWorkDuration:setText(durStr)
         end
 
         -- CARD 3: Losses & Economic Ledger
@@ -1310,8 +1312,10 @@ function RHM_HarvestHistoryFields:updateSelectedCardData()
         local totalSecs = math.floor(entry.sessionDuration or 0)
         local hrs = math.floor(totalSecs / 3600)
         local mins = math.floor((totalSecs % 3600) / 60)
+        local secs = math.floor(totalSecs % 60)
+        local durStr = (hrs > 0) and string.format("%02d:%02d:%02d", hrs, mins, secs) or string.format("%02d:%02d min", mins, secs)
         if self.fieldSummaryWorkDuration then
-            self.fieldSummaryWorkDuration:setText(string.format("%02d:%02d", hrs, mins))
+            self.fieldSummaryWorkDuration:setText(durStr)
         end
 
         -- CARD 3: Field Losses & Efficiency

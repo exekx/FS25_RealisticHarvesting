@@ -529,7 +529,28 @@
         <text name="rhm_hud_style_desc" text="Wybór między kompaktowym jednorzędowym paskiem telemetrii (4 komórki) a rozszerzonym monitorem plonów (8 komórek z przepływem masy, średnim plonem, postępem pola i licznikiem)." />
         <text name="rhm_hud_style_compact" text="Kompaktowy (4 komórki)" />
         <text name="rhm_hud_style_expanded" text="Monitor plonów (8 komórek)" />
-
-
+        <!-- HUD Layout Variants & Headers -->
+        <text name="rhm_hud_layout_title" text="Wariant układu HUD" />
+        <text name="rhm_hud_layout_desc" text="Wybierz układ komórek: Nowoczesny OEM (jednostki w jednej linii), Karta precyzyjna (nagłówki na górze), Minimalistyczny czysty (tylko ikony i wartości) lub Klasyczny piętrowy (dwa rzędy)." />
+        <text name="rhm_hud_layout_oem" text="Nowoczesny OEM (W jednej linii)" />
+        <text name="rhm_hud_layout_card" text="Karta precyzyjna (Nagłówek na górze)" />
+        <text name="rhm_hud_layout_clean" text="Minimalistyczny czysty" />
+        <text name="rhm_hud_layout_stacked" text="Klasyczny piętrowy" />
+        <text name="rhm_hud_hdr_load" text="OBCIĄŻ" />
+        <text name="rhm_hud_hdr_loss" text="STRATY" />
+        <text name="rhm_hud_hdr_speed" text="PRĘDKOŚĆ" />
+        <text name="rhm_hud_hdr_moisture" text="WILGOĆ" />
+        <text name="rhm_hud_hdr_weed" text="CHWASTY" />
+        <text name="rhm_hud_hdr_productivity" text="PRZEPŁYW" />
+        <text name="rhm_hud_hdr_yield" text="PLON" />
+        <text name="rhm_hud_hdr_area_rate" text="TEMPO" />
+        <text name="rhm_hud_hdr_field" text="POWIERZCHNIA" />
+        <text name="rhm_hud_hdr_trip" text="MASA CAŁK" />
+        <text name="rhm_hud_hdr_history" text="CZAS PRACY" />
+        <text name="rhm_hud_hdr_power" text="MOC" />
+        <text name="rhm_hud_hdr_weed_drag" text="OPÓR CHWASTÓW" />
+        <text name="rhm_hud_hdr_throughput" text="PRZEPUSTOWOŚĆ" />
+        <text name="rhm_hud_hdr_avg_yield" text="ŚREDNI PLON" />
+        <text name="rhm_hud_hdr_volume" text="OBJĘTOŚĆ" />
     </texts>
 </l10n>

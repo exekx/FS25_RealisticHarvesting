@@ -73,7 +73,15 @@ function RHM_HarvestHistoryTrip:getActiveTrip()
 
         -- Third check: fallback to farm.currentTrip ONLY if it belonged to THIS combine
         if (not trip or (trip.harvestedLiters or 0) <= 0) and farm and farm.currentTrip and (farm.currentTrip.harvestedLiters or 0) > 0 then
-            if farm.currentTrip.lastMachineKey ~= nil and farm.currentTrip.lastMachineKey == machineKey then
+            local isMatchingMachine = (farm.currentTrip.lastMachineKey == nil) or (farm.currentTrip.lastMachineKey == machineKey)
+            if not isMatchingMachine and farm.currentTrip.lastMachineKey and farm.currentTrip.lastMachineKey:find("#%d+$") then
+                local baseKey = activeCombine.configFileName or ""
+                if baseKey ~= "" and farm.currentTrip.lastMachineKey:sub(1, #baseKey) == baseKey then
+                    isMatchingMachine = true
+                    farm.currentTrip.lastMachineKey = machineKey
+                end
+            end
+            if isMatchingMachine then
                 farm.combineTrips = farm.combineTrips or {}
                 if not farm.combineTrips[machineKey] then
                     farm.combineTrips[machineKey] = {

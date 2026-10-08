@@ -52,6 +52,13 @@ RHMSettings.AUTO_RESET_DISABLED = 3   -- EN: Disabled (Manual Only) / UA: Вим
 RHMSettings.HUD_STYLE_COMPACT = 1     -- EN: Compact (1 row, 4 cells) / UA: Компактний (1 рядок, 4 комірки)
 RHMSettings.HUD_STYLE_EXPANDED = 2    -- EN: Yield Monitor (2 rows, 8 cells) / UA: Монітор врожайності (2 рядки, 8 комірок)
 
+-- EN: HUD cell layout variant constants (rendering style of numbers, labels, and units inside cells).
+-- UA: Константи варіантів розмітки комірок HUD (стиль відображення чисел, підписів та одиниць у комірці).
+RHMSettings.HUD_LAYOUT_OEM = 1        -- EN: OEM Modern Terminal (inline units, unified baseline) / UA: Сучасний OEM (в один рядок)
+RHMSettings.HUD_LAYOUT_CARD = 2       -- EN: Precision Farming Card (micro-header on top, value below) / UA: Картка точного землеробства (підпис зверху)
+RHMSettings.HUD_LAYOUT_CLEAN = 3      -- EN: Minimalist Clean (icons + values only, zero clutter) / UA: Чистий мінімалізм (іконки та числа)
+RHMSettings.HUD_LAYOUT_STACKED = 4    -- EN: Classic Stacked (2-floor stacked layout) / UA: Двоповерховий класичний (підписи знизу)
+
 -- EN: Creates and initializes a new RHMSettings instance with default values.
 -- UA: Створює та ініціалізує новий екземпляр RHMSettings зі значеннями за замовчуванням.
 function RHMSettings.new(manager)
@@ -88,6 +95,7 @@ function RHMSettings.new(manager)
     self.showSpeed = true
     self.showMoisture = true
     self.hudStyle = RHMSettings.HUD_STYLE_EXPANDED -- EN: 1=Compact (4 cells), 2=Yield Monitor (8 cells)
+    self.hudLayout = RHMSettings.HUD_LAYOUT_OEM    -- EN: 1=OEM, 2=Card, 3=Clean, 4=Stacked
 
     -- EN: HUD position (client-side). nil = automatic positioning.
     -- UA: Позиція HUD (клієнтська). nil = автоматичне позиціонування.
@@ -255,6 +263,7 @@ function RHMSettings:resetToDefaults()
     self.alarmMode = RHMSettings.ALARM_MODE_SMART
     self.enableAlarmSound = true
     self.soundVolume = 1.0
+    self.hudLayout = RHMSettings.HUD_LAYOUT_OEM
     self.hudPosX = nil -- EN: Reset to automatic HUD positioning / UA: Скидаємо на автоматичну позицію HUD
     self.hudPosY = nil
 
@@ -337,5 +346,25 @@ function RHMSettings:setHudStyle(style)
         self:save()
     end
 end
+
+---EN: Gets HUD cell layout variant (1=OEM Modern, 2=Precision Card)
+---UA: Повертає варіант розмітки комірок HUD (1=Сучасний OEM, 2=Картка точного землеробства)
+function RHMSettings:getHudLayout()
+    return (self.hudLayout == 2) and 2 or 1
+end
+
+---EN: Sets HUD cell layout variant (1=OEM Modern, 2=Precision Card)
+---UA: Встановлює варіант розмітки комірок HUD (1=Сучасний OEM, 2=Картка точного землеробства)
+function RHMSettings:setHudLayout(layout)
+    self.hudLayout = (layout == 2) and 2 or 1
+    if self.save then
+        self:save()
+    end
+    if g_realisticHarvestManager and g_realisticHarvestManager.hud and g_realisticHarvestManager.hud.updateLayout then
+        g_realisticHarvestManager.hud:updateLayout()
+    end
+end
+
+
 
 

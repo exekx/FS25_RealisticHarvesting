@@ -944,7 +944,92 @@ function RHMDraggableHUD:draw()
     setTextAlignment(RenderText.ALIGN_LEFT)
 end
 
+---EN: Returns short uppercase header title for a given HUD cell icon or mode.
+---UA: Повертає короткий заголовок комірки для заданої іконки або режиму HUD.
+function RHMDraggableHUD:getCellHeader(keyName)
+    if not keyName then return "" end
+    local key = "rhm_hud_hdr_" .. keyName
+    if g_i18n and g_i18n:hasText(key) then
+        return g_i18n:getText(key)
+    end
+    if keyName == "load" then return "LOAD"
+    elseif keyName == "power" or keyName == "loadHp" then return "POWER"
+    elseif keyName == "loss" then return "LOSS"
+    elseif keyName == "speed" then return "SPEED"
+    elseif keyName == "moisture" or keyName == "moistureStatus" then return "MOISTURE"
+    elseif keyName == "weed" then return "WEED"
+    elseif keyName == "weed_drag" or keyName == "weedDrag" then return "WEED DRAG"
+    elseif keyName == "productivity" or keyName == "flowRate" then return "FLOW RATE"
+    elseif keyName == "throughput" or keyName == "tonPerHour" then return "THROUGHPUT"
+    elseif keyName == "yield" then return "YIELD"
+    elseif keyName == "avg_yield" or keyName == "avgYield" then return "AVG YIELD"
+    elseif keyName == "area_rate" or keyName == "workRate" or keyName == "hectaresPerHour" then return "WORK RATE"
+    elseif keyName == "field" or keyName == "area" then return "AREA"
+    elseif keyName == "trip" or keyName == "mass" then return "TOTAL MASS"
+    elseif keyName == "volume" then return "VOLUME"
+    elseif keyName == "history" or keyName == "time" then return "WORK TIME"
+    end
+    return string.upper(keyName)
+end
+
+---EN: Splits a composite unit string into primary unit and secondary metadata.
+---UA: Розділяє складений підпис одиниці на основну одиницю та вторинні метадані.
+function RHMDraggableHUD:splitUnitString(unitStr)
+    if not unitStr or unitStr == "" or unitStr == "OFF" then
+        return "", "", false, nil, nil
+    end
+
+    if unitStr:sub(1, 1) == "[" and unitStr:find("%]") then
+        local closeIdx = unitStr:find("%]")
+        local rankPart = unitStr:sub(1, closeIdx)
+        local restPart = unitStr:sub(closeIdx + 1):match("^%s*(.-)$") or ""
+        if rankPart == "[AVG]" then
+            return restPart, "AVG", false, nil, nil
+        end
+        return "", unitStr, true, rankPart, restPart
+    end
+
+    local pipeIdx = unitStr:find("|")
+    if pipeIdx then
+        local pUnit = unitStr:sub(1, pipeIdx - 1):match("^%s*(.-)%s*$") or ""
+        local sInfo = unitStr:sub(pipeIdx + 1):match("^%s*(.-)%s*$") or ""
+        return pUnit, sInfo, false, nil, nil
+    end
+
+    if unitStr:sub(1, 1) == "/" then
+        local tgt, pUnit = unitStr:match("^(/%s*[%d%.]+)%s*(.-)$")
+        if tgt then
+            return pUnit or "", tgt, false, nil, nil
+        end
+    end
+
+    local pUnit, pctPart = unitStr:match("^(.-)%s*(%b())$")
+    if pUnit and pctPart then
+        return pUnit, pctPart, false, nil, nil
+    end
+
+    return unitStr, "", false, nil, nil
+end
+
+local function rhm_getTextWidth(size, text, defaultFallback)
+    if not text or text == "" then return 0 end
+    if getTextWidth then
+        local w = getTextWidth(size, text)
+        if w and w > 0 then return w end
+    end
+    return defaultFallback or (#text * size * 0.52)
+end
+
+local function calcFitScale(totalW, maxW)
+    if totalW > maxW and maxW > 0 then
+        return math.max(0.68, maxW / totalW)
+    end
+    return 1.0
+end
+
 function RHMDraggableHUD:renderCell(cell, cellX, cellY, cellW, cellH, iconW, iconH, numTextSize, unitTextSize, cellEndX)
+    local layoutMode = (self.settings and self.settings.hudLayout == 2) and 2 or 1
+
     -- Icon (vertically centered on the left of cell)
     local icon = self.icons[cell.iconName]
     local iconX = cellX + 0.0022 * self.uiScale
@@ -956,64 +1041,161 @@ function RHMDraggableHUD:renderCell(cell, cellX, cellY, cellW, cellH, iconW, ico
         icon:render()
     end
 
-    -- Two-line stacked typography: number on top, unit on bottom (or centered if no unit)
-    local textX = iconX + iconW + 0.0020 * self.uiScale
-    local hasUnit = (cell.unitStr and cell.unitStr ~= "")
+    local textX = iconX + iconW + 0.0022 * self.uiScale
     local currentNumSize = (cell.numStr and #cell.numStr >= 5) and (numTextSize * 0.93) or numTextSize
-    local topY = hasUnit and (cellY + cellH * 0.49) or (cellY + (cellH - currentNumSize) * 0.50 + 0.0010 * self.uiScale)
-    local botY = cellY + cellH * 0.17
+    local numCol = cell.color or {0.98, 0.98, 0.98, 0.98}
+    local grayCol = (RHM_UIColors and RHM_UIColors.GRAY) or {0.65, 0.68, 0.72, 1.0}
+    local maxTextW = math.max(0.008 * self.uiScale, cellEndX - textX - 0.0018 * self.uiScale)
+    local actualNumW = 0.012 * self.uiScale
 
-    setTextBold(true)
-    setTextAlignment(RenderText.ALIGN_LEFT)
-    if cell.color then
-        setTextColor(cell.color[1], cell.color[2], cell.color[3], cell.color[4] or 0.98)
+    if layoutMode == 2 then
+        -- ══════════════════════════════════════════════════════════════
+        -- VARIANT 2: Precision Farming Card (Micro-header top, value bottom)
+        -- ══════════════════════════════════════════════════════════════
+        local hdrText = cell.headerStr or self:getCellHeader(cell.iconName)
+        local badgeText = cell.headerBadge
+        local baseHdrSize = unitTextSize * 0.95
+
+        local rawHdrW = rhm_getTextWidth(baseHdrSize, hdrText)
+        local rawBdgW = (badgeText and badgeText ~= "") and rhm_getTextWidth(baseHdrSize, badgeText) or 0
+        local bdgSpacing = (rawBdgW > 0) and (0.0012 * self.uiScale) or 0
+        local totalHdrW = rawHdrW + rawBdgW + bdgSpacing
+        local hdrScale = calcFitScale(totalHdrW, maxTextW)
+        local hdrSize = baseHdrSize * hdrScale
+        local actualHdrW = rawHdrW * hdrScale
+
+        local hdrY = cellY + cellH * 0.60
+        setTextBold(true)
+        setTextAlignment(RenderText.ALIGN_LEFT)
+        setTextColor(0.68, 0.72, 0.78, 0.90)
+        renderText(textX, hdrY, hdrSize, hdrText)
+
+        if badgeText and badgeText ~= "" then
+            local bdgCol = cell.headerBadgeColor or {0.68, 0.72, 0.78, 0.90}
+            setTextColor(bdgCol[1], bdgCol[2], bdgCol[3], bdgCol[4] or 0.95)
+            renderText(textX + actualHdrW + (bdgSpacing * hdrScale), hdrY, hdrSize, badgeText)
+        end
+
+        local baseValSize = currentNumSize * 0.98
+        local baseUnitSize = unitTextSize * 1.05
+        local rawValW = rhm_getTextWidth(baseValSize, cell.numStr)
+        local rawUnitW = (cell.unitStr and cell.unitStr ~= "") and rhm_getTextWidth(baseUnitSize, cell.unitStr) or 0
+        local unitSpacing = (rawUnitW > 0) and (0.0010 * self.uiScale) or 0
+        local totalValW = rawValW + rawUnitW + unitSpacing
+        local valScale = calcFitScale(totalValW, maxTextW)
+        local valSize = baseValSize * valScale
+        local unitSize = baseUnitSize * valScale
+        actualNumW = rawValW * valScale
+
+        local valY = cellY + cellH * 0.17
+        setTextBold(true)
+        setTextColor(numCol[1], numCol[2], numCol[3], numCol[4] or 0.98)
+        renderText(textX, valY, valSize, cell.numStr)
+
+        if cell.unitStr and cell.unitStr ~= "" then
+            setTextBold(false)
+            setTextColor(0.74, 0.78, 0.82, 0.92)
+            renderText(textX + actualNumW + (unitSpacing * valScale), valY + 0.0006 * self.uiScale, unitSize, cell.unitStr)
+        end
+
     else
-        setTextColor(0.98, 0.98, 0.98, 0.98)
-    end
-    renderText(textX, topY, currentNumSize, cell.numStr)
+        -- ══════════════════════════════════════════════════════════════
+        -- VARIANT 1: OEM Modern Terminal (Inline units, fixed baseline)
+        -- ══════════════════════════════════════════════════════════════
+        local hasSub = (cell.subStr and cell.subStr ~= "")
+        if hasSub then
+            -- Two tiers: Value on top, subStr on bottom
+            local baseValSize = currentNumSize * 0.98
+            local baseUnitSize = unitTextSize * 1.05
+            local rawValW = rhm_getTextWidth(baseValSize, cell.numStr)
+            local rawUnitW = (cell.unitStr and cell.unitStr ~= "") and rhm_getTextWidth(baseUnitSize, cell.unitStr) or 0
+            local unitSpacing = (rawUnitW > 0) and (0.0010 * self.uiScale) or 0
+            local totalValW = rawValW + rawUnitW + unitSpacing
+            local valScale = calcFitScale(totalValW, maxTextW)
+            local valSize = baseValSize * valScale
+            local unitSize = baseUnitSize * valScale
+            actualNumW = rawValW * valScale
 
-    if hasUnit then
-        if cell.rankColor and cell.unitStr and cell.unitStr:sub(1, 1) == "[" then
-            local closeIdx = cell.unitStr:find("%]")
-            if closeIdx then
-                local rankPart = cell.unitStr:sub(1, closeIdx)
-                local restPart = cell.unitStr:sub(closeIdx + 1)
-                restPart = restPart:match("^%s*(.-)$") or restPart
-                local rankTextSize = unitTextSize
+            local valY = cellY + cellH * 0.48
+            setTextBold(true)
+            setTextAlignment(RenderText.ALIGN_LEFT)
+            setTextColor(numCol[1], numCol[2], numCol[3], numCol[4] or 0.98)
+            renderText(textX, valY, valSize, cell.numStr)
+
+            if cell.unitStr and cell.unitStr ~= "" then
+                setTextBold(false)
+                setTextColor(0.74, 0.78, 0.82, 0.92)
+                renderText(textX + actualNumW + (unitSpacing * valScale), valY + 0.0006 * self.uiScale, unitSize, cell.unitStr)
+            end
+
+            local baseSubSize = unitTextSize * 0.92
+            local rawSubW = rhm_getTextWidth(baseSubSize, cell.subStr)
+            local subScale = calcFitScale(rawSubW, maxTextW)
+            local subSize = baseSubSize * subScale
+            local subY = cellY + cellH * 0.16
+
+            if cell.rankColor and cell.subStr:sub(1, 1) == "[" and cell.subStr:find("%]") and cell.subStr:find("%s") then
+                local closeIdx = cell.subStr:find("%]")
+                local rkPart = cell.subStr:sub(1, closeIdx)
+                local restPart = cell.subStr:sub(closeIdx + 1):match("^%s*(.-)$") or ""
                 setTextBold(true)
                 setTextColor(cell.rankColor[1], cell.rankColor[2], cell.rankColor[3], 1.0)
-                renderText(textX, botY, rankTextSize, rankPart)
-                local grayCol = (RHM_UIColors and RHM_UIColors.GRAY) or {0.65, 0.68, 0.72, 1.0}
-                local rkW = (getTextWidth and getTextWidth(rankTextSize, rankPart)) or (0.0070 * self.uiScale)
+                renderText(textX, subY, subSize, rkPart)
+
+                local rkW = rhm_getTextWidth(subSize, rkPart)
                 setTextBold(false)
                 setTextColor(grayCol[1], grayCol[2], grayCol[3], 0.90)
-                renderText(textX + rkW + (0.0012 * self.uiScale), botY, rankTextSize, restPart)
+                renderText(textX + rkW + (0.0012 * self.uiScale * subScale), subY, subSize, restPart)
+            elseif cell.subColor then
+                local isBadge = (cell.subStr:sub(1, 1) == "[")
+                setTextBold(isBadge)
+                local sc = cell.subColor
+                setTextColor(sc[1], sc[2], sc[3], sc[4] or 0.95)
+                renderText(textX, subY, subSize, cell.subStr)
             else
-                local grayCol = (RHM_UIColors and RHM_UIColors.GRAY) or {0.65, 0.68, 0.72, 1.0}
                 setTextBold(false)
                 setTextColor(grayCol[1], grayCol[2], grayCol[3], 0.90)
-                renderText(textX, botY, unitTextSize, cell.unitStr)
+                renderText(textX, subY, subSize, cell.subStr)
             end
         else
-            local grayCol = (RHM_UIColors and RHM_UIColors.GRAY) or {0.65, 0.68, 0.72, 1.0}
-            setTextBold(false)
-            setTextColor(grayCol[1], grayCol[2], grayCol[3], 0.90)
-            renderText(textX, botY, unitTextSize, cell.unitStr)
+            -- Single tier: Bold value + unit vertically centered
+            local baseValSize = currentNumSize * 1.04
+            local baseUnitSize = unitTextSize * 1.15
+            local rawValW = rhm_getTextWidth(baseValSize, cell.numStr)
+            local rawUnitW = (cell.unitStr and cell.unitStr ~= "") and rhm_getTextWidth(baseUnitSize, cell.unitStr) or 0
+            local unitSpacing = (rawUnitW > 0) and (0.0010 * self.uiScale) or 0
+            local totalLineW = rawValW + rawUnitW + unitSpacing
+
+            local lineScale = calcFitScale(totalLineW, maxTextW)
+            local valSize = baseValSize * lineScale
+            local unitSize = baseUnitSize * lineScale
+            actualNumW = rawValW * lineScale
+
+            local numY = cellY + (cellH - valSize) * 0.50 + 0.0008 * self.uiScale
+            setTextBold(true)
+            setTextAlignment(RenderText.ALIGN_LEFT)
+            setTextColor(numCol[1], numCol[2], numCol[3], numCol[4] or 0.98)
+            renderText(textX, numY, valSize, cell.numStr)
+
+            if cell.unitStr and cell.unitStr ~= "" then
+                setTextBold(false)
+                setTextColor(0.74, 0.78, 0.82, 0.92)
+                renderText(textX + actualNumW + (unitSpacing * lineScale), numY + 0.0006 * self.uiScale, unitSize, cell.unitStr)
+            end
         end
+
     end
 
     -- Dynamic Colored Underline Indicator (exact PF style: centered under text, strictly contained in cell)
     if cell.indicatorColor then
-        local numW = (getTextWidth and getTextWidth(currentNumSize, cell.numStr)) or (0.018 * self.uiScale)
-        local indX = textX
-        local maxIndW = math.max(0.008 * self.uiScale, cellEndX - indX - 0.0020 * self.uiScale)
-        local indW = math.min(math.max(0.014 * self.uiScale, numW), maxIndW)
         local indH = 0.0020 * self.uiScale
-        local indY = cellY + 0.0030 * self.uiScale
+        local indY = cellY + 0.0025 * self.uiScale
+        local indW = math.min(maxTextW, math.max(0.014 * self.uiScale, actualNumW))
         local c = cell.indicatorColor
-        self:drawRect(indX, indY, indW, indH, c[1], c[2], c[3], c[4] or 0.95)
+        self:drawRect(textX, indY, indW, indH, c[1], c[2], c[3], c[4] or 0.95)
     end
 end
+
 
 function RHMDraggableHUD:buildActiveCells()
     local cells = {}
@@ -1097,6 +1279,13 @@ function RHMDraggableHUD:buildActiveCells()
         return unitKey
     end
 
+    local function rhm_getText(key, fallback)
+        if key and g_i18n and g_i18n:hasText(key) then
+            return g_i18n:getText(key)
+        end
+        return fallback or ""
+    end
+
     local tripRank = nil
     local tripRankColor = nil
     local tripLossSubStr = nil
@@ -1147,6 +1336,7 @@ function RHMDraggableHUD:buildActiveCells()
     if self.settings.showLoad == false then
         table.insert(cells, {
             iconName = "load",
+            headerStr = rhm_getText("rhm_hud_hdr_load", "LOAD"),
             numStr = "--",
             unitStr = "OFF",
             color = grayCol
@@ -1158,19 +1348,23 @@ function RHMDraggableHUD:buildActiveCells()
         if mode1 == "loadHp" then
             local calc = self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.loadCalculator
             local effHp = (calc and calc.lastEffectiveHp) or (calc and calc:getEnginePowerHp(self.vehicle)) or 0
+            local locHp = rhm_getLocalizedUnit("HP")
             if effHp > 10 then
                 local curHp = (loadVal / 100.0) * effHp
-                local locHp = rhm_getLocalizedUnit("HP")
                 table.insert(cells, {
                     iconName = "load",
+                    headerStr = rhm_getText("rhm_hud_hdr_power", "POWER"),
                     numStr = string.format("%.0f", curHp),
-                    unitStr = string.format("/ %.0f %s", effHp, locHp),
+                    unitStr = locHp,
+                    subStr = string.format("/ %.0f max", effHp),
+                    subColor = grayCol,
                     color = loadColor,
                     indicatorColor = indColor
                 })
             else
                 table.insert(cells, {
                     iconName = "load",
+                    headerStr = rhm_getText("rhm_hud_hdr_load", "LOAD"),
                     numStr = string.format("%.0f%%", loadVal),
                     unitStr = "",
                     color = loadColor,
@@ -1180,6 +1374,7 @@ function RHMDraggableHUD:buildActiveCells()
         else
             table.insert(cells, {
                 iconName = "load",
+                headerStr = rhm_getText("rhm_hud_hdr_load", "LOAD"),
                 numStr = string.format("%.0f%%", loadVal),
                 unitStr = "",
                 color = loadColor,
@@ -1204,11 +1399,14 @@ function RHMDraggableHUD:buildActiveCells()
         local lossVal = d.cropLoss or 0
         local lossStr = (lossVal > 0.05) and string.format("%.1f%%", lossVal) or "0.0%"
         local lossColor, indColor = self:getLossColors(lossVal)
-        local lossUnit = tripLossSubStr or ""
         table.insert(cells, {
             iconName = "loss",
+            headerStr = rhm_getText("rhm_hud_hdr_loss", "LOSS"),
+            headerBadge = tripRank and string.format("[%s]", tripRank) or nil,
+            headerBadgeColor = tripRankColor,
             numStr = lossStr,
-            unitStr = lossUnit,
+            unitStr = "",
+            subStr = tripLossSubStr,
             rankColor = tripRankColor,
             color = lossColor,
             indicatorColor = indColor
@@ -1223,17 +1421,25 @@ function RHMDraggableHUD:buildActiveCells()
         end
         local locSpeedUnit = rhm_getLocalizedUnit(speedUnit)
         local unitText = locSpeedUnit
+        local subText = nil
+        local targetBadge = nil
         if targetSpeed and targetSpeed > 0.5 then
             local dispTarget = targetSpeed
             if RHM_UnitConverter then
                 dispTarget = RHM_UnitConverter.convertSpeed(targetSpeed, unitSystem)
             end
-            unitText = string.format("/ %.1f %s", dispTarget, locSpeedUnit)
+            subText = string.format("-> %.1f %s", dispTarget, locSpeedUnit)
+            targetBadge = string.format("-> %.1f", dispTarget)
         end
         table.insert(cells, {
             iconName = "speed",
+            headerStr = rhm_getText("rhm_hud_hdr_speed", "SPEED"),
+            headerBadge = targetBadge,
+            headerBadgeColor = grayCol,
             numStr = string.format("%.1f", dispSpeed),
             unitStr = unitText,
+            subStr = subText,
+            subColor = grayCol,
             color = {0.98, 0.98, 0.98, 1.0}
         })
     end
@@ -1272,6 +1478,7 @@ function RHMDraggableHUD:buildActiveCells()
             end
             table.insert(cells, {
                 iconName = "weed",
+                headerStr = rhm_getText("rhm_hud_hdr_weed", "WEED"),
                 numStr = valStr,
                 unitStr = "",
                 color = textColor,
@@ -1296,6 +1503,7 @@ function RHMDraggableHUD:buildActiveCells()
             end
             table.insert(cells, {
                 iconName = "moisture",
+                headerStr = rhm_getText("rhm_hud_hdr_moisture", "MOISTURE"),
                 numStr = valStr,
                 unitStr = "",
                 color = mColor,
@@ -1308,6 +1516,7 @@ function RHMDraggableHUD:buildActiveCells()
         if not canShowMoisture then
             table.insert(cells, {
                 iconName = "moisture",
+                headerStr = rhm_getText("rhm_hud_hdr_moisture", "MOISTURE"),
                 numStr = "--",
                 unitStr = "OFF",
                 color = grayCol
@@ -1333,14 +1542,21 @@ function RHMDraggableHUD:buildActiveCells()
                     statusStr = "OPT"
                 end
             end
-            local unitLabel = (self.displayModes.cell3 == "moistureStatus" and mVal > 0.1) and statusStr or ""
+            local isStatusMode = (self.displayModes.cell3 == "moistureStatus" and mVal > 0.1)
+            local badgeStr = isStatusMode and string.format("[%s]", statusStr) or nil
             table.insert(cells, {
                 iconName = "moisture",
+                headerStr = rhm_getText("rhm_hud_hdr_moisture", "MOISTURE"),
+                headerBadge = badgeStr,
+                headerBadgeColor = mColor,
                 numStr = valStr,
-                unitStr = unitLabel,
+                unitStr = "",
+                subStr = badgeStr,
+                subColor = mColor,
                 color = mColor,
                 indicatorColor = indColor
             })
+
         end
     end
 
@@ -1360,14 +1576,12 @@ function RHMDraggableHUD:buildActiveCells()
             local isStationary = (d.speed or 0) < 0.5
             local valStr = (isStationary or dispArea <= 0.05) and "0.0" or string.format("%.1f", dispArea)
             local locAreaUnit = rhm_getLocalizedUnit(areaUnit)
-            local unitLabel = locAreaUnit
-            if tripAreaSubStr then
-                unitLabel = string.format("%s | %s", locAreaUnit, tripAreaSubStr)
-            end
             table.insert(cells, {
                 iconName = "area_rate",
+                headerStr = rhm_getText("rhm_hud_hdr_area_rate", "WORK RATE"),
                 numStr = valStr,
-                unitStr = unitLabel,
+                unitStr = locAreaUnit,
+                subStr = tripAreaSubStr,
                 color = {0.98, 0.98, 0.98, 1.0}
             })
         elseif mode4 == "tonPerHour" then
@@ -1383,14 +1597,12 @@ function RHMDraggableHUD:buildActiveCells()
                 suffixStr = "t/h"
             end
             local locProdUnit = rhm_getLocalizedUnit(suffixStr)
-            local unitLabel = locProdUnit
-            if tripHarvestSubStr then
-                unitLabel = string.format("%s | %s", locProdUnit, tripHarvestSubStr)
-            end
             table.insert(cells, {
                 iconName = "productivity",
+                headerStr = rhm_getText("rhm_hud_hdr_throughput", "THROUGHPUT"),
                 numStr = valStr,
-                unitStr = unitLabel,
+                unitStr = locProdUnit,
+                subStr = tripHarvestSubStr,
                 color = {0.98, 0.98, 0.98, 1.0}
             })
         else
@@ -1405,14 +1617,12 @@ function RHMDraggableHUD:buildActiveCells()
                 suffixStr = "t/ha"
             end
             local locYieldUnit = rhm_getLocalizedUnit(suffixStr)
-            local unitLabel = locYieldUnit
-            if tripHarvestSubStr then
-                unitLabel = string.format("%s | %s", locYieldUnit, tripHarvestSubStr)
-            end
             table.insert(cells, {
                 iconName = "yield",
+                headerStr = rhm_getText("rhm_hud_hdr_yield", "YIELD"),
                 numStr = valStr,
-                unitStr = unitLabel,
+                unitStr = locYieldUnit,
+                subStr = tripHarvestSubStr,
                 color = {0.98, 0.98, 0.98, 1.0}
             })
         end
@@ -1422,6 +1632,7 @@ function RHMDraggableHUD:buildActiveCells()
         if not canShowWeeds then
             table.insert(cells, {
                 iconName = "weed",
+                headerStr = rhm_getText("rhm_hud_hdr_weed", "WEED"),
                 numStr = "--",
                 unitStr = "OFF",
                 color = grayCol
@@ -1443,18 +1654,27 @@ function RHMDraggableHUD:buildActiveCells()
                 indColor = yellowCol
             end
 
-            local valStr = (wVal <= 0.05) and "0.0%" or string.format("%.1f%%", wVal)
-            local unitLabel = ""
-            if self.displayModes.cell4_weed == "weedDrag" then
+            local isDrag = (self.displayModes.cell4_weed == "weedDrag")
+            local headerTitle = isDrag and rhm_getText("rhm_hud_hdr_weed_drag", "WEED DRAG") or rhm_getText("rhm_hud_hdr_weed", "WEED")
+            local valStr
+            local subStr = nil
+            if isDrag then
                 local dragPct = math.min(25.0, (d.weedRatio or 0) * 25.0)
                 valStr = string.format("+%.1f%%", dragPct)
-                unitLabel = "DRAG"
+                subStr = "[DRAG]"
+            else
+                valStr = (wVal <= 0.05) and "0.0%" or string.format("%.1f%%", wVal)
             end
 
             table.insert(cells, {
                 iconName = "weed",
+                headerStr = headerTitle,
+                headerBadge = isDrag and "[DRAG]" or nil,
+                headerBadgeColor = textColor,
                 numStr = valStr,
-                unitStr = unitLabel,
+                unitStr = "",
+                subStr = subStr,
+                subColor = textColor,
                 color = textColor,
                 indicatorColor = indColor
             })
@@ -1474,6 +1694,7 @@ function RHMDraggableHUD:buildActiveCells()
     if self.settings.showProductivity == false then
         table.insert(cells, {
             iconName = "productivity",
+            headerStr = rhm_getText("rhm_hud_hdr_productivity", "FLOW RATE"),
             numStr = "--",
             unitStr = "OFF",
             color = grayCol
@@ -1489,6 +1710,7 @@ function RHMDraggableHUD:buildActiveCells()
             local unitLabel = rhm_getLocalizedUnit(suffix or "t/h")
             table.insert(cells, {
                 iconName = "productivity",
+                headerStr = rhm_getText("rhm_hud_hdr_throughput", "THROUGHPUT"),
                 numStr = valStr,
                 unitStr = unitLabel,
                 color = {0.98, 0.98, 0.98, 1.0}
@@ -1499,6 +1721,7 @@ function RHMDraggableHUD:buildActiveCells()
             local unitLabel = rhm_getLocalizedUnit(suffix or "kg/s")
             table.insert(cells, {
                 iconName = "productivity",
+                headerStr = rhm_getText("rhm_hud_hdr_productivity", "FLOW RATE"),
                 numStr = valStr,
                 unitStr = unitLabel,
                 color = {0.98, 0.98, 0.98, 1.0}
@@ -1510,6 +1733,7 @@ function RHMDraggableHUD:buildActiveCells()
     if self.settings.showYield == false then
         table.insert(cells, {
             iconName = "yield",
+            headerStr = rhm_getText("rhm_hud_hdr_yield", "YIELD"),
             numStr = "--",
             unitStr = "OFF",
             color = grayCol
@@ -1518,23 +1742,33 @@ function RHMDraggableHUD:buildActiveCells()
         local mode6 = self.displayModes.cell6 or "yield"
         if mode6 == "avgYield" then
             local sessionAvgYieldTha = (tripAreaHa > 0.005 and tripMassKg > 0) and ((tripMassKg * 0.001) / tripAreaHa) or 0
+            local _, sampleSuffix = RHM_UnitConverter.convertYield(1.0, unitSystem, fruitType)
+            local locYieldUnit = rhm_getLocalizedUnit(sampleSuffix or "t/ha")
             if sessionAvgYieldTha > 0.05 then
-                local val, suffix = RHM_UnitConverter.convertYield(sessionAvgYieldTha, unitSystem, fruitType)
+                local val, _ = RHM_UnitConverter.convertYield(sessionAvgYieldTha, unitSystem, fruitType)
                 local valStr = string.format("%.1f", val)
-                local unitLabel = string.format("[AVG] %s", rhm_getLocalizedUnit(suffix or "t/ha"))
                 table.insert(cells, {
                     iconName = "yield",
+                    headerStr = rhm_getText("rhm_hud_hdr_avg_yield", "AVG YIELD"),
+                    headerBadge = "[AVG]",
+                    headerBadgeColor = tripRankColor or grayCol,
                     numStr = valStr,
-                    unitStr = unitLabel,
+                    unitStr = locYieldUnit,
+                    subStr = "[AVG]",
+                    subColor = tripRankColor or {0.95, 0.85, 0.12, 1.0},
                     rankColor = tripRankColor,
                     color = {0.98, 0.98, 0.98, 1.0}
                 })
             else
-                local _, suffix = RHM_UnitConverter.convertYield(1.0, unitSystem, fruitType)
                 table.insert(cells, {
                     iconName = "yield",
+                    headerStr = rhm_getText("rhm_hud_hdr_avg_yield", "AVG YIELD"),
+                    headerBadge = "[AVG]",
+                    headerBadgeColor = grayCol,
                     numStr = "--",
-                    unitStr = string.format("[AVG] %s", rhm_getLocalizedUnit(suffix or "t/ha")),
+                    unitStr = locYieldUnit,
+                    subStr = "[AVG]",
+                    subColor = grayCol,
                     color = grayCol
                 })
             end
@@ -1545,6 +1779,7 @@ function RHMDraggableHUD:buildActiveCells()
             local unitLabel = rhm_getLocalizedUnit(suffix or "t/ha")
             table.insert(cells, {
                 iconName = "yield",
+                headerStr = rhm_getText("rhm_hud_hdr_yield", "YIELD"),
                 numStr = valStr,
                 unitStr = unitLabel,
                 color = {0.98, 0.98, 0.98, 1.0}
@@ -1562,6 +1797,7 @@ function RHMDraggableHUD:buildActiveCells()
         local unitLabel = rhm_getLocalizedUnit((areaSuffix or "ha") .. "/h")
         table.insert(cells, {
             iconName = "area_rate",
+            headerStr = rhm_getText("rhm_hud_hdr_area_rate", "WORK RATE"),
             numStr = valStr,
             unitStr = unitLabel,
             color = {0.98, 0.98, 0.98, 1.0}
@@ -1570,24 +1806,30 @@ function RHMDraggableHUD:buildActiveCells()
         local val, suffix = RHM_UnitConverter.convertArea(tripAreaHa, unitSystem)
         local locSuffix = rhm_getLocalizedUnit(suffix or "ha")
         local valStr = (tripAreaHa > 0.005) and string.format("%.1f", val) or "0.0"
-        local unitLabel = locSuffix
 
+        local badgePct = nil
         local fid = (trip and (trip.masterFieldId or trip.fieldId)) or 0
         if fid > 0 and RHM_HarvestTracker and RHM_HarvestTracker.getFieldNominalAreaHa then
             local nomHa = RHM_HarvestTracker.getFieldNominalAreaHa(fid, nil, nil, farmId)
             if nomHa and nomHa > 0.05 and tripAreaHa > 0.005 then
                 local pct = math.min(100.0, (tripAreaHa / nomHa) * 100.0)
-                unitLabel = string.format("%s (%.0f%%)", locSuffix, pct)
+                badgePct = string.format("(%.0f%%)", pct)
             end
         end
 
         table.insert(cells, {
             iconName = "field",
+            headerStr = rhm_getText("rhm_hud_hdr_field", "AREA"),
+            headerBadge = badgePct,
+            headerBadgeColor = grayCol,
             numStr = valStr,
-            unitStr = unitLabel,
+            unitStr = locSuffix,
+            subStr = badgePct,
+            subColor = grayCol,
             color = {0.98, 0.98, 0.98, 1.0}
         })
     end
+
 
     -- ── 8. Cell 8: Clean Harvested Mass (t <-> Volume kL <-> Time) ──
     local mode8 = self.displayModes.cell8 or "mass"
@@ -1603,6 +1845,7 @@ function RHMDraggableHUD:buildActiveCells()
         end
         table.insert(cells, {
             iconName = "trip",
+            headerStr = rhm_getText("rhm_hud_hdr_volume", "VOLUME"),
             numStr = valStr,
             unitStr = unitLabel,
             color = {0.98, 0.98, 0.98, 1.0}
@@ -1623,6 +1866,7 @@ function RHMDraggableHUD:buildActiveCells()
         end
         table.insert(cells, {
             iconName = "history",
+            headerStr = rhm_getText("rhm_hud_hdr_history", "WORK TIME"),
             numStr = valStr,
             unitStr = unitLabel,
             color = {0.98, 0.98, 0.98, 1.0}
@@ -1633,6 +1877,7 @@ function RHMDraggableHUD:buildActiveCells()
         local valStr = (tripTons > 0.01) and ((suffix == "bu") and string.format("%.0f", val) or string.format("%.1f", val)) or "0.0"
         table.insert(cells, {
             iconName = "trip",
+            headerStr = rhm_getText("rhm_hud_hdr_trip", "TOTAL MASS"),
             numStr = valStr,
             unitStr = locSuffix,
             color = {0.98, 0.98, 0.98, 1.0}
@@ -1641,6 +1886,7 @@ function RHMDraggableHUD:buildActiveCells()
 
     return cells
 end
+
 
 function RHMDraggableHUD:getLoadColors(load)
     local redCol = (RHM_UIColors and RHM_UIColors.RED) or {0.96, 0.22, 0.20, 1.0}

@@ -525,7 +525,28 @@
         <text name="rhm_hud_style_desc" text="컴팩트 단일 행 원격 측정 표시줄(4개 셀)과 확장된 수확량 모니터(질량 유량, 평균 수확량, 작업 면적 및 적산계 포함 8개 셀) 간에 전환합니다." />
         <text name="rhm_hud_style_compact" text="컴팩트 (4개 셀)" />
         <text name="rhm_hud_style_expanded" text="수확량 모니터 (8개 셀)" />
-
-
+        <!-- HUD Layout Variants & Headers -->
+        <text name="rhm_hud_layout_title" text="HUD Layout Variant" />
+        <text name="rhm_hud_layout_desc" text="Choose the visual cell arrangement: OEM Modern (inline units on fixed baseline), Precision Card (micro-headers on top), Minimalist Clean (uncluttered icons and values), or Classic Stacked (two-tier text)." />
+        <text name="rhm_hud_layout_oem" text="OEM Modern (Inline)" />
+        <text name="rhm_hud_layout_card" text="Precision Card (Header Top)" />
+        <text name="rhm_hud_layout_clean" text="Minimalist Clean" />
+        <text name="rhm_hud_layout_stacked" text="Classic Stacked" />
+        <text name="rhm_hud_hdr_load" text="LOAD" />
+        <text name="rhm_hud_hdr_loss" text="LOSS" />
+        <text name="rhm_hud_hdr_speed" text="SPEED" />
+        <text name="rhm_hud_hdr_moisture" text="MOISTURE" />
+        <text name="rhm_hud_hdr_weed" text="WEED" />
+        <text name="rhm_hud_hdr_productivity" text="FLOW RATE" />
+        <text name="rhm_hud_hdr_yield" text="YIELD" />
+        <text name="rhm_hud_hdr_area_rate" text="WORK RATE" />
+        <text name="rhm_hud_hdr_field" text="AREA" />
+        <text name="rhm_hud_hdr_trip" text="TOTAL MASS" />
+        <text name="rhm_hud_hdr_history" text="WORK TIME" />
+        <text name="rhm_hud_hdr_power" text="POWER" />
+        <text name="rhm_hud_hdr_weed_drag" text="WEED DRAG" />
+        <text name="rhm_hud_hdr_throughput" text="THROUGHPUT" />
+        <text name="rhm_hud_hdr_avg_yield" text="AVG YIELD" />
+        <text name="rhm_hud_hdr_volume" text="VOLUME" />
     </texts>
 </l10n>

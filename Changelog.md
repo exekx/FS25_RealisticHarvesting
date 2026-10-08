@@ -19,6 +19,10 @@ Changelog 1.6.3.0:
 - OPTIMIZED: Multi-harvester performance and framerate stability via throttled weed density map sampling and spatial caching.
 - FIXED: Spatial field detection eliminating false field aliasing on bought non-field farmlands.
 - IMPROVED: Farm Fields season navigation preserving active season title in header and immediately accounting for in-progress fields.
+- ADDED: Selectable HUD typography layouts in pause menu (OEM Modern Inline vs. Precision Card Header Top) with automatic dynamic text scaling preventing overflow across all languages.
+- FIXED: Harvester trip odometer and active field statistics persistence across game save/load by anchoring machine keys to permanent engine vehicle unique IDs.
+- FIXED: Harvest session timer 1:1 real-time progression and 100% grain volume capture by buffering discrete cutter area pulses and eliminating dropped yield events.
+- IMPROVED: Disambiguated harvest duration formatting across field statistics cards (adaptive MM:SS min vs HH:MM:SS).
 - FIXED: Seasonal field accounting accurately differentiating contract missions from farm-owned land.
 
 Changelog 1.6.2.0:

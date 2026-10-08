@@ -528,7 +528,28 @@
         <text name="rhm_hud_style_desc" text="Вибір між компактною однорядковою панеллю (4 комірки) та розширеним монітором врожайності (8 комірок із потоком маси, середньою врожайністю, площею поля та лічильником)." />
         <text name="rhm_hud_style_compact" text="Компактний (4 комірки)" />
         <text name="rhm_hud_style_expanded" text="Монітор врожайності (8 комірок)" />
-
-
+        <!-- HUD Layout Variants & Headers -->
+        <text name="rhm_hud_layout_title" text="Варіант розкладки HUD" />
+        <text name="rhm_hud_layout_desc" text="Оберіть візуальне розміщення даних у комірках: Сучасний OEM (одиниці в один рядок із числами), Картка точного землеробства (підписи зверху), Чистий мінімалізм (лише іконки та значення) або Двоповерховий класичний." />
+        <text name="rhm_hud_layout_oem" text="Сучасний OEM (В один рядок)" />
+        <text name="rhm_hud_layout_card" text="Картка точного землеробства (Підпис зверху)" />
+        <text name="rhm_hud_layout_clean" text="Чистий мінімалізм" />
+        <text name="rhm_hud_layout_stacked" text="Двоповерховий класичний" />
+        <text name="rhm_hud_hdr_load" text="НАВАНТАЖ" />
+        <text name="rhm_hud_hdr_loss" text="ВТРАТИ" />
+        <text name="rhm_hud_hdr_speed" text="ШВИДКІСТЬ" />
+        <text name="rhm_hud_hdr_moisture" text="ВОЛОГІСТЬ" />
+        <text name="rhm_hud_hdr_weed" text="ЗАБУР'ЯН" />
+        <text name="rhm_hud_hdr_productivity" text="ПОТІК МАСИ" />
+        <text name="rhm_hud_hdr_yield" text="УРОЖАЙ" />
+        <text name="rhm_hud_hdr_area_rate" text="ТЕМП РОБОТИ" />
+        <text name="rhm_hud_hdr_field" text="ПЛОЩА" />
+        <text name="rhm_hud_hdr_trip" text="НАМОЛОТ" />
+        <text name="rhm_hud_hdr_history" text="ЧАС РОБОТИ" />
+        <text name="rhm_hud_hdr_power" text="ПОТУЖНІСТЬ" />
+        <text name="rhm_hud_hdr_weed_drag" text="ОПІР БУР'ЯНУ" />
+        <text name="rhm_hud_hdr_throughput" text="ПРОДУКТИВНІСТЬ" />
+        <text name="rhm_hud_hdr_avg_yield" text="СЕРЕДНІЙ УРОЖАЙ" />
+        <text name="rhm_hud_hdr_volume" text="ОБ'ЄМ" />
     </texts>
 </l10n>

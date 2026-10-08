@@ -529,7 +529,28 @@
         <text name="rhm_hud_style_desc" text="Vyberte mezi kompaktním jednorázovým telemetrickým panelem (4 buňky) a rozšířeným monitorem výnosu (8 buněk s průtokem hmoty, průměrným výnosem, postupem pole a počítadlem)." />
         <text name="rhm_hud_style_compact" text="Kompaktní (4 buňky)" />
         <text name="rhm_hud_style_expanded" text="Monitor výnosu (8 buněk)" />
-
-
+        <!-- HUD Layout Variants & Headers -->
+        <text name="rhm_hud_layout_title" text="Varianta rozvržení HUD" />
+        <text name="rhm_hud_layout_desc" text="Vyberte uspořádání buněk: Moderní OEM (jednotky v řádku), Karta precizního zemědělství (záhlaví nahoře), Čistý minimalismus (pouze ikony a hodnoty) nebo Klasický skládaný (dvouřádkový)." />
+        <text name="rhm_hud_layout_oem" text="Moderní OEM (V jednom řádku)" />
+        <text name="rhm_hud_layout_card" text="Karta precizního zemědělství (Záhlaví nahoře)" />
+        <text name="rhm_hud_layout_clean" text="Čistý minimalismus" />
+        <text name="rhm_hud_layout_stacked" text="Klasický skládaný" />
+        <text name="rhm_hud_hdr_load" text="ZATÍŽENÍ" />
+        <text name="rhm_hud_hdr_loss" text="ZTRÁTY" />
+        <text name="rhm_hud_hdr_speed" text="RYCHLOST" />
+        <text name="rhm_hud_hdr_moisture" text="VLHKOST" />
+        <text name="rhm_hud_hdr_weed" text="PLEVEL" />
+        <text name="rhm_hud_hdr_productivity" text="PRŮTOK" />
+        <text name="rhm_hud_hdr_yield" text="VÝNOS" />
+        <text name="rhm_hud_hdr_area_rate" text="VÝKON" />
+        <text name="rhm_hud_hdr_field" text="PLOCHA" />
+        <text name="rhm_hud_hdr_trip" text="CELK. HMOT" />
+        <text name="rhm_hud_hdr_history" text="ČAS PRÁCE" />
+        <text name="rhm_hud_hdr_power" text="VÝKON" />
+        <text name="rhm_hud_hdr_weed_drag" text="ODPOR PLEVELU" />
+        <text name="rhm_hud_hdr_throughput" text="PRŮCHODNOST" />
+        <text name="rhm_hud_hdr_avg_yield" text="PRŮMĚRNÝ VÝNOS" />
+        <text name="rhm_hud_hdr_volume" text="OBJEM" />
     </texts>
 </l10n>

@@ -529,7 +529,28 @@
         <text name="rhm_hud_style_desc" text="Выбор между компактной однострочной панелью (4 ячейки) и расширенным монитором урожайности (8 ячеек с потоком массы, средней урожайностью, площадью поля и одометром)." />
         <text name="rhm_hud_style_compact" text="Компактный (4 ячейки)" />
         <text name="rhm_hud_style_expanded" text="Монитор урожайности (8 ячеек)" />
-
-
+        <!-- HUD Layout Variants & Headers -->
+        <text name="rhm_hud_layout_title" text="Вариант компоновки HUD" />
+        <text name="rhm_hud_layout_desc" text="Выберите визуальное расположение данных в ячейках: Современный OEM (единицы в одну строку с числами), Карточка точного земледелия (подписи сверху), Чистый минимализм (только иконки и значения) или Двухэтажный классический." />
+        <text name="rhm_hud_layout_oem" text="Современный OEM (В одну строку)" />
+        <text name="rhm_hud_layout_card" text="Карточка точного земледелия (Подпись сверху)" />
+        <text name="rhm_hud_layout_clean" text="Чистый минимализм" />
+        <text name="rhm_hud_layout_stacked" text="Двухэтажный классический" />
+        <text name="rhm_hud_hdr_load" text="НАГРУЗКА" />
+        <text name="rhm_hud_hdr_loss" text="ПОТЕРИ" />
+        <text name="rhm_hud_hdr_speed" text="СКОРОСТЬ" />
+        <text name="rhm_hud_hdr_moisture" text="ВЛАЖНОСТЬ" />
+        <text name="rhm_hud_hdr_weed" text="СОРНЯКИ" />
+        <text name="rhm_hud_hdr_productivity" text="ПОТОК МАССЫ" />
+        <text name="rhm_hud_hdr_yield" text="УРОЖАЙ" />
+        <text name="rhm_hud_hdr_area_rate" text="ТЕМП РАБОТЫ" />
+        <text name="rhm_hud_hdr_field" text="ПЛОЩАДЬ" />
+        <text name="rhm_hud_hdr_trip" text="НАМОЛОТ" />
+        <text name="rhm_hud_hdr_history" text="ВРЕМЯ РАБОТЫ" />
+        <text name="rhm_hud_hdr_power" text="МОЩНОСТЬ" />
+        <text name="rhm_hud_hdr_weed_drag" text="СОПРОТИВЛЕНИЕ" />
+        <text name="rhm_hud_hdr_throughput" text="ПРОИЗВОДИТЕЛЬНОСТЬ" />
+        <text name="rhm_hud_hdr_avg_yield" text="СРЕДНИЙ УРОЖАЙ" />
+        <text name="rhm_hud_hdr_volume" text="ОБЪЁМ" />
     </texts>
 </l10n>

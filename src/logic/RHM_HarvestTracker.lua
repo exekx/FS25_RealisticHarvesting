@@ -289,7 +289,7 @@ end
 function RHM_HarvestTracker.getMachineKey(combine)
     if not combine then return "Harvester" end
     local spec = combine.spec_rhm_Combine
-    if spec and spec.machineId and spec.machineId ~= "" then
+    if spec and spec.machineId and spec.machineId ~= "" and not spec.machineId:find("#%d+$") then
         return spec.machineId
     end
 
@@ -297,16 +297,23 @@ function RHM_HarvestTracker.getMachineKey(combine)
     local cleanName = RHM_HarvestTracker.stripHelperSuffix(rawName)
     local baseKey = combine.configFileName or cleanName
 
-    local license = (combine.getLicensePlateText and combine:getLicensePlateText()) or ""
-    local idPart = tostring(combine.rootNode or combine.id or "0")
+    -- Primary: GIANTS Engine 10 native persistent uniqueId (from vehicles.xml)
+    local uId = combine.uniqueId or (combine.rootVehicle and combine.rootVehicle.uniqueId)
     local machineKey = nil
-    if license ~= "" then
-        machineKey = string.format("%s_%s", baseKey, license)
+    if uId and uId ~= "" then
+        machineKey = string.format("%s_%s", baseKey, tostring(uId))
     else
-        machineKey = string.format("%s#%s", baseKey, idPart)
+        local license = (combine.getLicensePlateText and combine:getLicensePlateText()) or ""
+        if license ~= "" then
+            machineKey = string.format("%s_%s", baseKey, license)
+        else
+            -- Ephemeral fallback only if vehicle is not yet registered in savegame
+            local idPart = tostring(combine.rootNode or combine.id or "0")
+            machineKey = string.format("%s#%s", baseKey, idPart)
+        end
     end
 
-    if spec then
+    if spec and not machineKey:find("#%d+$") then
         spec.machineId = machineKey
     end
     return machineKey
@@ -3584,38 +3591,65 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                         local machineKey = (RHM_HarvestTracker and RHM_HarvestTracker.getMachineKey and RHM_HarvestTracker.getMachineKey(vehicle)) or vehicle.configFileName or (vehicle.getFullName and vehicle:getFullName()) or "Harvester"
                         if farm.combineTrips[machineKey] then
                             vehicle.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
-                        elseif vehicle.configFileName and farm.combineTrips[vehicle.configFileName] then
-                            -- Migrate legacy savegame trip keyed by configFileName
-                            farm.combineTrips[machineKey] = farm.combineTrips[vehicle.configFileName]
-                            farm.combineTrips[vehicle.configFileName] = nil
-                            vehicle.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
-                        elseif farm.currentTrip and (farm.currentTrip.harvestedLiters or 0) > 0 and (farm.currentTrip.lastMachineKey == nil or farm.currentTrip.lastMachineKey == machineKey) then
-                            farm.combineTrips[machineKey] = {
-                                fieldId = farm.currentTrip.fieldId or 0,
-                                cropName = farm.currentTrip.cropName or "--",
-                                fillTypeIndex = farm.currentTrip.fillTypeIndex or FillType.UNKNOWN,
-                                harvestedAreaHa = farm.currentTrip.harvestedAreaHa or 0,
-                                harvestedLiters = farm.currentTrip.harvestedLiters or 0,
-                                harvestedMassKg = farm.currentTrip.harvestedMassKg or 0,
-                                lostLiters = farm.currentTrip.lostLiters or 0,
-                                lossMoney = farm.currentTrip.lossMoney or 0,
-                                fuelUsedL = farm.currentTrip.fuelUsedL or 0,
-                                sessionDuration = farm.currentTrip.sessionDuration or 0,
-                                avgSpeedSum = farm.currentTrip.avgSpeedSum or 0,
-                                avgSpeedCount = farm.currentTrip.avgSpeedCount or 0,
-                                avgLoadSum = farm.currentTrip.avgLoadSum or 0,
-                                avgLoadCount = farm.currentTrip.avgLoadCount or 0,
-                                efficiencyRank = farm.currentTrip.efficiencyRank or RHM_HarvestTracker.RANK_A,
-                                reasons = {
-                                    speed = farm.currentTrip.reasons and farm.currentTrip.reasons.speed or 0,
-                                    settings = farm.currentTrip.reasons and farm.currentTrip.reasons.settings or 0,
-                                    moisture = farm.currentTrip.reasons and farm.currentTrip.reasons.moisture or 0,
-                                    wear = farm.currentTrip.reasons and farm.currentTrip.reasons.wear or 0,
-                                    slope = farm.currentTrip.reasons and farm.currentTrip.reasons.slope or 0
-                                },
-                                isActive = farm.currentTrip.isActive or false
-                            }
-                            vehicle.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
+                        else
+                            -- Legacy migration check:
+                            local foundLegacyKey = nil
+                            if vehicle.configFileName and farm.combineTrips[vehicle.configFileName] then
+                                foundLegacyKey = vehicle.configFileName
+                            else
+                                local baseKey = vehicle.configFileName or (vehicle.getFullName and vehicle:getFullName()) or ""
+                                for k, _ in pairs(farm.combineTrips) do
+                                    if k:sub(1, #baseKey + 1) == (baseKey .. "#") then
+                                        foundLegacyKey = k
+                                        break
+                                    end
+                                end
+                            end
+
+                            if foundLegacyKey and farm.combineTrips[foundLegacyKey] then
+                                rhm_log(string.format("[RHM_HarvestTracker] Migrated legacy trip key from '%s' to persistent key '%s'", tostring(foundLegacyKey), tostring(machineKey)))
+                                farm.combineTrips[machineKey] = farm.combineTrips[foundLegacyKey]
+                                farm.combineTrips[foundLegacyKey] = nil
+
+                                if farm.fleetStats and farm.fleetStats[foundLegacyKey] then
+                                    farm.fleetStats[machineKey] = farm.fleetStats[foundLegacyKey]
+                                    farm.fleetStats[foundLegacyKey] = nil
+                                end
+
+                                if farm.currentTrip and farm.currentTrip.lastMachineKey == foundLegacyKey then
+                                    farm.currentTrip.lastMachineKey = machineKey
+                                end
+
+                                vehicle.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
+                            elseif farm.currentTrip and (farm.currentTrip.harvestedLiters or 0) > 0 and (farm.currentTrip.lastMachineKey == nil or farm.currentTrip.lastMachineKey == machineKey or (farm.currentTrip.lastMachineKey and farm.currentTrip.lastMachineKey:find("#%d+$"))) then
+                                farm.combineTrips[machineKey] = {
+                                    fieldId = farm.currentTrip.fieldId or 0,
+                                    cropName = farm.currentTrip.cropName or "--",
+                                    fillTypeIndex = farm.currentTrip.fillTypeIndex or FillType.UNKNOWN,
+                                    harvestedAreaHa = farm.currentTrip.harvestedAreaHa or 0,
+                                    harvestedLiters = farm.currentTrip.harvestedLiters or 0,
+                                    harvestedMassKg = farm.currentTrip.harvestedMassKg or 0,
+                                    lostLiters = farm.currentTrip.lostLiters or 0,
+                                    lossMoney = farm.currentTrip.lossMoney or 0,
+                                    fuelUsedL = farm.currentTrip.fuelUsedL or 0,
+                                    sessionDuration = farm.currentTrip.sessionDuration or 0,
+                                    avgSpeedSum = farm.currentTrip.avgSpeedSum or 0,
+                                    avgSpeedCount = farm.currentTrip.avgSpeedCount or 0,
+                                    avgLoadSum = farm.currentTrip.avgLoadSum or 0,
+                                    avgLoadCount = farm.currentTrip.avgLoadCount or 0,
+                                    efficiencyRank = farm.currentTrip.efficiencyRank or RHM_HarvestTracker.RANK_A,
+                                    reasons = {
+                                        speed = farm.currentTrip.reasons and farm.currentTrip.reasons.speed or 0,
+                                        settings = farm.currentTrip.reasons and farm.currentTrip.reasons.settings or 0,
+                                        moisture = farm.currentTrip.reasons and farm.currentTrip.reasons.moisture or 0,
+                                        wear = farm.currentTrip.reasons and farm.currentTrip.reasons.wear or 0,
+                                        slope = farm.currentTrip.reasons and farm.currentTrip.reasons.slope or 0
+                                    },
+                                    isActive = farm.currentTrip.isActive or false
+                                }
+                                farm.currentTrip.lastMachineKey = machineKey
+                                vehicle.spec_rhm_Combine.trip = farm.combineTrips[machineKey]
+                            end
                         end
                     end
                 end

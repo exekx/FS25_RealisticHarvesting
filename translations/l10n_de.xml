@@ -529,7 +529,28 @@
         <text name="rhm_hud_style_desc" text="Wählen Sie zwischen der kompakten einzeiligen Telemetrieleiste (4 Zellen) und dem erweiterten Ertragsmonitor (8 Zellen mit Massenstrom, Durchschnittsertrag, Flächenfortschritt und Zähler)." />
         <text name="rhm_hud_style_compact" text="Kompakt (4 Zellen)" />
         <text name="rhm_hud_style_expanded" text="Ertragsmonitor (8 Zellen)" />
-
-
+        <!-- HUD Layout Variants & Headers -->
+        <text name="rhm_hud_layout_title" text="HUD-Layout-Variante" />
+        <text name="rhm_hud_layout_desc" text="Wählen Sie die optische Zellenanordnung: Moderner OEM (Einheiten in einer Zeile), Präzisionskarte (Überschriften oben), Minimalistisch (reduzierte Icons und Werte) oder Klassisch gestapelt (zweizeilig)." />
+        <text name="rhm_hud_layout_oem" text="Moderner OEM (Einzeilig)" />
+        <text name="rhm_hud_layout_card" text="Präzisionskarte (Überschrift oben)" />
+        <text name="rhm_hud_layout_clean" text="Minimalistisch sauber" />
+        <text name="rhm_hud_layout_stacked" text="Klassisch gestapelt" />
+        <text name="rhm_hud_hdr_load" text="LAST" />
+        <text name="rhm_hud_hdr_loss" text="VERLUST" />
+        <text name="rhm_hud_hdr_speed" text="GESCHWINDIGKEIT" />
+        <text name="rhm_hud_hdr_moisture" text="FEUCHTIGKEIT" />
+        <text name="rhm_hud_hdr_weed" text="UNKRAUT" />
+        <text name="rhm_hud_hdr_productivity" text="DURCHSATZ" />
+        <text name="rhm_hud_hdr_yield" text="ERTRAG" />
+        <text name="rhm_hud_hdr_area_rate" text="LEISTUNG" />
+        <text name="rhm_hud_hdr_field" text="FLÄCHE" />
+        <text name="rhm_hud_hdr_trip" text="GESAMTMASSE" />
+        <text name="rhm_hud_hdr_history" text="ARBEITSZEIT" />
+        <text name="rhm_hud_hdr_power" text="LEISTUNG" />
+        <text name="rhm_hud_hdr_weed_drag" text="UNKRAUTLAST" />
+        <text name="rhm_hud_hdr_throughput" text="DURCHSATZ" />
+        <text name="rhm_hud_hdr_avg_yield" text="DURCHSCHN. ERTRAG" />
+        <text name="rhm_hud_hdr_volume" text="VOLUMEN" />
     </texts>
 </l10n>
