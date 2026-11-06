@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="113">
+<modDesc descVersion="116">
     <author>exekx</author>
-    <manufacturer>exekx</manufacturer>
-    <version>1.6.4.3</version>
+    <contributors>Squallqt</contributors>
+    <version>1.6.5.0</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -29,6 +29,15 @@ Features:
 - Seamless integration with Precision Farming & Moisture System
 - Interactive 9-page in-game help guide in ESC menu
 
+Changelog 1.6.5.0:
+- ADDED: Public API wear provider, letting a mechanical wear mod supply the thresher wear loss, the live engine power and the extra power drawn by worn parts
+- ADDED: Integration with Realistic Mechanical Systems (version 1.0.0.0-beta.1 or higher)
+- FIXED: Power breakdown of the public API frozen in Arcade engine mode
+- FIXED: HUD reset console commands pinning the HUD instead of docking it under the F1 help
+- FIXED: HUD row divider disappearing when the F1 help opens or closes
+- IMPROVED: HUD background in the game HUD color
+- IMPROVED: HUD values centred in their cells, like the game combine box
+
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></en>
 <de><![CDATA[Fügt Ihren Mähdreschern realistische Erntemechaniken hinzu.
 
@@ -48,6 +57,15 @@ Funktionen:
 - Unterstützung für Pick-Up-Schneidwerke (Schwadablage) & experimentelle NEXAT-Unterstützung
 - Nahtlose Integration mit Precision Farming & Moisture System
 - Ausführliche 9-seitige Ingame-Hilfe im ESC-Menü
+
+Changelog 1.6.5.0:
+- HINZUGEFÜGT: Verschleißanbieter in der öffentlichen API, über den ein Verschleißmod den Verschleißverlust des Dreschwerks, die aktuelle Motorleistung und den Mehrbedarf verschlissener Teile liefern kann
+- HINZUGEFÜGT: Integration mit Realistic Mechanical Systems (Version 1.0.0.0-beta.1 oder höher)
+- BEHOBEN: Leistungsaufteilung der öffentlichen API im Arcade-Motormodus eingefroren
+- BEHOBEN: Konsolenbefehle zum Zurücksetzen des HUD fixierten das HUD, statt es unter der F1-Hilfe anzudocken
+- BEHOBEN: Trennlinie zwischen den HUD-Zeilen verschwand beim Öffnen oder Schließen der F1-Hilfe
+- VERBESSERT: HUD-Hintergrund in der HUD-Farbe des Spiels
+- VERBESSERT: HUD-Werte in ihren Feldern zentriert, wie in der Mähdrescheranzeige des Spiels
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></de>
 <fr><![CDATA[Ajoute des mécaniques de récolte réalistes à vos moissonneuses-batteuses.
@@ -69,9 +87,18 @@ Fonctionnalités:
 - Intégration transparente avec Precision Farming et le Moisture System
 - Guide d'aide interactif de 9 pages dans le menu ESC
 
+Changelog 1.6.5.0 :
+- AJOUT : fournisseur d'usure dans l'API publique, par lequel un mod d'usure mécanique donne les pertes dues à l'usure du battage, la puissance actuelle du moteur et la puissance en plus des organes usés
+- AJOUT : intégration avec Realistic Mechanical Systems (version 1.0.0.0-beta.1 ou supérieure)
+- CORRECTION : répartition des puissances de l'API publique figée en mode moteur Arcade
+- CORRECTION : commandes console de réinitialisation du HUD qui le figeaient au lieu de l'ancrer sous l'aide F1
+- CORRECTION : trait entre les lignes du HUD qui disparaissait à l'ouverture ou à la fermeture de l'aide F1
+- AMÉLIORATION : fond du HUD à la couleur du HUD du jeu
+- AMÉLIORATION : valeurs du HUD centrées dans leurs cases, comme dans l'encadré moissonneuse du jeu
+
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
     </description>
-    <iconFilename>icon_FS25_RealisticHarvesting.dds</iconFilename>
+    <iconFilename>icon_FS25_RealisticHarvesting.png</iconFilename>
     <multiplayer supported="true"/>
 
     <specializations>

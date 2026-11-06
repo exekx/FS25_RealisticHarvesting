@@ -1381,16 +1381,20 @@ function rhm_Combine.getIsHelperTurning(vehicle)
     end
 
     -- External automated guidance turning / transitional stages / temporary course
-    if vehicle.cp and (vehicle.cp.isTurning or (vehicle.cp.turnStage and vehicle.cp.turnStage > 0) or vehicle.cp.hasTemporaryCourse or vehicle.cp.isTemporaryCourse or (vehicle.cp.temporaryCourse ~= nil and vehicle.cp.temporaryCourse ~= false)) then
+    if vehicle.cp and (vehicle.cp.isTurning or (vehicle.cp.turnStage and vehicle.cp.turnStage > 0) or vehicle.cp.hasTemporaryCourse or vehicle.cp.isTemporaryCourse
+        or (vehicle.cp.temporaryCourse ~= nil and vehicle.cp.temporaryCourse ~= false)) then
         return true
     end
-    if root.cp and (root.cp.isTurning or (root.cp.turnStage and root.cp.turnStage > 0) or root.cp.hasTemporaryCourse or root.cp.isTemporaryCourse or (root.cp.temporaryCourse ~= nil and root.cp.temporaryCourse ~= false)) then
+    if root.cp and (root.cp.isTurning or (root.cp.turnStage and root.cp.turnStage > 0) or root.cp.hasTemporaryCourse or root.cp.isTemporaryCourse
+        or (root.cp.temporaryCourse ~= nil and root.cp.temporaryCourse ~= false)) then
         return true
     end
-    if vehicle.spec_courseplay and (vehicle.spec_courseplay.isTurning or (vehicle.spec_courseplay.turnStage and vehicle.spec_courseplay.turnStage > 0) or vehicle.spec_courseplay.hasTemporaryCourse or vehicle.spec_courseplay.isTemporaryCourse) then
+    if vehicle.spec_courseplay and (vehicle.spec_courseplay.isTurning or (vehicle.spec_courseplay.turnStage and vehicle.spec_courseplay.turnStage > 0)
+        or vehicle.spec_courseplay.hasTemporaryCourse or vehicle.spec_courseplay.isTemporaryCourse) then
         return true
     end
-    if root.spec_courseplay and (root.spec_courseplay.isTurning or (root.spec_courseplay.turnStage and root.spec_courseplay.turnStage > 0) or root.spec_courseplay.hasTemporaryCourse or root.spec_courseplay.isTemporaryCourse) then
+    if root.spec_courseplay and (root.spec_courseplay.isTurning or (root.spec_courseplay.turnStage and root.spec_courseplay.turnStage > 0)
+        or root.spec_courseplay.hasTemporaryCourse or root.spec_courseplay.isTemporaryCourse) then
         return true
     end
 
@@ -1399,8 +1403,10 @@ function rhm_Combine.getIsHelperTurning(vehicle)
     if attacher and attacher ~= vehicle and attacher ~= root then
         if attacher.getAIFieldWorkerIsTurning and attacher:getAIFieldWorkerIsTurning() then return true end
         if attacher.spec_aiFieldWorker and attacher.spec_aiFieldWorker.isTurning then return true end
-        if attacher.cp and (attacher.cp.isTurning or (attacher.cp.turnStage and attacher.cp.turnStage > 0) or attacher.cp.hasTemporaryCourse or attacher.cp.isTemporaryCourse or (attacher.cp.temporaryCourse ~= nil and attacher.cp.temporaryCourse ~= false)) then return true end
-        if attacher.spec_courseplay and (attacher.spec_courseplay.isTurning or (attacher.spec_courseplay.turnStage and attacher.spec_courseplay.turnStage > 0) or attacher.spec_courseplay.hasTemporaryCourse or attacher.spec_courseplay.isTemporaryCourse) then return true end
+        if attacher.cp and (attacher.cp.isTurning or (attacher.cp.turnStage and attacher.cp.turnStage > 0) or attacher.cp.hasTemporaryCourse or attacher.cp.isTemporaryCourse
+            or (attacher.cp.temporaryCourse ~= nil and attacher.cp.temporaryCourse ~= false)) then return true end
+        if attacher.spec_courseplay and (attacher.spec_courseplay.isTurning or (attacher.spec_courseplay.turnStage and attacher.spec_courseplay.turnStage > 0)
+            or attacher.spec_courseplay.hasTemporaryCourse or attacher.spec_courseplay.isTemporaryCourse) then return true end
     end
 
     return false
@@ -2559,7 +2565,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                     end
                 end
             end
-        elseif not isReversing and not isHelperTurning and isThreshing and isAnyCutterLowered and ((spec._rhmClientDisengagedTime or 0) < 2.0) and (spec._rhmLastMotorSpeedLimit ~= nil) and speedLimitEnabled and not isArcade then
+        elseif not isReversing and not isHelperTurning and isThreshing and isAnyCutterLowered and ((spec._rhmClientDisengagedTime or 0) < 2.0)
+            and (spec._rhmLastMotorSpeedLimit ~= nil) and speedLimitEnabled and not isArcade then
             -- EN: Client grace period: maintain last governed speed limit during transient disengagement/handover
             -- UA: Пільговий період клієнта: утримуємо останній ліміт швидкості під час тимчасового перепідключення чи маневру
             spec._rhmClientDisengagedTime = (spec._rhmClientDisengagedTime or 0) + (dt * 0.001)
@@ -4179,7 +4186,8 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
             end
             -- Реєструємо дію Відкриття Журналу Врожаю (RShift+J)
             if InputAction.RHM_OPEN_HARVEST_MENU then
-                local _, hMenuEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_OPEN_HARVEST_MENU, self, rhm_Combine.actionOpenHarvestMenu, false, true, false, true, nil, nil, true, true)
+                local _, hMenuEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_OPEN_HARVEST_MENU, self, rhm_Combine.actionOpenHarvestMenu, false, true, false,
+                    true, nil, nil, true, true)
                 if hMenuEventId then
                     g_inputBinding:setActionEventTextPriority(hMenuEventId, GS_PRIO_NORMAL)
                     if g_i18n:hasText("input_RHM_OPEN_HARVEST_MENU") then

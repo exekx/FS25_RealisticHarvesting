@@ -3739,7 +3739,8 @@ function RHM_HarvestTracker:loadFromXMLFile(xmlFile, rootKey)
                     if fStat and (fStat.operationsCount == 0 or (fStat.harvestedLiters or 0) <= 0) then
                         local entryDensity = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityTonsPerLiter and RHM_UnitConverter.getCropDensityTonsPerLiter(entry.cropName)) or 0.00075
                         fStat.harvestedLiters = (fStat.harvestedLiters or 0) + (entry.harvested or 0)
-                        fStat.harvestedMassKg = (fStat.harvestedMassKg or 0) + ((entry.harvestedMassKg and entry.harvestedMassKg > 0) and entry.harvestedMassKg or ((entry.harvested or 0) * entryDensity * 1000.0))
+                        fStat.harvestedMassKg = (fStat.harvestedMassKg or 0) + ((entry.harvestedMassKg and entry.harvestedMassKg > 0) and entry.harvestedMassKg
+                            or ((entry.harvested or 0) * entryDensity * 1000.0))
                         fStat.harvestedAreaHa = (fStat.harvestedAreaHa or 0) + (entry.areaHa or 0)
                         fStat.lostLiters = (fStat.lostLiters or 0) + (entry.lost or 0)
                         fStat.lossMoney = (fStat.lossMoney or 0) + (entry.lossMoney or 0)

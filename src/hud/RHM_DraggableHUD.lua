@@ -1,17 +1,17 @@
 -- EN: Minimalist on-screen telemetry HUD for Realistic Harvesting.
 --     Uses the authentic rounded capsule slices (rhm_atlas.dds) with 3-part border rendering.
---     Correctly tinted with dark obsidian glass color (0.028, 0.030, 0.036, 0.88).
+--     Tinted with the game HUD background color (HUD.COLOR.BACKGROUND), like the F1 help.
 --     Docks dynamically beneath the auxiliary combine telemetry bar or F1 ControlsHelp menu.
 --     Dynamically tracks the F1 help menu toggle via g_gameSettings showHelpMenu.
 --     Supports interactive click-to-cycle metrics (t/h <-> ha/h, Loss <-> Speed, Moisture <-> Yield).
 -- UA: Мінімалістичний телеметричний HUD для Realistic Harvesting.
 --     Використовує текстуру капсули (rhm_atlas.dds) з 3-компонентними заокругленими кутами.
---     Тонований у глибокий колір темного скла (0.028, 0.030, 0.036, 0.88).
+--     Тонований кольором фону HUD гри (HUD.COLOR.BACKGROUND), як довідка F1.
 --     Приліпає динамічно під смугу додаткової телеметрії комбайна або меню довідки F1 (ControlsHelp).
 --     Динамічно відстежує відкриття/закриття F1 через g_gameSettings showHelpMenu.
 --     Підтримує інтерактивне перемикання показників кліком (т/ч <-> га/ч, Втрати <-> Швидкість, Волога <-> Урожайність).
 
-local HUD_BG_COLOR = {0.0, 0.0, 0.0, 0.72}
+local HUD_BG_COLOR = HUD.COLOR.BACKGROUND
 local DOCK_INNER_BG = {0.04, 0.08, 0.02, 0.60}
 local SNAP_OUTER_COLOR = {0.0, 0.0, 0.0, 0.88}
 
@@ -855,7 +855,6 @@ function RHMDraggableHUD:draw()
     if hudStyle == 1 then
         -- Compact 1-row rendering (cells 1 to 4)
         local cellW = w / math.max(1, numCells)
-        local borderW = 0.0006
         local iconH = 0.022 * self.uiScale
         local iconW = iconH / g_screenAspectRatio
         local numTextSize  = 0.0145 * self.uiScale
@@ -865,9 +864,9 @@ function RHMDraggableHUD:draw()
         for i, cell in ipairs(cells) do
             local cellEndX = currentX + cellW
             if i < numCells then
-                self:drawRect(cellEndX - borderW, y + 0.007 * self.uiScale, borderW, h - 0.014 * self.uiScale, 1.0, 1.0, 1.0, 0.12)
+                self:drawRect(cellEndX - g_pixelSizeX, y + 0.007 * self.uiScale, g_pixelSizeX, h - 0.014 * self.uiScale, 1.0, 1.0, 1.0, 0.25)
             end
-            self:renderCell(cell, currentX, y, cellW, h, iconW, iconH, numTextSize, unitTextSize, cellEndX)
+            self:renderCell(cell, currentX, y, cellW, h, iconW, iconH, numTextSize, unitTextSize)
             currentX = cellEndX
         end
     else
@@ -875,15 +874,16 @@ function RHMDraggableHUD:draw()
         local rowH = h * 0.5
         local cols = 4
         local cellW = w / cols
-        local borderW = 0.0006
         local iconH = 0.020 * self.uiScale
         local iconW = iconH / g_screenAspectRatio
         local numTextSize  = 0.0135 * self.uiScale
         local unitTextSize = 0.0075 * self.uiScale
 
         -- Horizontal divider between Row 1 and Row 2
+        -- EN: One pixel thick like the game HUD separators, so it never falls between two pixel rows
+        -- UA: Товщина один піксель, як у роздільників HUD гри, тому лінія не губиться між рядками пікселів
         local midY = y + rowH
-        self:drawRect(x + 0.006 * self.uiScale, midY - borderW * 0.5, w - 0.012 * self.uiScale, borderW, 1.0, 1.0, 1.0, 0.12)
+        self:drawRect(x + 0.006 * self.uiScale, midY - g_pixelSizeY * 0.5, w - 0.012 * self.uiScale, g_pixelSizeY, 1.0, 1.0, 1.0, 0.25)
 
         -- Row 1: Machine & Field Conditions (cells 1 to 4)
         local row1Y = midY
@@ -892,10 +892,10 @@ function RHMDraggableHUD:draw()
             local cell = cells[c]
             local cellEndX = curX + cellW
             if c < cols then
-                self:drawRect(cellEndX - borderW, row1Y + 0.004 * self.uiScale, borderW, rowH - 0.008 * self.uiScale, 1.0, 1.0, 1.0, 0.12)
+                self:drawRect(cellEndX - g_pixelSizeX, row1Y + 0.004 * self.uiScale, g_pixelSizeX, rowH - 0.008 * self.uiScale, 1.0, 1.0, 1.0, 0.25)
             end
             if cell then
-                self:renderCell(cell, curX, row1Y, cellW, rowH, iconW, iconH, numTextSize, unitTextSize, cellEndX)
+                self:renderCell(cell, curX, row1Y, cellW, rowH, iconW, iconH, numTextSize, unitTextSize)
             end
             curX = cellEndX
         end
@@ -907,10 +907,10 @@ function RHMDraggableHUD:draw()
             local cell = cells[4 + c]
             local cellEndX = curX + cellW
             if c < cols then
-                self:drawRect(cellEndX - borderW, row2Y + 0.004 * self.uiScale, borderW, rowH - 0.008 * self.uiScale, 1.0, 1.0, 1.0, 0.12)
+                self:drawRect(cellEndX - g_pixelSizeX, row2Y + 0.004 * self.uiScale, g_pixelSizeX, rowH - 0.008 * self.uiScale, 1.0, 1.0, 1.0, 0.25)
             end
             if cell then
-                self:renderCell(cell, curX, row2Y, cellW, rowH, iconW, iconH, numTextSize, unitTextSize, cellEndX)
+                self:renderCell(cell, curX, row2Y, cellW, rowH, iconW, iconH, numTextSize, unitTextSize)
             end
             curX = cellEndX
         end
@@ -1013,12 +1013,17 @@ local function calcFitScale(totalW, maxW)
     return 1.0
 end
 
-function RHMDraggableHUD:renderCell(cell, cellX, cellY, cellW, cellH, iconW, iconH, numTextSize, unitTextSize, cellEndX)
+function RHMDraggableHUD:renderCell(cell, cellX, cellY, cellW, cellH, iconW, iconH, numTextSize, unitTextSize)
     local layoutMode = (self.settings and self.settings.hudLayout == 2) and 2 or 1
+
+    -- EN: Laid out like the game combine box: spacings in pixels, icon after the padding, each text line centred in the column after it
+    -- UA: Як у комбайновій панелі гри: відступи в пікселях, кожен рядок по центру колонки після іконки
+    local padX = getNormalizedScreenValues(5 * self.uiScale, 0)
+    local partSpacingX = getNormalizedScreenValues(2 * self.uiScale, 0)
 
     -- Icon (vertically centered on the left of cell)
     local icon = self.icons[cell.iconName]
-    local iconX = cellX + 0.0022 * self.uiScale
+    local iconX = cellX + padX
     local iconY = cellY + (cellH - iconH) * 0.50
     if icon then
         icon:setPosition(iconX, iconY)
@@ -1027,62 +1032,70 @@ function RHMDraggableHUD:renderCell(cell, cellX, cellY, cellW, cellH, iconW, ico
         icon:render()
     end
 
-    local textX = iconX + iconW + 0.0022 * self.uiScale
+    local textX = iconX + iconW + padX
+    local maxTextW = math.max(0, cellX + cellW - padX - textX)
+    local columnCenterX = textX + maxTextW * 0.5
     local currentNumSize = (cell.numStr and #cell.numStr >= 5) and (numTextSize * 0.93) or numTextSize
     local numCol = cell.color or {0.98, 0.98, 0.98, 0.98}
     local grayCol = (RHM_UIColors and RHM_UIColors.GRAY) or {0.65, 0.68, 0.72, 1.0}
-    local maxTextW = math.max(0.008 * self.uiScale, cellEndX - textX - 0.0018 * self.uiScale)
-    local actualNumW = 0.012 * self.uiScale
 
+    -- EN: Bold value and its unit on one line, shrunk to the column and centred in it; valY nil centres the line in the cell
+    -- UA: Значення та одиниця в рядку по центру колонки; valY nil центрує рядок у комірці
+    local function renderValueLine(baseValSize, baseUnitSize, valY)
+        local hasUnit = cell.unitStr and cell.unitStr ~= ""
+        setTextBold(true)
+        local rawValW = rhm_getTextWidth(baseValSize, cell.numStr)
+        setTextBold(false)
+        local rawUnitW = hasUnit and rhm_getTextWidth(baseUnitSize, cell.unitStr) or 0
+        local unitSpacing = hasUnit and partSpacingX or 0
+        local lineScale = calcFitScale(rawValW + unitSpacing + rawUnitW, maxTextW)
+        local valSize = baseValSize * lineScale
+        local valW = rawValW * lineScale
+        local lineX = columnCenterX - (rawValW + unitSpacing + rawUnitW) * lineScale * 0.5
+        valY = valY or (cellY + (cellH - valSize) * 0.50 + 0.0008 * self.uiScale)
+
+        setTextBold(true)
+        setTextAlignment(RenderText.ALIGN_LEFT)
+        setTextColor(numCol[1], numCol[2], numCol[3], numCol[4] or 0.98)
+        renderText(lineX, valY, valSize, cell.numStr)
+        if hasUnit then
+            setTextBold(false)
+            setTextColor(0.74, 0.78, 0.82, 0.92)
+            renderText(lineX + valW + unitSpacing * lineScale, valY + 0.0006 * self.uiScale, baseUnitSize * lineScale, cell.unitStr)
+        end
+        return lineX, valW
+    end
+
+    local numX, actualNumW
     if layoutMode == 2 then
         -- ══════════════════════════════════════════════════════════════
         -- VARIANT 2: Precision Farming Card (Micro-header top, value bottom)
         -- ══════════════════════════════════════════════════════════════
         local hdrText = cell.headerStr or self:getCellHeader(cell.iconName)
         local badgeText = cell.headerBadge
+        local hasBadge = badgeText and badgeText ~= ""
         local baseHdrSize = unitTextSize * 0.95
 
+        setTextBold(true)
         local rawHdrW = rhm_getTextWidth(baseHdrSize, hdrText)
-        local rawBdgW = (badgeText and badgeText ~= "") and rhm_getTextWidth(baseHdrSize, badgeText) or 0
-        local bdgSpacing = (rawBdgW > 0) and (0.0012 * self.uiScale) or 0
-        local totalHdrW = rawHdrW + rawBdgW + bdgSpacing
-        local hdrScale = calcFitScale(totalHdrW, maxTextW)
+        local rawBdgW = hasBadge and rhm_getTextWidth(baseHdrSize, badgeText) or 0
+        local bdgSpacing = hasBadge and partSpacingX or 0
+        local hdrScale = calcFitScale(rawHdrW + bdgSpacing + rawBdgW, maxTextW)
         local hdrSize = baseHdrSize * hdrScale
-        local actualHdrW = rawHdrW * hdrScale
+        local hdrX = columnCenterX - (rawHdrW + bdgSpacing + rawBdgW) * hdrScale * 0.5
 
         local hdrY = cellY + cellH * 0.60
-        setTextBold(true)
         setTextAlignment(RenderText.ALIGN_LEFT)
         setTextColor(0.68, 0.72, 0.78, 0.90)
-        renderText(textX, hdrY, hdrSize, hdrText)
+        renderText(hdrX, hdrY, hdrSize, hdrText)
 
-        if badgeText and badgeText ~= "" then
+        if hasBadge then
             local bdgCol = cell.headerBadgeColor or {0.68, 0.72, 0.78, 0.90}
             setTextColor(bdgCol[1], bdgCol[2], bdgCol[3], bdgCol[4] or 0.95)
-            renderText(textX + actualHdrW + (bdgSpacing * hdrScale), hdrY, hdrSize, badgeText)
+            renderText(hdrX + (rawHdrW + bdgSpacing) * hdrScale, hdrY, hdrSize, badgeText)
         end
 
-        local baseValSize = currentNumSize * 0.98
-        local baseUnitSize = unitTextSize * 1.05
-        local rawValW = rhm_getTextWidth(baseValSize, cell.numStr)
-        local rawUnitW = (cell.unitStr and cell.unitStr ~= "") and rhm_getTextWidth(baseUnitSize, cell.unitStr) or 0
-        local unitSpacing = (rawUnitW > 0) and (0.0010 * self.uiScale) or 0
-        local totalValW = rawValW + rawUnitW + unitSpacing
-        local valScale = calcFitScale(totalValW, maxTextW)
-        local valSize = baseValSize * valScale
-        local unitSize = baseUnitSize * valScale
-        actualNumW = rawValW * valScale
-
-        local valY = cellY + cellH * 0.17
-        setTextBold(true)
-        setTextColor(numCol[1], numCol[2], numCol[3], numCol[4] or 0.98)
-        renderText(textX, valY, valSize, cell.numStr)
-
-        if cell.unitStr and cell.unitStr ~= "" then
-            setTextBold(false)
-            setTextColor(0.74, 0.78, 0.82, 0.92)
-            renderText(textX + actualNumW + (unitSpacing * valScale), valY + 0.0006 * self.uiScale, unitSize, cell.unitStr)
-        end
+        numX, actualNumW = renderValueLine(currentNumSize * 0.98, unitTextSize * 1.05, cellY + cellH * 0.17)
 
     else
         -- ══════════════════════════════════════════════════════════════
@@ -1091,33 +1104,9 @@ function RHMDraggableHUD:renderCell(cell, cellX, cellY, cellW, cellH, iconW, ico
         local hasSub = (cell.subStr and cell.subStr ~= "")
         if hasSub then
             -- Two tiers: Value on top, subStr on bottom
-            local baseValSize = currentNumSize * 0.98
-            local baseUnitSize = unitTextSize * 1.05
-            local rawValW = rhm_getTextWidth(baseValSize, cell.numStr)
-            local rawUnitW = (cell.unitStr and cell.unitStr ~= "") and rhm_getTextWidth(baseUnitSize, cell.unitStr) or 0
-            local unitSpacing = (rawUnitW > 0) and (0.0010 * self.uiScale) or 0
-            local totalValW = rawValW + rawUnitW + unitSpacing
-            local valScale = calcFitScale(totalValW, maxTextW)
-            local valSize = baseValSize * valScale
-            local unitSize = baseUnitSize * valScale
-            actualNumW = rawValW * valScale
-
-            local valY = cellY + cellH * 0.48
-            setTextBold(true)
-            setTextAlignment(RenderText.ALIGN_LEFT)
-            setTextColor(numCol[1], numCol[2], numCol[3], numCol[4] or 0.98)
-            renderText(textX, valY, valSize, cell.numStr)
-
-            if cell.unitStr and cell.unitStr ~= "" then
-                setTextBold(false)
-                setTextColor(0.74, 0.78, 0.82, 0.92)
-                renderText(textX + actualNumW + (unitSpacing * valScale), valY + 0.0006 * self.uiScale, unitSize, cell.unitStr)
-            end
+            numX, actualNumW = renderValueLine(currentNumSize * 0.98, unitTextSize * 1.05, cellY + cellH * 0.48)
 
             local baseSubSize = unitTextSize * 0.92
-            local rawSubW = rhm_getTextWidth(baseSubSize, cell.subStr)
-            local subScale = calcFitScale(rawSubW, maxTextW)
-            local subSize = baseSubSize * subScale
             local subY = cellY + cellH * 0.16
 
             if cell.rankColor and cell.subStr:sub(1, 1) == "[" and cell.subStr:find("%]") and cell.subStr:find("%s") then
@@ -1125,60 +1114,45 @@ function RHMDraggableHUD:renderCell(cell, cellX, cellY, cellW, cellH, iconW, ico
                 local rkPart = cell.subStr:sub(1, closeIdx)
                 local restPart = cell.subStr:sub(closeIdx + 1):match("^%s*(.-)$") or ""
                 setTextBold(true)
-                setTextColor(cell.rankColor[1], cell.rankColor[2], cell.rankColor[3], 1.0)
-                renderText(textX, subY, subSize, rkPart)
+                local rawRkW = rhm_getTextWidth(baseSubSize, rkPart)
+                setTextBold(false)
+                local rawRestW = rhm_getTextWidth(baseSubSize, restPart)
+                local subScale = calcFitScale(rawRkW + partSpacingX + rawRestW, maxTextW)
+                local subSize = baseSubSize * subScale
+                local subX = columnCenterX - (rawRkW + partSpacingX + rawRestW) * subScale * 0.5
 
-                local rkW = rhm_getTextWidth(subSize, rkPart)
+                setTextBold(true)
+                setTextColor(cell.rankColor[1], cell.rankColor[2], cell.rankColor[3], 1.0)
+                renderText(subX, subY, subSize, rkPart)
+
                 setTextBold(false)
                 setTextColor(grayCol[1], grayCol[2], grayCol[3], 0.90)
-                renderText(textX + rkW + (0.0012 * self.uiScale * subScale), subY, subSize, restPart)
-            elseif cell.subColor then
-                local isBadge = (cell.subStr:sub(1, 1) == "[")
-                setTextBold(isBadge)
-                local sc = cell.subColor
-                setTextColor(sc[1], sc[2], sc[3], sc[4] or 0.95)
-                renderText(textX, subY, subSize, cell.subStr)
+                renderText(subX + (rawRkW + partSpacingX) * subScale, subY, subSize, restPart)
             else
-                setTextBold(false)
-                setTextColor(grayCol[1], grayCol[2], grayCol[3], 0.90)
-                renderText(textX, subY, subSize, cell.subStr)
+                local sc = cell.subColor or {grayCol[1], grayCol[2], grayCol[3], 0.90}
+                setTextBold(cell.subColor ~= nil and cell.subStr:sub(1, 1) == "[")
+                local rawSubW = rhm_getTextWidth(baseSubSize, cell.subStr)
+                local subScale = calcFitScale(rawSubW, maxTextW)
+                setTextColor(sc[1], sc[2], sc[3], sc[4] or 0.95)
+                renderText(columnCenterX - rawSubW * subScale * 0.5, subY, baseSubSize * subScale, cell.subStr)
             end
         else
             -- Single tier: Bold value + unit vertically centered
-            local baseValSize = currentNumSize * 1.04
-            local baseUnitSize = unitTextSize * 1.15
-            local rawValW = rhm_getTextWidth(baseValSize, cell.numStr)
-            local rawUnitW = (cell.unitStr and cell.unitStr ~= "") and rhm_getTextWidth(baseUnitSize, cell.unitStr) or 0
-            local unitSpacing = (rawUnitW > 0) and (0.0010 * self.uiScale) or 0
-            local totalLineW = rawValW + rawUnitW + unitSpacing
-
-            local lineScale = calcFitScale(totalLineW, maxTextW)
-            local valSize = baseValSize * lineScale
-            local unitSize = baseUnitSize * lineScale
-            actualNumW = rawValW * lineScale
-
-            local numY = cellY + (cellH - valSize) * 0.50 + 0.0008 * self.uiScale
-            setTextBold(true)
-            setTextAlignment(RenderText.ALIGN_LEFT)
-            setTextColor(numCol[1], numCol[2], numCol[3], numCol[4] or 0.98)
-            renderText(textX, numY, valSize, cell.numStr)
-
-            if cell.unitStr and cell.unitStr ~= "" then
-                setTextBold(false)
-                setTextColor(0.74, 0.78, 0.82, 0.92)
-                renderText(textX + actualNumW + (unitSpacing * lineScale), numY + 0.0006 * self.uiScale, unitSize, cell.unitStr)
-            end
+            numX, actualNumW = renderValueLine(currentNumSize * 1.04, unitTextSize * 1.15, nil)
         end
 
     end
 
-    -- Dynamic Colored Underline Indicator (exact PF style: centered under text, strictly contained in cell)
+    -- Dynamic Colored Underline Indicator (exact PF style: centered under the value, strictly contained in its column)
     if cell.indicatorColor then
         local indH = 0.0020 * self.uiScale
         local indY = cellY + 0.0025 * self.uiScale
-        local indW = math.min(maxTextW, math.max(0.014 * self.uiScale, actualNumW))
+        -- EN: At least 27 px wide (1920 x 1080 reference)
+        -- UA: Щонайменше 27 px завширшки (еталон 1920 x 1080)
+        local indW = math.min(maxTextW, math.max(getNormalizedScreenValues(27 * self.uiScale, 0), actualNumW))
+        local indX = math.max(textX, math.min(textX + maxTextW - indW, numX + (actualNumW - indW) * 0.5))
         local c = cell.indicatorColor
-        self:drawRect(textX, indY, indW, indH, c[1], c[2], c[3], c[4] or 0.95)
+        self:drawRect(indX, indY, indW, indH, c[1], c[2], c[3], c[4] or 0.95)
     end
 end
 

@@ -117,6 +117,14 @@ end
 ---EN: Resolves engine horsepower (HP) from vehicle motorized spec, configuration, or carrier tractor (NEXAT/towed).
 ---UA: Визначає потужність двигуна (к.с.) зі специфікації, конфігурації техніки або тягового трактора (NEXAT/причіпні).
 function RHM_LoadCalculator:getEnginePowerHp(vehicle)
+    -- EN: A registered wear provider gives the power the engine has now (tuning, power losses)
+    -- UA: Зареєстрований провайдер зносу дає потужність, яку двигун має зараз (тюнінг, втрати потужності)
+    local providerHp = RHM_Api and RHM_Api.getWearProviderValue and RHM_Api.getWearProviderValue("getEnginePowerHp", vehicle)
+    if providerHp ~= nil and providerHp > 0 then
+        self.lastEffectiveHp = providerHp
+        return providerHp
+    end
+
     -- 1. Check motorized spec on vehicle or root/attacher carrier (for trailed harvesters, tractor setups, or NEXAT)
     local motorObj = vehicle
     if not (vehicle.spec_motorized and vehicle.spec_motorized.motor) then
@@ -136,12 +144,14 @@ function RHM_LoadCalculator:getEnginePowerHp(vehicle)
     local extraConfigIndex = (motorObj.configurations and (tonumber(motorObj.configurations.enginePower) or tonumber(motorObj.configurations.powertrain) or 0)) or 0
     local carrierConfigIndex = motorConfigIndex
 
-    if vehicle._rhm_engineHp and vehicle._rhm_engineHpConfig == motorConfigIndex and vehicle._rhm_engineExtraConfig == extraConfigIndex and vehicle._rhm_engineMotor == motorInstance and vehicle._rhm_engineHp > 0 then
+    if vehicle._rhm_engineHp and vehicle._rhm_engineHpConfig == motorConfigIndex and vehicle._rhm_engineExtraConfig == extraConfigIndex
+        and vehicle._rhm_engineMotor == motorInstance and vehicle._rhm_engineHp > 0 then
         self.lastEffectiveHp = vehicle._rhm_engineHp
         return vehicle._rhm_engineHp
     end
 
-    if motorObj._rhm_engineHp and motorObj._rhm_engineHpConfig == motorConfigIndex and motorObj._rhm_engineExtraConfig == extraConfigIndex and motorObj._rhm_engineMotor == motorInstance and motorObj._rhm_engineHp > 0 then
+    if motorObj._rhm_engineHp and motorObj._rhm_engineHpConfig == motorConfigIndex and motorObj._rhm_engineExtraConfig == extraConfigIndex
+        and motorObj._rhm_engineMotor == motorInstance and motorObj._rhm_engineHp > 0 then
         self.lastEffectiveHp = motorObj._rhm_engineHp
         vehicle._rhm_engineHp = motorObj._rhm_engineHp
         vehicle._rhm_engineHpConfig = motorConfigIndex
@@ -1216,6 +1226,13 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
 
         pProcess = ((avgTph * eSpec * procMoisture * weedFactor) / eff) * pRotorExtra
 
+        -- EN: Worn threshing and chopping parts demand more power, as a registered wear provider reports
+        -- UA: Зношені молотильні та подрібнювальні вузли потребують більше потужності (за даними провайдера зносу)
+        local powerDemandFactor = RHM_Api and RHM_Api.getWearProviderValue and RHM_Api.getWearProviderValue("getPowerDemandFactor", vehicle)
+        if powerDemandFactor ~= nil then
+            pProcess = pProcess * math.max(1.0, powerDemandFactor)
+        end
+
         -- Forage harvester stage power decomposition (ASABE S497 / EP496):
         -- 1. Feed rolls (intake compression): ~18%
         -- 2. Chopping drum / cutterhead (shearing): ~62%
@@ -1297,6 +1314,21 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
         pTotal = 0
     end
 
+    -- Store diagnostic telemetry
+    -- EN: Stored before the Arcade mode leaves, so the power breakdown follows the harvest in every engine mode
+    -- UA: Зберігаємо до виходу режиму Аркада, щоб розподіл потужності відповідав збиранню в будь-якому режимі двигуна
+    self.lastPowerEngine = effectiveEngineHp
+    self.lastPowerBase = pBase
+    self.lastPowerHeader = pHeader
+    self.lastPowerProcess = pProcess
+    self.lastPowerChopper = pChopper
+    self.lastPowerForageFeed = pForageFeed
+    self.lastPowerForageDrum = pForageDrum
+    self.lastPowerForageBlower = pForageBlower
+    self.lastPowerSoil = pSoil
+    self.lastPowerTotal = pTotal
+    self.lastEffectiveHp = effectiveEngineHp
+
     -- 7. RESULTING ENGINE LOAD
     local isArcade = false
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
@@ -1325,19 +1357,6 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
             self.engineLoad = self.engineLoad + (loadRatio - self.engineLoad) * loadBlend
         end
     end
-
-    -- Store diagnostic telemetry
-    self.lastPowerEngine = effectiveEngineHp
-    self.lastPowerBase = pBase
-    self.lastPowerHeader = pHeader
-    self.lastPowerProcess = pProcess
-    self.lastPowerChopper = pChopper
-    self.lastPowerForageFeed = pForageFeed
-    self.lastPowerForageDrum = pForageDrum
-    self.lastPowerForageBlower = pForageBlower
-    self.lastPowerSoil = pSoil
-    self.lastPowerTotal = pTotal
-    self.lastEffectiveHp = effectiveEngineHp
 
     -- Dispatch overload event to external API listeners if engine load reaches overload threshold (>= 100%)
     if self.engineLoad >= 1.0 and RHM_Api and RHM_Api.dispatch then
@@ -1997,14 +2016,19 @@ function RHM_LoadCalculator:calculateWearLoss(vehicle)
     -- 2. Combine Thresher Wear Loss:
     -- Deadzone: first 20% wear produces 0 loss
     -- Scaling: remaining wear (0.20 .. 1.00) produces up to 3.0% loss (worn rasp bars, sieves, concave)
+    -- EN: A registered wear provider gives the thresher loss its own wear model already removes from the yield
+    -- UA: Зареєстрований провайдер зносу дає втрати молотарки, які його модель зносу вже вилучила з урожаю
+    local providerLoss = RHM_Api and RHM_Api.getWearProviderValue and RHM_Api.getWearProviderValue("getWearLoss", vehicle)
     local combineLoss = 0
-    if combineDamage > 0.20 then
+    if providerLoss ~= nil then
+        combineLoss = math.max(0, providerLoss)
+    elseif combineDamage > 0.20 then
         local effCombineDmg = (combineDamage - 0.20) / 0.80
         combineLoss = math.min(3.0, effCombineDmg * 3.0)
     end
 
-    -- 3. Total Wear Loss (capped at 6.0%)
-    local totalWear = math.min(6.0, cutterLoss + combineLoss)
+    -- 3. Total Wear Loss (capped at 6.0%, at the total crop loss cap with a wear provider)
+    local totalWear = math.min(providerLoss ~= nil and 50.0 or 6.0, cutterLoss + combineLoss)
 
     self.cutterWearLoss = cutterLoss
     self.combineWearLoss = combineLoss
