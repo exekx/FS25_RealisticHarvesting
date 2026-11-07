@@ -1,5 +1,15 @@
 # Realistic Harvesting - Changelog
 
+Changelog 1.6.5.0:
+- ADDED: Public API wear provider (`RHM_Api.registerWearProvider`, `RHM_Api.getWearProviderValue`): a mechanical wear mod can supply the thresher wear loss already removed from the yield, the live engine power including tuning and power losses, and the extra processing power drawn by worn parts. Without a registered provider, nothing changes.
+- ADDED: Integration with Realistic Mechanical Systems (version 1.0.0.0-beta.1 or higher): when both mods are active, the wear of the threshing parts sets the thresher wear loss, the engine power follows the mechanical condition of the engine, and worn knives and shear bar draw extra processing power.
+- FIXED: Power breakdown (`getPowerBreakdown`, `getForagePowerBreakdown`) left frozen in Arcade engine mode, the telemetry now being stored before the Arcade engine load bypass.
+- FIXED: `rhmResetHUD` and `rhmResetSettings` console commands pinning the HUD at its current spot instead of returning it to automatic docking under the F1 help.
+- FIXED: HUD row divider disappearing when the F1 help opens or closes, the HUD dividers now being one pixel thick like the game HUD separators.
+- IMPROVED: HUD background in the game HUD background color, matching the F1 help.
+- IMPROVED: HUD cells laid out like the game combine box: icon after a fixed padding, values, units, sub-texts and badges centred in the column after it, spacings in pixels on every screen ratio.
+- IMPROVED: Lua lines over 200 characters wrapped.
+
 Changelog 1.6.4.3:
 - FIXED: Involuntary work mode activation (thresher engage, header lower and spin) during road transit and automated waypoint transport with folded cutting implements attached.
 - FIXED: Fatal runtime arithmetic error (`attempt to perform arithmetic on nil value`) during active cutting with lowered header on custom and edited harvester configurations.

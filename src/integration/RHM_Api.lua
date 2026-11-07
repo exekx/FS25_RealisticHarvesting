@@ -13,8 +13,9 @@
 -- ============================================================================
 
 RHM_Api = {}
-RHM_Api.VERSION = "1.6.4.3"
+RHM_Api.VERSION = "1.6.5.0"
 RHM_Api.listeners = {}
+RHM_Api.wearProvider = nil
 
 -- ============================================================================
 -- 1. VEHICLE RESOLUTION & HIERARCHY TRAVERSAL
@@ -1016,6 +1017,31 @@ function RHM_Api.registerEventListener(eventName, callback)
     end
     RHM_Api.listeners[eventName] = RHM_Api.listeners[eventName] or {}
     table.insert(RHM_Api.listeners[eventName], callback)
+end
+
+---EN: Lets a mod that simulates machine wear replace the wear RH reads from the game.
+---    The provider is a table of optional functions, each called with the combine and returning nil to keep RH's own value:
+---    getWearLoss(vehicle): grain lost to the wear of the machine, in percent, already removed from the yield;
+---    getEnginePowerHp(vehicle): engine power available now in HP, tuning and power losses included;
+---    getPowerDemandFactor(vehicle): factor (1 or more) on the processing power that worn parts demand.
+---UA: Дозволяє моду, що симулює знос техніки, замінити знос, який RH читає з гри.
+---    Провайдер — таблиця необов'язкових функцій; кожна отримує комбайн і повертає nil, щоб залишити значення RH.
+---@param provider table|nil nil removes the provider
+function RHM_Api.registerWearProvider(provider)
+    RHM_Api.wearProvider = provider
+end
+
+---EN: Returns a value of the registered wear provider, nil without a provider or a value.
+---UA: Повертає значення зареєстрованого провайдера зносу або nil.
+---@param name string provider function name
+---@param vehicle table combine
+---@return number|nil
+function RHM_Api.getWearProviderValue(name, vehicle)
+    local provider = RHM_Api.wearProvider
+    if provider == nil or type(provider[name]) ~= "function" then
+        return nil
+    end
+    return provider[name](vehicle)
 end
 
 ---EN: Unregisters an existing callback listener.
