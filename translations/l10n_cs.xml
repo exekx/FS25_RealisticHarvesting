@@ -1,138 +1,134 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <l10n>
     <texts>
-        <text name="rhm_section_simulation" text="Realistic Harvesting - Simulace" />
-        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD a Zobrazení" />
-        <text name="input_RHM_OPEN_MENU" text="Menu Kombajnu" />
-        <text name="input_RHM_TOGGLE_HUD" text="Přepnout HUD sklizně" />
-        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="Přepnout kurzor myši" />
-        <text name="input_RHM_CLOSE_NOTIFICATION" text="Zavřít oznámení" />
-        <text name="rhm_hud_load" text="ZÁTĚŽ" />
-        <text name="rhm_hud_loss" text="ZTRÁTA" />
-        <text name="rhm_hud_moist" text="VLHKOST" />
-        <text name="rhm_ai_settings_retained" text="Ruční nastavení zachováno" />
-        <text name="rhm_ai_auto_tuned" text="Automaticky zkalibrováno" />
-        <text name="rhm_difficulty" text="Obtížnost" />
-        <text name="rhm_difficulty_motor" text="Výkon motoru" />
-        <text name="rhm_difficulty_motor_short" text="Motor" />
-        <text name="rhm_difficulty_motor_long" text="Určuje fyziku zatížení motoru. Arkáda = Vypnuto (bez přetížení), Normální = +35% výkonové rezervy, Realistická = 100% autentická fyzika." />
-        <text name="rhm_difficulty_loss" text="Ztráta úrody" />
-        <text name="rhm_difficulty_loss_short" text="Ztráta" />
-        <text name="rhm_difficulty_loss_long" text="Určuje ztráty plodin. Arkáda = 0% (žádné ztráty), Normální = standardní ztráty, Realistická = zvýšené ztráty (200%)." />
-        <text name="rhm_diff_1" text="Arkáda" />
-        <text name="rhm_difficulty_long" text="Arkáda: Bez přetížení a ztrát (čistá vanilla). Normální: Vyvážená fyzika (+35%). Realistická: Čistá simulace (0%)." />
-        <text name="rhm_diff_2" text="Normální" />
-        <text name="rhm_diff_3" text="Realistická" />
-        <text name="rhm_show_yield" text="Zobrazit monitor výnosu" />
-        <text name="rhm_show_yield_short" text="Zobrazit výnos" />
-        <text name="rhm_show_yield_long" text="Zobrazit výnos v reálném čase v HUD (t/ha nebo bu/ac)" />
-        <text name="rhm_yield_label" text="Výnos" />
-        <text name="rhm_hud_short" text="Zobrazit HUD" />
-        <text name="rhm_hud_long" text="Zobrazit informace o sklizni" />
-        <text name="rhm_speedlimit_short" text="Omezovač rychlosti" />
-        <text name="rhm_speedlimit_long"><![CDATA[
-            Automaticky omezit rychlost kombajnu podle zatížení motoru
-        ]]></text>
-        <text name="rhm_croploss_short" text="Povolit ztrátu úrody" />
-        <text name="rhm_croploss_long" text="Vypočítat ztrátu úrody při přetížení" />
-        <text name="rhm_show_speed_short" text="Zobrazit rychlost" />
-        <text name="rhm_show_speed_long" text="Zobrazit aktuální a doporučenou rychlost v HUD" />
-        <text name="rhm_show_load_short" text="Zobrazit zatížení" />
-        <text name="rhm_show_load_long" text="Zobrazit procento zatížení motoru v HUD" />
-        <text name="rhm_show_productivity_short" text="Zobrazit produktivitu" />
-        <text name="rhm_show_productivity_long" text="Zobrazit průchodnost (t/h) v HUD" />
-        <text name="rhm_show_croploss_short" text="Zobrazit ztrátu" />
-        <text name="rhm_show_moisture_short" text="Zobrazit vlhkost" />
-        <text name="rhm_show_moisture_long" text="Zobrazit procento vlhkosti plodin na HUDu" />
-        <text name="rhm_moisture_enable_short" text="Vliv vlhkosti" />
-        <text name="rhm_moisture_enable_long" text="Simuluje zvýšený odpor výmlatu a ztráty na separaci z vlhké slámy při rose, dešti či vlhkém zrnu. Vypněte pro sklizeň bez povětrnostních postihů." />
-        <text name="rhm_ui_title_main" text="Kalibrace Kombajnu" />
-        <text name="rhm_ui_page_settings" text="Nastavení" />
-        <text name="rhm_ui_page_profiles" text="Profily" />
-        <text name="rhm_ui_current_crop" text="Aktuální Plodina" />
-        <text name="rhm_ui_load" text="Zatížení Motoru" />
-        <text name="rhm_ui_loss" text="Ztráta" />
-        <text name="rhm_ui_fan_speed" text="Otáčky Ventilátoru" />
-        <text name="rhm_ui_rotor_speed" text="Otáčky Rotoru" />
-        <text name="rhm_ui_upper_sieve" text="Horní Síto" />
-        <text name="rhm_ui_lower_sieve" text="Spodní Síto" />
-        <text name="rhm_ui_feeder_speed" text="Mezera mláticího koše" />
-        <text name="rhm_ui_mode_auto" text="AUTO" />
-        <text name="rhm_ui_mode_manual" text="MANUÁLNÍ" />
-        <text name="rhm_ui_btn_reset" text="VÝCHOZÍ" />
-        <text name="rhm_ui_profile_create" text="NOVÝ PROFIL" />
-        <text name="rhm_ui_profile_save" text="ULOŽIT" />
-        <text name="rhm_ui_profile_load" text="NAČÍST" />
-        <text name="rhm_ui_profile_delete" text="SMAZAT" />
-        <text name="rhm_ui_profile_name_placeholder" text="Název profilu..." />
-        <text name="rhm_hud_yield_label" text="VÝNOS" />
-        <text name="rhm_hud_load_label" text="ZAT" />
-        <text name="rhm_hud_loss_label" text="ZTR" />
-        <text name="rhm_loss_level_low" text="NÍZKÁ" />
-        <text name="rhm_loss_level_med" text="STŘED" />
-        <text name="rhm_loss_level_high" text="VYS" />
-        <text name="rhm_show_croploss_long" text="Zobrazit procento ztráty v HUD" />
-        <text name="rhm_show_load_warn_short" text="Zobrazit varování o zatížení" />
-        <text name="rhm_show_load_warn_long"><![CDATA[
-            Zobrazit blikající varování při přetížení (Vysoké/Kritické)
-        ]]></text>
-        <text name="rhm_overload_sounds_short" text="Zvuky přetížení a namáhání" />
-        <text name="rhm_overload_sounds_long"><![CDATA[Přehrávat realistický alarm v kabině a zvuky namáhání mlátičky při přetížení kombajnu nebo ztrátách zrna.]]></text>
-        <text name="rhm_section_audio" text="Realistic Harvesting - Zvuk v kabině" />
-        <text name="rhm_alarm_sounds_short" text="Bzučák přetížení" />
-        <text name="rhm_alarm_sounds_long" text="Režim zvukového bzučáku v kabině při silném přetížení (105%+) nebo vysokých ztrátách (&gt;5%)." />
-        <text name="rhm_alarm_mode_smart" text="Chytrý (3 pípnutí)" />
-        <text name="rhm_alarm_mode_continuous" text="Nepřetržitý" />
-        <text name="rhm_alarm_mode_off" text="Vypnuto" />
-        <text name="rhm_sound_volume_short" text="Hlasitost zvuku" />
-        <text name="rhm_sound_volume_long" text="Nastavuje hlasitost bzučáku alarmu přetížení v kabině." />
-        <text name="rhm_target_load" text="Cílové zatížení" />
-        <text name="rhm_gui_title" text="Nastavení Kombajnu" />
-        <text name="rhm_gui_crop" text="Plodina:" />
-        <text name="rhm_gui_none" text="ŽÁDNÁ" />
-        <text name="rhm_gui_btn_auto" text="AUTO" />
-        <text name="rhm_gui_btn_load_preset" text="Načíst profil" />
-        <text name="rhm_gui_btn_save" text="Uložit profil" />
-        <text name="rhm_gui_btn_reset" text="Obnovit" />
-        <text name="rhm_gui_engine_load" text="Zatížení motoru: %.0f%%" />
-        <text name="rhm_gui_loss" text="Ztráta: %.1f%%" />
-        <text name="rhm_gui_preview_loss" text="Odhad ztráty: %.1f%%" />
-        <text name="rhm_gui_close_hint" text="RShift+K pro zavření" />
-        <text name="rhm_gui_no_combine" text="Žádný kombajn" />
-        <text name="rhm_gui_not_init" text="Kombajn neinicializován" />
-        <text name="rhm_ui_drum_speed" text="Rychlost bubnu" />
-        <text name="rhm_ui_roller_speed" text="Rychlost válce" />
-        <text name="rhm_ui_picker_speed" text="Rychlost sběrače" />
-        <text name="rhm_ui_forage_fan" text="Urychlovač" />
-        <text name="rhm_ui_forage_drum" text="Řezací buben" />
-        <text name="rhm_ui_forage_feeder" text="Vkládací válce" />
-        <text name="rhm_ui_root_roller" text="Čisticí válce" />
-        <text name="rhm_ui_root_feeder" text="Prosévací pás" />
-        <text name="rhm_ui_grape_shaker" text="Rychlost vytřásadel" />
-        <text name="rhm_ui_olive_shaker" text="Rychlost mlátidel" />
-        <text name="rhm_ui_grape_conveyor" text="Rychlost dopravníku" />
-        <text name="rhm_ui_grape_fan" text="Čisticí ventilátory" />
-        <text name="rhm_units_short" text="Jednotky" />
-        <text name="rhm_units_long" text="Vyberte měrný systém (rychlost, hmotnost, plocha)" />
-        <text name="rhm_unit_metric" text="Metrický (km/h, t/h, ha)" />
-        <text name="rhm_unit_imperial" text="Imperiální (mph, ton/h, ac)" />
-        <text name="rhm_unit_bushels" text="Imperiální s bušly (mph, bu/h, ac)" />
-        <text name="rhm_reset" text="Resetovat nastavení RH" />
-        <text name="rhm_loss_low" text="NÍZKÉ" />
-        <text name="rhm_loss_med" text="STŘEDNÍ" />
-        <text name="rhm_loss_high" text="VYSOKÉ" />
-        <text name="rhm_warning_turn_on_combine" text="Nejprve zapněte kombajn!" />
-        <text name="rhm_warning_turn_on_cutter" text="Zapněte žací lištu!" />
-        <text name="rhm_warn_overload_high" text="Kombajn přetížen! Snižte rychlost." />
-        <text name="rhm_warn_overload_critical" text="KOMBAJN KRITICKY PŘETÍŽEN! Vážné ztráty sklizně!" />
-        <text name="rhm_configuration_title" text="Systémy Realistic Harvesting" />
-        <text name="rhm_package_standard" text="Tier 1: Zakladni mechanika" />
-        <text name="rhm_package_sensor" text="Tier 2: Balicek senzoru" />
-        <text name="rhm_package_yield" text="Tier 3: Telemetrie a monitorovani" />
-        <text name="rhm_package_opti" text="Tier 4: Autopilot AI Opti-Harvest" />
-        <text name="rhm_msg_req_level_4" text="Vyžaduje balíček Opti-Harvest AI (Úroveň 4)." />
-        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI: Sklidte několik metrů pro spuštění autokalibrace!" />
-        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI: Úspěšně zkalibrováno pro %s!" />
+        <text name="rhm_section_simulation" text="Realistic Harvesting - 物理模拟" />
+        <text name="rhm_section_visuals" text="Realistic Harvesting - HUD 与仪表" />
+        <text name="input_RHM_OPEN_MENU" text="联合收割机设置菜单" />
+        <text name="input_RHM_TOGGLE_HUD" text="切换收割 HUD 显示" />
+        <text name="input_RHM_TOGGLE_MOUSE_CURSOR" text="切换鼠标光标" />
+        <text name="input_RHM_CLOSE_NOTIFICATION" text="关闭通知" />
+        <text name="rhm_hud_load" text="负载" />
+        <text name="rhm_hud_loss" text="损失" />
+        <text name="rhm_hud_moist" text="湿度" />
+        <text name="rhm_ai_settings_retained" text="已保留手动设置" />
+        <text name="rhm_ai_auto_tuned" text="已自动校准" />
+        <text name="rhm_difficulty" text="难度" />
+        <text name="rhm_difficulty_motor" text="引擎功率限制" />
+        <text name="rhm_difficulty_motor_short" text="引擎限制" />
+        <text name="rhm_difficulty_motor_long" text="决定引擎负载物理。街机 = 禁用（无重载减速），普通 = +35% 功率余量，真实 = 100% 真实物理模拟。" />
+        <text name="rhm_difficulty_loss" text="作物损失惩罚" />
+        <text name="rhm_difficulty_loss_short" text="损失惩罚" />
+        <text name="rhm_difficulty_loss_long" text="决定作物损失率。街机 = 0%（无损失），普通 = 标准损失，真实 = 增加损失（200%）。" />
+        <text name="rhm_diff_1" text="街机" />
+        <text name="rhm_difficulty_long" text="街机：无重载或作物损失。普通：平衡物理（+35%）。真实：纯粹模拟（0%）。" />
+        <text name="rhm_diff_2" text="普通" />
+        <text name="rhm_diff_3" text="真实" />
+        <text name="rhm_show_yield" text="显示产量监控" />
+        <text name="rhm_show_yield_short" text="显示产量" />
+        <text name="rhm_show_yield_long" text="在 HUD 中实时显示产量（t/ha 或 bu/ac）" />
+        <text name="rhm_yield_label" text="产量" />
+        <text name="rhm_hud_short" text="显示 HUD" />
+        <text name="rhm_hud_long" text="在屏幕上显示收割遥测信息" />
+        <text name="rhm_speedlimit_short" text="速度限制器" />
+        <text name="rhm_speedlimit_long" text="根据引擎负载自动限制收割机作业速度" />
+        <text name="rhm_croploss_short" text="激活作物损失" />
+        <text name="rhm_croploss_long" text="超载时计算作物收获损失" />
+        <text name="rhm_show_speed_short" text="显示速度" />
+        <text name="rhm_show_speed_long" text="在 HUD 中显示当前速度与推荐速度" />
+        <text name="rhm_show_load_short" text="显示引擎负载" />
+        <text name="rhm_show_load_long" text="在 HUD 中显示引擎负载百分比" />
+        <text name="rhm_show_productivity_short" text="显示作业效率" />
+        <text name="rhm_show_productivity_long" text="在 HUD 中显示吞吐量（t/h）" />
+        <text name="rhm_show_croploss_short" text="显示损失" />
+        <text name="rhm_show_moisture_short" text="显示湿度" />
+        <text name="rhm_show_moisture_long" text="在 HUD 中显示作物含水率百分比" />
+        <text name="rhm_moisture_enable_short" text="水分影响" />
+        <text name="rhm_moisture_enable_long" text="模拟在有露水、降雨或高水分作物收割时增加的脱粒阻力及分离损失。关闭以在无天气惩罚下进行收割。" />
+        <text name="rhm_ui_title_main" text="联合收割机校准终端" />
+        <text name="rhm_ui_page_settings" text="设置" />
+        <text name="rhm_ui_page_profiles" text="配置存盘" />
+        <text name="rhm_ui_current_crop" text="当前作物:" />
+        <text name="rhm_ui_load" text="引擎负载:" />
+        <text name="rhm_ui_loss" text="作物损失:" />
+        <text name="rhm_ui_fan_speed" text="风机转速" />
+        <text name="rhm_ui_rotor_speed" text="转子转速" />
+        <text name="rhm_ui_upper_sieve" text="上筛（鱼鳞筛）开度" />
+        <text name="rhm_ui_lower_sieve" text="下筛开度" />
+        <text name="rhm_ui_feeder_speed" text="凹板间隙" />
+        <text name="rhm_ui_mode_auto" text="自动" />
+        <text name="rhm_ui_mode_manual" text="手动" />
+        <text name="rhm_ui_btn_reset" text="恢复预设" />
+        <text name="rhm_ui_profile_create" text="新建配置" />
+        <text name="rhm_ui_profile_save" text="保存" />
+        <text name="rhm_ui_profile_load" text="加载" />
+        <text name="rhm_ui_profile_delete" text="删除" />
+        <text name="rhm_ui_profile_name_placeholder" text="输入配置名称..." />
+        <text name="rhm_hud_yield_label" text="产量" />
+        <text name="rhm_hud_load_label" text="负载" />
+        <text name="rhm_hud_loss_label" text="损失" />
+        <text name="rhm_loss_level_low" text="低" />
+        <text name="rhm_loss_level_med" text="中" />
+        <text name="rhm_loss_level_high" text="高" />
+        <text name="rhm_show_croploss_long" text="在 HUD 中显示作物损失百分比" />
+        <text name="rhm_show_load_warn_short" text="超载警告" />
+        <text name="rhm_show_load_warn_long" text="当收割机超载时显示闪烁警告" />
+        <text name="rhm_overload_sounds_short" text="超载警报音效" />
+        <text name="rhm_overload_sounds_long" text="当收割机严重超载或损失超标时播放驾驶舱警报及机械受力音效" />
+        <text name="rhm_section_audio" text="Realistic Harvesting - 驾驶舱音效" />
+        <text name="rhm_alarm_sounds_short" text="超载警报蜂鸣器" />
+        <text name="rhm_alarm_sounds_long" text="当引擎负载达到严重超载（105%+）或作物损失超过 5% 时的驾驶室蜂鸣器警报。" />
+        <text name="rhm_alarm_mode_smart" text="智能（3次鸣叫）" />
+        <text name="rhm_alarm_mode_continuous" text="持续鸣叫" />
+        <text name="rhm_alarm_mode_off" text="关闭" />
+        <text name="rhm_sound_volume_short" text="警报音量" />
+        <text name="rhm_sound_volume_long" text="调整驾驶室超载蜂鸣警报器的音量大小。" />
+        <text name="rhm_target_load" text="目标引擎负载" />
+        <text name="rhm_gui_title" text="收割机设置" />
+        <text name="rhm_gui_crop" text="作物:" />
+        <text name="rhm_gui_none" text="无" />
+        <text name="rhm_gui_btn_auto" text="自动" />
+        <text name="rhm_gui_btn_load_preset" text="加载预设" />
+        <text name="rhm_gui_btn_save" text="保存配置" />
+        <text name="rhm_gui_btn_reset" text="重设为预设" />
+        <text name="rhm_gui_engine_load" text="引擎负载: %.0f%%" />
+        <text name="rhm_gui_loss" text="损失率: %.1f%%" />
+        <text name="rhm_gui_preview_loss" text="预览损失: %.1f%%" />
+        <text name="rhm_gui_close_hint" text="右Shift+K 关闭" />
+        <text name="rhm_gui_no_combine" text="未选择收割机" />
+        <text name="rhm_gui_not_init" text="收割机未初始化" />
+        <text name="rhm_ui_drum_speed" text="滚筒转速" />
+        <text name="rhm_ui_roller_speed" text="压辊速度" />
+        <text name="rhm_ui_picker_speed" text="摘穗速度" />
+        <text name="rhm_ui_forage_fan" text="抛料风机速度" />
+        <text name="rhm_ui_forage_drum" text="切碎滚筒" />
+        <text name="rhm_ui_forage_feeder" text="喂入辊" />
+        <text name="rhm_ui_root_roller" text="清选辊" />
+        <text name="rhm_ui_root_feeder" text="升运链耙" />
+        <text name="rhm_ui_grape_shaker" text="振摇频率" />
+        <text name="rhm_ui_olive_shaker" text="击打速度" />
+        <text name="rhm_ui_grape_conveyor" text="输送带速度" />
+        <text name="rhm_ui_grape_fan" text="排杂风扇" />
+        <text name="rhm_units_short" text="计量单位" />
+        <text name="rhm_units_long" text="选择计量单位系统（速度、质量、面积）" />
+        <text name="rhm_unit_metric" text="公制 (km/h, t/h, ha)" />
+        <text name="rhm_unit_imperial" text="英制 (mph, ton/h, ac)" />
+        <text name="rhm_unit_bushels" text="英制蒲式耳 (mph, bu/h, ac)" />
+        <text name="rhm_reset" text="重设 RH 设置" />
+        <text name="rhm_loss_low" text="低" />
+        <text name="rhm_loss_med" text="中" />
+        <text name="rhm_loss_high" text="高" />
+        <text name="rhm_warning_turn_on_combine" text="请先启动收割机引擎！" />
+        <text name="rhm_warning_turn_on_cutter" text="请先打开割台运转！" />
+        <text name="rhm_warn_overload_high" text="收割机超载！请降低车速以减少作物损失。" />
+        <text name="rhm_warn_overload_critical" text="收割机严重重载！正在发生严重作物损失！" />
+        <text name="rhm_configuration_title" text="Realistic Harvesting 系统" />
+        <text name="rhm_package_standard" text="第 1 级: 标准机械版" />
+        <text name="rhm_package_sensor" text="第 2 级: 传感器套件" />
+        <text name="rhm_package_yield" text="第 3 级：遥测与产量监控" />
+        <text name="rhm_package_opti" text="第 4 级：Opti-Harvest AI 自动巡航" />
+        <text name="rhm_msg_req_level_4" text="需要在农机维修车间改装配备 Opti-Harvest AI（第 4 级）套件。" />
+        <text name="rhm_msg_auto_need_crop" text="Opti-Harvest AI：请向前收割几米作物以启动自动校准！" />
+        <text name="rhm_msg_auto_calibrated" text="Opti-Harvest AI：已成功完成 %s 的自动校准！" />
         <!-- ================================================================= -->
         <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-9)                       -->
         <!-- ================================================================= -->
@@ -140,418 +136,418 @@
         <!-- REALISTIC HARVESTING HELP PAGES (PAGES 1-10)                      -->
         <!-- ================================================================= -->
         <text name="rhm_help_category" text="Realistic Harvesting" />
-        <text name="rhm_help_title" text="Průvodce Realistic Harvesting" />
+        <text name="rhm_help_title" text="Realistic Harvesting 指南" />
 
         <!-- PAGE 1: ENGINE LOAD PHYSICS & SPEED -->
-        <text name="rhm_help_overview_title" text="1. Fyzika zatížení motoru a rychlost" />
-        <text name="rhm_help_overview_sub1" text="Rovnováha výkonu: mechanický odpor a výmlat hmoty" />
-        <text name="rhm_help_overview_1" text="Realistic Harvesting zcela nahrazuje arkádovou fixní rychlost sklizně fyzikálním modelem rovnováhy výkonu motoru podle norem ASABE a DLG. V základní hře jede kombajn vždy maximální konstrukční rychlostí žací lišty bez ohledu na hustotu porostu. V tomto módu je veškerý užitečný výkon motoru průběžně rozdělován mezi čtyři reálné složky: základní pasivní odpor pojezdu a hydrostatu (8 % jmenovitého výkonu pro obilní kombajny, 10 % pro těžké sklízeče okopanin), mechanický pohon žací lišty a přiháněče, energetickou náročnost tření a protahování rostlinné hmoty mláticím bubnem či rotorem a přídavný odpor způsobený vlhkostí či zaplevelením. Procento zatížení motoru na displeji ukazuje přesný podíl dostupných koňských sil využívaných v dané sekundě." />
-        <text name="rhm_help_overview_sub2" text="Automatická regulace rychlosti a ochrana před ucpáním" />
-        <text name="rhm_help_overview_2" text="Již nemusíte neustále odhadovat a ručně ladit rychlost na tempomatu. Spusťte žací lištu, zapněte mlácení a vjeďte do porostu: kombajn zahájí sklizeň bezpečnou nájezdovou rychlostí 5,5 km/h, aby rostlinná hmota plynule a rovnoměrně zaplnila šikmý dopravník bez rázového zatížení mláticího bubnu. Následně inteligentní hydrostatický regulátor samočinně přizpůsobuje pracovní rychlost zatížení motoru tak, aby stroj udržoval v optimálním pracovním rozsahu (cca 80–90 %). Pokud kombajn vjede do hustšího porostu nebo začne stoupat do svahu, automatika stroj plynule zpomalí (reakční doba 0,45 s), čímž zamezí zhasnutí motoru a zahlcení bubnu. V řidších porostech naopak citlivě zrychlí. Maximální rychlost je vždy spolehlivě omezena továrním limitem žací lišty." />
-        <text name="rhm_help_overview_sub3" text="Drtič slámy a zvýšení rychlosti při ukládání do řádku" />
-        <text name="rhm_help_overview_3" text="Zvolený režim zpracování slámy přímo určuje, kolik výkonu motoru zbývá pro samotný pojezd. Drtič slámy je těžký energeticky náročný rotor s noži, který pracuje při otáčkách přesahujících 3 000 ot/min. Drcení a rozmetání slámy spotřebuje 15 % až 20 % veškerého výkonu motoru (zejména u houževnatých plodin, jako je oves, ječmen či žito). Pokud se váš kombajn při vysokém zatížení pohybuje příliš pomalu, přepněte standardní herní klávesou na ukládání slámy do řádku. Pohon drtiče se odpojí, uvolní desítky koňských sil pro mláticí ústrojí a pracovní rychlost okamžitě vzroste o 1,5–3 km/h při zachování stejného zatížení motoru." />
+        <text name="rhm_help_overview_title" text="1. 发动机负载物理与作业速度" />
+        <text name="rhm_help_overview_sub1" text="动力平衡：整机阻力与作物脱粒负载" />
+        <text name="rhm_help_overview_1" text="Realistic Harvesting 完全摒弃了街机般的固定收割速度，引入基于 ASABE 与 DLG 国际标准的真实发动机功率平衡物理模型。在原版游戏中，无论作物密度如何，收割机始终以割台的最大设计速度行驶。而在本模块中，发动机的所有有效输出马力将持续分配给四项真实的物理任务：底盘传动与静液压行走的基础阻力（谷物收割机占额定功率的 8%，重型块根收割机占 10%）、割刀总成与拨禾轮的机械驱动阻力、植株生物量通过脱粒滚筒或转子时的摩擦撕碎阻力，以及作物湿度与杂草引起的额外摩擦阻力。显示幕上的发动机负载百分比精确反映了当前秒数所调用的可用马力比例。" />
+        <text name="rhm_help_overview_sub2" text="自动速度控制与滚筒堵塞防护机制" />
+        <text name="rhm_help_overview_2" text="您不再需要凭感觉反复手动调节定速巡航速度。降下割台、启动脱粒机构并驶入田块：收割机将以 5.5 km/h 的安全进道速度开始收割，使植株生物量均匀平稳地填满倾斜输送槽，避免对脱粒滚筒造成突发冲击。随后，智能静液压控制器会根据发动机负载自适应调节前进速度，将机器始终维持在最高效的作业区间（约 80–90%）。若收割机进入茂密作物区域或爬陡坡，自动化系统将平稳减速（反应时间 0.45 秒），防止发动机熄火及滚筒堵塞；在稀疏区域则会平稳加速。最高收割速度始终严格受割台出厂极限限制。" />
+        <text name="rhm_help_overview_sub3" text="碎草机功耗与铺条作业时的车速提升" />
+        <text name="rhm_help_overview_3" text="秸秆处理模式的选择直接决定了剩余可用于车轮驱动的马力储备。碎草机是一个转速超过 3,000 rpm 的重型动刀转子。切碎并抛撒秸秆需消耗整机总功率的 15% 至 20%（尤其在燕麦、大麦或黑麦等高纤维作物上）。若收割机因负载过高而前进过于缓慢，只需使用游戏预设按键切换为秸秆铺条模式。碎草机转子离合器将即刻脱开，为脱粒部释放数十匹马力，作业速度在维持相同发动机负载的情况下可立即提升 1.5–3 km/h。" />
 
         <!-- PAGE 2: INTERACTIVE HUD & TELEMETRY -->
-        <text name="rhm_help_hud_title" text="2. Interaktivní HUD a ovládání" />
-        <text name="rhm_help_hud_sub1" text="Panel telemetrie: vysvětlení 4 informačních buněk" />
-        <text name="rhm_help_hud_1" text="Po usednutí do kabiny se ve spodní části obrazovky zobrazí kompaktní informační panel z kouřového zaobleného skla. Nabízí čtyři klíčové provozní hodnoty: Buňka 1 udává zatížení motoru v procentech s dynamickým barevným podbarvením (zelená do 85 % značí lehký provoz; žlutá od 85 % do 95 % označuje ideální produktivní pásmo; červená nad 95 % varuje před přetížením). Buňka 2 zobrazuje aktuální procento ztrát zrna nebo doporučenou pojezdovou rychlost. Buňka 3 ukazuje okamžitou vlhkost porostu v procentech nebo plošný výkon v hektarech za hodinu. Buňka 4 informuje o okamžitém hektarovém výnosu sklízené parcely (t/ha nebo bu/ac) či celkové průchodnosti kombajnu (t/h nebo l/h)." />
-        <text name="rhm_help_hud_sub2" text="Přesouvání myší (LMB), magnetické ukotvení a přepínání režimů" />
-        <text name="rhm_help_hud_2" text="Panel HUD můžete volně umístit kamkoli na obrazovce. Podržte levé tlačítko myši (LMB) na ploše HUD a přetáhněte jej na vhodné místo, kde nepřekáží ve výhledu z kabiny. U okrajů obrazovky nebo spodní hrany nápovědy F1 zafunguje magnetické přichycení, které panel automaticky zarovná a ukotví. Panel je navíc plně interaktivní: jednoduché kliknutí levým tlačítkem myši na buňku 2, 3 nebo 4 okamžitě přepne sekundární zobrazení údajů (např. přepnutí z tun za hodinu na hektary za hodinu nebo z procenta ztrát na cílovou rychlost pojezdu)." />
-        <text name="rhm_help_hud_sub3" text="Dostupnost senzorů a pomlčky (--%) u starších strojů" />
-        <text name="rhm_help_hud_3" text="Pokud usednete do základního nebo staršího kombajnu a na místě ztrát či vlhkosti vidíte pomlčky (--%), jedná se o zamýšlené realistické chování, nikoli o chybu. Stroje základní úrovně (Tier 1) z výroby postrádají piezoelektrické snímače ztrát i optické vlhkoměry; obsluha se řídí sluchem podle zvuku motoru a čistotou zrna v zásobníku. Snímače ztrát na sítech se aktivují až po montáži elektronického balíčku Tier 2 v dílně a digitální vlhkoměr od úrovně Tier 3. Při zastavení při vykládání nebo otáčení na souvrati HUD dočasně zmrazí poslední naměřené hodnoty výnosu, aby nedocházelo k rušivému blikání nul." />
+        <text name="rhm_help_hud_title" text="2. 交互式 HUD 与操控" />
+        <text name="rhm_help_hud_sub1" text="遥测信息面板：4 个核心数据单元解析" />
+        <text name="rhm_help_hud_1" text="进入收割机驾驶舱后，屏幕底部会呈现一个现代感的圆角暗色玻璃遥测面板。该面板提供四项内核运行指针：单元 1 显示发动机负载百分比，配备动态颜色识别（85% 以下为轻松运行的绿色；85% 至 95% 为最高效的理想黄色区间；超过 95% 则为提示重载的红色）。单元 2 显示实时谷物损失百分比（%）或建议行驶速度。单元 3 显示作物目前含水率（%）或每小时作业面积（ha/h）。单元 4 显示当前作业地块的瞬时公顷产量（t/ha 或 bu/ac）或总脱粒输送量（t/h 或 l/h）。" />
+        <text name="rhm_help_hud_sub2" text="鼠标自由拖曳（LMB）、磁性吸附与模式切换" />
+        <text name="rhm_help_hud_2" text="您可以将 HUD 面板放置在屏幕上的任意理想位置。在 HUD 表面按住鼠标左键（LMB），将其拖曳至不遮挡驾驶视野的区域。当靠近屏幕边缘或 F1 帮助功能表底部时，磁性吸附功能会自动对齐并牢固锁定面板。此外，面板具备全交互性：在单元 2、3 或 4 上按一下鼠标左键，即可快速切换副指针显示（例如在吨/小时与公顷/小时之间切换，或在损失率与目标巡航速度之间切换）。" />
+        <text name="rhm_help_hud_sub3" text="传感器配备状况与老旧机器的横线显示（--%）" />
+        <text name="rhm_help_hud_3" text="若您驾驶基础型或老旧收割机，在损失率或湿度字段看到横线（--%）而非具体数值，这是真实的硬件模拟机制，并非程序错误。基础型收割机（Tier 1）出厂未配备压电式损失传感器及光学湿度计，驾驶员主要依靠听取发动机声浪及检查粮仓干净程度进行作业。清选筛损失传感器在维修厂安装 Tier 2 电子升级包后激活，数字式湿度传感器则在 Tier 3 及以上级别解锁。在停车卸粮或地头转弯时，HUD 会自动锁定最后稳定的产量读数，防止数值闪烁归零。" />
 
         <!-- PAGE 3: IN-CAB CALIBRATION TABLET (SHIFT+K) -->
-        <text name="rhm_help_calibration_title" text="3. Palubní kalibrační terminál (Shift+K)" />
-        <text name="rhm_help_calibration_main_sub" text="Nastavení na základních kombajnech (Tier 1): manuální seřízení" />
-        <text name="rhm_help_calibration_main_text" text="Stiskněte Pravý Shift + K v kabině pro vyvolání dotykového seřizovacího terminálu. Na základních strojích (Tier 1) chybí digitální paměť: tlačítka uložení profilu, načtení a autopilot jsou uzamčena visacími zámky a vodící barevné zóny jsou skryté. Jak stroj seřídit: tlačítko resetu ve spodní části vrátí všechny posuvníky na neutrálních 50 %. Dále posuvníky nastavte podle základních agronomických pravidel: u většiny obilnin (pšenice, ječmen) držte otáčky bubnu na 60–70 %, ventilátor čištění na 65–75 % a mezeru sít na 50–60 %. U velkozrnných plodin (kukuřice, slunečnice) otáčky bubnu bezpodmínečně snižte na 35–45 %, jinak mlatky bubnu způsobí mechanické poškození a drcení zrn." />
-        <text name="rhm_help_calibration_rotor_sub" text="Kalibrace na úrovni Tier 2–3: zelené zóny optima a ukládání profilů" />
-        <text name="rhm_help_calibration_rotor_text" text="Po vylepšení kombajnu na úroveň Tier 2 se na každé stupnici objeví jasně zelený pruh optima („sweet-spot“), propočítaný pro konkrétní plodinu v šikmém dopravníku. Postup prvního seřízení: skliďte několik metrů porostu, aby systém identifikoval plodinu, otevřete terminál (Shift+K) a nastavte každý posuvník pomocí tlačítek [-] a [+] do zelené zóny. Ihned poté stiskněte tlačítko „ULOŽIT“! Kombajn uloží hodnoty do profilu. Teprve po prvním uložení začne fungovat tlačítko „NAČÍST“: až se k této plodině vrátíte příště, jediné kliknutí na „NAČÍST“ okamžitě obnoví vaše přesné nastavení. Na úrovni Tier 3 terminál navíc zobrazuje živé karty zatížení, mechanické účinnosti a očekávaných ztrát." />
-        <text name="rhm_help_calibration_presets_sub" text="Automatická kalibrace jedním dotykem u strojů Tier 4" />
-        <text name="rhm_help_calibration_presets_text" text="Majitelé kombajnů s vrcholným elektronickým balíčkem Tier 4 (Opti-Harvest AI) nemusí ručně nastavovat posuvníky ani spravovat profily. V pravém horním rohu terminálu se odemkne tlačítko „AI AUTO-KALIBRACE“: jediné stisknutí okamžitě vyhodnotí vlhkost, hustotu porostu a během jedné sekundy nastaví optimální parametry mlácení přímo z tovární agronomické databáze. Aktivní autopilot navíc každé 2 sekundy za jízdy samočinně koriguje otáčky bubnu i ventilátoru, pokud kombajn narazí na zaplevelená místa či vlhké terénní sníženiny." />
+        <text name="rhm_help_calibration_title" text="3. 驾驶舱校准终端（Shift+K）" />
+        <text name="rhm_help_calibration_main_sub" text="基础型收割机（Tier 1）设置：纯手动机械调节" />
+        <text name="rhm_help_calibration_main_text" text="在驾驶舱内按下 Right Shift + K 即可打开触摸式校准终端。在基础型收割机（Tier 1）上未配备数字内存：保存配置、加载及自动驾驶按钮均处于挂锁锁定状态，滑杆上的推荐最佳区间也被隐藏。基础机型调节指南：底部重设按钮可将所有滑杆还原至中立的 50%。随后依据基本农艺法则调节：常规禾谷类（小麦、大麦）建议滚筒转速保持在 60–70%，清选风机保持在 65–75%，清选筛开度保持在 50–60%。对于大粒作物（玉米、向日葵），滚筒转速必须降至 35–45%，否则高速脱粒纹杆会直接击碎籽粒造成机械破损。" />
+        <text name="rhm_help_calibration_rotor_sub" text="Tier 2–3 级别校准：绿色最佳区间与预设配置保存" />
+        <text name="rhm_help_calibration_rotor_text" text="将收割机升级至 Tier 2 后，各滑杆上会显现专门针对输送槽内作物计算出的亮绿色最佳区间（«sweet-spot»）。首次设置流程：向前收割数米使系统识别作物品种，打开终端（Shift+K），使用 [-] 与 [+] 按钮将各滑杆调整至绿色光带内。调节完毕后立即点击「保存」按钮！机器会将设置写入配置文件。只有在完成首次保存后，「加载」按钮才会生效：日后再次收割此类作物时，点击「加载」即可一秒恢复最佳参数。升级至 Tier 3 后，终端还将额外实时显示发动机负载、机械效率及预期损失卡片。" />
+        <text name="rhm_help_calibration_presets_sub" text="Tier 4 顶级旗舰的一键式 AI 自动校准" />
+        <text name="rhm_help_calibration_presets_text" text="配备顶级 Tier 4（Opti-Harvest AI）电子升级包的收割机车主无需手动推拉滑杆或管理配置文件。终端右上角将解锁「AI 自动校准」按钮：轻触一下即可在 1 秒内实时分析作物湿度与群体密度，直接调用出厂农艺数据库应用最佳参数。此外，处于启动状态的自动驾驶在作业行驶期间每隔 2 秒便会根据多草或低洼潮湿地块自适应微调滚筒转速与清选风量。" />
 
         <!-- PAGE 4: FIELD ODOMETER & FLEET ANALYTICS (SHIFT+J) -->
                         <!-- PAGE 4: CROP CALIBRATION HANDBOOK (RPM & MM) -->
-        <text name="rhm_help_presets_title" text="4. Příručka nastavení plodin (RPM a mm)" />
-        <text name="rhm_help_presets_sub1" text="Univerzální nastavení: Proč jsou RPM a mm stejné pro všechny kombajny" />
-        <text name="rhm_help_presets_1" text="Na kalibračním terminálu v kabině (Pravý Shift + K) jsou všechny parametry zobrazeny v reálných fyzikálních jednotkách: otáčkách za minutu (RPM) a mezerách v milimetrech (mm). Základní agronomické pravidlo: výchozí optimální nastavení pro jakoukoli plodinu je TOTOŽNÉ pro všechny modely sklízecích mlátiček, bez ohledu na výkon motoru (od 300 do 800 koní) či šířku žací lišty! Biologické vlastnosti klasu pšenice či palice kukuřice se nemění: pšenice vždy vyžaduje obvodovou rychlost bubnu cca ~800 RPM a proud vzduchu cca ~960 RPM, jinak zůstane zrno nevymlácené nebo vyletí do plev. Výkon motoru a záběr lišty určují pouze pracovní pojezdovou rychlost (km/h) a průchodnost (t/h), které systém RHM reguluje automaticky k zamezení přetížení." />
-        <text name="rhm_help_presets_sub2" text="Obiloviny, kukuřice, olejniny a luskoviny" />
-        <text name="rhm_help_presets_2" text="U kombajnů základní třídy (Tier 1) bez podsvícení zelených zón optima použijte tyto tovární výchozí hodnoty:&#10;&#10;- Pšenice: Otáčky Rotoru 780–820 RPM | Mezera mláticího koše 5–7 mm | Otáčky Ventilátoru 940–980 RPM | Horní Síto 14–15 mm | Spodní Síto 6–8 mm.&#10;&#10;- Ječmen: Rotor 780–820 RPM | Koš 6–8 mm | Ventilátor 980–1020 RPM | Horní Síto 14–15 mm | Spodní Síto 7–9 mm (tuhé osiny vyžadují silnější proud vzduchu).&#10;&#10;- Oves: Rotor 680–720 RPM | Koš 5–7 mm | Ventilátor 730–770 RPM | Horní Síto 14–16 mm | Spodní Síto 6–8 mm (lehké pluchy; vítr &gt;850 RPM vyfukuje zrno).&#10;&#10;- Kukuřice na zrno: Rotor 310–350 RPM | Koš 28–32 mm | Ventilátor 930–970 RPM | Horní Síto 19–21 mm | Spodní Síto 11–13 mm (POZOR: minimální otáčky rotoru, aby se nedrtily palice!).&#10;&#10;- Slunečnice: Rotor 340–380 RPM | Koš 23–27 mm | Ventilátor 730–770 RPM | Horní Síto 17–19 mm | Spodní Síto 9–11 mm (šetrný výmlat chrání suché úbory).&#10;&#10;- Řepka: Rotor 480–520 RPM | Koš 16–19 mm | Ventilátor 680–720 RPM | Horní Síto 8–10 mm | Spodní Síto 3–5 mm (drobná semena; vítr &gt;750 RPM vyfukuje úrodu).&#10;&#10;- Sója: Rotor 540–580 RPM | Koš 17–19 mm | Ventilátor 960–1000 RPM | Horní Síto 15–17 mm | Spodní Síto 8–10 mm (mírné otáčky chrání klíček).&#10;&#10;- Hrách, Bob: Rotor 410–450 RPM | Koš 14–16 mm | Ventilátor 980–1020 RPM | Horní Síto 17–19 mm | Spodní Síto 8–10 mm.&#10;&#10;- Rýže a Dlouhozrnná rýže: Rotor 700–740 RPM | Mezera koše 6–8 mm | Ventilátor 1030–1070 RPM | Horní síto 15–17 mm | Dolní síto 6–8 mm (abrazivní vlhká sláma).&#10;&#10;- Čirok: Rotor 580–620 RPM | Mezera koše 17–19 mm | Ventilátor 1080–1120 RPM | Horní síto 14–16 mm | Dolní síto 7–8 mm (husté laty vyžadují silný proud vzduchu).&#10;&#10;- Travní semeno (Mák, Jetel): Rotor 780–820 RPM | Koš 4–6 mm | Ventilátor 430–470 RPM | Horní Síto 6–8 mm | Spodní Síto 2–4 mm (minimální průtok vzduchu!)." />
-        <text name="rhm_help_presets_sub3" text="Řezačky, sklízeče okopanin a speciální stroje" />
-        <text name="rhm_help_presets_3" text="U specializované techniky Shift+K otevírá příslušné pracovní agregáty:&#10;&#10;- Sklízecí řezačky: Ztráty zrna jsou nulové (0%). Kukuřičná siláž — Metač 1300–1350 RPM, Řezací buben 1150–1170 RPM, Vkládací válce 470–500 RPM. Sběr řádku (seno/sláma) — Metač 1150–1200 RPM, Buben 1070–1100 RPM, Válce 450–470 RPM. Přímá seč trav — Metač 1230–1270 RPM, Buben 1120–1140 RPM, Válce 410–430 RPM. Topol (štěpka) — Urychlovač 1350–1400 RPM, Řezací buben 1180–1200 RPM, Vkládací válce 380–400 RPM.&#10;&#10;- Vyorávače okopanin: Brambory — Turbína 600–620 RPM, Čisticí válce 190–210 RPM, Prosévací pás 300–320 RPM (chrání hlízy před otlučením). Cukrová a Červená řepa (Beetroot) — Turbína 630–650 RPM, Válce 230–250 RPM, Dopravník 290–310 RPM. Mrkev, Pastinák — Turbína 620–640 RPM, Válce 200–220 RPM, Pás 300–310 RPM. Cibule — Turbína 840–860 RPM, Válce 200–220 RPM, Pás 260–270 RPM.&#10;&#10;- Zeleninové sklízeče: Zelené fazolky (Green Beans) — Čisticí ventilátor 700–720 RPM, Odzrňovací rotor 170–190 RPM, Výtah 280–300 RPM. Špenát (Spinach) — Ventilátor 550–580 RPM, Žací buben 140–160 RPM, Výtah 270–290 RPM (šetrný sběr listů).&#10;&#10;- Bavlna: Dmychadlo 3600–3800 RPM, Vřetena 210–230 RPM, Válce 210–230 RPM.&#10;&#10;- Cukrová třtina (Sugar Cane): Primární odsavač 1150–1200 RPM, Řezací bubny 180–200 RPM, Výtahový dopravník 280–300 RPM.&#10;&#10;- Vinná réva: Setřásače 450–470 RPM, Dopravník 110–120 RPM, Odsávací ventilátory 1250–1300 RPM.&#10;&#10;- Olivy: Setřásače 540–560 RPM, Dopravník 105–115 RPM, Ventilátory 1300–1350 RPM." />
-        <text name="rhm_help_presets_sub4" text="Vlhkost plodin: Fyzikální vliv a korekce v reálném čase" />
-        <text name="rhm_help_presets_4" text="RHM podporuje externí mody na vlhkost a obsahuje vlastní denní meteorologický simulátor (ranní rosa 16–18%, suché odpolední okno 11–13.5%, déšť &gt;22%). Bezpečná mezní hodnota je 14.0% (řepka: 9.0%). Každé 1% vlhkosti nad limit přidává +2% odporu motoru a +0.35% nevyhnutelných ztrát vlivem ulpívání zrna na mokré slámě.&#10;&#10;Pravidlo korekce při vlhkosti nad 14%:&#10;&#10;1. Zvyšte otáčky rotoru o +50...80 RPM (např. pšenice 860 namísto 800 RPM) — usnadní protahování těžké vlhké hmoty.&#10;&#10;2. Zvyšte ventilátor o +30...50 RPM (990 namísto 950 RPM) — pro profouknutí těžkých vlhkých plev.&#10;&#10;3. Otevřete horní síto o +1...2 mm více.&#10;&#10;Na strojích Tier 2–3 se zelená zóna posune automaticky výše; na Tier 4 autopilot Opti-Harvest AI koriguje hodnoty průběžně." />
-        <text name="rhm_help_presets_sub5" text="Modové plodiny a vlastní mapy: Integrované profily a autodetekce" />
-        <text name="rhm_help_presets_5" text="1. Modové plodiny integrované v databázi RHM:&#10;&#10;- Žito, Tritikale, Špalda: seřiďte jako pšenici (Rotor 780–820 RPM, Koš 5–7 mm, Ventilátor 940–980 RPM, Síta 14/7 mm).&#10;&#10;- Pohanka: Rotor 530–570 RPM, Koš 12–14 mm, Ventilátor 730–770 RPM, Síta 12/6 mm.&#10;&#10;- Proso: Rotor 780–820 RPM, Koš 5–7 mm, Ventilátor 850–890 RPM, Síta 14/7 mm.&#10;&#10;- Len, Hořčice: Rotor 830–870 RPM, Koš 14–16 mm, Ventilátor 780–820 RPM, Síta 9/4 mm.&#10;&#10;- Mák: Rotor 430–470 RPM, Koš 12–14 mm, Ventilátor 430–470 RPM, Síta 7/3 mm (mikrosemena!).&#10;&#10;- Konopí: Rotor 630–670 RPM, Koš 12–14 mm, Ventilátor 830–870 RPM, Síta 14/7 mm.&#10;&#10;- Světlice: jako slunečnice (Rotor 340–380 RPM, Ventilátor 730–770 RPM, Síta 18/10 mm).&#10;&#10;- Jetel / Travní semeno: Rotor 780–820 RPM, Koš 4–6 mm, Ventilátor 430–470 RPM, Síta 7/3 mm.&#10;&#10;- Vojtěška (senáž): Řezačka — Metač ~1250, Buben ~1130, Válce ~420 RPM.&#10;&#10;2. Autodetekce neznámých plodin: RHM čte objemovou hmotnost zrna a přítomnost slámy z mapy. Pravidlo 4 skupin (Tier 1): obilniny se slámou = jako pšenice; drobnosemenné olejniny = jako řepka; luskoviny = jako hrách/sója; traviny = minimální vzduch. Na Tier 2–4 se zelené optimum počítá automaticky." />
+        <text name="rhm_help_presets_title" text="4. 作物校准手册（RPM 与 mm）" />
+        <text name="rhm_help_presets_sub1" text="通用设置：为什么转速（RPM）与间隙（mm）对所有联合收割机完全通用" />
+        <text name="rhm_help_presets_1" text="在驾驶室校准平板（右 Shift + K）上，所有参数均以真实物理单位显示：每分钟转速（RPM）与间隙距离（mm）。基础农艺法则：任何作物的基础最佳设置对所有联合收割机型号均完全相同，无论发动机马力大小（300 马力至 800 马力）或割台割幅！小麦麦穗或玉米果穗的生物学特性不会改变：小麦始终需要约 ~800 RPM 的滚筒线速度与约 ~960 RPM 的清选风量，否则籽粒无法脱净或将随颖壳吹失。发动机马力与割台割幅仅决定作业行驶速度（km/h）与吞吐量（t/h），RHM 系统会自动调节速度以防止发动机超载或滚筒堵塞。" />
+        <text name="rhm_help_presets_sub2" text="谷物、玉米、油料及豆类作物" />
+        <text name="rhm_help_presets_2" text="对于没有绿色目标区域指示的入门级收割机（Tier 1），请使用以下原厂基准数值：&#10;&#10;- 小麦：转子转速 780–820 RPM | 凹板间隙 5–7 mm | 风机转速 940–980 RPM | 上筛（鱼鳞筛）开度 14–15 mm | 下筛开度 6–8 mm。&#10;&#10;- 大麦：转子 780–820 RPM | 凹板 6–8 mm | 风机 980–1020 RPM | 上筛 14–15 mm | 下筛 7–9 mm（坚硬麦芒需要强劲风量）。&#10;&#10;- 燕麦：转子 680–720 RPM | 凹板 5–7 mm | 风机 730–770 RPM | 上筛 14–16 mm | 下筛 6–8 mm（颖壳轻薄；风机 &gt;850 RPM 会吹跑籽粒）。&#10;&#10;- 籽粒玉米：转子 310–350 RPM | 凹板 28–32 mm | 风机 930–970 RPM | 上筛 19–21 mm | 下筛 11–13 mm（注意：采用最低转速以防击碎玉米芯！）。&#10;&#10;- 向日葵：转子 340–380 RPM | 凹板 23–27 mm | 风机 730–770 RPM | 上筛 17–19 mm | 下筛 9–11 mm（柔和脱粒保护干脆花盘）。&#10;&#10;- 油菜（Canola）：转子 480–520 RPM | 凹板 16–19 mm | 风机 680–720 RPM | 上筛 8–10 mm | 下筛 3–5 mm（籽粒细小；风机 &gt;750 RPM 造成严重损失）。&#10;&#10;- 大豆：转子 540–580 RPM | 凹板 17–19 mm | 风机 960–1000 RPM | 上筛 15–17 mm | 下筛 8–10 mm（中等转速保护脆弱胚芽）。&#10;&#10;- 豌豆、蚕豆：转子 410–450 RPM | 凹板 14–16 mm | 风机 980–1020 RPM | 上筛 17–19 mm | 下筛 8–10 mm。&#10;&#10;- 水稻与长粒米: 转子 700–740 RPM | 凹板间隙 6–8 mm | 风扇 1030–1070 RPM | 上筛 15–17 mm | 下筛 6–8 mm (潮湿秸秆耐磨处理).&#10;&#10;- 高粱 (Sorghum): 转子 580–620 RPM | 凹板间隙 17–19 mm | 风扇 1080–1120 RPM | 上筛 14–16 mm | 下筛 7–8 mm (密实穗部需要强劲气流排除碎屑).&#10;&#10;- 草籽（罂粟、三叶草）：转子 780–820 RPM | 凹板 4–6 mm | 风机 430–470 RPM | 上筛 6–8 mm | 下筛 2–4 mm（最小风量！）。" />
+        <text name="rhm_help_presets_sub3" text="青贮饲料机、块根块茎收获机与特种机械" />
+        <text name="rhm_help_presets_3" text="对于特种机械，Shift+K 会激活专属作业部件的调控：&#10;&#10;- 青贮饲料收获机：籽粒损失始终为零（0%）。青贮玉米 — 抛料风机 1300–1350 RPM，切碎滚筒 1150–1170 RPM，喂入辊 470–500 RPM。捡拾草条（干草/秸秆） — 风机 1150–1200 RPM，切碎滚筒 1070–1100 RPM，喂入辊 450–470 RPM。直割牧草 — 风机 1230–1270 RPM，切碎滚筒 1120–1140 RPM，喂入辊 410–430 RPM。 杨树 (木屑) — 鼓风机 1350–1400 RPM, 切碎鼓 1180–1200 RPM, 进料辊 380–400 RPM.&#10;&#10;- 块根收获机：马铃薯 — 涡轮 600–620 RPM，清选辊 190–210 RPM，筛选输送带 300–320 RPM（防止块茎碰伤）。 甜菜与红菜头 (Beetroot) — 鼓风机 630–650 RPM, 清洁辊 230–250 RPM, 升运带 290–310 RPM.胡萝卜 — 涡轮 620–640 RPM，清选辊 200–220 RPM，输送带 300–310 RPM。洋葱 — 涡轮 840–860 RPM，清选辊 200–220 RPM，输送带 260–270 RPM。&#10;&#10;- 蔬菜收割机: 四季豆 (Green Beans) — 清理风扇 700–720 RPM, 脱粒鼓 170–190 RPM, 升运机 280–300 RPM. 菠菜 (Spinach) — 风扇 550–580 RPM, 切割滚筒 140–160 RPM, 升运机 270–290 RPM (轻柔收割嫩叶).&#10;&#10;- 棉花收获机：风机 3600–3800 RPM，采摘锭子 210–230 RPM，喂入滚筒 210–230 RPM。&#10;&#10;- 甘蔗 (Sugar Cane): 主抽风风扇 1150–1200 RPM, 切段鼓 180–200 RPM, 升运输送带 280–300 RPM.&#10;&#10;- 葡萄：振动摇杆 450–470 RPM，输送带 110–120 RPM，排杂风机 1250–1300 RPM。&#10;&#10;- 橄榄：打击杆 540–560 RPM，输送带 105–115 RPM，排杂风机 1300–1350 RPM。" />
+        <text name="rhm_help_presets_sub4" text="作物湿度：物理影响与实时校准补偿" />
+        <text name="rhm_help_presets_4" text="RHM 支持外部湿度模块，并内置完整的日夜天气模拟系统（清晨露水 16–18%，干燥下午黄金窗口 11–13.5%，降雨 &gt;22%）。安全湿度阈值为 14.0%（油菜为 9.0%）。每超出阈值 1% 湿度，增加 +2% 发动机拖曳阻力，并因湿秸秆黏附籽粒产生 +0.35% 不可避免的夹带损失。&#10;&#10;湿度高于 14% 时的校准规则：&#10;&#10;1. 将转子转速提高 +50...80 RPM（例如小麦提升至 860 而非 800 RPM）— 增强强行拉动湿秸秆的能力。&#10;&#10;2. 将风机转速提高 +30...50 RPM（990 而非 950 RPM）— 吹动沉重潮湿的碎颖。&#10;&#10;3. 将上筛开度再开大 +1...2 mm。&#10;&#10;在 Tier 2–3 收割机上，绿色目标区域会自动向上漂移；在 Tier 4 上，AI 自驾仪会在作业中实时微调。" />
+        <text name="rhm_help_presets_sub5" text="模块作物与自定义地图：预设库与自动探测" />
+        <text name="rhm_help_presets_5" text="1. RHM 数据库内置模块作物：&#10;&#10;- 黑麦、小黑麦、斯佩尔特小麦：按小麦设置（转子 780–820 RPM，凹板 5–7 mm，风机 940–980 RPM，筛子 14/7 mm）。&#10;&#10;- 荞麦：转子 530–570 RPM，凹板 12–14 mm，风机 730–770 RPM，筛子 12/6 mm。&#10;&#10;- 谷子（小米）：转子 780–820 RPM，凹板 5–7 mm，风机 850–890 RPM，筛子 14/7 mm。&#10;&#10;- 亚麻、芥菜：转子 830–870 RPM，凹板 14–16 mm，风机 780–820 RPM，筛子 9/4 mm。&#10;&#10;- 罂粟：转子 430–470 RPM，凹板 12–14 mm，风机 430–470 RPM，筛子 7/3 mm（微型种子！）。&#10;&#10;- 大麻：转子 630–670 RPM，凹板 12–14 mm，风机 830–870 RPM，筛子 14/7 mm。&#10;&#10;- 红花：按向日葵设置（转子 340–380 RPM，风机 730–770 RPM，筛子 18/10 mm）。&#10;&#10;- 三叶草种子：转子 780–820 RPM，凹板 4–6 mm，风机 430–470 RPM，筛子 7/3 mm。&#10;&#10;- 苜蓿（青贮）：青贮机 — 风机 ~1250，切碎滚筒 ~1130，喂入辊 ~420 RPM。&#10;&#10;2. 未知作物自动探测引擎：RHM 直接读取地图数据中的容重与秸秆条。4 大科别法则（Tier 1）：带秸秆谷物 = 按小麦；细粒油料 = 按油菜；大粒豆类 = 按豌豆；微粒草籽 = 最小风量。在 Tier 2–4 上，绿色最佳值会全自动计算呈现。" />
 
-        <text name="rhm_help_trip_title" text="5. Počítadlo pole a analýza flotily (Shift+J)" />
-        <text name="rhm_help_trip_sub1" text="Palubní deník aktuálního pole: přesná evidence sklizně" />
-        <text name="rhm_help_trip_1" text="Stiskněte Pravý Shift + J v kabině pro otevření přehledového centra se čtyřmi záložkami. První záložka představuje digitální počítadlo aktuálního pole, které vede přesnou evidenci práce: sčítá posekanou výměru v hektarech, počítá hmotnost sklizeného zrna v tunách a litrech, měří čistý pracovní čas kombajnu (bez prostojů při vykládání a otáčení na souvratích) a stanovuje průměrný výnos pole i reálnou výkonnost v tunách a hektarech za hodinu. Díky tomu máte k dispozici přesná čísla o výnosu pole ještě před odvozem úrody do posklizňové linky či výkupu." />
-        <text name="rhm_help_trip_sub2" text="Finanční ztráty, hodnocení řidiče a diagnostika příčin" />
-        <text name="rhm_help_trip_2" text="Počítadlo nejen zaznamenává ztracenou tonáž zrna, ale také automaticky vyčísluje vzniklé finanční škody v herní měně (€, $ nebo £) na základě aktuálních výkupních cen plodiny. Speciální algoritmus hodnotí práci řidiče známkou od [A] (precizní jízda, ztráty pod 1 %) až po [E] (neuspokojivé vedení stroje s vysokými ztrátami). Pod hodnocením jsou umístěny čtyři diagnostické ukazatele, které odhalují přesný podíl jednotlivých příčin ztrát: překročení pojezdové rychlosti, vlhkost porostu, opotřebení žací kosy nebo boční náklon sítové skříně na svazích." />
-        <text name="rhm_help_trip_sub3" text="Rychlé vynulování počítadla v kabině (Pravý Shift + R)" />
-        <text name="rhm_help_trip_3" text="Při přejezdu na novou parcelu nebo před zahájením kontrolního měření nemusíte otevírat menu: podržte kombinaci Pravý Shift + R po dobu 1 sekundy přímo za volantem. Počítadlo se okamžitě vynuluje s akustickým potvrzením a textovým hlášením na displeji. V herním menu nastavení je navíc k dispozici funkce automatického resetu (Smart), která počítadlo samočinně vynuluje při změně čísla obdělávaného pole nebo při změně typu plodiny v zásobníku." />
-        <text name="rhm_help_trip_sub4" text="Rejstřík pozemků, sezónní historie a monitoring flotily" />
-        <text name="rhm_help_trip_4" text="Záložka „Pole farmy“ přehledně eviduje všechny vlastněné pozemky včetně jejich výměry a historie posledních sklizní. Záložka „Sezónní analytika“ nabízí přehled vývoje výmlatu v jednotlivých měsících a letech. Záložka „Flotila kombajnů“ umožňuje v reálném čase sledovat stav všech sklízecích mlátiček podniku: vidíte, kdo stroj řídí (hráč nebo pomocník), aktuální plodinu, rychlost, zatížení motoru, výkonnost v tunách za hodinu, míru opotřebení nožů žací lišty a osazený balíček elektroniky." />
+        <text name="rhm_help_trip_title" text="5. 地块计程仪与车队分析（Shift+J）" />
+        <text name="rhm_help_trip_sub1" text="当前地块作业日志：高精度收割台帐" />
+        <text name="rhm_help_trip_1" text="在驾驶舱内按下 Right Shift + J 即可打开拥有四个标签页的综合分析中心。第一个标签页为当前田块的数字计程仪，严密统计各项作业数据：累计收割面积（公顷）、实收谷物重量（吨及升）、收割机纯作业时间（排除卸粮怠速与地头掉头时间），并计算平均田块亩产/公顷产量以及实际作业效率（t/h 及 ha/h）。这让您在将粮食运往筒仓或收购站之前，即可确切掌握地块的真实产量。" />
+        <text name="rhm_help_trip_sub2" text="经济损失折算、驾驶评分与损失归因诊断" />
+        <text name="rhm_help_trip_2" text="计程仪不仅记录损失的谷物吨数，还会依据当前作物的实时市场收购价，以游戏内货币（€、$ 或 £）自动折算实际经济损失。专属算法会对驾驶员的操作水准进行评级，评分范围介于 [A]（卓越操控，损失低于 1%）至 [E]（不及格，严重抛粮）。评级下方设有四条诊断分析进度条，详细揭示各项损失成因的精确占比：超速作业、作物过湿、割刀磨损或地貌坡度倾斜。" />
+        <text name="rhm_help_trip_sub3" text="驾驶舱内快速重设计程仪（Right Shift + R）" />
+        <text name="rhm_help_trip_3" text="进入新地块或准备开始阶段对比测试时，您无需繁琐打开功能表：只需坐在驾驶座上手握方向盘，长按 Right Shift + R 键 1 秒钟即可。计程仪将伴随确认音效及屏幕提示即刻归零。此外，在游戏设置功能表中还提供智能自动归零选项（Smart），可在侦测到进入新地块编号或粮仓更换作物品种时自动清空计程仪。" />
+        <text name="rhm_help_trip_sub4" text="地块台帐、季度历史回顾与车队实时监控" />
+        <text name="rhm_help_trip_4" text="「农场田块」标签页完整记录名下所有土地的面积及近期收成历史。「季度分析」标签页以月度和年度为维度展现产量趋势。「收割机车队」标签页让您随时随地远程实时监控农场全部收割机的运行状态：查看驾驶员身份（玩家或雇工）、当前作物、车速、发动机负载、台时产能（t/h）、割刀刀片磨损程度以及所安装的电子套件等级。" />
 
         <!-- PAGE 5: GRAIN LOSS & DIAGNOSTICS -->
-        <text name="rhm_help_croploss_title" text="6. Ztráty úrody a diagnostika příčin" />
-        <text name="rhm_help_croploss_sub1" text="Fyzické odepisování zrna přímo ze zásobníku kombajnu" />
-        <text name="rhm_help_croploss_1" text="V Realistic Harvesting nepředstavují ztráty pouhé statistické číslo na obrazovce. Zrno, které se nestihlo vyseparovat nebo přepadlo přes síta společně s plevami, je v reálném čase fyzicky odepisováno přímo ze zásobníku mlátičky! Pokud jedete příliš rychle, stav zrna v zásobníku viditelně klesá a z každého hektaru odvezete do skladu o 5 až 15 % méně úrody, než byste mohli sklidit. Při aktivním ukládání do řádku se ztráty zrna projevují v řádku slámy. U samojízdných řezaček a sklízečů bavlny ke ztrátám zrna nedochází, protože celá biomasa je beze zbytku nařezána nebo slisována." />
-        <text name="rhm_help_croploss_sub2" text="Čtyři klíčové faktory ztrát a způsoby jejich řešení" />
-        <text name="rhm_help_croploss_2" text="Celkové ztráty tvoří čtyři nezávislé faktory: 1. Rychlost a přetížení: podle norem ISO 8210 začínají ztráty narůstat při zatížení nad 80 %, překračují povolené 1 % při 95 % zatížení a při překročení 110 % dochází k zahlcení sít s lavinovitým vyhazováním zrna na pole. Řešení: udržujte zatížení motoru v rozmezí 85–90 %. 2. Vlhkost a rosa: vlhkost nad 14 % způsobuje lepení slámy a zvyšuje ztráty o +0,35 % za každé 1 % nadbytečné vlhkosti. Řešení: sklízejte obilí za suchého slunečného odpoledne. 3. Opotřebení kosy: otupené nože žací lišty (nad 15 % opotřebení) stébla neřežou, nýbrž vyklepávají zrno z klasů ještě před vtažením do stroje (až 3 % ztrát). Řešení: včas opravujte lištu v dílně. 4. Sklon terénu: náklon sít nad 4° přesouvá zrno k jedné straně a způsobuje ztráty až 5 %." />
-        <text name="rhm_help_croploss_sub3" text="Akustický bzučák v kabině (Smart Buzzer): varování před přetížením" />
-        <text name="rhm_help_croploss_3" text="Pokud zatížení motoru překročí 95 % nebo aktuální ztráty zrna přesáhnou 5 %, palubní terminál v kabině vydá výstražný zvukový signál. V doporučeném režimu Smart Buzzer bzučák třikrát jemně zapípá (impulzy po 0,3 s) a následně se na 18 sekund odmlčí, čímž řidiče spolehlivě varuje bez obtěžujícího nepřetržitého pískání. Zazněl výstražný signál? Je to jasný pokyn zvolnit tempo jízdy, zkontrolovat nastavení sít v terminálu Shift+K nebo odpojit drtič slámy, čímž ztráty okamžitě ustanou. Hlasitost bzučáku lze nastavit v rozmezí 0 % až 100 % v herním menu." />
+        <text name="rhm_help_croploss_title" text="6. 谷物损失与故障诊断" />
+        <text name="rhm_help_croploss_sub1" text="从收割机粮仓中实时扣除物理谷物损失" />
+        <text name="rhm_help_croploss_1" text="在 Realistic Harvesting 中，谷物损失绝非仅是界面上的统计数字。未能及时分离或随颖壳被强风吹出筛网的谷粒，将在真实时间内直接从收割机的储粮仓中物理扣除！若您的作业速度过快，粮仓容量将显著少于预期，每公顷最终入库的粮食将减少 5% 至 15%。若打开了秸秆铺条模式，损失的籽粒将夹带并掉落在秸秆草条中。在青贮饲料收割机与采棉机上，由于整株生物量均被切碎或打包，因此不会发生籽粒损失。" />
+        <text name="rhm_help_croploss_sub2" text="诱发损失的四大主因及针对性解决对策" />
+        <text name="rhm_help_croploss_2" text="综合损失由四个独立因素共同构成：1. 车速过快与超负荷：依据 ISO 8210 标准，当负载超过 80% 时损失开始抬头，95% 负载时超过 1% 的国家容许标准，而超过 110% 时筛箱将不堪重负，籽粒会如雪崩般抛撒落地。对策：将负载维持在 85–90% 区间。2. 作物过湿与晨露：湿度超过 14% 会导致秸秆互相黏连，每超出 1% 湿度将增加 +0.35% 损失。对策：选择阳光充足的午后收割。3. 割刀钝化：磨损严重的割刀（磨损度超过 15%）无法干脆切断植株，反而会剧烈震落籽粒（最高造成 3% 损失）。对策：及时在维修厂修磨割刀。4. 地貌坡度：筛箱侧倾超过 4° 会导致物料偏向一侧，诱发高达 5% 的损失。" />
+        <text name="rhm_help_croploss_sub3" text="驾驶室音响警报器（Smart Buzzer）：重载报警" />
+        <text name="rhm_help_croploss_3" text="当发动机负载突破 95% 或实时谷物损失超过 5% 时，驾驶舱内的车载终端将响起农机重载警报声。在推荐的智能蜂鸣器（Smart Buzzer）模式下，警报会发出 3 次短促温和的脉冲音（每次 0.3 秒），随后静音 18 秒，既能及时警示驾驶员，又避免了刺耳的持续噪音干扰。听到警报时，只需降低作业车速、在 Shift+K 中检查筛子开度或关闭碎草机，损失即可立即中止。蜂鸣器音量可在游戏设置功能表中在 0% 至 100% 之间自由调节。" />
 
         <!-- PAGE 7: ELECTRONICS UPGRADE TIERS -->
-        <text name="rhm_help_upgrades_title" text="7. Balíčky elektroniky kombajnu (Tier 1–4)" />
-        <text name="rhm_help_upgrades_sub1" text="Modernizace techniky v dílně: 4 úrovně pro každý rozpočet" />
-        <text name="rhm_help_upgrades_1" text="Každý kombajn ve hře (při nákupu v obchodě i již provozovaný na farmě) lze dovybavit speciálním elektronickým balíčkem RHM. Přistavte stroj do servisní zóny dílny, aktivujte nabídku úprav a zvolte položku „RHM Balíček elektroniky“. K dispozici jsou čtyři úrovně: Tier 1 „Standard“ (0 €, základní tovární provedení), Tier 2 „Sada senzorů“ (3 500 €), Tier 3 „Monitor výnosu“ (8 500 €) a Tier 4 „Opti-Harvest AI“ (15 000 €). Nainstalovaná úroveň se zobrazuje v záhlaví terminálu Shift+K a v evidenci flotily." />
-        <text name="rhm_help_upgrades_sub2" text="Tier 1 (Základní mechanika) versus Tier 2 (Sada senzorů)" />
-        <text name="rhm_help_upgrades_2" text="Kombajny Tier 1 disponují pouze základním mechanickým řízením bez senzoriky: na displeji se místo ztrát zobrazují pomlčky, tablet nenabízí žádná doporučení, obsluha se řídí sluchem a najatí pomocníci dělají při seřizování značné chyby (až ±18 %). Balíček Tier 2 (3 500 €) je zásadní vstupní modernizací: doplňuje snímače ztrát na sítech (na HUD se zobrazí reálné procento ztrát) a v terminálu Shift+K odemyká zelené zóny optima, podle kterých lze stroj snadno seřídit. Chybovost pomocníků klesá na ±10 %." />
-        <text name="rhm_help_upgrades_sub3" text="Tier 3 (Monitor a profily) a Tier 4 (Opti-Harvest AI)" />
-        <text name="rhm_help_upgrades_3" text="Balíček Tier 3 (8 500 €) přidává optický vlhkoměr (údaj o vlhkosti v % na HUD), otevírá živé karty zatížení a účinnosti na terminálu Shift+K, odemyká ukládání vlastních profilů do paměti stroje a online dohled nad flotilou v Shift+J (chybovost pracovníků klesá na ±4 %). Vrcholný paket Tier 4 (15 000 €) přináší plnohodnotného autopilota: tlačítko „AI AUTO-KALIBRACE“ seřídí stroj jedním dotykem, adaptivní systém každé 2 sekundy samostatně upravuje otáčky bubnu a ventilátoru podle vlhkosti porostu, penalizace z vlhkosti klesá o 50 % a najatí pracovníci sklízejí se stoprocentní přesností (0 % odchylka)." />
+        <text name="rhm_help_upgrades_title" text="7. 收割机电子套件等级（Tier 1–4）" />
+        <text name="rhm_help_upgrades_sub1" text="在维修厂升级设备：满足各类预算的 4 个档次" />
+        <text name="rhm_help_upgrades_1" text="游戏中的任何收割机（无论是在商店选购全新设备还是农场车库中的现有机型）均可在改装厂加装专属 RHM 电子套件。将车辆驶入维修服务区，打开改装功能表并选择「RHM 电子套件」选项。共提供四个升级档次：Tier 1「标准版」（0 €，基础出厂配置）、Tier 2「传感器套装」（3,500 €）、Tier 3「测产监控系统」（8,500 €）以及 Tier 4「Opti-Harvest AI 旗舰版」（15,000 €）。当前安装的等级会明确标注在 Shift+K 终端顶部以及车队清单中。" />
+        <text name="rhm_help_upgrades_sub2" text="Tier 1（纯机械型）与 Tier 2（传感器套装）对比" />
+        <text name="rhm_help_upgrades_2" text="Tier 1 机型采用无传感器的纯机械操控：仪表盘上以横线（--%）代替具体损失率，平板终端无引导提示，驾驶员全凭发动机声浪判断，雇工在调节机器时会出现较大偏差（高达 ±18%）。Tier 2 套装（3,500 €）是性价比最高的核心入门升级：增配清选筛损失传感器（HUD 开始显示真实损失百分比），并在 Shift+K 终端解锁醒目的绿色最佳区间，极大降低设置门槛。雇工的设置误差也缩小至 ±10%。" />
+        <text name="rhm_help_upgrades_sub3" text="Tier 3（测产与设置档）与 Tier 4（Opti-Harvest AI）" />
+        <text name="rhm_help_upgrades_3" text="Tier 3 套件（8,500 €）加装光学水分计（HUD 显示湿度 %），在 Shift+K 界面开放实时负载与效率卡片，允许将专属参数保存至车载内存，并解锁 Shift+J 中的在线车队远程监控（雇工误差降至 ±4%）。顶级 Tier 4 套件（15,000 €）提供全功能自动驾驶：一键「AI 自动校准」可瞬间完成整机调校，系统作业时每 2 秒依据田间湿度主动微调滚筒与风机，湿度阻力惩罚降低 50%，雇工将以 0% 误差的顶级水准进行完美收割。" />
 
         <!-- PAGE 8: AI WORKERS & FLEET AUTOMATION -->
-        <text name="rhm_help_ai_workers_title" text="8. Najatí pracovníci a autopiloti" />
-        <text name="rhm_help_ai_workers_sub1" text="Automatická regulace rychlosti a přibrzďování pomocníků" />
-        <text name="rhm_help_ai_workers_1" text="Najatí pracovníci standardní herní AI ani pokročilí asistenti již nejezdí nereálně vysokou plnou rychlostí žací lišty, při níž vyhazovali třetinu úrody na pole. Mód RHM aktivně řídí pracovní rychlost pomocníka přímo přes řídicí jednotku motoru a udržuje ji v bezpečném rozmezí 85–95 % zatížení. Pokud na členitém reliéfu ztráty zrna překročí nastavený limit farmy (2,0 %), kombajn pomocníka automaticky přibrzdí, čímž ochrání sklizenou úrodu před vyfoukáním do řádku slámy." />
-        <text name="rhm_help_ai_workers_sub2" text="Odbornost pracovníků: vliv úrovně techniky na kvalitu sklizně" />
-        <text name="rhm_help_ai_workers_2" text="Jakmile najatý pomocník usedne za volant, seřizuje provozní parametry kombajnu samostatně. Kvalita jeho práce se odvíjí přímo od elektronického balíčku stroje: na strojích Tier 1 pracuje jako nezkušený brigádník s chybovostí seřízení až ±18 % (což vede k vyšším ztrátám zrna či zvýšené spotřebě paliva). Na Tier 2 klesá odchylka na ±10 %, na Tier 3 na ±4 % a na strojích Tier 4 s autopilotem Opti-Harvest odvádí práci špičkového agronoma s nulovou chybou (0 %), dosahující maximální čistoty výmlatu." />
-        <text name="rhm_help_ai_workers_sub3" text="Zachování manuálního nastavení hráče a logistika vykládání" />
-        <text name="rhm_help_ai_workers_3" text="Pokud jste kombajn osobně zkalibrovali v Shift+K nebo uložili profil pro danou plodinu, zkontrolujte nastavení hry: položka „Nastavení pomocníky“ je ve výchozím stavu nastavena na „Ponechat mé“. V tomto režimu pomocník vaše hodnoty nikdy nepřepíše a sklízí přesně podle vašeho nastavení. Volba „Automaticky přizpůsobit“ nutí pomocníka přepočítat parametry podle úrovně stroje, zatímco volba „Vypnuto“ změnu parametrů zcela zakazuje. Překládání zrna za jízdy do souběžně jedoucích odvozců je plně podporováno bez nutnosti zastavovat kombajn." />
+        <text name="rhm_help_ai_workers_title" text="8. AI 雇工与车队自动化" />
+        <text name="rhm_help_ai_workers_sub1" text="自适应速度控制与 AI 雇工自动减速限制" />
+        <text name="rhm_help_ai_workers_1" text="游戏原版 AI 雇工及自动驾驶助手不再会以割台理论极速狂飙，避免将三分之一的粮食抛撒在地。RHM 模块通过发动机控制单元强制接管雇工的行驶速度，将其约束在 85–95% 的安全高效负载区间内。在起伏不平的地形上，若籽粒损失超过农场预设的容许阈值（2.0%），收割机会主动对雇工实施减速制动，防止产量被吹入秸秆中浪费。" />
+        <text name="rhm_help_ai_workers_sub2" text="雇工专业技能：设备硬件等级对收割品质的决定性影响" />
+        <text name="rhm_help_ai_workers_2" text="当雇工接管方向盘时，会独立设置收割机的运行参数。其工作品质直接取决于该机器的电子套件档次：在 Tier 1 机器上，雇工表现如同生疏的学徒，调校参数误差高达 ±18%（导致高损失或高油耗）。在 Tier 2 上误差收窄至 ±10%，Tier 3 缩小至 ±4%，而在装备 Opti-Harvest 自动驾驶的 Tier 4 旗舰机上，雇工将展现专家级顶尖水准，以 0% 偏差完成高品质收割。" />
+        <text name="rhm_help_ai_workers_sub3" text="保留玩家手动设置与伴随卸粮物流支持" />
+        <text name="rhm_help_ai_workers_3" text="如果您在 Shift+K 中亲自校准了收割机或保存了特定作物的设置档，请检查游戏设置：「雇工调节设置」选项预设处于「保留我的设置」模式。在该模式下雇工绝不会擅自更改您的调校，始终严格遵照您的精准参数作业。「自动适配」模式会让雇工依据设备等级重新计算参数，而「禁用」则彻底禁止雇工进行任何改动。边行进边向侧翼伴随行驶的运粮拖车卸粮的作业流程得到完美支持，全程无需停车。" />
 
         <!-- PAGE 9: CROP MOISTURE & DIURNAL WEATHER -->
-        <text name="rhm_help_moisture_title" text="9. Vlhkost plodin a denní cyklus počasí" />
-        <text name="rhm_help_moisture_sub1" text="Denní cyklus vlhkosti porostu: volba optimální doby pro sklizeň" />
-        <text name="rhm_help_moisture_1" text="Mód počítá autonomní harmonický denní cyklus vlhkosti, a pokud je aktivní externí systém počasí, přebírá jeho reálná data. Vlhkost vegetace přirozeně kolísá v průběhu celého dne: od 03:00 do 08:00 ráno vydatná ranní rosa zvedá vlhkost zrna na 16–18 % – v této době se sklizeň nedoporučuje kvůli vysokému odporu hmoty. Od 08:00 do 11:30 vycházející slunce vlhkost odpařuje. Nejlepší doba pro sklizeň obilovin nastává mezi 11:30 a 18:30: sluneční svit vysuší porost na optimálních 11–13 %, sláma zkřehne, kombajn postupuje plynule a lehce a ztráty klesají na minimum. Po 19:30 večerní rosa opět zvyšuje vlhkost stébel a zvedá odpor mláticího ústrojí." />
-        <text name="rhm_help_moisture_sub2" text="Proč nesklízet za deště" />
-        <text name="rhm_help_moisture_2" text="Během deště vlhkost porostu rychle přesahuje 22 %. Mokrá sláma ztrácí sypkost, tvoří hutné chuchvalce a ucpává šikmý dopravník i síta. Vlhké zrno ulpívá na mokré slámě a odchází nekontrolovaně ven ze stroje, což způsobuje až 10 % přímých ztrát úrody, přičemž motor kombajnu trpí trojnásobným odporem hmoty. Rada pro praxi: jakmile začne pršet, zastavte sklizeň a počkejte na příznivé počasí. Práce v dešti přináší pouze vysoké ztráty a finanční škody." />
-        <text name="rhm_help_moisture_sub3" text="Jak seřídit kombajn pro sklizeň vlhčích plodin (14–16 %)" />
-        <text name="rhm_help_moisture_3" text="Musíte-li sklízet za zvýšené vlhkosti (14–16 %), nenastavujte posuvníky naslepo na maximum! Otevřete terminál Shift+K: vlivem vlhkosti se zelené zóny optima („sweet-spot“) pro buben a ventilátor samy posunou mírně výše. Upravte posuvníky tak, aby zůstaly přesně uvnitř posunutého zeleného pásma: vyšší otáčky bubnu v mezích zelené zóny snáze rozvolní houževnatou vlhkou slámu bez ztráty výkonu; ventilátor v zeleném poli spolehlivě profoukne těžké vlhké plevy. Pozor: pokud ventilátor přetočíte nad zelenou zónu do červeného pole, silný proud vzduchu začne vyfukovat samotné zrno na pole za kombajn! Držte se zeleného pásma – seřízení nezpůsobí žádné ztráty (0 %). Na strojích Tier 4 (Opti-Harvest) navíc tyto parametry samostatně koriguje automatika." />
+        <text name="rhm_help_moisture_title" text="9. 作物含水量与昼夜天气周期" />
+        <text name="rhm_help_moisture_sub1" text="植株含水率昼夜波动规律：甄选最佳收割时段" />
+        <text name="rhm_help_moisture_1" text="本模块内置自主昼夜调和湿度周期算法，在存在外部天气系统模块时会实时读取其真实天气数据。作物湿度在全天内呈现自然规律性波动：清晨 03:00 至 08:00 浓重晨露会使谷物湿度激增至 16–18%——因脱粒阻力过大此时强烈不建议进行收割作业。08:00 至 11:30 旭日升起蒸发水分。收割的黄金窗口期为 11:30 至 18:30：阳光将植株烘干至最理想的 11–13%，秸秆酥脆易断，收割机前进顺畅轻快，谷物损失降至极低。19:30 之后晚露再次浸润秸秆，脱粒机构阻力急剧上升。" />
+        <text name="rhm_help_moisture_sub2" text="为何切忌在雨天进行收割作业" />
+        <text name="rhm_help_moisture_2" text="降雨期间作物湿度会瞬间飙升突破 22%。潮湿的秸秆失去流动性，聚结成厚重粘结的毡状物，直接堵塞倾斜输送槽与筛箱。籽粒紧密吸附在湿秸秆上被带出机外抛撒在田间，造成高达 10% 的直接产量损失，同时收割机发动机在三倍阻力下不堪重负。给新手的一条忠告：一旦下雨，请立即停机避雨。在雨中强行作业只会带来产量损失与经济亏损。" />
+        <text name="rhm_help_moisture_sub3" text="收割高湿度作物（14–16%）时的调校技巧" />
+        <text name="rhm_help_moisture_3" text="若被迫在较高湿度条件下（14–16%）抢收，切忌盲目将滑杆拉至最大！请打开 Shift+K 终端：受湿度影响，滚筒与风机的亮绿色最佳区间（«sweet-spot»）会自动适当向上偏移。调整滑杆使其精确保持在新偏移的绿色区间内：绿色区间内较高的滚筒转速能轻易撕开潮湿秸秆而不损失动力；绿色区间内的风机风量能高效吹散沉重湿杂。特别警告：若将风机调过头进入红色区域，过强的飓风会直接将谷粒吹出机外造成严重飞散损失！严格保持在绿色区间内，设置误差损失将保持为零（0%）。在 Tier 4 机型上，自动驾驶会自行调控这些参数。" />
 
         <!-- PAGE 10: FORAGE & SPECIALTY HARVESTERS -->
-        <text name="rhm_help_special_title" text="10. Speciální sklízecí technika" />
-        <text name="rhm_help_special_sub1" text="Samojízdné řezačky: dělení výkonu a sběr z řádků" />
-        <text name="rhm_help_special_1" text="Samojízdné sklízecí řezačky zpracovávají veškerou rostlinnou hmotu beze zbytku na siláž či senáž, proto jsou na nich ztráty zrna vždy nulové (0 %). Výkon motoru se zde dělí mezi tři hlavní uzly: vkládací a mačkací válce (18 %), řezací buben (62 %) a metací ventilátor do odvozce (20 %). Při práci se sběračem zavadlé travní hmoty či slámy z řádků bedlivě sledujte rovnoměrnost řádku: u příliš mohutných suchých řádků dosáhnou vkládací válce svého konstrukčního limitu („úzké hrdlo“), což vyvolá skokový odpor pohonu a prudký pokles pracovní rychlosti řezačky." />
-        <text name="rhm_help_special_sub2" text="Sklízeče okopanin: proč se vyorávače pohybují rychlostí 5–8 km/h" />
-        <text name="rhm_help_special_2" text="Podzemní okopaniny (brambory, cukrová řepa, mrkev, pastinák, cibule) vyžadují obrovský tahový výkon na vyorávání půdy: vyorávací radlice podřezávají těžký půdní profil, což spotřebuje přibližně 7 koní na každý metr záběru vyorávače, a robustní hydrostatický pojezd odebírá dalších 10 % výkonu motoru. Z toho důvodu se samojízdné sklízeče řepy a brambor fyzicky nemohou pohybovat rychleji než 5–8 km/h ani při výkonu motoru přesahujícím 600 k. Nadzemní zelenina (fazolové lusky, hrách, špenát) půdu nepodrývá, avšak její česací a odzrňovací bubny spotřebovávají značnou energii na šetrné oddělení lusků." />
-        <text name="rhm_help_special_sub3" text="Bavlna, vinná réva, olivy a systémové nosiče nářadí (NEXAT / NEXCO)" />
-        <text name="rhm_help_special_3" text="Sklízeče bavlny spotřebovávají až 55 koní na každou sklizenou tunu suroviny kvůli vysokootáčkovým vřetenovým bubnům a hydraulickému lisování kulatých balíků. Sklízeče hroznů a oliv počítají s odporem vibračních střasadel a čisticích ventilátorů. A pokud využíváte širokorozchodný systémový nosič NEXAT (1 100 k) s kombajnovým modulem NEXCO, systém RHM automaticky přenáší plný výkon pohonné jednotky skrze celou hierarchii připojených modulů, což zaručuje bezchybný provoz bez poklesu výkonu." />
+        <text name="rhm_help_special_title" text="10. 特种收割机械" />
+        <text name="rhm_help_special_sub1" text="自走式青贮收割机：动力分配与草条捡拾" />
+        <text name="rhm_help_special_1" text="自走式青贮饲料收割机将整株植物生物量完全切碎制成青贮，因此籽粒损失始终为零（0%）。发动机动力分配给三个主要工作部件：喂入压辊（18%）、切碎滚筒（62%）及抛料加速风机（20%）。在配备捡拾台捡拾干草或秸秆铺条时，务必严密关注条铺厚度：过于厚重干燥的草条会使喂入压辊达到其输送极限（「瓶颈效应」），引起突发驱动阻力并导致青贮机作业速度骤降。" />
+        <text name="rhm_help_special_sub2" text="块根收割机械：为何挖掘收获机作业时速仅为 5–8 km/h" />
+        <text name="rhm_help_special_2" text="地下块根作物（马铃薯、甜菜、胡萝卜、欧洲防风草、洋葱）挖掘土层需要耗费极大的牵引马力：地下掘土铲在深层切削沉重的土壤断面，每米割幅额外消耗约 7 匹马力，重载静液压底盘更占用 10% 的发动机功率。因此，自走式甜菜与马铃薯收获机即便搭载超过 600 马力的发动机，物理上也无法以超过 5–8 km/h 的速度行驶。地上蔬菜类（菜豆、豌豆、菠菜）虽不掘土，但其梳脱与剥荚滚筒同样消耗显著能量。" />
+        <text name="rhm_help_special_sub3" text="棉花、葡萄、油橄榄与模块化系统底盘（NEXAT / NEXCO）" />
+        <text name="rhm_help_special_3" text="采棉机因高速摘锭滚筒及圆捆液压压缩成型腔，每收获一吨籽棉需消耗高达 55 匹马力。葡萄与油橄榄收获机全面核算偏心振动摇动杆与清选风机的功耗阻力。若您使用宽轮距 NEXAT 系统动力底盘（1,100 马力）搭载 NEXCO 联合收割机模块，RHM 系统会自动贯穿整条铰接层级无损传递牵引主机的充沛马力，确保可靠运转不掉动力。" />
 
         <!-- PAGE 11: DIFFICULTY MODES & SETTINGS -->
-        <text name="rhm_help_difficulty_title" text="11. Úrovně obtížnosti a nastavení" />
-        <text name="rhm_help_difficulty_sub1" text="Herní režimy: volba mezi Arkádou, Vyváženým a Realistickým stylem" />
-        <text name="rhm_help_difficulty_1" text="Pokud nechcete počítat koňské síly a detailně ladit otáčky bubnu, můžete si v menu pauzy (Escape -> Nastavení hry) zvolit zjednodušený herní režim: Obtížnost motoru v režimu „Arkáda“ (úroveň 1) zcela vypíná fyzikální zatížení motoru a ruší veškerá rychlostní omezení. Obtížnost ztrát v režimu „Arkáda“ vynuluje veškeré ztráty zrna – kombajn bude sklízet na plné rychlosti žací lišty jako v základní hře. Úroveň 2 („Vyvážená“) zmírňuje dopady provozních chyb a úroveň 3 („Realistická“) aktivuje kompletní fyzikální model s nekompromisním odepisováním ztrát ze zásobníku." />
-        <text name="rhm_help_difficulty_sub2" text="Individuální přepínače fyziky: přizpůsobení hry vlastním preferencím" />
-        <text name="rhm_help_difficulty_2" text="Nemusíte vypínat celou fyziku najednou – lze vypnout pouze mechaniky, které vám nevyhovují: Vypněte „Ztráty z opotřebení“, pokud nechcete hlídat stav nožů žací lišty. Vypněte „Ztráty na svazích“, pokud hrajete na strmé horské mapě. Vypněte „Simulaci vlhkosti“, pokud preferujete sklizeň v noci či za deště bez penalizací. Volba „Zvýšení výkonu motoru“ umožňuje přidat +5 % až +50 % výkonové rezervy motoru vašeho kombajnu, což oceníte zejména ve zvlněném terénu." />
-        <text name="rhm_help_difficulty_sub3" text="Zvuková signalizace, měrné jednotky a hra pro více hráčů" />
-        <text name="rhm_help_difficulty_3" text="V nastavení zvuku můžete zvolit „Chytrý“ bzučák přetížení (tři krátké impulzy), nepřetržitý tón nebo výstražný zvuk zcela vypnout, stejně jako upravit hlasitost od 0 % do 100 % (při posunu jezdce zazní zkušební tón). Měrné jednotky lze přepínat mezi metrickými (t/ha, t/h), imperiálními a bušly. V režimu pro více hráčů (multiplayer) smí globální fyzikální pravidla měnit výhradně správce serveru, zatímco umístění HUD, hlasitost výstrah a měrné jednotky si každý hráč nastavuje nezávisle podle svých potřeb." />
-        <text name="rhm_ui_section_separation" text="Separace" />
-        <text name="rhm_ui_section_cleaning" text="Čištění" />
-        <text name="rhm_ui_section_discharge" text="Výhoz" />
-        <text name="rhm_ui_section_performance" text="Výkon" />
-        <text name="rhm_ui_tier1_manual" text="TIER 1 - MECHANICKY" />
-        <text name="rhm_ui_tier2_sensors" text="TIER 2 - SENZORY" />
-        <text name="rhm_ui_tier3_monitor" text="TIER 3 - TELEMETRIE" />
-        <text name="rhm_ui_tier4_opti" text="TIER 4 - AI OPTI" />
-        <text name="rhm_ui_arcade_badge" text="ARKÁDA" />
-        <text name="rhm_ui_card_engine_load" text="ZATÍŽENÍ MOTORU" />
-        <text name="rhm_ui_card_efficiency" text="EFEKTIVITA" />
-        <text name="rhm_ui_card_predicted_loss" text="ODHADOVANÁ ZTRÁTA" />
-        <text name="rhm_ui_btn_ai_auto" text="AUTO-KALIB AI" />
-        <text name="rhm_ui_btn_auto_locked" text="AUTO (ZAMČENO)" />
-        <text name="rhm_ui_btn_load_preset" text="NAČÍST" />
-        <text name="rhm_ui_btn_save_profile" text="ULOŽIT" />
-        <text name="rhm_ui_btn_load_locked" text="NAČÍST (ZAMČ.)" />
-        <text name="rhm_ui_btn_save_locked" text="ULOŽIT (ZAMČ.)" />
-        <text name="rhm_ui_btn_reset_defaults" text="OBNOVIT TOVÁRNÍ NASTAVENÍ" />
-        <text name="rhm_ui_status_optimal" text="OPTIMÁLNÍ" />
-        <text name="rhm_ui_status_low" text="NÍZKÉ" />
-        <text name="rhm_ui_status_high" text="VYSOKÉ" />
-        <text name="rhm_ui_env_optimal" text="OPTIMÁLNÍ PODMÍNKY" />
-        <text name="rhm_ui_env_moisture" text="VYSOKÁ VLHKOST" />
-        <text name="rhm_ui_env_weeds" text="ZAPLEVELENÍ" />
-        <text name="rhm_ui_env_damp_weeds" text="VLHKO A PLEVEL" />
-        <text name="rhm_msg_req_tier4" text="Vyžaduje AI Opti-Harvest (Úroveň 4)" />
-        <text name="rhm_msg_req_tier3" text="Profily vyžadují Monitor Telemetrie (Úroveň 3)" />
-        <text name="rhm_msg_req_tier2" text="Profily vyžadují Balíček Senzorů (Tier 2 nebo vyšší)" />
-        <text name="rhm_msg_profile_saved" text="Profil uložen: %s" />
-        <text name="rhm_msg_profile_loaded" text="Profil načten: %s" />
-        <text name="rhm_msg_profile_not_found" text="Pro tuto plodinu nebyl nalezen žádný profil" />
-        <text name="rhm_ui_combine_not_init" text="Sklízeč není inicializován" />
+        <text name="rhm_help_difficulty_title" text="11. 难度模式与各项设置" />
+        <text name="rhm_help_difficulty_sub1" text="游戏模式：在街机、适度与硬核拟真风格之间自由切换" />
+        <text name="rhm_help_difficulty_1" text="若您不想繁琐计算发动机马力与细致微调滚筒转速，可在暂停功能表（Escape -> 游戏设置）中选用简化游戏风格：发动机难度选为「街机」（级别 1）将彻底关闭发动机物理负载并解除所有速度限制。损失难度选为「街机」将彻底归零所有谷物损失——收割机将与原版游戏一致，全速割地。级别 2（「适度」）会减缓操作偏差的惩罚，而级别 3（「拟真」）则激活完整的全物理模型，并伴随粮仓真实扣粮损失。" />
+        <text name="rhm_help_difficulty_sub2" text="独立物理开关：根据个人偏好定制专属玩法" />
+        <text name="rhm_help_difficulty_2" text="您无需一次性关闭所有物理机制——可以按需单独关闭不喜欢的环节：若不想维护割刀状态，关闭「磨损损失」即可。若在陡峭山地地图游玩，关闭「坡度损失」即可。若偏好在夜间或雨天无惩罚收割，关闭「湿度模拟」即可。「发动机功率提升」选项可在丘陵坡地地形为您的收割机发动机额外提供 +5% 至 +50% 的储备马力增益。" />
+        <text name="rhm_help_difficulty_sub3" text="声音警报、计量单位与多人连接设置" />
+        <text name="rhm_help_difficulty_3" text="在声音设置中，您可以选择「智能」重载蜂鸣（三次短促脉冲）、持续蜂鸣警报或完全静音，音量滑杆支持在 0% 至 100% 范围内自由调节（拖动滑杆时会实时播放测试音）。计量单位可在公制（t/ha、t/h）、英制与蒲式耳之间随意切换。在多人连接游戏（Multiplayer）中，全域物理规则仅限服务器管理员更改，而 HUD 屏幕位置、警报音量大小及计量单位则由每位玩家各自独立保存。" />
+        <text name="rhm_ui_section_separation" text="脱粒与分离" />
+        <text name="rhm_ui_section_cleaning" text="清选系统" />
+        <text name="rhm_ui_section_discharge" text="排出与抛撒" />
+        <text name="rhm_ui_section_performance" text="性能监测" />
+        <text name="rhm_ui_tier1_manual" text="TIER 1 - 手动机械" />
+        <text name="rhm_ui_tier2_sensors" text="TIER 2 - 传感器" />
+        <text name="rhm_ui_tier3_monitor" text="TIER 3 - 遥测仪" />
+        <text name="rhm_ui_tier4_opti" text="TIER 4 - AI 优化" />
+        <text name="rhm_ui_arcade_badge" text="街机" />
+        <text name="rhm_ui_card_engine_load" text="引擎负载" />
+        <text name="rhm_ui_card_efficiency" text="作业效率" />
+        <text name="rhm_ui_card_predicted_loss" text="预期损失" />
+        <text name="rhm_ui_btn_ai_auto" text="AI 自动校准" />
+        <text name="rhm_ui_btn_auto_locked" text="自动（已锁定）" />
+        <text name="rhm_ui_btn_load_preset" text="加载预设" />
+        <text name="rhm_ui_btn_save_profile" text="保存配置" />
+        <text name="rhm_ui_btn_load_locked" text="加载（已锁定）" />
+        <text name="rhm_ui_btn_save_locked" text="保存（未解锁）" />
+        <text name="rhm_ui_btn_reset_defaults" text="恢复出厂默认值" />
+        <text name="rhm_ui_status_optimal" text="最佳" />
+        <text name="rhm_ui_status_low" text="过低" />
+        <text name="rhm_ui_status_high" text="过高" />
+        <text name="rhm_ui_env_optimal" text="最佳条件" />
+        <text name="rhm_ui_env_moisture" text="高湿度" />
+        <text name="rhm_ui_env_weeds" text="杂草丛生" />
+        <text name="rhm_ui_env_damp_weeds" text="潮湿且多杂草" />
+        <text name="rhm_msg_req_tier4" text="需要 Opti-Harvest AI 自动巡航（第 4 级）" />
+        <text name="rhm_msg_req_tier3" text="配置存盘需要遥测监控仪（第 3 级）" />
+        <text name="rhm_msg_req_tier2" text="配置存盘需要传感器套件（第 2 级或更高）" />
+        <text name="rhm_msg_profile_saved" text="已保存配置：%s" />
+        <text name="rhm_msg_profile_loaded" text="已加载配置：%s" />
+        <text name="rhm_msg_profile_not_found" text="未找到该作物的保存配置" />
+        <text name="rhm_ui_combine_not_init" text="联合收割机未初始化" />
         <text name="rhm_unit_t_per_hour" text="t/h" />
         <text name="rhm_unit_ha_per_hour" text="ha/h" />
-        <text name="rhm_setting_ai_tuning" text="Nastavení pomocníků" />
-        <text name="rhm_setting_ai_tuning_long" text="Určuje, jak pomocníci a Courseplay nakládají s kalibrací kombajnu. 'Zachovat nastavení hráče' striktně uchovává vaše ruční úpravy a profily. 'Vždy automaticky' přepočítává podle úrovně elektroniky. 'Vypnuto' brání pomocníkům měnit nastavení." />
-        <text name="rhm_setting_ai_tuning_keep" text="Zachovat nastavení" />
-        <text name="rhm_setting_ai_tuning_auto" text="Vždy automaticky" />
-        <text name="rhm_setting_ai_tuning_disabled" text="Vypnuto" />
-        <text name="rhm_crop_straw_windrow" text="Řádek slámy" />
-        <text name="rhm_crop_grass_windrow" text="Řádek trávy" />
-        <text name="rhm_crop_drygrass_windrow" text="Řádek sena" />
-        <text name="rhm_crop_alfalfa_windrow" text="Řádek vojtěšky" />
-        <text name="rhm_crop_clover_windrow" text="Řádek jetele" />
-        <text name="rhm_crop_maize_forage" text="Kukuřičná siláž" />
-        <text name="rhm_windrow_format" text="Řádek: %s" />
-        <text name="rhm_setting_enableTutorials" text="Tipy a nápověda" />
-        <text name="rhm_setting_enableTutorials_long" text="Zobrazovat interaktivní nápovědu a tipy během sklizně." />
-        <text name="rhm_ui_btn_close_notification" text="Rozumím (Enter / LMB)" />
+        <text name="rhm_setting_ai_tuning" text="AI 雇工自动调校" />
+        <text name="rhm_setting_ai_tuning_long" text="决定 AI 雇工如何对待收割机设置。『保留我的设置』严格维持您的手动参数；『始终自动校准』依据电子等级调整；『关闭』禁止 AI 变更设置。" />
+        <text name="rhm_setting_ai_tuning_keep" text="保留我的设置" />
+        <text name="rhm_setting_ai_tuning_auto" text="始终自动校准" />
+        <text name="rhm_setting_ai_tuning_disabled" text="已禁用" />
+        <text name="rhm_crop_straw_windrow" text="麦秆草条" />
+        <text name="rhm_crop_grass_windrow" text="牧草条" />
+        <text name="rhm_crop_drygrass_windrow" text="干草条" />
+        <text name="rhm_crop_alfalfa_windrow" text="苜蓿草条" />
+        <text name="rhm_crop_clover_windrow" text="三叶草条" />
+        <text name="rhm_crop_maize_forage" text="玉米青贮" />
+        <text name="rhm_windrow_format" text="草条: %s" />
+        <text name="rhm_setting_enableTutorials" text="新手教学提示" />
+        <text name="rhm_setting_enableTutorials_long" text="在收割作业期间显示交互式引导提示。" />
+        <text name="rhm_ui_btn_close_notification" text="确认 (Enter / 鼠标左键)" />
         <text name="rhm_tut_welcome_title" text="Realistic Harvesting" />
-        <text name="rhm_tut_welcome_msg" text="Vítejte v Realistic Harvesting! Rychlost sklízeče se dynamicky řídí zatížením motoru, hustotou porostu a lištou. Otevřete terminál pomocí (Pravý Shift + K)." />
-        <text name="rhm_tut_overload_title" text="Přetížení Motoru" />
-        <text name="rhm_tut_overload_msg" text="Motor pracuje na hranici výkonu! Hydrostatický pohon zpomaluje stroj, aby zabránil ucpání mláticího bubnu. Přizvedněte lištu nebo snižte záběr." />
-        <text name="rhm_tut_loss_title" text="Vysoké Ztráty Zrna" />
-        <text name="rhm_tut_loss_msg" text="Za sklízečem byly zjištěny vysoké ztráty! Otáčky rotoru nebo nastavení sít neodpovídají plodině. Stiskněte (Pravý Shift + K) pro kalibraci." />
-        <text name="rhm_tut_moisture_title" text="Vysoká Vlhkost" />
-        <text name="rhm_tut_moisture_msg" text="Vlhkost zrna je vysoká nebo začalo pršet! Mokrá hmota klade velký odpor a přetěžuje motor. Pokud je to možné, sklízejte za sucha." />
-        <text name="rhm_tut_headland_title" text="Paměť Pracovní Rychlosti" />
-        <text name="rhm_tut_headland_msg" text="Při zvednutí lišty na souvrati si sklízeč pamatuje pracovní rychlost. Do nového řádku se plynule rozjede bez škubání." />
-        <text name="rhm_tut_upgrade_title" text="Vylepšení Sklízeče" />
-        <text name="rhm_tut_upgrade_msg" text="Základní sklízeč vyžaduje ruční ladění. V dílně můžete nainstalovat Senzory (Úroveň 2), Monitor Výnosu (Úroveň 3) nebo Autopilot Opti-Harvest AI (Úroveň 4)." />
-        <text name="rhm_tut_hud_drag_title" text="Interaktivní HUD" />
-        <text name="rhm_tut_hud_drag_msg" text="HUD panel můžete přesunout kamkoliv po obrazovce přidržením levého tlačítka myši (LMB) na panelu, nebo jej magneticky přichytit pod menu F1 či k okrajům obrazovky." />
-        <text name="rhm_tut_trip_title" text="Polní Počítadlo a Záznamy" />
-        <text name="rhm_tut_trip_msg" text="Stisknutím Shift+J otevřete přehled výnosů, finanční ztráty a stav flotily. Pro rychlé vynulování počítadla na novém poli podržte v kabině Shift+R po dobu 1 sekundy!" />
-        <text name="rhm_tut_chopper_title" text="Zatížení Drtiče Slámy" />
-        <text name="rhm_tut_chopper_msg" text="Drcení slámy spotřebuje o 15-20% více výkonu motoru než ukládání do řádku. Pokud v hustém porostu potřebujete vyšší rychlost sklizně, přepněte na tvorbu řádku." />
-        <text name="rhm_setting_wear_loss_short" text="Ztráty opotřebením techniky" />
-        <text name="rhm_setting_wear_loss_long" text="Simuluje ztráty zrna způsobené opotřebením stroje. Tupé nože lišty vyklepávají zrno (až +3% ztrát a +15% odporu). Opotřebovaný buben a síta propouštějí nevymlácené zrno (až +3% ztrát)." />
-        <text name="rhm_ui_wear_loss" text="Ztráta opotřebením" />
-        <text name="rhm_ui_cutter_wear" text="Opotřebení lišty" />
-        <text name="rhm_ui_combine_wear" text="Opotřebení mlátičky" />
+        <text name="rhm_tut_welcome_msg" text="欢迎使用 Realistic Harvesting！收割机速度将根据引擎负载、作物密度与割台状态动态适应。按下（右 Shift + K）可打开校准终端。" />
+        <text name="rhm_tut_overload_title" text="引擎严重超载" />
+        <text name="rhm_tut_overload_msg" text="发动机处于极限负载状态！流体静压传动正自动减速以防滚筒堵塞。请略微抬升割台或减小割幅。" />
+        <text name="rhm_tut_loss_title" text="产量损失过高" />
+        <text name="rhm_tut_loss_msg" text="收割机尾部谷物抛洒过多！当前滚筒转速或筛网开度与该作物不匹配。请按下（右 Shift + K）进行精细校准。" />
+        <text name="rhm_tut_moisture_title" text="作物湿度偏高" />
+        <text name="rhm_tut_moisture_msg" text="谷物湿度过高或天降细雨！潮湿的稭秆造成巨大摩擦阻力，大幅增加引擎负载与损失。建议在晴朗干燥天气收割。" />
+        <text name="rhm_tut_headland_title" text="地头速度记忆" />
+        <text name="rhm_tut_headland_msg" text="在地头转弯抬起割台时，系统会自动记住刚才的作业速度。切入新一垄时将平稳提速，毫无顿挫。" />
+        <text name="rhm_tut_upgrade_title" text="收割机电子升级" />
+        <text name="rhm_tut_upgrade_msg" text="基础款收割机需手动调节。前往车间升级电子系统可解锁传感器套件（第 2 级）、产量监控（第 3 级）或 Opti-Harvest AI（第 4 级）。" />
+        <text name="rhm_tut_hud_drag_title" text="交互式 HUD" />
+        <text name="rhm_tut_hud_drag_msg" text="您可以在面板上按住鼠标左键 (LMB) 将 HUD 拖曳到屏幕任意位置，或磁性吸附在 F1 菜单下方及屏幕边缘。" />
+        <text name="rhm_tut_trip_title" text="田地计数器与日志" />
+        <text name="rhm_tut_trip_msg" text="按 Shift+J 查看田地产量摘要、经济损失分析及机队状态。若要为新田地快速重设计数器，只需在驾驶舱内按住 Shift+R 1 秒钟即可！" />
+        <text name="rhm_tut_chopper_title" text="碎草机引擎负载" />
+        <text name="rhm_tut_chopper_msg" text="与条状铺草相比，粉碎稭秆会额外消耗 15-20% 的引擎动力。若在密植作物中需要更高的前进速度，请切换至条状铺草。" />
+        <text name="rhm_setting_wear_loss_short" text="机械磨损损失" />
+        <text name="rhm_setting_wear_loss_long" text="模拟设备磨损造成的籽粒损失。钝化割刀会打碎穗头（最多增加 +3% 损失及 +15% 阻力），磨损的脱粒纹杆与筛网会漏掉未脱净谷物（最多增加 +3% 损失）。" />
+        <text name="rhm_ui_wear_loss" text="磨损损失" />
+        <text name="rhm_ui_cutter_wear" text="割台磨损" />
+        <text name="rhm_ui_combine_wear" text="脱粒机构磨损" />
         <!-- Harvest History & Field Trip Telemetry -->
-        <text name="input_RHM_OPEN_HARVEST_MENU" text="Historie sklizně &amp; Polní počítadlo" />
-        <text name="input_RHM_QUICK_RESET_TRIP" text="Resetovat polní počítadlo (držet)" />
-        <text name="rhm_trip_reset_done" text="Polní počítadlo bylo resetováno!" />
-        <text name="rhm_tab_trip" text="Aktuální pole / Počítadlo" />
-        <text name="rhm_tab_trip_desc" text="Živá telemetrie sklizeného objemu, obdělané plochy, průměrného výnosu a ztrát pro aktuální práci." />
-        <text name="rhm_tab_analytics" text="Příčiny ztrát &amp; Hodnocení" />
-        <text name="rhm_tab_analytics_desc" text="Rozdělení ztrát, hodnocení efektivity obsluhy a doporučení palubního diagnostického počítače." />
-        <text name="rhm_tab_fleet" text="Kombajny na poli" />
-        <text name="rhm_tab_fleet_desc" text="Telemetrie v reálném čase, průchodnost a stav všech sklízecích mlátiček vaší farmy." />
-        <text name="rhm_tab_settings" text="Nastavení farmy a AI" />
-        <text name="rhm_tab_settings_desc" text="Konfigurace omezovače rychlosti pomocníků, generování výdrolu a možnosti automatického resetu." />
-        <text name="rhm_driver_parked" text="Bez řidiče" />
-        <text name="rhm_driver_cp_ai" text="AI (Courseplay)" />
-        <text name="rhm_driver_hired_ai" text="Pomocník AI" />
-        <text name="rhm_driver_player" text="Hráč" />
-        <text name="rhm_driver_idle_on" text="Volnoběh" />
-        <text name="rhm_field_yard" text="Farma / Dvůr" />
-        <text name="rhm_field_format" text="Pole %d" />
-        <text name="rhm_fleet_driver" text="Řidič" />
-        <text name="rhm_fleet_cutter" text="Šířka lišty" />
-        <text name="rhm_fleet_grain_tank" text="Naplnění zásobníku" />
-        <text name="rhm_fleet_throughput" text="Průchodnost" />
-        <text name="rhm_fleet_realtime_yield" text="Okamžitý výnos" />
-        <text name="rhm_fleet_crop_loss" text="Míra ztrát" />
-        <text name="rhm_fleet_wear_state" text="Opotřebení stroje" />
-        <text name="rhm_fleet_total_count" text="Celkem kombajnů" />
-        <text name="rhm_btn_subtab_fleet" text="FLOTILA KOMBAJNŮ" />
-        <text name="rhm_btn_subtab_history" text="HISTORIE SEZÓNY / VŠECHNA POLE" />
-        <text name="rhm_season_all_time" text="Všechny sezóny (Celá historie)" />
-        <text name="rhm_season_format" text="Sezóna %d (Rok %d)" />
-        <text name="rhm_season_current_suffix" text="[Aktuální]" />
-        <text name="rhm_card_season_harvest" text="SKLIZEŇ A PLOCHA SEZÓNY" />
-        <text name="rhm_card_season_losses" text="ZTRÁTY A FINANCE SEZÓNY" />
-        <text name="rhm_card_season_telemetry" text="METRIKY A ČAS SKLIZNĚ" />
-        <text name="rhm_season_operations" text="Dokončené práce" />
-        <text name="rhm_season_active_status" text="Aktivní sezóna" />
-        <text name="rhm_season_archived_status" text="Archivovaná sezóna" />
-        <text name="rhm_season_all_time_status" text="Kompletní historie" />
-        <text name="rhm_hist_total_area" text="Celková sklizená plocha" />
-        <text name="rhm_hist_total_harvest" text="Čistá sklizeň celkem" />
-        <text name="rhm_hist_avg_loss" text="Průměrné ztráty" />
-        <text name="rhm_hist_total_money" text="Celková finanční ztráta" />
-        <text name="rhm_col_season" text="Sezóna" />
-        <text name="rhm_col_status" text="Stav" />
-        <text name="rhm_hist_empty" text="Zatím žádné sezónní záznamy" />
-        <text name="rhm_status_harvesting" text="Sklízí (aktivní)" />
-        <text name="rhm_status_on_field_idle" text="Na poli (volnoběh)" />
-        <text name="rhm_status_on_field_stopped" text="Na poli (zastaveno)" />
-        <text name="rhm_status_in_transit" text="Na cestě / Přesun" />
-        <text name="rhm_status_in_cab" text="Obsazeno (Hráč)" />
-        <text name="rhm_status_parked_yard" text="Zaparkováno na dvoře" />
-        <text name="rhm_card_field_harvest" text="AKTUÁLNÍ POLE A PLODINA" />
-        <text name="rhm_field_number" text="Číslo pole" />
-        <text name="rhm_trip_no_field" text="Mimo pole" />
-        <text name="rhm_crop_type" text="Plodina" />
-        <text name="rhm_harvested_area" text="Sklizená plocha" />
-        <text name="rhm_clean_harvest" text="Čistá sklizeň" />
-        <text name="rhm_average_yield" text="Průměrný výnos" />
-        <text name="rhm_card_loss_finances" text="ZTRÁTY A FINANCE" />
-        <text name="rhm_loss_volume" text="Ztracený objem" />
-        <text name="rhm_loss_share" text="Míra ztrát" />
-        <text name="rhm_financial_loss" text="Finanční dopad" />
-        <text name="rhm_card_performance" text="VÝKON A ČAS" />
-        <text name="rhm_avg_working_speed" text="Průměrná pracovní rychlost" />
-        <text name="rhm_avg_engine_load" text="Průměrné zatížení motoru" />
-        <text name="rhm_session_duration" text="Doba trvání relace" />
-        <text name="rhm_btn_reset_trip" text="Resetovat polní počítadlo" />
-        <text name="rhm_causes_title" text="HLAVNÍ PŘÍČINY ZTRÁT" />
-        <text name="rhm_cause_speed" text="Rychlost a přetížení mláticího ústrojí" />
-        <text name="rhm_cause_moisture" text="Vlhkost plodiny a rosa" />
-        <text name="rhm_cause_wear" text="Opotřebení žací lišty a mlátičky" />
-        <text name="rhm_cause_slope" text="Svažitost pole a sklon" />
-        <text name="rhm_scorecard_title" text="HODNOCENÍ EFEKTIVITY OBSLUHY" />
-        <text name="rhm_rank_title_a" text="Třída A: Optimální" />
-        <text name="rhm_rank_desc_a" text="Míra ztrát pod 1,5%. Nastavení mlátičky i pracovní rychlost jsou v dokonalé rovnováze." />
-        <text name="rhm_rank_title_b" text="Třída B: Přijatelné" />
-        <text name="rhm_rank_desc_b" text="Míra ztrát mezi 1,5% a 3,0%. Doporučuje se mírná úprava rychlosti nebo koše." />
-        <text name="rhm_rank_title_c" text="Třída C: Zvýšené ztráty" />
-        <text name="rhm_rank_desc_c" text="Míra ztrát mezi 3,0% a 4,5%. Snižte rychlost nebo zkontrolujte ostrost žací lišty." />
-        <text name="rhm_rank_title_d" text="Třída D: Kritické ztráty" />
-        <text name="rhm_rank_desc_d" text="Míra ztrát přesahuje 4,5%! Zjištěno vážné přetížení sít nebo nesprávná kalibrace." />
-        <text name="rhm_guidance_title" text="DOPORUČENÍ PALUBNÍHO POČÍTAČE" />
-        <text name="rhm_advice_perfect" text="Efektivita sklizně je optimální. Všechny parametry separace jsou vyvážené." />
-        <text name="rhm_advice_speed" text="Hlavní příčinou ztrát je nadměrná rychlost. Zpomalte pro odlehčení sítové skříně." />
-        <text name="rhm_advice_moisture" text="Ztráty způsobené vysokou vlhkostí nebo ranní rosou. Počkejte na proschnutí nebo zpomalte." />
-        <text name="rhm_advice_wear" text="Zvýšené ztráty vlivem opotřebení nožů nebo mlatek. Proveďte údržbu v dílně." />
-        <text name="rhm_advice_slope" text="Boční náklon na svahu způsobuje nerovnoměrné zatížení sít. Snižte rychlost ve svazích." />
-        <text name="rhm_col_machine" text="Stroj" />
-        <text name="rhm_col_hours" text="Motohodiny" />
-        <text name="rhm_col_harvested" text="Sklizeno" />
-        <text name="rhm_col_lost" text="Ztráty" />
-        <text name="rhm_col_rank" text="Třída" />
-        <text name="rhm_fleet_no_combines" text="Nebyly nalezeny žádné kombajny" />
-        <text name="rhm_setting_ai_limiter_title" text="AI OMEZOVAČ RYCHLOSTI" />
-        <text name="rhm_setting_ai_limiter_desc" text="Automaticky omezuje pracovní rychlost najatých pracovníků, pokud ztráty překročí limit." />
-        <text name="rhm_setting_ai_threshold_title" text="AI LIMIT ZTRÁT" />
-        <text name="rhm_setting_ai_threshold_desc" text="Maximální přípustné procento ztrát, než AI pomocník automaticky zpomalí." />
-        <text name="rhm_setting_volunteer_title" text="VÝDROL A PLEVEL" />
-        <text name="rhm_setting_volunteer_desc" text="Vytváří ložiska plevele a výdrolu za kombajnem v místech vysokých ztrát (&gt;3%)." />
-        <text name="rhm_setting_autoreset_title" text="AUTOMATICKÝ RESET PŘI ZMĚNĚ POLE" />
-        <text name="rhm_setting_autoreset_desc" text="Automaticky archivovat a resetovat polní počítadlo při přejezdu na jiné pole." />
-        <text name="rhm_setting_autoreset_smart" text="Inteligentní (Pole / Plodina)" />
-        <text name="rhm_setting_autoreset_crop" text="Pouze změna plodiny" />
-        <text name="rhm_setting_autoreset_disabled" text="Vypnuto (Ručně)" />
-        <text name="rhm_col_field" text="Pole" />
-        <text name="rhm_col_speed" text="Rychlost" />
-        <text name="rhm_col_load" text="Zatížení" />
-        <text name="rhm_col_loss" text="Ztráty" />
-        <text name="rhm_col_tank" text="Zásobník" />
-        <text name="rhm_col_area" text="Plocha" />
-        <text name="rhm_col_money" text="Ztráta" />
-        <text name="rhm_col_driver" text="Řidič" />
-        <text name="rhm_col_cutter" text="Lišta" />
-        <text name="rhm_col_throughput" text="Průchodnost" />
-        <text name="rhm_col_yield" text="Výnos" />
-        <text name="rhm_col_wear" text="Opotřebení" />
-        <text name="rhm_kpi_field" text="POLE" />
-        <text name="rhm_kpi_crop" text="PLODINA" />
-        <text name="rhm_kpi_area" text="PLOCHA" />
-        <text name="rhm_kpi_harvest" text="SKLIZEŇ" />
-        <text name="rhm_kpi_yield" text="VÝNOS" />
-        <text name="rhm_kpi_loss" text="ZTRÁTA" />
-        <text name="rhm_kpi_speed" text="RYCHLOST" />
-        <text name="rhm_efficiency_index" text="Třída efektivity" />
-        <text name="rhm_trip_footer_hint" text="Dílčí počítadlo zaznamenává sklizenou plochu a čisté zrno pro aktivní pole. Kdykoliv můžete vynulovat." />
-        <text name="rhm_detail_area" text="Celková sklizená plocha pole" />
-        <text name="rhm_detail_clean_grain" text="čistého zrna" />
-        <text name="rhm_detail_yield" text="Průměrný výnos na sklizené ploše" />
-        <text name="rhm_detail_throughput" text="Aktuální průchodnost mlácení" />
-        <text name="rhm_detail_lost_grain" text="ztraceného zrna" />
-        <text name="rhm_detail_loss_rating" text="Míra ztrát vůči biologickému výnosu" />
-        <text name="rhm_detail_financial_loss" text="Finanční ztráta způsobená ztrátami při sklizni" />
-        <text name="rhm_detail_speed" text="Průměrná pracovní rychlost kombajnu" />
-        <text name="rhm_detail_load" text="Průměrné zatížení motoru" />
-        <text name="rhm_detail_duration" text="Doba aktivní práce" />
-        <text name="rhm_detail_wear" text="Mechanické opotřebení mláticího ústrojí" />
-        <text name="rhm_rating_normal" text="Optimální (&lt; 1.5%)" />
-        <text name="rhm_rating_moderate" text="Mírné (1.5 - 3.0%)" />
-        <text name="rhm_rating_elevated" text="Zvýšené (&gt; 3.0%)" />
-        <text name="rhm_rating_critical" text="Kritické (&gt; 4.5%)" />
-        <text name="rhm_tab_fields" text="Pole farmy" />
-        <text name="rhm_tab_fields_desc" text="Podrobný přehled sklizně, výnosů, ztrát a zakázek na jednotlivých polích." />
-        <text name="rhm_card_field_land" text="POZEMKY A POKROK" />
-        <text name="rhm_card_field_yield" text="SKLIZEŇ A VÝNOS" />
-        <text name="rhm_card_field_losses" text="ZTRÁTY A KVALITA" />
-        <text name="rhm_fields_total_owned" text="Vlastní pole" />
-        <text name="rhm_fields_best_yield" text="Nejlepší výnos" />
-        <text name="rhm_fields_owned" text="Vlastní" />
-        <text name="rhm_fields_contract" text="Smlouva" />
-        <text name="rhm_fields_no_data" text="Žádná pole nezaznamenána" />
-        <text name="rhm_contract_tag" text="(Smlouva)" />
-        <text name="rhm_status_completed" text="Sklizeno" />
-        <text name="rhm_status_idle_yard" text="Na dvoře (čeká)" />
-        <text name="rhm_fields_external" text="Externí" />
-        <text name="rhm_field_transit" text="Na cestě / Přejezd" />
-        <text name="rhm_detail_loss_money" text="Finanční dopad ztrát úrody" />
-        <text name="rhm_cause_none" text="Optimální provoz (žádné ztráty)" />
-        <text name="rhm_fields_all_overview" text="[*] Přehled farmy (všechna pole)" />
-        <text name="rhm_field_operations" text="Sklizňové operace" />
-        <text name="rhm_fields_nominal_area" text="Celková výměra" />
-        <text name="rhm_status_in_progress" text="Probíhá" />
-        <text name="rhm_fields_harvested_area" text="Sklizená plocha" />
-        <text name="rhm_ops_one" text="sklizeň" />
-        <text name="rhm_ops_few" text="sklizně" />
-        <text name="rhm_ops_many" text="sklizní" />
-        <text name="rhm_loss_disabled" text="Simulace vypnuta" />
-        <text name="rhm_loss_disabled_desc" text="Simulace ztrát úrody je v nastavení modu vypnuta." />
-        <text name="rhm_filter_active" text="V provozu" />
-        <text name="rhm_filter_all" text="Vše" />
-        <text name="rhm_filter_sold" text="Prodané" />
-        <text name="rhm_status_sold" text="Prodáno (Archiv)" />
-        <text name="rhm_field_sold" text="[Prodáno]" />
-        <text name="rhm_driver_sold" text="Odhlášeno" />
-        <text name="rhm_fleet_no_sold_combines" text="V archivu nejsou žádné prodané kombajny" />
-        <text name="rhm_fleet_total_count_active" text="Aktivní kombajny" />
-        <text name="rhm_fleet_total_count_sold" text="Prodané kombajny" />
-        <text name="rhm_slopeloss_short" text="Ztráty ve svahu" />
-        <text name="rhm_slopeloss_long" text="Simuluje sesouvání zrna k jedné straně sít na svazích nad 4° (až 5% ztrát). Vypněte, pokud nechcete penalizaci za sklon terénu." />
-        <text name="rhm_weedload_short" text="Odpor plevelů" />
-        <text name="rhm_weedload_long" text="Šťavnatý a vláknitý plevel se namotává na mláticí buben a zvyšuje mechanický odpor i zatížení motoru (až +25%). Vypněte pro eliminaci vlivu plevelů na výkon." />
-            <text name="rhm_fleet_badge_mission" text="[Zakázka]" />
-        <text name="rhm_fleet_badge_leased" text="[Pronajato]" />
-        <text name="rhm_cause_settings" text="Nastavení a kalibrace stroje" />
-        <text name="rhm_advice_settings" text="Hlavní ztráta způsobená neoptimálním nastavením. Upravte mezeru koše, otáčky bubnu a síta pro aktuální plodinu." />
-        <text name="rhm_fuel_consumption" text="Spotřeba paliva" />
-        <text name="rhm_fuel_used" text="Spotřebované palivo" />
-        <text name="rhm_fuel_rate" text="Měrná spotřeba" />
-        <text name="rhm_cluster_merged" text="Sloučené pole" />
-        <text name="rhm_gross_revenue" text="Hrubý příjem ze sklizně" />
-        <text name="rhm_fuel_expense" text="Náklady na palivo" />
-        <text name="rhm_net_margin" text="Čistá provozní marže" />
-        <text name="rhm_tut_calib_warn_title" text="KALIBRACE SKLÍZECÍ MLÁTIČKY" />
-        <text name="rhm_tut_calib_warn_msg" text="Kombajn ještě není zkalibrován pro %s! Práce se špatným nastavením mláticího koše, rotoru nebo sít vede k přetížení motoru a ztrátám zrna. Stiskněte Shift+K pro tovární profil." />
-        <text name="rhm_tut_calib_warn_params_msg" text="Zjištěno nevhodné nastavení pro %s (%s mimo toleranci)! Způsobuje snížení výkonu a ztráty zrna. Stiskněte Shift+K pro kalibraci." />
-        <text name="rhm_tut_calib_ok_title" text="OPTIMÁLNÍ NASTAVENÍ OVĚŘENO" />
-        <text name="rhm_tut_calib_ok_msg" text="Všechny mechanismy mlácení a čištění jsou nastaveny v optimální toleranci pro %s. Stroj pracuje s maximální účinností!" />
-        <text name="rhm_tut_weed_title" text="ODPOR ZAPLEVELENÍ" />
-        <text name="rhm_tut_weed_msg" text="Hustý plevel pod lištou výrazně zvyšuje odpor sečení i bubnu (+15–25% zatížení). Kombajn automaticky zpomaluje, aby nedošlo k ucpání." />
-        <text name="rhm_tut_slope_title" text="ZTRÁTY VE SVAHU" />
-        <text name="rhm_tut_slope_msg" text="Při práci ve svahu se materiál na sítech sesouvá k jedné straně a zrno uniká s plevami. Snižte na svahu rychlost jízdy." />
-        <text name="rhm_tut_wear_title" text="OPOTŘEBENÍ ŽACÍ LIŠTY A ROTORU" />
-        <text name="rhm_tut_wear_msg" text="Opotřebené žabky kosy a tupé mláticí lišty zvyšují odpor vkládání a způsobují ztráty zrna před lištou. Opravte stroj v dílně." />
-        <text name="rhm_field_progress" text="Postup sklizně" />
-        <text name="rhm_filter_owned" text="Vlastní" />
-        <text name="rhm_filter_contracts" text="Smlouvy" />
-        <text name="rhm_hud_style_title" text="Režim zobrazení HUD" />
-        <text name="rhm_hud_style_desc" text="Vyberte mezi kompaktním jednorázovým telemetrickým panelem (4 buňky) a rozšířeným monitorem výnosu (8 buněk s průtokem hmoty, průměrným výnosem, postupem pole a počítadlem)." />
-        <text name="rhm_hud_style_compact" text="Kompaktní (4 buňky)" />
-        <text name="rhm_hud_style_expanded" text="Monitor výnosu (8 buněk)" />
+        <text name="input_RHM_OPEN_HARVEST_MENU" text="采收记录与农田计数器" />
+        <text name="input_RHM_QUICK_RESET_TRIP" text="重设农田计数器（长按）" />
+        <text name="rhm_trip_reset_done" text="农田计数器已重设！" />
+        <text name="rhm_tab_trip" text="当前农田 / 作业计数器" />
+        <text name="rhm_tab_trip_desc" text="当前农田作业之采收量、作业面积、平均产量及财务损失实时遥测。" />
+        <text name="rhm_tab_analytics" text="损失成因与评分卡" />
+        <text name="rhm_tab_analytics_desc" text="损失分布、操作员效率评级及车载电脑诊断建议。" />
+        <text name="rhm_tab_fleet" text="作业中收割机" />
+        <text name="rhm_tab_fleet_desc" text="农场内所有收割机之实时遥测、处理量及作业状态。" />
+        <text name="rhm_tab_settings" text="农场与AI设置" />
+        <text name="rhm_tab_settings_desc" text="设置AI雇员速度限制器、自生杂草生成及自动重设选项。" />
+        <text name="rhm_driver_parked" text="无驾驶" />
+        <text name="rhm_driver_cp_ai" text="AI（Courseplay）" />
+        <text name="rhm_driver_hired_ai" text="AI雇员" />
+        <text name="rhm_driver_player" text="玩家" />
+        <text name="rhm_driver_idle_on" text="怠速运转" />
+        <text name="rhm_field_yard" text="基地 / 庭院" />
+        <text name="rhm_field_format" text="农田 %d" />
+        <text name="rhm_fleet_driver" text="操作员" />
+        <text name="rhm_fleet_cutter" text="割台宽度" />
+        <text name="rhm_fleet_grain_tank" text="粮仓容量" />
+        <text name="rhm_fleet_throughput" text="处理能力" />
+        <text name="rhm_fleet_realtime_yield" text="实时产量" />
+        <text name="rhm_fleet_crop_loss" text="损失率" />
+        <text name="rhm_fleet_wear_state" text="机器磨损" />
+        <text name="rhm_fleet_total_count" text="收割机总数" />
+        <text name="rhm_btn_subtab_fleet" text="收割机车队" />
+        <text name="rhm_btn_subtab_history" text="季度历史 / 所有田地" />
+        <text name="rhm_season_all_time" text="所有季度 (历史全纪录)" />
+        <text name="rhm_season_format" text="第 %d 季 (第 %d 年)" />
+        <text name="rhm_season_current_suffix" text="[当前]" />
+        <text name="rhm_card_season_harvest" text="季度收成与面积" />
+        <text name="rhm_card_season_losses" text="季度损失与财务" />
+        <text name="rhm_card_season_telemetry" text="作业指针与收割工时" />
+        <text name="rhm_season_operations" text="已完成作业" />
+        <text name="rhm_season_active_status" text="进行中季度" />
+        <text name="rhm_season_archived_status" text="已存盘季度" />
+        <text name="rhm_season_all_time_status" text="完整历史" />
+        <text name="rhm_hist_total_area" text="总采收面积" />
+        <text name="rhm_hist_total_harvest" text="总净采收量" />
+        <text name="rhm_hist_avg_loss" text="平均损失率" />
+        <text name="rhm_hist_total_money" text="总财务损失" />
+        <text name="rhm_col_season" text="季度" />
+        <text name="rhm_col_status" text="状态" />
+        <text name="rhm_hist_empty" text="尚无季度记录" />
+        <text name="rhm_status_harvesting" text="采收中（作业）" />
+        <text name="rhm_status_on_field_idle" text="田间待命（怠速）" />
+        <text name="rhm_status_on_field_stopped" text="田间停泊（熄火）" />
+        <text name="rhm_status_in_transit" text="行驶中" />
+        <text name="rhm_status_in_cab" text="有人驾驶" />
+        <text name="rhm_status_parked_yard" text="停放于基地" />
+        <text name="rhm_card_field_harvest" text="当前田地与作物" />
+        <text name="rhm_field_number" text="农田编号" />
+        <text name="rhm_trip_no_field" text="田外区域" />
+        <text name="rhm_crop_type" text="作物类型" />
+        <text name="rhm_harvested_area" text="已采收面积" />
+        <text name="rhm_clean_harvest" text="净收成" />
+        <text name="rhm_average_yield" text="平均产量" />
+        <text name="rhm_card_loss_finances" text="损失与财务统计" />
+        <text name="rhm_loss_volume" text="损失体积" />
+        <text name="rhm_loss_share" text="损失率" />
+        <text name="rhm_financial_loss" text="经济损失" />
+        <text name="rhm_card_performance" text="作业性能与时间" />
+        <text name="rhm_avg_working_speed" text="平均作业速度" />
+        <text name="rhm_avg_engine_load" text="平均引擎负荷" />
+        <text name="rhm_session_duration" text="作业时间" />
+        <text name="rhm_btn_reset_trip" text="重设农田计数器" />
+        <text name="rhm_causes_title" text="作物损失主要成因" />
+        <text name="rhm_cause_speed" text="速度过快与脱粒筒重载" />
+        <text name="rhm_cause_moisture" text="作物湿度与晨露" />
+        <text name="rhm_cause_wear" text="割台与脱粒部件磨损" />
+        <text name="rhm_cause_slope" text="田地坡度与倾斜" />
+        <text name="rhm_scorecard_title" text="操作员效率评分卡" />
+        <text name="rhm_rank_title_a" text="等级 A: 最佳" />
+        <text name="rhm_rank_desc_a" text="损失率低于 1.5%。收割机设置与行驶速度完美契合。" />
+        <text name="rhm_rank_title_b" text="等级 B: 良好" />
+        <text name="rhm_rank_desc_b" text="损失率介于 1.5% 至 3.0% 之间。建议微调速度或凹板间隙。" />
+        <text name="rhm_rank_title_c" text="等级 C: 偏高" />
+        <text name="rhm_rank_desc_c" text="损失率介于 3.0% 至 4.5% 之间。请减速或检查割刀锋利度。" />
+        <text name="rhm_rank_title_d" text="等级 D: 严重" />
+        <text name="rhm_rank_desc_d" text="损失率超过 4.5%！筛网严重重载或设置严重偏差。" />
+        <text name="rhm_guidance_title" text="车载电脑诊断建议" />
+        <text name="rhm_advice_perfect" text="采收效率极佳。所有分离参数均处于最佳平衡状态。" />
+        <text name="rhm_advice_speed" text="主要损失成因为速度过快。请减速以降低筛网负担。" />
+        <text name="rhm_advice_moisture" text="高作物湿度或晨露导致损失。请等待田间干燥或适当减速。" />
+        <text name="rhm_advice_wear" text="刀片或脱粒纹杆磨损导致损失增加。请至维修站进行保养。" />
+        <text name="rhm_advice_slope" text="坡地侧向倾斜导致筛网负载不均。于坡地作业时请减速。" />
+        <text name="rhm_col_machine" text="机器" />
+        <text name="rhm_col_hours" text="作业时数" />
+        <text name="rhm_col_harvested" text="已收成" />
+        <text name="rhm_col_lost" text="损失量" />
+        <text name="rhm_col_rank" text="等级" />
+        <text name="rhm_fleet_no_combines" text="未找到收割机" />
+        <text name="rhm_setting_ai_limiter_title" text="AI速度限制器" />
+        <text name="rhm_setting_ai_limiter_desc" text="当损失超过阀值时，自动限制AI雇员巡航速度。" />
+        <text name="rhm_setting_ai_threshold_title" text="AI损失容许阀值" />
+        <text name="rhm_setting_ai_threshold_desc" text="AI雇员开始自动煞车减速之最大容许损失百分比。" />
+        <text name="rhm_setting_volunteer_title" text="自生杂草生成" />
+        <text name="rhm_setting_volunteer_desc" text="在严重损失区域（>3%）于收割机后方生成杂草与自生幼苗。" />
+        <text name="rhm_setting_autoreset_title" text="更换农田时自动重设" />
+        <text name="rhm_setting_autoreset_desc" text="行驶至其他农田时，自动封存当前测量并重设计数器。" />
+        <text name="rhm_setting_autoreset_smart" text="智能 (农田 / 作物)" />
+        <text name="rhm_setting_autoreset_crop" text="仅限更换作物" />
+        <text name="rhm_setting_autoreset_disabled" text="禁用 (手动)" />
+        <text name="rhm_col_field" text="农田" />
+        <text name="rhm_col_speed" text="速度" />
+        <text name="rhm_col_load" text="负荷" />
+        <text name="rhm_col_loss" text="损失" />
+        <text name="rhm_col_tank" text="粮仓" />
+        <text name="rhm_col_area" text="面积" />
+        <text name="rhm_col_money" text="损失金额" />
+        <text name="rhm_col_driver" text="操作员" />
+        <text name="rhm_col_cutter" text="割台" />
+        <text name="rhm_col_throughput" text="处理量" />
+        <text name="rhm_col_yield" text="产量" />
+        <text name="rhm_col_wear" text="磨损" />
+        <text name="rhm_kpi_field" text="农田" />
+        <text name="rhm_kpi_crop" text="作物" />
+        <text name="rhm_kpi_area" text="面积" />
+        <text name="rhm_kpi_harvest" text="总收成" />
+        <text name="rhm_kpi_yield" text="单位产量" />
+        <text name="rhm_kpi_loss" text="损失" />
+        <text name="rhm_kpi_speed" text="速度" />
+        <text name="rhm_efficiency_index" text="效率等级" />
+        <text name="rhm_trip_footer_hint" text="农田计数器记录当前农田的采收面积和净粮食量。随时可进行重设。" />
+        <text name="rhm_detail_area" text="总收获田地面积" />
+        <text name="rhm_detail_clean_grain" text="净粮" />
+        <text name="rhm_detail_yield" text="收获面积平均产量" />
+        <text name="rhm_detail_throughput" text="当前脱粒产能" />
+        <text name="rhm_detail_lost_grain" text="损失粮食" />
+        <text name="rhm_detail_loss_rating" text="相对于生物产量的损失率" />
+        <text name="rhm_detail_financial_loss" text="收获损失造成的经济影响" />
+        <text name="rhm_detail_speed" text="联合收割机平均前进速度" />
+        <text name="rhm_detail_load" text="平均引擎动力负载" />
+        <text name="rhm_detail_duration" text="本次作业时长" />
+        <text name="rhm_detail_wear" text="脱粒机构机械磨损" />
+        <text name="rhm_rating_normal" text="最佳 (&lt; 1.5%)" />
+        <text name="rhm_rating_moderate" text="适中 (1.5 - 3.0%)" />
+        <text name="rhm_rating_elevated" text="偏高 (&gt; 3.0%)" />
+        <text name="rhm_rating_critical" text="严重 (&gt; 4.5%)" />
+        <text name="rhm_tab_fields" text="农场田地" />
+        <text name="rhm_tab_fields_desc" text="农场各田地的产量、亩产、损失与合约任务详细总览。" />
+        <text name="rhm_card_field_land" text="农地与进度" />
+        <text name="rhm_card_field_yield" text="产量与收获" />
+        <text name="rhm_card_field_losses" text="作物损失与品质" />
+        <text name="rhm_fields_total_owned" text="自有田地" />
+        <text name="rhm_fields_best_yield" text="最高产量田地" />
+        <text name="rhm_fields_owned" text="自有" />
+        <text name="rhm_fields_contract" text="合约" />
+        <text name="rhm_fields_no_data" text="无田地记录" />
+        <text name="rhm_contract_tag" text="(合约)" />
+        <text name="rhm_status_completed" text="已收获" />
+        <text name="rhm_status_idle_yard" text="基地待命" />
+        <text name="rhm_fields_external" text="外部" />
+        <text name="rhm_field_transit" text="行驶中" />
+        <text name="rhm_detail_loss_money" text="产量损失带来的经济损失" />
+        <text name="rhm_cause_none" text="最佳作业 (无损失)" />
+        <text name="rhm_fields_all_overview" text="[*] 农场总览 (所有田地)" />
+        <text name="rhm_field_operations" text="收获作业次数" />
+        <text name="rhm_fields_nominal_area" text="名义面积" />
+        <text name="rhm_status_in_progress" text="进行中" />
+        <text name="rhm_fields_harvested_area" text="收割面积" />
+        <text name="rhm_ops_one" text="次" />
+        <text name="rhm_ops_few" text="次" />
+        <text name="rhm_ops_many" text="次" />
+        <text name="rhm_loss_disabled" text="模拟已禁用" />
+        <text name="rhm_loss_disabled_desc" text="模块设置中已禁用产量损失模拟。" />
+        <text name="rhm_filter_active" text="运作中" />
+        <text name="rhm_filter_all" text="全部" />
+        <text name="rhm_filter_sold" text="已售出" />
+        <text name="rhm_status_sold" text="已售出 (存盘)" />
+        <text name="rhm_field_sold" text="[已售出]" />
+        <text name="rhm_driver_sold" text="已退役" />
+        <text name="rhm_fleet_no_sold_combines" text="存盘中没有已售出的收割机" />
+        <text name="rhm_fleet_total_count_active" text="运作中的收割机" />
+        <text name="rhm_fleet_total_count_sold" text="已售出收割机" />
+        <text name="rhm_slopeloss_short" text="坡度损失" />
+        <text name="rhm_slopeloss_long" text="模拟在超过4度的坡地上，谷物向筛网单侧堆积的现象（最高5%损失）。关闭以移除地形倾斜惩罚。" />
+        <text name="rhm_weedload_short" text="杂草阻力" />
+        <text name="rhm_weedload_long" text="多汁且多纤维的杂草缠绕脱粒滚筒，增加机械阻力及引擎负载（最高+25%）。关闭以防止杂草影响引擎功率。" />
+            <text name="rhm_fleet_badge_mission" text="[合约]" />
+        <text name="rhm_fleet_badge_leased" text="[租赁]" />
+        <text name="rhm_cause_settings" text="机器设置与校准" />
+        <text name="rhm_advice_settings" text="主要损失源于机器校准未优化。请针对当前作物调整凹板间隙、滚筒转速与筛网。" />
+        <text name="rhm_fuel_consumption" text="油耗" />
+        <text name="rhm_fuel_used" text="已用燃油" />
+        <text name="rhm_fuel_rate" text="燃油消耗率" />
+        <text name="rhm_cluster_merged" text="合并田块" />
+        <text name="rhm_gross_revenue" text="收获总收益" />
+        <text name="rhm_fuel_expense" text="燃油费用" />
+        <text name="rhm_net_margin" text="净营业利润" />
+        <text name="rhm_tut_calib_warn_title" text="联合收割机校准" />
+        <text name="rhm_tut_calib_warn_msg" text="收割机尚未针对 %s 进行校准！间隙或转速设置不当会导致引擎负载过重与严重的作物损失。请按 Shift+K 加载原厂最佳预设。" />
+        <text name="rhm_tut_calib_warn_params_msg" text="侦测到 %s 的次佳设置（%s 超出容许范围）！这会降低通过量并增加损失。请按 Shift+K 进行校准。" />
+        <text name="rhm_tut_calib_ok_title" text="已确认最佳校准" />
+        <text name="rhm_tut_calib_ok_msg" text="针对 %s，所有脱粒与清选机构均已校准在最佳容许范围内。正以最高效率作业中！" />
+        <text name="rhm_tut_weed_title" text="杂草阻力" />
+        <text name="rhm_tut_weed_msg" text="割台下密集的绿色杂草会显著增加切割与脱粒滚筒阻力（+15–25% 引擎负载）。系统将自动减速以防止进料堵塞。" />
+        <text name="rhm_tut_slope_title" text="坡地收获损失" />
+        <text name="rhm_tut_slope_msg" text="在坡地作业会使筛箱倾斜，导致谷物集中于一侧并随糠皮排出。在斜坡上请减慢作业车速以减少损失。" />
+        <text name="rhm_tut_wear_title" text="割刀与滚筒磨损" />
+        <text name="rhm_tut_wear_msg" text="磨损的割刀片与钝化的脱粒组件会增加进料阻力并导致割台前落粒损失。请至维修厂检修机器。" />
+        <text name="rhm_field_progress" text="采收进度" />
+        <text name="rhm_filter_owned" text="自有地" />
+        <text name="rhm_filter_contracts" text="契约作业" />
+        <text name="rhm_hud_style_title" text="HUD显示模式" />
+        <text name="rhm_hud_style_desc" text="在紧凑单行遥测列（4格）与扩展产量监视器（包含质量流量、平均产量、作业面积与计程器的8格）之间切换。" />
+        <text name="rhm_hud_style_compact" text="紧凑（4格）" />
+        <text name="rhm_hud_style_expanded" text="产量监视器（8格）" />
         <!-- HUD Layout Variants & Headers -->
-        <text name="rhm_hud_layout_title" text="Varianta rozvržení HUD" />
-        <text name="rhm_hud_layout_desc" text="Vyberte uspořádání buněk: Moderní OEM (jednotky v řádku), Karta precizního zemědělství (záhlaví nahoře), Čistý minimalismus (pouze ikony a hodnoty) nebo Klasický skládaný (dvouřádkový)." />
-        <text name="rhm_hud_layout_oem" text="Moderní OEM (V jednom řádku)" />
-        <text name="rhm_hud_layout_card" text="Karta precizního zemědělství (Záhlaví nahoře)" />
-        <text name="rhm_hud_layout_clean" text="Čistý minimalismus" />
-        <text name="rhm_hud_layout_stacked" text="Klasický skládaný" />
-        <text name="rhm_hud_hdr_load" text="ZATÍŽENÍ" />
-        <text name="rhm_hud_hdr_loss" text="ZTRÁTY" />
-        <text name="rhm_hud_hdr_speed" text="RYCHLOST" />
-        <text name="rhm_hud_hdr_moisture" text="VLHKOST" />
-        <text name="rhm_hud_hdr_weed" text="PLEVEL" />
-        <text name="rhm_hud_hdr_productivity" text="PRŮTOK" />
-        <text name="rhm_hud_hdr_yield" text="VÝNOS" />
-        <text name="rhm_hud_hdr_area_rate" text="VÝKON" />
-        <text name="rhm_hud_hdr_field" text="PLOCHA" />
-        <text name="rhm_hud_hdr_trip" text="CELK. HMOT" />
-        <text name="rhm_hud_hdr_history" text="ČAS PRÁCE" />
-        <text name="rhm_hud_hdr_power" text="VÝKON" />
-        <text name="rhm_hud_hdr_weed_drag" text="ODPOR PLEVELU" />
-        <text name="rhm_hud_hdr_throughput" text="PRŮCHODNOST" />
-        <text name="rhm_hud_hdr_avg_yield" text="PRŮMĚRNÝ VÝNOS" />
-        <text name="rhm_hud_hdr_volume" text="OBJEM" />
+        <text name="rhm_hud_layout_title" text="HUD Layout Variant" />
+        <text name="rhm_hud_layout_desc" text="Choose the visual cell arrangement: OEM Modern (inline units on fixed baseline), Precision Card (micro-headers on top), Minimalist Clean (uncluttered icons and values), or Classic Stacked (two-tier text)." />
+        <text name="rhm_hud_layout_oem" text="OEM Modern (Inline)" />
+        <text name="rhm_hud_layout_card" text="Precision Card (Header Top)" />
+        <text name="rhm_hud_layout_clean" text="Minimalist Clean" />
+        <text name="rhm_hud_layout_stacked" text="Classic Stacked" />
+        <text name="rhm_hud_hdr_load" text="LOAD" />
+        <text name="rhm_hud_hdr_loss" text="LOSS" />
+        <text name="rhm_hud_hdr_speed" text="SPEED" />
+        <text name="rhm_hud_hdr_moisture" text="MOISTURE" />
+        <text name="rhm_hud_hdr_weed" text="WEED" />
+        <text name="rhm_hud_hdr_productivity" text="FLOW RATE" />
+        <text name="rhm_hud_hdr_yield" text="YIELD" />
+        <text name="rhm_hud_hdr_area_rate" text="WORK RATE" />
+        <text name="rhm_hud_hdr_field" text="AREA" />
+        <text name="rhm_hud_hdr_trip" text="TOTAL MASS" />
+        <text name="rhm_hud_hdr_history" text="WORK TIME" />
+        <text name="rhm_hud_hdr_power" text="POWER" />
+        <text name="rhm_hud_hdr_weed_drag" text="WEED DRAG" />
+        <text name="rhm_hud_hdr_throughput" text="THROUGHPUT" />
+        <text name="rhm_hud_hdr_avg_yield" text="AVG YIELD" />
+        <text name="rhm_hud_hdr_volume" text="VOLUME" />
         <!-- Threshing System Badges -->
         <text name="rhm_threshing_walker" text="Straw Walker" />
         <text name="rhm_threshing_rotor" text="Axial Rotor" />
