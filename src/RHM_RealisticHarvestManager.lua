@@ -77,11 +77,24 @@ function RHM_RealisticHarvestManager.new(mission, modDirectory, modName)
 end
 
 -- EN: Toggles the calibration GUI open/closed for the given combine vehicle.
+--     Validates that target vehicle belongs to the currently entered player vehicle hierarchy.
 -- UA: Перемикає GUI калібрування відкритий/закритий для заданого комбайна.
+--     Перевіряє, що цільовий транспорт належить до ієрархії поточної машини гравця.
 function RHM_RealisticHarvestManager:toggleMenu(vehicle)
-    if self.calibrationGUI then
-        self.calibrationGUI:toggle(vehicle)
+    if not self.calibrationGUI then return end
+
+    local controlled = self:getControlledVehicle()
+    if not controlled then return end
+
+    -- Verify vehicle belongs to the current controlled vehicle hierarchy
+    local target = vehicle
+    local controlledRoot = (controlled.getRootVehicle and controlled:getRootVehicle()) or controlled.rootVehicle or controlled
+    local targetRoot = target and ((target.getRootVehicle and target:getRootVehicle()) or target.rootVehicle or target)
+    if not targetRoot or targetRoot ~= controlledRoot then
+        target = controlled
     end
+
+    self.calibrationGUI:toggle(target)
 end
 
 -- EN: Toggles interactive mouse cursor mode for HUD interaction and camera suspension.
@@ -456,12 +469,17 @@ function RHM_RealisticHarvestManager:update(dt)
         return
     end
 
+    local controlledVehicle = self:getControlledVehicle()
+    if self.lastControlledVehicle ~= nil and self.lastControlledVehicle ~= controlledVehicle then
+        if self.calibrationGUI and self.calibrationGUI.isOpen then
+            self.calibrationGUI:close()
+        end
+    end
+    self.lastControlledVehicle = controlledVehicle
+
     if self.calibrationGUI then
         self.calibrationGUI:update(dt)
     end
-
-    local controlledVehicle = self:getControlledVehicle()
-    self.lastControlledVehicle = controlledVehicle
 
     if self.hud then
         local vehicle = controlledVehicle

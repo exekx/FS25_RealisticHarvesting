@@ -25,7 +25,7 @@ function RHM_CombineMemory.new(combine, machineType, threshingType)
 
     self.combine = combine
     self.machineType = machineType or "grain"
-    self.threshingType = threshingType or "walker"
+    self.threshingType = threshingType or "grain"
 
     self.currentProfile = nil -- EN: Name of the currently active profile / UA: Назва поточного активного профілю
     self.currentCrop = nil    -- EN: Currently detected crop name / UA: Поточна визначена культура

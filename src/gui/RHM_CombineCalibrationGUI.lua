@@ -55,9 +55,7 @@ local function getParamSection(machineType, param)
 end
 
 local THRESHING_TYPE_LABELS = {
-    walker    = { key = "rhm_threshing_walker",    default = "STRAW WALKER" },
-    rotor     = { key = "rhm_threshing_rotor",     default = "AXIAL ROTOR" },
-    hybrid    = { key = "rhm_threshing_hybrid",    default = "HYBRID APS" },
+    grain     = { key = "typeDesc_combine",        default = "GRAIN COMBINE" },
     forage    = { key = "rhm_threshing_forage",    default = "FORAGE CHOPPER" },
     root      = { key = "rhm_threshing_root",      default = "ROOT HARVESTER" },
     specialty = { key = "rhm_threshing_specialty", default = "SPECIALTY" },
@@ -92,6 +90,11 @@ local function getTierConfig(packageLevel)
         cfg._lastLang = g_i18n and g_i18n.currentLanguage
     end
     return cfg
+end
+
+local function getVehicleRoot(v)
+    if not v then return nil end
+    return (v.getRootVehicle and v:getRootVehicle()) or v.rootVehicle or v
 end
 
 function RHMCombineCalibrationGUI.new(modDirectory)
@@ -229,7 +232,13 @@ end
 
 function RHMCombineCalibrationGUI:toggle(vehicle)
     if self.isOpen then
+        local currentRoot = getVehicleRoot(self.activeVehicle)
+        local newRoot = getVehicleRoot(vehicle)
         self:close()
+        -- If user toggled while open for a different vehicle, open immediately for the new vehicle
+        if currentRoot ~= nil and newRoot ~= nil and currentRoot ~= newRoot then
+            self:open(vehicle)
+        end
     else
         self:open(vehicle)
     end
@@ -237,29 +246,6 @@ end
 
 function RHMCombineCalibrationGUI:open(vehicle)
     if self.isOpen then return end
-
-    local combineVehicle = vehicle
-    if vehicle and not (vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.isRhmCombine == true) then
-        local found = RHM_Api and RHM_Api.findCombine and RHM_Api.findCombine(vehicle)
-        if found and found.spec_rhm_Combine and found.spec_rhm_Combine.isRhmCombine == true then
-            combineVehicle = found
-            rhm_log(string.format("RHM [UI]: RHM: [GUI] found combine vehicle in hierarchy: %s", tostring(combineVehicle)))
-        else
-            rhm_log("RHM [UI]: RHM: [GUI] No combine with spec_rhm_Combine found in vehicle hierarchy — GUI will not open")
-            return
-        end
-    end
-
-
-    self.isOpen = true
-
-    -- Notify compatibility layer (IC, Headtracking) to suspend conflicting overlays and exclusive action events
-    if RHM_ModCompatibility and RHM_ModCompatibility.onCalibrationGUIOpened then
-        RHM_ModCompatibility.onCalibrationGUIOpened()
-    end
-
-    g_inputBinding:setShowMouseCursor(true)
-    self.isCursorActive = true
 
     local cv = nil
     if g_realisticHarvestManager and g_realisticHarvestManager.getControlledVehicle then
@@ -277,8 +263,44 @@ function RHMCombineCalibrationGUI:open(vehicle)
         end
     end
 
+    -- Target must belong to the vehicle the player is currently inside
+    local callerVehicle = vehicle or cv
+    if cv then
+        local cvRoot = getVehicleRoot(cv)
+        local callerRoot = getVehicleRoot(callerVehicle)
+        if not callerRoot or callerRoot ~= cvRoot then
+            callerVehicle = cv
+        end
+    end
+
+    local combineVehicle = callerVehicle
+    if combineVehicle and not (combineVehicle.spec_rhm_Combine and combineVehicle.spec_rhm_Combine.isRhmCombine == true) then
+        local found = RHM_Api and RHM_Api.findCombine and RHM_Api.findCombine(combineVehicle)
+        if found and found.spec_rhm_Combine and found.spec_rhm_Combine.isRhmCombine == true then
+            combineVehicle = found
+            rhm_log(string.format("RHM [UI]: RHM: [GUI] found combine vehicle in hierarchy: %s", tostring(combineVehicle)))
+        else
+            rhm_log("RHM [UI]: RHM: [GUI] No combine with spec_rhm_Combine found in vehicle hierarchy — GUI will not open")
+            return
+        end
+    end
+
+    if not combineVehicle or not (combineVehicle.spec_rhm_Combine and combineVehicle.spec_rhm_Combine.isRhmCombine == true) then
+        return
+    end
+
+    self.isOpen = true
+
+    -- Notify compatibility layer (IC, Headtracking) to suspend conflicting overlays and exclusive action events
+    if RHM_ModCompatibility and RHM_ModCompatibility.onCalibrationGUIOpened then
+        RHM_ModCompatibility.onCalibrationGUIOpened()
+    end
+
+    g_inputBinding:setShowMouseCursor(true)
+    self.isCursorActive = true
+
     local camTarget = (cv and cv.spec_enterable and cv)
-                   or (vehicle and vehicle.spec_enterable and vehicle)
+                   or (callerVehicle and callerVehicle.spec_enterable and callerVehicle)
                    or (combineVehicle and combineVehicle.spec_enterable and combineVehicle)
 
     if camTarget and camTarget.spec_enterable then
@@ -287,7 +309,7 @@ function RHMCombineCalibrationGUI:open(vehicle)
     end
 
     self.activeVehicle = combineVehicle
-    self.controllerVehicle = cv or vehicle or combineVehicle
+    self.controllerVehicle = cv or callerVehicle or combineVehicle
 
     -- Validate active crop on the combine
     if combineVehicle and combineVehicle.spec_rhm_Combine and combineVehicle.spec_rhm_Combine.combineMemory then
@@ -381,6 +403,8 @@ function RHMCombineCalibrationGUI:close()
     end
     self.savedCameraRotatableInfo = {}
     self.savedCameraZoomInfo = {}
+    self.activeVehicle = nil
+    self.controllerVehicle = nil
 end
 
 function RHMCombineCalibrationGUI:cycleCrop(direction)
@@ -467,46 +491,32 @@ function RHMCombineCalibrationGUI:update(dt)
         return
     end
 
-    local vehicleToCheck = self.controllerVehicle or self.activeVehicle
+    local cv = nil
+    if g_realisticHarvestManager and g_realisticHarvestManager.getControlledVehicle then
+        cv = g_realisticHarvestManager:getControlledVehicle()
+    end
+    if not cv then
+        if g_localPlayer and g_localPlayer.getCurrentVehicle then
+            cv = g_localPlayer:getCurrentVehicle()
+        elseif g_currentMission then
+            if g_currentMission.getControlledVehicle then
+                cv = g_currentMission:getControlledVehicle()
+            elseif g_currentMission.controlledVehicle then
+                cv = g_currentMission.controlledVehicle
+            end
+        end
+    end
+
+    -- Strict validation: player must remain inside the active combine's vehicle hierarchy
     local isEntered = false
-
-    if vehicleToCheck then
-        local cv = nil
-        if g_realisticHarvestManager and g_realisticHarvestManager.getControlledVehicle then
-            cv = g_realisticHarvestManager:getControlledVehicle()
-        end
-        if not cv then
-            if g_localPlayer and g_localPlayer.getCurrentVehicle then
-                cv = g_localPlayer:getCurrentVehicle()
-            elseif g_currentMission then
-                if g_currentMission.getControlledVehicle then
-                    cv = g_currentMission:getControlledVehicle()
-                elseif g_currentMission.controlledVehicle then
-                    cv = g_currentMission.controlledVehicle
-                end
-            end
-        end
-
-        if cv then
-            if cv == vehicleToCheck then
-                isEntered = true
-            else
-                local rootA = cv.rootVehicle or cv
-                local rootB = vehicleToCheck.rootVehicle or vehicleToCheck
-                if rootA == rootB then
-                    isEntered = true
-                end
-            end
-        end
-
-        if not isEntered and vehicleToCheck.getIsEntered then
-            isEntered = vehicleToCheck:getIsEntered()
-        end
-        if not isEntered and vehicleToCheck.spec_enterable and vehicleToCheck.spec_enterable.isEntered then
+    if cv and self.activeVehicle then
+        local cvRoot = getVehicleRoot(cv)
+        local activeRoot = getVehicleRoot(self.activeVehicle)
+        if cvRoot == activeRoot then
             isEntered = true
-        end
-        if not isEntered and vehicleToCheck.getIsAIActive and vehicleToCheck:getIsAIActive() then
-            if vehicleToCheck.isEntered or (vehicleToCheck.rootVehicle and vehicleToCheck.rootVehicle.isEntered) then
+        else
+            local combineInCv = RHM_Api and RHM_Api.findCombine and RHM_Api.findCombine(cv)
+            if combineInCv and combineInCv == self.activeVehicle then
                 isEntered = true
             end
         end
@@ -662,8 +672,8 @@ function RHMCombineCalibrationGUI:draw()
     end
 
     -- Threshing System Indicator Badge (Walker, Rotor, Hybrid APS, Forage, Root, Specialty)
-    local threshType = (spec and spec.threshingType) or (spec and spec.combineMemory and spec.combineMemory.threshingType) or "walker"
-    local threshCfg = THRESHING_TYPE_LABELS[threshType] or THRESHING_TYPE_LABELS.walker
+    local threshType = (spec and spec.threshingType) or (spec and spec.combineMemory and spec.combineMemory.threshingType) or "grain"
+    local threshCfg = THRESHING_TYPE_LABELS[threshType] or THRESHING_TYPE_LABELS.grain
     local threshText = (g_i18n and g_i18n:hasText(threshCfg.key)) and g_i18n:getText(threshCfg.key) or threshCfg.default
     local threshUpper = string.upper(threshText)
     local threshBadgeW = math.max(0.054, getTextWidth(ui.fontSize * 0.68, threshUpper) + 0.010)

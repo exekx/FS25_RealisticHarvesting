@@ -179,11 +179,6 @@ function RHMSettingsGUI:consoleCommandResetSettings()
             g_realisticHarvestManager.settingsUI:refreshUI()
         end
 
-        if g_realisticHarvestManager.hud then
-            local x, y = g_realisticHarvestManager.hud:getPosition()
-            g_realisticHarvestManager.hud:setPosition(x, y)
-        end
-
         return "RHM: RHMSettings reset to defaults! UI refreshed. HUD position reset."
     end
 
@@ -198,11 +193,6 @@ function RHMSettingsGUI:consoleCommandResetHUD()
         settings.hudPosX = nil -- EN: nil = automatic placement / UA: nil = автоматичне позиціонування
         settings.hudPosY = nil
         settings:save()
-
-        if g_realisticHarvestManager.hud then
-            local x, y = g_realisticHarvestManager.hud:getPosition()
-            g_realisticHarvestManager.hud:setPosition(x, y)
-        end
 
         return "RHM: HUD position reset to default."
     end

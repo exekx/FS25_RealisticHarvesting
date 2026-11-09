@@ -65,7 +65,7 @@ function RHM_LoadCalculator.new(modDirectory)
     
     -- Combine RHMSettings System
     self.combineMemory = nil  -- EN: Will be set by rhm_Combine / UA: Буде встановлено з rhm_Combine
-    self.threshingType = "walker" -- EN: Threshing system type (walker, rotor, hybrid, forage, root) / UA: Тип молотильної системи
+    self.threshingType = "grain" -- EN: Threshing system type (grain, forage, root, specialty) / UA: Тип молотильної системи
     self.currentCrop = nil    -- EN: Current crop for loss calc / UA: Поточна культура для розрахунку втрат
     self.lastHarvestingSpeed = nil -- EN: Remembered stable harvesting speed / UA: Запам'ятована швидкість збирання
     self.cropHarvestingSpeeds = {} -- EN: Per-crop remembered harvesting speeds / UA: Запам'ятовані швидкості по культурах
@@ -117,9 +117,12 @@ end
 ---EN: Resolves engine horsepower (HP) from vehicle motorized spec, configuration, or carrier tractor (NEXAT/towed).
 ---UA: Визначає потужність двигуна (к.с.) зі специфікації, конфігурації техніки або тягового трактора (NEXAT/причіпні).
 function RHM_LoadCalculator:getEnginePowerHp(vehicle)
-    local motorConfigIndex = (vehicle.configurations and tonumber(vehicle.configurations.motor)) or 1
-    if vehicle._rhm_engineHp and vehicle._rhm_engineHpConfig == motorConfigIndex and vehicle._rhm_engineHp > 0 then
-        return vehicle._rhm_engineHp
+    -- EN: A registered wear provider gives the power the engine has now (tuning, power losses)
+    -- UA: Зареєстрований провайдер зносу дає потужність, яку двигун має зараз (тюнінг, втрати потужності)
+    local providerHp = RHM_Api and RHM_Api.getWearProviderValue and RHM_Api.getWearProviderValue("getEnginePowerHp", vehicle)
+    if providerHp ~= nil and providerHp > 0 then
+        self.lastEffectiveHp = providerHp
+        return providerHp
     end
 
     -- 1. Check motorized spec on vehicle or root/attacher carrier (for trailed harvesters, tractor setups, or NEXAT)
@@ -136,18 +139,74 @@ function RHM_LoadCalculator:getEnginePowerHp(vehicle)
         end
     end
 
-    local carrierConfigIndex = (motorObj.configurations and tonumber(motorObj.configurations.motor)) or motorConfigIndex
-    if motorObj._rhm_engineHp and motorObj._rhm_engineHpConfig == carrierConfigIndex and motorObj._rhm_engineHp > 0 then
+    local motorInstance = motorObj and motorObj.spec_motorized and motorObj.spec_motorized.motor
+    local motorConfigIndex = (motorObj.configurations and tonumber(motorObj.configurations.motor)) or (vehicle.configurations and tonumber(vehicle.configurations.motor)) or 1
+    local extraConfigIndex = (motorObj.configurations and (tonumber(motorObj.configurations.enginePower) or tonumber(motorObj.configurations.powertrain) or 0)) or 0
+    local carrierConfigIndex = motorConfigIndex
+
+    if vehicle._rhm_engineHp and vehicle._rhm_engineHpConfig == motorConfigIndex and vehicle._rhm_engineExtraConfig == extraConfigIndex
+        and vehicle._rhm_engineMotor == motorInstance and vehicle._rhm_engineHp > 0 then
+        self.lastEffectiveHp = vehicle._rhm_engineHp
+        return vehicle._rhm_engineHp
+    end
+
+    if motorObj._rhm_engineHp and motorObj._rhm_engineHpConfig == motorConfigIndex and motorObj._rhm_engineExtraConfig == extraConfigIndex
+        and motorObj._rhm_engineMotor == motorInstance and motorObj._rhm_engineHp > 0 then
+        self.lastEffectiveHp = motorObj._rhm_engineHp
         vehicle._rhm_engineHp = motorObj._rhm_engineHp
         vehicle._rhm_engineHpConfig = motorConfigIndex
+        vehicle._rhm_engineExtraConfig = extraConfigIndex
+        vehicle._rhm_engineMotor = motorInstance
         return motorObj._rhm_engineHp
     end
 
     local resolvedHp = nil
 
-    -- 2. Check official GIANTS engine shop specification method (Motorized.getSpecValuePower)
+    -- 2. Primary check: Live runtime VehicleMotor instance (respects powertrain upgrade, chip tuning, and runtime motor scaling)
+    if motorInstance then
+        local kw = nil
+        if motorInstance.getPeakMotorPower then
+            local val = motorInstance:getPeakMotorPower()
+            if val and tonumber(val) and tonumber(val) > 0 then kw = tonumber(val) end
+        elseif motorInstance.getMaxMotorPower then
+            local val = motorInstance:getMaxMotorPower()
+            if val and tonumber(val) and tonumber(val) > 0 then kw = tonumber(val) end
+        end
+
+        if not kw then
+            if motorInstance.peakMotorPower and tonumber(motorInstance.peakMotorPower) and tonumber(motorInstance.peakMotorPower) > 0 then
+                kw = tonumber(motorInstance.peakMotorPower)
+            elseif motorInstance.maxMotorPower and tonumber(motorInstance.maxMotorPower) and tonumber(motorInstance.maxMotorPower) > 0 then
+                kw = tonumber(motorInstance.maxMotorPower)
+            elseif motorInstance.motorPeakPower and tonumber(motorInstance.motorPeakPower) and tonumber(motorInstance.motorPeakPower) > 0 then
+                kw = tonumber(motorInstance.motorPeakPower)
+            elseif motorInstance.motorPower and tonumber(motorInstance.motorPower) and tonumber(motorInstance.motorPower) > 0 then
+                kw = tonumber(motorInstance.motorPower)
+            elseif motorInstance.maxPower and tonumber(motorInstance.maxPower) and tonumber(motorInstance.maxPower) > 0 then
+                kw = tonumber(motorInstance.maxPower)
+            end
+        end
+
+        if kw then
+            resolvedHp = kw * 1.35962
+        elseif motorInstance.hp and tonumber(motorInstance.hp) and tonumber(motorInstance.hp) > 0 then
+            resolvedHp = tonumber(motorInstance.hp)
+        elseif motorInstance.getHp then
+            local val = motorInstance:getHp()
+            if val and tonumber(val) and tonumber(val) > 0 then resolvedHp = tonumber(val) end
+        end
+
+        -- Check for dynamic powerMultiplier / motorScale if defined on motor
+        if resolvedHp and resolvedHp > 0 then
+            if motorInstance.powerMultiplier and tonumber(motorInstance.powerMultiplier) and tonumber(motorInstance.powerMultiplier) > 0 then
+                resolvedHp = resolvedHp * tonumber(motorInstance.powerMultiplier)
+            end
+        end
+    end
+
+    -- 3. Fallback: Official GIANTS engine shop specification method (Motorized.getSpecValuePower)
     -- This correctly resolves encrypted DLC vehicles (e.g. NEXAT Pack) where XMLFile cannot inspect files.
-    if Motorized and Motorized.getSpecValuePower and motorObj.spec_motorized and motorObj.configFileName and g_storeManager then
+    if not resolvedHp and Motorized and Motorized.getSpecValuePower and motorObj.spec_motorized and motorObj.configFileName and g_storeManager then
         local storeItem = g_storeManager:getItemByXMLFilename(motorObj.configFileName)
         if storeItem then
             local configs = motorObj.configurations or {}
@@ -174,39 +233,6 @@ function RHM_LoadCalculator:getEnginePowerHp(vehicle)
                         end
                     end
                 end
-            end
-        end
-    end
-
-    -- 3. Check VehicleMotor runtime engine instance properties
-    if not resolvedHp and motorObj.spec_motorized and motorObj.spec_motorized.motor then
-        local motor = motorObj.spec_motorized.motor
-        -- In GIANTS Engine 10 (FS25) VehicleMotor:new assigns self.maxMotorPower (in kW)
-        if motor.maxMotorPower and tonumber(motor.maxMotorPower) and tonumber(motor.maxMotorPower) > 0 then
-            resolvedHp = tonumber(motor.maxMotorPower) * 1.35962
-        elseif motor.peakMotorPower and tonumber(motor.peakMotorPower) and tonumber(motor.peakMotorPower) > 0 then
-            resolvedHp = tonumber(motor.peakMotorPower) * 1.35962
-        elseif motor.motorPeakPower and tonumber(motor.motorPeakPower) and tonumber(motor.motorPeakPower) > 0 then
-            resolvedHp = tonumber(motor.motorPeakPower) * 1.35962
-        elseif motor.hp and tonumber(motor.hp) and tonumber(motor.hp) > 0 then
-            resolvedHp = tonumber(motor.hp)
-        elseif motor.motorPower and tonumber(motor.motorPower) and tonumber(motor.motorPower) > 0 then
-            resolvedHp = tonumber(motor.motorPower) * 1.35962
-        elseif motor.maxPower and tonumber(motor.maxPower) and tonumber(motor.maxPower) > 0 then
-            resolvedHp = tonumber(motor.maxPower) * 1.35962
-        end
-
-        -- Check methods if variables were private
-        if not resolvedHp then
-            if motor.getMaxMotorPower then
-                local kw = motor:getMaxMotorPower()
-                if kw and tonumber(kw) and tonumber(kw) > 0 then resolvedHp = tonumber(kw) * 1.35962 end
-            elseif motor.getPeakMotorPower then
-                local kw = motor:getPeakMotorPower()
-                if kw and tonumber(kw) and tonumber(kw) > 0 then resolvedHp = tonumber(kw) * 1.35962 end
-            elseif motor.getHp then
-                local hp = motor:getHp()
-                if hp and tonumber(hp) and tonumber(hp) > 0 then resolvedHp = tonumber(hp) end
             end
         end
     end
@@ -312,10 +338,16 @@ function RHM_LoadCalculator:getEnginePowerHp(vehicle)
     end
 
     resolvedHp = resolvedHp or 400
+    self.lastEffectiveHp = resolvedHp
     vehicle._rhm_engineHp = resolvedHp
     vehicle._rhm_engineHpConfig = motorConfigIndex
+    vehicle._rhm_engineExtraConfig = extraConfigIndex
+    vehicle._rhm_engineMotor = motorInstance
+
     motorObj._rhm_engineHp = resolvedHp
-    motorObj._rhm_engineHpConfig = carrierConfigIndex
+    motorObj._rhm_engineHpConfig = motorConfigIndex
+    motorObj._rhm_engineExtraConfig = extraConfigIndex
+    motorObj._rhm_engineMotor = motorInstance
 
     rhm_log(string.format("RHM [RHM_LoadCalculator]: Detected engine power for %s: %.0f HP (config #%d)", 
         motorObj.getFullName and motorObj:getFullName() or "Harvester", resolvedHp, motorConfigIndex))
@@ -826,6 +858,12 @@ end
 ---EN: Sets base performance mass / UA: Встановлює базову продуктивність (маса)
 function RHM_LoadCalculator:setBasePerformance(basePerfMass)
     self.basePerfMass = basePerfMass
+    if not self.lastEffectiveHp and basePerfMass and basePerfMass > 0 then
+        self.lastEffectiveHp = math.max(100, basePerfMass * 3.6 * 5.2)
+    end
+    if self.lastEffectiveHp and self.lastEffectiveHp < 160 and (not self.speedLimit or self.speedLimit > 3.5) then
+        self.speedLimit = 3.5
+    end
     
     rhm_log(string.format("RHM [RHM_LoadCalculator]: RHM: Base performance set to %.2f kg/s (%.1f t/h)", 
         self.basePerfMass, self.basePerfMass * 3.6))
@@ -1002,15 +1040,7 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
         if machineType ~= "forage" and machineType ~= "root" then
             if currentMoisture > moistureLimit then
                 local diff = currentMoisture - moistureLimit
-                local penaltyPerPercent = 0.020 -- Default general penalty
-                local threshType = self.threshingType or ((rhmSpec and rhmSpec.threshingType) or "walker")
-                if threshType == "rotor" then
-                    penaltyPerPercent = 0.015 -- Rotor combines maintain continuous rubbing with lower relative surge
-                elseif threshType == "hybrid" then
-                    penaltyPerPercent = 0.017 -- APS tangential drum accelerates damp crop efficiently into rotors
-                elseif threshType == "walker" then
-                    penaltyPerPercent = 0.024 -- Straw walkers struggle with tough, damp, clumped straw mats
-                end
+                local penaltyPerPercent = 0.020 -- Standard crop moisture power penalty
                 if rhmSpec.packageLevel and rhmSpec.packageLevel >= 4 then
                     penaltyPerPercent = penaltyPerPercent * 0.50 -- Opti-Harvest reduces penalty by 50%
                 end
@@ -1091,19 +1121,10 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
         -- Hybrid combines (APS + rotors): ~9.5%
         -- Heavy hydrostatic root crop harvesters: ~10%
         -- High-inertia forage harvesters: ~9%
-        local threshType = self.threshingType or ((rhmSpec and rhmSpec.threshingType) or "walker")
         if machineType == "root" then
             pBase = effectiveEngineHp * 0.10
         elseif machineType == "forage" then
             pBase = effectiveEngineHp * 0.09
-        elseif machineType == "grain" then
-            if threshType == "rotor" then
-                pBase = effectiveEngineHp * 0.11
-            elseif threshType == "hybrid" then
-                pBase = effectiveEngineHp * 0.095
-            else
-                pBase = effectiveEngineHp * 0.08
-            end
         else
             pBase = effectiveEngineHp * 0.08
         end
@@ -1205,6 +1226,13 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
 
         pProcess = ((avgTph * eSpec * procMoisture * weedFactor) / eff) * pRotorExtra
 
+        -- EN: Worn threshing and chopping parts demand more power, as a registered wear provider reports
+        -- UA: Зношені молотильні та подрібнювальні вузли потребують більше потужності (за даними провайдера зносу)
+        local powerDemandFactor = RHM_Api and RHM_Api.getWearProviderValue and RHM_Api.getWearProviderValue("getPowerDemandFactor", vehicle)
+        if powerDemandFactor ~= nil then
+            pProcess = pProcess * math.max(1.0, powerDemandFactor)
+        end
+
         -- Forage harvester stage power decomposition (ASABE S497 / EP496):
         -- 1. Feed rolls (intake compression): ~18%
         -- 2. Chopping drum / cutterhead (shearing): ~62%
@@ -1286,6 +1314,21 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
         pTotal = 0
     end
 
+    -- Store diagnostic telemetry
+    -- EN: Stored before the Arcade mode leaves, so the power breakdown follows the harvest in every engine mode
+    -- UA: Зберігаємо до виходу режиму Аркада, щоб розподіл потужності відповідав збиранню в будь-якому режимі двигуна
+    self.lastPowerEngine = effectiveEngineHp
+    self.lastPowerBase = pBase
+    self.lastPowerHeader = pHeader
+    self.lastPowerProcess = pProcess
+    self.lastPowerChopper = pChopper
+    self.lastPowerForageFeed = pForageFeed
+    self.lastPowerForageDrum = pForageDrum
+    self.lastPowerForageBlower = pForageBlower
+    self.lastPowerSoil = pSoil
+    self.lastPowerTotal = pTotal
+    self.lastEffectiveHp = effectiveEngineHp
+
     -- 7. RESULTING ENGINE LOAD
     local isArcade = false
     if g_realisticHarvestManager and g_realisticHarvestManager.settings then
@@ -1314,19 +1357,6 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
             self.engineLoad = self.engineLoad + (loadRatio - self.engineLoad) * loadBlend
         end
     end
-
-    -- Store diagnostic telemetry
-    self.lastPowerEngine = effectiveEngineHp
-    self.lastPowerBase = pBase
-    self.lastPowerHeader = pHeader
-    self.lastPowerProcess = pProcess
-    self.lastPowerChopper = pChopper
-    self.lastPowerForageFeed = pForageFeed
-    self.lastPowerForageDrum = pForageDrum
-    self.lastPowerForageBlower = pForageBlower
-    self.lastPowerSoil = pSoil
-    self.lastPowerTotal = pTotal
-    self.lastEffectiveHp = effectiveEngineHp
 
     -- Dispatch overload event to external API listeners if engine load reaches overload threshold (>= 100%)
     if self.engineLoad >= 1.0 and RHM_Api and RHM_Api.dispatch then
@@ -1374,9 +1404,11 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         maxAllowedSpeed = maxWorkingSpeed
     end
 
-    local minSpeed = 3.5
+    local effectiveHp = self.lastEffectiveHp or self:getEnginePowerHp(vehicle)
+    local isLowPower = (effectiveHp > 0 and effectiveHp < 160)
+    local minSpeed = 1.8
     if (self.combineMemory and self.combineMemory.machineType == "forage") or self.isForageCutter then
-        minSpeed = 2.5
+        minSpeed = 1.8
     end
 
     local dtSec = math.min(1.0, math.max(0.05, (self.lastUpdateInterval or 300) / 1000.0))
@@ -1399,12 +1431,13 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
             return
         end
 
-        if (not remembered or remembered < 5.5) and self.speedLimit and self.speedLimit > 5.5 then
-            remembered = self.speedLimit
-        end
-        local defaultEntry = 5.5
+        local defaultEntry = isLowPower and 3.5 or 5.5
         if self.vanillaWorkingSpeed and self.vanillaWorkingSpeed < defaultEntry then
             defaultEntry = self.vanillaWorkingSpeed
+        end
+
+        if (not remembered or remembered < defaultEntry) and self.speedLimit and self.speedLimit > defaultEntry then
+            remembered = self.speedLimit
         end
         local target = remembered or defaultEntry
         target = math.max(minSpeed, math.min(maxAllowedSpeed, target))
@@ -1431,7 +1464,6 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     currentSpeed = math.max(0.5, currentSpeed)
 
     -- Effective engine horsepower & target power capability
-    local effectiveHp = self.lastEffectiveHp or self:getEnginePowerHp(vehicle)
     local targetPowerHp = effectiveHp * targetLoad
 
     -- Fixed zero-speed power (transmission mechanical losses + subsurface soil friction + header baseline)
@@ -1511,6 +1543,13 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
 
     local currentLimit = self.speedLimit or maxAllowedSpeed
 
+    -- Proportional deadzone scaling:
+    -- At high speeds (~7-10 km/h), deadbands are -0.25 .. +0.30 km/h (~3-4%).
+    -- At low crawl speeds (~1.8-3.5 km/h), fixed 0.30 km/h is 10-15%, trapping low-power combines!
+    -- Scale deadband down proportionally to speed while maintaining minimum 0.08 km/h to prevent flutter.
+    local deadbandBrake = math.min(0.25, math.max(0.08, currentLimit * 0.035))
+    local deadbandAccel = math.min(0.30, math.max(0.08, currentLimit * 0.040))
+
     if isEntry then
         -- GENTLE ROW ENTRY:
         -- While entering standing crop, the feederhouse and drum are still filling up (~2.5s - 3.0s).
@@ -1518,7 +1557,7 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         -- NEVER accelerate above the approach speed during entry!
         -- ONLY allow smooth braking if the crop is unexpectedly dense/heavy and starts overloading.
         self.underloadTimer = 0
-        if vEquilibrium < (currentLimit - 0.25) and (self.engineLoad or 0) > 0.95 then
+        if vEquilibrium < (currentLimit - deadbandBrake) and (self.engineLoad or 0) > 0.95 then
             local blend = 1.0 - math.exp(-dtSec / 1.4)
             local delta = (vEquilibrium - currentLimit) * blend
             local maxStep = -0.70 * dtSec
@@ -1532,7 +1571,7 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         -- Hold current cruise speed steady across tramlines and unseeded patches.
         -- Reset underload timer immediately so transient gaps never cause acceleration.
         self.underloadTimer = 0
-    elseif isSurge or vEquilibrium < (currentLimit - 0.25) then
+    elseif isSurge or vEquilibrium < (currentLimit - deadbandBrake) then
         -- BRAKING / OVERLOAD / SURGE:
         -- Reset underload confirmation timer immediately
         self.underloadTimer = 0
@@ -1551,7 +1590,7 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
             delta = maxStep
         end
         self.speedLimit = currentLimit + delta
-    elseif vEquilibrium > (currentLimit + 0.30) then
+    elseif vEquilibrium > (currentLimit + deadbandAccel) then
         -- ACCELERATION / UNDERLOAD:
         -- Accumulate confirmed underload time
         local dtMs = self.lastUpdateInterval or 300
@@ -1591,7 +1630,7 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
             self.speedLimit = currentLimit + speedDelta
         end
     else
-        -- Stable deadzone within -0.25 .. +0.30 km/h: hold steady!
+        -- Stable deadzone within [-deadbandBrake .. +deadbandAccel]: hold steady!
         self.underloadTimer = 0
     end
 
@@ -1712,7 +1751,9 @@ function RHM_LoadCalculator:setGenuineSpeedLimit(limit, maxCap)
     self.genuineSpeedLimit = maxCap or limit
 
     local maxLimit = maxCap or limit
-    local defaultEntry = math.min(5.5, maxLimit)
+    local effHp = self.lastEffectiveHp or (self.basePerfMass and self.basePerfMass > 0 and (self.basePerfMass * 3.6 * 5.2)) or 0
+    local baseEntry = (effHp > 0 and effHp < 160) and 3.5 or 5.5
+    local defaultEntry = math.min(baseEntry, maxLimit)
 
     -- EN: Do NOT overwrite speedLimit if there is already a valid (lower) remembered or starting value.
     --     This lets the hydrostatic controller ramp up smoothly to the genuine limit via exp-curve,
@@ -1723,7 +1764,7 @@ function RHM_LoadCalculator:setGenuineSpeedLimit(limit, maxCap)
     local activeCrop = self.currentCrop or (self.combineMemory and self.combineMemory.currentCrop)
     local canonical = activeCrop and RHM_CombineSettingsDatabase and RHM_CombineSettingsDatabase.getCanonicalCropName and RHM_CombineSettingsDatabase:getCanonicalCropName(activeCrop) or activeCrop
     local remembered = (activeCrop and self.cropHarvestingSpeeds and (self.cropHarvestingSpeeds[canonical] or self.cropHarvestingSpeeds[activeCrop])) or self.lastHarvestingSpeed
-    if (not remembered or remembered < 5.5) and self.speedLimit and self.speedLimit > 5.5 then
+    if (not remembered or remembered < defaultEntry) and self.speedLimit and self.speedLimit > defaultEntry then
         remembered = self.speedLimit
     end
 
@@ -1753,9 +1794,11 @@ function RHM_LoadCalculator:reset()
     local canonical = activeCrop and RHM_CombineSettingsDatabase and RHM_CombineSettingsDatabase.getCanonicalCropName and RHM_CombineSettingsDatabase:getCanonicalCropName(activeCrop) or activeCrop
     local remembered = (activeCrop and self.cropHarvestingSpeeds and (self.cropHarvestingSpeeds[canonical] or self.cropHarvestingSpeeds[activeCrop])) or self.lastHarvestingSpeed
 
-    -- EN: If speedLimit was cruising at working speed, preserve it so header lifts don't collapse to 5.5
-    -- UA: Якщо speedLimit вже мав робочу швидкість, зберігаємо її щоб підйом жатки на розвороті не скидав до 5.5
-    if (not remembered or remembered < 5.5) and self.speedLimit and self.speedLimit > 5.5 and self.speedLimit <= 7.5 then
+    -- EN: If speedLimit was cruising at working speed, preserve it so header lifts don't collapse to defaultEntry
+    -- UA: Якщо speedLimit вже мав робочу швидкість, зберігаємо її щоб підйом жатки на розвороті не скидав до defaultEntry
+    local effHp = self.lastEffectiveHp or (self.basePerfMass and self.basePerfMass > 0 and (self.basePerfMass * 3.6 * 5.2)) or 0
+    local baseEntry = (effHp > 0 and effHp < 160) and 3.5 or 5.5
+    if (not remembered or remembered < baseEntry) and self.speedLimit and self.speedLimit > baseEntry and self.speedLimit <= 7.5 then
         remembered = self.speedLimit
         self.lastHarvestingSpeed = remembered
         if activeCrop then
@@ -1765,7 +1808,7 @@ function RHM_LoadCalculator:reset()
         end
     end
 
-    local defaultEntry = 5.5
+    local defaultEntry = baseEntry
     if self.vanillaWorkingSpeed and self.vanillaWorkingSpeed < defaultEntry then
         defaultEntry = self.vanillaWorkingSpeed
     end
@@ -1973,14 +2016,19 @@ function RHM_LoadCalculator:calculateWearLoss(vehicle)
     -- 2. Combine Thresher Wear Loss:
     -- Deadzone: first 20% wear produces 0 loss
     -- Scaling: remaining wear (0.20 .. 1.00) produces up to 3.0% loss (worn rasp bars, sieves, concave)
+    -- EN: A registered wear provider gives the thresher loss its own wear model already removes from the yield
+    -- UA: Зареєстрований провайдер зносу дає втрати молотарки, які його модель зносу вже вилучила з урожаю
+    local providerLoss = RHM_Api and RHM_Api.getWearProviderValue and RHM_Api.getWearProviderValue("getWearLoss", vehicle)
     local combineLoss = 0
-    if combineDamage > 0.20 then
+    if providerLoss ~= nil then
+        combineLoss = math.max(0, providerLoss)
+    elseif combineDamage > 0.20 then
         local effCombineDmg = (combineDamage - 0.20) / 0.80
         combineLoss = math.min(3.0, effCombineDmg * 3.0)
     end
 
-    -- 3. Total Wear Loss (capped at 6.0%)
-    local totalWear = math.min(6.0, cutterLoss + combineLoss)
+    -- 3. Total Wear Loss (capped at 6.0%, at the total crop loss cap with a wear provider)
+    local totalWear = math.min(providerLoss ~= nil and 50.0 or 6.0, cutterLoss + combineLoss)
 
     self.cutterWearLoss = cutterLoss
     self.combineWearLoss = combineLoss
@@ -2076,14 +2124,6 @@ function RHM_LoadCalculator:calculateTotalCropLoss(vehicle)
             -- Excess moisture above safe threshing limit
             local excessMoisture = currentMoisture - moistureLimit
             local moistureLossRate = 0.35
-            local threshType = self.threshingType or (vehicle and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.threshingType) or "walker"
-            if threshType == "rotor" then
-                moistureLossRate = 0.25 -- Centrifugal force separates damp crop effectively
-            elseif threshType == "hybrid" then
-                moistureLossRate = 0.28 -- Tangential pre-accelerator drum thins straw mat
-            elseif threshType == "walker" then
-                moistureLossRate = 0.45 -- Wet straw mats clump on walkers, carrying unseparated grain out the rear
-            end
             moistureLoss = math.min(8.0, excessMoisture * moistureLossRate)
         end
 

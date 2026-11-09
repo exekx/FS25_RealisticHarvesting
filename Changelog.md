@@ -1,5 +1,36 @@
 # Realistic Harvesting - Changelog
 
+Changelog 1.6.5.0:
+- ADDED: Public API wear provider (`RHM_Api.registerWearProvider`, `RHM_Api.getWearProviderValue`): a mechanical wear mod can supply the thresher wear loss already removed from the yield, the live engine power including tuning and power losses, and the extra processing power drawn by worn parts. Without a registered provider, nothing changes.
+- ADDED: Integration with Realistic Mechanical Systems (version 1.0.0.0-beta.1 or higher): when both mods are active, the wear of the threshing parts sets the thresher wear loss, the engine power follows the mechanical condition of the engine, and worn knives and shear bar draw extra processing power.
+- FIXED: Power breakdown (`getPowerBreakdown`, `getForagePowerBreakdown`) left frozen in Arcade engine mode, the telemetry now being stored before the Arcade engine load bypass.
+- FIXED: `rhmResetHUD` and `rhmResetSettings` console commands pinning the HUD at its current spot instead of returning it to automatic docking under the F1 help.
+- FIXED: HUD row divider disappearing when the F1 help opens or closes, the HUD dividers now being one pixel thick like the game HUD separators.
+- IMPROVED: HUD background in the game HUD background color, matching the F1 help.
+- IMPROVED: HUD cells laid out like the game combine box: icon after a fixed padding, values, units, sub-texts and badges centred in the column after it, spacings in pixels on every screen ratio.
+- IMPROVED: Lua lines over 200 characters wrapped.
+
+Changelog 1.6.4.3:
+- FIXED: Involuntary work mode activation (thresher engage, header lower and spin) during road transit and automated waypoint transport with folded cutting implements attached.
+- FIXED: Fatal runtime arithmetic error (`attempt to perform arithmetic on nil value`) during active cutting with lowered header on custom and edited harvester configurations.
+- IMPROVED: Streamlined logging telemetry by eliminating repetitive audio sample initialization notices during vehicle store customization previews and condensing savegame restoration messages into compact summaries.
+- IMPROVED: Header status verification now enforces strict foldable implement transport configuration checks and respects transport lock joints, preventing false active cutting states during non-field transit.
+- IMPROVED: Engine power evaluation dynamically queries active vehicle motor peak power, motor power multipliers, and powertrain configurations, ensuring engine load and speed governing automatically adapt to custom engine tuning and vehicle power upgrades.
+- IMPROVED: Physical crop losses (speed overload, calibration deviation, slope, moisture) are now scaled directly at the grain tank intake, eliminating post-harvest fill level deductions, preventing counter jitter, and ensuring harvesters fill cleanly to 100% capacity without false premature full-tank stops.
+- IMPROVED: Speed regulation governor minimum operating threshold lowered to 1.8 km/h with adaptive approach speeds (3.5 km/h for engines < 160 HP) and proportional deadzone scaling, allowing compact and vintage harvesters to maintain stable, overload-free operation and smooth acceleration to target engine load in dense high-yielding crops.
+
+Changelog 1.6.4.2:
+- FIXED: Resolved harvesting telemetry stall where engine load, crop throughput, and speed governing remained at zero during manual driving while functioning under automated helpers.
+- IMPROVED: Header lowering detection now prioritizes the cutting implement's native GIANTS Engine 10 lowering status (`cutter:getIsLowered(true)`) and safe joint descriptor validation (`allowsLowering` / `isDefaultLowered`), preventing false disengagement on headers with rigid mounts or custom attacher joint controllers.
+
+Changelog 1.6.4.1:
+- FIXED: Harvester calibration terminal (Shift+K) vehicle switching desynchronization, preventing previous machine profile and electronics tier from persisting when switching between combines and carriers.
+- FIXED: Header and cutter implement selection hotkey responsiveness on modular carrier harvesters, ensuring calibration terminal, HUD toggle, and harvest diary open reliably regardless of whether the carrier or attached implement is selected in the tool chain.
+- FIXED: Live harvest telemetry, speed regulation, and header lowering detection on modular multi-vehicle and gantry harvesting platforms where cutters are mounted to the motorized carrier rather than the threshing module directly.
+- IMPROVED: Unified conventional grain combine threshing classification into a robust, standardized grain processing model, eliminating XML animation node parsing warnings and standardizing power balance and separator drag.
+- IMPROVED: Yield Monitor HUD Cell 7 and compact Cell 4 expanded with 3-way click-to-cycle modes (`AREA` <-> `WORK RATE [LIVE]` <-> `WORK RATE [AVG]`), enabling seamless switching between instantaneous cutting throughput and cumulative session average field work rate.
+- ADDED: Cumulative session average work rate (`ha/h`, `ac/h`) display in Trip statistics and public API method `RHM_Api.getAverageHectaresPerHour(vehicle)` for cross-mod parity with in-cab field terminals.
+
 Changelog 1.6.4.0:
 - ADDED: Authentic GIANTS Engine 10 combine classification engine detecting straw walker, axial rotor, hybrid APS, forage harvester, root harvester, and specialty harvesters.
 - ADDED: Real-time Threshing System Indicator badge in Combine Calibration terminal (Shift+K) displaying active threshing mechanism.
@@ -12,8 +43,6 @@ Changelog 1.6.4.0:
 - IMPROVED: Streamlined Yield Monitor HUD docking hooks with centralized idempotent guards, preventing duplicate render cycles and layout desyncs.
 - FIXED: Harvest History Analytics frame lifecycle refresh rate (250ms cadence) with automated reset handlers on frame open and close.
 - FIXED: Trip telemetry throughput indicator displaying simultaneous session average and instantaneous real-time tons per hour.
-- IMPROVED: Yield Monitor HUD Cell 7 and compact Cell 4 expanded with 3-way click-to-cycle modes (`AREA` <-> `WORK RATE [LIVE]` <-> `WORK RATE [AVG]`), enabling seamless switching between instantaneous cutting throughput and cumulative session average field work rate.
-- ADDED: Cumulative session average work rate (`ha/h`, `ac/h`) display in Trip statistics and public API method `RHM_Api.getAverageHectaresPerHour(vehicle)` for cross-mod parity with in-cab field terminals.
 - FIXED: Dedicated server admin permission detection verifying server admin rights.
 - FIXED: Prevented engine bitwise flag crash during vehicle dirty flag raising with numerical type validation.
 

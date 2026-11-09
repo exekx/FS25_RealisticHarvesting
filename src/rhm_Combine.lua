@@ -106,7 +106,7 @@ function rhm_Combine.registerXMLPaths(schema, basePath)
     schema:register(XMLValueType.INT,    cur .. "#rotor",           "Rotor", 50)
     schema:register(XMLValueType.INT,    cur .. "#feeder",          "Feeder", 50)
     schema:register(XMLValueType.INT,    cur .. "#concave",         "Concave clearance", 50)
-    schema:register(XMLValueType.STRING, cur .. "#threshingType",   "Threshing system type", "walker")
+    schema:register(XMLValueType.STRING, cur .. "#threshingType",   "Threshing system type", "grain")
     schema:register(XMLValueType.INT,    cur .. "#chopLength",      "Forage chop length", 50)
     schema:register(XMLValueType.INT,    cur .. "#kernelProcessor", "Kernel processor clearance", 50)
     schema:register(XMLValueType.INT,    cur .. "#blower",          "Discharge blower accelerator", 50)
@@ -197,22 +197,7 @@ end
 
 local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isActiveForInputIgnoreSelection)
     -- Skip if this is already a combine with our spec (handled by rhm_Combine:onRegisterActionEvents)
-    if not vehicle or vehicle.spec_rhm_Combine then
-        return
-    end
-    
-    -- Only register if the player is actively in this vehicle (even if an automated driver is active)
-    local canRegister = isActiveForInputIgnoreSelection
-        or vehicle.isActiveForInputIgnoreSelectionIgnoreAI
-        or (vehicle.getIsEntered and vehicle:getIsEntered())
-        or (vehicle.spec_enterable and vehicle.spec_enterable.isEntered)
-
-    if not canRegister then
-        return
-    end
-    
-    -- Only on client
-    if not vehicle.isClient then
+    if not vehicle or vehicle.spec_rhm_Combine or not vehicle.isClient then
         return
     end
 
@@ -221,14 +206,36 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
         return
     end
     vehicle._rhmActionEventsFrame = currentFrame
+
+    -- Clear existing action events table for non-combine vehicle first
+    if vehicle._rhmActionEvents then
+        vehicle:clearActionEventsTable(vehicle._rhmActionEvents)
+    end
+    
+    local root = (vehicle.getRootVehicle and vehicle:getRootVehicle()) or vehicle.rootVehicle or vehicle
+    local isEntered = (vehicle.getIsEntered and vehicle:getIsEntered())
+        or (vehicle.spec_enterable and vehicle.spec_enterable.isEntered)
+        or (root and root.getIsEntered and root:getIsEntered())
+        or (root and root.spec_enterable and root.spec_enterable.isEntered)
+
+    -- Only register if the player is actively in this vehicle (even if an automated driver is active)
+    local canRegister = isActiveForInputIgnoreSelection
+        or vehicle.isActiveForInputIgnoreSelectionIgnoreAI
+        or isEntered
+
+    if not canRegister then
+        return
+    end
     
     -- Check if there's a combine with our spec in the hierarchy
     local function hasCombineInHierarchy(v, visited)
         if not v or visited[v] then return false end
         visited[v] = true
         if v.spec_rhm_Combine and v.spec_rhm_Combine.isRhmCombine == true then return true end
-        if v.rootVehicle and hasCombineInHierarchy(v.rootVehicle, visited) then return true end
-        if v.attacherVehicle and hasCombineInHierarchy(v.attacherVehicle, visited) then return true end
+        local r = (v.getRootVehicle and v:getRootVehicle()) or v.rootVehicle
+        if r and hasCombineInHierarchy(r, visited) then return true end
+        local a = (v.getAttacherVehicle and v:getAttacherVehicle()) or v.attacherVehicle
+        if a and hasCombineInHierarchy(a, visited) then return true end
         if v.getAttachedImplements then
             for _, impl in ipairs(v:getAttachedImplements() or {}) do
                 if impl.object and hasCombineInHierarchy(impl.object, visited) then return true end
@@ -237,14 +244,13 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
         return false
     end
     
-    local searchRoot = vehicle.rootVehicle or vehicle
+    local searchRoot = (vehicle.getRootVehicle and vehicle:getRootVehicle()) or vehicle.rootVehicle or vehicle
     local hasCombine = hasCombineInHierarchy(searchRoot, {})
     
     -- Register action events for this non-combine vehicle
     if not vehicle._rhmActionEvents then
         vehicle._rhmActionEvents = {}
     end
-    vehicle:clearActionEventsTable(vehicle._rhmActionEvents)
     
     if hasCombine then
         if InputAction.RHM_OPEN_MENU then
@@ -253,7 +259,7 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
                     if g_realisticHarvestManager then
                         g_realisticHarvestManager:toggleMenu(self)
                     end
-                end, false, true, false, true, nil)
+                end, false, true, false, true, nil, nil, true, true)
             if eventId then
                 g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
                 if g_i18n:hasText("input_RHM_OPEN_MENU") then
@@ -269,7 +275,7 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
                     if g_realisticHarvestManager then
                         g_realisticHarvestManager:toggleHUD()
                     end
-                end, false, true, false, true, nil)
+                end, false, true, false, true, nil, nil, true, true)
             if eventId then
                 g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
                 if g_i18n:hasText("input_RHM_TOGGLE_HUD") then
@@ -286,7 +292,7 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
                 if g_realisticHarvestManager then
                     g_realisticHarvestManager:showHarvestHistoryGUI(self)
                 end
-            end, false, true, false, true, nil)
+            end, false, true, false, true, nil, nil, true, true)
         if eventId then
             g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_NORMAL)
             if g_i18n:hasText("input_RHM_OPEN_HARVEST_MENU") then
@@ -333,6 +339,24 @@ function rhm_Combine.applyGlobalVehicleHooks()
             RHM_globalOnRegisterActionEvents
         )
         rhm_log("RHM [Combine]: Global Enterable.onRegisterActionEvents hook applied.")
+        hookedAny = true
+    end
+    if enterableSpec and enterableSpec.onLeaveVehicle then
+        enterableSpec.onLeaveVehicle = Utils.appendedFunction(
+            enterableSpec.onLeaveVehicle,
+            function(vehicle, wasEntered)
+                if not vehicle or not vehicle.isClient then return end
+                if vehicle._rhmActionEvents then
+                    vehicle:clearActionEventsTable(vehicle._rhmActionEvents)
+                end
+                if g_realisticHarvestManager then
+                    if g_realisticHarvestManager.calibrationGUI and g_realisticHarvestManager.calibrationGUI.isOpen then
+                        g_realisticHarvestManager.calibrationGUI:close()
+                    end
+                end
+            end
+        )
+        rhm_log("RHM [Combine]: Global Enterable.onLeaveVehicle hook applied.")
         hookedAny = true
     end
 
@@ -398,7 +422,7 @@ function rhm_Combine.getOrInitCombineMemory(vehicle)
     end
     return spec.combineMemory
 end
--- EN: Detects threshing system type (walker, rotor, hybrid, forage, root, specialty)
+-- EN: Detects threshing system type (grain, forage, root, specialty)
 -- UA: Визначає тип молотильно-сепаруючої системи комбайна
 function rhm_Combine.detectThreshingType(vehicle, machineType)
     if machineType == "forage" then
@@ -409,57 +433,8 @@ function rhm_Combine.detectThreshingType(vehicle, machineType)
         return machineType
     end
 
-    -- Grain Combine Harvester: Distinguish Walker vs Rotor vs Hybrid
-    local fullName = string.lower((vehicle.getFullName and vehicle:getFullName()) or (vehicle.getName and vehicle:getName()) or "")
-    local configName = string.lower(vehicle.configFileName or "")
-    local typeName = string.lower(vehicle.typeName or (vehicle.type and vehicle.type.name) or "")
-
-    -- 1. Check for Hybrid (APS + Twin Rotor or Dual Helix Rotor)
-    -- e.g. Claas Lexion 7000/8000 (APS Synflow Hybrid), Fendt IDEAL 7/8/9/10
-    if fullName:find("hybrid") or fullName:find("ideal") or fullName:find("lexion 7") or fullName:find("lexion 8") or fullName:find("lexion 9") or fullName:find("trion 7") then
-        return "hybrid"
-    end
-    if configName:find("lexion7") or configName:find("lexion8") or configName:find("lexion9") or configName:find("ideal") or configName:find("hybrid") then
-        return "hybrid"
-    end
-
-    -- 2. Check for Axial Rotor (Axial-Flow, Twin Rotor CR, JD S Series)
-    if fullName:find("axial") or fullName:find("rotor") or fullName:find("cr 1") or fullName:find("cr 9") or fullName:find("cr 8") or fullName:find("cr 7") or fullName:find("cr10") or fullName:find("cr11") or fullName:find("cr90") or fullName:find("s7") or fullName:find("s6") or fullName:find("s700") or fullName:find("s600") then
-        return "rotor"
-    end
-    if configName:find("axial") or configName:find("cr9") or configName:find("cr10") or configName:find("cr11") or configName:find("series_s") or configName:find("s700") or configName:find("rotor") then
-        return "rotor"
-    end
-
-    -- 3. Check for Straw Walkers (Walker / Schuettler / T-Series / Corus / TX / TC)
-    if fullName:find("walker") or fullName:find("trion 5") or fullName:find("trion 6") or fullName:find("lexion 5") or fullName:find("lexion 6") or fullName:find("tucano") or fullName:find("dominator") or fullName:find("corus") or fullName:find("topliner") or fullName:find("nova") or fullName:find("acros") or fullName:find("t5") or fullName:find("t6") or fullName:find("tx") or fullName:find("tc") then
-        return "walker"
-    end
-
-    -- 4. Check vehicle XML animation nodes for rotors or walkers
-    if vehicle.xmlFile ~= nil and type(vehicle.xmlFile.iterate) == "function" then
-        local hasRotorNode = false
-        local hasWalkerNode = false
-        vehicle.xmlFile:iterate("vehicle.combine.animationNodes.animationNode", function(_, nodeKey)
-            local nodeName = vehicle.xmlFile:getValue(nodeKey .. "#node")
-            local nodeStr = tostring(nodeName or ""):lower()
-            if nodeStr:find("rotor") or nodeStr:find("axial") then
-                hasRotorNode = true
-            elseif nodeStr:find("walker") or nodeStr:find("schuettler") or nodeStr:find("shaker") then
-                hasWalkerNode = true
-            end
-        end)
-        if hasRotorNode and hasWalkerNode then
-            return "hybrid"
-        elseif hasRotorNode then
-            return "rotor"
-        elseif hasWalkerNode then
-            return "walker"
-        end
-    end
-
-    -- Standard conventional grain combine baseline: Straw Walker
-    return "walker"
+    -- Grain Combine Harvester: Unified conventional grain threshing system
+    return "grain"
 end
 
 -- EN: Called when the combine vehicle is loaded. Creates and wires up all subsystems:
@@ -739,7 +714,10 @@ function rhm_Combine:onLoad(savegame)
     
     -- Лічильник для збереження площі з addCutterArea
     spec.lastArea = 0
-    spec.lastLiters = 0  -- Літри зібраного врожаю
+    spec.lastLiters = 0     -- Clean liters added to bunker / Чисті літри додані до бункера
+    spec.lastRawLiters = 0  -- Raw intake liters from crop field / Валові літри з поля
+    spec.currentLossRatio = 0.0 -- Active physical loss scaling ratio (0.00 - 0.50)
+    spec._pendingLostLiters = 0 -- Accumulated discarded grain liters for tracker
     
     -- Відстеження поточної жатки для визначення зміни
     spec.currentCutter = nil
@@ -796,10 +774,13 @@ function rhm_Combine:onLoad(savegame)
 
             delete(xmlSoundFile)
 
-            Logging.info("RHM [Sounds]: Initialized for %s (alarm=%s, group=%s)",
-                tostring(self:getFullName()),
-                tostring(spec.samples.overloadAlarm ~= nil),
-                tostring(audioGroup))
+            if spec.samples.overloadAlarm == nil then
+                Logging.warning("RHM [Sounds]: Failed to load overload alarm audio sample for %s from %s",
+                    tostring(self:getFullName()), tostring(soundXmlPath))
+            elseif RHM_Debug and RHM_Debug.enabled then
+                Logging.info("RHM [Sounds]: Initialized for %s (alarm=true, group=%s)",
+                    tostring(self:getFullName()), tostring(audioGroup))
+            end
         else
             Logging.warning("RHM [Sounds]: Could not open sound XML at: %s", tostring(soundXmlPath))
         end
@@ -848,34 +829,61 @@ function rhm_Combine:onPostLoad(savegame)
     end
 end
 
--- EN: Override for addFillUnitFillLevel — tracks actual liters added to the bunker (hopper).
---     Only counts when actively cutting (lastRawArea > 0) to avoid counting offloading.
---     The fill type is captured for yield density lookup.
--- UA: Перевизначення addFillUnitFillLevel — відстежує фактичні літри додані до бункера (бункеру).
---     Рахує лише при активному косінні (lastRawArea > 0) щоб не рахувати вивантаження.
---     Тип врожаю захоплюється для пошуку густини врожаю.
-function rhm_Combine:addFillUnitFillLevel(superFunc, ...)
-    local r1, r2, r3, r4, r5, r6 = superFunc(self, ...)
-    local actualAdded = r1 -- Base game returns actual delta as first arg
-    
+---EN: Override for addFillUnitFillLevel — scales incoming yield directly at bunker entry and tracks harvested liters.
+---    Physical losses (speed overload, improper calibration, moisture, slope) are subtracted on intake,
+---    ensuring the grain tank fills cleanly to 100% capacity without post-tick negative deductions or packet jitter.
+---UA: Перевизначення addFillUnitFillLevel — масштабує надходження врожаю на вході в бункер та відстежує літри.
+---    Фізичні втрати (перевантаження, неточні налаштування, вологість, схил) віднімаються одразу при надходженні,
+---    гарантуючи чисте наповнення бункера рівно до 100% без віднімання часток літра постфактум та мережевого тремтіння.
+function rhm_Combine:addFillUnitFillLevel(superFunc, farmId, fillUnitIndex, fillLevelDelta, fillTypeIndex, toolType, fillPositionData, ...)
     local spec = self.spec_rhm_Combine
+    local rawDelta = fillLevelDelta
+    local lostDelta = 0
+
+    if spec and self.isServer and fillLevelDelta and type(fillLevelDelta) == "number" and fillLevelDelta > 0 then
+        local isGrapeOrOlive = (spec.machineType == "grape" or spec.machineType == "olive" 
+            or (spec.combineMemory and (spec.combineMemory.machineType == "grape" or spec.combineMemory.machineType == "olive")))
+        local isHarvestingActive = spec._isInsideAddCutterArea or (spec.lastRawArea and spec.lastRawArea > 0) or (isGrapeOrOlive and self:getIsTurnedOn())
+
+        if isHarvestingActive then
+            local isMassiveTransfer = (fillLevelDelta > 500 and spec.combineMemory and spec.combineMemory.machineType == "cotton")
+            local isForage = (spec.combineMemory and spec.combineMemory.machineType == "forage")
+
+            local isLossEnabled = true
+            if isMassiveTransfer or isForage then
+                isLossEnabled = false
+            elseif g_realisticHarvestManager and g_realisticHarvestManager.settings then
+                if not g_realisticHarvestManager.settings.enableCropLoss or g_realisticHarvestManager.settings.difficultyLoss == 1 then
+                    isLossEnabled = false
+                end
+            end
+
+            if isLossEnabled then
+                local lossRatio = spec.currentLossRatio or 0.0
+                if lossRatio > 0.0001 then
+                    lossRatio = math.min(0.50, lossRatio)
+                    local cleanDelta = rawDelta * (1.0 - lossRatio)
+                    lostDelta = rawDelta - cleanDelta
+                    fillLevelDelta = cleanDelta
+                    spec._pendingLostLiters = (spec._pendingLostLiters or 0) + lostDelta
+                end
+            end
+        end
+    end
+
+    local r1, r2, r3, r4, r5, r6 = superFunc(self, farmId, fillUnitIndex, fillLevelDelta, fillTypeIndex, toolType, fillPositionData, ...)
+    local actualAdded = r1 -- Base game returns actual delta as first arg
+
     if spec and actualAdded and type(actualAdded) == "number" and actualAdded > 0 then
-        -- Рахуємо якщо ми активно косимо (всередині addCutterArea, або lastRawArea > 0, або виноградо/оливкозбиральний комбайн)
         local isGrapeOrOlive = (spec.machineType == "grape" or spec.machineType == "olive" 
             or (spec.combineMemory and (spec.combineMemory.machineType == "grape" or spec.combineMemory.machineType == "olive")))
         local isHarvestingActive = spec._isInsideAddCutterArea or (spec.lastRawArea and spec.lastRawArea > 0) or (isGrapeOrOlive and self:getIsTurnedOn())
         if isHarvestingActive then
-            -- EN: Cotton Harvester fix: Ignore massive instant internal transfers (e.g. spool unloading)
-            -- UA: Фікс бавовняних комбайнів: ігноруємо масивні миттєві внутрішні переміщення (напр. розвантаження котушки)
-            local isMassiveTransfer = false
-            if actualAdded > 500 and spec.combineMemory and spec.combineMemory.machineType == "cotton" then
-                isMassiveTransfer = true
-            end
-            
+            local isMassiveTransfer = (actualAdded > 500 and spec.combineMemory and spec.combineMemory.machineType == "cotton")
             if not isMassiveTransfer then
                 spec.lastLiters = (spec.lastLiters or 0) + actualAdded
-                
-                local farmId, fillUnitIndex, fillLevelDelta, fillTypeIndex, toolType, fillPositionData = ...
+                spec.lastRawLiters = (spec.lastRawLiters or 0) + (actualAdded + lostDelta)
+
                 if fillTypeIndex and fillTypeIndex ~= FillType.UNKNOWN then
                      spec.lastFillType = fillTypeIndex
                 end
@@ -885,7 +893,7 @@ function rhm_Combine:addFillUnitFillLevel(superFunc, ...)
             end
         end
     end
-    
+
     return r1, r2, r3, r4, r5, r6
 end
 
@@ -1373,16 +1381,20 @@ function rhm_Combine.getIsHelperTurning(vehicle)
     end
 
     -- External automated guidance turning / transitional stages / temporary course
-    if vehicle.cp and (vehicle.cp.isTurning or (vehicle.cp.turnStage and vehicle.cp.turnStage > 0) or vehicle.cp.hasTemporaryCourse or vehicle.cp.isTemporaryCourse or (vehicle.cp.temporaryCourse ~= nil and vehicle.cp.temporaryCourse ~= false)) then
+    if vehicle.cp and (vehicle.cp.isTurning or (vehicle.cp.turnStage and vehicle.cp.turnStage > 0) or vehicle.cp.hasTemporaryCourse or vehicle.cp.isTemporaryCourse
+        or (vehicle.cp.temporaryCourse ~= nil and vehicle.cp.temporaryCourse ~= false)) then
         return true
     end
-    if root.cp and (root.cp.isTurning or (root.cp.turnStage and root.cp.turnStage > 0) or root.cp.hasTemporaryCourse or root.cp.isTemporaryCourse or (root.cp.temporaryCourse ~= nil and root.cp.temporaryCourse ~= false)) then
+    if root.cp and (root.cp.isTurning or (root.cp.turnStage and root.cp.turnStage > 0) or root.cp.hasTemporaryCourse or root.cp.isTemporaryCourse
+        or (root.cp.temporaryCourse ~= nil and root.cp.temporaryCourse ~= false)) then
         return true
     end
-    if vehicle.spec_courseplay and (vehicle.spec_courseplay.isTurning or (vehicle.spec_courseplay.turnStage and vehicle.spec_courseplay.turnStage > 0) or vehicle.spec_courseplay.hasTemporaryCourse or vehicle.spec_courseplay.isTemporaryCourse) then
+    if vehicle.spec_courseplay and (vehicle.spec_courseplay.isTurning or (vehicle.spec_courseplay.turnStage and vehicle.spec_courseplay.turnStage > 0)
+        or vehicle.spec_courseplay.hasTemporaryCourse or vehicle.spec_courseplay.isTemporaryCourse) then
         return true
     end
-    if root.spec_courseplay and (root.spec_courseplay.isTurning or (root.spec_courseplay.turnStage and root.spec_courseplay.turnStage > 0) or root.spec_courseplay.hasTemporaryCourse or root.spec_courseplay.isTemporaryCourse) then
+    if root.spec_courseplay and (root.spec_courseplay.isTurning or (root.spec_courseplay.turnStage and root.spec_courseplay.turnStage > 0)
+        or root.spec_courseplay.hasTemporaryCourse or root.spec_courseplay.isTemporaryCourse) then
         return true
     end
 
@@ -1391,8 +1403,10 @@ function rhm_Combine.getIsHelperTurning(vehicle)
     if attacher and attacher ~= vehicle and attacher ~= root then
         if attacher.getAIFieldWorkerIsTurning and attacher:getAIFieldWorkerIsTurning() then return true end
         if attacher.spec_aiFieldWorker and attacher.spec_aiFieldWorker.isTurning then return true end
-        if attacher.cp and (attacher.cp.isTurning or (attacher.cp.turnStage and attacher.cp.turnStage > 0) or attacher.cp.hasTemporaryCourse or attacher.cp.isTemporaryCourse or (attacher.cp.temporaryCourse ~= nil and attacher.cp.temporaryCourse ~= false)) then return true end
-        if attacher.spec_courseplay and (attacher.spec_courseplay.isTurning or (attacher.spec_courseplay.turnStage and attacher.spec_courseplay.turnStage > 0) or attacher.spec_courseplay.hasTemporaryCourse or attacher.spec_courseplay.isTemporaryCourse) then return true end
+        if attacher.cp and (attacher.cp.isTurning or (attacher.cp.turnStage and attacher.cp.turnStage > 0) or attacher.cp.hasTemporaryCourse or attacher.cp.isTemporaryCourse
+            or (attacher.cp.temporaryCourse ~= nil and attacher.cp.temporaryCourse ~= false)) then return true end
+        if attacher.spec_courseplay and (attacher.spec_courseplay.isTurning or (attacher.spec_courseplay.turnStage and attacher.spec_courseplay.turnStage > 0)
+            or attacher.spec_courseplay.hasTemporaryCourse or attacher.spec_courseplay.isTemporaryCourse) then return true end
     end
 
     return false
@@ -1525,9 +1539,9 @@ function rhm_Combine.getIsVehicleReversing(vehicle)
 end
 
 ---EN: Reliably checks if a cutter or cutting implement is in lowered working position.
----    Safely queries GIANTS Engine 10 AttacherJoints moveDown status and implement wrapper.
+---    Prioritizes cutter's native getIsLowered (standard GIANTS Engine 10 Attachable/Cutter API).
 ---UA: Надійно перевіряє чи опущена жатка в робоче положення.
----    Безпечно опитує стан moveDown вузла зчіпки GIANTS Engine 10 та обгортку знаряддя.
+---    Надає пріоритет нативному методу самої жатки getIsLowered (стандартний API GIANTS Engine 10).
 function rhm_Combine.getIsCutterLowered(combine, cutter)
     if not cutter then
         return false
@@ -1538,61 +1552,61 @@ function rhm_Combine.getIsCutterLowered(combine, cutter)
         return false
     end
 
-    -- 2. Fast-path: If crop is actively being cut/harvested by this combine or cutter, it is definitively lowered
+    -- 2. Foldable check: Folded cutters are strictly in transport configuration, NEVER lowered for harvesting
+    if cutter.spec_foldable ~= nil then
+        if cutter.getIsUnfolded and not cutter:getIsUnfolded() then
+            return false
+        elseif cutter.getIsFolded and cutter:getIsFolded() then
+            return false
+        end
+    end
+
+    -- 3. Fast-path: If crop is actively being cut/harvested by this combine or cutter, it is definitively lowered
     local spec = combine and combine.spec_rhm_Combine
     if spec and (((spec.lastRawArea or 0) > 0) or ((spec.lastLiters or 0) > 0) or ((spec._fallbackLiters or 0) > 0) or spec._isInsideAddCutterArea) then
         return true
     end
 
-    -- 3. Query direct attacher vehicle for this cutter (e.g. combine or carrier)
-    local attacherVeh = (cutter.getAttacherVehicle and cutter:getAttacherVehicle()) or combine
-    if attacherVeh then
-        local idx = nil
-        if attacherVeh.getAttacherJointIndexFromObject then
-            idx = attacherVeh:getAttacherJointIndexFromObject(cutter)
+    -- 4. Primary check: Native cutter lowering status (official GIANTS Engine 10 Attachable/Cutter implementation)
+    --    This correctly respects Attachable:getIsLowered(false), jointDesc.allowsLowering, and external attacher controllers.
+    if cutter.getIsLowered then
+        local isLowered = cutter:getIsLowered(false)
+        if isLowered ~= nil then
+            return isLowered
         end
-        if idx ~= nil then
-            if attacherVeh.getJointMoveDown then
-                local isDown = attacherVeh:getJointMoveDown(idx)
-                if isDown ~= nil then
-                    return isDown
-                end
-            end
-            local jDesc = attacherVeh.spec_attacherJoints and attacherVeh.spec_attacherJoints.attacherJoints and attacherVeh.spec_attacherJoints.attacherJoints[idx]
-            if jDesc and jDesc.moveDown ~= nil then
-                return jDesc.moveDown
+    end
+
+    -- 5. Fallback: Query direct attacher vehicle joint descriptor if cutter lacks getIsLowered
+    local attacherVeh = (cutter.getAttacherVehicle and cutter:getAttacherVehicle()) or combine
+    if attacherVeh and attacherVeh.getAttacherJointDescFromObject then
+        local jDesc = attacherVeh:getAttacherJointDescFromObject(cutter)
+        if jDesc then
+            if jDesc.allowsLowering or jDesc.isDefaultLowered then
+                return jDesc.moveDown == true
+            else
+                return false -- Joint lowering disabled/locked (e.g. transport lock) means cutter is NOT lowered
             end
         end
     end
 
-    -- 4. Query combine's attachedImplements wrapper
+    -- 6. Fallback: Query combine's attachedImplements wrapper
     if combine and combine.getAttachedImplements then
         for _, impl in pairs(combine:getAttachedImplements()) do
             if impl.object == cutter and impl.jointDescIndex then
-                if combine.getJointMoveDown then
-                    local isDown = combine:getJointMoveDown(impl.jointDescIndex)
-                    if isDown ~= nil then
-                        return isDown
-                    end
-                end
                 local jDesc = combine.spec_attacherJoints and combine.spec_attacherJoints.attacherJoints and combine.spec_attacherJoints.attacherJoints[impl.jointDescIndex]
-                if jDesc and jDesc.moveDown ~= nil then
-                    return jDesc.moveDown
+                if jDesc then
+                    if jDesc.allowsLowering or jDesc.isDefaultLowered then
+                        return jDesc.moveDown == true
+                    else
+                        return false
+                    end
                 end
                 break
             end
         end
     end
 
-    -- 5. Query cutter's own getIsLowered with default = true (matching native Cutter.lua:585)
-    if cutter.getIsLowered then
-        local cutterLowered = cutter:getIsLowered(true)
-        if cutterLowered ~= nil then
-            return cutterLowered
-        end
-    end
-
-    return true
+    return false
 end
 
 ---EN: Samples live weed density at the cutterbar.
@@ -2060,21 +2074,11 @@ function rhm_Combine:startThreshing(superFunc)
     if shouldStartCutters then
         -- EN: Start cutters — always for AI, for player only when Independent Launch is disabled.
         -- UA: Запускаємо жатки — завжди для AI, для гравця лише коли Незалежний Запуск вимкнений.
-        local isTurning = type(self.rootVehicle.getAIFieldWorkerIsTurning) == "function" and self.rootVehicle:getAIFieldWorkerIsTurning()
-        local allowLowering = not isAIActive or not isTurning
-        
         local cutters = rhm_Combine.getAllAttachedCutters(self, self.spec_rhm_Combine and self.spec_rhm_Combine._attachedCuttersBuffer)
         for cutter, _ in pairs(cutters) do
-            if type(cutter) == "table" then
-                if allowLowering and cutter ~= self then
-                    local attacherVeh = (cutter.getAttacherVehicle and cutter:getAttacherVehicle()) or self
-                    local jointDescIndex = attacherVeh:getAttacherJointIndexFromObject(cutter)
-                    if jointDescIndex and attacherVeh.setJointMoveDown then
-                        attacherVeh:setJointMoveDown(jointDescIndex, true, true)
-                    end
-                end
-                
-                if cutter.setIsTurnedOn then
+            if type(cutter) == "table" and cutter ~= self then
+                local isFolded = cutter.spec_foldable and ((cutter.getIsUnfolded and not cutter:getIsUnfolded()) or (cutter.getIsFolded and cutter:getIsFolded()))
+                if not isFolded and cutter.setIsTurnedOn then
                     cutter:setIsTurnedOn(true, true)
                 end
             end
@@ -2165,14 +2169,10 @@ end
 function rhm_Combine:verifyCombine(superFunc, fruitType, outputFillType)
     local isAIActive = rhm_Combine.isAiWorkerActive(self)
     
-    -- EN: Block harvesting if thresher is off. If an automated worker is active, auto-engage thresher.
-    -- UA: Блокуємо збирання якщо молотарка вимкнена. Якщо активний помічник — автоматично вмикаємо молотарку.
+    -- EN: Block harvesting if thresher is off.
+    -- UA: Блокуємо збирання якщо молотарка вимкнена.
     if self.spec_turnOnVehicle ~= nil and not self:getIsTurnedOn() then
-        if isAIActive then
-            if self.setIsTurnedOn then
-                self:setIsTurnedOn(true, true)
-            end
-        else
+        if not isAIActive then
             return nil  -- Блокуємо харвестинг для гравця при вимкненій молотарці
         end
     end
@@ -2405,14 +2405,17 @@ function rhm_Combine.getIsCutterWorking(self)
     local cutterIsTurnedOn = false
     local cutters = rhm_Combine.getAllAttachedCutters(self, spec and spec._attachedCuttersBuffer)
     for cutter, _ in pairs(cutters) do
-        local isLowered = rhm_Combine.getIsCutterLowered(self, cutter)
-        local isTurned = (cutter.getIsTurnedOn == nil or (cutter.getIsTurnedOn and cutter:getIsTurnedOn()))
-            or (spec_combine and spec_combine.isThreshing)
-            or (self.getIsTurnedOn and self:getIsTurnedOn())
+        local isFolded = cutter.spec_foldable and ((cutter.getIsUnfolded and not cutter:getIsUnfolded()) or (cutter.getIsFolded and cutter:getIsFolded()))
+        if not isFolded then
+            local isLowered = rhm_Combine.getIsCutterLowered(self, cutter)
+            local isTurned = (cutter.getIsTurnedOn and cutter:getIsTurnedOn() == true)
+                or (spec_combine and spec_combine.isThreshing)
+                or (self.getIsTurnedOn and self:getIsTurnedOn())
 
-        if isLowered and isTurned then
-            cutterIsTurnedOn = true
-            break
+            if isLowered and isTurned then
+                cutterIsTurnedOn = true
+                break
+            end
         end
     end
 
@@ -2562,7 +2565,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                     end
                 end
             end
-        elseif not isReversing and not isHelperTurning and isThreshing and isAnyCutterLowered and ((spec._rhmClientDisengagedTime or 0) < 2.0) and (spec._rhmLastMotorSpeedLimit ~= nil) and speedLimitEnabled and not isArcade then
+        elseif not isReversing and not isHelperTurning and isThreshing and isAnyCutterLowered and ((spec._rhmClientDisengagedTime or 0) < 2.0)
+            and (spec._rhmLastMotorSpeedLimit ~= nil) and speedLimitEnabled and not isArcade then
             -- EN: Client grace period: maintain last governed speed limit during transient disengagement/handover
             -- UA: Пільговий період клієнта: утримуємо останній ліміт швидкості під час тимчасового перепідключення чи маневру
             spec._rhmClientDisengagedTime = (spec._rhmClientDisengagedTime or 0) + (dt * 0.001)
@@ -2611,19 +2615,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         or (carrier and carrier.getIsTurnedOn and carrier:getIsTurnedOn())
         or (spec and (((spec.lastRawArea or 0) > 0) or ((spec.lastLiters or 0) > 0) or spec._isInsideAddCutterArea))
 
-    local isAi = rhm_Combine.isAiWorkerActive(self)
-    if not isTurnedOn and isAi and not isReversing then
-        local cutterIsWorking = rhm_Combine.getIsCutterWorking(self)
-        if cutterIsWorking then
-            if self.setIsTurnedOn then
-                self:setIsTurnedOn(true, true)
-            end
-            if self.spec_combine then
-                self.spec_combine.isThreshing = true
-            end
-            isTurnedOn = true
-        end
-    end
+
 
     if not isTurnedOn or isReversing then
         spec._rhmCutterWasDisengaged = true
@@ -2800,6 +2792,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- UA: Розраховуємо зібрану масу з літрів + густини fillType. Форажні комбайни використовують запасні літри.
     local massKg = 0
     local liters = spec.lastLiters or 0
+    local rawLiters = spec.lastRawLiters or liters
     
     -- EN: Fall back to liters captured by addCutterArea for forage harvesters (no hopper).
     --     ALSO DO THIS FOR COTTON HARVESTERS to bypass massive internal chamber volume transfers!
@@ -2808,6 +2801,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     local machineType = (spec.combineMemory and spec.combineMemory.machineType) or "grain"
     if machineType == "forage" or machineType == "cotton" then
         liters = spec._fallbackLiters or 0
+        rawLiters = liters
     elseif liters <= 0 and (spec._fallbackLiters or 0) > 0 then
         -- EN: Grain/root harvesters with hoppers only use fallback if hopper is empty or accepts this crop.
         --     Never attribute foreign border crop that was rejected by the grain tank!
@@ -2819,15 +2813,19 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
         if not hopperFillType or hopperFillType == FillType.UNKNOWN or hopperFillType == spec.lastFillType then
             liters = spec._fallbackLiters
+            rawLiters = liters
         else
             liters = 0
+            rawLiters = 0
             spec._fallbackLiters = 0
         end
     end
     
-    if liters > 0 then
+    local cleanMassKg = 0
+    if liters > 0 or rawLiters > 0 then
         local densityKgPerL = (RHM_UnitConverter and RHM_UnitConverter.getCropDensityKgPerLiter and RHM_UnitConverter.getCropDensityKgPerLiter(spec.lastFillType)) or 0.75
-        massKg = liters * densityKgPerL
+        massKg = rawLiters * densityKgPerL
+        cleanMassKg = liters * densityKgPerL
     end
 
     
@@ -2906,7 +2904,9 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- UA: Блокуємо розрахунок потоку при зупинці (< 0.5 км/год) щоб опускання жатки на місці не давало хибних т/год
     if currentSpeed < 0.5 then
         massKg = 0
+        cleanMassKg = 0
         liters = 0
+        rawLiters = 0
         areaForYield = 0
     end
 
@@ -2918,12 +2918,10 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     --     so the t/h display smoothly fades to 0 between passes.
     -- UA: Оновлюємо ковзне середнє продуктивності та врожайності. Викликається навіть без косіння
     --     щоб показник т/год плавно падав до 0 між проходами.
-    spec.loadCalculator:updateProductivityAndYield(massKg, liters, areaForYield, dt) 
+    spec.loadCalculator:updateProductivityAndYield(cleanMassKg, liters, areaForYield, dt) 
     
-    -- EN: Apply physical crop loss: remove lost grain from the fill unit on the server.
-    --     This makes crop loss visible as a real reduction in tank fill level.
-    -- UA: Застосовуємо фізичні втрати врожаю: видаляємо втрачене зерно з fill unit на сервері.
-    --     Це робить втрати врожаю видимими як реальне зменшення рівня наповнення бункера.
+    -- EN: Calculate total crop loss percentage (speed overload, mechanical settings, slope, moisture).
+    -- UA: Розраховуємо загальний відсоток втрат врожаю (перевантаження, налаштування, схил, вологість).
     local totalCropLossThisTick = spec.loadCalculator:calculateTotalCropLoss(self)
 
     -- EN: Accumulate telemetry deltas across frames so pulsed cutter deliveries conserve all area, time and grain.
@@ -2933,7 +2931,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec._trackerDtBuffer = (spec._trackerDtBuffer or 0) + dt
         spec._trackerAreaBuffer = (spec._trackerAreaBuffer or 0) + (areaForYield or 0)
         spec._trackerLitersBuffer = (spec._trackerLitersBuffer or 0) + (liters or 0)
-        spec._trackerMassBuffer = (spec._trackerMassBuffer or 0) + (massKg or 0)
+        spec._trackerMassBuffer = (spec._trackerMassBuffer or 0) + (cleanMassKg or 0)
     else
         -- If machine is stopped or disengaged, discard empty idle delta if no pending grain remains
         if (spec._trackerLitersBuffer or 0) <= 0 then
@@ -2941,39 +2939,28 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             spec._trackerAreaBuffer = 0
             spec._trackerLitersBuffer = 0
             spec._trackerMassBuffer = 0
+            spec._pendingLostLiters = 0
         end
     end
 
     if liters > 0 and self.isServer then
-        -- EN: Calculate total crop loss including settings deviation penalty.
-        -- UA: Розраховуємо загальні втрати врожаю включаючи штраф за відхилення налаштувань.
+        -- EN: Update machine crop history and average loss statistics.
+        -- UA: Оновлюємо статистику культури та середній відсоток втрат техніки.
         local cropLoss = totalCropLossThisTick
         spec.combineMemory:updateStatistics(liters, cropLoss, spec.combineMemory.currentCrop)
-        
-        if cropLoss > 0 and g_realisticHarvestManager and g_realisticHarvestManager.settings then
-            if g_realisticHarvestManager.settings.enableCropLoss then
-                -- EN: Subtract only speed overload and settings loss physically from the tank.
-                --     Mechanical wear loss is already reduced natively by FS25 GIANTS yield logic.
-                -- UA: Віднімаємо з бункера лише фізичні втрати від перевантаження та налаштувань.
-                --     Втрати від зносу вже нативно зменшені логікою врожайності FS25 GIANTS.
-                local wearLossPct = (spec.loadCalculator and spec.loadCalculator.totalWearLoss) or 0
-                local physicalLossPct = math.max(0, cropLoss - wearLossPct)
-                local lossRatio = physicalLossPct / 100
-                local lostLiters = liters * lossRatio
-                
-                local fillUnitIndex = spec.lastFillUnitIndex or (self.spec_combine and self.spec_combine.fillUnitIndex) or 1
-                local spec_fillUnit = self.spec_fillUnit
-                if lostLiters > 0.001 and spec_fillUnit and spec_fillUnit.fillUnits and spec_fillUnit.fillUnits[fillUnitIndex] then
-                    self:addFillUnitFillLevel(
-                        self:getOwnerFarmId(),
-                        fillUnitIndex,
-                        -lostLiters,
-                        spec.lastFillType,
-                        ToolType.UNDEFINED,
-                        nil
-                    )
-                end
-            end
+    end
+
+    -- EN: Update active physical loss ratio for incoming grain scaling in addFillUnitFillLevel.
+    --     Mechanical wear loss is already reduced natively by FS25 GIANTS yield logic.
+    -- UA: Оновлюємо активний коефіцієнт фізичних втрат для масштабування зерна на вході в addFillUnitFillLevel.
+    --     Втрати від зносу вже нативно зменшені логікою врожайності FS25 GIANTS.
+    if self.isServer then
+        if g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.enableCropLoss and g_realisticHarvestManager.settings.difficultyLoss ~= 1 then
+            local wearLossPct = (spec.loadCalculator and spec.loadCalculator.totalWearLoss) or 0
+            local physicalLossPct = math.max(0, totalCropLossThisTick - wearLossPct)
+            spec.currentLossRatio = math.min(0.50, physicalLossPct / 100.0)
+        else
+            spec.currentLossRatio = 0.0
         end
     end
 
@@ -3039,7 +3026,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
 
         local wearLossPct = (lossReasons and lossReasons.wearPct) or 0
         local physicalLossPct = math.max(0, totalCropLossThisTick - wearLossPct)
-        local flushLostLiters = flushLiters * (physicalLossPct / 100.0)
+        local flushLostLiters = (spec._pendingLostLiters and spec._pendingLostLiters > 0) and spec._pendingLostLiters or (flushLiters * (physicalLossPct / 100.0))
+        spec._pendingLostLiters = 0
 
         -- Clear buffers once transferred to tracker
         spec._trackerLitersBuffer = 0
@@ -3057,6 +3045,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     spec.lastArea = 0
     spec.lastRawArea = 0
     spec.lastLiters = 0
+    spec.lastRawLiters = 0
     spec._fallbackLiters = 0
     
     -- EN: Update HUD live data table from RHM_LoadCalculator outputs.
@@ -3265,10 +3254,12 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     if self.isServer then
         local now = g_currentMission.time
         local interval = spec.dataUpdateInterval or 200
+        local lastUpdate = spec.lastDataUpdateTime or 0
         
         -- Перевіряємо чи пройшло достатньо часу
-        if (now - spec.lastDataUpdateTime) >= interval then
-            local data = spec.data
+        if (now - lastUpdate) >= interval then
+            spec.lastSyncedData = spec.lastSyncedData or {}
+            local data = spec.data or {}
             local last = spec.lastSyncedData
             
             -- Перевіряємо чи є "суттєві" зміни
@@ -3288,7 +3279,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             end
             
             -- Також форсуємо оновлення раз на секунду
-            if hasSignificantChange or (now - spec.lastDataUpdateTime) >= 1000 then
+            if hasSignificantChange or (now - lastUpdate) >= 1000 then
                 spec.lastDataUpdateTime = now
                 spec.lastSyncedData.load = data.load
                 spec.lastSyncedData.cropLoss = data.cropLoss
@@ -3343,7 +3334,7 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local concaveVal = settings.concave or settings.feeder or 50
     xmlFile:setValue(cur .. "#feeder",             concaveVal)
     xmlFile:setValue(cur .. "#concave",            concaveVal)
-    xmlFile:setValue(cur .. "#threshingType",      spec.threshingType or "walker")
+    xmlFile:setValue(cur .. "#threshingType",      spec.threshingType or "grain")
     if settings.chopLength ~= nil then xmlFile:setValue(cur .. "#chopLength", settings.chopLength) end
     if settings.kernelProcessor ~= nil then xmlFile:setValue(cur .. "#kernelProcessor", settings.kernelProcessor) end
     if settings.blower ~= nil then xmlFile:setValue(cur .. "#blower", settings.blower) end
@@ -3582,8 +3573,13 @@ function rhm_Combine:loadFromSavegame(savegame)
             
             local loadedThreshType = readString(cur .. "#threshingType", nil)
             if loadedThreshType and loadedThreshType ~= "" then
-                spec.threshingType = loadedThreshType
-                if spec.loadCalculator then spec.loadCalculator.threshingType = loadedThreshType end
+                if loadedThreshType == "forage" or loadedThreshType == "root" or loadedThreshType == "cotton" or loadedThreshType == "grape" or loadedThreshType == "olive" then
+                    spec.threshingType = loadedThreshType
+                else
+                    spec.threshingType = "grain"
+                end
+                if spec.loadCalculator then spec.loadCalculator.threshingType = spec.threshingType end
+                if spec.combineMemory then spec.combineMemory.threshingType = spec.threshingType end
             end
         end
 
@@ -3612,17 +3608,11 @@ function rhm_Combine:loadFromSavegame(savegame)
 
         self._rhmSettingsLoadedFromSavegame = true
 
-        Logging.info(string.format("RHM: [SAVEGAME LOAD SUCCESS] %s: crop=%s, mode=%s, autoSwitch=%s, fan=%s, upper=%s, lower=%s, rotor=%s, feeder=%s, load=%s", 
+        Logging.info(string.format("RHM: [SAVEGAME] Restored %s: crop=%s, mode=%s (calibrated=%s)", 
             tostring(self:getFullName()),
-            tostring(spec.combineMemory.currentCrop),
-            tostring(spec.combineMemory.mode),
-            tostring(spec.combineMemory.autoSwitchEnabled),
-            tostring(curSettings and curSettings.fan),
-            tostring(curSettings and curSettings.upperSieve),
-            tostring(curSettings and curSettings.lowerSieve),
-            tostring(curSettings and curSettings.rotor),
-            tostring(curSettings and curSettings.feeder),
-            tostring(curSettings and curSettings.targetEngineLoad)))
+            tostring(spec.combineMemory.currentCrop or "none"),
+            tostring(spec.combineMemory.mode or "MANUAL"),
+            tostring(spec.combineMemory.isCalibrated == true)))
     end
 
     if tripKey then
@@ -4165,14 +4155,16 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
         
         -- EN: Allow registration when player is inside the combine, even while an automated worker is operating it.
         -- UA: Дозволяємо реєстрацію коли гравець у комбайні, навіть якщо ним керує автоматичний водій.
+        local root = (self.getRootVehicle and self:getRootVehicle()) or self.rootVehicle
         local canRegister = isActiveForInputIgnoreSelection
             or self.isActiveForInputIgnoreSelectionIgnoreAI
             or (self.getIsEntered and self:getIsEntered())
+            or (root and root.getIsEntered and root:getIsEntered())
 
         if canRegister then
             -- Реєструємо дію Відкриття Меню (RShift+K)
             if InputAction.RHM_OPEN_MENU then
-                local _, menuEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_OPEN_MENU, self, rhm_Combine.actionOpenMenu, false, true, false, true, nil)
+                local _, menuEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_OPEN_MENU, self, rhm_Combine.actionOpenMenu, false, true, false, true, nil, nil, true, true)
                 if menuEventId then
                     g_inputBinding:setActionEventTextPriority(menuEventId, GS_PRIO_HIGH)
                     if g_i18n:hasText("input_RHM_OPEN_MENU") then
@@ -4183,7 +4175,7 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
             end
             -- Реєструємо дію Перемикання HUD (RShift+H)
             if InputAction.RHM_TOGGLE_HUD then
-                local _, hudEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_TOGGLE_HUD, self, rhm_Combine.actionToggleHUD, false, true, false, true, nil)
+                local _, hudEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_TOGGLE_HUD, self, rhm_Combine.actionToggleHUD, false, true, false, true, nil, nil, true, true)
                 if hudEventId then
                     g_inputBinding:setActionEventTextPriority(hudEventId, GS_PRIO_HIGH)
                     if g_i18n:hasText("input_RHM_TOGGLE_HUD") then
@@ -4194,7 +4186,8 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
             end
             -- Реєструємо дію Відкриття Журналу Врожаю (RShift+J)
             if InputAction.RHM_OPEN_HARVEST_MENU then
-                local _, hMenuEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_OPEN_HARVEST_MENU, self, rhm_Combine.actionOpenHarvestMenu, false, true, false, true, nil)
+                local _, hMenuEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_OPEN_HARVEST_MENU, self, rhm_Combine.actionOpenHarvestMenu, false, true, false,
+                    true, nil, nil, true, true)
                 if hMenuEventId then
                     g_inputBinding:setActionEventTextPriority(hMenuEventId, GS_PRIO_NORMAL)
                     if g_i18n:hasText("input_RHM_OPEN_HARVEST_MENU") then
@@ -4205,7 +4198,7 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
             end
             -- Реєструємо дію Швидкого Скидання Одометра (Затискання RShift+R)
             if InputAction.RHM_QUICK_RESET_TRIP then
-                local _, resetEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_QUICK_RESET_TRIP, self, rhm_Combine.actionQuickResetTrip, true, true, false, true, nil)
+                local _, resetEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_QUICK_RESET_TRIP, self, rhm_Combine.actionQuickResetTrip, true, true, false, true, nil, nil, true, true)
                 if resetEventId then
                     g_inputBinding:setActionEventTextPriority(resetEventId, GS_PRIO_LOW)
                     if g_i18n:hasText("input_RHM_QUICK_RESET_TRIP") then
