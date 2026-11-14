@@ -13,7 +13,7 @@
 -- ============================================================================
 
 RHM_Api = {}
-RHM_Api.VERSION = "1.6.5.0"
+RHM_Api.VERSION = "1.6.5.1-Beta-1"
 RHM_Api.listeners = {}
 RHM_Api.wearProvider = nil
 

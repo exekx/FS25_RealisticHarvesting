@@ -1,5 +1,13 @@
 # Realistic Harvesting - Changelog
 
+Changelog 1.6.5.1-Beta-1:
+- ADDED: Redesigned Combine Calibration Terminal (Right Shift + K) with high-resolution tablet frame, radial telemetry gauges, rounded controls, and unified hover states across all buttons, tabs, sliders, and profile rows.
+- ADDED: Saved crop configurations manager (`PROFILES` tab) allowing players to save, browse, delete, and explicitly load calibration presets (`profiles.xml`) with multiplayer synchronization.
+- IMPROVED: Smooth sub-pixel slider dragging with 1% resolution while preserving physical unit step increments (`RPM`, `mm`, `%`) on `[-]` and `[+]` buttons.
+- IMPROVED: Smooth delta-based window dragging across the calibration tablet surface with pixel-snapped alignment and magnetic docking.
+- FIXED: Automatic settings tuning when manually cycling crops in the calibration terminal; combine settings now change only via manual adjustment, `[LOAD PRESET]`, `[AI AUTO-CALIB]` (Tier 4), or when an AI worker is actively driving.
+- FIXED: Yield Monitor HUD overlapping with the F1 input help menu upon initial savegame load before toggling F1.
+
 Changelog 1.6.5.0:
 - ADDED: Public API wear provider (`RHM_Api.registerWearProvider`, `RHM_Api.getWearProviderValue`): a mechanical wear mod can supply the thresher wear loss already removed from the yield, the live engine power including tuning and power losses, and the extra processing power drawn by worn parts. Without a registered provider, nothing changes.
 - ADDED: Integration with Realistic Mechanical Systems (version 1.0.0.0-beta.1 or higher): when both mods are active, the wear of the threshing parts sets the thresher wear loss, the engine power follows the mechanical condition of the engine, and worn knives and shear bar draw extra processing power.

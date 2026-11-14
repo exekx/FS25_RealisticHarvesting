@@ -2,7 +2,7 @@
 <modDesc descVersion="116">
     <author>exekx</author>
     <contributors>Squallqt</contributors>
-    <version>1.6.5.0</version>
+    <version>1.6.5.1-Beta-1</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -29,14 +29,12 @@ Features:
 - Seamless integration with Precision Farming & Moisture System
 - Interactive 9-page in-game help guide in ESC menu
 
-Changelog 1.6.5.0:
-- ADDED: Public API wear provider, letting a mechanical wear mod supply the thresher wear loss, the live engine power and the extra power drawn by worn parts
-- ADDED: Integration with Realistic Mechanical Systems (version 1.0.0.0-beta.1 or higher)
-- FIXED: Power breakdown of the public API frozen in Arcade engine mode
-- FIXED: HUD reset console commands pinning the HUD instead of docking it under the F1 help
-- FIXED: HUD row divider disappearing when the F1 help opens or closes
-- IMPROVED: HUD background in the game HUD color
-- IMPROVED: HUD values centred in their cells, like the game combine box
+Changelog 1.6.5.1-Beta-1:
+- ADDED: Redesigned Combine Calibration Terminal (Right Shift + K) with high-resolution tablet frame, radial telemetry gauges, rounded controls, and hover feedback
+- ADDED: Saved crop configurations tab (`PROFILES`) with save, delete, and multiplayer-synced preset loading
+- IMPROVED: Smooth sub-pixel slider dragging with 1% resolution and smooth delta-based tablet window dragging
+- FIXED: Automatic settings tuning when manually cycling crops in the calibration terminal; settings now change only via manual input, `[LOAD PRESET]`, `[AI AUTO-CALIB]`, or an active AI worker
+- FIXED: Yield Monitor HUD overlapping the F1 input help menu upon initial savegame load
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></en>
 <de><![CDATA[Fügt Ihren Mähdreschern realistische Erntemechaniken hinzu.
@@ -58,14 +56,12 @@ Funktionen:
 - Nahtlose Integration mit Precision Farming & Moisture System
 - Ausführliche 9-seitige Ingame-Hilfe im ESC-Menü
 
-Changelog 1.6.5.0:
-- HINZUGEFÜGT: Verschleißanbieter in der öffentlichen API, über den ein Verschleißmod den Verschleißverlust des Dreschwerks, die aktuelle Motorleistung und den Mehrbedarf verschlissener Teile liefern kann
-- HINZUGEFÜGT: Integration mit Realistic Mechanical Systems (Version 1.0.0.0-beta.1 oder höher)
-- BEHOBEN: Leistungsaufteilung der öffentlichen API im Arcade-Motormodus eingefroren
-- BEHOBEN: Konsolenbefehle zum Zurücksetzen des HUD fixierten das HUD, statt es unter der F1-Hilfe anzudocken
-- BEHOBEN: Trennlinie zwischen den HUD-Zeilen verschwand beim Öffnen oder Schließen der F1-Hilfe
-- VERBESSERT: HUD-Hintergrund in der HUD-Farbe des Spiels
-- VERBESSERT: HUD-Werte in ihren Feldern zentriert, wie in der Mähdrescheranzeige des Spiels
+Changelog 1.6.5.1-Beta-1:
+- HINZUGEFÜGT: Überarbeitetes Mähdrescher-Kalibrierungsterminal (Rechts-Shift + K) mit hochauflösendem Tablet-Rahmen, radialen Telemetrie-Anzeigen, abgerundeten Bedienelementen und Hover-Effekten
+- HINZUGEFÜGT: Registerkarte für gespeicherte Fruchtprofile (`PROFILES`) mit Speichern, Löschen und Multiplayer-Synchronisation
+- VERBESSERT: Stufenloses Ziehen der Schieberegler (1%-Schritte) sowie flüssiges Verschieben des Terminal-Fensters
+- BEHOBEN: Automatische Einstellungskalibrierung beim manuellen Fruchtwechsel im Terminal; Einstellungen ändern sich nur noch manuell, über `[LOAD PRESET]`, `[AI AUTO-CALIB]` oder durch aktive KI-Helfer
+- BEHOBEN: Überlappung des HUD mit dem F1-Hilfemenü beim ersten Laden eines Spielstands
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></de>
 <fr><![CDATA[Ajoute des mécaniques de récolte réalistes à vos moissonneuses-batteuses.
@@ -87,14 +83,12 @@ Fonctionnalités:
 - Intégration transparente avec Precision Farming et le Moisture System
 - Guide d'aide interactif de 9 pages dans le menu ESC
 
-Changelog 1.6.5.0 :
-- AJOUT : fournisseur d'usure dans l'API publique, par lequel un mod d'usure mécanique donne les pertes dues à l'usure du battage, la puissance actuelle du moteur et la puissance en plus des organes usés
-- AJOUT : intégration avec Realistic Mechanical Systems (version 1.0.0.0-beta.1 ou supérieure)
-- CORRECTION : répartition des puissances de l'API publique figée en mode moteur Arcade
-- CORRECTION : commandes console de réinitialisation du HUD qui le figeaient au lieu de l'ancrer sous l'aide F1
-- CORRECTION : trait entre les lignes du HUD qui disparaissait à l'ouverture ou à la fermeture de l'aide F1
-- AMÉLIORATION : fond du HUD à la couleur du HUD du jeu
-- AMÉLIORATION : valeurs du HUD centrées dans leurs cases, comme dans l'encadré moissonneuse du jeu
+Changelog 1.6.5.1-Beta-1 :
+- AJOUT : Terminal de calibrage (Shift Droit + K) repensé avec cadre haute résolution, jauges radiales, contrôles arrondis et effets de survol
+- AJOUT : Onglet des profils de cultures sauvegardés (`PROFILES`) avec sauvegarde, suppression et synchronisation multijoueur
+- AMÉLIORATION : Glissement fluide des curseurs (pas de 1 %) et déplacement fluide de la fenêtre du terminal
+- CORRECTION : Calibrage automatique lors du changement manuel de culture ; les réglages ne changent désormais que manuellement, via `[LOAD PRESET]`, `[AI AUTO-CALIB]` ou un ouvrier IA actif
+- CORRECTION : Superposition du HUD avec le menu d'aide F1 lors du premier chargement de la sauvegarde
 
 GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
     </description>

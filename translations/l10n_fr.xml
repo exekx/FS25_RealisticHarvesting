@@ -561,5 +561,30 @@
         <text name="rhm_threshing_forage" text="Ensileuse" />
         <text name="rhm_threshing_root" text="Récolteuse de racines" />
         <text name="rhm_threshing_specialty" text="Récolteuse spécialisée" />
+        <!-- Calibration Terminal Subtitles & Profiles Page -->
+        <text name="rhm_ui_profiles_subtitle" text="CONFIGURATIONS DE CULTURE ENREGISTRÉES" />
+        <text name="rhm_ui_profiles_col_name" text="NOM DU PROFIL" />
+        <text name="rhm_ui_profiles_col_breakdown" text="DÉTAILS (ROTOR / CONTRE-BATT. / VENTIL. / GRILLES / CHARGE)" />
+        <text name="rhm_ui_profiles_col_crop" text="CULTURE" />
+        <text name="rhm_ui_profiles_empty_sub" text="Ajustez les réglages dans l&apos;onglet RÉGLAGES et cliquez sur [ENREGISTRER LE PROFIL]." />
+        <text name="rhm_ui_btn_load_combine" text="CHARGER DANS LA MOISSONNEUSE" />
+        <text name="rhm_ui_card_speed_efficiency" text="EFFICACITÉ DE VITESSE" />
+        <text name="rhm_ui_profile_summary_fmt" text="Rotor: %d%% | Contre-batt.: %d%% | Ventil.: %d%% | Grilles: %d / %d%% | Charge: %d%%" />
+        <text name="rhm_ui_sub_rotor_rpm" text="Consigne régime rotor" />
+        <text name="rhm_ui_sub_threshing_clearance" text="Écartement contre-batteur mm" />
+        <text name="rhm_ui_sub_fan_airflow" text="Débit d&apos;air nettoyage tr/min" />
+        <text name="rhm_ui_sub_chaffer_opening" text="Ouverture grille supérieure mm" />
+        <text name="rhm_ui_sub_shoe_opening" text="Ouverture grille inférieure mm" />
+        <text name="rhm_ui_sub_governor_cruise" text="Consigne charge régulateur %" />
+        <text name="rhm_ui_sub_chop_length" text="Longueur de coupe théorique mm" />
+        <text name="rhm_ui_sub_kernel_processor" text="Écartement rouleaux éclateur mm" />
+        <text name="rhm_ui_sub_forage_drum" text="Régime tambour hacheur" />
+        <text name="rhm_ui_sub_forage_feeder" text="Vitesse rouleaux d&apos;alimentation" />
+        <text name="rhm_ui_sub_forage_blower" text="Régime accélérateur d&apos;éjection" />
+        <text name="rhm_ui_sub_root_roller" text="Régime rouleaux nettoyeurs" />
+        <text name="rhm_ui_sub_root_feeder" text="Vitesse tapis d&apos;arrachage" />
+        <text name="rhm_ui_sub_root_blower" text="Vitesse soufflerie de nettoyage" />
+        <text name="rhm_ui_sub_shaking_intensity" text="Intensité secouage tapis %" />
+        <text name="rhm_ui_sub_mechanical_calib" text="Calibrage mécanique" />
     </texts>
 </l10n>

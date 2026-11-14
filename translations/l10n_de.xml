@@ -559,5 +559,30 @@
         <text name="rhm_threshing_forage" text="Feldhäcksler" />
         <text name="rhm_threshing_root" text="Rodemaschine" />
         <text name="rhm_threshing_specialty" text="Spezialerntemaschine" />
+        <!-- Calibration Terminal Subtitles & Profiles Page -->
+        <text name="rhm_ui_profiles_subtitle" text="GESPEICHERTE FRUCHTKONFIGURATIONEN" />
+        <text name="rhm_ui_profiles_col_name" text="PROFILNAME" />
+        <text name="rhm_ui_profiles_col_breakdown" text="DETAILS (ROTOR / KORB / GEBLÄSE / SIEBE / LAST)" />
+        <text name="rhm_ui_profiles_col_crop" text="FRUCHTART" />
+        <text name="rhm_ui_profiles_empty_sub" text="Passen Sie die Einstellungen im Tab EINSTELLUNGEN an und klicken Sie auf [PROFIL SPEICHERN]." />
+        <text name="rhm_ui_btn_load_combine" text="IN DRESCHER LADEN" />
+        <text name="rhm_ui_card_speed_efficiency" text="GESCHWINDIGKEITSEFFIZIENZ" />
+        <text name="rhm_ui_profile_summary_fmt" text="Rotor: %d%% | Korb: %d%% | Gebläse: %d%% | Siebe: %d / %d%% | Last: %d%%" />
+        <text name="rhm_ui_sub_rotor_rpm" text="Rotor-Drehzahl-Sollwert" />
+        <text name="rhm_ui_sub_threshing_clearance" text="Dreschkorbabstand mm" />
+        <text name="rhm_ui_sub_fan_airflow" text="Reinigungsgebläse U/min" />
+        <text name="rhm_ui_sub_chaffer_opening" text="Obersieb-Öffnung mm" />
+        <text name="rhm_ui_sub_shoe_opening" text="Untersieb-Öffnung mm" />
+        <text name="rhm_ui_sub_governor_cruise" text="Regler-Solllast %" />
+        <text name="rhm_ui_sub_chop_length" text="Theoretische Schnittlänge mm" />
+        <text name="rhm_ui_sub_kernel_processor" text="Corn-Cracker Walzenabstand mm" />
+        <text name="rhm_ui_sub_forage_drum" text="Häckseltrommel U/min" />
+        <text name="rhm_ui_sub_forage_feeder" text="Einzugswalzen-Geschwindigkeit" />
+        <text name="rhm_ui_sub_forage_blower" text="Auswurfbeschleuniger U/min" />
+        <text name="rhm_ui_sub_root_roller" text="Reinigungswalzen U/min" />
+        <text name="rhm_ui_sub_root_feeder" text="Siebband-Geschwindigkeit" />
+        <text name="rhm_ui_sub_root_blower" text="Reinigungsgebläse-Geschwindigkeit" />
+        <text name="rhm_ui_sub_shaking_intensity" text="Siebband-Schüttelintensität %" />
+        <text name="rhm_ui_sub_mechanical_calib" text="Mechanische Kalibrierung" />
     </texts>
 </l10n>

@@ -1319,41 +1319,30 @@ function rhm_Combine.isAiWorkerActive(vehicle)
     if vehicle.getIsAIActive and vehicle:getIsAIActive() then
         return true
     end
-    if vehicle.currentHelper ~= nil then
-        return true
-    end
-    if vehicle.hasAIVehicle and vehicle:hasAIVehicle() then
-        return true
-    end
     if vehicle.getIsCpActive and vehicle:getIsCpActive() then
         return true
     end
-    if vehicle.isCpActive then
+    if vehicle.cp and (vehicle.cp.isDriving or vehicle.cp.isFieldWorkActive) then
         return true
     end
-    if vehicle.cp and (vehicle.cp.isDriving or vehicle.cp.isFieldWorkActive or vehicle.cp.driver ~= nil or vehicle.cp.active) then
-        return true
-    end
-    if vehicle.spec_courseplay and (vehicle.spec_courseplay.isDriving or vehicle.spec_courseplay.isFieldWorkActive or vehicle.spec_courseplay.active) then
+    if vehicle.spec_courseplay and (vehicle.spec_courseplay.isDriving or vehicle.spec_courseplay.isFieldWorkActive) then
         return true
     end
 
-    -- Check root or attacher carrier for modular/trailed combines (e.g. NEXAT carrier)
+    -- Check root or attacher carrier for modular/trailed combines
     local root = vehicle.rootVehicle or (vehicle.getRootVehicle and vehicle:getRootVehicle())
     if root and root ~= vehicle then
         if root.getIsAIActive and root:getIsAIActive() then return true end
         if root.getIsCpActive and root:getIsCpActive() then return true end
-        if root.isCpActive then return true end
-        if root.cp and (root.cp.isDriving or root.cp.isFieldWorkActive or root.cp.driver ~= nil or root.cp.active) then return true end
-        if root.spec_courseplay and (root.spec_courseplay.isDriving or root.spec_courseplay.isFieldWorkActive or root.spec_courseplay.active) then return true end
+        if root.cp and (root.cp.isDriving or root.cp.isFieldWorkActive) then return true end
+        if root.spec_courseplay and (root.spec_courseplay.isDriving or root.spec_courseplay.isFieldWorkActive) then return true end
     end
     local attacher = vehicle.attacherVehicle or (vehicle.getAttacherVehicle and vehicle:getAttacherVehicle())
     if attacher and attacher ~= vehicle and attacher ~= root then
         if attacher.getIsAIActive and attacher:getIsAIActive() then return true end
         if attacher.getIsCpActive and attacher:getIsCpActive() then return true end
-        if attacher.isCpActive then return true end
-        if attacher.cp and (attacher.cp.isDriving or attacher.cp.isFieldWorkActive or attacher.cp.driver ~= nil or attacher.cp.active) then return true end
-        if attacher.spec_courseplay and (attacher.spec_courseplay.isDriving or attacher.spec_courseplay.isFieldWorkActive or attacher.spec_courseplay.active) then return true end
+        if attacher.cp and (attacher.cp.isDriving or attacher.cp.isFieldWorkActive) then return true end
+        if attacher.spec_courseplay and (attacher.spec_courseplay.isDriving or attacher.spec_courseplay.isFieldWorkActive) then return true end
     end
     return false
 end
@@ -2483,46 +2472,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
     end
     
-    -- EN: Dedicated Server Profile Sync: If an automated worker is harvesting on a dedicated server,
-    --     the client owning/controlling this combine automatically sends their locally saved crop preset (if any).
-    -- UA: Синхронізація профілю для виділеного сервера: якщо автоматичний помічник збирає врожай на виділеному сервері,
-    --     клієнт що володіє/керує цим комбайном автоматично надсилає свій локально збережений пресет культури (якщо є).
-    if not self.isServer and self.isClient then
-        local isAi = rhm_Combine.isAiWorkerActive(self)
-        if spec._rhmLastAiStateClient == nil then
-            spec._rhmLastAiStateClient = isAi
-        elseif spec._rhmLastAiStateClient ~= isAi then
-            -- EN: Driver handover between player and automated helper detected on client
-            -- UA: Зафіксовано передачу керування між гравцем та автоматичним помічником на клієнті
-            spec._rhmLastAiStateClient = isAi
-            spec._lastAiClientTunedCrop = nil
-        end
-
-        if rhm_Combine.getIsCutterWorking(self) then
-            local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
-            if isAi and (not settings or settings.aiHelperTuning ~= 3) then
-                local isMyVehicle = (self.getIsEntered and self:getIsEntered())
-                    or (self.getIsControlled and self:getIsControlled())
-                    or (g_currentMission and g_currentMission.player and self:getOwnerFarmId() == g_currentMission.player.farmId)
-                if isMyVehicle then
-                    local currentCrop = spec.combineMemory and spec.combineMemory.currentCrop
-                    if currentCrop and currentCrop ~= "" and spec._lastAiClientTunedCrop ~= currentCrop then
-                        -- The server distinguishes helper fallback tuning from protected player settings.
-                        local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
-                        if pm and pm:getProfile(currentCrop) and spec.combineMemory:loadUserPreset(true) then
-                            spec._lastAiClientTunedCrop = currentCrop
-                        end
-                    end
-                end
-            else
-                local currentCrop = spec.combineMemory and spec.combineMemory.currentCrop
-                if spec._lastAiClientTunedCrop ~= currentCrop or not (spec.combineMemory and spec.combineMemory.isCalibrated) then
-                    spec._lastAiClientTunedCrop = nil
-                end
-            end
-        end
-    end
-
     -- EN: Dedicated Server Client Speed Enforcement:
     --     When an automated worker or cruise control operates on the client, apply the synced recommended speed directly to the motor.
     -- UA: Примусове обмеження швидкості на клієнті для виділеного сервера:
@@ -3092,9 +3041,11 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec.data.forageBlowerPowerHp = (spec.loadCalculator and spec.loadCalculator.lastPowerForageBlower) or 0
     end
 
-    -- EN: Auto-trim active settings in background when Opti-Harvest AI (Level 4) is active in AUTO mode.
-    -- UA: Фонове автопідлаштування налаштувань коли активний Opti-Harvest AI (4 рівень) в режимі AUTO.
-    if spec.combineMemory and spec.combineMemory.updateAutoTrim and (cutterIsTurnedOn or isCutterGraceActive) then
+    local isAi = rhm_Combine.isAiWorkerActive(self)
+
+    -- EN: Auto-trim active settings in background strictly when an automated helper is driving in AUTO mode (Level 4).
+    -- UA: Фонове автопідлаштування налаштувань виключно коли керує ШІ-помічник в режимі AUTO (4 рівень).
+    if isAi and spec.combineMemory and spec.combineMemory.updateAutoTrim and (cutterIsTurnedOn or isCutterGraceActive) then
         spec.combineMemory:updateAutoTrim(dt)
     end
 
@@ -3103,11 +3054,11 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- UA: Автоналаштування коли технікою керує автоматичний помічник.
     --     Застосовується один раз при старті або зміні культури, зберігаючи повністю ручне керування для гравця.
     if self.isServer and (cutterIsTurnedOn or isCutterGraceActive) then
-        -- EN: Hopper sanity check: if the hopper contains grain of a different crop type than currentCrop,
-        --     synchronize currentCrop immediately to ensure settings match what is in the tank.
-        -- UA: Перевірка бункера: якщо в бункері вже є зерно іншого типу ніж currentCrop,
+        -- EN: Hopper sanity check during active harvesting: if the hopper contains grain of a different crop type
+        --     than currentCrop while cutting crop, synchronize currentCrop to match what is in the tank.
+        -- UA: Перевірка бункера під час активного збирання: якщо під час скошування в бункері вже є зерно іншого типу,
         --     негайно синхронізуємо currentCrop, щоб налаштування відповідали зерну в бункері.
-        if spec.combineMemory then
+        if isHarvestingNow and spec.combineMemory then
             local fillUnitIndex = (self.spec_combine and self.spec_combine.fillUnitIndex) or 1
             local tankFillLevel = self:getFillUnitFillLevel(fillUnitIndex) or 0
             if tankFillLevel > 50 then
@@ -3129,7 +3080,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             end
         end
 
-        local isAi = rhm_Combine.isAiWorkerActive(self)
         if spec._rhmLastAiState == nil then
             spec._rhmLastAiState = isAi
         elseif spec._rhmLastAiState ~= isAi then

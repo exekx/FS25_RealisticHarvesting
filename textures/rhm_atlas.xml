@@ -57,5 +57,62 @@
 
     <!-- Section 4: 9-Slice Rounded Corner (64x64) -->
     <slice id="panel_rounded" uvs="0px 384px 64px 64px"/>
+
+    <!-- Section 5: Calibration Tablet & Telemetry UI Slices -->
+    <slice id="dial_disc" uvs="2px 450px 124px 124px"/>
+    <slice id="dial_segment" uvs="136px 452px 48px 120px"/>
+    <slice id="card_telemetry" uvs="192px 448px 251px 52px"/>
+    <slice id="tab_active" uvs="456px 448px 171px 28px"/>
+    <slice id="tab_inactive" uvs="636px 448px 171px 28px"/>
+    <slice id="btn_close" uvs="816px 448px 37px 21px"/>
+    <slice id="tier_badge" uvs="864px 448px 106px 21px"/>
+    <slice id="tab_active_hover" uvs="456px 488px 171px 28px"/>
+    <slice id="tab_inactive_hover" uvs="636px 488px 171px 28px"/>
+    <slice id="btn_close_hover" uvs="816px 488px 37px 21px"/>
+    <slice id="btn_footer_reset" uvs="4px 580px 184px 34px"/>
+    <slice id="btn_footer_action" uvs="196px 580px 184px 34px"/>
+    <slice id="btn_footer_ai" uvs="388px 580px 188px 34px"/>
+    <slice id="pill_crop" uvs="584px 580px 117px 21px"/>
+    <slice id="pill_moisture" uvs="708px 580px 90px 21px"/>
+    <slice id="pill_hp" uvs="808px 580px 84px 21px"/>
+    <slice id="pill_width" uvs="900px 580px 75px 21px"/>
+    <slice id="slider_track_std" uvs="4px 624px 278px 10px"/>
+    <slice id="slider_track_wide" uvs="292px 624px 361px 10px"/>
+    <slice id="slider_thumb" uvs="664px 624px 15px 20px"/>
+    <slice id="slider_tick" uvs="688px 624px 4px 16px"/>
+    <slice id="btn_step" uvs="700px 624px 33px 21px"/>
+    <slice id="glyph_minus" uvs="744px 624px 9px 3px"/>
+    <slice id="glyph_plus" uvs="760px 624px 9px 9px"/>
+    <slice id="btn_arrow_left" uvs="776px 624px 25px 21px"/>
+    <slice id="btn_arrow_right" uvs="808px 624px 25px 21px"/>
+    <slice id="glyph_arrow_left" uvs="840px 624px 9px 9px"/>
+    <slice id="glyph_arrow_right" uvs="856px 624px 9px 9px"/>
+    <slice id="category_notch" uvs="872px 624px 8px 16px"/>
+    <slice id="glyph_close" uvs="888px 624px 8px 8px"/>
+    <slice id="slider_fill_cap" uvs="904px 624px 4px 8px"/>
+    <slice id="slider_fill_body" uvs="916px 624px 8px 8px"/>
+    <slice id="category_line" uvs="4px 656px 753px 2px"/>
+    <slice id="pill_status_optimal" uvs="4px 668px 79px 21px"/>
+    <slice id="pill_status_warning" uvs="92px 668px 79px 21px"/>
+    <slice id="pill_status_alert" uvs="180px 668px 79px 21px"/>
+    <slice id="pill_value" uvs="268px 668px 110px 21px"/>
+    <slice id="profile_badge_sel" uvs="388px 668px 89px 21px"/>
+    <slice id="profile_badge_unsel" uvs="488px 668px 89px 21px"/>
+    <slice id="btn_step_hover" uvs="588px 668px 33px 21px"/>
+    <slice id="btn_arrow_left_hover" uvs="632px 668px 25px 21px"/>
+    <slice id="btn_arrow_right_hover" uvs="668px 668px 25px 21px"/>
+    <slice id="slider_thumb_hover" uvs="704px 668px 15px 20px"/>
+    <slice id="btn_footer_reset_hover" uvs="4px 700px 184px 34px"/>
+    <slice id="btn_footer_action_hover" uvs="196px 700px 184px 34px"/>
+    <slice id="btn_footer_ai_hover" uvs="388px 700px 188px 34px"/>
+    <slice id="btn_footer_load" uvs="584px 700px 380px 34px"/>
+    <slice id="btn_footer_load_hover" uvs="4px 744px 380px 34px"/>
+    <slice id="slider_track_std_hover" uvs="396px 744px 278px 10px"/>
+    <slice id="slider_track_wide_hover" uvs="396px 764px 361px 10px"/>
+    <slice id="profile_table_header" uvs="4px 784px 763px 21px"/>
+    <slice id="profile_row_sel" uvs="4px 812px 764px 46px"/>
+    <slice id="profile_row_unsel" uvs="4px 864px 764px 46px"/>
+    <slice id="profile_row_hover" uvs="4px 916px 764px 46px"/>
+    <slice id="profile_row_sel_hover" uvs="4px 968px 764px 46px"/>
   </slices>
 </texture>

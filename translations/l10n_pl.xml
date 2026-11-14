@@ -559,5 +559,30 @@
         <text name="rhm_threshing_forage" text="Sieczkarnia" />
         <text name="rhm_threshing_root" text="Kombajn do okopowych" />
         <text name="rhm_threshing_specialty" text="Specjalistyczny" />
+        <!-- Calibration Terminal Subtitles & Profiles Page -->
+        <text name="rhm_ui_profiles_subtitle" text="ZAPISANE KONFIGURACJE UPRAW" />
+        <text name="rhm_ui_profiles_col_name" text="NAZWA PROFILU" />
+        <text name="rhm_ui_profiles_col_breakdown" text="SZCZEGÓŁY (ROTOR / KLEPISKO / WENTYLATOR / SITA / OBCIĄŻENIE)" />
+        <text name="rhm_ui_profiles_col_crop" text="UPRAWA" />
+        <text name="rhm_ui_profiles_empty_sub" text="Skonfiguruj ustawienia w zakładce USTAWIENIA i kliknij [ZAPISZ PROFIL]." />
+        <text name="rhm_ui_btn_load_combine" text="ZAŁADUJ DO KOMBAJNU" />
+        <text name="rhm_ui_card_speed_efficiency" text="EFEKTYWNOŚĆ PRĘDKOŚCI" />
+        <text name="rhm_ui_profile_summary_fmt" text="Rotor: %d%% | Klepisko: %d%% | Wentylator: %d%% | Sita: %d / %d%% | Obciążenie: %d%%" />
+        <text name="rhm_ui_sub_rotor_rpm" text="Zadana prędkość rotora" />
+        <text name="rhm_ui_sub_threshing_clearance" text="Szczelina klepiska mm" />
+        <text name="rhm_ui_sub_fan_airflow" text="Przepływ powietrza czyszczenia" />
+        <text name="rhm_ui_sub_chaffer_opening" text="Otwarcie sita górnego mm" />
+        <text name="rhm_ui_sub_shoe_opening" text="Otwarcie sita dolnego mm" />
+        <text name="rhm_ui_sub_governor_cruise" text="Zadane obciążenie regulatora %" />
+        <text name="rhm_ui_sub_chop_length" text="Teoretyczna długość cięcia mm" />
+        <text name="rhm_ui_sub_kernel_processor" text="Szczelina walców gniotownika mm" />
+        <text name="rhm_ui_sub_forage_drum" text="Obroty bębna siekającego" />
+        <text name="rhm_ui_sub_forage_feeder" text="Prędkość walców podających" />
+        <text name="rhm_ui_sub_forage_blower" text="Obroty przyspieszacza wyrzutu" />
+        <text name="rhm_ui_sub_root_roller" text="Obroty rolek czyszczących" />
+        <text name="rhm_ui_sub_root_feeder" text="Prędkość taśmy podającej" />
+        <text name="rhm_ui_sub_root_blower" text="Prędkość dmuchawy czyszczącej" />
+        <text name="rhm_ui_sub_shaking_intensity" text="Częstotliwość wstrząsania taśmy %" />
+        <text name="rhm_ui_sub_mechanical_calib" text="Kalibracja mechaniczna" />
     </texts>
 </l10n>

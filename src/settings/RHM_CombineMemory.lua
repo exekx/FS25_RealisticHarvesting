@@ -90,6 +90,78 @@ function RHM_CombineMemory:saveCurrentProfile(cropName)
     return false
 end
 
+-- EN: Saves current settings with a custom profile name into RHM_ProfileManager.
+-- UA: Зберігає поточні налаштування з власною назвою профілю в RHM_ProfileManager.
+function RHM_CombineMemory:saveCurrentProfileNamed(name, cropName)
+    local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
+    if pm then
+        cropName = cropName or self.currentCrop
+        local wasCalibrated = self.calibratedCrops and self.calibratedCrops[cropName]
+        pm:saveNamedProfile(name, cropName, self.currentSettings)
+        self.aiTunedCrop = nil
+        self.isCalibrated = true
+        if cropName and cropName ~= "" then
+            self.calibratedCrops = self.calibratedCrops or {}
+            self.calibratedCrops[cropName] = true
+        end
+        if not wasCalibrated and cropName == self.currentCrop and self.combine then
+            if g_server then
+                local spec = self.combine.spec_rhm_Combine
+                if spec and spec.settingsDirtyFlag and type(spec.settingsDirtyFlag) == "number" then
+                    self.combine:raiseDirtyFlags(spec.settingsDirtyFlag)
+                end
+            elseif g_client then
+                local event = RHM_CombineSettingsEvent.new(self.combine, "CALIBRATE", 0, false, nil, cropName)
+                g_client:getServerConnection():sendEvent(event)
+            end
+        end
+        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [OK] Named profile '%s' (%s) saved globally", tostring(name), tostring(cropName)))
+        return true
+    end
+    rhm_log("RHM [RHM_CombineMemory]: RHM: [!] Failed to save named profile: RHM_ProfileManager not found")
+    return false
+end
+
+-- EN: Applies a full settings profile table directly to the combine memory.
+-- UA: Застосовує таблицю повного профілю налаштувань безпосередньо до пам'яті комбайна.
+function RHM_CombineMemory:applySettingsProfile(profile, cropName)
+    if not profile then return false end
+    local targetCrop = cropName or self.currentCrop
+
+    if g_client and self.combine then
+        local event = RHM_CombineSettingsEvent.new(self.combine, "", 0, true, profile, targetCrop, "MANUAL")
+        if not g_server then
+            g_client:getServerConnection():sendEvent(event)
+        else
+            local conn = g_currentMission and g_currentMission.player and g_currentMission.player.serverConnection or nil
+            event:run(conn)
+        end
+    else
+        if targetCrop and targetCrop ~= "" and self.currentCrop ~= targetCrop then
+            self:switchCrop(targetCrop)
+        end
+        self.aiTunedCrop = nil
+        local activeParams = RHM_CombineSettingsDatabase:getParamsForMachineType(self.machineType)
+        for _, paramName in ipairs(activeParams) do
+            if profile[paramName] ~= nil then
+                self.currentSettings[paramName] = profile[paramName]
+            end
+        end
+        if profile.targetEngineLoad ~= nil then
+            self.currentSettings.targetEngineLoad = profile.targetEngineLoad
+        end
+        self.mode = "MANUAL"
+        self.autoSwitchEnabled = false
+        self.isCalibrated = true
+        self.hasManualTuning = true
+        if targetCrop and targetCrop ~= "" then
+            self.calibratedCrops = self.calibratedCrops or {}
+            self.calibratedCrops[targetCrop] = true
+        end
+    end
+    return true
+end
+
 -- EN: Applies automatic or default settings for a specified crop.
 --     AUTO mode adds a small random deviation around the optimal values (server-only randomness).
 --     RESET mode (forceOptimal=false) sets all parameters to neutral 50%.
@@ -265,74 +337,7 @@ function RHM_CombineMemory:applyAiWorkerTuning(cropName, context, suppliedProfil
 
     local activeParams = RHM_CombineSettingsDatabase:getParamsForMachineType(self.machineType)
 
-    -- 1. Prioritize user-saved profile for this crop if player has previously saved one
-    local pm = g_realisticHarvestManager and g_realisticHarvestManager.profileManager
-    local userProfile = suppliedProfile or (pm and pm:getProfile(cropName))
-
-    if userProfile then
-        self.aiTunedCrop = nil
-        for _, pName in ipairs(activeParams) do
-            if userProfile[pName] ~= nil then
-                self.currentSettings[pName] = userProfile[pName]
-            end
-        end
-        if userProfile.targetEngineLoad ~= nil then
-            self.currentSettings.targetEngineLoad = userProfile.targetEngineLoad
-        end
-
-        if pkgLevel >= 4 then
-            self.mode = "AUTO"
-            self.autoSwitchEnabled = true
-        else
-            self.mode = "MANUAL"
-            self.autoSwitchEnabled = false
-        end
-
-        self.isCalibrated = true
-        self.calibratedCrops = self.calibratedCrops or {}
-        self.calibratedCrops[cropName] = true
-
-        self.currentCrop = cropName
-        if self.combine and self.combine.spec_rhm_Combine and self.combine.spec_rhm_Combine.loadCalculator then
-            self.combine.spec_rhm_Combine.loadCalculator.currentCrop = cropName
-        end
-
-        local cropTitle = cropName
-        if RHM_CombineSettingsDatabase and RHM_CombineSettingsDatabase.getCropTitle then
-            cropTitle = RHM_CombineSettingsDatabase:getCropTitle(cropName)
-        end
-
-        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [AI WORKER] Loaded player's saved profile for %s (rotor=%s, fan=%s, conc=%s, top=%s, bot=%s, targetLoad=%s)",
-            cropName,
-            tostring(self.currentSettings.rotor),
-            tostring(self.currentSettings.fan),
-            tostring(self.currentSettings.feeder),
-            tostring(self.currentSettings.upperSieve),
-            tostring(self.currentSettings.lowerSieve),
-            tostring(self.currentSettings.targetEngineLoad)))
-
-        if self.combine and (self.combine.getIsEntered and self.combine:getIsEntered()) then
-            local btnText = (g_i18n and g_i18n.hasText and g_i18n:hasText("rhm_gui_btn_load_preset")) and g_i18n:getText("rhm_gui_btn_load_preset") or "Loaded Profile"
-            local msg = string.format("%s (%s)", btnText, tostring(cropTitle))
-            if RHM_NotificationManager and RHM_NotificationManager.INSTANCE then
-                RHM_NotificationManager.INSTANCE:showNotification("Realistic Harvesting [AI]", msg, 4000)
-            elseif g_currentMission and g_currentMission.hud and g_currentMission.hud.showInGameMessage then
-                g_currentMission.hud:showInGameMessage("Realistic Harvesting", "Realistic Harvesting [AI]: " .. msg, -1)
-            end
-        end
-
-        -- In multiplayer, notify clients of updated helper settings
-        if self.combine and g_server then
-            local spec = self.combine.spec_rhm_Combine
-            if spec and spec.settingsDirtyFlag and type(spec.settingsDirtyFlag) == "number" then
-                self.combine:raiseDirtyFlags(spec.settingsDirtyFlag)
-            end
-        end
-
-        return true
-    end
-
-    -- 2. Fall back to electronics package tier-based tuning when no profile is saved
+    -- Electronics package tier-based tuning for automated workers
     if not context and self.combine and self.combine.spec_rhm_Combine then
         local rhmSpec = self.combine.spec_rhm_Combine
         local dayTimeHours, isRaining = getEnvironmentContext()
@@ -884,6 +889,12 @@ function RHM_CombineMemory:switchCrop(newCropName)
 
     self.currentCrop = newCropName
     self.aiTunedCrop = nil
+    if self.combine and self.combine.spec_rhm_Combine then
+        self.combine.spec_rhm_Combine._lastAiTunedCrop = newCropName
+        if self.combine.spec_rhm_Combine.loadCalculator then
+            self.combine.spec_rhm_Combine.loadCalculator.currentCrop = newCropName
+        end
+    end
     if self.calibratedCrops and self.calibratedCrops[newCropName] then
         self.isCalibrated = true
     else
@@ -1007,6 +1018,9 @@ end
 ---UA: Плавно підлаштовує активні налаштування до живих оптимальних цілей в режимі AUTO (4 рівень Opti-Harvest AI).
 function RHM_CombineMemory:updateAutoTrim(dt)
     if self.mode ~= "AUTO" or not self.autoSwitchEnabled or not self.currentCrop then
+        return
+    end
+    if not (self.combine and rhm_Combine and rhm_Combine.isAiWorkerActive and rhm_Combine.isAiWorkerActive(self.combine)) then
         return
     end
 
