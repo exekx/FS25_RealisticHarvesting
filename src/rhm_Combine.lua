@@ -87,6 +87,7 @@ function rhm_Combine.registerOverwrittenFunctions(vehicleType)
     safeRegisterOverwrittenFunction("addCutterArea", rhm_Combine.addCutterArea)
     safeRegisterOverwrittenFunction("addFillUnitFillLevel", rhm_Combine.addFillUnitFillLevel)
     safeRegisterOverwrittenFunction("getSpeedLimit", rhm_Combine.getSpeedLimit)
+    safeRegisterOverwrittenFunction("getMotorLoadPercentage", rhm_Combine.getMotorLoadPercentage)
     safeRegisterOverwrittenFunction("startThreshing", rhm_Combine.startThreshing)
     safeRegisterOverwrittenFunction("stopThreshing", rhm_Combine.stopThreshing)
     safeRegisterOverwrittenFunction("verifyCombine", rhm_Combine.verifyCombine)
@@ -97,9 +98,7 @@ end
 -- UA: Реєструє шляхи XML для конфігурації засобу (XML магазину/modDesc). Зберігає налаштування комбайна для кожного засобу.
 function rhm_Combine.registerXMLPaths(schema, basePath)
     local cur = basePath .. ".combineMemory.current"
-    schema:register(XMLValueType.STRING, cur .. "#mode",            "Combine settings mode", "AUTO")
     schema:register(XMLValueType.STRING, cur .. "#currentCrop",     "Current crop", "")
-    schema:register(XMLValueType.BOOL,   cur .. "#autoSwitch",      "Auto switch enabled", true)
     schema:register(XMLValueType.INT,    cur .. "#fan",             "Fan", 50)
     schema:register(XMLValueType.INT,    cur .. "#upperSieve",      "Upper sieve", 50)
     schema:register(XMLValueType.INT,    cur .. "#lowerSieve",      "Lower sieve", 50)
@@ -194,6 +193,105 @@ end
 --     Стандартний rhm_Combine:onRegisterActionEvents викликається лише для засобів з spec_rhm_Combine.
 --     Для NEXAT гравець керує трактором який цього не має. Ми вирішуємо це хуком
 --     глобального Vehicle.onRegisterActionEvents: якщо засіб не має нашої спец, але IE в ієрархії з нею, ми все одно реєструємо RHM_OPEN_MENU.
+
+local RHM_EXTERNAL_CONTROL_ACTIONS = {
+    RHM_APPLY_AUTO_CALIB  = { type = "applyAuto" },
+    RHM_ROTOR_INC         = { param = "rotor", delta = 5, labelKey = "rhm_ui_rotor_speed", fallback = "Rotor Speed" },
+    RHM_ROTOR_DEC         = { param = "rotor", delta = -5, labelKey = "rhm_ui_rotor_speed", fallback = "Rotor Speed" },
+    RHM_CONCAVE_INC       = { param = "feeder", delta = 5, labelKey = "rhm_ui_feeder_speed", fallback = "Concave Clearance" },
+    RHM_CONCAVE_DEC       = { param = "feeder", delta = -5, labelKey = "rhm_ui_feeder_speed", fallback = "Concave Clearance" },
+    RHM_FAN_INC           = { param = "fan", delta = 5, labelKey = "rhm_ui_fan_speed", fallback = "Fan Speed" },
+    RHM_FAN_DEC           = { param = "fan", delta = -5, labelKey = "rhm_ui_fan_speed", fallback = "Fan Speed" },
+    RHM_UPPER_SIEVE_INC   = { param = "upperSieve", delta = 5, labelKey = "rhm_ui_upper_sieve", fallback = "Upper Sieve" },
+    RHM_UPPER_SIEVE_DEC   = { param = "upperSieve", delta = -5, labelKey = "rhm_ui_upper_sieve", fallback = "Upper Sieve" },
+    RHM_LOWER_SIEVE_INC   = { param = "lowerSieve", delta = 5, labelKey = "rhm_ui_lower_sieve", fallback = "Lower Sieve" },
+    RHM_LOWER_SIEVE_DEC   = { param = "lowerSieve", delta = -5, labelKey = "rhm_ui_lower_sieve", fallback = "Lower Sieve" },
+    RHM_TARGET_LOAD_INC   = { param = "targetEngineLoad", delta = 2, min = 70, max = 100, labelKey = "rhm_target_load", fallback = "Target Engine Load" },
+    RHM_TARGET_LOAD_DEC   = { param = "targetEngineLoad", delta = -2, min = 70, max = 100, labelKey = "rhm_target_load", fallback = "Target Engine Load" }
+}
+
+local RHM_EXTERNAL_CONTROL_ACTION_ORDER = {
+    "RHM_APPLY_AUTO_CALIB",
+    "RHM_ROTOR_INC", "RHM_ROTOR_DEC",
+    "RHM_CONCAVE_INC", "RHM_CONCAVE_DEC",
+    "RHM_FAN_INC", "RHM_FAN_DEC",
+    "RHM_UPPER_SIEVE_INC", "RHM_UPPER_SIEVE_DEC",
+    "RHM_LOWER_SIEVE_INC", "RHM_LOWER_SIEVE_DEC",
+    "RHM_TARGET_LOAD_INC", "RHM_TARGET_LOAD_DEC"
+}
+
+---EN: Handles external keybind / button-box actions for combine calibration parameters.
+---UA: Обробляє зовнішні дії (гарячі клавіші / панелі кнопок) для параметрів калібрування комбайна.
+function rhm_Combine.handleExternalControlAction(vehicle, actionName, inputValue, callbackState, isAnalog)
+    local cfg = RHM_EXTERNAL_CONTROL_ACTIONS[actionName]
+    if not cfg then return end
+
+    local combine = (vehicle and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.isRhmCombine and vehicle)
+        or (RHM_Api and RHM_Api.findCombine and RHM_Api.findCombine(vehicle))
+    if not combine or not combine.spec_rhm_Combine then return end
+
+    local spec = combine.spec_rhm_Combine
+    local mem = spec.combineMemory
+    if not mem then return end
+
+    local function showBrief(msg)
+        if g_currentMission and g_currentMission.showBlinkingWarning then
+            g_currentMission:showBlinkingWarning(msg, 1500)
+        end
+    end
+
+    if cfg.type == "applyAuto" then
+        if (spec.packageLevel or 1) < 4 then
+            showBrief("Opti-Harvest AI (Tier 4) required")
+            return
+        end
+        mem:requestAutoSettings()
+        return
+    end
+
+    local settings = mem.currentSettings
+    if not settings then return end
+
+    local curVal = settings[cfg.param]
+    if curVal == nil and cfg.param == "feeder" then
+        curVal = settings.concave
+    end
+    if curVal == nil then return end
+
+    local minVal = cfg.min or 0
+    local maxVal = cfg.max or 100
+    local newVal = math.max(minVal, math.min(maxVal, math.floor(curVal + cfg.delta + 0.5)))
+
+    if mem:updateSetting(cfg.param, newVal) then
+        local label = (g_i18n and cfg.labelKey and g_i18n:hasText(cfg.labelKey))
+            and g_i18n:getText(cfg.labelKey) or cfg.fallback
+        showBrief(string.format("%s: %d%%", label, newVal))
+    end
+end
+
+---EN: Registers external calibration control actions on the active vehicle (hidden from F1 help box).
+---UA: Реєструє зовнішні дії керування калібруванням на активній техніці (приховано з вікна підказок F1).
+function rhm_Combine.registerExternalControlActions(vehicle, actionEventsTable)
+    if not vehicle or not actionEventsTable then return end
+    for _, actionName in ipairs(RHM_EXTERNAL_CONTROL_ACTION_ORDER) do
+        local inputAction = InputAction[actionName]
+        if inputAction then
+            local _, eventId = vehicle:addActionEvent(
+                actionEventsTable, inputAction, vehicle,
+                rhm_Combine.handleExternalControlAction,
+                false, true, false, true, nil, nil, true, true
+            )
+            if eventId then
+                g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_LOW)
+                local l10nKey = "input_" .. actionName
+                if g_i18n:hasText(l10nKey) then
+                    g_inputBinding:setActionEventText(eventId, g_i18n:getText(l10nKey))
+                end
+                g_inputBinding:setActionEventTextVisibility(eventId, false)
+            end
+        end
+    end
+end
 
 local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isActiveForInputIgnoreSelection)
     -- Skip if this is already a combine with our spec (handled by rhm_Combine:onRegisterActionEvents)
@@ -317,6 +415,7 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
                 g_inputBinding:setActionEventTextVisibility(eventId, true)
             end
         end
+        rhm_Combine.registerExternalControlActions(vehicle, vehicle._rhmActionEvents)
     end
 
 end
@@ -2030,6 +2129,22 @@ function rhm_Combine:getCanBeTurnedOn(superFunc)
     return superFunc(self)
 end
 
+-- EN: Override for getMotorLoadPercentage. Exposes the RHM dynamic engine load (0.0..1.0)
+--     to standard engine telemetry, cab dashboards, and external display bridges.
+-- UA: Перевизначення getMotorLoadPercentage. Передає динамічне навантаження двигуна RHM (0.0..1.0)
+--     у стандартну телеметрію двигуна, прилади кабіни та зовнішні інтерфейси відображення.
+function rhm_Combine:getMotorLoadPercentage(superFunc)
+    local vanillaLoad = superFunc(self) or 0
+    local spec = self.spec_rhm_Combine
+    if spec and spec.isRhmCombine and spec.data and spec.data.load and spec.data.load > 0 then
+        local rhmLoad = math.max(0, math.min(1.0, spec.data.load / 100.0))
+        if rhmLoad > vanillaLoad then
+            return rhmLoad
+        end
+    end
+    return vanillaLoad
+end
+
 -- EN: Override for startThreshing. Conditionally starts attached cutters based on settings.
 --     If Independent Launch is enabled: cutters only auto-start for AI (not the player).
 --     If Independent Launch is disabled: cutters always auto-start (classic vanilla behavior).
@@ -3274,8 +3389,6 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
     local mem = spec.combineMemory
     local settings = mem.currentSettings or {}
     
-    xmlFile:setValue(cur .. "#mode",              mem.mode or "MANUAL")
-    xmlFile:setValue(cur .. "#autoSwitch",         mem.autoSwitchEnabled ~= false)
     xmlFile:setValue(cur .. "#currentCrop",        mem.currentCrop or "")
     xmlFile:setValue(cur .. "#fan",                settings.fan or 50)
     xmlFile:setValue(cur .. "#upperSieve",         settings.upperSieve or 50)
@@ -3471,17 +3584,6 @@ function rhm_Combine:loadFromSavegame(savegame)
     end
 
     if cur then
-        local isTier4 = (spec.packageLevel or 1) >= 4
-        local loadedMode = readString(cur .. "#mode", "MANUAL")
-        local loadedAutoSwitch = readBool(cur .. "#autoSwitch", false)
-        if isTier4 then
-            spec.combineMemory.mode              = loadedMode
-            spec.combineMemory.autoSwitchEnabled = loadedAutoSwitch
-        else
-            spec.combineMemory.mode              = "MANUAL"
-            spec.combineMemory.autoSwitchEnabled = false
-        end
-
         local savedCrop = readString(cur .. "#currentCrop", "")
         if savedCrop and savedCrop ~= "" then
             spec.combineMemory.currentCrop = savedCrop
@@ -3558,10 +3660,9 @@ function rhm_Combine:loadFromSavegame(savegame)
 
         self._rhmSettingsLoadedFromSavegame = true
 
-        Logging.info(string.format("RHM: [SAVEGAME] Restored %s: crop=%s, mode=%s (calibrated=%s)", 
+        Logging.info(string.format("RHM: [SAVEGAME] Restored %s: crop=%s (calibrated=%s)", 
             tostring(self:getFullName()),
             tostring(spec.combineMemory.currentCrop or "none"),
-            tostring(spec.combineMemory.mode or "MANUAL"),
             tostring(spec.combineMemory.isCalibrated == true)))
     end
 
@@ -3656,7 +3757,6 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteUInt8(streamId, 50)  -- lowerSieve
         streamWriteUInt8(streamId, 50)  -- feeder
         streamWriteUInt8(streamId, 80)  -- targetEngineLoad
-        streamWriteString(streamId, "AUTO")  -- mode
         streamWriteString(streamId, "")      -- currentCrop (empty = nil)
         streamWriteBool(streamId, false) -- crop calibration
         streamWriteBool(streamId, false)     -- hasTrip
@@ -3683,7 +3783,6 @@ function rhm_Combine:onWriteStream(streamId, connection)
     
     -- RHM_CombineMemory settings (sync on initial connect)
     local mem = spec.combineMemory
-    local isTier4 = (spec.packageLevel or 1) >= 4
     if mem then
         streamWriteUInt8(streamId, mem.currentSettings.fan or 50)
         streamWriteUInt8(streamId, mem.currentSettings.rotor or 50)
@@ -3691,7 +3790,6 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteUInt8(streamId, mem.currentSettings.lowerSieve or 50)
         streamWriteUInt8(streamId, mem.currentSettings.feeder or 50)
         streamWriteUInt8(streamId, mem.currentSettings.targetEngineLoad or 80)
-        streamWriteString(streamId, isTier4 and (mem.mode or "MANUAL") or "MANUAL")
         streamWriteString(streamId, mem.currentCrop or "")
         streamWriteBool(streamId, mem.calibratedCrops and mem.currentCrop and mem.calibratedCrops[mem.currentCrop] == true or false)
     else
@@ -3701,7 +3799,6 @@ function rhm_Combine:onWriteStream(streamId, connection)
         streamWriteUInt8(streamId, 50)
         streamWriteUInt8(streamId, 50)
         streamWriteUInt8(streamId, 80)
-        streamWriteString(streamId, "MANUAL")
         streamWriteString(streamId, "")
         streamWriteBool(streamId, false)
     end
@@ -3822,7 +3919,6 @@ function rhm_Combine:onReadStream(streamId, connection)
     local lowerSieve = streamReadUInt8(streamId)
     local feeder = streamReadUInt8(streamId)
     local targetEngineLoad = streamReadUInt8(streamId)
-    local mode = streamReadString(streamId)
     local currentCrop = streamReadString(streamId)
     local cropCalibrated = streamReadBool(streamId)
     
@@ -3834,14 +3930,6 @@ function rhm_Combine:onReadStream(streamId, connection)
         spec.combineMemory.currentSettings.lowerSieve = lowerSieve
         spec.combineMemory.currentSettings.feeder = feeder
         spec.combineMemory.currentSettings.targetEngineLoad = targetEngineLoad or 80
-        local isTier4 = (spec.packageLevel or 1) >= 4
-        if isTier4 then
-            spec.combineMemory.mode = mode or "MANUAL"
-            spec.combineMemory.autoSwitchEnabled = (spec.combineMemory.mode == "AUTO")
-        else
-            spec.combineMemory.mode = "MANUAL"
-            spec.combineMemory.autoSwitchEnabled = false
-        end
         spec.combineMemory.currentCrop = (currentCrop ~= "" and currentCrop) or nil
         spec.combineMemory.isCalibrated = cropCalibrated
         spec.combineMemory.calibratedCrops = spec.combineMemory.calibratedCrops or {}
@@ -3961,7 +4049,6 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
             local feeder = streamReadUInt8(streamId)
             local concave = streamReadUInt8(streamId)
             local targetEngineLoad = streamReadUInt8(streamId)
-            local mode = streamReadString(streamId)
             local currentCrop = streamReadString(streamId)
             local cropCalibrated = streamReadBool(streamId)
             
@@ -3973,14 +4060,6 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
                 spec.combineMemory.currentSettings.feeder = feeder
                 spec.combineMemory.currentSettings.concave = concave
                 spec.combineMemory.currentSettings.targetEngineLoad = targetEngineLoad or 80
-                local isTier4 = (spec.packageLevel or 1) >= 4
-                if isTier4 then
-                    spec.combineMemory.mode = mode or "MANUAL"
-                    spec.combineMemory.autoSwitchEnabled = (spec.combineMemory.mode == "AUTO")
-                else
-                    spec.combineMemory.mode = "MANUAL"
-                    spec.combineMemory.autoSwitchEnabled = false
-                end
                 spec.combineMemory.currentCrop = (currentCrop ~= "" and currentCrop) or nil
                 spec.combineMemory.isCalibrated = cropCalibrated
                 spec.combineMemory.calibratedCrops = spec.combineMemory.calibratedCrops or {}
@@ -4070,8 +4149,6 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
                 streamWriteUInt8(streamId, mem.currentSettings.feeder or 50)
                 streamWriteUInt8(streamId, mem.currentSettings.concave or mem.currentSettings.feeder or 50)
                 streamWriteUInt8(streamId, mem.currentSettings.targetEngineLoad or 80)
-                local isTier4 = (spec.packageLevel or 1) >= 4
-                streamWriteString(streamId, isTier4 and (mem.mode or "MANUAL") or "MANUAL")
                 streamWriteString(streamId, mem.currentCrop or "")
                 streamWriteBool(streamId, mem.calibratedCrops and mem.currentCrop and mem.calibratedCrops[mem.currentCrop] == true or false)
             else
@@ -4082,7 +4159,6 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
                 streamWriteUInt8(streamId, 50)
                 streamWriteUInt8(streamId, 50)
                 streamWriteUInt8(streamId, 80)
-                streamWriteString(streamId, "MANUAL")
                 streamWriteString(streamId, "")
                 streamWriteBool(streamId, false)
             end
@@ -4169,6 +4245,7 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
                     g_inputBinding:setActionEventTextVisibility(cursorEventId, true)
                 end
             end
+            rhm_Combine.registerExternalControlActions(self, spec.actionEvents)
         end
     end
 end

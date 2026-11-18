@@ -2,7 +2,7 @@
 <modDesc descVersion="116">
     <author>exekx</author>
     <contributors>Squallqt</contributors>
-    <version>1.6.5.1-Beta-1</version>
+    <version>1.6.5.1-Beta-2</version>
     <modName>FS25_RealisticHarvesting</modName>
     <title>
         <en>Realistic Harvesting</en>
@@ -107,6 +107,19 @@ GitHub: https://github.com/exekx/FS25_RealisticHarvesting]]></fr>
         <action name="RHM_QUICK_RESET_TRIP" category="VEHICLE" />
         <action name="RHM_TOGGLE_MOUSE_CURSOR" category="VEHICLE" />
         <action name="RHM_CLOSE_NOTIFICATION" displayCategory="PLAYER_INTERACTIVE" />
+        <action name="RHM_APPLY_AUTO_CALIB" category="VEHICLE" />
+        <action name="RHM_ROTOR_INC" category="VEHICLE" />
+        <action name="RHM_ROTOR_DEC" category="VEHICLE" />
+        <action name="RHM_CONCAVE_INC" category="VEHICLE" />
+        <action name="RHM_CONCAVE_DEC" category="VEHICLE" />
+        <action name="RHM_FAN_INC" category="VEHICLE" />
+        <action name="RHM_FAN_DEC" category="VEHICLE" />
+        <action name="RHM_UPPER_SIEVE_INC" category="VEHICLE" />
+        <action name="RHM_UPPER_SIEVE_DEC" category="VEHICLE" />
+        <action name="RHM_LOWER_SIEVE_INC" category="VEHICLE" />
+        <action name="RHM_LOWER_SIEVE_DEC" category="VEHICLE" />
+        <action name="RHM_TARGET_LOAD_INC" category="VEHICLE" />
+        <action name="RHM_TARGET_LOAD_DEC" category="VEHICLE" />
     </actions>
     
     <inputBinding>

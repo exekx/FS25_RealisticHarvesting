@@ -584,5 +584,18 @@
         <text name="rhm_ui_sub_root_blower" text="Reinigungsgebläse-Geschwindigkeit" />
         <text name="rhm_ui_sub_shaking_intensity" text="Siebband-Schüttelintensität %" />
         <text name="rhm_ui_sub_mechanical_calib" text="Mechanische Kalibrierung" />
+        <text name="input_RHM_APPLY_AUTO_CALIB" text="RHM: KI-Autokalibrierung anwenden" />
+        <text name="input_RHM_ROTOR_INC" text="RHM: Rotordrehzahl (+)" />
+        <text name="input_RHM_ROTOR_DEC" text="RHM: Rotordrehzahl (-)" />
+        <text name="input_RHM_CONCAVE_INC" text="RHM: Korbabstand / Einzug (+)" />
+        <text name="input_RHM_CONCAVE_DEC" text="RHM: Korbabstand / Einzug (-)" />
+        <text name="input_RHM_FAN_INC" text="RHM: Gebläsedrehzahl (+)" />
+        <text name="input_RHM_FAN_DEC" text="RHM: Gebläsedrehzahl (-)" />
+        <text name="input_RHM_UPPER_SIEVE_INC" text="RHM: Obersieb (+)" />
+        <text name="input_RHM_UPPER_SIEVE_DEC" text="RHM: Obersieb (-)" />
+        <text name="input_RHM_LOWER_SIEVE_INC" text="RHM: Untersieb (+)" />
+        <text name="input_RHM_LOWER_SIEVE_DEC" text="RHM: Untersieb (-)" />
+        <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Ziel-Motorlast (+)" />
+        <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Ziel-Motorlast (-)" />
     </texts>
 </l10n>

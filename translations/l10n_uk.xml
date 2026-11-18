@@ -583,5 +583,18 @@
         <text name="rhm_ui_sub_root_blower" text="Швидкість очисного вентилятора" />
         <text name="rhm_ui_sub_shaking_intensity" text="Інтенсивність струшування елеватора %" />
         <text name="rhm_ui_sub_mechanical_calib" text="Механічне калібрування" />
+        <text name="input_RHM_APPLY_AUTO_CALIB" text="RHM: Застосувати ШІ Автокалібрування" />
+        <text name="input_RHM_ROTOR_INC" text="RHM: Оберти ротора (+)" />
+        <text name="input_RHM_ROTOR_DEC" text="RHM: Оберти ротора (-)" />
+        <text name="input_RHM_CONCAVE_INC" text="RHM: Зазор підбарабання / подача (+)" />
+        <text name="input_RHM_CONCAVE_DEC" text="RHM: Зазор підбарабання / подача (-)" />
+        <text name="input_RHM_FAN_INC" text="RHM: Оберти вентилятора (+)" />
+        <text name="input_RHM_FAN_DEC" text="RHM: Оберти вентилятора (-)" />
+        <text name="input_RHM_UPPER_SIEVE_INC" text="RHM: Верхнє решето (+)" />
+        <text name="input_RHM_UPPER_SIEVE_DEC" text="RHM: Верхнє решето (-)" />
+        <text name="input_RHM_LOWER_SIEVE_INC" text="RHM: Нижнє решето (+)" />
+        <text name="input_RHM_LOWER_SIEVE_DEC" text="RHM: Нижнє решето (-)" />
+        <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Цільове навантаження (+)" />
+        <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Цільове навантаження (-)" />
     </texts>
 </l10n>

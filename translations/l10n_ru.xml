@@ -584,5 +584,18 @@
         <text name="rhm_ui_sub_root_blower" text="Скорость очистного вентилятора" />
         <text name="rhm_ui_sub_shaking_intensity" text="Интенсивность встряхивания элеватора %" />
         <text name="rhm_ui_sub_mechanical_calib" text="Механическая калибровка" />
+        <text name="input_RHM_APPLY_AUTO_CALIB" text="RHM: Apply AI Auto-Calibration" />
+        <text name="input_RHM_ROTOR_INC" text="RHM: Rotor Speed (+)" />
+        <text name="input_RHM_ROTOR_DEC" text="RHM: Rotor Speed (-)" />
+        <text name="input_RHM_CONCAVE_INC" text="RHM: Concave / Feed (+)" />
+        <text name="input_RHM_CONCAVE_DEC" text="RHM: Concave / Feed (-)" />
+        <text name="input_RHM_FAN_INC" text="RHM: Fan Speed (+)" />
+        <text name="input_RHM_FAN_DEC" text="RHM: Fan Speed (-)" />
+        <text name="input_RHM_UPPER_SIEVE_INC" text="RHM: Upper Sieve (+)" />
+        <text name="input_RHM_UPPER_SIEVE_DEC" text="RHM: Upper Sieve (-)" />
+        <text name="input_RHM_LOWER_SIEVE_INC" text="RHM: Lower Sieve (+)" />
+        <text name="input_RHM_LOWER_SIEVE_DEC" text="RHM: Lower Sieve (-)" />
+        <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
+        <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
     </texts>
 </l10n>

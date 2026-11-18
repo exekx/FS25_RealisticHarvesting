@@ -50,10 +50,6 @@ function RHM_CombineMemory.new(combine, machineType, threshingType)
     self.calibratedCrops = {}
     self.hasManualTuning = false
 
-    -- EN: Default mode is always MANUAL for all combines. AUTO calibration is user-triggered on Tier 4.
-    -- UA: Режим за замовчуванням завжди MANUAL для всіх комбайнів. AUTO калібрування запускається гравцем на Тір 4.
-    self.mode = "MANUAL"
-    self.autoSwitchEnabled = false
     self.showWarnings = true
 
     return self
@@ -150,8 +146,6 @@ function RHM_CombineMemory:applySettingsProfile(profile, cropName)
         if profile.targetEngineLoad ~= nil then
             self.currentSettings.targetEngineLoad = profile.targetEngineLoad
         end
-        self.mode = "MANUAL"
-        self.autoSwitchEnabled = false
         self.isCalibrated = true
         self.hasManualTuning = true
         if targetCrop and targetCrop ~= "" then
@@ -217,8 +211,6 @@ function RHM_CombineMemory:autoConfigureForCrop(cropName, forceOptimal, context)
             end
         end
 
-        self.mode = "AUTO"
-        self.autoSwitchEnabled = true
         self.isCalibrated = true
         if cropName and cropName ~= "" then
             self.calibratedCrops = self.calibratedCrops or {}
@@ -226,15 +218,13 @@ function RHM_CombineMemory:autoConfigureForCrop(cropName, forceOptimal, context)
         end
         rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [OK] Opti-Harvest AI auto settings applied for: %s", cropName))
     else
-        -- EN: MANUAL / RESET mode: set all active params to neutral 50% position.
-        -- UA: Режим MANUAL / RESET: встановлюємо всі активні параметри на нейтральну позицію 50%.
+        -- EN: RESET mode: set all active params to neutral 50% position.
+        -- UA: Режим RESET: встановлюємо всі активні параметри на нейтральну позицію 50%.
         local activeParams = RHM_CombineSettingsDatabase:getParamsForMachineType(self.machineType)
         for _, pName in ipairs(activeParams) do
             self.currentSettings[pName] = 50
         end
 
-        self.mode = "MANUAL"
-        self.autoSwitchEnabled = false
         self.isCalibrated = false
         self.hasManualTuning = false
         if cropName and cropName ~= "" and self.calibratedCrops then
@@ -253,7 +243,7 @@ function RHM_CombineMemory:autoConfigureForCrop(cropName, forceOptimal, context)
     self.currentCrop = cropName
 
     if RHM_Api and RHM_Api.dispatch then
-        RHM_Api.dispatch("onSettingsChanged", self.combine, self.currentSettings, self.mode)
+        RHM_Api.dispatch("onSettingsChanged", self.combine, self.currentSettings)
     end
 
     return true
@@ -298,36 +288,15 @@ function RHM_CombineMemory:applyAiWorkerTuning(cropName, context, suppliedProfil
         isAlreadyCalibrated = true
     end
 
-    -- EN: If player settings are prioritized and machine is already calibrated, keep settings untouched!
-    -- UA: Якщо налаштування гравця в пріоритеті і комбайн уже відкалібрований, зберігаємо налаштування без змін!
-    if aiTuningMode == 1 and isAlreadyCalibrated and not (suppliedProfile and self.aiTunedCrop == cropName) then
-        self.currentCrop = cropName
-        self.isCalibrated = true
-        self.calibratedCrops = self.calibratedCrops or {}
-        self.calibratedCrops[cropName] = true
+    -- EN: All AI workers calibrate combine on entry according to their electronics tier.
+    -- UA: Усі наймити калібрують комбайн при посадці відповідно до свого рівня електроніки.
+    self.currentCrop = cropName
+    self.isCalibrated = true
+    self.calibratedCrops = self.calibratedCrops or {}
+    self.calibratedCrops[cropName] = true
 
-        if self.combine and self.combine.spec_rhm_Combine and self.combine.spec_rhm_Combine.loadCalculator then
-            self.combine.spec_rhm_Combine.loadCalculator.currentCrop = cropName
-        end
-
-        local cropTitle = cropName
-        if RHM_CombineSettingsDatabase and RHM_CombineSettingsDatabase.getCropTitle then
-            cropTitle = RHM_CombineSettingsDatabase:getCropTitle(cropName)
-        end
-
-        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [AI WORKER] Kept player's calibrated settings for %s (no overwrite)", cropName))
-
-        if self.combine and (self.combine.getIsEntered and self.combine:getIsEntered()) then
-            local retainedText = (g_i18n and g_i18n.hasText and g_i18n:hasText("rhm_ai_settings_retained")) and g_i18n:getText("rhm_ai_settings_retained") or "Manual Settings Retained"
-            local msg = string.format("%s (%s)", retainedText, tostring(cropTitle))
-            if RHM_NotificationManager and RHM_NotificationManager.INSTANCE then
-                RHM_NotificationManager.INSTANCE:showNotification("Realistic Harvesting [AI]", msg, 4000)
-            elseif g_currentMission and g_currentMission.hud and g_currentMission.hud.showInGameMessage then
-                g_currentMission.hud:showInGameMessage("Realistic Harvesting", "Realistic Harvesting [AI]: " .. msg, -1)
-            end
-        end
-
-        return true
+    if self.combine and self.combine.spec_rhm_Combine and self.combine.spec_rhm_Combine.loadCalculator then
+        self.combine.spec_rhm_Combine.loadCalculator.currentCrop = cropName
     end
 
     local pkgLevel = 1
@@ -415,12 +384,8 @@ function RHM_CombineMemory:applyAiWorkerTuning(cropName, context, suppliedProfil
     end
 
     if pkgLevel >= 4 then
-        self.mode = "AUTO"
-        self.autoSwitchEnabled = true
         rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [AI WORKER] Tier 4 (Opti-Harvest AI) applied perfect settings for %s (%d adjusted, %d retained)", cropName, adjustedCount, keptCount))
     else
-        self.mode = "MANUAL"
-        self.autoSwitchEnabled = false
         if adjustedCount == 0 then
             rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [AI WORKER] Tier %d kept player's manual settings for %s (all within ±%d%%)", pkgLevel, cropName, varianceRange))
         else
@@ -570,8 +535,6 @@ function RHM_CombineMemory:loadUserPreset(forAiWorker)
                 end
             end
             self.currentSettings.targetEngineLoad = profile.targetEngineLoad or 80
-            self.mode = "MANUAL"
-            self.autoSwitchEnabled = false
             self.isCalibrated = true
             if self.currentCrop and self.currentCrop ~= "" then
                 self.calibratedCrops = self.calibratedCrops or {}
@@ -753,7 +716,6 @@ function RHM_CombineMemory:setParameter(paramName, value)
         if altParam and self.currentSettings[altParam] ~= nil then
             self.currentSettings[altParam] = clamped
         end
-        self.mode = "MANUAL" -- EN: Any manual change overrides AUTO mode / UA: Будь-яка ручна зміна скасовує AUTO режим
         self.hasManualTuning = true
         self.manualTunedCrop = self.currentCrop
         self.isCalibrated = true
@@ -764,44 +726,6 @@ function RHM_CombineMemory:setParameter(paramName, value)
         return true
     end
     return false
-end
-
--- EN: Switches operating mode to AUTO or MANUAL.
---     AUTO: applies optimal crop settings immediately if a crop is already detected.
---           on a dedicated server without a crop yet, marks pending AUTO and waits.
---     MANUAL: disables auto-configuration.
--- UA: Переключає режим роботи на AUTO або MANUAL.
---     AUTO: застосовує оптимальні налаштування для культури якщо вона вже визначена.
---           на виділеному сервері без культури — позначає очікуючий AUTO і чекає.
---     MANUAL: вимикає автоконфігурацію.
-function RHM_CombineMemory:setMode(mode)
-    self.aiTunedCrop = nil
-    local pkgLevel = 1
-    if self.combine and self.combine.spec_rhm_Combine then
-        pkgLevel = self.combine.spec_rhm_Combine.packageLevel or 1
-    end
-
-    if mode == "AUTO" then
-        if pkgLevel < 4 then
-            self.mode = "MANUAL"
-            self.autoSwitchEnabled = false
-            rhm_log("RHM [RHM_CombineMemory]: [!] Cannot set AUTO mode: requires Tier 4 (Opti-Harvest AI)")
-            return
-        end
-
-        if self.currentCrop then
-            self:autoConfigureForCrop(self.currentCrop, true)
-        else
-            -- EN: Dedicated server / unharvested: crop not yet detected. Store mode for later.
-            -- UA: Виділений сервер / не зібрано: культура ще не визначена. Зберігаємо режим.
-            self.mode = "AUTO"
-            self.autoSwitchEnabled = true
-            rhm_log("RHM [RHM_CombineMemory]: RHM: [AUTO] currentCrop is nil, pending AUTO mode set.")
-        end
-    elseif mode == "MANUAL" then
-        self.mode = "MANUAL"
-        self.autoSwitchEnabled = false
-    end
 end
 
 -- EN: Returns the number of profiles currently available.
@@ -901,16 +825,11 @@ function RHM_CombineMemory:switchCrop(newCropName)
         self.isCalibrated = false
     end
 
-    -- EN: Switching crop always drops to MANUAL mode so Tier 4 requires explicit re-calibration.
-    -- UA: Зміна культури завжди переводить у режим MANUAL, тому для Тір 4 потрібне явне повторне калібрування.
-    self.mode = "MANUAL"
-    self.autoSwitchEnabled = false
-
     -- EN: Reset yield calibration for new crop
     -- UA: Скидаємо калібрування врожайності для нової культури
     self.currentYieldCalibration = 1.0
 
-    rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: Detected crop: %s (MANUAL mode, current settings retained)", newCropName))
+    rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: Detected crop: %s (current settings retained)", newCropName))
 
     -- EN: Synchronize with server if in multiplayer
     -- UA: Синхронізуємо з сервером у мультиплеєрі
@@ -937,19 +856,13 @@ end
 -- ============================================================================
 
 -- EN: Updates a single setting and sends a network event to the server in multiplayer.
---     Automatically switches to MANUAL mode and disables auto-switch.
 -- UA: Оновлює одне налаштування і надсилає мережеву подію серверу в мультиплеєрі.
---     Автоматично переключається в MANUAL режим і вимикає автоперемикання.
 function RHM_CombineMemory:updateSetting(param, value)
     local success = self:setParameter(param, value)
     if success then
-        if param ~= "targetEngineLoad" then
-            self.autoSwitchEnabled = false
-            self.mode = "MANUAL"
-        end
 
         if RHM_Api and RHM_Api.dispatch then
-            RHM_Api.dispatch("onSettingsChanged", self.combine, self.currentSettings, self.mode)
+            RHM_Api.dispatch("onSettingsChanged", self.combine, self.currentSettings)
         end
 
         if (g_client or g_server) and self.combine then
@@ -965,59 +878,16 @@ function RHM_CombineMemory:updateSetting(param, value)
     return success
 end
 
--- EN: Toggles the auto-switch mode flag. In multiplayer, sends a network event to the server.
---     In singleplayer, applies locally and immediately configures for the current crop if switching to AUTO.
--- UA: Перемикає прапорець режиму автоперемикання. У мультиплеєрі надсилає мережеву подію серверу.
---     В однокористувацькій грі застосовує локально і негайно налаштовує для поточної культури при переключенні в AUTO.
-function RHM_CombineMemory:toggleAutoMode()
-    local pkgLevel = 1
-    if self.combine and self.combine.spec_rhm_Combine then
-        pkgLevel = self.combine.spec_rhm_Combine.packageLevel or 1
-    end
-
-    if pkgLevel < 4 then
-        self.mode = "MANUAL"
-        self.autoSwitchEnabled = false
-        rhm_log("RHM [RHM_CombineMemory]: [!] AUTO mode locked - requires Tier 4 (Opti-Harvest AI)")
-        return
-    end
-
-    if g_client and self.combine and not g_server then
-        -- EN: Multiplayer client: send request to server.
-        -- UA: Клієнт мультиплеєру: надсилаємо запит на сервер.
-        local targetMode = not self.autoSwitchEnabled
-        local event = RHM_CombineSettingsEvent.new(self.combine, "AUTO_MODE", targetMode and 1 or 0)
-        g_client:getServerConnection():sendEvent(event)
-        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: [Sync] Sent AUTO mode request to server: %s", targetMode and "ON" or "OFF"))
-    else
-        -- EN: Singleplayer or server: apply immediately.
-        -- UA: Однокористувацька або сервер: застосовуємо негайно.
-        self.autoSwitchEnabled = not self.autoSwitchEnabled
-
-        if self.autoSwitchEnabled then
-            self.mode = "AUTO"
-            if self.currentCrop then
-                self:autoConfigureForCrop(self.currentCrop, true)
-            end
-        else
-            self.mode = "MANUAL"
-        end
-        local spec = self.combine and self.combine.spec_rhm_Combine
-        if g_server and spec and spec.settingsDirtyFlag then self.combine:raiseDirtyFlags(spec.settingsDirtyFlag) end
-        rhm_log(string.format("RHM [RHM_CombineMemory]: RHM: Auto Switch %s", self.autoSwitchEnabled and "ENABLED" or "DISABLED"))
-    end
-end
-
 -- EN: Alias for saveCurrentProfile for backward compatibility with GUI code.
 -- UA: Псевдонім для saveCurrentProfile для зворотної сумісності з кодом GUI.
 function RHM_CombineMemory:saveProfile(cropName)
     return self:saveCurrentProfile(cropName)
 end
 
----EN: Smoothly auto-trims active settings towards live optimal targets when AUTO mode is active (Level 4 Opti-Harvest AI).
----UA: Плавно підлаштовує активні налаштування до живих оптимальних цілей в режимі AUTO (4 рівень Opti-Harvest AI).
+---EN: Dynamic auto-trim active settings towards live optimal targets when AI worker is active (Level 4 Opti-Harvest AI).
+---UA: Динамічне підлаштування активних налаштувань до живих оптимальних цілей коли працює AI помічник (4 рівень Opti-Harvest AI).
 function RHM_CombineMemory:updateAutoTrim(dt)
-    if self.mode ~= "AUTO" or not self.autoSwitchEnabled or not self.currentCrop then
+    if not self.currentCrop then
         return
     end
     if not (self.combine and rhm_Combine and rhm_Combine.isAiWorkerActive and rhm_Combine.isAiWorkerActive(self.combine)) then
@@ -1039,7 +909,7 @@ function RHM_CombineMemory:updateAutoTrim(dt)
     end
 
     self.autoTrimTimer = (self.autoTrimTimer or 0) + dt
-    if self.autoTrimTimer < 2000 then
+    if self.autoTrimTimer < 2500 then
         return
     end
     self.autoTrimTimer = 0
@@ -1067,9 +937,18 @@ function RHM_CombineMemory:updateAutoTrim(dt)
         if optimalSettings[pName] and optimalSettings[pName].optimal then
             local target = optimalSettings[pName].optimal
             local cur = self.currentSettings[pName] or 50
-            if math.abs(cur - target) >= 1 then
-                local step = (target > cur) and 1 or -1
-                self.currentSettings[pName] = cur + step
+            local diff = math.abs(cur - target)
+            if diff >= 1 then
+                -- EN: Proportional trim step: fast convergence on large discrepancy, fine 1% step when close
+                -- UA: Пропорційний крок підлаштування: швидке виправлення великих похибок, тонкий крок 1% поблизу оптимуму
+                local stepSize = 1
+                if diff >= 20 then
+                    stepSize = math.min(8, math.floor(diff * 0.4))
+                elseif diff >= 5 then
+                    stepSize = math.min(3, math.floor(diff * 0.25))
+                end
+                local direction = (target > cur) and 1 or -1
+                self.currentSettings[pName] = cur + (direction * stepSize)
                 changed = true
             end
         end

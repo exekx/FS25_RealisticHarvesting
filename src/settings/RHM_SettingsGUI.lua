@@ -33,8 +33,7 @@ function RHMSettingsGUI:registerConsoleCommands()
     -- EN: Combine settings commands (require the player to be seated in a combine).
     -- UA: Команди налаштувань комбайна (потребують щоб гравець сидів у комбайні).
     addConsoleCommand("rhm_status", "Show combine settings status", "consoleCommandCombineStatus", self)
-    addConsoleCommand("rhm_auto", "Set combine to AUTO mode", "consoleCommandCombineAuto", self)
-    addConsoleCommand("rhm_manual", "Set combine to MANUAL mode", "consoleCommandCombineManual", self)
+    addConsoleCommand("rhm_auto", "Apply one-shot AI calibration (Tier 4)", "consoleCommandCombineAuto", self)
     addConsoleCommand("rhm_set", "Set combine parameter (usage: rhm_set <param> <value>)", "consoleCommandCombineSet", self)
     addConsoleCommand("rhm_load", "Load combine profile (usage: rhm_load <profile>)", "consoleCommandCombineLoad", self)
     addConsoleCommand("rhm_save", "Save combine profile (usage: rhm_save <name>)", "consoleCommandCombineSave", self)
@@ -250,7 +249,6 @@ function RHMSettingsGUI:consoleCommandCombineStatus()
     local info = string.format(
         "=== RHM Combine Status ===\n" ..
         "Crop:   %s\n" ..
-        "Mode:   %s\n" ..
         "Fan:    %d%%\n" ..
         "Rotor:  %d%%\n" ..
         "Upper:  %d%%\n" ..
@@ -258,7 +256,6 @@ function RHMSettingsGUI:consoleCommandCombineStatus()
         "Feeder: %d%%\n" ..
         "Profiles: %d saved",
         mem.currentCrop or "NONE",
-        mem.mode or "UNKNOWN",
         settings.fan or 0,
         settings.rotor or 0,
         settings.upperSieve or 0,
@@ -270,8 +267,8 @@ function RHMSettingsGUI:consoleCommandCombineStatus()
     return info
 end
 
--- EN: Activates AUTO mode for the current combine via the combine memory system.
--- UA: Активує AUTO режим для поточного комбайна через систему пам'яті комбайна.
+-- EN: Applies one-shot optimal calibration for the current combine (Tier 4).
+-- UA: Застосовує разове оптимальне калібрування для поточного комбайна (Tier 4).
 function RHMSettingsGUI:consoleCommandCombineAuto()
     local vehicle = self:getCurrentCombine()
     if not vehicle then
@@ -287,32 +284,8 @@ function RHMSettingsGUI:consoleCommandCombineAuto()
         return "[X] Combine Memory not found"
     end
 
-    if spec.combineMemory:requestAutoSettings() then return "[OK] AUTO calibration requested" end
-    return "[X] AUTO calibration unavailable for the current machine or crop"
-end
-
--- EN: Activates MANUAL mode for the current combine.
--- UA: Активує MANUAL режим для поточного комбайна.
-function RHMSettingsGUI:consoleCommandCombineManual()
-    local vehicle = self:getCurrentCombine()
-    if not vehicle then
-        return "[X] You must be in a combine to use this command"
-    end
-
-    local spec = vehicle.spec_rhm_Combine
-    if not spec or not spec.combineMemory then
-        return "[X] Combine Memory not found"
-    end
-
-    spec.combineMemory:setMode("MANUAL")
-    if g_client and not g_server then
-        g_client:getServerConnection():sendEvent(RHM_CombineSettingsEvent.new(vehicle, "AUTO_MODE", 0))
-    elseif g_server then
-        if spec.settingsDirtyFlag and type(spec.settingsDirtyFlag) == "number" then
-            vehicle:raiseDirtyFlags(spec.settingsDirtyFlag)
-        end
-    end
-    return "[OK] Mode set to MANUAL"
+    if spec.combineMemory:requestAutoSettings() then return "[OK] AI calibration requested" end
+    return "[X] AI calibration unavailable for the current machine or crop"
 end
 
 -- EN: Sets a single combine parameter to the given value via console.
