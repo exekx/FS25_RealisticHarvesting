@@ -13,7 +13,7 @@
 -- ============================================================================
 
 RHM_Api = {}
-RHM_Api.VERSION = "1.6.5.0"
+RHM_Api.VERSION = "1.6.5.1-Beta-2"
 RHM_Api.listeners = {}
 RHM_Api.wearProvider = nil
 
@@ -968,14 +968,16 @@ function RHM_Api.getSettingsEfficiency(vehicle)
     return nil
 end
 
----EN: Returns current setting control mode: "MANUAL" or "AUTO".
----UA: Повертає режим керування налаштуваннями: "MANUAL" або "AUTO".
+---EN: Returns effective setting control mode: "AUTO" when an AI worker operates a Tier 4 combine, otherwise "MANUAL".
+---UA: Повертає ефективний режим керування: "AUTO" коли комбайном Tier 4 керує ШІ-помічник, інакше "MANUAL".
 ---@param vehicle table|nil
 ---@return string|nil mode ("MANUAL", "AUTO") or nil if unmanaged
 function RHM_Api.getSettingsMode(vehicle)
     local combine = RHM_Api.findCombine(vehicle)
     if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.combineMemory then
-        return combine.spec_rhm_Combine.combineMemory.mode or "MANUAL"
+        local pkgLevel = combine.spec_rhm_Combine.packageLevel or 1
+        local isAi = rhm_Combine and rhm_Combine.isAiWorkerActive and rhm_Combine.isAiWorkerActive(combine)
+        return (pkgLevel >= 4 and isAi) and "AUTO" or "MANUAL"
     end
     return nil
 end

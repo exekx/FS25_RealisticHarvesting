@@ -1,5 +1,22 @@
 # Realistic Harvesting - Changelog
 
+Changelog 1.6.5.1-Beta-2:
+- ADDED: 13 bindable vehicle input actions for external hardware control and virtual button boxes: instant Tier 4 auto-calibration (`RHM_APPLY_AUTO_CALIB`), and stepping adjustments (`±5%`) for rotor speed, concave clearance, cleaning fan speed, upper sieve, lower sieve, and target engine load with full multiplayer synchronization and on-screen feedback.
+- ADDED: Engine load telemetry export via native `getMotorLoadPercentage` override, reflecting real-time RHM threshing load (`0.0–1.0`) on in-cab dashboard gauges and external telemetry bridge widgets.
+- IMPROVED: Removed legacy `AUTO`/`MANUAL` mode dichotomy and background auto-switch flags; player calibration is always fully manual, while `[AI AUTO-CALIB]` functions as an explicit one-shot optimization for Tier 4 harvesters.
+- IMPROVED: AI helper calibration on takeover: hired workers of all electronic tiers (Tiers 1–4) immediately set harvester parameters according to their tier tolerance (Tier 4: optimal 0%, Tier 3: ±4%, Tier 2: ±10%, Tier 1: ±18%), eliminating grain loss caused by uncalibrated settings.
+- IMPROVED: Tier 4 continuous auto-trim (`updateAutoTrim`) operates on a lightweight 2.5-second interval with dynamic proportional step convergence, minimizing CPU overhead while smoothly tracking live field moisture shifts.
+- OPTIMIZED: Converted calibration tablet chassis texture (`textures/tablet_frame.dds`) from uncompressed 32-bit RAW to standard 1024x1024 BC3 (DXT5) with complete 10-level mipmaps, eliminating engine performance warnings and reducing asset footprint.
+- LOCALIZATION: Added complete localized strings for all 13 external control actions across all 27 supported languages (560 keys per file, UTF-8 without BOM).
+
+Changelog 1.6.5.1-Beta-1:
+- ADDED: Redesigned Combine Calibration Terminal (Right Shift + K) with high-resolution tablet frame, radial telemetry gauges, rounded controls, and unified hover states across all buttons, tabs, sliders, and profile rows.
+- ADDED: Saved crop configurations manager (`PROFILES` tab) allowing players to save, browse, delete, and explicitly load calibration presets (`profiles.xml`) with multiplayer synchronization.
+- IMPROVED: Smooth sub-pixel slider dragging with 1% resolution while preserving physical unit step increments (`RPM`, `mm`, `%`) on `[-]` and `[+]` buttons.
+- IMPROVED: Smooth delta-based window dragging across the calibration tablet surface with pixel-snapped alignment and magnetic docking.
+- FIXED: Automatic settings tuning when manually cycling crops in the calibration terminal; combine settings now change only via manual adjustment, `[LOAD PRESET]`, `[AI AUTO-CALIB]` (Tier 4), or when an AI worker is actively driving.
+- FIXED: Yield Monitor HUD overlapping with the F1 input help menu upon initial savegame load before toggling F1.
+
 Changelog 1.6.5.0:
 - ADDED: Public API wear provider (`RHM_Api.registerWearProvider`, `RHM_Api.getWearProviderValue`): a mechanical wear mod can supply the thresher wear loss already removed from the yield, the live engine power including tuning and power losses, and the extra processing power drawn by worn parts. Without a registered provider, nothing changes.
 - ADDED: Integration with Realistic Mechanical Systems (version 1.0.0.0-beta.1 or higher): when both mods are active, the wear of the threshing parts sets the thresher wear loss, the engine power follows the mechanical condition of the engine, and worn knives and shear bar draw extra processing power.

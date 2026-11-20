@@ -16,7 +16,7 @@
 - 🌐 **Official Download:** **[kingmods.net by exekx](https://www.kingmods.net/en/fs25/mods/73932/realistic-harvesting)**
 - 💬 **Community & Support:** [Discord Server](https://discord.gg/Dc2CvZJqU4)
 - 🐛 **Bugs & Suggestions:** [GitHub Issues](https://github.com/exekx/FS25_RealisticHarvesting/issues)
-- 🌾 **Recommended Integrations:** [Precision Farming (PF)](https://www.farming-simulator.com/mod.php?mod_id=318936) · [Moisture System](https://www.farming-simulator.com/mod.php?mod_id=354130&title=fs2025)
+- 🌾 **Recommended Integrations:** [Precision Farming](https://www.farming-simulator.com/mod.php?mod_id=318936) · [Moisture System](https://www.farming-simulator.com/mod.php?mod_id=354130&title=fs2025) · [Realistic Mechanical Systems](RealisticMechanicalSystems)
 
 ---
 
