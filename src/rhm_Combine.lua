@@ -817,6 +817,7 @@ function rhm_Combine:onLoad(savegame)
     spec.lastRawLiters = 0  -- Raw intake liters from crop field / Валові літри з поля
     spec.currentLossRatio = 0.0 -- Active physical loss scaling ratio (0.00 - 0.50)
     spec._pendingLostLiters = 0 -- Accumulated discarded grain liters for tracker
+    spec._rhmTimeSinceLastHarvest = 999 -- Initialized high so empty combine reports zero flow loss
     
     -- Відстеження поточної жатки для визначення зміни
     spec.currentCutter = nil
@@ -2029,15 +2030,30 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
     if firstAttachedCutter ~= spec.currentCutter and firstAttachedCutter ~= nil then
         spec.currentCutter = firstAttachedCutter
         spec.loadCalculator.genuineSpeedLimit = -1 -- EN: Reset to initial value / UA: Скидаємо до початкового значення
+        spec.loadCalculator.vanillaWorkingSpeed = nil
     end
-    
-    -- EN: Set genuineSpeedLimit ONCE from the game's max speed cap (1.5x game limit, min 18 km/h).
-    --     This cap is the ceiling — our dynamic limit oscillates below it.
-    -- UA: Встановлюємо genuineSpeedLimit ОДИН РАЗ з максимального ліміту гри (1.5x ліміту, мін. 18 км/год).
-    --     Цей стеля — наш динамічний ліміт коливається нижче нього.
-    if spec.loadCalculator.genuineSpeedLimit == -1 and limit ~= math.huge then
-        -- EN: Use vanilla game limit as absolute cap (no speed bonus) / UA: Ванільний ліміт як абсолютна межа (без бонусів)
-        spec.loadCalculator:setGenuineSpeedLimit(limit, limit)
+
+    -- EN: Cache genuine working speed ceiling from header design specs or highest valid game limit.
+    --     Permits genuineSpeedLimit to rise if external dynamic modifiers initially returned a depressed crawl limit.
+    -- UA: Кешуємо справжню межу робочої швидкості з жатки або найвищого валідного ліміту гри,
+    --     дозволяючи genuineSpeedLimit піднятись, якщо початково був занижений зовнішнім модифікатором.
+    local headerDesignSpeed = nil
+    if firstAttachedCutter ~= nil then
+        if firstAttachedCutter.spec_cutter and firstAttachedCutter.spec_cutter.maxWorkingSpeed then
+            headerDesignSpeed = firstAttachedCutter.spec_cutter.maxWorkingSpeed
+        elseif firstAttachedCutter.speedLimit and firstAttachedCutter.speedLimit > 0 and firstAttachedCutter.speedLimit < 50 then
+            headerDesignSpeed = firstAttachedCutter.speedLimit
+        end
+    end
+
+    if limit ~= nil and limit ~= math.huge and limit > 0 then
+        if spec.loadCalculator.genuineSpeedLimit == -1 then
+            local initialLimit = (headerDesignSpeed and headerDesignSpeed > limit and headerDesignSpeed < 50) and headerDesignSpeed or limit
+            spec.loadCalculator:setGenuineSpeedLimit(initialLimit, initialLimit)
+        elseif limit > spec.loadCalculator.genuineSpeedLimit and limit < 50 then
+            spec.loadCalculator.genuineSpeedLimit = limit
+            spec.loadCalculator.vanillaWorkingSpeed = limit
+        end
     end
     
     -- EN: MULTIPLAYER FIX: RHM_LoadCalculator only runs on the server.

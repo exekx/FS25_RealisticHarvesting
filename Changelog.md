@@ -1,5 +1,12 @@
 # Realistic Harvesting - Changelog
 
+Changelog 1.6.5.2:
+- FIXED: Live HUD crop loss now reports `0.0%` whenever no crop is actively flowing through the combine, preventing stale or uncalibrated idle readings when switching crops while preserving static `PREDICTED LOSS` in the calibration terminal.
+- FIXED: Per-crop moisture thresholds are now queried dynamically from active external moisture providers (when present) and built-in diurnal moisture simulation is anchored to each crop's equilibrium moisture limit, eliminating false wet-crop penalties on dry oilseeds (e.g. canola) and removing dry-scaling distortion on external field moisture readings.
+- FIXED: Speed limiter locking at 2–3 km/h when external modifiers report depressed limits at startup or low RPM (`genuineSpeedLimit` and cached header working speed protection), and stabilized low-speed harvesting on 4x maps via pixel-pitch-scaled sampling windows, drum-matched speed inertia, and gradual underload timer decay.
+- ADDED: Runtime integrity verification for core internal physics and HUD functions that logs a diagnostic warning and notifies players via native in-game dialog (`InfoDialog`) if an external script modifies RHM internals outside `RHM_Api` (localized across all 27 languages, 561 keys per file).
+- IMPROVED: Updated integration links in `README.md`.
+
 Changelog 1.6.5.1-Beta-2:
 - ADDED: 13 bindable vehicle input actions for external hardware control and virtual button boxes: instant Tier 4 auto-calibration (`RHM_APPLY_AUTO_CALIB`), and stepping adjustments (`±5%`) for rotor speed, concave clearance, cleaning fan speed, upper sieve, lower sieve, and target engine load with full multiplayer synchronization and on-screen feedback.
 - ADDED: Engine load telemetry export via native `getMotorLoadPercentage` override, reflecting real-time RHM threshing load (`0.0–1.0`) on in-cab dashboard gauges and external telemetry bridge widgets.

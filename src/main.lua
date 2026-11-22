@@ -68,6 +68,17 @@ source(modDirectory .. "src/rhm_Combine.lua")
 source(modDirectory .. "src/rhm_Cutter.lua")
 source(modDirectory .. "src/RHM_RealisticHarvestManager.lua")
 
+if RHM_ModCompatibility and RHM_ModCompatibility.registerIntegrityBaseline then
+    RHM_ModCompatibility.registerIntegrityBaseline({
+        { name = "RHM_LoadCalculator.getCropSpecificEnergy", tbl = RHM_LoadCalculator, key = "getCropSpecificEnergy", fn = RHM_LoadCalculator and RHM_LoadCalculator.getCropSpecificEnergy },
+        { name = "RHM_LoadCalculator.calculateEngineLoad",   tbl = RHM_LoadCalculator, key = "calculateEngineLoad",   fn = RHM_LoadCalculator and RHM_LoadCalculator.calculateEngineLoad },
+        { name = "RHM_LoadCalculator.calculateSpeedLimit",   tbl = RHM_LoadCalculator, key = "calculateSpeedLimit",   fn = RHM_LoadCalculator and RHM_LoadCalculator.calculateSpeedLimit },
+        { name = "RHM_LoadCalculator.update",                tbl = RHM_LoadCalculator, key = "update",                fn = RHM_LoadCalculator and RHM_LoadCalculator.update },
+        { name = "RHMSettings.getPowerBoost",                tbl = RHMSettings,        key = "getPowerBoost",         fn = RHMSettings and RHMSettings.getPowerBoost },
+        { name = "RHMDraggableHUD.buildActiveCells",         tbl = RHMDraggableHUD,    key = "buildActiveCells",      fn = RHMDraggableHUD and RHMDraggableHUD.buildActiveCells },
+    })
+end
+
 -- EN: Global reference to the main mod manager instance (nil = disabled/not loaded).
 -- UA: Глобальне посилання на головний екземпляр менеджера мода (nil = вимкнено/не завантажено).
 local rhm

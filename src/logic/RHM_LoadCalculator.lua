@@ -466,6 +466,12 @@ function RHM_LoadCalculator:getAttachedHeaderInfo(vehicle)
                 elseif obj.getSpeedLimit then
                     limit = obj:getSpeedLimit(true)
                 end
+                if limit and limit > 0 and limit < 50 then
+                    obj._rhmDesignMaxSpeed = math.max(obj._rhmDesignMaxSpeed or 0, limit)
+                    limit = obj._rhmDesignMaxSpeed
+                elseif obj._rhmDesignMaxSpeed and obj._rhmDesignMaxSpeed > 0 then
+                    limit = obj._rhmDesignMaxSpeed
+                end
             else
                 -- For self-propelled machines with integrated/built-in cutters (obj == vehicle):
                 -- Use the genuine vanilla working speed captured before RHM limiting,
@@ -941,17 +947,32 @@ function RHM_LoadCalculator:update(vehicle, dt, mass)
         end
     end
 
-    -- EN: Balanced measurement window (800ms / 2.0m) integrates tramlines without latency
-    -- UA: Збалансоване вікно вимірювання (800мс / 2.0м) згладжує колії без затримки реакції
+    -- EN: Balanced measurement window (800ms / 2.0m) adapts at low crawl speeds to density-map grid pitch
+    -- UA: Збалансоване вікно вимірювання (800мс / 2.0м) адаптується на малих швидкостях до кроку сітки карти
     local targetInterval = self.avgTime or 800
     local targetDistance = self.distanceForMeasuring or 2.0
     if (self.harvestActiveTime or 0) < 1500 and (self.lastAvgMass or 0) < 0.1 then
         targetInterval = 350
         targetDistance = 0.8
     end
-    
+
+    local curSpeed = (vehicle.getLastSpeed and vehicle:getLastSpeed()) or self.speedLimit or 5.5
+    local sqmPerPixel = (g_currentMission and g_currentMission._rhmFruitPixelsToSqm)
+        or (g_currentMission and type(g_currentMission.getFruitPixelsToSqm) == "function" and g_currentMission:getFruitPixelsToSqm())
+        or 0.25
+    local pixelPitch = math.max(0.5, math.min(2.0, math.sqrt(math.max(0.01, sqmPerPixel))))
+
     self.currentTime = self.currentTime + dt
-    if self.currentTime > targetInterval or self.totalDistance > targetDistance then
+    local readyToUpdate = false
+    if (self.harvestActiveTime or 0) >= 1500 and curSpeed >= 0.4 and curSpeed < 5.0 and hasCropFlow then
+        local minGridDist = math.max(1.1, pixelPitch * 1.5)
+        readyToUpdate = (self.totalDistance > targetDistance)
+            or (self.currentTime > targetInterval and (self.totalDistance >= minGridDist or self.currentTime >= 2200))
+    else
+        readyToUpdate = (self.currentTime > targetInterval or self.totalDistance > targetDistance)
+    end
+
+    if readyToUpdate then
         self.lastUpdateInterval = self.currentTime
         self:updateSettingsImpact() -- EN: Recalculate settings penalty / UA: Перераховання штрафу налаштувань
         self:calculateEngineLoad(vehicle)
@@ -1028,12 +1049,15 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     end
     if isMoistureEnabled and rhmSpec and rhmSpec.data and rhmSpec.data.moisture and rhmSpec.data.moisture > 0 then
         local currentMoisture = rhmSpec.data.moisture
-        local moistureLimit = 14 -- Default general limit
-        
-        if RHM_CombineSettingsDatabase and self.currentCrop then
-            local cropSettings = RHM_CombineSettingsDatabase:getSettingsForCrop(self.currentCrop)
-            if cropSettings and cropSettings.moistureLimit then
-                moistureLimit = cropSettings.moistureLimit
+        local moistureLimit = (RHM_MoistureAdapter and RHM_MoistureAdapter.getCropMoistureLimit
+            and RHM_MoistureAdapter.getCropMoistureLimit(self.currentCrop, outputFillType)) or nil
+        if not moistureLimit then
+            moistureLimit = 14 -- Default general limit
+            if RHM_CombineSettingsDatabase and self.currentCrop then
+                local cropSettings = RHM_CombineSettingsDatabase:getSettingsForCrop(self.currentCrop)
+                if cropSettings and cropSettings.moistureLimit then
+                    moistureLimit = cropSettings.moistureLimit
+                end
             end
         end
         
@@ -1067,6 +1091,15 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
     else
         -- Field entry: Feederhouse filling ramp (don't shock drum with 100% of raw mass on tick 1)
         avgMass = rawKgPerSec * 0.40
+    end
+
+    -- Keep speed smoothed in phase with drum inertia so deceleration transients don't inflate instantKCrop
+    local rawSpeed = (vehicle.getLastSpeed and vehicle:getLastSpeed()) or self.speedLimit or 5.5
+    local clampedSpeed = math.max(0.5, rawSpeed)
+    if not self.smoothedSpeed or self.smoothedSpeed <= 0.1 then
+        self.smoothedSpeed = clampedSpeed
+    else
+        self.smoothedSpeed = self.smoothedSpeed + (clampedSpeed - self.smoothedSpeed) * blend
     end
 
     -- Feederhouse transport delay: physical crop transit from cutter bar to threshing rotor takes ~2.0 seconds
@@ -1462,6 +1495,7 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     -- Current vehicle physical speed (km/h)
     local currentSpeed = (vehicle.getLastSpeed and vehicle:getLastSpeed()) or self.speedLimit or 7.0
     currentSpeed = math.max(0.5, currentSpeed)
+    local effectiveSpeed = math.max(currentSpeed, self.smoothedSpeed or currentSpeed, 1.0)
 
     -- Effective engine horsepower & target power capability
     local targetPowerHp = effectiveHp * targetLoad
@@ -1483,7 +1517,7 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         -- Crop processing & straw chopper power slope: HP per (km/h)
         local pProcess = self.lastPowerProcess or 0
         local pChopper = self.lastPowerChopper or 0
-        local instantKCrop = (pProcess + pChopper) / currentSpeed
+        local instantKCrop = (pProcess + pChopper) / effectiveSpeed
         if instantKCrop < 0.1 then
             instantKCrop = 0.1
         end
@@ -1502,9 +1536,13 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         end
 
         local kCrop = (self.cropPowerSlope and self.cropPowerSlope > 0.5) and self.cropPowerSlope or instantKCrop
-        -- If current instant power indicates actual heavier load, react directly to prevent underestimating
+        -- Only jump directly to instantKCrop when genuinely near target load; otherwise damp transient spikes
         if instantKCrop > kCrop then
-            kCrop = instantKCrop
+            if (self.engineLoad or 0) >= (targetLoad * 0.90) then
+                kCrop = instantKCrop
+            else
+                kCrop = kCrop + (instantKCrop - kCrop) * 0.30
+            end
         end
 
         local kTotal = kHeader + kCrop
@@ -1536,12 +1574,12 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         end
     end
 
-    -- Transient crop dip / tramline detection:
-    -- When crossing a tramline or sprayer track, raw mass dips below average.
-    -- In a dip, NEVER accelerate! Hold speed steady.
-    local isTransientDip = not isEntry and (self.currentAvgMass or 0) > 0.25 and (self.rawAvgMass or 0) < ((self.currentAvgMass or 0) * 0.70)
-
     local currentLimit = self.speedLimit or maxAllowedSpeed
+
+    -- Transient crop dip / tramline detection:
+    -- Tighter threshold during low crawl speeds so discrete density grid aliasing doesn't freeze acceleration.
+    local dipRatioThreshold = (currentLimit < 3.5) and 0.45 or 0.70
+    local isTransientDip = not isEntry and (self.currentAvgMass or 0) > 0.25 and (self.rawAvgMass or 0) < ((self.currentAvgMass or 0) * dipRatioThreshold)
 
     -- Proportional deadzone scaling:
     -- At high speeds (~7-10 km/h), deadbands are -0.25 .. +0.30 km/h (~3-4%).
@@ -1569,8 +1607,12 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     elseif isTransientDip then
         -- TRAMLINE / GAP HOLD:
         -- Hold current cruise speed steady across tramlines and unseeded patches.
-        -- Reset underload timer immediately so transient gaps never cause acceleration.
-        self.underloadTimer = 0
+        -- Decay underload timer gradually at low load so grid aliasing cannot permanently trap crawl speeds.
+        if (self.engineLoad or 0) < (targetLoad * 0.70) then
+            self.underloadTimer = math.max(0, (self.underloadTimer or 0) - (self.lastUpdateInterval or 300))
+        else
+            self.underloadTimer = 0
+        end
     elseif isSurge or vEquilibrium < (currentLimit - deadbandBrake) then
         -- BRAKING / OVERLOAD / SURGE:
         -- Reset underload confirmation timer immediately
@@ -1782,7 +1824,10 @@ function RHM_LoadCalculator:reset()
     self.totalDistance = 0
     self.totalArea = 0
     self.currentTime = 0
+    self.loadAccumulatedMass = 0
     self.currentAvgMass = 0
+    self.rawAvgMass = 0
+    self.smoothedSpeed = nil
     self.engineLoad = 0
     self.cropLoss = 0
     self.cutterWearLoss = 0
@@ -2070,17 +2115,45 @@ function RHM_LoadCalculator:calculateTotalCropLoss(vehicle)
     if self.combineMemory and self.combineMemory.currentCrop then
         self.currentCrop = self.combineMemory.currentCrop
     end
-    if not self.settingsLoss then
+    if not self.settingsLoss or self._lastSettingsCrop ~= self.currentCrop then
+        self._lastSettingsCrop = self.currentCrop
         self:updateSettingsImpact()
     end
-    local baseLoss = self:calculateCropLoss()
-    local settingsAddedLoss = self.settingsLoss or 0
     local wearLoss = 0
     if vehicle then
         wearLoss = self:calculateWearLoss(vehicle)
     else
         wearLoss = self.totalWearLoss or 0
     end
+
+    -- EN: Zero live crop losses when no crop is actively flowing through the combine.
+    --     (Predicted miscalibration loss stays visible inside the calibration terminal.)
+    -- UA: Нульові живі втрати врожаю, коли через комбайн не проходить культура.
+    --     (Прогноз втрат від розрегулювання залишається видимим у терміналі калібрування.)
+    local speedKmh = (vehicle and vehicle.getLastSpeed and vehicle:getLastSpeed()) or 1.0
+    local timeSinceCrop = (vehicle and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine._rhmTimeSinceLastHarvest) or 0
+    local hasActiveFlow = ((self.loadAccumulatedMass or 0) > 0.001)
+        or ((self.rawAvgMass or 0) > 0.05)
+        or ((self.tonPerHour or 0) > 0.15)
+        or (timeSinceCrop < 2.0)
+    if speedKmh < 0.4 or not hasActiveFlow then
+        self.cropLoss = 0
+        self.totalLoss = 0
+        self.totalCropLoss = 0
+        self.baseLoss = 0
+        self.overloadLoss = 0
+        self.settingsAddedLoss = 0
+        self.wearLoss = 0
+        self.cutterWearLoss = 0
+        self.combineWearLoss = 0
+        self.totalWearLoss = 0
+        self.slopeLoss = 0
+        self.moistureLoss = 0
+        return 0
+    end
+
+    local baseLoss = self:calculateCropLoss()
+    local settingsAddedLoss = self.settingsLoss or 0
 
     -- 4. Slope Loss: Lateral tilt causes grain pooling on one side of cleaning shoe sieves
     -- Damped with low-pass filter (tau = 1.8s) so terrain suspension bumps don't flicker the loss gauge
@@ -2112,11 +2185,16 @@ function RHM_LoadCalculator:calculateTotalCropLoss(vehicle)
             currentMoisture = vehicle.spec_rhm_Combine.data.moisture or 0
         end
 
-        local moistureLimit = 14.0
-        if RHM_CombineSettingsDatabase and self.currentCrop then
-            local cropSettings = RHM_CombineSettingsDatabase:getSettingsForCrop(self.currentCrop)
-            if cropSettings and cropSettings.moistureLimit then
-                moistureLimit = cropSettings.moistureLimit
+        local outputFillType = (vehicle and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.lastFillType) or nil
+        local moistureLimit = (RHM_MoistureAdapter and RHM_MoistureAdapter.getCropMoistureLimit
+            and RHM_MoistureAdapter.getCropMoistureLimit(self.currentCrop, outputFillType)) or nil
+        if not moistureLimit then
+            moistureLimit = 14.0
+            if RHM_CombineSettingsDatabase and self.currentCrop then
+                local cropSettings = RHM_CombineSettingsDatabase:getSettingsForCrop(self.currentCrop)
+                if cropSettings and cropSettings.moistureLimit then
+                    moistureLimit = cropSettings.moistureLimit
+                end
             end
         end
 

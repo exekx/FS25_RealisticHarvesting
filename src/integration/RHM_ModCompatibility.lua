@@ -11,6 +11,32 @@ RHM_ModCompatibility.isInitialized = false
 RHM_ModCompatibility.isICHooked = false
 RHM_ModCompatibility.isVMCHooked = false
 
+local _integrityBaseline = nil
+
+function RHM_ModCompatibility.registerIntegrityBaseline(entries)
+    if _integrityBaseline ~= nil or type(entries) ~= "table" then
+        return
+    end
+    _integrityBaseline = entries
+end
+
+function RHM_ModCompatibility.checkRuntimeIntegrity()
+    if _integrityBaseline == nil then
+        return false, nil
+    end
+    local modified = nil
+    for _, entry in ipairs(_integrityBaseline) do
+        if entry.tbl ~= nil and entry.fn ~= nil and entry.tbl[entry.key] ~= entry.fn then
+            modified = modified or {}
+            table.insert(modified, entry.name)
+        end
+    end
+    if modified ~= nil and #modified > 0 then
+        return true, modified
+    end
+    return false, nil
+end
+
 function RHM_ModCompatibility.init()
     if RHM_ModCompatibility.isInitialized then
         return

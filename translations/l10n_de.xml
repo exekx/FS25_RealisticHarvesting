@@ -597,5 +597,6 @@
         <text name="input_RHM_LOWER_SIEVE_DEC" text="RHM: Untersieb (-)" />
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Ziel-Motorlast (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Ziel-Motorlast (-)" />
+        <text name="rhm_warn_external_physics_override" text="Warnung: Eine externe Mod hat interne Physikfunktionen von Realistic Harvesting außerhalb der offiziellen API verändert. Dies kann zu falscher Motorlast, blockierter Geschwindigkeitsbegrenzung oder fehlerhaften Ernteverlusten führen. Bitte deaktivieren Sie inoffizielle Drittanbieter-Addons." />
     </texts>
 </l10n>

@@ -656,7 +656,9 @@ function RHM_CombineSettingsDatabase:applyEnvironmentalOffsets(baseTemplate, con
 
         -- C. Physical Crop Moisture (from provider or simulated)
         if moisture > 0 then
-            local refMoisture = baseTemplate.moistureLimit or 14.0
+            local refMoisture = (RHM_MoistureAdapter and RHM_MoistureAdapter.getCropMoistureLimit
+                and RHM_MoistureAdapter.getCropMoistureLimit(cropName, context.fillType))
+                or baseTemplate.moistureLimit or 14.0
             local deltaM = math.max(-5.0, math.min(10.0, moisture - refMoisture))
             if deltaM > 0 then
                 rotorOffset = rotorOffset + (deltaM * 1.0)

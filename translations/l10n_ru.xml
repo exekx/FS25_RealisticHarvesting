@@ -597,5 +597,6 @@
         <text name="input_RHM_LOWER_SIEVE_DEC" text="RHM: Lower Sieve (-)" />
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
+        <text name="rhm_warn_external_physics_override" text="Внимание: сторонний мод изменил внутренние функции физики Realistic Harvesting в обход официального API. Это может вызывать некорректную нагрузку двигателя, зависание ограничителя скорости или неверные потери урожая. Отключите неофициальные сторонние аддоны." />
     </texts>
 </l10n>

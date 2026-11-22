@@ -593,5 +593,6 @@
         <text name="input_RHM_LOWER_SIEVE_DEC" text="RHM: Lower Sieve (-)" />
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
+        <text name="rhm_warn_external_physics_override" text="경고: 외부 모드가 공식 API를 거치지 않고 Realistic Harvesting의 내부 물리 함수를 수정했습니다. 이로 인해 엔진 부하 오류, 속도 제한 고정 또는 잘못된 곡물 손실이 발생할 수 있습니다. 비공식 애드온을 비활성화해 주세요." />
     </texts>
 </l10n>

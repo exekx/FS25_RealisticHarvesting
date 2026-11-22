@@ -13,7 +13,7 @@
 -- ============================================================================
 
 RHM_Api = {}
-RHM_Api.VERSION = "1.6.5.1-Beta-2"
+RHM_Api.VERSION = "1.6.5.2"
 RHM_Api.listeners = {}
 RHM_Api.wearProvider = nil
 
@@ -751,6 +751,10 @@ function RHM_Api.getMoistureLimit(vehicle)
     local combine = RHM_Api.findCombine(vehicle)
     if combine and combine.spec_rhm_Combine then
         local crop = RHM_Api.getCurrentCrop(combine)
+        local fillType = combine.spec_rhm_Combine.lastFillType
+        if RHM_MoistureAdapter and RHM_MoistureAdapter.getCropMoistureLimit then
+            return RHM_MoistureAdapter.getCropMoistureLimit(crop, fillType)
+        end
         if crop and crop ~= "" and crop ~= "--" and RHM_CombineSettingsDatabase and RHM_CombineSettingsDatabase.getSettingsForCrop then
             local settings = RHM_CombineSettingsDatabase:getSettingsForCrop(crop)
             if settings and settings.moistureLimit then

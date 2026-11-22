@@ -597,5 +597,6 @@
         <text name="input_RHM_LOWER_SIEVE_DEC" text="RHM: Lower Sieve (-)" />
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
+        <text name="rhm_warn_external_physics_override" text="Upozornění: externí mód upravil interní fyzikální funkce Realistic Harvesting mimo oficiální API. To může způsobit nepřesné zatížení motoru, zaseknutí omezovače rychlosti nebo chybné ztráty zrna. Vypněte prosím neoficiální doplňky třetích stran." />
     </texts>
 </l10n>

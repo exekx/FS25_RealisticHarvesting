@@ -596,5 +596,6 @@
         <text name="input_RHM_LOWER_SIEVE_DEC" text="RHM: Нижнє решето (-)" />
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Цільове навантаження (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Цільове навантаження (-)" />
+        <text name="rhm_warn_external_physics_override" text="Увага: сторонній мод змінив внутрішні функції фізики Realistic Harvesting в обхід офіційного API. Це може спричиняти некоректне навантаження двигуна, зависання ліміту швидкості або хибні втрати врожаю. Будь ласка, вимкніть неофіційні сторонні аддони, що патчать цей мод." />
     </texts>
 </l10n>

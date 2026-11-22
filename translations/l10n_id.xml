@@ -593,5 +593,6 @@
         <text name="input_RHM_LOWER_SIEVE_DEC" text="RHM: Lower Sieve (-)" />
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
+        <text name="rhm_warn_external_physics_override" text="Peringatan: mod eksternal telah memodifikasi fungsi fisika internal Realistic Harvesting di luar API resmi. Hal ini dapat menyebabkan beban mesin tidak akurat, pembatas kecepatan macet, atau kehilangan hasil yang salah. Harap nonaktifkan addon pihak ketiga tidak resmi." />
     </texts>
 </l10n>

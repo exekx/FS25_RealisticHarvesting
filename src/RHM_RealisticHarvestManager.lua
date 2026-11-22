@@ -444,7 +444,61 @@ end
 -- UA: Викликається щоразу за кадр гри. Оновлює GUI калібрування і дані HUD.
 --     Шукає в ієрархії транспорту гравця специфікацію комбайна для відстеження живих даних.
 --     Оновлює HUD тільки коли знайдено і запущено комбайн.
+local function showIntegrityWarningModal()
+    local warnText = (g_i18n and g_i18n:hasText("rhm_warn_external_physics_override"))
+        and g_i18n:getText("rhm_warn_external_physics_override")
+        or "Warning: An external mod has modified internal Realistic Harvesting physics functions outside the official API. This may cause inaccurate engine load, stuck speed limits, or incorrect crop losses. Please disable unofficial third-party addons that patch this mod."
+    if InfoDialog ~= nil and type(InfoDialog.show) == "function" then
+        InfoDialog.show(warnText, nil, nil, DialogElement and DialogElement.TYPE_WARNING or nil)
+    elseif g_gui ~= nil and type(g_gui.showInfoDialog) == "function" then
+        g_gui:showInfoDialog({
+            text = warnText,
+            dialogType = DialogElement and DialogElement.TYPE_WARNING or nil,
+            isCloseAllowed = true
+        })
+    end
+end
+
 function RHM_RealisticHarvestManager:update(dt)
+    -- EN: Detect unofficial external runtime patches to internal physics/HUD functions
+    -- UA: Виявляємо сторонні модифікації внутрішніх функцій фізики/HUD у рантаймі
+    if not self._integrityWarned and RHM_ModCompatibility and RHM_ModCompatibility.checkRuntimeIntegrity then
+        self._integrityCheckTimer = (self._integrityCheckTimer or 0) + (dt or 0)
+        self._integrityCheckStage = self._integrityCheckStage or 0
+        local shouldProbe = false
+        if self._integrityCheckStage == 0 and self._integrityCheckTimer >= 3500 then
+            self._integrityCheckStage = 1
+            shouldProbe = true
+        elseif self._integrityCheckStage == 1 and self._integrityCheckTimer >= 12000 then
+            self._integrityCheckStage = 2
+            shouldProbe = true
+        end
+
+        if shouldProbe then
+            local isTampered, tamperedList = RHM_ModCompatibility.checkRuntimeIntegrity()
+            if isTampered and tamperedList then
+                if not self._integrityLogged then
+                    self._integrityLogged = true
+                    Logging.warning("RHM [Integrity]: External script modified internal RHM function(s): %s. Unofficial overrides may cause inaccurate load, speed limiting, or crop losses.", table.concat(tamperedList, ", "))
+                end
+                if self.mission and self.mission:getIsClient() then
+                    self._integrityPendingModal = true
+                else
+                    self._integrityWarned = true
+                end
+            end
+        end
+
+        if self._integrityPendingModal and self.mission and self.mission:getIsClient() then
+            local isGuiVisible = g_gui and g_gui.getIsGuiVisible and g_gui:getIsGuiVisible()
+            if not isGuiVisible then
+                self._integrityPendingModal = false
+                self._integrityWarned = true
+                showIntegrityWarningModal()
+            end
+        end
+    end
+
     -- EN: Server-side tracker ticks to broadcast stats to clients
     -- UA: Серверний трекер оновлює стан та транслює статистику клієнтам
     if self.harvestTracker then

@@ -593,5 +593,6 @@
         <text name="input_RHM_LOWER_SIEVE_DEC" text="RHM: Lower Sieve (-)" />
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
+        <text name="rhm_warn_external_physics_override" text="警告：外部模組在官方 API 之外修改了 Realistic Harvesting 的內部物理函式。這可能會導致引擎負載異常、限速卡死或錯誤的穀物損失。請停用修改本模組內部邏輯的非官方第三方擴充功能。" />
     </texts>
 </l10n>
