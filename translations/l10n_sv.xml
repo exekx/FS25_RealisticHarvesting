@@ -594,5 +594,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Varning: en extern mod har ändrat interna fysikfunktioner i Realistic Harvesting utanför det officiella API:et. Detta kan orsaka felaktig motorbelastning, låst hastighetsbegränsare eller felaktiga spillvärden. Inaktivera inofficiella tredjepartstillägg." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Varning: En annan modd för skördetröskerealism eller hastighets- och belastningsstyrning är aktiverad tillsammans med Realistic Harvesting. Att köra två fysikkontroller för skördetröskor samtidigt kan orsaka konflikter i hastighetsgränser, motorbelastning och skördeförluster. Lämna endast en aktiverad i denna sparning." />
     </texts>
 </l10n>

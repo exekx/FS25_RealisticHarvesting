@@ -598,5 +598,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Advertencia: un mod externo modificó funciones internas de física de Realistic Harvesting fuera de la API oficial. Esto puede causar carga de motor incorrecta, bloqueo del limitador de velocidad o pérdidas erróneas. Desactiva los complementos no oficiales de terceros." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Advertencia: se cargó otro mod de realismo o control de velocidad y carga para cosechadoras junto con Realistic Harvesting. Ejecutar dos sistemas de física de cosechadora al mismo tiempo puede causar conflictos en el límite de velocidad, la carga del motor y las pérdidas de cosecha. Por favor, mantén solo uno activado en esta partida." />
     </texts>
 </l10n>

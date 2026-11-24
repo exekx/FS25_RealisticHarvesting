@@ -25,25 +25,33 @@ function RHM_MoistureAdapter.getProviderCropValueMap(ms)
     return (env and env.CropValueMap) or CropValueMap
 end
 
+---Resolves numeric fillType index from fillType index, fillType name, or crop database alias.
+---@param cropOrFillType number|string|nil
+---@return number|nil fillTypeIdx
+local function resolveFillTypeIndex(cropOrFillType)
+    if type(cropOrFillType) == "number" and cropOrFillType > 0 and cropOrFillType ~= FillType.UNKNOWN then
+        return cropOrFillType
+    elseif type(cropOrFillType) == "string" and cropOrFillType ~= "" and cropOrFillType ~= "--" and cropOrFillType ~= "UNKNOWN"
+        and g_fillTypeManager and g_fillTypeManager.getFillTypeIndexByName then
+        local upper = cropOrFillType:upper()
+        local idx = g_fillTypeManager:getFillTypeIndexByName(upper)
+        if not idx and RHM_CombineSettingsDatabase and RHM_CombineSettingsDatabase.getCanonicalCropName then
+            local canonical = RHM_CombineSettingsDatabase:getCanonicalCropName(upper)
+            if canonical and canonical ~= upper then
+                idx = g_fillTypeManager:getFillTypeIndexByName(canonical)
+            end
+        end
+        return idx
+    end
+    return nil
+end
+
 ---Resolves upper acceptable harvest moisture limit (%) for a crop from active provider or RHM database.
 ---@param cropName string|nil
 ---@param fillTypeIndex number|nil
 ---@return number limitPct
 function RHM_MoistureAdapter.getCropMoistureLimit(cropName, fillTypeIndex)
-    local fillTypeIdx = nil
-    if type(fillTypeIndex) == "number" and fillTypeIndex > 0 and fillTypeIndex ~= FillType.UNKNOWN then
-        fillTypeIdx = fillTypeIndex
-    elseif type(cropName) == "string" and cropName ~= "" and cropName ~= "--" and cropName ~= "UNKNOWN"
-        and g_fillTypeManager and g_fillTypeManager.getFillTypeIndexByName then
-        local upper = cropName:upper()
-        fillTypeIdx = g_fillTypeManager:getFillTypeIndexByName(upper)
-        if not fillTypeIdx and RHM_CombineSettingsDatabase and RHM_CombineSettingsDatabase.getCanonicalCropName then
-            local canonical = RHM_CombineSettingsDatabase:getCanonicalCropName(upper)
-            if canonical and canonical ~= upper then
-                fillTypeIdx = g_fillTypeManager:getFillTypeIndexByName(canonical)
-            end
-        end
-    end
+    local fillTypeIdx = resolveFillTypeIndex(fillTypeIndex) or resolveFillTypeIndex(cropName)
 
     local ms = RHM_MoistureAdapter.getProvider()
     if ms ~= nil and fillTypeIdx ~= nil then
@@ -223,29 +231,150 @@ function RHM_MoistureAdapter.calculateAmbientMoisture(dayTimeHours, isRaining, c
     return baseMoisture
 end
 
----EN: Resolves standing crop moisture for a combine vehicle (active provider -> field position -> crop-aware diurnal fallback).
----UA: Визначає вологість незібраної культури для комбайна (провайдер -> позиція на полі -> адаптивна добова симуляція).
----@param vehicle table|nil Target combine vehicle
----@param fillType number|string|nil Target crop fill type or crop name
----@return number moisturePct Calculated or measured moisture percentage
-function RHM_MoistureAdapter.getStandingCropMoisture(vehicle, fillType)
-    local dayTimeHours, isRaining = RHM_MoistureAdapter.getEnvironmentContext()
-    local ms = RHM_MoistureAdapter.getProvider()
+---EN: Resolves live sampling coordinates (world X, Z) at the active cutting bar center (with vehicle fallback).
+---UA: Визначає поточні світові координати (X, Z) центру активної жатки (або самої машини).
+---@param vehicle table|nil
+---@return number|nil x
+---@return number|nil z
+---@return table|nil activeCutter
+function RHM_MoistureAdapter.resolveSamplingPosition(vehicle)
+    if not vehicle then
+        return nil, nil, nil
+    end
 
-    if ms ~= nil and vehicle ~= nil then
-        -- 1. Try vehicle/fillType registered moisture from external provider
-        if fillType and fillType ~= FillType.UNKNOWN then
-            local objM = RHM_MoistureAdapter.getObjectMoisture(vehicle, fillType)
-            if objM and objM > 0 then
-                return objM
+    local activeCutter = nil
+    if rhm_Combine and rhm_Combine.getAllAttachedCutters then
+        local spec = vehicle.spec_rhm_Combine
+        local cutters = rhm_Combine.getAllAttachedCutters(vehicle, spec and spec._attachedCuttersBuffer)
+        local fallbackCutter = nil
+        for cutter, _ in pairs(cutters) do
+            if cutter then
+                if not fallbackCutter then
+                    fallbackCutter = cutter
+                end
+                if cutter.getIsTurnedOn and cutter:getIsTurnedOn() then
+                    activeCutter = cutter
+                    break
+                end
+            end
+        end
+        if not activeCutter then
+            activeCutter = fallbackCutter
+        end
+    end
+
+    if activeCutter ~= nil then
+        if activeCutter.spec_workArea and activeCutter.spec_workArea.workAreas then
+            for _, wa in pairs(activeCutter.spec_workArea.workAreas) do
+                if wa.start and wa.width and (not entityExists or (entityExists(wa.start) and entityExists(wa.width))) then
+                    local sx, _, sz = getWorldTranslation(wa.start)
+                    local wx, _, wz = getWorldTranslation(wa.width)
+                    if wa.height and (not entityExists or entityExists(wa.height)) then
+                        local hx, _, hz = getWorldTranslation(wa.height)
+                        return (sx + wx + hx) / 3.0, (sz + wz + hz) / 3.0, activeCutter
+                    end
+                    return (sx + wx) * 0.5, (sz + wz) * 0.5, activeCutter
+                end
             end
         end
 
-        -- 2. Try world coordinate field moisture directly from external provider
-        local node = (vehicle.components and vehicle.components[1] and vehicle.components[1].node) or vehicle.rootNode
-        if node then
-            local mx, _, mz = getWorldTranslation(node)
-            local rawFieldMoisture = RHM_MoistureAdapter.getMoistureAtPosition(mx, mz)
+        local cutterNode = (activeCutter.rootNode and (not entityExists or entityExists(activeCutter.rootNode)) and activeCutter.rootNode)
+            or (activeCutter.components and activeCutter.components[1] and activeCutter.components[1].node)
+        if cutterNode and (not entityExists or entityExists(cutterNode)) then
+            local cx, _, cz = getWorldTranslation(cutterNode)
+            return cx, cz, activeCutter
+        end
+    end
+
+    local vehNode = (vehicle.components and vehicle.components[1] and vehicle.components[1].node) or vehicle.rootNode
+    if vehNode and (not entityExists or entityExists(vehNode)) then
+        local vx, _, vz = getWorldTranslation(vehNode)
+        return vx, vz, activeCutter
+    end
+
+    return nil, nil, activeCutter
+end
+
+---EN: Resolves live field moisture (%) directly at the active cutter position from environmental moisture provider
+---    or swath ground pile properties when using windrow/pickup headers.
+---UA: Отримує живу вологість (%) безпосередньо у точці жатки від провайдера вологості або властивостей валка.
+---@param vehicle table|nil
+---@param fillType number|string|nil
+---@return number|nil moisturePct
+function RHM_MoistureAdapter.getLiveFieldMoisture(vehicle, fillType)
+    local ms = RHM_MoistureAdapter.getProvider()
+    if ms == nil or vehicle == nil then
+        return nil
+    end
+
+    local cx, cz, activeCutter = RHM_MoistureAdapter.resolveSamplingPosition(vehicle)
+    if cx == nil or cz == nil then
+        return nil
+    end
+
+    if activeCutter ~= nil and ((activeCutter.spec_cutter and activeCutter.spec_cutter.useWindrow) or activeCutter.spec_pickup ~= nil) then
+        local tracker = g_currentMission and g_currentMission.groundPropertyTracker
+        if tracker ~= nil and type(tracker.getPilePropertiesAtPosition) == "function" then
+            local fillTypeIdx = resolveFillTypeIndex(fillType)
+            if not fillTypeIdx and activeCutter.spec_cutter and activeCutter.spec_cutter.currentInputFillType then
+                fillTypeIdx = activeCutter.spec_cutter.currentInputFillType
+            end
+            if fillTypeIdx and fillTypeIdx ~= FillType.UNKNOWN then
+                local props = tracker:getPilePropertiesAtPosition(cx, cz, fillTypeIdx)
+                if props ~= nil and type(props.moisture) == "number" and props.moisture > 0 then
+                    return (props.moisture <= 1.0) and (props.moisture * 100.0) or props.moisture
+                end
+            end
+        end
+    end
+
+    local rawFieldMoisture = RHM_MoistureAdapter.getMoistureAtPosition(cx, cz)
+    if rawFieldMoisture ~= nil and rawFieldMoisture > 0.1 then
+        return rawFieldMoisture
+    end
+
+    return nil
+end
+
+---EN: Resolves standing crop moisture for a combine vehicle (active provider -> field position / object -> crop-aware diurnal fallback).
+---UA: Визначає вологість незібраної культури для комбайна (провайдер -> позиція жатки / бункер -> адаптивна добова симуляція).
+---@param vehicle table|nil Target combine vehicle
+---@param fillType number|string|nil Target crop fill type or crop name
+---@param preferFieldPosition boolean|nil When true, prioritizes live field moisture at header over tank average
+---@return number moisturePct Calculated or measured moisture percentage
+function RHM_MoistureAdapter.getStandingCropMoisture(vehicle, fillType, preferFieldPosition)
+    local dayTimeHours, isRaining = RHM_MoistureAdapter.getEnvironmentContext()
+    local ms = RHM_MoistureAdapter.getProvider()
+
+    if preferFieldPosition == nil and vehicle ~= nil and rhm_Combine ~= nil and rhm_Combine.getIsCutterWorking ~= nil then
+        preferFieldPosition = (rhm_Combine.getIsCutterWorking(vehicle) == true)
+    end
+
+    if ms ~= nil and vehicle ~= nil then
+        if preferFieldPosition then
+            -- 1. Active harvesting: live crop moisture directly under the cutting bar
+            local rawFieldMoisture = RHM_MoistureAdapter.getLiveFieldMoisture(vehicle, fillType)
+            if rawFieldMoisture and rawFieldMoisture > 0.1 then
+                return rawFieldMoisture
+            end
+
+            -- 2. Fallback to vehicle/fillType registered moisture
+            if fillType and fillType ~= FillType.UNKNOWN then
+                local objM = RHM_MoistureAdapter.getObjectMoisture(vehicle, fillType)
+                if objM and objM > 0 then
+                    return objM
+                end
+            end
+        else
+            -- 1. Idle/transport: hopper/object moisture first, then live position moisture
+            if fillType and fillType ~= FillType.UNKNOWN then
+                local objM = RHM_MoistureAdapter.getObjectMoisture(vehicle, fillType)
+                if objM and objM > 0 then
+                    return objM
+                end
+            end
+
+            local rawFieldMoisture = RHM_MoistureAdapter.getLiveFieldMoisture(vehicle, fillType)
             if rawFieldMoisture and rawFieldMoisture > 0.1 then
                 return rawFieldMoisture
             end

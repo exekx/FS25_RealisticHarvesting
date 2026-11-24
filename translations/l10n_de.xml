@@ -598,5 +598,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Ziel-Motorlast (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Ziel-Motorlast (-)" />
         <text name="rhm_warn_external_physics_override" text="Warnung: Eine externe Mod hat interne Physikfunktionen von Realistic Harvesting außerhalb der offiziellen API verändert. Dies kann zu falscher Motorlast, blockierter Geschwindigkeitsbegrenzung oder fehlerhaften Ernteverlusten führen. Bitte deaktivieren Sie inoffizielle Drittanbieter-Addons." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Warnung: Neben Realistic Harvesting ist ein weiterer Mod für Mähdrescher-Realismus oder Last- und Geschwindigkeitsregelung aktiv. Der gleichzeitige Betrieb zweier Mähdrescher-Physiksteuerungen kann zu widersprüchlichen Geschwindigkeitsbegrenzungen, Motorlasten und Ernteverlusten führen. Bitte aktiviere in diesem Spielstand nur einen davon." />
     </texts>
 </l10n>

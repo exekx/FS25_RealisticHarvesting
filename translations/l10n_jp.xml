@@ -594,5 +594,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="警告：外部MODが公式APIを介さずにRealistic Harvestingの内部物理関数を変更しています。これによりエンジン負荷の異常、速度制限の固着、誤った穀物損失が発生する可能性があります。非公式のサードパーティ製アドオンを無効にしてください。" />
+        <text name="rhm_warn_conflicting_combine_mod" text="警告：Realistic Harvesting と同時に別のコンバイン物理または速度・負荷制御モッドが読み込まれています。2つのコンバイン物理制御を同時に動作させると、速度制限、エンジン負荷、および収穫ロスの競合が発生する可能性があります。このセーブデータではどちらか一方のみを有効にしてください。" />
     </texts>
 </l10n>

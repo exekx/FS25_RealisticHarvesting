@@ -444,10 +444,10 @@ end
 -- UA: Викликається щоразу за кадр гри. Оновлює GUI калібрування і дані HUD.
 --     Шукає в ієрархії транспорту гравця специфікацію комбайна для відстеження живих даних.
 --     Оновлює HUD тільки коли знайдено і запущено комбайн.
-local function showIntegrityWarningModal()
-    local warnText = (g_i18n and g_i18n:hasText("rhm_warn_external_physics_override"))
-        and g_i18n:getText("rhm_warn_external_physics_override")
-        or "Warning: An external mod has modified internal Realistic Harvesting physics functions outside the official API. This may cause inaccurate engine load, stuck speed limits, or incorrect crop losses. Please disable unofficial third-party addons that patch this mod."
+local function showWarningModal(l10nKey, fallbackText)
+    local warnText = (g_i18n and l10nKey and g_i18n:hasText(l10nKey))
+        and g_i18n:getText(l10nKey)
+        or fallbackText
     if InfoDialog ~= nil and type(InfoDialog.show) == "function" then
         InfoDialog.show(warnText, nil, nil, DialogElement and DialogElement.TYPE_WARNING or nil)
     elseif g_gui ~= nil and type(g_gui.showInfoDialog) == "function" then
@@ -460,41 +460,72 @@ local function showIntegrityWarningModal()
 end
 
 function RHM_RealisticHarvestManager:update(dt)
-    -- EN: Detect unofficial external runtime patches to internal physics/HUD functions
-    -- UA: Виявляємо сторонні модифікації внутрішніх функцій фізики/HUD у рантаймі
-    if not self._integrityWarned and RHM_ModCompatibility and RHM_ModCompatibility.checkRuntimeIntegrity then
+    -- EN: Detect unofficial external runtime patches and mutually exclusive combine physics controllers
+    -- UA: Виявляємо сторонні модифікації внутрішніх функцій у рантаймі та конфліктуючі контролери фізики комбайна
+    if RHM_ModCompatibility and (not self._integrityWarned or not self._conflictWarned) then
         self._integrityCheckTimer = (self._integrityCheckTimer or 0) + (dt or 0)
         self._integrityCheckStage = self._integrityCheckStage or 0
         local shouldProbe = false
+        local isInitialStage = false
         if self._integrityCheckStage == 0 and self._integrityCheckTimer >= 3500 then
             self._integrityCheckStage = 1
             shouldProbe = true
+            isInitialStage = true
         elseif self._integrityCheckStage == 1 and self._integrityCheckTimer >= 12000 then
             self._integrityCheckStage = 2
             shouldProbe = true
         end
 
         if shouldProbe then
-            local isTampered, tamperedList = RHM_ModCompatibility.checkRuntimeIntegrity()
-            if isTampered and tamperedList then
-                if not self._integrityLogged then
-                    self._integrityLogged = true
-                    Logging.warning("RHM [Integrity]: External script modified internal RHM function(s): %s. Unofficial overrides may cause inaccurate load, speed limiting, or crop losses.", table.concat(tamperedList, ", "))
+            if not self._integrityWarned and RHM_ModCompatibility.checkRuntimeIntegrity then
+                local isTampered, tamperedList = RHM_ModCompatibility.checkRuntimeIntegrity()
+                if isTampered and tamperedList then
+                    if not self._integrityLogged then
+                        self._integrityLogged = true
+                        Logging.warning("RHM [Integrity]: External script modified internal RHM function(s): %s. Unofficial overrides may cause inaccurate load, speed limiting, or crop losses.", table.concat(tamperedList, ", "))
+                    end
+                    if self.mission and self.mission:getIsClient() then
+                        self._integrityPendingModal = true
+                    else
+                        self._integrityWarned = true
+                    end
                 end
-                if self.mission and self.mission:getIsClient() then
-                    self._integrityPendingModal = true
-                else
-                    self._integrityWarned = true
+            end
+
+            if isInitialStage and not self._conflictWarned and RHM_ModCompatibility.checkConflictingCombineMods then
+                local hasConflict, conflictModName = RHM_ModCompatibility.checkConflictingCombineMods()
+                if hasConflict then
+                    if not self._conflictLogged then
+                        self._conflictLogged = true
+                        Logging.warning("RHM [Compatibility]: Conflicting combine physics controller detected (%s). Running multiple combine load/speed controllers simultaneously may cause erratic speed limits or inaccurate telemetry. Please keep only one enabled in this savegame.", tostring(conflictModName))
+                    end
+                    if self.mission and self.mission:getIsClient() then
+                        self._conflictPendingModal = true
+                    else
+                        self._conflictWarned = true
+                    end
                 end
             end
         end
 
-        if self._integrityPendingModal and self.mission and self.mission:getIsClient() then
+        if self.mission and self.mission:getIsClient() and (self._integrityPendingModal or self._conflictPendingModal) then
             local isGuiVisible = g_gui and g_gui.getIsGuiVisible and g_gui:getIsGuiVisible()
             if not isGuiVisible then
-                self._integrityPendingModal = false
-                self._integrityWarned = true
-                showIntegrityWarningModal()
+                if self._integrityPendingModal then
+                    self._integrityPendingModal = false
+                    self._integrityWarned = true
+                    showWarningModal(
+                        "rhm_warn_external_physics_override",
+                        "Warning: An external mod has modified internal Realistic Harvesting physics functions outside the official API. This may cause inaccurate engine load, stuck speed limits, or incorrect crop losses. Please disable unofficial third-party addons that patch this mod."
+                    )
+                elseif self._conflictPendingModal then
+                    self._conflictPendingModal = false
+                    self._conflictWarned = true
+                    showWarningModal(
+                        "rhm_warn_conflicting_combine_mod",
+                        "Warning: Another combine realism or speed/load controller mod is loaded alongside Realistic Harvesting. Running two combine physics controllers at the same time may cause conflicting speed limits, engine loads, and crop losses. Please keep only one enabled in this savegame."
+                    )
+                end
             end
         end
     end
@@ -527,6 +558,9 @@ function RHM_RealisticHarvestManager:update(dt)
     if self.lastControlledVehicle ~= nil and self.lastControlledVehicle ~= controlledVehicle then
         if self.calibrationGUI and self.calibrationGUI.isOpen then
             self.calibrationGUI:close()
+        end
+        if self.isCursorVisible then
+            self:setMouseCursorVisible(false, self.lastControlledVehicle)
         end
     end
     self.lastControlledVehicle = controlledVehicle
@@ -579,6 +613,25 @@ function RHM_RealisticHarvestManager:update(dt)
     end
 end
 
+-- EN: Draws the telemetry HUD inside the base game HUD layer so external vehicle HUDs and dropdowns render on top.
+-- UA: Малює телеметричний HUD на базовому шарі HUD гри, щоб зовнішні HUD та випадаючі списки рендерилися поверх нього.
+function RHM_RealisticHarvestManager:drawHUDLayer()
+    if not (self.mission and self.mission:getIsClient()) then
+        return
+    end
+    if not (self.hud and self.lastActiveCombine and self.settings and self.settings.showHUD) then
+        return
+    end
+    if self.hud.isDragging then
+        return
+    end
+    local playerVehicle = self.lastControlledVehicle or self:getControlledVehicle()
+    if not playerVehicle then
+        return
+    end
+    self.hud:draw()
+end
+
 -- EN: Called every game frame to draw the HUD and calibration GUI.
 --     Suppresses all drawing when any game menu is open, when the game HUD is hidden,
 --     or when the player is not in a vehicle.
@@ -626,8 +679,11 @@ function RHM_RealisticHarvestManager:draw()
         return
     end
 
+    -- Draw on top only while actively dragging or if base HUD layer hook did not run
     if self.settings and self.settings.showHUD then
-        self.hud:draw()
+        if self.hud.isDragging or not RHMDraggableHUD.controlledHudHooked then
+            self.hud:draw()
+        end
     end
 end
 
@@ -656,7 +712,11 @@ end
 --     GUI отримує пріоритет, щоб перехоплювати події до HUD.
 function RHM_RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button)
     if not self.mission:getIsClient() then
-        return
+        return false
+    end
+
+    if g_gui and g_gui.getIsGuiVisible and g_gui:getIsGuiVisible() then
+        return false
     end
 
     if self.notificationManager and self.notificationManager:mouseEvent(posX, posY, isDown, isUp, button) then
@@ -667,8 +727,17 @@ function RHM_RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button
         return true
     end
 
-    if self.hud and self.hud:mouseEvent(posX, posY, isDown, isUp, button) then
-        return true
+    local controlled = self.lastControlledVehicle or self:getControlledVehicle()
+    if self.hud then
+        if self.lastActiveCombine and controlled then
+            if self.hud:mouseEvent(posX, posY, isDown, isUp, button) then
+                return true
+            end
+        elseif self.hud.isDragging then
+            self.hud.isDragging = false
+            self.hud.hasMoved = false
+            self.hud.isNearDock = false
+        end
     end
 
     -- EN: When standalone cursor mode is active:
@@ -686,6 +755,10 @@ function RHM_RealisticHarvestManager:mouseEvent(posX, posY, isDown, isUp, button
 
         local isLMB = (button == 1) or (Input and button == Input.MOUSE_BUTTON_LEFT)
         if isLMB and (isDown or isUp) then
+            if RHM_ModCompatibility and RHM_ModCompatibility.isExternalHudBlockingMouse
+                and RHM_ModCompatibility.isExternalHudBlockingMouse(posX, posY, self.lastActiveCombine or controlled) then
+                return false
+            end
             -- Consume LMB outside HUD so in-cab clicks don't trigger vehicle implements while cursor mode is active
             return true
         end

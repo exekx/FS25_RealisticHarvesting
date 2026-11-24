@@ -594,5 +594,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="警告：外部模组在官方 API 之外修改了 Realistic Harvesting 的内部物理函数。这可能会导致发动机负载异常、限速卡死或错误的谷物损失。请禁用修改本模组内部逻辑的非官方第三方扩展。" />
+        <text name="rhm_warn_conflicting_combine_mod" text="警告：与 Realistic Harvesting 同时加载了另一个联合收割机拟真或速度与负载控制模组。同时运行两套收割机物理控制系统可能会导致限速、发动机负载与谷物损失计算冲突。请在本存档中仅启用其中之一。" />
     </texts>
 </l10n>

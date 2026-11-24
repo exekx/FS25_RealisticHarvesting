@@ -37,6 +37,38 @@ function RHM_ModCompatibility.checkRuntimeIntegrity()
     return false, nil
 end
 
+--- Detects mutually exclusive combine physics and speed controller specializations loaded alongside RHM.
+---@return boolean isConflicting
+---@return string|nil conflictSource
+function RHM_ModCompatibility.checkConflictingCombineMods()
+    if g_modIsLoaded ~= nil and g_modIsLoaded["FS25_RealisticCombine"] == true then
+        return true, "FS25_RealisticCombine"
+    end
+
+    local env = (type(getfenv) == "function") and getfenv(0) or _G
+    local rcl = env and env["RCLInstaller"]
+    if type(rcl) == "table" and rcl.installed == true then
+        return true, tostring(rcl.MOD_NAME or "RCLCombineAutomation")
+    end
+
+    if g_specializationManager ~= nil then
+        local specs = (type(g_specializationManager.getSpecializations) == "function" and g_specializationManager:getSpecializations())
+            or g_specializationManager.specializations
+        if type(specs) == "table" then
+            local suffix = ".RCLCombineAutomation"
+            local suffixLen = #suffix
+            for specName, _ in pairs(specs) do
+                local nameStr = tostring(specName)
+                if nameStr == "RCLCombineAutomation" or nameStr:sub(-suffixLen) == suffix then
+                    return true, nameStr
+                end
+            end
+        end
+    end
+
+    return false, nil
+end
+
 function RHM_ModCompatibility.init()
     if RHM_ModCompatibility.isInitialized then
         return
@@ -197,6 +229,87 @@ end
 --- Called immediately when RHM Calibration GUI closes
 function RHM_ModCompatibility.onCalibrationGUIClosed()
     -- State resumes automatically on the next frame as calibrationGUI.isOpen is now false.
+end
+
+local function getExternalNamespace(modName, globalSymbol, fallbackFn)
+    -- Index mod env directly (via __index metatable), avoiding rawget which bypasses parent engine globals in FS25
+    if _G ~= nil then
+        local modEnv = _G[modName]
+        if type(modEnv) == "table" and modEnv[globalSymbol] ~= nil then
+            return modEnv[globalSymbol]
+        end
+        if _G[globalSymbol] ~= nil then
+            return _G[globalSymbol]
+        end
+    end
+    if type(getfenv) == "function" then
+        local rootEnv = getfenv(0)
+        if rootEnv ~= nil then
+            local modEnv = rootEnv[modName]
+            if type(modEnv) == "table" and modEnv[globalSymbol] ~= nil then
+                return modEnv[globalSymbol]
+            end
+            if rootEnv[globalSymbol] ~= nil then
+                return rootEnv[globalSymbol]
+            end
+        end
+        if type(fallbackFn) == "function" then
+            local fnEnv = getfenv(fallbackFn)
+            if fnEnv ~= nil and fnEnv[globalSymbol] ~= nil then
+                return fnEnv[globalSymbol]
+            end
+        end
+    end
+    return nil
+end
+
+--- Returns true when an interactive external vehicle HUD or dropdown overlay covers (posX, posY),
+--- so lower HUD layers yield mouse input without stealing clicks.
+---@param posX number
+---@param posY number
+---@param vehicle table|nil
+---@return boolean
+function RHM_ModCompatibility.isExternalHudBlockingMouse(posX, posY, vehicle)
+    if not posX or not posY then
+        return false
+    end
+
+    local controlled = g_currentMission and g_currentMission.controlledVehicle
+    local target = controlled or vehicle
+    local cursorVisible = g_inputBinding and g_inputBinding.getShowMouseCursor and g_inputBinding:getShowMouseCursor()
+
+    if cursorVisible then
+        local adFn = (target and (target.startAutoDrive or target.getCanAdTakeControl))
+            or (vehicle and (vehicle.startAutoDrive or vehicle.getCanAdTakeControl))
+        local adNs = getExternalNamespace("FS25_AutoDrive", "AutoDrive", adFn)
+        if type(adNs) == "table" and adNs.Hud ~= nil then
+            if adNs.Hud.isMoving == true then
+                return true
+            end
+            local isHudInputActive = (adNs.isMouseActiveForHud == nil) or adNs.isMouseActiveForHud()
+            if isHudInputActive and type(adNs.Hud.isMouseOverHud) == "function" and adNs.Hud:isMouseOverHud(posX, posY) then
+                return true
+            end
+            if isHudInputActive and adNs.pullDownListExpanded ~= nil and adNs.pullDownListExpanded ~= 0 then
+                return true
+            end
+        end
+    end
+
+    if target ~= nil then
+        if type(target.getIsMouseOverCpHud) == "function" and target:getIsMouseOverCpHud() then
+            return true
+        end
+        local cpHud = (type(target.getCpHud) == "function" and target:getCpHud())
+            or (target.spec_cpHud and target.spec_cpHud.hud)
+        if cpHud ~= nil and type(cpHud.getIsOpen) == "function" and cpHud:getIsOpen() then
+            if type(cpHud.isMouseOverArea) == "function" and cpHud:isMouseOverArea(posX, posY) then
+                return true
+            end
+        end
+    end
+
+    return false
 end
 
 return RHM_ModCompatibility

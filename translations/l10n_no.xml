@@ -594,5 +594,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Advarsel: en ekstern mod har endret interne fysikkfunksjoner i Realistic Harvesting utenom det offisielle API-et. Dette kan føre til feil motorbelastning, låst hastighetsbegrenser eller feil spilltall. Deaktiver uoffisielle tredjepartsutvidelser." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Advarsel: En annen mod for skurtreskerrealisme eller hastighets- og belastningsstyring er lastet inn sammen med Realistic Harvesting. Bruk av to fysikkontrollere for skurtreskere samtidig kan føre til konflikter i fartsgrenser, motorbelastning og spilltap. Vennligst behold bare én aktivert i denne lagringen." />
     </texts>
 </l10n>

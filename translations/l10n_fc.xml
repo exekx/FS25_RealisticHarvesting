@@ -600,5 +600,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Avertissement : un mod externe a modifié des fonctions physiques internes de Realistic Harvesting en dehors de l'API officielle. Cela peut causer une charge moteur inexacte, un blocage du limiteur de vitesse ou de fausses pertes. Veuillez désactiver les modules complémentaires non officiels." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Avertissement : un autre mod de réalisme ou de contrôle de vitesse et de charge de moissonneuse-batteuse est activé en même temps que Realistic Harvesting. L'exécution simultanée de deux systèmes physiques de moissonneuse peut causer des conflits de limite de vitesse, de charge moteur et de pertes de récolte. Veuillez n'en garder qu'un seul activé dans cette sauvegarde." />
     </texts>
 </l10n>

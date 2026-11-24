@@ -594,5 +594,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Peringatan: mod eksternal telah memodifikasi fungsi fisika internal Realistic Harvesting di luar API resmi. Hal ini dapat menyebabkan beban mesin tidak akurat, pembatas kecepatan macet, atau kehilangan hasil yang salah. Harap nonaktifkan addon pihak ketiga tidak resmi." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Peringatan: Mod realisme atau pengontrol kecepatan dan beban mesin pemanen lain dimuat bersamaan dengan Realistic Harvesting. Menjalankan dua pengontrol fisika pemanen sekaligus dapat menyebabkan konflik batas kecepatan, beban mesin, dan kehilangan hasil panen. Harap aktifkan salah satu saja pada savegame ini." />
     </texts>
 </l10n>

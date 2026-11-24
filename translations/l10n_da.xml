@@ -594,5 +594,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Advarsel: en ekstern mod har ændret interne fysikfunktioner i Realistic Harvesting uden om det officielle API. Dette kan medføre forkert motorbelastning, låst hastighedsbegrænser eller forkerte spildtal. Deaktiver venligst uofficielle tredjeparts-addons." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Advarsel: En anden mod til mejetærskerrealisme eller hastigheds- og belastningsstyring er indlæst sammen med Realistic Harvesting. Brug af to fysikcontrollere til mejetærskere samtidig kan give konflikter med hastighedsgrænser, motorbelastning og spild. Behold venligst kun én aktiveret i dette gemte spil." />
     </texts>
 </l10n>

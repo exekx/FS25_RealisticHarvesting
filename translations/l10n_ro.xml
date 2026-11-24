@@ -596,5 +596,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Avertisment: un mod extern a modificat funcțiile interne de fizică ale Realistic Harvesting în afara API-ului oficial. Acest lucru poate cauza sarcină incorectă a motorului, blocarea limitatorului de viteză sau pierderi eronate. Dezactivați extensiile neoficiale." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Avertisment: un alt mod de realism sau de control al vitezei și sarcinii combinelor este activ împreună cu Realistic Harvesting. Rularea simultană a două sisteme de fizică pentru combine poate provoca conflicte privind limita de viteză, sarcina motorului și pierderile de recoltă. Te rugăm să lași activat doar unul în această salvare." />
     </texts>
 </l10n>

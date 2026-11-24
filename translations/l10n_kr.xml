@@ -594,5 +594,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="경고: 외부 모드가 공식 API를 거치지 않고 Realistic Harvesting의 내부 물리 함수를 수정했습니다. 이로 인해 엔진 부하 오류, 속도 제한 고정 또는 잘못된 곡물 손실이 발생할 수 있습니다. 비공식 애드온을 비활성화해 주세요." />
+        <text name="rhm_warn_conflicting_combine_mod" text="경고: Realistic Harvesting과 함께 다른 콤바인 리얼리즘 또는 속도/부하 제어 모드가 로드되었습니다. 두 개의 콤바인 물리 제어기가 동시에 작동하면 속도 제한, 엔진 부하 및 수확 손실 충돌이 발생할 수 있습니다. 이 저장 게임에서는 하나만 활성화해 두세요." />
     </texts>
 </l10n>

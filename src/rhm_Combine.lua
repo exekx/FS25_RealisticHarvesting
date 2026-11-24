@@ -41,6 +41,79 @@ end
 -- Pre-allocated reusable table for zero-allocation cutter resolution in hot loops
 local _reusableCuttersList = {}
 
+-- Static specification for native GIANTS DashboardValueType ("rhm.*") telemetry channels.
+-- Getters are allocated once at load time to avoid per-vehicle closures or hot-loop allocations.
+local RHM_DASHBOARD_VALUE_SPECS = {
+    -- Live physics & telemetry
+    { name = "load",               field = "forDBL_load",               default = 0 },
+    { name = "loadNormalized",     field = "forDBL_loadNormalized",     default = 0 },
+    { name = "targetLoad",         field = "forDBL_targetLoad",         default = 80 },
+    { name = "cropLoss",           field = "forDBL_cropLoss",           default = 0 },
+    { name = "moisture",           field = "forDBL_moisture",           default = 0 },
+    { name = "moistureLimit",      field = "forDBL_moistureLimit",      default = 14 },
+    { name = "tonPerHour",         field = "forDBL_tonPerHour",         default = 0 },
+    { name = "flowRateKgS",        field = "forDBL_flowRateKgS",        default = 0 },
+    { name = "litersPerHour",      field = "forDBL_litersPerHour",      default = 0 },
+    { name = "hectaresPerHour",    field = "forDBL_hectaresPerHour",    default = 0 },
+    { name = "yield",              field = "forDBL_yield",              default = 0 },
+    { name = "weedRatio",          field = "forDBL_weedRatio",          default = 0 },
+    { name = "recommendedSpeed",   field = "forDBL_recommendedSpeed",   default = 0 },
+    { name = "slopeAngle",         field = "forDBL_slopeAngle",         default = 0 },
+    { name = "wearLoss",           field = "forDBL_wearLoss",           default = 0 },
+    { name = "effectiveHp",        field = "forDBL_effectiveHp",        default = 0 },
+    -- Mechanical settings (%)
+    { name = "rotor",              field = "forDBL_rotor",              default = 50 },
+    { name = "concave",            field = "forDBL_concave",            default = 50 },
+    { name = "feeder",             field = "forDBL_feeder",             default = 50 },
+    { name = "fan",                field = "forDBL_fan",                default = 50 },
+    { name = "upperSieve",         field = "forDBL_upperSieve",         default = 50 },
+    { name = "lowerSieve",         field = "forDBL_lowerSieve",         default = 50 },
+    -- Mechanical settings (physical units)
+    { name = "rotorRpm",           field = "forDBL_rotorRpm",           default = 650 },
+    { name = "fanRpm",             field = "forDBL_fanRpm",             default = 750 },
+    { name = "feederRpm",          field = "forDBL_feederRpm",          default = 25 },
+    { name = "rotorRpmLive",       field = "forDBL_rotorRpmLive",       default = 0 },
+    { name = "fanRpmLive",         field = "forDBL_fanRpmLive",         default = 0 },
+    { name = "feederRpmLive",      field = "forDBL_feederRpmLive",      default = 0 },
+    { name = "concaveMm",          field = "forDBL_concaveMm",          default = 25 },
+    { name = "upperSieveMm",       field = "forDBL_upperSieveMm",       default = 15 },
+    { name = "lowerSieveMm",       field = "forDBL_lowerSieveMm",       default = 12 },
+    -- Status, warnings & machine info
+    { name = "overload",           field = "forDBL_overload",           default = false },
+    { name = "overloadLevel",      field = "forDBL_overloadLevel",      default = 0 },
+    { name = "highMoisture",       field = "forDBL_highMoisture",       default = false },
+    { name = "isHarvesting",       field = "forDBL_isHarvesting",       default = false },
+    { name = "isCalibrated",       field = "forDBL_isCalibrated",       default = true },
+    { name = "strawChopperActive", field = "forDBL_strawChopperActive", default = false },
+    { name = "packageLevel",       field = "forDBL_packageLevel",       default = 1 },
+    { name = "machineType",        field = "forDBL_machineType",        default = "grain" },
+    { name = "cropName",           field = "forDBL_cropName",           default = "--" },
+    -- Trip odometer
+    { name = "tripAreaHa",         field = "forDBL_tripAreaHa",         default = 0 },
+    { name = "tripMassT",          field = "forDBL_tripMassT",          default = 0 },
+    { name = "tripLiters",         field = "forDBL_tripLiters",         default = 0 },
+    { name = "tripLostLiters",     field = "forDBL_tripLostLiters",     default = 0 },
+    { name = "tripLossPct",        field = "forDBL_tripLossPct",        default = 0 },
+    { name = "tripFuelL",          field = "forDBL_tripFuelL",          default = 0 },
+    { name = "tripFieldId",        field = "forDBL_tripFieldId",        default = 0 }
+}
+
+local RHM_DASHBOARD_XML_NAMES = {}
+for i, entry in ipairs(RHM_DASHBOARD_VALUE_SPECS) do
+    local fieldName = entry.field
+    local defVal = entry.default
+    entry.getter = function(vehicle, dashboard)
+        local spec = vehicle and vehicle.spec_rhm_Combine
+        if spec == nil or spec.isRhmCombine ~= true then
+            return defVal
+        end
+        local v = spec[fieldName]
+        return (v ~= nil) and v or defVal
+    end
+    RHM_DASHBOARD_XML_NAMES[i] = entry.name
+end
+local RHM_DASHBOARD_XML_VALUE_TYPES = table.concat(RHM_DASHBOARD_XML_NAMES, " ")
+
 -- EN: Checks if the vehicle has the base Combine specialization.
 --     Returns true for all machines including modular systems like NEXAT.
 -- UA: Перевіряє чи транспортний засіб має базову спеціалізацію Combine.
@@ -63,6 +136,10 @@ function rhm_Combine.initSpecialization()
         if type(schema.compile) == "function" then
             schema:compile()
         end
+    end
+
+    if Vehicle.xmlSchema ~= nil and Dashboard ~= nil and Dashboard.registerDashboardXMLPaths ~= nil then
+        Dashboard.registerDashboardXMLPaths(Vehicle.xmlSchema, "vehicle.rhm.dashboards", RHM_DASHBOARD_XML_VALUE_TYPES)
     end
 end
 
@@ -182,6 +259,10 @@ function rhm_Combine.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onEnterVehicle", rhm_Combine)
     SpecializationUtil.registerEventListener(vehicleType, "onDelete", rhm_Combine)
     SpecializationUtil.registerEventListener(vehicleType, "onLeaveVehicle", rhm_Combine)
+
+    if Dashboard ~= nil and SpecializationUtil.hasSpecialization(Dashboard, vehicleType.specializations) then
+        SpecializationUtil.registerEventListener(vehicleType, "onRegisterDashboardValueTypes", rhm_Combine)
+    end
 end
 
 -- EN: Global hook for non-combine vehicles in a modular system (e.g. NEXAT main tractor).
@@ -536,6 +617,180 @@ function rhm_Combine.detectThreshingType(vehicle, machineType)
     return "grain"
 end
 
+---EN: Registers native "rhm.*" GIANTS Engine DashboardValueTypes for in-cab 3D monitors and gauges.
+---UA: Реєструє нативні типи приладів "rhm.*" для 3D-дисплеїв та індикаторів у кабіні комбайна.
+function rhm_Combine:onRegisterDashboardValueTypes()
+    if self.registerDashboardValueType == nil or DashboardValueType == nil then
+        return
+    end
+
+    for _, entry in ipairs(RHM_DASHBOARD_VALUE_SPECS) do
+        local vt = DashboardValueType.new("rhm", entry.name)
+        vt:setXMLKey("vehicle.rhm.dashboards")
+        vt:setValue(self, entry.getter)
+        self:registerDashboardValueType(vt)
+    end
+end
+
+local function sanitizeDashboardNumber(val, fallback)
+    if val == nil or val ~= val then
+        return fallback or 0
+    end
+    return val
+end
+
+local function getPhysicalSettingValue(paramName, pctValue, machineType)
+    local safeVal = sanitizeDashboardNumber(pctValue, 50)
+    if RHM_UnitConverter ~= nil and RHM_UnitConverter.getPhysicalRange ~= nil then
+        local range = RHM_UnitConverter.getPhysicalRange(paramName, machineType or "grain")
+        if range ~= nil then
+            local safePct = math.max(0, math.min(100, safeVal))
+            local span = range.max - range.min
+            local physVal = range.min + (span * (safePct / 100.0))
+            if range.step and range.step > 0 then
+                physVal = math.floor((physVal / range.step) + 0.5) * range.step
+            end
+            return physVal
+        end
+    end
+    return safeVal
+end
+
+---EN: Synchronizes cached cab dashboard bridge fields from replicated RHM telemetry and settings (zero allocations).
+---UA: Оновлює кешовані поля містка телеметрії кабінних приладів з даних RHM та налаштувань (без алокацій).
+function rhm_Combine.syncDashboardBridge(vehicle, spec)
+    if vehicle == nil or spec == nil or spec.isRhmCombine ~= true then
+        return
+    end
+
+    local data = spec.data
+    local memory = spec.combineMemory
+    local settings = memory and memory.currentSettings
+    local calc = spec.loadCalculator
+    local mType = spec.machineType or "grain"
+
+    local loadPct = sanitizeDashboardNumber(data and data.load, 0)
+    local cropLoss = sanitizeDashboardNumber(data and data.cropLoss, 0)
+    local moisturePct = sanitizeDashboardNumber(data and data.moisture, 0)
+    local tonPerHour = sanitizeDashboardNumber(data and data.tonPerHour, 0)
+    local litersPerHour = sanitizeDashboardNumber(data and data.litersPerHour, 0)
+    local hectaresPerHour = sanitizeDashboardNumber(data and data.hectaresPerHour, 0)
+    local yieldTha = sanitizeDashboardNumber(data and data.yield, 0)
+    local weedRatio = sanitizeDashboardNumber(data and data.weedRatio, 0)
+    local recSpeed = sanitizeDashboardNumber(data and data.recommendedSpeed, 0)
+    local slopeAngle = sanitizeDashboardNumber((data and data.slopeAngle) or (calc and calc.smoothedSlopeAngle), 0)
+    local wearLoss = sanitizeDashboardNumber((data and data.wearLoss) or (calc and calc.wearLoss), 0)
+    local effectiveHp = sanitizeDashboardNumber((data and data.effectiveHp) or (calc and calc.lastEffectiveHp), 0)
+    local overloadLevel = sanitizeDashboardNumber(data and data.overloadLevel, 0)
+
+    local cropName = memory and memory.currentCrop
+    local fillType = spec.lastFillType
+    if spec._rhmBridgeLimitVal == nil or spec._rhmBridgeLimitCrop ~= cropName or spec._rhmBridgeLimitFillType ~= fillType then
+        spec._rhmBridgeLimitCrop = cropName
+        spec._rhmBridgeLimitFillType = fillType
+        if RHM_MoistureAdapter and RHM_MoistureAdapter.getCropMoistureLimit then
+            spec._rhmBridgeLimitVal = RHM_MoistureAdapter.getCropMoistureLimit(cropName, fillType) or 14.0
+        else
+            spec._rhmBridgeLimitVal = 14.0
+        end
+    end
+
+    local limitVal = sanitizeDashboardNumber(spec._rhmBridgeLimitVal, 14.0)
+    local highMoisture = (moisturePct > 0 and limitVal > 0 and moisturePct > limitVal)
+
+    local rotorPct = sanitizeDashboardNumber(settings and settings.rotor, 50)
+    local concavePct = sanitizeDashboardNumber(settings and (settings.feeder or settings.concave), 50)
+    local feederPct = sanitizeDashboardNumber(settings and (settings.feeder or settings.concave), 50)
+    local fanPct = sanitizeDashboardNumber(settings and settings.fan, 50)
+    local upperPct = sanitizeDashboardNumber(settings and settings.upperSieve, 50)
+    local lowerPct = sanitizeDashboardNumber(settings and settings.lowerSieve, 50)
+    local targetLoadPct = sanitizeDashboardNumber(settings and settings.targetEngineLoad, 80)
+
+    local isStrawChopperActive = ((data and data.isStrawChopperActive == true)
+        or (calc and calc.isStrawChopperActive == true)) and true or false
+
+    local trip = spec.trip
+    local tripAreaHa = sanitizeDashboardNumber(trip and trip.harvestedAreaHa, 0)
+    local tripMassT = sanitizeDashboardNumber(trip and trip.harvestedMassKg, 0) * 0.001
+    local tripLiters = sanitizeDashboardNumber(trip and trip.harvestedLiters, 0)
+    local tripLostLiters = sanitizeDashboardNumber(trip and trip.lostLiters, 0)
+    local tripTotalLiters = tripLiters + tripLostLiters
+    local tripLossPct = (tripTotalLiters > 0.01) and ((tripLostLiters / tripTotalLiters) * 100.0) or 0
+    local tripFuelL = sanitizeDashboardNumber(trip and trip.fuelUsedL, 0)
+    local tripFieldId = sanitizeDashboardNumber(trip and trip.fieldId, 0)
+
+    -- Live physics & telemetry
+    spec.forDBL_load = loadPct
+    spec.forDBL_loadNormalized = loadPct * 0.01
+    spec.forDBL_targetLoad = targetLoadPct
+    spec.forDBL_cropLoss = cropLoss
+    spec.forDBL_moisture = moisturePct
+    spec.forDBL_moistureLimit = limitVal
+    spec.forDBL_tonPerHour = tonPerHour
+    spec.forDBL_flowRateKgS = tonPerHour / 3.6
+    spec.forDBL_litersPerHour = litersPerHour
+    spec.forDBL_hectaresPerHour = hectaresPerHour
+    spec.forDBL_yield = yieldTha
+    spec.forDBL_weedRatio = weedRatio * 100.0
+    spec.forDBL_recommendedSpeed = recSpeed
+    spec.forDBL_slopeAngle = slopeAngle
+    spec.forDBL_wearLoss = wearLoss
+    spec.forDBL_effectiveHp = effectiveHp
+
+    -- Mechanical settings (%)
+    spec.forDBL_rotor = rotorPct
+    spec.forDBL_concave = concavePct
+    spec.forDBL_feeder = feederPct
+    spec.forDBL_fan = fanPct
+    spec.forDBL_upperSieve = upperPct
+    spec.forDBL_lowerSieve = lowerPct
+
+    -- Mechanical settings (physical units)
+    local isThreshingActive = (vehicle.getIsTurnedOn ~= nil and vehicle:getIsTurnedOn() == true)
+        or (vehicle.spec_combine ~= nil and vehicle.spec_combine.isThreshing == true)
+    local rotorRpmVal = getPhysicalSettingValue("rotor", rotorPct, mType)
+    local fanRpmVal = getPhysicalSettingValue("fan", fanPct, mType)
+    local feederRpmVal = getPhysicalSettingValue("feeder", feederPct, mType)
+    spec.forDBL_rotorRpm = rotorRpmVal
+    spec.forDBL_fanRpm = fanRpmVal
+    spec.forDBL_feederRpm = feederRpmVal
+    spec.forDBL_rotorRpmLive = isThreshingActive and rotorRpmVal or 0
+    spec.forDBL_fanRpmLive = isThreshingActive and fanRpmVal or 0
+    spec.forDBL_feederRpmLive = isThreshingActive and feederRpmVal or 0
+    spec.forDBL_concaveMm = (mType == "grain") and getPhysicalSettingValue("feeder", concavePct, "grain") or 0
+    spec.forDBL_upperSieveMm = (mType == "grain") and getPhysicalSettingValue("upperSieve", upperPct, "grain") or 0
+    spec.forDBL_lowerSieveMm = (mType == "grain") and getPhysicalSettingValue("lowerSieve", lowerPct, "grain") or 0
+
+    -- Status, warnings & machine info
+    spec.forDBL_overload = (overloadLevel > 0)
+    spec.forDBL_overloadLevel = overloadLevel
+    spec.forDBL_highMoisture = highMoisture
+    spec.forDBL_isHarvesting = (tonPerHour > 0.01 or loadPct > 1.0)
+    spec.forDBL_isCalibrated = (memory and memory.isCalibrated == true) or false
+    spec.forDBL_strawChopperActive = isStrawChopperActive
+    spec.forDBL_packageLevel = spec.packageLevel or 1
+    spec.forDBL_machineType = mType
+    spec.forDBL_cropName = cropName or "--"
+
+    -- Trip odometer
+    spec.forDBL_tripAreaHa = tripAreaHa
+    spec.forDBL_tripMassT = tripMassT
+    spec.forDBL_tripLiters = tripLiters
+    spec.forDBL_tripLostLiters = tripLostLiters
+    spec.forDBL_tripLossPct = tripLossPct
+    spec.forDBL_tripFuelL = tripFuelL
+    spec.forDBL_tripFieldId = tripFieldId
+
+    if vehicle._rhmOwnsXpBridge == true and vehicle.spec_xpCombine ~= nil and vehicle.spec_xpCombine.mrCombineLimiter ~= nil then
+        local mr = vehicle.spec_xpCombine.mrCombineLimiter
+        mr.engineLoad = loadPct / 100.0
+        mr.loadMultiplier = 100.0
+        mr.tonPerHour = tonPerHour
+        mr.yield = yieldTha
+        mr.highMoisture = highMoisture
+    end
+end
+
 -- EN: Called when the combine vehicle is loaded. Creates and wires up all subsystems:
 --     RHM_LoadCalculator, machineType detection, RHM_CombineMemory, HUD data table, dirty flags,
 --     and network throttling. Loads settings from XML if savegame exists.
@@ -810,6 +1065,23 @@ function rhm_Combine:onLoad(savegame)
         weedRatio = 0          -- EN: Active live weed ratio at cutter (0.00-1.00) / UA: Рівень живих бур'янів (0.00-1.00)
     }
     spec.currentWeedRatio = 0
+
+    -- Pre-allocated cab dashboard telemetry bridge (server + client, zero runtime allocations)
+    spec._rhmDashboardBridge = {
+        engineLoad = 0,
+        loadMultiplier = 100.0,
+        tonPerHour = 0,
+        yield = 0,
+        highMoisture = false
+    }
+    if self.spec_xpCombine == nil then
+        self._rhmOwnsXpBridge = true
+        self.spec_xpCombine = { mrCombineLimiter = spec._rhmDashboardBridge }
+    end
+
+    for _, entry in ipairs(RHM_DASHBOARD_VALUE_SPECS) do
+        spec[entry.field] = entry.default
+    end
     
     -- Лічильник для збереження площі з addCutterArea
     spec.lastArea = 0
@@ -926,6 +1198,10 @@ function rhm_Combine:onPostLoad(savegame)
             farm.combineTrips = farm.combineTrips or {}
             farm.combineTrips[machineKey] = self.spec_rhm_Combine.trip
         end
+    end
+
+    if self.spec_rhm_Combine ~= nil then
+        rhm_Combine.syncDashboardBridge(self, self.spec_rhm_Combine)
     end
 end
 
@@ -2672,6 +2948,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     end
 
     if not self.isServer then
+        rhm_Combine.syncDashboardBridge(self, spec)
         return
     end
     
@@ -2727,6 +3004,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             spec.loadCalculator.currentWeedRatio = 0
         end
         spec.isSpeedLimitActive = false
+        rhm_Combine.syncDashboardBridge(self, spec)
         if spec.dataDirtyFlag and type(spec.dataDirtyFlag) == "number" then
             self:raiseDirtyFlags(spec.dataDirtyFlag)
         end
@@ -2853,6 +3131,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             spec.loadCalculator.currentWeedRatio = 0
         end
         spec.isSpeedLimitActive = false
+        rhm_Combine.syncDashboardBridge(self, spec)
         
         -- EN: Sync reset to clients so their HUD clears too.
         -- UA: Синхронізуємо скидання на клієнти щоб їх HUD теж очистився.
@@ -2927,7 +3206,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
 
         if RHM_MoistureAdapter and RHM_MoistureAdapter.getStandingCropMoisture then
-            moisture = RHM_MoistureAdapter.getStandingCropMoisture(self, fillType)
+            moisture = RHM_MoistureAdapter.getStandingCropMoisture(self, fillType, true)
         end
     end
     if moisture and moisture > 0 then
@@ -3171,6 +3450,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec.data.forageDrumPowerHp = (spec.loadCalculator and spec.loadCalculator.lastPowerForageDrum) or 0
         spec.data.forageBlowerPowerHp = (spec.loadCalculator and spec.loadCalculator.lastPowerForageBlower) or 0
     end
+
+    rhm_Combine.syncDashboardBridge(self, spec)
 
     local isAi = rhm_Combine.isAiWorkerActive(self)
 
@@ -3880,7 +4161,6 @@ function rhm_Combine:onReadStream(streamId, connection)
         streamReadUInt8(streamId)
         streamReadUInt8(streamId)   -- targetEngineLoad
         streamReadString(streamId)
-        streamReadString(streamId)
         streamReadBool(streamId)
         local hasTrip = streamReadBool(streamId)
         if hasTrip then
@@ -3945,6 +4225,7 @@ function rhm_Combine:onReadStream(streamId, connection)
         spec.combineMemory.currentSettings.upperSieve = upperSieve
         spec.combineMemory.currentSettings.lowerSieve = lowerSieve
         spec.combineMemory.currentSettings.feeder = feeder
+        spec.combineMemory.currentSettings.concave = feeder
         spec.combineMemory.currentSettings.targetEngineLoad = targetEngineLoad or 80
         spec.combineMemory.currentCrop = (currentCrop ~= "" and currentCrop) or nil
         spec.combineMemory.isCalibrated = cropCalibrated
@@ -3993,6 +4274,8 @@ function rhm_Combine:onReadStream(streamId, connection)
             end
         end
     end
+
+    rhm_Combine.syncDashboardBridge(self, spec)
 end
 
 ---Постійна синхронізація: Клієнт читає оновлення від сервера
@@ -4081,6 +4364,10 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
                 spec.combineMemory.calibratedCrops = spec.combineMemory.calibratedCrops or {}
                 if currentCrop ~= "" then spec.combineMemory.calibratedCrops[currentCrop] = cropCalibrated or nil end
             end
+        end
+
+        if hasDataUpdate or hasSettingsUpdate then
+            rhm_Combine.syncDashboardBridge(self, spec)
         end
     end
 end
@@ -4381,6 +4668,10 @@ function rhm_Combine:onDelete()
         end
         g_soundManager:deleteSamples(spec.samples)
         spec.samples = nil
+    end
+    if self._rhmOwnsXpBridge then
+        self.spec_xpCombine = nil
+        self._rhmOwnsXpBridge = nil
     end
 end
 

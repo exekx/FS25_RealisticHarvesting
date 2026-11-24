@@ -598,5 +598,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Warning: An external mod has modified internal Realistic Harvesting physics functions outside the official API. This may cause inaccurate engine load, stuck speed limits, or incorrect crop losses. Please disable unofficial third-party addons that patch this mod." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Warning: Another combine realism or speed/load controller mod is loaded alongside Realistic Harvesting. Running two combine physics controllers at the same time may cause conflicting speed limits, engine loads, and crop losses. Please keep only one enabled in this savegame." />
     </texts>
 </l10n>

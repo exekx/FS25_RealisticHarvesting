@@ -594,5 +594,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Cảnh báo: một mod bên ngoài đã sửa đổi các hàm vật lý nội bộ của Realistic Harvesting ngoài API chính thức. Điều này có thể gây tải động cơ sai lệch, kẹt giới hạn tốc độ hoặc sai số hao hụt nông sản. Vui lòng tắt các tiện ích bổ sung không chính thức." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Cảnh báo: Một mod khác về cơ chế thực tế hoặc điều khiển tốc độ và tải của máy gặt đang chạy cùng lúc với Realistic Harvesting. Việc kích hoạt hai hệ thống vật lý máy gặt đồng thời có thể gây xung đột giới hạn tốc độ, tải động cơ và tỷ lệ thất thoát nông sản. Vui lòng chỉ giữ một mod được bật trong bản lưu này." />
     </texts>
 </l10n>

@@ -743,6 +743,21 @@ function RHM_Api.getMoisture(vehicle)
     return 0.0
 end
 
+---EN: Returns live field moisture percentage sampled directly at the active cutting bar position
+---    when an environmental moisture provider is active, or nil if unavailable.
+---UA: Повертає живу вологість культури у точці під активною жаткою (якщо доступний провайдер вологості) або nil.
+---@param vehicle table|nil
+---@param fillType number|string|nil
+---@return number|nil moisturePct
+function RHM_Api.getLiveFieldMoisture(vehicle, fillType)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and RHM_MoistureAdapter and RHM_MoistureAdapter.getLiveFieldMoisture then
+        local targetFill = fillType or (combine.spec_rhm_Combine and (combine.spec_rhm_Combine.lastFillType or (combine.spec_rhm_Combine.combineMemory and combine.spec_rhm_Combine.combineMemory.currentCrop)))
+        return RHM_MoistureAdapter.getLiveFieldMoisture(combine, targetFill)
+    end
+    return nil
+end
+
 ---EN: Returns upper moisture limit (%) before drying penalty applies for this crop.
 ---UA: Повертає гранично допустиму вологість культури (%).
 ---@param vehicle table|nil

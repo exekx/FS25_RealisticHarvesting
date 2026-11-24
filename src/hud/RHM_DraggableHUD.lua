@@ -298,16 +298,16 @@ local function rhm_initHudHooks()
         if Mission00 and Mission00.draw then
             RHMDraggableHUD.mission00Hooked = true
             Mission00.draw = Utils.prependedFunction(Mission00.draw, rhm_onPreDraw)
-        end
-        if FSBaseMission and FSBaseMission.draw then
+        elseif FSBaseMission and FSBaseMission.draw then
             RHMDraggableHUD.mission00Hooked = true
             FSBaseMission.draw = Utils.prependedFunction(FSBaseMission.draw, rhm_onPreDraw)
         end
     end
 
     -- Hook auxiliary combine telemetry HUD extension for dynamic docking
-    local pfEnv = _G and rawget(_G, "FS25_precisionFarming")
-    local extCombineHudClass = ExtendedCombineHUDExtension or (pfEnv and pfEnv.ExtendedCombineHUDExtension)
+    local rootEnv = _G or (type(getfenv) == "function" and getfenv(0))
+    local pfEnv = rootEnv and rootEnv["FS25_precisionFarming"]
+    local extCombineHudClass = ExtendedCombineHUDExtension or (type(pfEnv) == "table" and pfEnv.ExtendedCombineHUDExtension)
     if not RHMDraggableHUD.pfHooked and extCombineHudClass and extCombineHudClass.draw then
         RHMDraggableHUD.pfHooked = true
         extCombineHudClass.draw = Utils.overwrittenFunction(extCombineHudClass.draw, function(self, superFunc, inputHelpDisplay, posX, posY)
@@ -451,6 +451,16 @@ local function rhm_initHudHooks()
             self.rhm_lastHelpBottomY = currentBottom
             self.rhm_lastHelpFrame = rhm_currentDrawFrame
             return retY
+        end)
+    end
+
+    -- Draw HUD inside the base game HUD pass before controlled vehicle UI info / external HUD overlays
+    if not RHMDraggableHUD.controlledHudHooked and HUD and HUD.drawControlledEntityHUD then
+        RHMDraggableHUD.controlledHudHooked = true
+        HUD.drawControlledEntityHUD = Utils.prependedFunction(HUD.drawControlledEntityHUD, function(hudSelf)
+            if g_realisticHarvestManager and g_realisticHarvestManager.drawHUDLayer then
+                g_realisticHarvestManager:drawHUDLayer()
+            end
         end)
     end
 end
@@ -612,14 +622,18 @@ function RHMDraggableHUD:getDockedPosition()
     end
 
     local baseY = nil
+    local prevDrawFrame = rhm_currentDrawFrame - 1
+    local isChDrawFresh = ch ~= nil and ch.rhm_lastDrawFrame ~= nil and (ch.rhm_lastDrawFrame == rhm_currentDrawFrame or ch.rhm_lastDrawFrame == prevDrawFrame)
+    local isChHelpFresh = ch ~= nil and ch.rhm_lastHelpFrame ~= nil and (ch.rhm_lastHelpFrame == rhm_currentDrawFrame or ch.rhm_lastHelpFrame == prevDrawFrame)
+    local isChSchemaFresh = ch ~= nil and ch.rhm_lastSchemaFrame ~= nil and (ch.rhm_lastSchemaFrame == rhm_currentDrawFrame or ch.rhm_lastSchemaFrame == prevDrawFrame)
 
-    -- Priority 1: Ground-truth lowest Y recorded from InputHelpDisplay.draw this frame
-    if ch and ch.rhm_lastDrawFrame == rhm_currentDrawFrame and ch.rhm_baseHelpBottomY then
+    -- Priority 1: Ground-truth lowest Y recorded from InputHelpDisplay.draw this frame (or immediately preceding pass)
+    if isChDrawFresh and ch.rhm_baseHelpBottomY then
         baseY = ch.rhm_baseHelpBottomY
     end
 
     -- Priority 2: Any help element or wrapped extension drawn in the current frame
-    if ch and ch.rhm_lastHelpFrame == rhm_currentDrawFrame and ch.rhm_lastHelpBottomY then
+    if isChHelpFresh and ch.rhm_lastHelpBottomY then
         if not baseY or ch.rhm_lastHelpBottomY < baseY then
             baseY = ch.rhm_lastHelpBottomY
         end
@@ -629,7 +643,7 @@ function RHMDraggableHUD:getDockedPosition()
     local pfExt = getPfHudExtension(currentVeh)
     if pfExt then
         rhm_wrapHudExtension(pfExt)
-        if pfExt.rhm_lastDrawFrame == rhm_currentDrawFrame and pfExt.rhm_lastBottomY then
+        if pfExt.rhm_lastDrawFrame ~= nil and (pfExt.rhm_lastDrawFrame == rhm_currentDrawFrame or pfExt.rhm_lastDrawFrame == prevDrawFrame) and pfExt.rhm_lastBottomY then
             if not baseY or pfExt.rhm_lastBottomY < baseY then
                 baseY = pfExt.rhm_lastBottomY
             end
@@ -642,7 +656,7 @@ function RHMDraggableHUD:getDockedPosition()
     end
 
     -- Priority 4: Vehicle schema drawn in the current frame
-    if ch and ch.rhm_lastSchemaFrame == rhm_currentDrawFrame and ch.rhm_lastSchemaBottomY then
+    if isChSchemaFresh and ch.rhm_lastSchemaBottomY then
         if not baseY or ch.rhm_lastSchemaBottomY < baseY then
             baseY = ch.rhm_lastSchemaBottomY
         end
@@ -676,7 +690,7 @@ function RHMDraggableHUD:getDockedPosition()
 
     -- EN: Account for extra print texts below the F1 menu only when hook data is not yet available
     -- UA: Враховуємо додаткові тексти під меню F1 тільки коли дані хука ще недоступні
-    if isF1Open and (not ch or ch.rhm_lastDrawFrame ~= rhm_currentDrawFrame or not ch.rhm_baseHelpBottomY) then
+    if isF1Open and (not isChDrawFresh or not ch.rhm_baseHelpBottomY) then
         local extraLines = rhm_getExtraHelpLinesCount(currentVeh, ch)
         if extraLines > 0 then
             local itemH = (ch and ch.lineBg and ch.lineBg.height) or (ch and ch.entryHeight) or (ch and ch.lineHeight) or (0.0260 * uiScale)
@@ -944,15 +958,34 @@ function RHMDraggableHUD:drawDockSnapPlaceholder(dockX, dockY, dockW, dockH)
     self:drawPanelBackground(inX, inY, inW, inH, DOCK_INNER_BG)
 end
 
+function RHMDraggableHUD:isVisible()
+    if not (g_currentMission and g_currentMission:getIsClient()) then
+        return false
+    end
+    if not (self.settings and self.settings.showHUD) then
+        return false
+    end
+    if not self.vehicle then
+        return false
+    end
+    if g_gui and g_gui.getIsGuiVisible and g_gui:getIsGuiVisible() then
+        return false
+    end
+    if g_currentMission.hud and g_currentMission.hud.getIsVisible and not g_currentMission.hud:getIsVisible() then
+        return false
+    end
+    return true
+end
+
 function RHMDraggableHUD:draw()
-    if not g_currentMission:getIsClient() then return end
-    if not self.settings.showHUD then return end
-    if not self.vehicle then return end
+    if not self:isVisible() then return end
 
     if not self.roundedOverlay then
         self:load()
     end
     if not self.roundedOverlay then return end
+
+    self.lastDrawFrame = rhm_currentDrawFrame
 
     -- Update docked coordinates dynamically each frame to track F1 toggle & PF movement
     local hudStyle = (self.settings and self.settings.hudStyle) or 2
@@ -2245,6 +2278,19 @@ function RHMDraggableHUD:handleCellClick(clickedCol)
 end
 
 function RHMDraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
+    if not self:isVisible() then
+        self.isDragging = false
+        self.hasMoved = false
+        self.isNearDock = false
+        return false
+    end
+
+    -- Yield to active external HUD overlays/dropdowns positioned above our HUD layer when not mid-drag
+    if not self.isDragging and RHM_ModCompatibility and RHM_ModCompatibility.isExternalHudBlockingMouse
+        and RHM_ModCompatibility.isExternalHudBlockingMouse(posX, posY, self.vehicle) then
+        return false
+    end
+
     -- 1. Mouse Button Down (LMB): initiate drag or potential click
     local isLMB = (button == 1) or (Input and button == Input.MOUSE_BUTTON_LEFT)
     if isDown and isLMB then

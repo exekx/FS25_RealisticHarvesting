@@ -596,5 +596,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Waarschuwing: een externe mod heeft interne fysicafuncties van Realistic Harvesting buiten de officiële API om aangepast. Dit kan leiden tot onjuiste motorbelasting, vastgelopen snelheidsbegrenzer of foutieve oogstverliezen. Schakel onofficiële add-ons van derden uit." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Waarschuwing: er is naast Realistic Harvesting een andere mod voor maaidorserrealisme of snelheids- en belastingsregeling geladen. Het tegelijk uitvoeren van twee fysicaregelaars voor maaidorsers kan conflicterende snelheidslimieten, motorbelastingen en oogstverliezen veroorzaken. Schakel in dit opgeslagen spel slechts één van beide in." />
     </texts>
 </l10n>

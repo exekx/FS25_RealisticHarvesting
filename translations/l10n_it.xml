@@ -598,5 +598,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Avviso: una mod esterna ha modificato le funzioni fisiche interne di Realistic Harvesting al di fuori dell'API ufficiale. Ciò può causare carico motore errato, blocco del limitatore di velocità o perdite inesatte. Disattiva i componenti aggiuntivi non ufficiali di terze parti." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Avviso: è stato caricato un altro mod di realismo o controllo di velocità e carico per mietitrebbie insieme a Realistic Harvesting. L'esecuzione simultanea di due controller di fisica per mietitrebbie può causare conflitti nel limite di velocità, nel carico motore e nelle perdite di raccolto. Si prega di mantenerne attivo solo uno in questo salvataggio." />
     </texts>
 </l10n>

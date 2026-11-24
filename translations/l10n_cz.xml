@@ -598,5 +598,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Upozornění: externí mód upravil interní fyzikální funkce Realistic Harvesting mimo oficiální API. To může způsobit nepřesné zatížení motoru, zaseknutí omezovače rychlosti nebo chybné ztráty zrna. Vypněte prosím neoficiální doplňky třetích stran." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Upozornění: společně s Realistic Harvesting je načten další mod pro realismus nebo řízení rychlosti a zatížení sklízecích mlátiček. Současné používání dvou fyzikálních systémů mlátičky může způsobovat konflikty omezení rychlosti, zatížení motoru a ztrát sklizně. Ponechte prosím v této uložené hře aktivní pouze jeden z nich." />
     </texts>
 </l10n>

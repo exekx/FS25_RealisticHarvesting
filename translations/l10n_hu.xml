@@ -598,5 +598,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Figyelmeztetés: egy külső mod a hivatalos API megkerülésével módosította a Realistic Harvesting belső fizikai függvényeit. Ez hibás motorterhelést, beragadt sebességkorlátozót vagy téves szemveszteséget okozhat. Kérjük, tiltsa le a nem hivatalos kiegészítőket." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Figyelem: a Realistic Harvesting mellett egy másik kombájn-realizmus vagy sebesség- és terhelésszabályozó mod is be van töltve. Két kombájn-fizikai vezérlő egyidejű futtatása sebességkorlát-, motorterhelés- és termésveszteség-ütközéseket okozhat. Kérjük, ebben a mentésben csak az egyiket tartsd bekapcsolva." />
     </texts>
 </l10n>

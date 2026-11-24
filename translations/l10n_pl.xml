@@ -598,5 +598,6 @@
         <text name="input_RHM_TARGET_LOAD_INC" text="RHM: Target Engine Load (+)" />
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Ostrzeżenie: zewnętrzny mod zmodyfikował wewnętrzne funkcje fizyki Realistic Harvesting poza oficjalnym API. Może to powodować błędne obciążenie silnika, zablokowanie ogranicznika prędkości lub nieprawidłowe straty plonu. Wyłącz nieoficjalne dodatki innych autorów." />
+        <text name="rhm_warn_conflicting_combine_mod" text="Uwaga: obok Realistic Harvesting wczytano inny mod realizmu lub kontroli prędkości i obciążenia kombajnu. Jednoczesne działanie dwóch kontrolerów fizyki kombajnu może powodować konflikty limitu prędkości, obciążenia silnika oraz strat plonu. W tym zapisie gry pozostaw włączony tylko jeden z nich." />
     </texts>
 </l10n>
