@@ -595,5 +595,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Advarsel: en ekstern mod har ændret interne fysikfunktioner i Realistic Harvesting uden om det officielle API. Dette kan medføre forkert motorbelastning, låst hastighedsbegrænser eller forkerte spildtal. Deaktiver venligst uofficielle tredjeparts-addons." />
         <text name="rhm_warn_conflicting_combine_mod" text="Advarsel: En anden mod til mejetærskerrealisme eller hastigheds- og belastningsstyring er indlæst sammen med Realistic Harvesting. Brug af to fysikcontrollere til mejetærskere samtidig kan give konflikter med hastighedsgrænser, motorbelastning og spild. Behold venligst kun én aktiveret i dette gemte spil." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Bak indføring / Fjern prop (Hold)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Fjern tilstopning manuelt (Til fods)" />
+        <text name="rhm_setting_clog_mode_title" text="Mejetærsker tilstopning" />
+        <text name="rhm_setting_clog_mode_desc" text="Simulerer tilstopning ved overbelastning, fugt eller ukrudt. Kun bak: i kabine; Realistisk: ud af kabine ved hårdt stop." />
+        <text name="rhm_clog_mode_off" text="Fra" />
+        <text name="rhm_clog_mode_reverse" text="Kun bak" />
+        <text name="rhm_clog_mode_realistic" text="Realistisk (Bak + Til fods)" />
+        <text name="rhm_setting_clog_sens_title" text="Tilstopningsfølsomhed" />
+        <text name="rhm_setting_clog_sens_desc" text="Justerer hvor hurtigt indføringen stopper til under høj belastning." />
+        <text name="rhm_clog_sens_low" text="Lav (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standard (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Høj (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Tilstopningsårsager" />
+        <text name="rhm_setting_clog_factors_desc" text="Vælg om kun ekstrem overbelastning eller også fugt, ukrudt og kalibrering udløser tilstopning." />
+        <text name="rhm_clog_factors_overload" text="Kun overbelastning" />
+        <text name="rhm_clog_factors_all" text="Alle (Belastning + Fugt &amp; Ukrudt)" />
+        <text name="rhm_setting_clog_ai_title" text="AI-hjælper tilstopning" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Gendannelse sænker farten og bakker kort; Manuel stopper AI; Fra gør AI immun." />
+        <text name="rhm_clog_ai_auto" text="Auto-Gendannelse" />
+        <text name="rhm_clog_ai_manual" text="Manuel hjælp" />
+        <text name="rhm_clog_ai_off" text="Fra (AI immun)" />
+        <text name="rhm_setting_clog_pile_title" text="Læg bunke ved rensning" />
+        <text name="rhm_setting_clog_pile_desc" text="Lægger en lille bunke halm/grønt foran skærebordet efter rensning." />
+        <text name="rhm_clog_warn_slip" text="Sikkerhedskobling aktiv! Stop helt og hold RShift+B!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Indføring blokeret! Stop helt og hold RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Indføring blokeret! Gå ud og rens ved skærebordet (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Alvorlig tilstopning! Stå ud og rens indføringen manuelt!" />
+        <text name="rhm_clog_warn_stop_first" text="Stop mejetærskeren helt før bakning af indføring!" />
+        <text name="rhm_clog_cleared_msg" text="Tilstopning fjernet!" />
+        <text name="rhm_clog_onfoot_prompt" text="Hold RShift+C for at rense" />
+        <text name="rhm_clog_cause_overload" text="Overbelastning" />
+        <text name="rhm_clog_cause_moisture" text="Høj fugtighed" />
+        <text name="rhm_clog_cause_weeds" text="Ukrudt" />
+        <text name="rhm_clog_cause_settings" text="Kalibrering" />
+        <text name="rhm_clog_cause_surge" text="Massestød" />
+        <text name="rhm_hud_clog_slug" text="PROP" />
+        <text name="rhm_hud_clog_slip" text="SLIP" />
+        <text name="rhm_hud_clog_jam" text="STOP" />
+        <text name="rhm_hud_clog_clear" text="RENS" />
+        <text name="rhm_ui_clog_risk" text="Stoprisiko" />
+        <text name="rhm_tut_clog_title" text="TILSTOPNING" />
+        <text name="rhm_tut_clog_msg" text="Langvarig overbelastning eller våde afgrøder med ukrudt kan aktivere koblingen eller blokere tærskeren. Stop og hold RShift+B (i Realistisk tilstand renses hårde stop til fods med RShift+C)." />
     </texts>
 </l10n>

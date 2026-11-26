@@ -1570,7 +1570,6 @@ function RHM_CombineSettingsDatabase:getCropNamesForMachineType(machineType, veh
 
     -- 3. Gather supported fruitType indices from attached or integrated cutters/headers
     local cutterFruitTypes = nil
-    local hasAttachedCutter = false
     if vehicle then
         local cutters = {}
         if rhm_Combine and rhm_Combine.getAllAttachedCutters then
@@ -1609,7 +1608,6 @@ function RHM_CombineSettingsDatabase:getCropNamesForMachineType(machineType, veh
         for _, cutter in ipairs(cutters) do
             local sc = cutter.spec_cutter or cutter.spec_forageHarvesterCutter or cutter.spec_forageCutter
             if sc and sc.fruitTypes and next(sc.fruitTypes) ~= nil then
-                hasAttachedCutter = true
                 cutterFruitTypes = cutterFruitTypes or {}
                 for k, v in pairs(sc.fruitTypes) do
                     if type(k) == "number" and type(v) == "number" then
@@ -1618,8 +1616,6 @@ function RHM_CombineSettingsDatabase:getCropNamesForMachineType(machineType, veh
                         cutterFruitTypes[k] = true
                     end
                 end
-            elseif cutter.spec_pickup ~= nil then
-                hasAttachedCutter = true
             end
         end
     end

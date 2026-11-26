@@ -595,5 +595,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Varoitus: ulkoinen modi on muokannut Realistic Harvestingin sisäisiä fysiikkafunktioita virallisen API:n ohi. Tämä voi aiheuttaa virheellisen moottorikuorman, nopeusrajoittimen jumiutumisen tai vääriä satotappioita. Poista käytöstä epäviralliset lisäosat." />
         <text name="rhm_warn_conflicting_combine_mod" text="Varoitus: Realistic Harvestingin rinnalla on ladattu toinen leikkuupuimurin realismi- tai nopeuden- ja kuormituksensäätömodi. Kahden puimurin fysiikkaohjaimen samanaikainen käyttö voi aiheuttaa ristiriitoja nopeusrajoituksissa, moottorin kuormituksessa ja satotappioissa. Pidä vain yksi käytössä tässä tallennuksessa." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Peruuta syöttöä / Poista tukos (Pidä)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Puhdista tukos käsin (Jalan)" />
+        <text name="rhm_setting_clog_mode_title" text="Puimurin tukkeutuminen" />
+        <text name="rhm_setting_clog_mode_desc" text="Mallintaa ylikuorman, kosteuden ja rikkakasvien aiheuttamat tukokset. Vain peruutus: ohjaamosta; Realistinen: käsin leikkuupöydältä." />
+        <text name="rhm_clog_mode_off" text="Pois" />
+        <text name="rhm_clog_mode_reverse" text="Vain peruutus" />
+        <text name="rhm_clog_mode_realistic" text="Realistinen (Peruutus + Jalan)" />
+        <text name="rhm_setting_clog_sens_title" text="Tukosherkkyys" />
+        <text name="rhm_setting_clog_sens_desc" text="Säätää kuinka nopeasti syöttöhäiriö kertyy raskaassa kuormituksessa." />
+        <text name="rhm_clog_sens_low" text="Matala (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Normaali (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Korkea (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Tukoksen syyt" />
+        <text name="rhm_setting_clog_factors_desc" text="Valitse aiheutuuko tukos vain äärimmäisestä ylikuormasta vai myös kosteudesta, rikkaruohoista ja säädöistä." />
+        <text name="rhm_clog_factors_overload" text="Vain ylikuorma" />
+        <text name="rhm_clog_factors_all" text="Kaikki (Kuorma + Kosteus &amp; Rikkaruohot)" />
+        <text name="rhm_setting_clog_ai_title" text="Tekoälytyöntekijän tukokset" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Palautus hidastaa ja peruuttaa syöttöä automaattisesti; Manuaalinen pysäyttää; Pois suojaa tekoälyä." />
+        <text name="rhm_clog_ai_auto" text="Auto-Palautus" />
+        <text name="rhm_clog_ai_manual" text="Manuaalinen apu" />
+        <text name="rhm_clog_ai_off" text="Pois (AI immuuni)" />
+        <text name="rhm_setting_clog_pile_title" text="Pudota kasa puhdistaessa" />
+        <text name="rhm_setting_clog_pile_desc" text="Jättää pienen kasan leikkuupöydän eteen tukoksen poistamisen jälkeen." />
+        <text name="rhm_clog_warn_slip" text="Luistokytkin luistaa! Pysähdy ja pidä RShift+B pohjassa!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Syöttö tukossa! Pysähdy täysin ja pidä RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Syöttö tukossa! Poistu ohjaamosta ja puhdista pöydältä (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Paha tukos! Poistu ohjaamosta ja puhdista tukos käsin leikkuupöydältä!" />
+        <text name="rhm_clog_warn_stop_first" text="Pysäytä puimuri täysin ennen syötön peruutusta!" />
+        <text name="rhm_clog_cleared_msg" text="Tukos poistettu!" />
+        <text name="rhm_clog_onfoot_prompt" text="Pidä RShift+C puhdistaaksesi" />
+        <text name="rhm_clog_cause_overload" text="Ylikuorma" />
+        <text name="rhm_clog_cause_moisture" text="Korkea kosteus" />
+        <text name="rhm_clog_cause_weeds" text="Rikkakasvit" />
+        <text name="rhm_clog_cause_settings" text="Säädöt" />
+        <text name="rhm_clog_cause_surge" text="Massapiikki" />
+        <text name="rhm_hud_clog_slug" text="TUPPO" />
+        <text name="rhm_hud_clog_slip" text="LUISTO" />
+        <text name="rhm_hud_clog_jam" text="TUKOS" />
+        <text name="rhm_hud_clog_clear" text="AVAA" />
+        <text name="rhm_ui_clog_risk" text="Tukosriski" />
+        <text name="rhm_tut_clog_title" text="SYÖTÖN TUKKEUTUMINEN" />
+        <text name="rhm_tut_clog_msg" text="Pitkä ylikuorma tai märkä, rikkakasvipitoinen kasvusto voi laukaista luistokytkimen tai tukkia puintikelan. Pysähdy ja pidä RShift+B (Realistisessa tilassa avaa jalan painamalla RShift+C)." />
     </texts>
 </l10n>

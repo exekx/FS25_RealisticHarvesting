@@ -8,33 +8,14 @@ Info/
 .DS_Store
 Thumbs.db
 
-# IDE
+# IDE & Temp artifacts
 .vscode/
 .idea/
-.Example/
-.agents/
-.agent/
-scratch/
-
-# Temp files
 *.tmp
 *.bak
 *~
+*.psd
+*.blend
 
-# Build artifacts
+# Build archives
 *.zip
-
-# Diagnostic test scripts, simulations & summaries
-*.ps1
-crop_test_summary.*
-crop_test_records.xml
-scratch/
-sim_*
-
-# Local Development Tracking & Knowledge Base (strictly excluded from Git)
-DEV_CHANGELOG.md
-RELEASE_NOTES.md
-future_ideas/
-engine_reference/
-
-

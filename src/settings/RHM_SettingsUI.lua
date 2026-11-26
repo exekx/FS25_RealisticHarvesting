@@ -273,6 +273,75 @@ function RHMSettingsUI.inject(settings)
     if autoResetOpt and autoResetOpt.setDisabled then autoResetOpt:setDisabled(not isAdmin) end
     RHMSettingsUI.autoResetOption = autoResetOpt
 
+    local clogModeOptions = {
+        g_i18n:hasText("rhm_clog_mode_off") and g_i18n:getText("rhm_clog_mode_off") or "Off",
+        g_i18n:hasText("rhm_clog_mode_reverse") and g_i18n:getText("rhm_clog_mode_reverse") or "Reverse Only",
+        g_i18n:hasText("rhm_clog_mode_realistic") and g_i18n:getText("rhm_clog_mode_realistic") or "Realistic (Reverse + On-Foot)",
+    }
+    local clogModeOpt = addMultiRow(settingsPage, gameLayout, "clog_mode", "rhm_setting_clog_mode_title", "rhm_setting_clog_mode_desc",
+        clogModeOptions, settings.cloggingMode or 2,
+        function(val)
+            if not settings:canChangeServerSettings() then return end
+            settings.cloggingMode = val
+            settings:saveAndSync("cloggingMode")
+        end)
+    if clogModeOpt and clogModeOpt.setDisabled then clogModeOpt:setDisabled(not isAdmin) end
+    RHMSettingsUI.cloggingModeOption = clogModeOpt
+
+    local clogSensOptions = {
+        g_i18n:hasText("rhm_clog_sens_low") and g_i18n:getText("rhm_clog_sens_low") or "Low (0.6x)",
+        g_i18n:hasText("rhm_clog_sens_std") and g_i18n:getText("rhm_clog_sens_std") or "Standard (1.0x)",
+        g_i18n:hasText("rhm_clog_sens_high") and g_i18n:getText("rhm_clog_sens_high") or "High (1.5x)",
+    }
+    local clogSensOpt = addMultiRow(settingsPage, gameLayout, "clog_sens", "rhm_setting_clog_sens_title", "rhm_setting_clog_sens_desc",
+        clogSensOptions, settings.clogSensitivity or 2,
+        function(val)
+            if not settings:canChangeServerSettings() then return end
+            settings.clogSensitivity = val
+            settings:saveAndSync("clogSensitivity")
+        end)
+    if clogSensOpt and clogSensOpt.setDisabled then clogSensOpt:setDisabled(not isAdmin) end
+    RHMSettingsUI.clogSensitivityOption = clogSensOpt
+
+    local clogFactorsOptions = {
+        g_i18n:hasText("rhm_clog_factors_overload") and g_i18n:getText("rhm_clog_factors_overload") or "Overload Only",
+        g_i18n:hasText("rhm_clog_factors_all") and g_i18n:getText("rhm_clog_factors_all") or "All (Load + Moisture & Weeds)",
+    }
+    local clogFactorsOpt = addMultiRow(settingsPage, gameLayout, "clog_factors", "rhm_setting_clog_factors_title", "rhm_setting_clog_factors_desc",
+        clogFactorsOptions, settings.clogFactors or 2,
+        function(val)
+            if not settings:canChangeServerSettings() then return end
+            settings.clogFactors = val
+            settings:saveAndSync("clogFactors")
+        end)
+    if clogFactorsOpt and clogFactorsOpt.setDisabled then clogFactorsOpt:setDisabled(not isAdmin) end
+    RHMSettingsUI.clogFactorsOption = clogFactorsOpt
+
+    local aiClogOptions = {
+        g_i18n:hasText("rhm_clog_ai_auto") and g_i18n:getText("rhm_clog_ai_auto") or "Auto-Recover",
+        g_i18n:hasText("rhm_clog_ai_manual") and g_i18n:getText("rhm_clog_ai_manual") or "Manual Assist",
+        g_i18n:hasText("rhm_clog_ai_off") and g_i18n:getText("rhm_clog_ai_off") or "Off (AI Immune)",
+    }
+    local aiClogOpt = addMultiRow(settingsPage, gameLayout, "clog_ai", "rhm_setting_clog_ai_title", "rhm_setting_clog_ai_desc",
+        aiClogOptions, settings.aiCloggingMode or 1,
+        function(val)
+            if not settings:canChangeServerSettings() then return end
+            settings.aiCloggingMode = val
+            settings:saveAndSync("aiCloggingMode")
+        end)
+    if aiClogOpt and aiClogOpt.setDisabled then aiClogOpt:setDisabled(not isAdmin) end
+    RHMSettingsUI.aiCloggingModeOption = aiClogOpt
+
+    local clogPileOpt = addBinaryRow(settingsPage, gameLayout, "clog_pile", "rhm_setting_clog_pile_title", "rhm_setting_clog_pile_desc",
+        settings.clogDropPile == true,
+        function(val)
+            if not settings:canChangeServerSettings() then return end
+            settings.clogDropPile = val
+            settings:saveAndSync("clogDropPile")
+        end)
+    if clogPileOpt and clogPileOpt.setDisabled then clogPileOpt:setDisabled(not isAdmin) end
+    RHMSettingsUI.clogDropPileOption = clogPileOpt
+
     -- === SECTION: Visuals / HUD ===
     addSection(settingsPage, "rhm_section_visuals", generalLayout)
 
@@ -434,6 +503,11 @@ function RHMSettingsUI.refreshUI(settings)
     setOpt(RHMSettingsUI.aiTuningOption,        settings.aiHelperTuning or 1,        not isAdmin)
     setOpt(RHMSettingsUI.autoResetOption,       settings.autoResetTripMode or 1,     not isAdmin)
     setOpt(RHMSettingsUI.moistureEnableOption,  settings.enableMoisture   and 2 or 1, not isAdmin)
+    setOpt(RHMSettingsUI.cloggingModeOption,    settings.cloggingMode or 2,          not isAdmin)
+    setOpt(RHMSettingsUI.clogSensitivityOption, settings.clogSensitivity or 2,       not isAdmin)
+    setOpt(RHMSettingsUI.clogFactorsOption,     settings.clogFactors or 2,           not isAdmin)
+    setOpt(RHMSettingsUI.aiCloggingModeOption,  settings.aiCloggingMode or 1,        not isAdmin)
+    setOpt(RHMSettingsUI.clogDropPileOption,    (settings.clogDropPile == true) and 2 or 1, not isAdmin)
 
     setOpt(RHMSettingsUI.hudOption,         settings.showHUD           and 2 or 1, false)
     setOpt(RHMSettingsUI.hudStyleOption,    settings.hudStyle or 2,                false)

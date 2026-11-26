@@ -595,5 +595,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Varning: en extern mod har ändrat interna fysikfunktioner i Realistic Harvesting utanför det officiella API:et. Detta kan orsaka felaktig motorbelastning, låst hastighetsbegränsare eller felaktiga spillvärden. Inaktivera inofficiella tredjepartstillägg." />
         <text name="rhm_warn_conflicting_combine_mod" text="Varning: En annan modd för skördetröskerealism eller hastighets- och belastningsstyrning är aktiverad tillsammans med Realistic Harvesting. Att köra två fysikkontroller för skördetröskor samtidigt kan orsaka konflikter i hastighetsgränser, motorbelastning och skördeförluster. Lämna endast en aktiverad i denna sparning." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Backa inmatning / Rensa stopp (Håll)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Rensa stopp manuellt (Till fots)" />
+        <text name="rhm_setting_clog_mode_title" text="Skördetröskans stopp" />
+        <text name="rhm_setting_clog_mode_desc" text="Simulerar igensättning av överbelastning, fukt eller ogräs. Endast back: i hytt; Realistisk: ut ur hytt vid hårt stopp." />
+        <text name="rhm_clog_mode_off" text="Av" />
+        <text name="rhm_clog_mode_reverse" text="Endast backning" />
+        <text name="rhm_clog_mode_realistic" text="Realistisk (Back + Till fots)" />
+        <text name="rhm_setting_clog_sens_title" text="Stoppkänslighet" />
+        <text name="rhm_setting_clog_sens_desc" text="Styr hur snabbt stopp byggs upp vid tung överbelastning." />
+        <text name="rhm_clog_sens_low" text="Låg (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standard (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Hög (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Stoppfaktorer" />
+        <text name="rhm_setting_clog_factors_desc" text="Välj om bara extrem överbelastning eller även fukt, ogräs och kalibrering orsakar stopp." />
+        <text name="rhm_clog_factors_overload" text="Endast överbelastning" />
+        <text name="rhm_clog_factors_all" text="Alla (Last + Fukt &amp; Ogräs)" />
+        <text name="rhm_setting_clog_ai_title" text="AI-hjälpare stopp" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Återställning saktar in och backar kort; Manuell stannar AI; Av gör AI immun." />
+        <text name="rhm_clog_ai_auto" text="Auto-Återställning" />
+        <text name="rhm_clog_ai_manual" text="Manuell hjälp" />
+        <text name="rhm_clog_ai_off" text="Av (AI immun)" />
+        <text name="rhm_setting_clog_pile_title" text="Släpp hög vid rensning" />
+        <text name="rhm_setting_clog_pile_desc" text="Lägger en liten hög halm/massa framför skärbordet efter rensning." />
+        <text name="rhm_clog_warn_slip" text="Slirkoppling aktiv! Stanna helt och håll RShift+B!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Inmatning fastnad! Stanna helt och håll RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Inmatning fastnad! Kliv ut och rensa vid skärbordet (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Svårt stopp! Gå ut ur hytten och rensa manuellt vid skärbordet!" />
+        <text name="rhm_clog_warn_stop_first" text="Stanna tröskan helt innan backning!" />
+        <text name="rhm_clog_cleared_msg" text="Stopp rensat!" />
+        <text name="rhm_clog_onfoot_prompt" text="Håll RShift+C för att rensa" />
+        <text name="rhm_clog_cause_overload" text="Överbelastning" />
+        <text name="rhm_clog_cause_moisture" text="Hög fukt" />
+        <text name="rhm_clog_cause_weeds" text="Ogräs" />
+        <text name="rhm_clog_cause_settings" text="Kalibrering" />
+        <text name="rhm_clog_cause_surge" text="Masschock" />
+        <text name="rhm_hud_clog_slug" text="PROPP" />
+        <text name="rhm_hud_clog_slip" text="SLIR" />
+        <text name="rhm_hud_clog_jam" text="STOPP" />
+        <text name="rhm_hud_clog_clear" text="RENSA" />
+        <text name="rhm_ui_clog_risk" text="Stopprisk" />
+        <text name="rhm_tut_clog_title" text="IGENSÄTTNING" />
+        <text name="rhm_tut_clog_msg" text="Långvarig överbelastning eller fuktig gröda med ogräs kan lösa ut slirkopplingen eller sätta igen tröskan. Stanna och håll RShift+B (i Realistiskt läge rensas hårda stopp till fots med RShift+C)." />
     </texts>
 </l10n>

@@ -599,5 +599,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Avviso: una mod esterna ha modificato le funzioni fisiche interne di Realistic Harvesting al di fuori dell'API ufficiale. Ciò può causare carico motore errato, blocco del limitatore di velocità o perdite inesatte. Disattiva i componenti aggiuntivi non ufficiali di terze parti." />
         <text name="rhm_warn_conflicting_combine_mod" text="Avviso: è stato caricato un altro mod di realismo o controllo di velocità e carico per mietitrebbie insieme a Realistic Harvesting. L'esecuzione simultanea di due controller di fisica per mietitrebbie può causare conflitti nel limite di velocità, nel carico motore e nelle perdite di raccolto. Si prega di mantenerne attivo solo uno in questo salvataggio." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Inverti elevatore / Disintasamento (Tieni)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Sblocca ingolfamento a mano (A piedi)" />
+        <text name="rhm_setting_clog_mode_title" text="Ingolfamento trebbia" />
+        <text name="rhm_setting_clog_mode_desc" text="Simula l'ingolfamento da sovraccarico, umidità o erbacce. Solo inversione: in cabina; Realistico: scendi per blocchi gravi." />
+        <text name="rhm_clog_mode_off" text="Disattivato" />
+        <text name="rhm_clog_mode_reverse" text="Solo inversione" />
+        <text name="rhm_clog_mode_realistic" text="Realistico (Inversione + A piedi)" />
+        <text name="rhm_setting_clog_sens_title" text="Sensibilità ingolfamento" />
+        <text name="rhm_setting_clog_sens_desc" text="Regola la velocità di accumulo durante sovraccarico o condizioni gravose." />
+        <text name="rhm_clog_sens_low" text="Bassa (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standard (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Alta (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Cause ingolfamento" />
+        <text name="rhm_setting_clog_factors_desc" text="Scegli se attivare solo per sovraccarico estremo o anche per umidità, erbacce e taratura errata." />
+        <text name="rhm_clog_factors_overload" text="Solo sovraccarico" />
+        <text name="rhm_clog_factors_all" text="Tutti (Carico + Umidità ed Erbacce)" />
+        <text name="rhm_setting_clog_ai_title" text="Ingolfamento operai IA" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Recupero rallenta e inverte brevemente l'IA; Manuale ferma l'IA; Disattivato rende l'IA immune." />
+        <text name="rhm_clog_ai_auto" text="Auto-Recupero" />
+        <text name="rhm_clog_ai_manual" text="Assistenza manuale" />
+        <text name="rhm_clog_ai_off" text="Disattivato (IA immune)" />
+        <text name="rhm_setting_clog_pile_title" text="Scarica cumulo allo sblocco" />
+        <text name="rhm_setting_clog_pile_desc" text="Deposita un piccolo cumulo davanti alla barra quando si libera l'ingolfamento." />
+        <text name="rhm_clog_warn_slip" text="Frizione di sicurezza attiva! Fermati e tieni premuto RShift+B!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Elevatore bloccato! Fermati del tutto e tieni RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Elevatore bloccato! Scendi dalla cabina e pulisci alla barra (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Blocco completo! Esci dalla cabina e libera manualmente l'imbocco!" />
+        <text name="rhm_clog_warn_stop_first" text="Ferma completamente la macchina prima di invertire!" />
+        <text name="rhm_clog_cleared_msg" text="Ingolfamento liberato!" />
+        <text name="rhm_clog_onfoot_prompt" text="Tieni RShift+C per pulire" />
+        <text name="rhm_clog_cause_overload" text="Sovraccarico" />
+        <text name="rhm_clog_cause_moisture" text="Umidità alta" />
+        <text name="rhm_clog_cause_weeds" text="Erbacce" />
+        <text name="rhm_clog_cause_settings" text="Taratura" />
+        <text name="rhm_clog_cause_surge" text="Picco massa" />
+        <text name="rhm_hud_clog_slug" text="PIENO" />
+        <text name="rhm_hud_clog_slip" text="SLITT" />
+        <text name="rhm_hud_clog_jam" text="BLOCC" />
+        <text name="rhm_hud_clog_clear" text="PULIRE" />
+        <text name="rhm_ui_clog_risk" text="Rischio blocco" />
+        <text name="rhm_tut_clog_title" text="INGOLFAMENTO" />
+        <text name="rhm_tut_clog_msg" text="Sovraccarico prolungato o raccolto umido possono far slittare la frizione o bloccare il battitore. Fermati e tieni RShift+B (in modalità Realistica sblocca a piedi con RShift+C)." />
     </texts>
 </l10n>

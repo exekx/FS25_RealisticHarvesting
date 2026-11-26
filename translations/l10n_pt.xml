@@ -597,5 +597,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Aviso: um mod externo modificou funções internas de física do Realistic Harvesting fora da API oficial. Isto pode causar carga de motor incorreta, bloqueio no limitador de velocidade ou perdas erradas. Desative os complementos não oficiais de terceiros." />
         <text name="rhm_warn_conflicting_combine_mod" text="Aviso: outro mod de realismo ou controlo de velocidade e carga de ceifeiras foi carregado em conjunto com o Realistic Harvesting. Executar dois controladores de física de ceifeira ao mesmo tempo pode causar conflitos no limite de velocidade, carga do motor e perdas de colheita. Por favor, mantenha apenas um ativado neste jogo guardado." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Inverter alimentador / Desentupir (Manter)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Desentupir manualmente (A pé)" />
+        <text name="rhm_setting_clog_mode_title" text="Entupimento da ceifeira" />
+        <text name="rhm_setting_clog_mode_desc" text="Simula entupimento por sobrecarga, humidade ou ervas. Só inversão: na cabine; Realista: sair para bloqueios graves." />
+        <text name="rhm_clog_mode_off" text="Desativado" />
+        <text name="rhm_clog_mode_reverse" text="Só inversão" />
+        <text name="rhm_clog_mode_realistic" text="Realista (Inversão + A pé)" />
+        <text name="rhm_setting_clog_sens_title" text="Sensibilidade de entupimento" />
+        <text name="rhm_setting_clog_sens_desc" text="Ajusta a rapidez do entupimento sob sobrecarga ou condições difíceis." />
+        <text name="rhm_clog_sens_low" text="Baixa (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Padrão (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Alta (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Causas de entupimento" />
+        <text name="rhm_setting_clog_factors_desc" text="Escolhe entre sobrecarga extrema apenas ou incluir humidade, ervas e má calibração." />
+        <text name="rhm_clog_factors_overload" text="Só sobrecarga" />
+        <text name="rhm_clog_factors_all" text="Todos (Carga + Humidade e Ervas)" />
+        <text name="rhm_setting_clog_ai_title" text="Entupimento de trabalhadores IA" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Recuperação abranda e inverte a IA; Manual para a IA; Desativado torna a IA imune." />
+        <text name="rhm_clog_ai_auto" text="Auto-Recuperação" />
+        <text name="rhm_clog_ai_manual" text="Assistência manual" />
+        <text name="rhm_clog_ai_off" text="Desativado (IA imune)" />
+        <text name="rhm_setting_clog_pile_title" text="Largar monte ao limpar" />
+        <text name="rhm_setting_clog_pile_desc" text="Deposita um pequeno monte à frente do corte após desentupir." />
+        <text name="rhm_clog_warn_slip" text="Embraiagem limitadora ativa! Pare e mantenha RShift+B para inverter!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Alimentador encravado! Pare completamente e mantenha RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Alimentador encravado! Saia da cabine e limpe junto ao corte (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Bloqueio severo! Saia da cabine e limpe manualmente junto ao corte!" />
+        <text name="rhm_clog_warn_stop_first" text="Pare totalmente a ceifeira antes de inverter!" />
+        <text name="rhm_clog_cleared_msg" text="Entupimento resolvido!" />
+        <text name="rhm_clog_onfoot_prompt" text="Mantenha RShift+C para limpar" />
+        <text name="rhm_clog_cause_overload" text="Sobrecarga" />
+        <text name="rhm_clog_cause_moisture" text="Humidade alta" />
+        <text name="rhm_clog_cause_weeds" text="Ervas daninhas" />
+        <text name="rhm_clog_cause_settings" text="Calibração" />
+        <text name="rhm_clog_cause_surge" text="Pico de massa" />
+        <text name="rhm_hud_clog_slug" text="CARGA" />
+        <text name="rhm_hud_clog_slip" text="PATIN" />
+        <text name="rhm_hud_clog_jam" text="ENTUP" />
+        <text name="rhm_hud_clog_clear" text="LIMPAR" />
+        <text name="rhm_ui_clog_risk" text="Risco entup." />
+        <text name="rhm_tut_clog_title" text="ENTUPIMENTO" />
+        <text name="rhm_tut_clog_msg" text="Sobrecarga prolongada ou seara húmida podem acionar a embraiagem ou encravar o cilindro. Pare e mantenha RShift+B (no modo Realista, limpe a pé com RShift+C)." />
     </texts>
 </l10n>

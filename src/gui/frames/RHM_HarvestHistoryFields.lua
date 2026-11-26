@@ -16,12 +16,10 @@ RHM_HarvestHistoryFields = {}
 local HarvestHistoryFields_mt = Class(RHM_HarvestHistoryFields, TabbedMenuFrameElement)
 
 local COLOR_PROFIT   = RHM_UIColors.GREEN
-local COLOR_LOSS     = RHM_UIColors.RED
 local COLOR_WARN     = RHM_UIColors.ORANGE
 local COLOR_NEUTRAL  = RHM_UIColors.WHITE
 local COLOR_DIM      = RHM_UIColors.GRAY
 local COLOR_YELLOW   = RHM_UIColors.YELLOW
-local COLOR_CYAN     = RHM_UIColors.CYAN
 
 local function getLossColor(lossPct)
     return RHM_UIColors.getLossColor(lossPct)
@@ -222,7 +220,6 @@ function RHM_HarvestHistoryFields:updateData()
 
         local cropTotals = {}
         local bestYield = 0
-        local bestYieldField = "--"
 
         local reasonSums = { speed = 0, settings = 0, moisture = 0, wear = 0, slope = 0 }
         local totalGrossRev = 0
@@ -264,7 +261,6 @@ function RHM_HarvestHistoryFields:updateData()
             local yieldTha = (hArea > 0.001) and (harvT / hArea) or 0
             if yieldTha > bestYield and hArea >= 0.05 then
                 bestYield = yieldTha
-                bestYieldField = string.format("Field %d (%.1f t/ha)", f.fieldId, yieldTha)
             end
 
             if f.cropVolumes then
@@ -539,16 +535,6 @@ function RHM_HarvestHistoryFields:updateData()
         local numYear = tonumber(selectedYear) or 1
         local summary = tracker.getSeasonSummary and tracker:getSeasonSummary(farmId, numYear)
 
-        local sHarvestL = 0
-        local sLostL = 0
-        local sAreaHa = 0
-        local sMoney = 0
-        local sGrossRev = 0
-        local sFuelExp = 0
-        local sWorkSecs = 0
-        local sBestYield = 0
-        local sBestField = "--"
-        local sCropTotals = {}
         local sFieldItems = {}
         local sOwnedCount = 0
         local sContractCount = 0
@@ -1089,7 +1075,7 @@ function RHM_HarvestHistoryFields:updateData()
             fuelExpense = fFuelExp,
             netMargin = fNetMargin,
             rank = string.format("[%s]", fOverallRank),
-            rankDisplay = string.format("[%s]", fRank or fOverallRank),
+            rankDisplay = string.format("[%s]", fOverallRank),
             totalFieldsCount = #filteredItems,
             totalOwnedCount = (self.fieldsFilterMode == "contract" and 0) or totalFarmOwnedCount,
             totalContractCount = (self.fieldsFilterMode == "owned" and 0) or (self.fieldsFilterMode == "contract" and #filteredItems) or sContractCount,

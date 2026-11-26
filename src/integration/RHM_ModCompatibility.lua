@@ -10,6 +10,7 @@ RHM_ModCompatibility = {}
 RHM_ModCompatibility.isInitialized = false
 RHM_ModCompatibility.isICHooked = false
 RHM_ModCompatibility.isVMCHooked = false
+RHM_ModCompatibility.hasExternalCloggingMod = false
 
 local _integrityBaseline = nil
 
@@ -69,6 +70,36 @@ function RHM_ModCompatibility.checkConflictingCombineMods()
     return false, nil
 end
 
+--- Detects an external harvester clogging/blockage addon to prevent double-jamming.
+---@return boolean detected
+function RHM_ModCompatibility.detectExternalCloggingMod()
+    if g_modIsLoaded ~= nil then
+        for modName, loaded in pairs(g_modIsLoaded) do
+            if loaded == true and modName ~= "FS25_RealisticHarvesting" then
+                local low = string.lower(tostring(modName))
+                if low:find("clog", 1, true) or low:find("verstopf", 1, true) or low:find("harvesterjam", 1, true) then
+                    return true
+                end
+            end
+        end
+    end
+
+    if g_specializationManager ~= nil then
+        local specs = (type(g_specializationManager.getSpecializations) == "function" and g_specializationManager:getSpecializations())
+            or g_specializationManager.specializations
+        if type(specs) == "table" then
+            for specName, _ in pairs(specs) do
+                local low = string.lower(tostring(specName))
+                if not low:find("rhm", 1, true) and (low:find("clog", 1, true) or low:find("verstopf", 1, true)) then
+                    return true
+                end
+            end
+        end
+    end
+
+    return false
+end
+
 function RHM_ModCompatibility.init()
     if RHM_ModCompatibility.isInitialized then
         return
@@ -76,9 +107,10 @@ function RHM_ModCompatibility.init()
 
     RHM_ModCompatibility.hookInteractiveControl()
     RHM_ModCompatibility.hookVehicleMouseCursor()
+    RHM_ModCompatibility.hasExternalCloggingMod = RHM_ModCompatibility.detectExternalCloggingMod()
 
     RHM_ModCompatibility.isInitialized = true
-    rhm_log("RHM [Compat]: Compatibility layer initialized.")
+    rhm_log(string.format("RHM [Compat]: Compatibility layer initialized (externalClog=%s).", tostring(RHM_ModCompatibility.hasExternalCloggingMod)))
 end
 
 --- Hook interactive vehicle controller systems

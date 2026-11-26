@@ -599,5 +599,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Внимание: сторонний мод изменил внутренние функции физики Realistic Harvesting в обход официального API. Это может вызывать некорректную нагрузку двигателя, зависание ограничителя скорости или неверные потери урожая. Отключите неофициальные сторонние аддоны." />
         <text name="rhm_warn_conflicting_combine_mod" text="Внимание: вместе с Realistic Harvesting загружен другой мод реалистичной физики или контроля скорости и нагрузки комбайнов. Одновременная работа двух контроллеров физики комбайна может вызывать конфликты ограничения скорости, нагрузки двигателя и потерь урожая. Пожалуйста, оставьте включённым только один из этих модов в данном сохранении." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Реверс жатки / Прочистка (Удерж.)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Прочистить затор вручную (Пешком)" />
+        <text name="rhm_setting_clog_mode_title" text="Забивание комбайна" />
+        <text name="rhm_setting_clog_mode_desc" text="Симуляция забивания от перегруза, влажности и сорняков. Только реверс: в кабине; Реалистичный: очистка пешком." />
+        <text name="rhm_clog_mode_off" text="Выкл." />
+        <text name="rhm_clog_mode_reverse" text="Только реверс" />
+        <text name="rhm_clog_mode_realistic" text="Реалистичный (Реверс + Пешком)" />
+        <text name="rhm_setting_clog_sens_title" text="Чувствительность забивания" />
+        <text name="rhm_setting_clog_sens_desc" text="Регулирует скорость накопления забивания при перегрузе и тяжёлых условиях." />
+        <text name="rhm_clog_sens_low" text="Низкая (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Стандартная (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Высокая (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Факторы забивания" />
+        <text name="rhm_setting_clog_factors_desc" text="Учитывать только сильный перегруз двигателя или также влагу, сорняки и настройки." />
+        <text name="rhm_clog_factors_overload" text="Только перегрузка" />
+        <text name="rhm_clog_factors_all" text="Все (Нагрузка + Влага и Сорняки)" />
+        <text name="rhm_setting_clog_ai_title" text="Забивание ИИ-рабочих" />
+        <text name="rhm_setting_clog_ai_desc" text="Авто-очистка заранее замедляет ИИ и прокручивает реверс; Ручной останавливает ИИ; Выкл. даёт иммунитет ИИ." />
+        <text name="rhm_clog_ai_auto" text="Авто-очистка" />
+        <text name="rhm_clog_ai_manual" text="Ручная помощь" />
+        <text name="rhm_clog_ai_off" text="Выкл. (Иммунитет ИИ)" />
+        <text name="rhm_setting_clog_pile_title" text="Сброс кучи при прочистке" />
+        <text name="rhm_setting_clog_pile_desc" text="Высыпает небольшую кучу соломы/массы перед жаткой после прочистки." />
+        <text name="rhm_clog_warn_slip" text="Сработала предохранительная муфта! Остановитесь и зажмите RShift+B для реверса!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Молотилка забита! Полностью остановитесь и удерживайте RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Молотилка забита! Выйдите из кабины и прочистите у жатки (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Сильный затор! Выйдите из кабины и прочистите подачу вручную у жатки!" />
+        <text name="rhm_clog_warn_stop_first" text="Полностью остановите комбайн перед включением реверса!" />
+        <text name="rhm_clog_cleared_msg" text="Затор устранен!" />
+        <text name="rhm_clog_onfoot_prompt" text="Удерживайте RShift+C для прочистки" />
+        <text name="rhm_clog_cause_overload" text="Перегрузка" />
+        <text name="rhm_clog_cause_moisture" text="Высокая влага" />
+        <text name="rhm_clog_cause_weeds" text="Сорняки" />
+        <text name="rhm_clog_cause_settings" text="Калибровка" />
+        <text name="rhm_clog_cause_surge" text="Рывок массы" />
+        <text name="rhm_hud_clog_slug" text="ПОДПОР" />
+        <text name="rhm_hud_clog_slip" text="МУФТА" />
+        <text name="rhm_hud_clog_jam" text="ЗАБИТО" />
+        <text name="rhm_hud_clog_clear" text="ЧИСТКА" />
+        <text name="rhm_ui_clog_risk" text="Риск затора" />
+        <text name="rhm_tut_clog_title" text="ЗАБИВАНИЕ КОМБАЙНА" />
+        <text name="rhm_tut_clog_msg" text="Длительный перегруз или влажные засорённые посевы могут вызвать пробуксовку муфты или клин. Остановитесь и удерживайте RShift+B (в Реалистичном режиме клин чистится пешком у жатки через RShift+C)." />
     </texts>
 </l10n>

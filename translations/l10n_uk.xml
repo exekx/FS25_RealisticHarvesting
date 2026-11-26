@@ -598,5 +598,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Цільове навантаження (-)" />
         <text name="rhm_warn_external_physics_override" text="Увага: сторонній мод змінив внутрішні функції фізики Realistic Harvesting в обхід офіційного API. Це може спричиняти некоректне навантаження двигуна, зависання ліміту швидкості або хибні втрати врожаю. Будь ласка, вимкніть неофіційні сторонні аддони, що патчать цей мод." />
         <text name="rhm_warn_conflicting_combine_mod" text="Увага: разом із Realistic Harvesting активовано інший мод реалістичної фізики або контролю швидкості й навантаження комбайнів. Одночасна робота двох систем фізики комбайна може спричиняти конфлікти обмеження швидкості, навантаження двигуна та втрат врожаю. Будь ласка, залиште ввімкненим лише один із цих модів у цьому збереженні." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Реверс жатки / Прочистка (Утрим.)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Прочистити барабан вручну (Пішки)" />
+        <text name="rhm_setting_clog_mode_title" text="Забивання комбайна" />
+        <text name="rhm_setting_clog_mode_desc" text="Симуляція забивання жатки та молотарки від перевантаження, вологи або бур'янів. Тільки реверс — з кабіни; Реалістичний — повні клини чистяться пішки." />
+        <text name="rhm_clog_mode_off" text="Вимкнено" />
+        <text name="rhm_clog_mode_reverse" text="Тільки реверс" />
+        <text name="rhm_clog_mode_realistic" text="Реалістичний (Реверс + Пішки)" />
+        <text name="rhm_setting_clog_sens_title" text="Чутливість забивання" />
+        <text name="rhm_setting_clog_sens_desc" text="Регулює швидкість накопичення забивання під час тривалого перевантаження або складних умов." />
+        <text name="rhm_clog_sens_low" text="Низька (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Стандартна (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Висока (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Причини забивання" />
+        <text name="rhm_setting_clog_factors_desc" text="Визначає, чи забивання виникає лише від сильного перевантаження, чи також від вологості, бур'янів та налаштувань." />
+        <text name="rhm_clog_factors_overload" text="Тільки перевантаження" />
+        <text name="rhm_clog_factors_all" text="Всі фактори (Навант. + Волога і Бур'яни)" />
+        <text name="rhm_setting_clog_ai_title" text="Забивання для ШІ-наймитів" />
+        <text name="rhm_setting_clog_ai_desc" text="Авто-очистка заздалегідь сповільнює наймита і реверсує легкі забивання; Ручна зупиняє наймита; Вимкнено робить ШІ імунним." />
+        <text name="rhm_clog_ai_auto" text="Авто-очистка" />
+        <text name="rhm_clog_ai_manual" text="Ручна допомога" />
+        <text name="rhm_clog_ai_off" text="Вимкнено (ШІ не забивається)" />
+        <text name="rhm_setting_clog_pile_title" text="Скидання купи при реверсі" />
+        <text name="rhm_setting_clog_pile_desc" text="Висипає невелику купу соломи/маси перед жаткою після прочищення забивання." />
+        <text name="rhm_clog_warn_slip" text="Спрацювала запобіжна муфта! Повністю зупиніться і затисніть RShift+B для реверсу!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Молотарка забита! Повністю зупиніться і утримуйте RShift+B для прочистки!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Молотарка забита! Вийдіть з кабіни та прочистіть біля жатки (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Сильне забивання! Вийдіть з кабіни та прочистіть подачу вручну біля жатки!" />
+        <text name="rhm_clog_warn_stop_first" text="Повністю зупиніть комбайн перед увімкненням реверсу!" />
+        <text name="rhm_clog_cleared_msg" text="Забивання усунено!" />
+        <text name="rhm_clog_onfoot_prompt" text="Утримуйте RShift+C для прочистки" />
+        <text name="rhm_clog_cause_overload" text="Перевантаження" />
+        <text name="rhm_clog_cause_moisture" text="Висока вологість" />
+        <text name="rhm_clog_cause_weeds" text="Бур'яни" />
+        <text name="rhm_clog_cause_settings" text="Калібрування" />
+        <text name="rhm_clog_cause_surge" text="Ривок маси" />
+        <text name="rhm_hud_clog_slug" text="ПІДПОР" />
+        <text name="rhm_hud_clog_slip" text="МУФТА" />
+        <text name="rhm_hud_clog_jam" text="ЗАБИТО" />
+        <text name="rhm_hud_clog_clear" text="ЧИСТКА" />
+        <text name="rhm_ui_clog_risk" text="Ризик забивання" />
+        <text name="rhm_tut_clog_title" text="ЗАБИВАННЯ КОМБАЙНА" />
+        <text name="rhm_tut_clog_msg" text="Тривале перевантаження, волога маса чи бур'яни можуть призвести до пробуксовки муфти або повного клину. Зупиніться і утримуйте RShift+B для реверсу (у Реалістичному режимі повний клин чиститься пішки біля жатки через RShift+C)." />
     </texts>
 </l10n>

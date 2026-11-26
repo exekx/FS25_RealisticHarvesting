@@ -47,6 +47,7 @@ source(modDirectory .. "src/network/RHM_HarvestSyncInitialEvent.lua")
 source(modDirectory .. "src/network/RHM_HarvestUpdateStatsEvent.lua")
 source(modDirectory .. "src/network/RHM_HarvestResetTripEvent.lua")
 source(modDirectory .. "src/network/RHM_HarvestFarmSettingsEvent.lua")
+source(modDirectory .. "src/network/RHM_ClogActionEvent.lua")
 source(modDirectory .. "src/gui/frames/RHM_HarvestHistoryTrip.lua")
 source(modDirectory .. "src/gui/frames/RHM_HarvestHistoryFields.lua")
 source(modDirectory .. "src/gui/frames/RHM_HarvestHistoryAnalytics.lua")
@@ -61,6 +62,7 @@ end
 if RHM_ModCompatibility and RHM_ModCompatibility.init then
     RHM_ModCompatibility.init()
 end
+source(modDirectory .. "src/logic/RHM_CloggingSystem.lua")
 source(modDirectory .. "src/logic/RHM_LoadCalculator.lua")
 source(modDirectory .. "src/rhm_Combine.lua")
 -- EN: CRITICAL: rhm_Cutter must be loaded AFTER rhm_Combine for independent header launch to work.
@@ -128,7 +130,7 @@ end
 -- UA: Викликається після завершення завантаження місії.
 --     Ініціалізує коефіцієнти бушелів для конвертора одиниць (потрібен FruitType),
 --     а потім запускає процедуру після завантаження менеджера (налаштування HUD тощо).
-local function loadedMission(mission, node)
+local function loadedMission(mission)
     if not isEnabled() then
         return
     end
@@ -366,7 +368,7 @@ end
 
 -- EN: Hook initial client state transmission in multiplayer to sync farm data & settings to joining player
 -- UA: Передаємо повний стан ферм та налаштування гравцю, який приєднується до сесії мультиплеєра
-local function onSendInitialClientState(mission, connection, user, isReconnect)
+local function onSendInitialClientState(mission, connection)
     local manager = rhm or g_realisticHarvestManager
     local tracker = manager and manager.harvestTracker
     if mission and connection and tracker and (g_server ~= nil or (mission.missionDynamicInfo and mission.missionDynamicInfo.isMultiplayer)) then
@@ -391,7 +393,7 @@ FSBaseMission.sendInitialClientState = Utils.appendedFunction(FSBaseMission.send
 -- UA: Хук оновлення — виконується кожен кадр для оновлення даних HUD та стану GUI калібрування.
 --     Захищений від повторного виклику коли Mission00 викликає superClass().update.
 local isUpdating = false
-local function onMissionUpdate(mission, dt)
+local function onMissionUpdate(_, dt)
     if isUpdating then
         return
     end
@@ -418,7 +420,7 @@ end
 -- UA: Хук малювання — виконується кожен кадр для рендерингу HUD оверлеїв.
 --     ВАЖЛИВО: renderOverlay() працює ТІЛЬКИ в draw callbacks, не в update!
 local isDrawing = false
-local function onMissionDraw(mission)
+local function onMissionDraw()
     if isDrawing then
         return
     end

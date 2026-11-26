@@ -601,5 +601,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Avertissement : un mod externe a modifié des fonctions physiques internes de Realistic Harvesting en dehors de l'API officielle. Cela peut causer une charge moteur inexacte, un blocage du limiteur de vitesse ou de fausses pertes. Veuillez désactiver les modules complémentaires non officiels." />
         <text name="rhm_warn_conflicting_combine_mod" text="Avertissement : un autre mod de réalisme ou de contrôle de vitesse et de charge de moissonneuse-batteuse est activé en même temps que Realistic Harvesting. L'exécution simultanée de deux systèmes physiques de moissonneuse peut causer des conflits de limite de vitesse, de charge moteur et de pertes de récolte. Veuillez n'en garder qu'un seul activé dans cette sauvegarde." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM : Inverser le convoyeur / Débourrer (Maintenir)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM : Débourrer manuellement (À pied)" />
+        <text name="rhm_setting_clog_mode_title" text="Bourrage de la batteuse" />
+        <text name="rhm_setting_clog_mode_desc" text="Simule le bourrage par surcharge, humidité ou mauvaises herbes. Inversion : en cabine ; Réaliste : à pied pour blocage complet." />
+        <text name="rhm_clog_mode_off" text="Désactivé" />
+        <text name="rhm_clog_mode_reverse" text="Inversion uniquement" />
+        <text name="rhm_clog_mode_realistic" text="Réaliste (Inversion + À pied)" />
+        <text name="rhm_setting_clog_sens_title" text="Sensibilité au bourrage" />
+        <text name="rhm_setting_clog_sens_desc" text="Ajuste la rapidité du bourrage lors de surcharges ou de conditions difficiles." />
+        <text name="rhm_clog_sens_low" text="Faible (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standard (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Élevée (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Facteurs de bourrage" />
+        <text name="rhm_setting_clog_factors_desc" text="Détermine si le bourrage dépend uniquement de la surcharge ou aussi de l'humidité, des mauvaises herbes et des réglages." />
+        <text name="rhm_clog_factors_overload" text="Surcharge uniquement" />
+        <text name="rhm_clog_factors_all" text="Tous (Charge + Humidité &amp; Herbes)" />
+        <text name="rhm_setting_clog_ai_title" text="Bourrage des ouvriers IA" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Récupération ralentit l'IA et inverse brièvement ; Manuel arrête l'ouvrier ; Désactivé immunise l'IA." />
+        <text name="rhm_clog_ai_auto" text="Auto-Récupération" />
+        <text name="rhm_clog_ai_manual" text="Assistance manuelle" />
+        <text name="rhm_clog_ai_off" text="Désactivé (IA immunisée)" />
+        <text name="rhm_setting_clog_pile_title" text="Déposer un tas au débourrage" />
+        <text name="rhm_setting_clog_pile_desc" text="Dépose un petit tas devant la table de coupe après le débourrage." />
+        <text name="rhm_clog_warn_slip" text="Embrayage à friction actif ! Arrêtez-vous et maintenez RShift+B pour inverser !" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Convoyeur bloqué ! Arrêtez-vous et maintenez RShift+B pour débourrer !" />
+        <text name="rhm_clog_warn_blocked_foot" text="Convoyeur bloqué ! Descendez et débourrez devant la coupe (RShift+C) !" />
+        <text name="rhm_clog_warn_need_onfoot" text="Blocage complet ! Sortez et débourrez manuellement devant la table !" />
+        <text name="rhm_clog_warn_stop_first" text="Arrêtez la machine complètement avant d'inverser !" />
+        <text name="rhm_clog_cleared_msg" text="Bourrage dégagé !" />
+        <text name="rhm_clog_onfoot_prompt" text="Maintenir RShift+C pour débourrer" />
+        <text name="rhm_clog_cause_overload" text="Surcharge" />
+        <text name="rhm_clog_cause_moisture" text="Humidité élevée" />
+        <text name="rhm_clog_cause_weeds" text="Mauvaises herbes" />
+        <text name="rhm_clog_cause_settings" text="Calibration" />
+        <text name="rhm_clog_cause_surge" text="Afflux soudain" />
+        <text name="rhm_hud_clog_slug" text="ENGORG" />
+        <text name="rhm_hud_clog_slip" text="PATIN" />
+        <text name="rhm_hud_clog_jam" text="BLOQUÉ" />
+        <text name="rhm_hud_clog_clear" text="DÉGAG" />
+        <text name="rhm_ui_clog_risk" text="Risque bourrage" />
+        <text name="rhm_tut_clog_title" text="BOURRAGE CONVOYEUR" />
+        <text name="rhm_tut_clog_msg" text="Une surcharge prolongée ou une récolte humide peut bloquer le convoyeur. Arrêtez et maintenez RShift+B pour inverser (en mode Réaliste, sortez débourrer à pied avec RShift+C)." />
     </texts>
 </l10n>

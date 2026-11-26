@@ -14,6 +14,7 @@
 local HUD_BG_COLOR = HUD.COLOR.BACKGROUND
 local DOCK_INNER_BG = {0.04, 0.08, 0.02, 0.60}
 local SNAP_OUTER_COLOR = {0.0, 0.0, 0.0, 0.88}
+local SNAP_GREEN_FALLBACK = {0.61, 0.85, 0.15, 1.0}
 
 local function renderPanelSlice(overlay, sx, sy, sw, sh, uvs)
     if sw <= 0 or sh <= 0 or not uvs then return end
@@ -763,6 +764,10 @@ function RHMDraggableHUD:setVehicle(vehicle)
             end
             self.data.speed            = vSpeed
             self.data.weedRatio        = (vData and vData.weedRatio) or 0
+            self.data.clogLevel        = (vData and vData.clogLevel) or 0
+            self.data.clogState        = (vData and vData.clogState) or 0
+            self.data.clogCause        = (vData and vData.clogCause) or 0
+            self.data.isClogReversing  = (vData and vData.isClogReversing == true) and 1 or 0
 
             for k, v in pairs(self.data) do
                 self.displayData[k] = v
@@ -807,6 +812,10 @@ function RHMDraggableHUD:update(dt)
     end
     self.data.speed            = vSpeed
     self.data.weedRatio        = spec.data.weedRatio or 0
+    self.data.clogLevel        = spec.data.clogLevel or 0
+    self.data.clogState        = spec.data.clogState or 0
+    self.data.clogCause        = spec.data.clogCause or 0
+    self.data.isClogReversing  = (spec.data.isClogReversing == true) and 1 or 0
 
     if not self.displayData then
         self.displayData = {}
@@ -845,6 +854,10 @@ function RHMDraggableHUD:update(dt)
     self.displayData.hectaresPerHour = smoothField(self.displayData.hectaresPerHour, self.data.hectaresPerHour, 0.70, 0.15)
     self.displayData.yield           = smoothField(self.displayData.yield, self.data.yield, 0.70, 0.25)
     self.displayData.weedRatio       = smoothField(self.displayData.weedRatio, self.data.weedRatio, 0.60, 0.20)
+    self.displayData.clogLevel       = self.data.clogLevel
+    self.displayData.clogState       = self.data.clogState
+    self.displayData.clogCause       = self.data.clogCause
+    self.displayData.isClogReversing = self.data.isClogReversing
     
     -- EN: Moisture should not decay to 0 simply because combine stopped at headland or paused.
     -- UA: Вологість не повинна зникати до 0 тільки через те, що комбайн зупинився або очікує.
@@ -937,7 +950,7 @@ function RHMDraggableHUD:drawDockSnapPlaceholder(dockX, dockY, dockW, dockH)
     local slotW = dockW + (padX * 2)
     local slotH = (dockH or self.height) + (padY * 2)
 
-    local greenBase = (RHM_UIColors and RHM_UIColors.GREEN) or {0.61, 0.85, 0.15, 1.0}
+    local greenBase = (RHM_UIColors and RHM_UIColors.GREEN) or SNAP_GREEN_FALLBACK
     local pulse = 0.85 + 0.15 * math.sin((g_time or 0) * 0.008)
     local r = greenBase[1] * pulse
     local g = greenBase[2] * pulse
@@ -1490,6 +1503,38 @@ function RHMDraggableHUD:buildActiveCells()
     else
         local loadVal = d.load or 0
         local loadColor, indColor = self:getLoadColors(loadVal)
+        local cState = d.clogState or 0
+        local cLevel = d.clogLevel or 0
+        local isClogRev = (d.isClogReversing or 0) > 0
+        local clogBadge = nil
+        local clogBadgeColor = nil
+        local clogSubStr = nil
+
+        if isClogRev and cLevel > 0 then
+            clogBadge = string.format("REV %.0f%%", cLevel)
+            clogBadgeColor = {0.98, 0.80, 0.20, 1.0}
+            clogSubStr = clogBadge
+        elseif cState == 3 then
+            clogBadge = rhm_getText("rhm_hud_clog_jam", "CLOG")
+            clogBadgeColor = {0.96, 0.24, 0.24, 1.0}
+            loadColor = clogBadgeColor
+            indColor = clogBadgeColor
+            clogSubStr = clogBadge
+        elseif cState == 2 then
+            local blinkOn = ((math.floor((g_time or 0) / 350)) % 2) == 0
+            local slipTxt = rhm_getText("rhm_hud_clog_slip", "SLIP")
+            clogBadge = string.format("%s %.0f%%", slipTxt, cLevel)
+            clogBadgeColor = blinkOn and {0.98, 0.35, 0.20, 1.0} or {0.98, 0.75, 0.18, 1.0}
+            loadColor = clogBadgeColor
+            indColor = clogBadgeColor
+            clogSubStr = clogBadge
+        elseif (cState == 1 or cLevel >= 15) and packageLevel >= 2 then
+            local slugTxt = rhm_getText("rhm_hud_clog_slug", "SLUG")
+            clogBadge = string.format("%s %.0f%%", slugTxt, cLevel)
+            clogBadgeColor = {0.98, 0.72, 0.18, 1.0}
+            clogSubStr = clogBadge
+        end
+
         local mode1 = self.displayModes.cell1 or "load"
         if mode1 == "loadHp" then
             local calc = self.vehicle and self.vehicle.spec_rhm_Combine and self.vehicle.spec_rhm_Combine.loadCalculator
@@ -1501,10 +1546,12 @@ function RHMDraggableHUD:buildActiveCells()
                 table.insert(cells, {
                     iconName = "load",
                     headerStr = rhm_getText("rhm_hud_hdr_power", "POWER"),
+                    headerBadge = clogBadge,
+                    headerBadgeColor = clogBadgeColor,
                     numStr = string.format("%.0f", curHp),
                     unitStr = locHp,
-                    subStr = string.format("/ %.0f max", effHp),
-                    subColor = grayCol,
+                    subStr = clogSubStr or string.format("/ %.0f max", effHp),
+                    subColor = clogBadgeColor or grayCol,
                     color = loadColor,
                     indicatorColor = indColor
                 })
@@ -1512,8 +1559,12 @@ function RHMDraggableHUD:buildActiveCells()
                 table.insert(cells, {
                     iconName = "load",
                     headerStr = rhm_getText("rhm_hud_hdr_load", "LOAD"),
+                    headerBadge = clogBadge,
+                    headerBadgeColor = clogBadgeColor,
                     numStr = string.format("%.0f%%", loadVal),
                     unitStr = "",
+                    subStr = clogSubStr,
+                    subColor = clogBadgeColor,
                     color = loadColor,
                     indicatorColor = indColor
                 })
@@ -1522,8 +1573,12 @@ function RHMDraggableHUD:buildActiveCells()
             table.insert(cells, {
                 iconName = "load",
                 headerStr = rhm_getText("rhm_hud_hdr_load", "LOAD"),
+                headerBadge = clogBadge,
+                headerBadgeColor = clogBadgeColor,
                 numStr = string.format("%.0f%%", loadVal),
                 unitStr = "",
+                subStr = clogSubStr,
+                subColor = clogBadgeColor,
                 color = loadColor,
                 indicatorColor = indColor
             })
@@ -2377,22 +2432,13 @@ function RHMDraggableHUD:mouseEvent(posX, posY, isDown, isUp, button)
 end
 
 function RHMDraggableHUD:delete()
+    if self.roundedOverlay then
+        self.roundedOverlay:delete()
+        self.roundedOverlay = nil
+    end
     if self.rectOverlay then
         self.rectOverlay:delete()
         self.rectOverlay = nil
-    end
-
-    if self.bgTopOverlay then
-        self.bgTopOverlay:delete()
-        self.bgTopOverlay = nil
-    end
-    if self.bgMidOverlay then
-        self.bgMidOverlay:delete()
-        self.bgMidOverlay = nil
-    end
-    if self.bgBotOverlay then
-        self.bgBotOverlay:delete()
-        self.bgBotOverlay = nil
     end
 
     for _, icon in pairs(self.icons) do

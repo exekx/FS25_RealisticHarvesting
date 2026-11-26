@@ -597,5 +597,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Avertisment: un mod extern a modificat funcțiile interne de fizică ale Realistic Harvesting în afara API-ului oficial. Acest lucru poate cauza sarcină incorectă a motorului, blocarea limitatorului de viteză sau pierderi eronate. Dezactivați extensiile neoficiale." />
         <text name="rhm_warn_conflicting_combine_mod" text="Avertisment: un alt mod de realism sau de control al vitezei și sarcinii combinelor este activ împreună cu Realistic Harvesting. Rularea simultană a două sisteme de fizică pentru combine poate provoca conflicte privind limita de viteză, sarcina motorului și pierderile de recoltă. Te rugăm să lași activat doar unul în această salvare." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Inversare transportor / Desfundare (Menține)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Desfundare manuală (Pe jos)" />
+        <text name="rhm_setting_clog_mode_title" text="Înfundare combină" />
+        <text name="rhm_setting_clog_mode_desc" text="Simulează înfundarea din suprasarcină, umiditate sau buruieni. Doar inversare: din cabină; Realist: curățare pe jos." />
+        <text name="rhm_clog_mode_off" text="Oprit" />
+        <text name="rhm_clog_mode_reverse" text="Doar inversare" />
+        <text name="rhm_clog_mode_realistic" text="Realist (Inversare + Pe jos)" />
+        <text name="rhm_setting_clog_sens_title" text="Sensibilitate înfundare" />
+        <text name="rhm_setting_clog_sens_desc" text="Reglează cât de repede se acumulează blocajul la suprasarcină." />
+        <text name="rhm_clog_sens_low" text="Scăzută (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standard (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Ridicată (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Cauze înfundare" />
+        <text name="rhm_setting_clog_factors_desc" text="Alege dacă doar suprasarcina extremă sau și umiditatea, buruienile și reglajul greșit provoacă blocaje." />
+        <text name="rhm_clog_factors_overload" text="Doar suprasarcină" />
+        <text name="rhm_clog_factors_all" text="Toate (Sarcină + Umiditate și Buruieni)" />
+        <text name="rhm_setting_clog_ai_title" text="Înfundare lucrători IA" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Recuperare încetinește și inversează scurt IA; Manual oprește IA; Oprit face IA imună." />
+        <text name="rhm_clog_ai_auto" text="Auto-Recuperare" />
+        <text name="rhm_clog_ai_manual" text="Asistență manuală" />
+        <text name="rhm_clog_ai_off" text="Oprit (IA imună)" />
+        <text name="rhm_setting_clog_pile_title" text="Descarcă grămadă la curățare" />
+        <text name="rhm_setting_clog_pile_desc" text="Lasă o mică grămadă în fața hederului după desfundare." />
+        <text name="rhm_clog_warn_slip" text="Ambreiaj de siguranță activ! Oprește și ține RShift+B!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Transportor blocat! Oprește complet și ține RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Transportor blocat! Coboară și curăță la heder (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Blocaj sever! Ieși din cabină și curăță manual la heder!" />
+        <text name="rhm_clog_warn_stop_first" text="Oprește combina complet înainte de inversare!" />
+        <text name="rhm_clog_cleared_msg" text="Blocaj curățat!" />
+        <text name="rhm_clog_onfoot_prompt" text="Ține apăsat RShift+C pentru curățare" />
+        <text name="rhm_clog_cause_overload" text="Suprasarcină" />
+        <text name="rhm_clog_cause_moisture" text="Umiditate mare" />
+        <text name="rhm_clog_cause_weeds" text="Buruieni" />
+        <text name="rhm_clog_cause_settings" text="Calibrare" />
+        <text name="rhm_clog_cause_surge" text="Val de masă" />
+        <text name="rhm_hud_clog_slug" text="AGLOM" />
+        <text name="rhm_hud_clog_slip" text="PATIN" />
+        <text name="rhm_hud_clog_jam" text="BLOC" />
+        <text name="rhm_hud_clog_clear" text="CURĂȚ" />
+        <text name="rhm_ui_clog_risk" text="Risc blocaj" />
+        <text name="rhm_tut_clog_title" text="ÎNFUNDARE COMBINĂ" />
+        <text name="rhm_tut_clog_msg" text="Suprasarcina prelungită sau cultura umedă cu buruieni pot declanșa ambreiajul sau bloca batoza. Oprește și ține RShift+B (în modul Realist, curăță pe jos cu RShift+C)." />
     </texts>
 </l10n>

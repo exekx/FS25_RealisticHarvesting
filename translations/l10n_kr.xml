@@ -595,5 +595,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="경고: 외부 모드가 공식 API를 거치지 않고 Realistic Harvesting의 내부 물리 함수를 수정했습니다. 이로 인해 엔진 부하 오류, 속도 제한 고정 또는 잘못된 곡물 손실이 발생할 수 있습니다. 비공식 애드온을 비활성화해 주세요." />
         <text name="rhm_warn_conflicting_combine_mod" text="경고: Realistic Harvesting과 함께 다른 콤바인 리얼리즘 또는 속도/부하 제어 모드가 로드되었습니다. 두 개의 콤바인 물리 제어기가 동시에 작동하면 속도 제한, 엔진 부하 및 수확 손실 충돌이 발생할 수 있습니다. 이 저장 게임에서는 하나만 활성화해 두세요." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: 피더 역회전 / 막힘 제거 (길게 누름)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: 막힘 수동 제거 (도보)" />
+        <text name="rhm_setting_clog_mode_title" text="콤바인 막힘" />
+        <text name="rhm_setting_clog_mode_desc" text="과부하, 수분, 잡초로 인한 투입부 막힘을 구현합니다. 역회전 전용: 운전석 해결; 현실적: 완전 막힘 시 하차 청소." />
+        <text name="rhm_clog_mode_off" text="끄기" />
+        <text name="rhm_clog_mode_reverse" text="역회전 전용" />
+        <text name="rhm_clog_mode_realistic" text="현실적 (역회전 + 도보)" />
+        <text name="rhm_setting_clog_sens_title" text="막힘 민감도" />
+        <text name="rhm_setting_clog_sens_desc" text="과부하나 악조건에서 막힘이 누적되는 속도를 조절합니다." />
+        <text name="rhm_clog_sens_low" text="낮음 (0.6x)" />
+        <text name="rhm_clog_sens_std" text="표준 (1.0x)" />
+        <text name="rhm_clog_sens_high" text="높음 (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="막힘 원인" />
+        <text name="rhm_setting_clog_factors_desc" text="심각한 과부하만 적용할지 수분, 잡초, 설정 오차를 포함할지 선택합니다." />
+        <text name="rhm_clog_factors_overload" text="과부하만" />
+        <text name="rhm_clog_factors_all" text="전체 (부하 + 수분 및 잡초)" />
+        <text name="rhm_setting_clog_ai_title" text="AI 작업자 막힘" />
+        <text name="rhm_setting_clog_ai_desc" text="자동 복구는 감속 후 역회전 해결; 수동 지원은 AI 정지; 끄기는 AI 면제." />
+        <text name="rhm_clog_ai_auto" text="자동 복구" />
+        <text name="rhm_clog_ai_manual" text="수동 지원" />
+        <text name="rhm_clog_ai_off" text="끄기 (AI 면제)" />
+        <text name="rhm_setting_clog_pile_title" text="제거 시 더미 배출" />
+        <text name="rhm_setting_clog_pile_desc" text="막힘을 뚫을 때 헤더 앞에 작은 짚/작물 더미를 배출합니다." />
+        <text name="rhm_clog_warn_slip" text="슬립 클러치 작동! 정차 후 RShift+B를 길게 눌러 역회전하세요!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="피더가 막혔습니다! 완전히 정차 후 RShift+B를 누르세요!" />
+        <text name="rhm_clog_warn_blocked_foot" text="피더가 막혔습니다! 하차 후 헤더 근처에서 RShift+C를 누르세요!" />
+        <text name="rhm_clog_warn_need_onfoot" text="심각한 막힘! 운전석에서 내려 헤더 앞에서 수동으로 제거하세요!" />
+        <text name="rhm_clog_warn_stop_first" text="역회전하기 전에 콤바인을 완전히 정차하세요!" />
+        <text name="rhm_clog_cleared_msg" text="막힘이 해결되었습니다!" />
+        <text name="rhm_clog_onfoot_prompt" text="RShift+C를 길게 눌러 막힘 제거" />
+        <text name="rhm_clog_cause_overload" text="과부하" />
+        <text name="rhm_clog_cause_moisture" text="고수분" />
+        <text name="rhm_clog_cause_weeds" text="잡초 과다" />
+        <text name="rhm_clog_cause_settings" text="설정 불량" />
+        <text name="rhm_clog_cause_surge" text="투입 급증" />
+        <text name="rhm_hud_clog_slug" text="정체" />
+        <text name="rhm_hud_clog_slip" text="슬립" />
+        <text name="rhm_hud_clog_jam" text="막힘" />
+        <text name="rhm_hud_clog_clear" text="제거" />
+        <text name="rhm_ui_clog_risk" text="막힘 위험" />
+        <text name="rhm_tut_clog_title" text="투입부 막힘" />
+        <text name="rhm_tut_clog_msg" text="지속적인 과부하나 젖고 잡초가 많은 작물은 클러치를 미끄러지게 하거나 탈곡통을 막습니다. 정차 후 RShift+B를 누르세요 (현실적 모드에서는 하차 후 RShift+C로 제거)." />
     </texts>
 </l10n>

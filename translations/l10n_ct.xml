@@ -595,5 +595,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="警告：外部模組在官方 API 之外修改了 Realistic Harvesting 的內部物理函式。這可能會導致引擎負載異常、限速卡死或錯誤的穀物損失。請停用修改本模組內部邏輯的非官方第三方擴充功能。" />
         <text name="rhm_warn_conflicting_combine_mod" text="警告：與 Realistic Harvesting 同時載入了另一個聯合收割機擬真或速度與負載控制模組。同時執行兩套收割機物理控制系統可能會導致限速、引擎負載與穀物損失計算衝突。請在此存檔中僅啟用其中之一。" />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: 餵入器反轉清堵 (按住)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: 徒步手動清堵" />
+        <text name="rhm_setting_clog_mode_title" text="收割機堵塞模擬" />
+        <text name="rhm_setting_clog_mode_desc" text="模擬超載、高濕或雜草引起的餵入及滾筒堵塞。僅反轉：駕駛室內解決；真實模式：重度卡死需下車清理。" />
+        <text name="rhm_clog_mode_off" text="關閉" />
+        <text name="rhm_clog_mode_reverse" text="僅反轉清堵" />
+        <text name="rhm_clog_mode_realistic" text="真實 (反轉 + 下車)" />
+        <text name="rhm_setting_clog_sens_title" text="堵塞敏感度" />
+        <text name="rhm_setting_clog_sens_desc" text="調節過載或惡劣條件下堵塞累積的速度。" />
+        <text name="rhm_clog_sens_low" text="低 (0.6x)" />
+        <text name="rhm_clog_sens_std" text="標準 (1.0x)" />
+        <text name="rhm_clog_sens_high" text="高 (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="堵塞觸發因素" />
+        <text name="rhm_setting_clog_factors_desc" text="選擇僅由嚴重超載觸發，或同時計入水分、雜草和不良校準。" />
+        <text name="rhm_clog_factors_overload" text="僅超載" />
+        <text name="rhm_clog_factors_all" text="全部 (負荷 + 水分與雜草)" />
+        <text name="rhm_setting_clog_ai_title" text="AI助手堵塞處理" />
+        <text name="rhm_setting_clog_ai_desc" text="自動恢復會提前減速並自動反轉清堵；手動輔助會停止AI並呼叫玩家；關閉則AI免疫。" />
+        <text name="rhm_clog_ai_auto" text="自動恢復" />
+        <text name="rhm_clog_ai_manual" text="手動協助" />
+        <text name="rhm_clog_ai_off" text="關閉 (AI免疫)" />
+        <text name="rhm_setting_clog_pile_title" text="清堵掉落秸稈堆" />
+        <text name="rhm_setting_clog_pile_desc" text="清理堵塞時在割台前方掉落一小堆秸稈或青貯料。" />
+        <text name="rhm_clog_warn_slip" text="安全離合器打滑！請完全停車並按住 RShift+B 反轉清堵！" />
+        <text name="rhm_clog_warn_blocked_reverse" text="餵入器卡死！請停車並按住 RShift+B 反轉！" />
+        <text name="rhm_clog_warn_blocked_foot" text="滾筒徹底卡死！請下車靠近割台按住 RShift+C 清理！" />
+        <text name="rhm_clog_warn_need_onfoot" text="嚴重堵塞！請離開駕駛室並在割台旁手動清理！" />
+        <text name="rhm_clog_warn_stop_first" text="請先完全停穩收割機再反轉餵入器！" />
+        <text name="rhm_clog_cleared_msg" text="堵塞已清除！" />
+        <text name="rhm_clog_onfoot_prompt" text="按住 RShift+C 清理堵塞" />
+        <text name="rhm_clog_cause_overload" text="超載" />
+        <text name="rhm_clog_cause_moisture" text="高水分" />
+        <text name="rhm_clog_cause_weeds" text="多雜草" />
+        <text name="rhm_clog_cause_settings" text="參數不良" />
+        <text name="rhm_clog_cause_surge" text="物料衝擊" />
+        <text name="rhm_hud_clog_slug" text="擁堵" />
+        <text name="rhm_hud_clog_slip" text="打滑" />
+        <text name="rhm_hud_clog_jam" text="卡死" />
+        <text name="rhm_hud_clog_clear" text="清堵" />
+        <text name="rhm_ui_clog_risk" text="堵塞風險" />
+        <text name="rhm_tut_clog_title" text="餵入堵塞保護" />
+        <text name="rhm_tut_clog_msg" text="持續超載或高濕多草作物會導致安全離合打滑或滾筒卡死。請停車按住 RShift+B 反轉清理（真實模式下徹底卡死需下車按 RShift+C）。" />
     </texts>
 </l10n>

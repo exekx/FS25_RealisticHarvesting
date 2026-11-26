@@ -7,7 +7,16 @@ local SettingsSyncEvent_mt = Class(RHM_SettingsSyncEvent, Event)
 
 InitEventClass(RHM_SettingsSyncEvent, "RHM_SettingsSyncEvent")
 
-local integerSettings = { difficultyMotor = true, difficultyLoss = true, aiHelperTuning = true, autoResetTripMode = true }
+local integerSettings = {
+    difficultyMotor = 3,
+    difficultyLoss = 3,
+    aiHelperTuning = 3,
+    autoResetTripMode = 3,
+    cloggingMode = 3,
+    clogSensitivity = 3,
+    clogFactors = 2,
+    aiCloggingMode = 3
+}
 
 local function isServerSetting(name)
     for _, key in ipairs(RHMSettingsManager.SERVER_SETTINGS) do
@@ -71,7 +80,8 @@ function RHM_SettingsSyncEvent:run(connection)
         for _, key in ipairs(RHMSettingsManager.SERVER_SETTINGS) do
             if (name == "" or name == key) and integerSettings[key] then
                 local value = self[key]
-                if type(value) ~= "number" or value < 1 or value > 3 or value % 1 ~= 0 then return end
+                local maxVal = integerSettings[key]
+                if type(value) ~= "number" or value < 1 or value > maxVal or value % 1 ~= 0 then return end
             end
         end
     elseif not connection or not connection:getIsServer() then

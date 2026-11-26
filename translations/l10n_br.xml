@@ -597,5 +597,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Aviso: um mod externo modificou funções internas de física do Realistic Harvesting fora da API oficial. Isso pode causar carga do motor incorreta, travamento no limitador de velocidade ou perdas erradas. Desative complementos não oficiais de terceiros." />
         <text name="rhm_warn_conflicting_combine_mod" text="Aviso: outro mod de realismo ou controle de velocidade e carga de colheitadeiras está carregado junto com o Realistic Harvesting. Executar dois controladores de física de colheitadeira ao mesmo tempo pode causar conflitos no limite de velocidade, na carga do motor e nas perdas de colheita. Por favor, mantenha apenas um ativado neste jogo salvo." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Reverter alimentador / Desentupir (Segurar)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Limpar embuchamento manualmente (A pé)" />
+        <text name="rhm_setting_clog_mode_title" text="Embuchamento da colheitadeira" />
+        <text name="rhm_setting_clog_mode_desc" text="Simula embuchamento por sobrecarga, umidade ou ervas daninhas. Só reverso: na cabine; Realista: descer em travamento total." />
+        <text name="rhm_clog_mode_off" text="Desativado" />
+        <text name="rhm_clog_mode_reverse" text="Somente reverso" />
+        <text name="rhm_clog_mode_realistic" text="Realista (Reverso + A pé)" />
+        <text name="rhm_setting_clog_sens_title" text="Sensibilidade do embuchamento" />
+        <text name="rhm_setting_clog_sens_desc" text="Ajusta a velocidade com que o alimentador embucha sob sobrecarga ou lavoura difícil." />
+        <text name="rhm_clog_sens_low" text="Baixa (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Padrão (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Alta (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Causas do embuchamento" />
+        <text name="rhm_setting_clog_factors_desc" text="Define se embucha apenas por sobrecarga extrema ou também por umidade, mato e regulagem ruim." />
+        <text name="rhm_clog_factors_overload" text="Somente sobrecarga" />
+        <text name="rhm_clog_factors_all" text="Todos (Carga + Umidade e Mato)" />
+        <text name="rhm_setting_clog_ai_title" text="Embuchamento de trabalhadores IA" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Recuperação desacelera e reverte a IA; Manual para a IA; Desativado deixa a IA imune." />
+        <text name="rhm_clog_ai_auto" text="Auto-Recuperação" />
+        <text name="rhm_clog_ai_manual" text="Assistência manual" />
+        <text name="rhm_clog_ai_off" text="Desativado (IA imune)" />
+        <text name="rhm_setting_clog_pile_title" text="Despejar monte ao limpar" />
+        <text name="rhm_setting_clog_pile_desc" text="Solta um pequeno monte na frente da plataforma após limpar o alimentador." />
+        <text name="rhm_clog_warn_slip" text="Embreagem de segurança ativa! Pare e segure RShift+B para reverter!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Alimentador travado! Pare totalmente e segure RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Alimentador travado! Desça da cabine e limpe na plataforma (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Embuchamento pesado! Saia da cabine e desentupa manualmente na plataforma!" />
+        <text name="rhm_clog_warn_stop_first" text="Pare totalmente a colheitadeira antes de reverter!" />
+        <text name="rhm_clog_cleared_msg" text="Embuchamento limpo!" />
+        <text name="rhm_clog_onfoot_prompt" text="Segure RShift+C para limpar" />
+        <text name="rhm_clog_cause_overload" text="Sobrecarga" />
+        <text name="rhm_clog_cause_moisture" text="Umidade alta" />
+        <text name="rhm_clog_cause_weeds" text="Muito mato" />
+        <text name="rhm_clog_cause_settings" text="Regulagem" />
+        <text name="rhm_clog_cause_surge" text="Pico de massa" />
+        <text name="rhm_hud_clog_slug" text="BUCHO" />
+        <text name="rhm_hud_clog_slip" text="PATIN" />
+        <text name="rhm_hud_clog_jam" text="TRAV" />
+        <text name="rhm_hud_clog_clear" text="LIMPAR" />
+        <text name="rhm_ui_clog_risk" text="Risco embuch." />
+        <text name="rhm_tut_clog_title" text="EMBUCHAMENTO" />
+        <text name="rhm_tut_clog_msg" text="Sobrecarga prolongada ou lavoura úmida e com mato podem patinar a embreagem ou travar o rotor. Pare e segure RShift+B (no modo Realista, limpe a pé perto da barra com RShift+C)." />
     </texts>
 </l10n>

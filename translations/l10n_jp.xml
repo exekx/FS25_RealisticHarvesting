@@ -595,5 +595,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="警告：外部MODが公式APIを介さずにRealistic Harvestingの内部物理関数を変更しています。これによりエンジン負荷の異常、速度制限の固着、誤った穀物損失が発生する可能性があります。非公式のサードパーティ製アドオンを無効にしてください。" />
         <text name="rhm_warn_conflicting_combine_mod" text="警告：Realistic Harvesting と同時に別のコンバイン物理または速度・負荷制御モッドが読み込まれています。2つのコンバイン物理制御を同時に動作させると、速度制限、エンジン負荷、および収穫ロスの競合が発生する可能性があります。このセーブデータではどちらか一方のみを有効にしてください。" />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: フィーダー逆転 / 詰まり解除 (長押し)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: 手動で詰まりを除去 (徒歩)" />
+        <text name="rhm_setting_clog_mode_title" text="コンバイン詰まり" />
+        <text name="rhm_setting_clog_mode_desc" text="過負荷・水分・雑草による詰まりを再現。逆転のみ：運転席から解除；リアル：重度の詰まりは降車して清掃。" />
+        <text name="rhm_clog_mode_off" text="オフ" />
+        <text name="rhm_clog_mode_reverse" text="逆転のみ" />
+        <text name="rhm_clog_mode_realistic" text="リアル (逆転 + 徒歩)" />
+        <text name="rhm_setting_clog_sens_title" text="詰まり感度" />
+        <text name="rhm_setting_clog_sens_desc" text="過負荷や悪条件での詰まりの進行速度を調整します。" />
+        <text name="rhm_clog_sens_low" text="低 (0.6x)" />
+        <text name="rhm_clog_sens_std" text="標準 (1.0x)" />
+        <text name="rhm_clog_sens_high" text="高 (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="詰まりの要因" />
+        <text name="rhm_setting_clog_factors_desc" text="極端な過負荷のみか、水分・雑草・設定ミスも含めるか選択します。" />
+        <text name="rhm_clog_factors_overload" text="過負荷のみ" />
+        <text name="rhm_clog_factors_all" text="すべて (負荷 + 水分・雑草)" />
+        <text name="rhm_setting_clog_ai_title" text="AI作業員の詰まり" />
+        <text name="rhm_setting_clog_ai_desc" text="自動回復は事前に減速・逆転します；手動補助は停止して通知；オフはAI無効。" />
+        <text name="rhm_clog_ai_auto" text="自動回復" />
+        <text name="rhm_clog_ai_manual" text="手動補助" />
+        <text name="rhm_clog_ai_off" text="オフ (AI無効)" />
+        <text name="rhm_setting_clog_pile_title" text="解除時に山を排出" />
+        <text name="rhm_setting_clog_pile_desc" text="詰まり解除時にヘッダー前へ少量の藁/飼料を排出します。" />
+        <text name="rhm_clog_warn_slip" text="スリップクラッチ作動！停止して RShift+B を長押ししてください！" />
+        <text name="rhm_clog_warn_blocked_reverse" text="フィーダー詰まり！停止して RShift+B を長押し！" />
+        <text name="rhm_clog_warn_blocked_foot" text="脱穀部詰まり！降車してヘッダー付近で RShift+C を長押し！" />
+        <text name="rhm_clog_warn_need_onfoot" text="重度の詰まり！運転席から降りてヘッダー前で手動除去してください！" />
+        <text name="rhm_clog_warn_stop_first" text="逆転する前に完全に停車してください！" />
+        <text name="rhm_clog_cleared_msg" text="詰まりを解消しました！" />
+        <text name="rhm_clog_onfoot_prompt" text="RShift+C 長押しで詰まり除去" />
+        <text name="rhm_clog_cause_overload" text="過負荷" />
+        <text name="rhm_clog_cause_moisture" text="高水分" />
+        <text name="rhm_clog_cause_weeds" text="雑草過多" />
+        <text name="rhm_clog_cause_settings" text="設定不良" />
+        <text name="rhm_clog_cause_surge" text="急激な流量" />
+        <text name="rhm_hud_clog_slug" text="過密" />
+        <text name="rhm_hud_clog_slip" text="SLIP" />
+        <text name="rhm_hud_clog_jam" text="詰り" />
+        <text name="rhm_hud_clog_clear" text="除去" />
+        <text name="rhm_ui_clog_risk" text="詰まりリスク" />
+        <text name="rhm_tut_clog_title" text="フィーダー詰まり" />
+        <text name="rhm_tut_clog_msg" text="長時間の過負荷や湿った雑草の多い作物ではクラッチが滑ったり脱穀部が詰まります。停車して RShift+B を長押ししてください（リアルでは RShift+C で降車除去）。" />
     </texts>
 </l10n>

@@ -595,5 +595,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Cảnh báo: một mod bên ngoài đã sửa đổi các hàm vật lý nội bộ của Realistic Harvesting ngoài API chính thức. Điều này có thể gây tải động cơ sai lệch, kẹt giới hạn tốc độ hoặc sai số hao hụt nông sản. Vui lòng tắt các tiện ích bổ sung không chính thức." />
         <text name="rhm_warn_conflicting_combine_mod" text="Cảnh báo: Một mod khác về cơ chế thực tế hoặc điều khiển tốc độ và tải của máy gặt đang chạy cùng lúc với Realistic Harvesting. Việc kích hoạt hai hệ thống vật lý máy gặt đồng thời có thể gây xung đột giới hạn tốc độ, tải động cơ và tỷ lệ thất thoát nông sản. Vui lòng chỉ giữ một mod được bật trong bản lưu này." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Đảo chiều băng tải / Thông nghẽn (Giữ)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Thông nghẽn thủ công (Đi bộ)" />
+        <text name="rhm_setting_clog_mode_title" text="Nghẽn máy gặt" />
+        <text name="rhm_setting_clog_mode_desc" text="Mô phỏng nghẽn do quá tải, độ ẩm hoặc cỏ dại. Chỉ đảo chiều: trên cabin; Thực tế: xuống xe thông khi kẹt cứng." />
+        <text name="rhm_clog_mode_off" text="Tắt" />
+        <text name="rhm_clog_mode_reverse" text="Chỉ đảo chiều" />
+        <text name="rhm_clog_mode_realistic" text="Thực tế (Đảo chiều + Đi bộ)" />
+        <text name="rhm_setting_clog_sens_title" text="Độ nhạy nghẽn" />
+        <text name="rhm_setting_clog_sens_desc" text="Điều chỉnh tốc độ tích tụ nghẽn khi quá tải hoặc điều kiện thu hoạch khó." />
+        <text name="rhm_clog_sens_low" text="Thấp (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Tiêu chuẩn (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Cao (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Nguyên nhân nghẽn" />
+        <text name="rhm_setting_clog_factors_desc" text="Chọn chỉ do quá tải nặng hay tính thêm độ ẩm cao, cỏ dại và chỉnh sai thông số." />
+        <text name="rhm_clog_factors_overload" text="Chỉ quá tải" />
+        <text name="rhm_clog_factors_all" text="Tất cả (Tải + Độ ẩm &amp; Cỏ dại)" />
+        <text name="rhm_setting_clog_ai_title" text="Nghẽn cho công nhân AI" />
+        <text name="rhm_setting_clog_ai_desc" text="Tự phục hồi làm chậm và đảo chiều AI; Thủ công dừng AI; Tắt giúp AI miễn nhiễm." />
+        <text name="rhm_clog_ai_auto" text="Tự phục hồi" />
+        <text name="rhm_clog_ai_manual" text="Hỗ trợ thủ công" />
+        <text name="rhm_clog_ai_off" text="Tắt (AI miễn nhiễm)" />
+        <text name="rhm_setting_clog_pile_title" text="Thả đống rơm khi thông" />
+        <text name="rhm_setting_clog_pile_desc" text="Đổ một đống nhỏ trước hàm cắt sau khi thông nghẽn." />
+        <text name="rhm_clog_warn_slip" text="Ly hợp trượt đang hoạt động! Dừng hẳn và giữ RShift+B!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Hàm nạp bị kẹt! Dừng hẳn và giữ RShift+B để thông!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Hàm nạp bị kẹt! Xuống xe và thông tại hàm cắt (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Nghẽn nặng! Ra khỏi cabin và tự thông nghẽn trước hàm cắt!" />
+        <text name="rhm_clog_warn_stop_first" text="Dừng hẳn máy gặt trước khi đảo chiều!" />
+        <text name="rhm_clog_cleared_msg" text="Đã thông nghẽn!" />
+        <text name="rhm_clog_onfoot_prompt" text="Giữ RShift+C để thông nghẽn" />
+        <text name="rhm_clog_cause_overload" text="Quá tải" />
+        <text name="rhm_clog_cause_moisture" text="Độ ẩm cao" />
+        <text name="rhm_clog_cause_weeds" text="Nhiều cỏ dại" />
+        <text name="rhm_clog_cause_settings" text="Hiệu chỉnh" />
+        <text name="rhm_clog_cause_surge" text="Dồn tải đột ngột" />
+        <text name="rhm_hud_clog_slug" text="DỒN" />
+        <text name="rhm_hud_clog_slip" text="TRƯỢT" />
+        <text name="rhm_hud_clog_jam" text="NGHẼN" />
+        <text name="rhm_hud_clog_clear" text="THÔNG" />
+        <text name="rhm_ui_clog_risk" text="Nguy cơ nghẽn" />
+        <text name="rhm_tut_clog_title" text="NGHẼN HÀM NẠP" />
+        <text name="rhm_tut_clog_msg" text="Quá tải kéo dài hoặc cây ẩm nhiều cỏ dại có thể làm trượt ly hợp hoặc kẹt trống đập. Dừng hẳn và giữ RShift+B (chế độ Thực tế xuống xe bấm RShift+C)." />
     </texts>
 </l10n>

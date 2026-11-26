@@ -6,4 +6,34 @@
         <lowpassGain indoor="1.0" outdoor="1.0" />
         <lowpassCutoffFrequency indoor="20000.0" outdoor="20000.0" />
     </overloadAlarm>
+    <clogStrain file="sounds/clog_strain.ogg" innerRadius="12.0" outerRadius="45.0" loops="0" fadeIn="0.05" fadeOut="0.10" priority="HIGH">
+        <volume indoor="1.05" outdoor="1.0" />
+        <pitch indoor="1.0" outdoor="1.0" />
+        <lowpassGain indoor="1.0" outdoor="1.0" />
+        <lowpassCutoffFrequency indoor="20000.0" outdoor="20000.0" />
+    </clogStrain>
+    <slipClutch file="sounds/slip_clutch.ogg" innerRadius="12.0" outerRadius="50.0" loops="0" fadeIn="0.03" fadeOut="0.08" priority="HIGH">
+        <volume indoor="1.10" outdoor="1.15" />
+        <pitch indoor="1.0" outdoor="1.0" />
+        <lowpassGain indoor="1.0" outdoor="1.0" />
+        <lowpassCutoffFrequency indoor="20000.0" outdoor="20000.0" />
+    </slipClutch>
+    <clogJam file="sounds/clog_jam.ogg" innerRadius="15.0" outerRadius="55.0" loops="1" fadeIn="0.01" fadeOut="0.08" priority="HIGH">
+        <volume indoor="1.20" outdoor="1.20" />
+        <pitch indoor="1.0" outdoor="1.0" />
+        <lowpassGain indoor="1.0" outdoor="1.0" />
+        <lowpassCutoffFrequency indoor="20000.0" outdoor="20000.0" />
+    </clogJam>
+    <feederReverse file="sounds/feeder_reverse.ogg" innerRadius="12.0" outerRadius="45.0" loops="0" fadeIn="0.04" fadeOut="0.08" priority="HIGH">
+        <volume indoor="1.10" outdoor="1.10" />
+        <pitch indoor="1.0" outdoor="1.0" />
+        <lowpassGain indoor="1.0" outdoor="1.0" />
+        <lowpassCutoffFrequency indoor="20000.0" outdoor="20000.0" />
+    </feederReverse>
+    <manualClear file="sounds/manual_clear.ogg" innerRadius="10.0" outerRadius="35.0" loops="0" fadeIn="0.03" fadeOut="0.08" priority="HIGH">
+        <volume indoor="1.0" outdoor="1.20" />
+        <pitch indoor="1.0" outdoor="1.0" />
+        <lowpassGain indoor="1.0" outdoor="1.0" />
+        <lowpassCutoffFrequency indoor="20000.0" outdoor="20000.0" />
+    </manualClear>
 </sounds>

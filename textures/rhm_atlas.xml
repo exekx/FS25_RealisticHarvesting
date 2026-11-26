@@ -114,5 +114,7 @@
     <slice id="profile_row_unsel" uvs="4px 864px 764px 46px"/>
     <slice id="profile_row_hover" uvs="4px 916px 764px 46px"/>
     <slice id="profile_row_sel_hover" uvs="4px 968px 764px 46px"/>
+    <slice id="tablet_mini_chassis" uvs="780px 784px 64px 64px"/>
+    <slice id="clear_icon_slot" uvs="860px 784px 44px 44px"/>
   </slices>
 </texture>

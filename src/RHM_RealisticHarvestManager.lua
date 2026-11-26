@@ -6,6 +6,18 @@
 --     налаштування, HUD, GUI калібрування, консольні команди та події вводу.
 RHM_RealisticHarvestManager = {}
 local RealisticHarvestManager_mt = Class(RHM_RealisticHarvestManager)
+local ATLAS_SIZE_1024 = {1024, 1024}
+
+local function renderClearOverlaySlice(overlay, sx, sy, sw, sh, uvs, r, g, b, a)
+    if sw <= 0 or sh <= 0 or uvs == nil then
+        return
+    end
+    overlay:setPosition(sx, sy)
+    overlay:setDimension(sw, sh)
+    overlay:setUVs(uvs)
+    overlay:setColor(r, g, b, a)
+    overlay:render()
+end
 
 -- EN: Initializes all mod subsystems: settings, UI, HUD, calibration GUI, and console commands.
 --     Creates the HUD and settings UI only on the game client (not dedicated server).
@@ -69,6 +81,7 @@ function RHM_RealisticHarvestManager.new(mission, modDirectory, modName)
     -- EN: Create the visual calibration GUI (client only, for manual settings adjustment).
     -- UA: Створюємо візуальний GUI калібрування (тільки клієнт, для ручного регулювання).
     if mission:getIsClient() then
+        self:initClearIndicatorOverlay()
         self.calibrationGUI = RHMCombineCalibrationGUI.new(modDirectory)
         self:registerGlobalActionEvents()
     end
@@ -168,7 +181,7 @@ function RHM_RealisticHarvestManager:registerGlobalActionEvents()
         if PlayerInputComponent and PlayerInputComponent.registerActionEvents then
             PlayerInputComponent.registerActionEvents = Utils.appendedFunction(
                 PlayerInputComponent.registerActionEvents,
-                function(inputComponent, ...)
+                function(inputComponent)
                     if not (inputComponent and inputComponent.player and inputComponent.player.isOwner) then
                         return
                     end
@@ -196,6 +209,27 @@ function RHM_RealisticHarvestManager:registerGlobalActionEvents()
                         end
                         g_inputBinding:setActionEventTextVisibility(eventId, true)
                     end
+                    if InputAction.RHM_CLEAR_CLOG then
+                        local _, clearEventId = g_inputBinding:registerActionEvent(
+                            InputAction.RHM_CLEAR_CLOG,
+                            self,
+                            self.onGlobalActionClearClog,
+                            true,  -- triggerUp
+                            true,  -- triggerDown
+                            false, -- triggerAlways
+                            true,  -- startActive
+                            nil,
+                            true
+                        )
+                        if clearEventId then
+                            self._clearClogEventId = clearEventId
+                            g_inputBinding:setActionEventTextPriority(clearEventId, GS_PRIO_VERY_HIGH)
+                            if g_i18n and g_i18n:hasText("input_RHM_CLEAR_CLOG") then
+                                g_inputBinding:setActionEventText(clearEventId, g_i18n:getText("input_RHM_CLEAR_CLOG"))
+                            end
+                            g_inputBinding:setActionEventTextVisibility(clearEventId, false)
+                        end
+                    end
                     g_inputBinding:endActionEventsModification()
                 end
             )
@@ -205,7 +239,7 @@ function RHM_RealisticHarvestManager:registerGlobalActionEvents()
         if FSBaseMission and FSBaseMission.registerActionEvents then
             FSBaseMission.registerActionEvents = Utils.appendedFunction(
                 FSBaseMission.registerActionEvents,
-                function(mission, ...)
+                function(mission)
                     if not (mission and mission:getIsClient()) then return end
                     if not (g_inputBinding and InputAction and InputAction.RHM_OPEN_HARVEST_MENU) then
                         return
@@ -347,7 +381,7 @@ function RHM_RealisticHarvestManager:setupSettingsHooks()
         end
     end
 
-    local function onSettingsFrameOpen(settingsPage)
+    local function onSettingsFrameOpen()
         RHMSettingsUI.inject(settings)
         RHMSettingsUI.refreshUI(settings)
         ensureAdditionalGameSettings()
@@ -357,7 +391,7 @@ function RHM_RealisticHarvestManager:setupSettingsHooks()
     if InGameMenu and InGameMenu.onMenuOpened and not self._inGameMenuOpenedHooked then
         InGameMenu.onMenuOpened = Utils.appendedFunction(
             InGameMenu.onMenuOpened,
-            function(menu)
+            function()
                 RHMSettingsUI.inject(settings)
                 RHMSettingsUI.refreshUI(settings)
                 ensureAdditionalGameSettings()
@@ -482,7 +516,11 @@ function RHM_RealisticHarvestManager:update(dt)
                 if isTampered and tamperedList then
                     if not self._integrityLogged then
                         self._integrityLogged = true
-                        Logging.warning("RHM [Integrity]: External script modified internal RHM function(s): %s. Unofficial overrides may cause inaccurate load, speed limiting, or crop losses.", table.concat(tamperedList, ", "))
+                        Logging.warning(
+                            "RHM [Integrity]: External script modified internal RHM function(s): %s. "
+                                .. "Unofficial overrides may cause inaccurate load, speed limiting, or crop losses.",
+                            table.concat(tamperedList, ", ")
+                        )
                     end
                     if self.mission and self.mission:getIsClient() then
                         self._integrityPendingModal = true
@@ -497,7 +535,12 @@ function RHM_RealisticHarvestManager:update(dt)
                 if hasConflict then
                     if not self._conflictLogged then
                         self._conflictLogged = true
-                        Logging.warning("RHM [Compatibility]: Conflicting combine physics controller detected (%s). Running multiple combine load/speed controllers simultaneously may cause erratic speed limits or inaccurate telemetry. Please keep only one enabled in this savegame.", tostring(conflictModName))
+                        Logging.warning(
+                            "RHM [Compatibility]: Conflicting combine physics controller detected (%s). "
+                                .. "Running multiple combine load/speed controllers simultaneously may cause erratic speed limits or inaccurate telemetry. "
+                                .. "Please keep only one enabled in this savegame.",
+                            tostring(conflictModName)
+                        )
                     end
                     if self.mission and self.mission:getIsClient() then
                         self._conflictPendingModal = true
@@ -516,14 +559,18 @@ function RHM_RealisticHarvestManager:update(dt)
                     self._integrityWarned = true
                     showWarningModal(
                         "rhm_warn_external_physics_override",
-                        "Warning: An external mod has modified internal Realistic Harvesting physics functions outside the official API. This may cause inaccurate engine load, stuck speed limits, or incorrect crop losses. Please disable unofficial third-party addons that patch this mod."
+                        "Warning: An external mod has modified internal Realistic Harvesting physics functions outside the official API. "
+                            .. "This may cause inaccurate engine load, stuck speed limits, or incorrect crop losses. "
+                            .. "Please disable unofficial third-party addons that patch this mod."
                     )
                 elseif self._conflictPendingModal then
                     self._conflictPendingModal = false
                     self._conflictWarned = true
                     showWarningModal(
                         "rhm_warn_conflicting_combine_mod",
-                        "Warning: Another combine realism or speed/load controller mod is loaded alongside Realistic Harvesting. Running two combine physics controllers at the same time may cause conflicting speed limits, engine loads, and crop losses. Please keep only one enabled in this savegame."
+                        "Warning: Another combine realism or speed/load controller mod is loaded alongside Realistic Harvesting. "
+                            .. "Running two combine physics controllers at the same time may cause conflicting speed limits, engine loads, and crop losses. "
+                            .. "Please keep only one enabled in this savegame."
                     )
                 end
             end
@@ -611,6 +658,314 @@ function RHM_RealisticHarvestManager:update(dt)
     if self.notificationManager then
         self.notificationManager:update(dt, self.lastActiveCombine)
     end
+
+    -- EN: On-foot proximity check & manual blockage clearing handler (Realistic Clogging Mode)
+    -- UA: Перевірка відстані пішки та обробник ручного прочищення забитого комбайна
+    if controlledVehicle == nil and self.settings and self.settings.cloggingMode == 3 then
+        self:updateOnFootClogClearing(dt)
+    else
+        self.nearbyBlockedCombine = nil
+        self.isHoldingClearClog = false
+        if self._clearClogEventId and g_inputBinding and g_inputBinding.setActionEventTextVisibility then
+            g_inputBinding:setActionEventTextVisibility(self._clearClogEventId, false)
+        end
+    end
+end
+
+function RHM_RealisticHarvestManager:onGlobalActionClearClog(actionName, inputValue, callbackState, isAnalog)
+    local isDown = (inputValue or 0) > 0
+    self.isHoldingClearClog = isDown
+end
+
+function RHM_RealisticHarvestManager:findNearbyBlockedCombine()
+    local player = g_localPlayer or (g_currentMission and g_currentMission.player)
+    local px, _, pz = nil, nil, nil
+    if player and player.getPosition then
+        px, _, pz = player:getPosition()
+    elseif player and player.rootNode and entityExists(player.rootNode) then
+        px, _, pz = getWorldTranslation(player.rootNode)
+    end
+    if px == nil then return nil end
+
+    local vehicleList = (g_currentMission and g_currentMission.vehicleSystem and g_currentMission.vehicleSystem.vehicles)
+        or (g_currentMission and g_currentMission.vehicles)
+    if vehicleList == nil then return nil end
+
+    local bestVehicle = nil
+    local bestDistSq = 18.0 -- ~4.25m proximity around header/feederhouse
+    for _, v in ipairs(vehicleList) do
+        local spec = v and v.spec_rhm_Combine
+        if spec and spec.isRhmCombine == true and spec.data and spec.data.clogState == 3 then
+            local refNode = v.rootNode or (v.components and v.components[1] and v.components[1].node)
+            local offZ = 2.4
+            if spec.currentCutter and spec.currentCutter.rootNode and entityExists(spec.currentCutter.rootNode) then
+                refNode = spec.currentCutter.rootNode
+                offZ = 0.0
+            end
+            if refNode and entityExists(refNode) then
+                local tx, _, tz = localToWorld(refNode, 0, 0, offZ)
+                local dx = px - tx
+                local dz = pz - tz
+                local dSq = dx * dx + dz * dz
+                if dSq <= bestDistSq then
+                    bestDistSq = dSq
+                    bestVehicle = v
+                end
+            end
+        end
+    end
+    return bestVehicle
+end
+
+function RHM_RealisticHarvestManager:updateOnFootClogClearing(dt)
+    self._clogProximityTimer = (self._clogProximityTimer or 0) + (dt or 0)
+    if self._clogProximityTimer >= 180 or self.isHoldingClearClog then
+        self._clogProximityTimer = 0
+        self.nearbyBlockedCombine = self:findNearbyBlockedCombine()
+    end
+
+    local target = self.nearbyBlockedCombine
+    local hasTarget = (target ~= nil and target.spec_rhm_Combine ~= nil and target.spec_rhm_Combine.cloggingSystem ~= nil)
+
+    if self._clearClogEventId and g_inputBinding and g_inputBinding.setActionEventTextVisibility then
+        g_inputBinding:setActionEventTextVisibility(self._clearClogEventId, hasTarget)
+    end
+
+    if not hasTarget then
+        self.isHoldingClearClog = false
+        return
+    end
+
+    local spec = target.spec_rhm_Combine
+    local sys = spec.cloggingSystem
+    local completed = sys:processManualClearTick(target, dt or 0, self.isHoldingClearClog == true)
+
+    -- Play manual clearing acoustic feedback while player actively clears
+    if spec.samples and spec.samples.manualClear and g_soundManager then
+        local vol = (self.settings and tonumber(self.settings.soundVolume)) or 1.0
+        if self.isHoldingClearClog and vol > 0.01 then
+            if not (g_soundManager.getIsSamplePlaying and g_soundManager:getIsSamplePlaying(spec.samples.manualClear)) then
+                rhm_Combine.applySampleVolume(spec.samples.manualClear, vol, 1.0)
+                g_soundManager:playSample(spec.samples.manualClear)
+            end
+            rhm_Combine.applySampleVolume(spec.samples.manualClear, vol, 1.0)
+        else
+            if g_soundManager.getIsSamplePlaying and g_soundManager:getIsSamplePlaying(spec.samples.manualClear) then
+                g_soundManager:stopSample(spec.samples.manualClear)
+            end
+        end
+    end
+
+    if completed then
+        self.isHoldingClearClog = false
+        self.nearbyBlockedCombine = nil
+        if spec.samples and spec.samples.manualClear and g_soundManager then
+            g_soundManager:stopSample(spec.samples.manualClear)
+        end
+        if g_server ~= nil then
+            sys:clearBlockage(target, true)
+            rhm_Combine.syncCloggingData(target, spec)
+            if spec.dataDirtyFlag and type(spec.dataDirtyFlag) == "number" then
+                target:raiseDirtyFlags(spec.dataDirtyFlag)
+            end
+        elseif g_client and g_client:getServerConnection() then
+            g_client:getServerConnection():sendEvent(RHM_ClogActionEvent.new(target, RHM_ClogActionEvent.ACTION_MANUAL_CLEAR_COMPLETE, true))
+        end
+        if g_currentMission and g_currentMission.showBlinkingWarning then
+            local msg = (g_i18n and g_i18n:hasText("rhm_clog_cleared_msg") and g_i18n:getText("rhm_clog_cleared_msg")) or "Feeder cleared!"
+            g_currentMission:showBlinkingWarning(msg, 2000)
+        end
+    end
+end
+
+function RHM_RealisticHarvestManager:initClearIndicatorOverlay()
+    if self.clearIndicatorOverlay ~= nil or not self.modDirectory then
+        return
+    end
+
+    local atlasPath = Utils.getFilename("textures/rhm_atlas.dds", self.modDirectory)
+    self.clearIndicatorOverlay = Overlay.new(atlasPath, 0, 0, 1, 1)
+    self.clearIndicatorUVs = {
+        chassisTL       = GuiUtils.getUVs({780, 784, 12, 12}, ATLAS_SIZE_1024),
+        chassisT        = GuiUtils.getUVs({792, 784, 40, 12}, ATLAS_SIZE_1024),
+        chassisTR       = GuiUtils.getUVs({832, 784, 12, 12}, ATLAS_SIZE_1024),
+        chassisL        = GuiUtils.getUVs({780, 796, 12, 40}, ATLAS_SIZE_1024),
+        chassisC        = GuiUtils.getUVs({792, 796, 40, 40}, ATLAS_SIZE_1024),
+        chassisR        = GuiUtils.getUVs({832, 796, 12, 40}, ATLAS_SIZE_1024),
+        chassisBL       = GuiUtils.getUVs({780, 836, 12, 12}, ATLAS_SIZE_1024),
+        chassisB        = GuiUtils.getUVs({792, 836, 40, 12}, ATLAS_SIZE_1024),
+        chassisBR       = GuiUtils.getUVs({832, 836, 12, 12}, ATLAS_SIZE_1024),
+        iconSlot        = GuiUtils.getUVs({860, 784, 44, 44}, ATLAS_SIZE_1024),
+        iconRotor       = GuiUtils.getUVs({  0, 128, 128, 128}, ATLAS_SIZE_1024),
+        pillStatusAlert = GuiUtils.getUVs({180, 668, 79, 21}, ATLAS_SIZE_1024),
+        pillStatusOpt   = GuiUtils.getUVs({  4, 668, 79, 21}, ATLAS_SIZE_1024),
+        pillValue       = GuiUtils.getUVs({268, 668, 110, 21}, ATLAS_SIZE_1024),
+        sliderTrackWide = GuiUtils.getUVs({292, 624, 361, 10}, ATLAS_SIZE_1024),
+        sliderFillCap   = GuiUtils.getUVs({904, 624,   4,  8}, ATLAS_SIZE_1024),
+        sliderFillBody  = GuiUtils.getUVs({916, 624,   8,  8}, ATLAS_SIZE_1024),
+    }
+end
+
+function RHM_RealisticHarvestManager:drawManualClearIndicator(combine)
+    local spec = combine and combine.spec_rhm_Combine
+    local sys = spec and spec.cloggingSystem
+    if sys == nil then
+        return
+    end
+
+    if self.clearIndicatorOverlay == nil then
+        self:initClearIndicatorOverlay()
+    end
+    local overlay = self.clearIndicatorOverlay
+    local uvs = self.clearIndicatorUVs
+    if overlay == nil or uvs == nil then
+        return
+    end
+
+    local prog = math.max(0.0, math.min(1.0, sys.manualClearProgress or 0.0))
+    local isClearing = prog > 0.01
+
+    local screenW = g_screenWidth or 1920
+    local screenH = g_screenHeight or 1080
+    local uiScale = (g_gameSettings and g_gameSettings.getValue and g_gameSettings:getValue("uiScale")) or 1.0
+    uiScale = math.max(0.65, math.min(1.35, uiScale))
+
+    local pxW = 1.0 / screenW
+    local pxH = 1.0 / screenH
+    local refScale = (screenH / 1080.0) * uiScale
+
+    local boxW = math.floor(468.0 * refScale + 0.5) * pxW
+    local boxH = math.floor(80.0 * refScale + 0.5) * pxH
+    local boxX = math.floor((0.5 - boxW * 0.5) * screenW + 0.5) * pxW
+    local boxY = math.floor(0.185 * screenH + 0.5) * pxH
+
+    -- 1. Rugged tablet mini-chassis (9-slice preserving crisp 12px bezel matching tablet_frame.dds)
+    local cW = math.min(math.floor(12.0 * refScale + 0.5) * pxW, boxW * 0.35)
+    local cH = math.min(math.floor(12.0 * refScale + 0.5) * pxH, boxH * 0.45)
+    local midW = math.max(0, boxW - cW * 2.0)
+    local midH = math.max(0, boxH - cH * 2.0)
+
+    renderClearOverlaySlice(overlay, boxX, boxY, cW, cH, uvs.chassisBL, 1.0, 1.0, 1.0, 0.96)
+    renderClearOverlaySlice(overlay, boxX + cW, boxY, midW, cH, uvs.chassisB, 1.0, 1.0, 1.0, 0.96)
+    renderClearOverlaySlice(overlay, boxX + cW + midW, boxY, cW, cH, uvs.chassisBR, 1.0, 1.0, 1.0, 0.96)
+
+    renderClearOverlaySlice(overlay, boxX, boxY + cH, cW, midH, uvs.chassisL, 1.0, 1.0, 1.0, 0.96)
+    renderClearOverlaySlice(overlay, boxX + cW, boxY + cH, midW, midH, uvs.chassisC, 1.0, 1.0, 1.0, 0.96)
+    renderClearOverlaySlice(overlay, boxX + cW + midW, boxY + cH, cW, midH, uvs.chassisR, 1.0, 1.0, 1.0, 0.96)
+
+    renderClearOverlaySlice(overlay, boxX, boxY + cH + midH, cW, cH, uvs.chassisTL, 1.0, 1.0, 1.0, 0.96)
+    renderClearOverlaySlice(overlay, boxX + cW, boxY + cH + midH, midW, cH, uvs.chassisT, 1.0, 1.0, 1.0, 0.96)
+    renderClearOverlaySlice(overlay, boxX + cW + midW, boxY + cH + midH, cW, cH, uvs.chassisTR, 1.0, 1.0, 1.0, 0.96)
+
+    local padX = math.floor(16.0 * refScale + 0.5) * pxW
+    local padY = math.floor(14.0 * refScale + 0.5) * pxH
+
+    -- 2. Left recessed icon slot + tinted rotor/cutter glyph
+    local slotPx = math.floor(48.0 * refScale + 0.5)
+    local slotW = slotPx * pxW
+    local slotH = slotPx * pxH
+    local slotX = boxX + padX
+    local slotY = boxY + math.floor((boxH - slotH) * 0.5 * screenH + 0.5) * pxH
+    renderClearOverlaySlice(overlay, slotX, slotY, slotW, slotH, uvs.iconSlot, 1.0, 1.0, 1.0, 1.0)
+
+    local iconPx = math.floor(30.0 * refScale + 0.5)
+    local iconW = iconPx * pxW
+    local iconH = iconPx * pxH
+    local iconX = slotX + math.floor((slotW - iconW) * 0.5 * screenW + 0.5) * pxW
+    local iconY = slotY + math.floor((slotH - iconH) * 0.5 * screenH + 0.5) * pxH
+    if isClearing then
+        renderClearOverlaySlice(overlay, iconX, iconY, iconW, iconH, uvs.iconRotor, 0.52, 0.71, 0.0, 1.0)
+    else
+        renderClearOverlaySlice(overlay, iconX, iconY, iconW, iconH, uvs.iconRotor, 0.90, 0.59, 0.0, 1.0)
+    end
+
+    local contentLeft = slotX + slotW + math.floor(12.0 * refScale + 0.5) * pxW
+    local contentRight = boxX + boxW - padX
+
+    -- 3. Top-right tablet status badge (CLOG / CLEAR)
+    local statusW = math.floor(76.0 * refScale + 0.5) * pxW
+    local statusH = math.floor(20.0 * refScale + 0.5) * pxH
+    local statusX = contentRight - statusW
+    local statusY = boxY + boxH - padY - statusH
+    local statusUV = isClearing and uvs.pillStatusOpt or uvs.pillStatusAlert
+    renderClearOverlaySlice(overlay, statusX, statusY, statusW, statusH, statusUV, 1.0, 1.0, 1.0, 1.0)
+
+    local statusKey = isClearing and "rhm_hud_clog_clear" or "rhm_hud_clog_jam"
+    local statusFallback = isClearing and "CLEAR" or "CLOG"
+    local statusLbl = (g_i18n and g_i18n:hasText(statusKey) and g_i18n:getText(statusKey)) or statusFallback
+
+    local statusFont = 9.5 * refScale * pxH
+    setTextAlignment(RenderText.ALIGN_CENTER)
+    setTextBold(true)
+    if isClearing then
+        setTextColor(0.56, 0.78, 0.04, 1.0)
+    else
+        setTextColor(0.95, 0.32, 0.32, 1.0)
+    end
+    renderText(statusX + statusW * 0.5, statusY + (statusH - statusFont * 0.72) * 0.5, statusFont, string.upper(statusLbl))
+
+    -- 4. Prompt title & machine/cause subtitle
+    local titleFont = 11.5 * refScale * pxH
+    local subFont = 9.5 * refScale * pxH
+    local promptText = (g_i18n and g_i18n:hasText("rhm_clog_onfoot_prompt") and g_i18n:getText("rhm_clog_onfoot_prompt"))
+        or "Hold RShift+C to clear feeder"
+
+    setTextAlignment(RenderText.ALIGN_LEFT)
+    setTextBold(true)
+    setTextColor(0.96, 0.97, 0.98, 1.0)
+    renderText(contentLeft, statusY + statusH * 0.42, titleFont, promptText)
+
+    local combineName = (combine.getFullName and combine:getFullName()) or "Combine"
+    local causeStr = (RHM_CloggingSystem and RHM_CloggingSystem.getCauseText and RHM_CloggingSystem.getCauseText(sys.clogCause)) or ""
+    local subLine = (causeStr ~= "" and string.format("%s  -  %s", combineName, causeStr)) or combineName
+    if string.len(subLine) > 40 then
+        subLine = string.sub(subLine, 1, 38) .. ".."
+    end
+    setTextBold(false)
+    setTextColor(0.62, 0.65, 0.69, 1.0)
+    renderText(contentLeft, statusY - subFont * 0.85, subFont, subLine)
+
+    -- 5. Bottom row: tablet recessed slider track + lime fill + value pill readout
+    local valW = math.floor(60.0 * refScale + 0.5) * pxW
+    local valH = math.floor(19.0 * refScale + 0.5) * pxH
+    local valX = contentRight - valW
+    local valY = boxY + padY
+    renderClearOverlaySlice(overlay, valX, valY, valW, valH, uvs.pillValue, 1.0, 1.0, 1.0, 1.0)
+
+    local valFont = 10.5 * refScale * pxH
+    setTextAlignment(RenderText.ALIGN_CENTER)
+    setTextBold(true)
+    if isClearing then
+        setTextColor(0.10, 0.22, 0.02, 1.0)
+    else
+        setTextColor(0.08, 0.09, 0.10, 1.0)
+    end
+    renderText(valX + valW * 0.5, valY + (valH - valFont * 0.72) * 0.5, valFont, string.format("%d%%", math.floor(prog * 100.0 + 0.5)))
+
+    local trackW = (valX - math.floor(8.0 * refScale + 0.5) * pxW) - contentLeft
+    local trackH = math.floor(10.0 * refScale + 0.5) * pxH
+    local trackY = valY + math.floor((valH - trackH) * 0.5 * screenH + 0.5) * pxH
+    if trackW > 12 * pxW then
+        renderClearOverlaySlice(overlay, contentLeft, trackY, trackW, trackH, uvs.sliderTrackWide, 1.0, 1.0, 1.0, 1.0)
+
+        local fillPadX = math.floor(1.0 * refScale + 0.5) * pxW
+        local fillPadY = math.floor(1.0 * refScale + 0.5) * pxH
+        local maxFillW = math.max(0, trackW - fillPadX * 2.0)
+        local fillW = maxFillW * prog
+        if fillW >= 1.0 * pxW then
+            local fillH = math.max(2 * pxH, trackH - fillPadY * 2.0)
+            local capW = math.min(math.floor(4.0 * refScale + 0.5) * pxW, fillW)
+            local fillY = trackY + fillPadY
+            renderClearOverlaySlice(overlay, contentLeft + fillPadX, fillY, capW, fillH, uvs.sliderFillCap, 1.0, 1.0, 1.0, 1.0)
+            if fillW > capW then
+                renderClearOverlaySlice(overlay, contentLeft + fillPadX + capW, fillY, fillW - capW, fillH, uvs.sliderFillBody, 1.0, 1.0, 1.0, 1.0)
+            end
+        end
+    end
+
+    setTextAlignment(RenderText.ALIGN_LEFT)
+    setTextBold(false)
+    setTextColor(1, 1, 1, 1)
 end
 
 -- EN: Draws the telemetry HUD inside the base game HUD layer so external vehicle HUDs and dropdowns render on top.
@@ -667,6 +1022,12 @@ function RHM_RealisticHarvestManager:draw()
         self.notificationManager:draw()
     end
 
+    -- EN: Render on-foot manual blockage clearing prompt & progress bar near feeder
+    -- UA: Малюємо підказку та шкалу ручного прочищення біля жатки у пішому режимі
+    if self.nearbyBlockedCombine then
+        self:drawManualClearIndicator(self.nearbyBlockedCombine)
+    end
+
     local combineVehicle = self.lastActiveCombine
     if not (self.hud and combineVehicle) then
         return
@@ -700,6 +1061,11 @@ function RHM_RealisticHarvestManager:delete()
         self.hud:delete()
         self.hud = nil
     end
+    if self.clearIndicatorOverlay then
+        self.clearIndicatorOverlay:delete()
+        self.clearIndicatorOverlay = nil
+    end
+    self.clearIndicatorUVs = nil
     if self.calibrationGUI then
         self.calibrationGUI:delete()
         self.calibrationGUI = nil

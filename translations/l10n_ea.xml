@@ -599,5 +599,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Advertencia: un mod externo modificó funciones internas de física de Realistic Harvesting fuera de la API oficial. Esto puede causar carga de motor incorrecta, bloqueo del limitador de velocidad o pérdidas erróneas. Desactiva los complementos no oficiales de terceros." />
         <text name="rhm_warn_conflicting_combine_mod" text="Advertencia: se cargó otro mod de realismo o control de velocidad y carga para cosechadoras junto con Realistic Harvesting. Ejecutar dos sistemas de física de cosechadora al mismo tiempo puede causar conflictos en el límite de velocidad, la carga del motor y las pérdidas de cosecha. Por favor, mantén solo uno activado en esta partida." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Reversa de embocador / Destrabar (Mantener)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Destrabar manualmente (A pie)" />
+        <text name="rhm_setting_clog_mode_title" text="Atasco de cosechadora" />
+        <text name="rhm_setting_clog_mode_desc" text="Simula atascos por sobrecarga, humedad o maleza. Solo reversa: en cabina; Realista: bajar a pie en bloqueos totales." />
+        <text name="rhm_clog_mode_off" text="Desactivado" />
+        <text name="rhm_clog_mode_reverse" text="Solo reversa" />
+        <text name="rhm_clog_mode_realistic" text="Realista (Reversa + A pie)" />
+        <text name="rhm_setting_clog_sens_title" text="Sensibilidad de atasco" />
+        <text name="rhm_setting_clog_sens_desc" text="Ajusta qué tan rápido se acumula el atasco durante sobrecarga extrema o malas condiciones." />
+        <text name="rhm_clog_sens_low" text="Baja (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Estándar (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Alta (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Causas de atasco" />
+        <text name="rhm_setting_clog_factors_desc" text="Elige si se atasca solo por sobrecarga extrema o también por humedad, maleza y mala calibración." />
+        <text name="rhm_clog_factors_overload" text="Solo sobrecarga" />
+        <text name="rhm_clog_factors_all" text="Todos (Carga + Humedad y Maleza)" />
+        <text name="rhm_setting_clog_ai_title" text="Atasco en trabajadores IA" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Recuperación frena y revierte la IA brevemente; Manual detiene la IA; Desactivado hace inmune a la IA." />
+        <text name="rhm_clog_ai_auto" text="Auto-Recuperación" />
+        <text name="rhm_clog_ai_manual" text="Asistencia manual" />
+        <text name="rhm_clog_ai_off" text="Desactivado (IA inmune)" />
+        <text name="rhm_setting_clog_pile_title" text="Tirar pila al destrabar" />
+        <text name="rhm_setting_clog_pile_desc" text="Deposita una pequeña pila delante del cabezal al destrabar el embocador." />
+        <text name="rhm_clog_warn_slip" text="¡Zafe de embrague activo! ¡Detente y mantén RShift+B para revertir!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="¡Embocador trabado! ¡Detente por completo y mantén RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="¡Embocador trabado! ¡Baja de la cabina y limpia el cabezal (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="¡Atasco severo! ¡Baja de la cabina y limpia manualmente frente al cabezal!" />
+        <text name="rhm_clog_warn_stop_first" text="¡Detén la máquina por completo antes de revertir!" />
+        <text name="rhm_clog_cleared_msg" text="¡Atasco despejado!" />
+        <text name="rhm_clog_onfoot_prompt" text="Mantén RShift+C para destrabar" />
+        <text name="rhm_clog_cause_overload" text="Sobrecarga" />
+        <text name="rhm_clog_cause_moisture" text="Humedad alta" />
+        <text name="rhm_clog_cause_weeds" text="Mucha maleza" />
+        <text name="rhm_clog_cause_settings" text="Calibración" />
+        <text name="rhm_clog_cause_surge" text="Golpe de masa" />
+        <text name="rhm_hud_clog_slug" text="CARGA" />
+        <text name="rhm_hud_clog_slip" text="ZAFE" />
+        <text name="rhm_hud_clog_jam" text="TRABA" />
+        <text name="rhm_hud_clog_clear" text="LIMPIAR" />
+        <text name="rhm_ui_clog_risk" text="Riesgo atasco" />
+        <text name="rhm_tut_clog_title" text="ATASCO DEL EMBOCADOR" />
+        <text name="rhm_tut_clog_msg" text="Sobrecargas prolongadas o cultivos húmedos con maleza pueden hacer zafar el embrague o trabar la trilla. Detente y mantén RShift+B (en modo Realista, destraba a pie con RShift+C)." />
     </texts>
 </l10n>

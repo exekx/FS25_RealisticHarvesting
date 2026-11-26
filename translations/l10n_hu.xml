@@ -599,5 +599,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Figyelmeztetés: egy külső mod a hivatalos API megkerülésével módosította a Realistic Harvesting belső fizikai függvényeit. Ez hibás motorterhelést, beragadt sebességkorlátozót vagy téves szemveszteséget okozhat. Kérjük, tiltsa le a nem hivatalos kiegészítőket." />
         <text name="rhm_warn_conflicting_combine_mod" text="Figyelem: a Realistic Harvesting mellett egy másik kombájn-realizmus vagy sebesség- és terhelésszabályozó mod is be van töltve. Két kombájn-fizikai vezérlő egyidejű futtatása sebességkorlát-, motorterhelés- és termésveszteség-ütközéseket okozhat. Kérjük, ebben a mentésben csak az egyiket tartsd bekapcsolva." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Behordó visszaforgatása / Duguláselhárítás (Tartva)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Dugulás kézi tisztítása (Gyalog)" />
+        <text name="rhm_setting_clog_mode_title" text="Kombájn eltömődés" />
+        <text name="rhm_setting_clog_mode_desc" text="Túlterhelés, nedvesség vagy gyom miatti eltömődést szimulál. Csak visszaforgatás: fülkéből; Reális: kiszállva." />
+        <text name="rhm_clog_mode_off" text="Ki" />
+        <text name="rhm_clog_mode_reverse" text="Csak visszaforgatás" />
+        <text name="rhm_clog_mode_realistic" text="Reális (Visszaforgatás + Gyalog)" />
+        <text name="rhm_setting_clog_sens_title" text="Eltömődési érzékenység" />
+        <text name="rhm_setting_clog_sens_desc" text="Szabályozza, milyen gyorsan alakul ki eltömődés túlterhelés esetén." />
+        <text name="rhm_clog_sens_low" text="Alacsony (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Normál (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Magas (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Eltömődés okai" />
+        <text name="rhm_setting_clog_factors_desc" text="Csak extrém túlterhelés vagy a nedvesség, gyomok és rossz beállítás is okozzon eltömődést." />
+        <text name="rhm_clog_factors_overload" text="Csak túlterhelés" />
+        <text name="rhm_clog_factors_all" text="Minden (Terhelés + Nedvesség és Gyom)" />
+        <text name="rhm_setting_clog_ai_title" text="MI munkás eltömődése" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Helyreállítás lassít és röviden visszateker; Kézi megállítja az MI-t; Ki esetén az MI immunis." />
+        <text name="rhm_clog_ai_auto" text="Auto-Helyreállítás" />
+        <text name="rhm_clog_ai_manual" text="Kézi segítség" />
+        <text name="rhm_clog_ai_off" text="Ki (MI immunis)" />
+        <text name="rhm_setting_clog_pile_title" text="Kupac ürítése tisztításkor" />
+        <text name="rhm_setting_clog_pile_desc" text="Kis kupacot szór a vágóasztal elé az eltömődés elhárításakor." />
+        <text name="rhm_clog_warn_slip" text="Csúszókuplung aktív! Állj meg és tartsd nyomva az RShift+B gombot!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Behordó elakadt! Állj meg teljesen és tartsd nyomva az RShift+B gombot!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Behordó elakadt! Szállj ki és tisztítsd meg az asztalnál (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Súlyos dugulás! Szállj ki és tisztítsd ki kézzel a vágóasztalnál!" />
+        <text name="rhm_clog_warn_stop_first" text="Visszaforgatás előtt teljesen állítsd meg a gépet!" />
+        <text name="rhm_clog_cleared_msg" text="Eltömődés megszüntetve!" />
+        <text name="rhm_clog_onfoot_prompt" text="Tartsd nyomva RShift+C a tisztításhoz" />
+        <text name="rhm_clog_cause_overload" text="Túlterhelés" />
+        <text name="rhm_clog_cause_moisture" text="Magas nedvesség" />
+        <text name="rhm_clog_cause_weeds" text="Gyomosság" />
+        <text name="rhm_clog_cause_settings" text="Beállítás" />
+        <text name="rhm_clog_cause_surge" text="Tömeglökés" />
+        <text name="rhm_hud_clog_slug" text="TORL" />
+        <text name="rhm_hud_clog_slip" text="CSÚSZ" />
+        <text name="rhm_hud_clog_jam" text="ELAKAD" />
+        <text name="rhm_hud_clog_clear" text="TISZTÍT" />
+        <text name="rhm_ui_clog_risk" text="Dugulásveszély" />
+        <text name="rhm_tut_clog_title" text="BEHORDÓ ELTÖMŐDÉS" />
+        <text name="rhm_tut_clog_msg" text="Tartós túlterhelés vagy nedves, gyomos termény megcsúszathatja a kuplungot vagy eldugíthatja a dobot. Állj meg és tartsd az RShift+B-t (Reális módban gyalog tisztítsd az RShift+C-vel)." />
     </texts>
 </l10n>

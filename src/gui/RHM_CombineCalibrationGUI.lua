@@ -2052,6 +2052,76 @@ function RHMCombineCalibrationGUI:drawHorizontalTabs(theme)
     else
         self:drawRect(lX, lY, lW, lH, UI_CONFIG.colors.dividerLine)
     end
+
+    -- Live Feeder / Clog Risk indicator: 1:1 unstretched Figma status pill (79x21) + crisp right-aligned label
+    local vSpec = self.activeVehicle and self.activeVehicle.spec_rhm_Combine
+    if vSpec and vSpec.data then
+        local cLevel = vSpec.data.clogLevel or 0
+        local cState = vSpec.data.clogState or 0
+        local cCause = vSpec.data.clogCause or 0
+        local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+        local clogEnabled = (not settings) or (settings.cloggingMode ~= 1)
+
+        local pillW = 79
+        local pillH = 21
+        local pillX = 782 - pillW
+        local pillY = UI_CONFIG.layout.tabY + 3 -- Vertically centered in 28px tab row (above y=80 divider)
+        local pX, pY, pW, pH = self:figmaToScreen(pillX, pillY, pillW, pillH)
+
+        local riskLbl = (g_i18n and g_i18n:hasText("rhm_ui_clog_risk")) and g_i18n:getText("rhm_ui_clog_risk") or "Clog Risk"
+        local texKey = "pill_status_optimal"
+        local textCol = UI_CONFIG.colors.statusOptimalTxt or UI_CONFIG.colors.activeGreen
+        local pillText
+        local labelText = string.upper(riskLbl)
+
+        if not clogEnabled then
+            texKey = "profile_badge_unsel"
+            textCol = UI_CONFIG.colors.textDim
+            pillText = (g_i18n and g_i18n:hasText("rhm_clog_mode_off")) and string.upper(g_i18n:getText("rhm_clog_mode_off")) or "OFF"
+        else
+            if cState == 3 then
+                texKey = "pill_status_alert"
+                textCol = UI_CONFIG.colors.statusAlertTxt or UI_CONFIG.colors.alertRed
+                pillText = (g_i18n and g_i18n:hasText("rhm_hud_clog_jam")) and string.upper(g_i18n:getText("rhm_hud_clog_jam")) or "CLOG"
+            elseif cState == 2 then
+                texKey = "pill_status_alert"
+                textCol = UI_CONFIG.colors.statusAlertTxt or UI_CONFIG.colors.alertRed
+                pillText = string.format("%.0f%%", cLevel)
+            elseif cState == 1 or cLevel >= 15 then
+                texKey = "pill_status_warning"
+                textCol = UI_CONFIG.colors.statusWarningTxt or UI_CONFIG.colors.availableYellow
+                pillText = string.format("%.0f%%", cLevel)
+            else
+                pillText = string.format("%.0f%%", cLevel)
+            end
+
+            local causeStr = (RHM_CloggingSystem and RHM_CloggingSystem.getCauseText) and RHM_CloggingSystem.getCauseText(cCause) or ""
+            if causeStr ~= "" and (cLevel >= 15 or cState >= 1) then
+                labelText = string.format("%s · %s", labelText, string.upper(causeStr))
+            end
+        end
+
+        -- Right-aligned crisp label to the left of the 79x21 pill
+        local lblX, lblY, _, _ = self:figmaToScreen(pillX - 8, pillY, 100, pillH)
+        local lblFontSz = 10.0 * fScale
+        setTextAlignment(RenderText.ALIGN_RIGHT)
+        setTextBold(true)
+        safeSetTextColor((cState >= 2 and clogEnabled) and textCol or UI_CONFIG.colors.tabInactiveText)
+        renderText(lblX, lblY + (pH - lblFontSz * 0.72) * 0.5, lblFontSz, labelText)
+
+        -- Exact 1:1 Figma status pill texture (zero horizontal stretching)
+        if self.uiUVs and self.uiUVs[texKey] then
+            self:drawUITexture(texKey, pX, pY, pW, pH, {1.0, 1.0, 1.0, 1.0})
+        else
+            self:drawPanelBackground(pX, pY, pW, pH, UI_CONFIG.colors.infoPillBg, 5)
+        end
+
+        setTextAlignment(RenderText.ALIGN_CENTER)
+        setTextBold(true)
+        safeSetTextColor(textCol)
+        local pillFontSz = 10.5 * fScale
+        renderText(pX + pW * 0.5, pY + (pH - pillFontSz * 0.72) * 0.5, pillFontSz, pillText)
+    end
 end
 
 ---EN: Draws a high-definition 100-segment circular progress ring with dark circular disc backing.

@@ -1419,6 +1419,21 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         isArcade = (g_realisticHarvestManager.settings.difficultyMotor == 1)
     end
     if isArcade then
+        local rhmSpecArcade = vehicle and vehicle.spec_rhm_Combine
+        if rhmSpecArcade and rhmSpecArcade.cloggingSystem then
+            local isAi = rhm_Combine and rhm_Combine.isAiWorkerActive and rhm_Combine.isAiWorkerActive(vehicle)
+            local aiClogMode = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.aiCloggingMode) or 1
+            local clogMult = rhmSpecArcade.cloggingSystem:getSpeedMultiplier(isAi, aiClogMode)
+            if clogMult <= 0.01 then
+                self.speedLimit = 0.001
+                return
+            elseif clogMult < 0.99 then
+                local baseMax = self.genuineSpeedLimit or self.maxWorkingSpeed or 10.0
+                if baseMax <= 0 then baseMax = 10.0 end
+                self.speedLimit = math.max(1.2, baseMax * clogMult)
+                return
+            end
+        end
         self.speedLimit = math.huge
         return
     end
@@ -1461,6 +1476,18 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         local isMidPassGap = (self.idleHarvestTime or 0) < 3500 and (self.harvestActiveTime or 0) >= 1500
         if isMidPassGap then
             self.underloadTimer = 0
+            local rhmSpecGap = vehicle and vehicle.spec_rhm_Combine
+            if rhmSpecGap and rhmSpecGap.cloggingSystem then
+                local isAi = rhm_Combine and rhm_Combine.isAiWorkerActive and rhm_Combine.isAiWorkerActive(vehicle)
+                local aiClogMode = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.aiCloggingMode) or 1
+                local clogMult = rhmSpecGap.cloggingSystem:getSpeedMultiplier(isAi, aiClogMode)
+                if clogMult <= 0.01 then
+                    self.speedLimit = 0.001
+                elseif clogMult < 0.99 then
+                    local capSpeed = math.max(1.2, (maxAllowedSpeed or self.speedLimit or 10.0) * clogMult)
+                    self.speedLimit = math.min(self.speedLimit, capSpeed)
+                end
+            end
             return
         end
 
@@ -1758,6 +1785,21 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     else
         self.aiBrakeFactor = 1.0
         self.aiLossClearTimer = 0
+    end
+
+    -- CLOGGING PREVENTION & AUTO-RECOVER HOLD:
+    -- Proactively slows AI workers as clog buildup crosses 52%/65%, and halts forward feed during active blockage/auto-recover.
+    local rhmSpec = vehicle and vehicle.spec_rhm_Combine
+    if rhmSpec and rhmSpec.cloggingSystem then
+        local isAi = rhm_Combine and rhm_Combine.isAiWorkerActive and rhm_Combine.isAiWorkerActive(vehicle)
+        local aiClogMode = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.aiCloggingMode) or 1
+        local clogMult = rhmSpec.cloggingSystem:getSpeedMultiplier(isAi, aiClogMode)
+        if clogMult <= 0.01 then
+            self.speedLimit = 0.001
+        elseif clogMult < 0.99 then
+            local capSpeed = math.max(1.2, (maxAllowedSpeed or self.speedLimit or 10.0) * clogMult)
+            self.speedLimit = math.min(self.speedLimit, capSpeed)
+        end
     end
 end
 

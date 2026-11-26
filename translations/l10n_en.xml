@@ -599,5 +599,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Warning: An external mod has modified internal Realistic Harvesting physics functions outside the official API. This may cause inaccurate engine load, stuck speed limits, or incorrect crop losses. Please disable unofficial third-party addons that patch this mod." />
         <text name="rhm_warn_conflicting_combine_mod" text="Warning: Another combine realism or speed/load controller mod is loaded alongside Realistic Harvesting. Running two combine physics controllers at the same time may cause conflicting speed limits, engine loads, and crop losses. Please keep only one enabled in this savegame." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Reverse Feeder / Clear Clog (Hold)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Clear Feeder Blockage (On Foot)" />
+        <text name="rhm_setting_clog_mode_title" text="Combine Clogging" />
+        <text name="rhm_setting_clog_mode_desc" text="Controls feeder &amp; drum clogging from severe overload, moisture, or weeds. Reverse Only clears in cab; Realistic requires exiting cab for hard jams." />
+        <text name="rhm_clog_mode_off" text="Off" />
+        <text name="rhm_clog_mode_reverse" text="Reverse Only" />
+        <text name="rhm_clog_mode_realistic" text="Realistic (Reverse + On-Foot)" />
+        <text name="rhm_setting_clog_sens_title" text="Clog Sensitivity" />
+        <text name="rhm_setting_clog_sens_desc" text="Adjusts how fast feeder strain builds up during excessive overload or tough harvesting conditions." />
+        <text name="rhm_clog_sens_low" text="Low (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standard (1.0x)" />
+        <text name="rhm_clog_sens_high" text="High (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Clogging Causes" />
+        <text name="rhm_setting_clog_factors_desc" text="Choose whether clogging is triggered strictly by extreme engine overload or also by wet crops, heavy weeds, and poor calibration." />
+        <text name="rhm_clog_factors_overload" text="Overload Only" />
+        <text name="rhm_clog_factors_all" text="All (Load + Moisture &amp; Weeds)" />
+        <text name="rhm_setting_clog_ai_title" text="AI Worker Clogging" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Recover slows AI workers early and automatically reverses brief clogs; Manual Assist stops AI and calls the player; Off makes AI immune." />
+        <text name="rhm_clog_ai_auto" text="Auto-Recover" />
+        <text name="rhm_clog_ai_manual" text="Manual Assist" />
+        <text name="rhm_clog_ai_off" text="Off (AI Immune)" />
+        <text name="rhm_setting_clog_pile_title" text="Drop Cleared Crop Pile" />
+        <text name="rhm_setting_clog_pile_desc" text="Deposits a small straw/chaff pile ahead of the header when clearing a feeder blockage." />
+        <text name="rhm_clog_warn_slip" text="Slip clutch active! Stop completely and hold RShift+B to reverse feeder!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Feeder jammed! Stop completely and hold RShift+B to clear!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Feeder jammed! Exit cab and clear near the header (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Hard blockage! Exit the cab and clear the blockage near the header manually!" />
+        <text name="rhm_clog_warn_stop_first" text="Stop the combine completely before reversing the feeder!" />
+        <text name="rhm_clog_cleared_msg" text="Feeder blockage cleared!" />
+        <text name="rhm_clog_onfoot_prompt" text="Hold RShift+C to clear feeder" />
+        <text name="rhm_clog_cause_overload" text="Overload" />
+        <text name="rhm_clog_cause_moisture" text="High Moisture" />
+        <text name="rhm_clog_cause_weeds" text="Heavy Weeds" />
+        <text name="rhm_clog_cause_settings" text="Calibration" />
+        <text name="rhm_clog_cause_surge" text="Mass Surge" />
+        <text name="rhm_hud_clog_slug" text="SLUG" />
+        <text name="rhm_hud_clog_slip" text="SLIP" />
+        <text name="rhm_hud_clog_jam" text="CLOG" />
+        <text name="rhm_hud_clog_clear" text="CLEAR" />
+        <text name="rhm_ui_clog_risk" text="Clog Risk" />
+        <text name="rhm_tut_clog_title" text="FEEDER CLOGGING" />
+        <text name="rhm_tut_clog_msg" text="Prolonged overload or wet, weedy crops can trip the slip clutch or jam the feeder. Stop completely and hold RShift+B to reverse and clear it (in Realistic mode, hard jams must be cleared on foot near the header with RShift+C)." />
     </texts>
 </l10n>

@@ -597,5 +597,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Uyarı: Harici bir mod, Realistic Harvesting'in dahili fizik işlevlerini resmi API dışında değiştirmiştir. Bu durum hatalı motor yüküne, hız sınırlayıcının takılı kalmasına veya yanlış ürün kayıplarına yol açabilir. Lütfen resmi olmayan üçüncü taraf eklentilerini devre dışı bırakın." />
         <text name="rhm_warn_conflicting_combine_mod" text="Uyarı: Realistic Harvesting ile birlikte başka bir biçerdöver gerçekçiliği veya hız ve yük kontrol modu daha yüklü. Aynı anda iki biçerdöver fizik denetleyicisinin çalışması hız sınırı, motor yükü ve ürün kaybı çakışmalarına yol açabilir. Lütfen bu kayıtlı oyunda yalnızca birini etkin bırakın." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Besleyiciyi Ters Çevir / Aç (Basılı Tut)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Tıkanıklığı Elle Temizle (Yaya)" />
+        <text name="rhm_setting_clog_mode_title" text="Biçerdöver Tıkanması" />
+        <text name="rhm_setting_clog_mode_desc" text="Aşırı yük, nem veya yabani ot kaynaklı tıkanmayı simüle eder. Sadece Geri: kabinden; Gerçekçi: tam tıkanmada inip temizleme." />
+        <text name="rhm_clog_mode_off" text="Kapalı" />
+        <text name="rhm_clog_mode_reverse" text="Sadece Geri Çevirme" />
+        <text name="rhm_clog_mode_realistic" text="Gerçekçi (Geri + Yaya)" />
+        <text name="rhm_setting_clog_sens_title" text="Tıkanma Hassasiyeti" />
+        <text name="rhm_setting_clog_sens_desc" text="Aşırı yük altında tıkanmanın ne kadar hızlı birikeceğini ayarlar." />
+        <text name="rhm_clog_sens_low" text="Düşük (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standart (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Yüksek (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Tıkanma Nedenleri" />
+        <text name="rhm_setting_clog_factors_desc" text="Tıkanmanın sadece aşırı yükten mi yoksa nem, ot ve yanlış ayardan da mı oluşacağını seçin." />
+        <text name="rhm_clog_factors_overload" text="Sadece Aşırı Yük" />
+        <text name="rhm_clog_factors_all" text="Tümü (Yük + Nem ve Ot)" />
+        <text name="rhm_setting_clog_ai_title" text="Yapay Zeka Tıkanması" />
+        <text name="rhm_setting_clog_ai_desc" text="Oto-Kurtarma işçiyi yavaşlatıp açar; Manuel Yardım durdurur; Kapalı bağışıklık sağlar." />
+        <text name="rhm_clog_ai_auto" text="Oto-Kurtarma" />
+        <text name="rhm_clog_ai_manual" text="Manuel Yardım" />
+        <text name="rhm_clog_ai_off" text="Kapalı (YZ Muaf)" />
+        <text name="rhm_setting_clog_pile_title" text="Temizlerken Yığın Bırak" />
+        <text name="rhm_setting_clog_pile_desc" text="Tıkanıklık açıldığında tablanın önüne küçük bir saman/ot yığını bırakır." />
+        <text name="rhm_clog_warn_slip" text="Kaymalı kavrama aktif! Durun ve RShift+B tuşuna basılı tutun!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Besleyici tıkandı! Tamamen durun ve RShift+B basılı tutun!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Besleyici tıkandı! İnin ve tabla önünde temizleyin (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Ağır tıkanma! Kabinden inin ve besleyiciyi elle temizleyin!" />
+        <text name="rhm_clog_warn_stop_first" text="Geri çevirmeden önce biçerdöveri tamamen durdurun!" />
+        <text name="rhm_clog_cleared_msg" text="Tıkanıklık giderildi!" />
+        <text name="rhm_clog_onfoot_prompt" text="Temizlemek için RShift+C basılı tutun" />
+        <text name="rhm_clog_cause_overload" text="Aşırı Yük" />
+        <text name="rhm_clog_cause_moisture" text="Yüksek Nem" />
+        <text name="rhm_clog_cause_weeds" text="Yabani Ot" />
+        <text name="rhm_clog_cause_settings" text="Kalibrasyon" />
+        <text name="rhm_clog_cause_surge" text="Ani Yığılma" />
+        <text name="rhm_hud_clog_slug" text="SIKIŞ" />
+        <text name="rhm_hud_clog_slip" text="KAYMA" />
+        <text name="rhm_hud_clog_jam" text="TIKALI" />
+        <text name="rhm_hud_clog_clear" text="TEMİZ" />
+        <text name="rhm_ui_clog_risk" text="Tıkanma Riski" />
+        <text name="rhm_tut_clog_title" text="BESLEYİCİ TIKANMASI" />
+        <text name="rhm_tut_clog_msg" text="Uzun süreli aşırı yük veya nemli/otlu ürün kavramayı kaydırabilir veya tamburu tıkayabilir. Durup RShift+B basılı tutun (Gerçekçi modda inip RShift+C ile açın)." />
     </texts>
 </l10n>

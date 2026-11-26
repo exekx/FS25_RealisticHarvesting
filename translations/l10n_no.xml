@@ -595,5 +595,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Advarsel: en ekstern mod har endret interne fysikkfunksjoner i Realistic Harvesting utenom det offisielle API-et. Dette kan føre til feil motorbelastning, låst hastighetsbegrenser eller feil spilltall. Deaktiver uoffisielle tredjepartsutvidelser." />
         <text name="rhm_warn_conflicting_combine_mod" text="Advarsel: En annen mod for skurtreskerrealisme eller hastighets- og belastningsstyring er lastet inn sammen med Realistic Harvesting. Bruk av to fysikkontrollere for skurtreskere samtidig kan føre til konflikter i fartsgrenser, motorbelastning og spilltap. Vennligst behold bare én aktivert i denne lagringen." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Reverser innmater / Fjern stopp (Hold)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Fjern blokkering manuelt (Til fots)" />
+        <text name="rhm_setting_clog_mode_title" text="Skurtresker tilstopping" />
+        <text name="rhm_setting_clog_mode_desc" text="Simulerer tilstopping fra overbelastning, fukt eller ugress. Kun revers: i hytte; Realistisk: gå ut ved hard blokkering." />
+        <text name="rhm_clog_mode_off" text="Av" />
+        <text name="rhm_clog_mode_reverse" text="Kun revers" />
+        <text name="rhm_clog_mode_realistic" text="Realistisk (Revers + Til fots)" />
+        <text name="rhm_setting_clog_sens_title" text="Tilstoppingsfølsomhet" />
+        <text name="rhm_setting_clog_sens_desc" text="Justerer hvor raskt innmatingen tettes ved overbelastning." />
+        <text name="rhm_clog_sens_low" text="Lav (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standard (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Høy (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Tilstoppingsårsaker" />
+        <text name="rhm_setting_clog_factors_desc" text="Velg om kun ekstrem overbelastning eller også fukt, ugress og innstillinger utløser stopp." />
+        <text name="rhm_clog_factors_overload" text="Kun overbelastning" />
+        <text name="rhm_clog_factors_all" text="Alle (Belastning + Fukt &amp; Ugress)" />
+        <text name="rhm_setting_clog_ai_title" text="AI-arbeider tilstopping" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Gjenoppretting bremser tidlig og reverserer kort; Manuell stopper AI; Av gjør AI immun." />
+        <text name="rhm_clog_ai_auto" text="Auto-Gjenoppretting" />
+        <text name="rhm_clog_ai_manual" text="Manuell hjelp" />
+        <text name="rhm_clog_ai_off" text="Av (AI immun)" />
+        <text name="rhm_setting_clog_pile_title" text="Slipp haug ved rensing" />
+        <text name="rhm_setting_clog_pile_desc" text="Legger en liten haug foran skjærebordet etter fjerning av blokkering." />
+        <text name="rhm_clog_warn_slip" text="Slurekobling aktiv! Stopp helt og hold RShift+B!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Innmater blokkert! Stopp helt og hold RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Innmater blokkert! Gå ut og rens ved skjærebordet (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Hard blokkering! Gå ut av hytta og rens manuelt ved skjærebordet!" />
+        <text name="rhm_clog_warn_stop_first" text="Stopp maskinen helt før reversering!" />
+        <text name="rhm_clog_cleared_msg" text="Blokkering fjernet!" />
+        <text name="rhm_clog_onfoot_prompt" text="Hold RShift+C for å rense" />
+        <text name="rhm_clog_cause_overload" text="Overbelastning" />
+        <text name="rhm_clog_cause_moisture" text="Høy fuktighet" />
+        <text name="rhm_clog_cause_weeds" text="Ugress" />
+        <text name="rhm_clog_cause_settings" text="Kalibrering" />
+        <text name="rhm_clog_cause_surge" text="Massestøt" />
+        <text name="rhm_hud_clog_slug" text="KLUMP" />
+        <text name="rhm_hud_clog_slip" text="SLURE" />
+        <text name="rhm_hud_clog_jam" text="TETT" />
+        <text name="rhm_hud_clog_clear" text="RENS" />
+        <text name="rhm_ui_clog_risk" text="Stopprisiko" />
+        <text name="rhm_tut_clog_title" text="TILSTOPPING" />
+        <text name="rhm_tut_clog_msg" text="Langvarig overbelastning eller våt avling med ugress kan utløse slurekoblingen eller tette treskeren. Stopp og hold RShift+B (i Realistisk modus renses blokkeringer til fots med RShift+C)." />
     </texts>
 </l10n>

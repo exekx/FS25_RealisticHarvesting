@@ -595,5 +595,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Peringatan: mod eksternal telah memodifikasi fungsi fisika internal Realistic Harvesting di luar API resmi. Hal ini dapat menyebabkan beban mesin tidak akurat, pembatas kecepatan macet, atau kehilangan hasil yang salah. Harap nonaktifkan addon pihak ketiga tidak resmi." />
         <text name="rhm_warn_conflicting_combine_mod" text="Peringatan: Mod realisme atau pengontrol kecepatan dan beban mesin pemanen lain dimuat bersamaan dengan Realistic Harvesting. Menjalankan dua pengontrol fisika pemanen sekaligus dapat menyebabkan konflik batas kecepatan, beban mesin, dan kehilangan hasil panen. Harap aktifkan salah satu saja pada savegame ini." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Putar balik pengumpan / Bersihkan (Tahan)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Bersihkan sumbatan manual (Jalan kaki)" />
+        <text name="rhm_setting_clog_mode_title" text="Penyumbatan Combine" />
+        <text name="rhm_setting_clog_mode_desc" text="Simulasi penyumbatan akibat beban berlebih, kelembapan, atau gulma. Hanya Mundur: dari kabin; Realistis: turun membersihkan." />
+        <text name="rhm_clog_mode_off" text="Mati" />
+        <text name="rhm_clog_mode_reverse" text="Hanya Putar Balik" />
+        <text name="rhm_clog_mode_realistic" text="Realistis (Putar Balik + Jalan Kaki)" />
+        <text name="rhm_setting_clog_sens_title" text="Sensitivitas Sumbatan" />
+        <text name="rhm_setting_clog_sens_desc" text="Mengatur seberapa cepat sumbatan menumpuk saat kelebihan beban." />
+        <text name="rhm_clog_sens_low" text="Rendah (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standar (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Tinggi (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Penyebab Sumbatan" />
+        <text name="rhm_setting_clog_factors_desc" text="Pilih hanya beban berlebih ekstrem atau termasuk kelembapan, gulma, dan kalibrasi buruk." />
+        <text name="rhm_clog_factors_overload" text="Hanya Beban Berlebih" />
+        <text name="rhm_clog_factors_all" text="Semua (Beban + Lembap &amp; Gulma)" />
+        <text name="rhm_setting_clog_ai_title" text="Penyumbatan Pekerja AI" />
+        <text name="rhm_setting_clog_ai_desc" text="Pemulihan Otomatis memperlambat dan memutar balik AI; Manual menghentikan AI; Mati membuat AI kebal." />
+        <text name="rhm_clog_ai_auto" text="Pulih Otomatis" />
+        <text name="rhm_clog_ai_manual" text="Bantuan Manual" />
+        <text name="rhm_clog_ai_off" text="Mati (AI Kebal)" />
+        <text name="rhm_setting_clog_pile_title" text="Jatuhkan Tumpukan Saat Bersih" />
+        <text name="rhm_setting_clog_pile_desc" text="Menjatuhkan sedikit tumpukan jerami di depan header saat membersihkan sumbatan." />
+        <text name="rhm_clog_warn_slip" text="Kopling selip aktif! Berhenti dan tahan RShift+B!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Pengumpan tersumbat! Berhenti total dan tahan RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Pengumpan tersumbat! Turun dan bersihkan di header (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Sumbatan berat! Keluar dari kabin dan bersihkan secara manual!" />
+        <text name="rhm_clog_warn_stop_first" text="Hentikan combine sepenuhnya sebelum memutar balik!" />
+        <text name="rhm_clog_cleared_msg" text="Sumbatan bersih!" />
+        <text name="rhm_clog_onfoot_prompt" text="Tahan RShift+C untuk membersihkan" />
+        <text name="rhm_clog_cause_overload" text="Kelebihan Beban" />
+        <text name="rhm_clog_cause_moisture" text="Terlalu Lembap" />
+        <text name="rhm_clog_cause_weeds" text="Banyak Gulma" />
+        <text name="rhm_clog_cause_settings" text="Kalibrasi" />
+        <text name="rhm_clog_cause_surge" text="Lonjakan Massa" />
+        <text name="rhm_hud_clog_slug" text="PADAT" />
+        <text name="rhm_hud_clog_slip" text="SELIP" />
+        <text name="rhm_hud_clog_jam" text="MACET" />
+        <text name="rhm_hud_clog_clear" text="BERSIH" />
+        <text name="rhm_ui_clog_risk" text="Risiko Sumbat" />
+        <text name="rhm_tut_clog_title" text="PENYUMBATAN PENGUMPAN" />
+        <text name="rhm_tut_clog_msg" text="Beban berlebih terus-menerus atau tanaman basah ber-gulma dapat memicu kopling selip atau macet. Berhenti dan tahan RShift+B (mode Realistis bersihkan jalan kaki dengan RShift+C)." />
     </texts>
 </l10n>

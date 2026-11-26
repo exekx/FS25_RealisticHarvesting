@@ -551,7 +551,6 @@ function RHM_NotificationManager.getIsCutterActive(combineVehicle)
     if spec_combine and spec_combine.attachedCutters then
         for cutter, _ in pairs(spec_combine.attachedCutters) do
             if cutter.spec_cutter then
-                local spec_cutter = cutter.spec_cutter
                 local isLowered = (cutter.getIsLowered and cutter:getIsLowered(false))
                 if cutter:getIsTurnedOn() and isLowered then
                     return true
@@ -640,7 +639,7 @@ function RHM_NotificationManager:update(dt, combineVehicle)
     if isHarvesting and self.harvestActiveRunTime >= 3500 and cropName and cropName ~= "" and cropName ~= "UNKNOWN" then
         local calTutKey = "CALIB_" .. tostring(cropName)
         if not self.seenTutorials[calTutKey] and memory then
-            local effScore, lossScore, warnings = memory:checkSettingsForCrop(cropName, nil, true)
+            local _, _, warnings = memory:checkSettingsForCrop(cropName, nil, true)
             local isCalibrated = memory.calibratedCrops and memory.calibratedCrops[cropName]
             local cropTitle = (RHM_CombineSettingsDatabase and RHM_CombineSettingsDatabase:getCropTitle(cropName)) or cropName
 
@@ -806,6 +805,18 @@ function RHM_NotificationManager:update(dt, combineVehicle)
         local msg = g_i18n:hasText("rhm_tut_chopper_msg") and g_i18n:getText("rhm_tut_chopper_msg") or
             "Chopping straw consumes an extra 15-20% of engine power compared to swathing. If you need more harvesting speed on " .. "dense crops, switch to laying a swath."
         self:showNotification(title, msg, 0, true, "STRAW_CHOPPER")
+        return
+    end
+
+    -- TRIGGER 14: Clogging & Feeder Slip Clutch Onboarding
+    local clogState = (spec.data and spec.data.clogState) or 0
+    if not self.seenTutorials["CLOGGING_INTRO"] and clogState >= 2 then
+        local title = (g_i18n and g_i18n:hasText("rhm_tut_clog_title")) and g_i18n:getText("rhm_tut_clog_title") or "FEEDER CLOGGING"
+        local msg = (g_i18n and g_i18n:hasText("rhm_tut_clog_msg")) and g_i18n:getText("rhm_tut_clog_msg") or
+            "Prolonged overload or wet/weedy crops can trigger the slip clutch or jam the feeder. "
+                .. "Stop completely and hold RShift+B to reverse and clear it "
+                .. "(in Realistic mode, full jams must be cleared on foot near the header with RShift+C)."
+        self:showNotification(title, msg, 0, true, "CLOGGING_INTRO")
         return
     end
 end

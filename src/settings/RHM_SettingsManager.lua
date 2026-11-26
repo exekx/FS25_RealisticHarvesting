@@ -27,7 +27,12 @@ RHMSettingsManager.SERVER_SETTINGS = {
     "enableSlopeLoss",
     "enableWeedLoad",
     "enableIndependentLaunch",
-    "enableMoisture"
+    "enableMoisture",
+    "cloggingMode",
+    "clogSensitivity",
+    "clogFactors",
+    "aiCloggingMode",
+    "clogDropPile"
 }
 
 -- EN: List of client-side setting keys (personal, per-player, HUD-related).
@@ -68,6 +73,11 @@ RHMSettingsManager.defaultConfig = {
     enableWeedLoad = true,
     enableIndependentLaunch = true,
     enableMoisture = true,
+    cloggingMode = 2,
+    clogSensitivity = 2,
+    clogFactors = 2,
+    aiCloggingMode = 1,
+    clogDropPile = false,
     showMoisture = true,
     enableAlarmSound = true,
     alarmMode = 1,
@@ -144,7 +154,8 @@ function RHMSettingsManager:loadServerSettings(settingsObject)
         if xml then
             for _, key in ipairs(self.SERVER_SETTINGS) do
                 local xmlKey = self.XMLTAG.."."..key
-                if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" or key == "autoResetTripMode" then
+                if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" or key == "autoResetTripMode"
+                    or key == "cloggingMode" or key == "clogSensitivity" or key == "clogFactors" or key == "aiCloggingMode" then
                     settingsObject[key] = xml:getInt(xmlKey, self.defaultConfig[key] or 1)
                 else
                     settingsObject[key] = xml:getBool(xmlKey, self.defaultConfig[key])
@@ -254,7 +265,8 @@ function RHMSettingsManager:saveServerSettings(settingsObject)
     if xml then
         for _, key in ipairs(self.SERVER_SETTINGS) do
             local xmlKey = self.XMLTAG.."."..key
-            if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" or key == "autoResetTripMode" then
+            if key == "difficultyMotor" or key == "difficultyLoss" or key == "aiHelperTuning" or key == "autoResetTripMode"
+                or key == "cloggingMode" or key == "clogSensitivity" or key == "clogFactors" or key == "aiCloggingMode" then
                 xml:setInt(xmlKey, settingsObject[key] or 1)
             else
                 xml:setBool(xmlKey, settingsObject[key])

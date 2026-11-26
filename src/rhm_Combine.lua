@@ -88,6 +88,9 @@ local RHM_DASHBOARD_VALUE_SPECS = {
     { name = "packageLevel",       field = "forDBL_packageLevel",       default = 1 },
     { name = "machineType",        field = "forDBL_machineType",        default = "grain" },
     { name = "cropName",           field = "forDBL_cropName",           default = "--" },
+    { name = "clogLevel",          field = "forDBL_clogLevel",          default = 0 },
+    { name = "clogState",          field = "forDBL_clogState",          default = 0 },
+    { name = "isClogged",          field = "forDBL_isClogged",          default = false },
     -- Trip odometer
     { name = "tripAreaHa",         field = "forDBL_tripAreaHa",         default = 0 },
     { name = "tripMassT",          field = "forDBL_tripMassT",          default = 0 },
@@ -102,7 +105,7 @@ local RHM_DASHBOARD_XML_NAMES = {}
 for i, entry in ipairs(RHM_DASHBOARD_VALUE_SPECS) do
     local fieldName = entry.field
     local defVal = entry.default
-    entry.getter = function(vehicle, dashboard)
+    entry.getter = function(vehicle, _)
         local spec = vehicle and vehicle.spec_rhm_Combine
         if spec == nil or spec.isRhmCombine ~= true then
             return defVal
@@ -112,7 +115,6 @@ for i, entry in ipairs(RHM_DASHBOARD_VALUE_SPECS) do
     end
     RHM_DASHBOARD_XML_NAMES[i] = entry.name
 end
-local RHM_DASHBOARD_XML_VALUE_TYPES = table.concat(RHM_DASHBOARD_XML_NAMES, " ")
 
 -- EN: Checks if the vehicle has the base Combine specialization.
 --     Returns true for all machines including modular systems like NEXAT.
@@ -139,7 +141,7 @@ function rhm_Combine.initSpecialization()
     end
 
     if Vehicle.xmlSchema ~= nil and Dashboard ~= nil and Dashboard.registerDashboardXMLPaths ~= nil then
-        Dashboard.registerDashboardXMLPaths(Vehicle.xmlSchema, "vehicle.rhm.dashboards", RHM_DASHBOARD_XML_VALUE_TYPES)
+        Dashboard.registerDashboardXMLPaths(Vehicle.xmlSchema, "vehicle.rhm.dashboards", RHM_DASHBOARD_XML_NAMES)
     end
 end
 
@@ -215,6 +217,11 @@ function rhm_Combine.registerXMLPaths(schema, basePath)
     schema:register(XMLValueType.FLOAT,  tripKey .. ".reasons#moisture", "Moisture loss liters", 0)
     schema:register(XMLValueType.FLOAT,  tripKey .. ".reasons#wear",     "Wear loss liters", 0)
     schema:register(XMLValueType.FLOAT,  tripKey .. ".reasons#slope",    "Slope loss liters", 0)
+
+    local clogKey = basePath .. ".clog"
+    schema:register(XMLValueType.FLOAT,  clogKey .. "#level", "Clogging buildup percentage", 0)
+    schema:register(XMLValueType.INT,    clogKey .. "#state", "Clogging severity state", 0)
+    schema:register(XMLValueType.INT,    clogKey .. "#cause", "Clogging primary cause code", 0)
 end
 
 -- EN: Mirrors registerXMLPaths for the savegame vehicles.xml schema.
@@ -374,7 +381,7 @@ function rhm_Combine.registerExternalControlActions(vehicle, actionEventsTable)
     end
 end
 
-local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isActiveForInputIgnoreSelection)
+local function RHM_globalOnRegisterActionEvents(vehicle, _, isActiveForInputIgnoreSelection)
     -- Skip if this is already a combine with our spec (handled by rhm_Combine:onRegisterActionEvents)
     if not vehicle or vehicle.spec_rhm_Combine or not vehicle.isClient then
         return
@@ -434,7 +441,7 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
     if hasCombine then
         if InputAction.RHM_OPEN_MENU then
             local _, eventId = vehicle:addActionEvent(vehicle._rhmActionEvents, InputAction.RHM_OPEN_MENU, vehicle,
-                function(self, ...)
+                function(self)
                     if g_realisticHarvestManager then
                         g_realisticHarvestManager:toggleMenu(self)
                     end
@@ -450,7 +457,7 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
         end
         if InputAction.RHM_TOGGLE_HUD then
             local _, eventId = vehicle:addActionEvent(vehicle._rhmActionEvents, InputAction.RHM_TOGGLE_HUD, vehicle,
-                function(self, ...)
+                function()
                     if g_realisticHarvestManager then
                         g_realisticHarvestManager:toggleHUD()
                     end
@@ -467,7 +474,7 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
     -- Harvest History & Fleet Telemetry Menu is globally accessible in ANY entered vehicle (tractor, car, truck, etc.)
     if InputAction.RHM_OPEN_HARVEST_MENU then
         local _, eventId = vehicle:addActionEvent(vehicle._rhmActionEvents, InputAction.RHM_OPEN_HARVEST_MENU, vehicle,
-            function(self, ...)
+            function(self)
                 if g_realisticHarvestManager then
                     g_realisticHarvestManager:showHarvestHistoryGUI(self)
                 end
@@ -483,7 +490,7 @@ local function RHM_globalOnRegisterActionEvents(vehicle, isActiveForInput, isAct
     if hasCombine then
         if InputAction.RHM_TOGGLE_MOUSE_CURSOR then
             local _, eventId = vehicle:addActionEvent(vehicle._rhmActionEvents, InputAction.RHM_TOGGLE_MOUSE_CURSOR, vehicle,
-                function(self, ...)
+                function(self)
                     if g_realisticHarvestManager then
                         g_realisticHarvestManager:toggleMouseCursor(self)
                     end
@@ -524,7 +531,7 @@ function rhm_Combine.applyGlobalVehicleHooks()
     if enterableSpec and enterableSpec.onLeaveVehicle then
         enterableSpec.onLeaveVehicle = Utils.appendedFunction(
             enterableSpec.onLeaveVehicle,
-            function(vehicle, wasEntered)
+            function(vehicle)
                 if not vehicle or not vehicle.isClient then return end
                 if vehicle._rhmActionEvents then
                     vehicle:clearActionEventsTable(vehicle._rhmActionEvents)
@@ -556,7 +563,7 @@ function rhm_Combine.applyGlobalVehicleHooks()
     if Vehicle and Vehicle.registerActionEvents then
         Vehicle.registerActionEvents = Utils.appendedFunction(
             Vehicle.registerActionEvents,
-            function(vehicle, ...)
+            function(vehicle)
                 if not vehicle or vehicle.spec_rhm_Combine or not vehicle.isClient then
                     return
                 end
@@ -771,6 +778,11 @@ function rhm_Combine.syncDashboardBridge(vehicle, spec)
     spec.forDBL_packageLevel = spec.packageLevel or 1
     spec.forDBL_machineType = mType
     spec.forDBL_cropName = cropName or "--"
+    local cLevel = sanitizeDashboardNumber(data and data.clogLevel, 0)
+    local cState = sanitizeDashboardNumber(data and data.clogState, 0)
+    spec.forDBL_clogLevel = cLevel
+    spec.forDBL_clogState = cState
+    spec.forDBL_isClogged = (cState >= 2)
 
     -- Trip odometer
     spec.forDBL_tripAreaHa = tripAreaHa
@@ -1062,8 +1074,14 @@ function rhm_Combine:onLoad(savegame)
         recommendedSpeed = 0,  -- EN: Updated by server tick, synced to clients / UA: Оновлюється сервером, синхронізується на клієнти
         overloadLevel = 0,     -- EN: 0=normal, 1=HIGH (120%+), 2=CRITICAL (150%+) — synced for warning display / UA: 0=норма, 1=ВИСОКЕ (120%+), 2=КРИТИЧНЕ (150%+)
         moisture = 0,          -- EN: Grain moisture (%) / UA: Вологість зерна (%)
-        weedRatio = 0          -- EN: Active live weed ratio at cutter (0.00-1.00) / UA: Рівень живих бур'янів (0.00-1.00)
+        weedRatio = 0,         -- EN: Active live weed ratio at cutter (0.00-1.00) / UA: Рівень живих бур'янів (0.00-1.00)
+        clogLevel = 0,         -- EN: Feeder/drum clogging buildup (0-100%) / UA: Рівень забивання молотарки (0-100%)
+        clogState = 0,         -- EN: 0=normal, 1=warning, 2=slipClutch, 3=blocked / UA: 0=норма, 1=попередження, 2=муфта, 3=забито
+        clogCause = 0,         -- EN: Primary clogging cause code / UA: Код причини забивання
+        isClogReversing = false,
+        clogAiRecover = false
     }
+    spec.cloggingSystem = RHM_CloggingSystem and RHM_CloggingSystem.new() or nil
     spec.currentWeedRatio = 0
 
     -- Pre-allocated cab dashboard telemetry bridge (server + client, zero runtime allocations)
@@ -1142,6 +1160,21 @@ function rhm_Combine:onLoad(savegame)
             if spec.samples.overloadAlarm == nil then
                 local components = self.components or { { node = self.rootNode } }
                 spec.samples.overloadAlarm = soundManager:loadSampleFromXML(xmlSoundFile, "sounds", "overloadAlarm", modDir, components, 1, AudioGroup.VEHICLE, self.i3dMappings, self)
+            end
+
+            -- 2. Clogging & clearing sound effects (loaded as 2D samples like overloadAlarm so cab/exterior attenuation never mutes them)
+            local components = self.components or { { node = self.rootNode } }
+            local clogSampleNames = { "clogStrain", "slipClutch", "clogJam", "feederReverse", "manualClear" }
+            for _, sName in ipairs(clogSampleNames) do
+                local sLoops = (sName == "clogJam") and 1 or 0
+                local loadedSample = nil
+                if soundManager.loadSample2DFromXML then
+                    loadedSample = soundManager:loadSample2DFromXML(xmlSoundFile, "sounds", sName, modDir, sLoops, audioGroup)
+                end
+                if loadedSample == nil and soundManager.loadSampleFromXML then
+                    loadedSample = soundManager:loadSampleFromXML(xmlSoundFile, "sounds", sName, modDir, components, sLoops, AudioGroup.VEHICLE, self.i3dMappings, self)
+                end
+                spec.samples[sName] = loadedSample
             end
 
             delete(xmlSoundFile)
@@ -1352,7 +1385,7 @@ end
 --     Перетворює пікселі в квадратні метри з допомогою g_currentMission:getFruitPixelsToSqm().
 --     Також зберігає запасні літри з поверненого значення для форажних комбайнів без бункера.
 function rhm_Combine:addCutterArea(superFunc, ...)
-    local area, realArea, inputFruitType, outputFillType, strawRatio, strawGroundType, farmId, cutterLoad = ...
+    local area, _, inputFruitType, outputFillType = ...
     
     local spec = self.spec_rhm_Combine
     if spec then
@@ -1830,9 +1863,6 @@ function rhm_Combine:onCropTypeChanged(newCropName)
         if spec.settingsDirtyFlag and type(spec.settingsDirtyFlag) == "number" then
             self:raiseDirtyFlags(spec.settingsDirtyFlag)
         end
-        if spec.dirtyFlag and type(spec.dirtyFlag) == "number" then
-            self:raiseDirtyFlags(spec.dirtyFlag)
-        end
     end
 end
 
@@ -2088,12 +2118,12 @@ function rhm_Combine.getLiveWeedRatio(vehicle)
     local sx, sy, sz = nil, nil, nil
     local wx, wy, wz = nil, nil, nil
     local cutterWidth = 3.0
-    local fx, fy, fz = 0, 0, 1
+    local fx, _, fz = 0, 0, 1
 
     if activeCutter then
         local cutterNode = activeCutter.rootNode or (activeCutter.components and activeCutter.components[1] and activeCutter.components[1].node)
         if cutterNode then
-            fx, fy, fz = localDirectionToWorld(cutterNode, 0, 0, 1)
+            fx, _, fz = localDirectionToWorld(cutterNode, 0, 0, 1)
         end
 
         -- Primary Method: workArea defines exact left (start) and right (width) ends of the knife bar
@@ -2129,7 +2159,7 @@ function rhm_Combine.getLiveWeedRatio(vehicle)
     if not sx then
         local vehNode = vehicle.components and vehicle.components[1] and vehicle.components[1].node
         if vehNode then
-            fx, fy, fz = localDirectionToWorld(vehNode, 0, 0, 1)
+            fx, _, fz = localDirectionToWorld(vehNode, 0, 0, 1)
             local rx, ry, rz = localDirectionToWorld(vehNode, 1, 0, 0)
             if vehicle.spec_workArea and vehicle.spec_workArea.workAreas then
                 for _, wa in pairs(vehicle.spec_workArea.workAreas) do
@@ -2285,9 +2315,10 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         return limit, doCheckSpeedLimit
     end
     
-    -- EN: Check if speed limiting is enabled in settings.
-    -- UA: Перевіряємо чи увімкнено обмеження швидкості в налаштуваннях.
-    if g_realisticHarvestManager and g_realisticHarvestManager.settings then
+    -- EN: Check if speed limiting is enabled in settings (clogging slowdown at >=45% always remains active when clogging is on).
+    -- UA: Перевіряємо чи увімкнено обмеження швидкості в налаштуваннях (примусове гальмування від забивання >=45% діє завжди).
+    local isClogSlowdown = ((spec.data and spec.data.clogLevel) or (spec.cloggingSystem and spec.cloggingSystem.clogLevel) or 0) >= 45.0
+    if g_realisticHarvestManager and g_realisticHarvestManager.settings and not isClogSlowdown then
         if not g_realisticHarvestManager.settings.enableSpeedLimit then
             spec.isSpeedLimitActive = false
             return limit, doCheckSpeedLimit
@@ -2355,7 +2386,6 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
     -- EN: Prefer smoothed hydrostatic limit so AI helpers and cruise control never experience discontinuous steps
     -- UA: Надаємо перевагу згладженому гідростатичному ліміту щоб помічники і круїз-контроль не отримували ривків
     local calculatedLimit = spec._rhmSmoothedMotorLimit or spec.loadCalculator:getSpeedLimit()
-    local engineLoad = spec.loadCalculator:getEngineLoad()
     
     -- Діагностика: логуємо розрахунки (рідше)
     if not self._speedLimitLogTime or (g_currentMission.time - self._speedLimitLogTime) > 2000 then
@@ -2388,6 +2418,22 @@ end
 -- UA: Перевизначення getCanBeTurnedOn. Блокує запуск молотарки якщо будь-яка прикріплена жатка
 --     не готова (напр. складена жатка що не розкладена). Повертається до ванільної логіки без жаток.
 function rhm_Combine:getCanBeTurnedOn(superFunc)
+    local spec_rhm = self.spec_rhm_Combine
+    if spec_rhm then
+        local cState = (spec_rhm.cloggingSystem and spec_rhm.cloggingSystem:getState()) or (spec_rhm.data and spec_rhm.data.clogState) or 0
+        if cState == 3 then
+            if self.isClient and g_currentMission and g_currentMission.showBlinkingWarning and self.getIsActiveForInput and self:getIsActiveForInput(true) then
+                local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+                local isRealistic = settings and settings.cloggingMode == 3
+                local key = isRealistic and "rhm_clog_warn_blocked_foot" or "rhm_clog_warn_blocked_reverse"
+                local fallback = isRealistic and "Thresher jammed! Exit cab and clear feeder manually!" or "Thresher jammed! Hold RShift+B to reverse feeder!"
+                local msg = (g_i18n and g_i18n:hasText(key) and g_i18n:getText(key)) or fallback
+                g_currentMission:showBlinkingWarning(msg, 2500)
+            end
+            return false
+        end
+    end
+
     local spec_combine = self.spec_combine
     if not spec_combine then
         return superFunc(self)
@@ -2564,7 +2610,26 @@ end
 --     AI звільнений від цієї перевірки.
 function rhm_Combine:verifyCombine(superFunc, fruitType, outputFillType)
     local isAIActive = rhm_Combine.isAiWorkerActive(self)
-    
+
+    -- EN: Block crop intake only when feeder slip clutch has critically tripped (>=90%) or hard-jammed (state 3).
+    --     Below 90%, the combine continues cutting while forcibly reducing ground speed.
+    -- UA: Блокуємо подачу маси лише при критичному зриві муфти (>=90%) або повному забиванні (стан 3).
+    --     До 90% комбайн продовжує косити з примусовим зниженням швидкості.
+    local spec_rhm = self.spec_rhm_Combine
+    if spec_rhm then
+        local halted = false
+        if spec_rhm.cloggingSystem and spec_rhm.cloggingSystem.isIntakeHalted then
+            halted = spec_rhm.cloggingSystem:isIntakeHalted()
+        else
+            local cState = (spec_rhm.data and spec_rhm.data.clogState) or 0
+            local cLevel = (spec_rhm.data and spec_rhm.data.clogLevel) or 0
+            halted = (cState == 3) or (cLevel >= 90.0)
+        end
+        if halted then
+            return nil
+        end
+    end
+
     -- EN: Block harvesting if thresher is off.
     -- UA: Блокуємо збирання якщо молотарка вимкнена.
     if self.spec_turnOnVehicle ~= nil and not self:getIsTurnedOn() then
@@ -2577,6 +2642,18 @@ function rhm_Combine:verifyCombine(superFunc, fruitType, outputFillType)
 end
 
 ---Check for safety warnings (Client Side)
+function rhm_Combine.syncCloggingData(vehicle, spec)
+    if spec == nil or spec.data == nil or spec.cloggingSystem == nil then
+        return
+    end
+    local sys = spec.cloggingSystem
+    spec.data.clogLevel = sys.clogLevel or 0
+    spec.data.clogState = sys.clogState or 0
+    spec.data.clogCause = sys.clogCause or 0
+    spec.data.isClogReversing = (sys.isPlayerReversing == true or sys.aiRecoverActive == true)
+    spec.data.clogAiRecover = (sys.aiRecoverActive == true)
+end
+
 function rhm_Combine:updateWarnings(dt)
     -- Only for active vehicle
     if not self:getIsActiveForInput(true) then
@@ -2586,6 +2663,26 @@ function rhm_Combine:updateWarnings(dt)
     local now = g_time
     if self._rhmLastWarningTime and (now - self._rhmLastWarningTime) < 3000 then
         return
+    end
+
+    local spec_rhm = self.spec_rhm_Combine
+    if spec_rhm and spec_rhm.data then
+        local cState = spec_rhm.data.clogState or 0
+        if cState == 3 then
+            self._rhmLastWarningTime = now
+            local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+            local isRealistic = settings and settings.cloggingMode == 3
+            local key = isRealistic and "rhm_clog_warn_blocked_foot" or "rhm_clog_warn_blocked_reverse"
+            local fallback = isRealistic and "Thresher jammed! Exit cab and clear feeder manually!" or "Thresher jammed! Hold RShift+B to reverse feeder!"
+            local msg = (g_i18n and g_i18n:hasText(key) and g_i18n:getText(key)) or fallback
+            g_currentMission:showBlinkingWarning(msg, 2500)
+            return
+        elseif cState == 2 then
+            self._rhmLastWarningTime = now
+            local msg = (g_i18n and g_i18n:hasText("rhm_clog_warn_slip") and g_i18n:getText("rhm_clog_warn_slip")) or "Slip clutch active! Stop and hold RShift+B to reverse feeder!"
+            g_currentMission:showBlinkingWarning(msg, 2500)
+            return
+        end
     end
 
     local isCombineOn = self:getIsTurnedOn()
@@ -2662,9 +2759,6 @@ function rhm_Combine.playAlarmSample(vehicle, spec, soundVolMultiplier)
         if g_soundManager.setSampleVolume then
             g_soundManager:setSampleVolume(alarmSample, alarmVol)
         end
-    end
-    if alarmSample.soundSample and type(setAudioSourceVolume) == "function" then
-        setAudioSourceVolume(alarmSample.soundSample, alarmVol)
     end
 end
 
@@ -2781,6 +2875,112 @@ function rhm_Combine:updateSounds(dt)
     end
 end
 
+function rhm_Combine.applySampleVolume(sample, targetVol, pitchScale)
+    if sample == nil then return end
+    local v = math.min(1.0, math.max(0.0, tonumber(targetVol) or 1.0))
+    sample.volume = v
+    sample.originalVolume = v
+    sample.volumeIndoor = v
+    sample.originalVolumeIndoor = v
+    sample.volumeOutdoor = v
+    sample.originalVolumeOutdoor = v
+    sample.volumeScale = v
+    sample.currentVolume = v
+    sample.targetVolume = v
+    if pitchScale ~= nil then
+        sample.pitchScale = pitchScale
+    end
+    if g_soundManager then
+        if g_soundManager.setSampleVolume then
+            g_soundManager:setSampleVolume(sample, v)
+        end
+        if g_soundManager.setSampleVolumeScale then
+            g_soundManager:setSampleVolumeScale(sample, v)
+        end
+        if g_soundManager.updateSampleAttributes then
+            g_soundManager:updateSampleAttributes(sample, true)
+        end
+    end
+end
+
+---EN: Updates clogging mechanical strain, slip clutch, jam, and feeder reverse sounds (client side).
+function rhm_Combine.updateClogSounds(vehicle, spec, dt)
+    if not spec or not spec.samples or not g_soundManager then
+        return
+    end
+
+    local isGuiVisible = (g_gui ~= nil and g_gui.getIsGuiVisible ~= nil and g_gui:getIsGuiVisible())
+    local isPaused = (g_currentMission ~= nil and g_currentMission.isPaused)
+
+    local soundVolMultiplier = 1.0
+    local cloggingEnabled = true
+    if g_realisticHarvestManager and g_realisticHarvestManager.settings then
+        local s = g_realisticHarvestManager.settings
+        if s.soundVolume ~= nil then
+            soundVolMultiplier = tonumber(s.soundVolume) or 1.0
+        end
+        if s.cloggingMode == 1 then
+            cloggingEnabled = false
+        end
+    end
+
+    local isPlayerEntered = (vehicle.getIsEntered and vehicle:getIsEntered())
+        or (vehicle.getIsControlled and vehicle:getIsControlled())
+    if not isPlayerEntered and vehicle.rootVehicle then
+        isPlayerEntered = (vehicle.rootVehicle.getIsEntered and vehicle.rootVehicle:getIsEntered())
+            or (vehicle.rootVehicle.getIsControlled and vehicle.rootVehicle:getIsControlled())
+    end
+
+    local samples = spec.samples
+    local function stopLoop(s)
+        if s and g_soundManager.getIsSamplePlaying and g_soundManager:getIsSamplePlaying(s) then
+            g_soundManager:stopSample(s)
+        end
+    end
+
+    local function syncLoop(s, shouldPlay, relVol, pitchScale)
+        if not s then return end
+        if shouldPlay then
+            local vol = math.min(1.0, math.max(0.0, (relVol or 1.0) * soundVolMultiplier))
+            if not (g_soundManager.getIsSamplePlaying and g_soundManager:getIsSamplePlaying(s)) then
+                rhm_Combine.applySampleVolume(s, vol, pitchScale or 1.0)
+                g_soundManager:playSample(s)
+            end
+            rhm_Combine.applySampleVolume(s, vol, pitchScale or 1.0)
+        else
+            stopLoop(s)
+        end
+    end
+
+    if not cloggingEnabled or soundVolMultiplier <= 0.01 or isGuiVisible or isPaused or not isPlayerEntered then
+        stopLoop(samples.clogStrain)
+        stopLoop(samples.slipClutch)
+        stopLoop(samples.feederReverse)
+        return
+    end
+
+    local data = spec.data or {}
+    local clogLevel = data.clogLevel or 0
+    local clogState = data.clogState or 0
+    local isReversing = (data.isClogReversing == true) or (spec.isHoldingReverseFeeder == true and ((vehicle.getLastSpeed and vehicle:getLastSpeed()) or 0) < 1.2)
+
+    -- Trigger one-shot jam thud on transition into STATE_BLOCKED
+    if clogState == 3 and (spec._prevClientClogState or 0) < 3 and samples.clogJam then
+        local jamVol = math.min(1.0, math.max(0.0, soundVolMultiplier))
+        if g_soundManager.stopSample then g_soundManager:stopSample(samples.clogJam) end
+        rhm_Combine.applySampleVolume(samples.clogJam, jamVol, 1.0)
+        g_soundManager:playSample(samples.clogJam)
+        rhm_Combine.applySampleVolume(samples.clogJam, jamVol, 1.0)
+    end
+    spec._prevClientClogState = clogState
+
+    syncLoop(samples.feederReverse, isReversing and clogLevel > 0, 0.95, 1.0)
+    syncLoop(samples.slipClutch, (not isReversing) and (clogState == 2), 0.95, 1.0 + math.min(0.12, math.max(0, (clogLevel - 65) / 35) * 0.12))
+    local strainVol = math.min(0.90, 0.35 + ((clogLevel - 35) / 30) * 0.55)
+    local strainPitch = 0.96 + math.min(0.10, (clogLevel - 35) / 30 * 0.10)
+    syncLoop(samples.clogStrain, (not isReversing) and (clogState == 1) and (clogLevel >= 35), strainVol, strainPitch)
+end
+
 -- Use the same working-cutter checks on both peers; harvesting physics remain server-only.
 function rhm_Combine.getIsCutterWorking(self)
     -- Early exit: Automated helpers turning on headlands are NOT actively cutting
@@ -2790,7 +2990,6 @@ function rhm_Combine.getIsCutterWorking(self)
 
     local spec = self.spec_rhm_Combine
     local spec_combine = self.spec_combine
-    local missionTime = (g_currentMission and g_currentMission.time) or 0
     local hasIncomingCrop = spec and (((spec.lastRawArea or 0) > 0) or ((spec.lastLiters or 0) > 0) or ((spec._fallbackLiters or 0) > 0) or spec._isInsideAddCutterArea)
 
     -- If crop is actively entering the combine, the cutter is 100% working!
@@ -2829,6 +3028,29 @@ function rhm_Combine.getIsCutterWorking(self)
     return cutterIsTurnedOn
 end
 
+---EN: Returns true if any attached cutter (or integrated harvester unit) is turned ON regardless of raised/lowered state.
+function rhm_Combine.getIsAnyCutterTurnedOn(self)
+    local spec = self and self.spec_rhm_Combine
+    local spec_combine = self and self.spec_combine
+    local cutters = rhm_Combine.getAllAttachedCutters(self, spec and spec._attachedCuttersBuffer)
+    for cutter, _ in pairs(cutters) do
+        if cutter ~= self then
+            local isFolded = cutter.spec_foldable and ((cutter.getIsUnfolded and not cutter:getIsUnfolded()) or (cutter.getIsFolded and cutter:getIsFolded()))
+            if not isFolded and cutter.getIsTurnedOn and cutter:getIsTurnedOn() == true then
+                return true
+            end
+        elseif self.getIsTurnedOn and self:getIsTurnedOn() == true then
+            return true
+        end
+    end
+    if spec and (spec.machineType == "grape" or spec.machineType == "olive" or spec.machineType == "cotton" or self.spec_cutter ~= nil) then
+        if (self.getIsTurnedOn and self:getIsTurnedOn() == true) or (spec_combine and spec_combine.isThreshing) then
+            return true
+        end
+    end
+    return false
+end
+
 -- EN: Called on every game tick. Runs warning checks on client, load/yield/speed calculations on server.
 --     Server side: detects if thresher or cutter is off and resets HUD data accordingly.
 --     Passes harvested mass and area to RHM_LoadCalculator for physics-based engine load calculation.
@@ -2845,6 +3067,21 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     if self.isClient then
         rhm_Combine.updateWarnings(self, dt)
         rhm_Combine.updateSounds(self, dt)
+        rhm_Combine.updateClogSounds(self, spec, dt)
+
+        -- Dynamically show/hide feeder reverse F1 action prompt when strain/clog is active
+        if spec.actionEvents and InputAction.RHM_REVERSE_FEEDER and spec.actionEvents[InputAction.RHM_REVERSE_FEEDER] then
+            local revInfo = spec.actionEvents[InputAction.RHM_REVERSE_FEEDER]
+            local revId = revInfo.actionEventId
+            if revId and g_inputBinding and g_inputBinding.setActionEventTextVisibility then
+                local cLevel = (spec.data and spec.data.clogLevel) or 0
+                local cState = (spec.data and spec.data.clogState) or 0
+                local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+                local enabled = not settings or (settings.cloggingMode ~= 1)
+                local showPrompt = enabled and (cLevel >= 15 or cState >= 2)
+                g_inputBinding:setActionEventTextVisibility(revId, showPrompt)
+            end
+        end
 
         -- CLIENT: Quick Trip Reset Hold Handling (1.5 seconds)
         if spec.isHoldingReset then
@@ -2885,7 +3122,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
     --     Коли автоматичний помічник чи круїз-контроль керують комбайном на клієнті, застосовуємо синхронізовану швидкість безпосередньо до мотора.
     if not self.isServer and self.isClient then
         local isHelperTurning = rhm_Combine.getIsHelperTurning(self)
-        local spec_combine = self.spec_combine
         local isAnyCutterLowered = false
         if not isHelperTurning then
             local cutters = rhm_Combine.getAllAttachedCutters(self, spec and spec._attachedCuttersBuffer)
@@ -2901,8 +3137,9 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         local isReversing = rhm_Combine.getIsVehicleReversing(self)
         local isThreshing = (self.getIsTurnedOn and self:getIsTurnedOn()) or (self.spec_combine and self.spec_combine.isThreshing)
         local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
-        local speedLimitEnabled = not settings or settings.enableSpeedLimit
-        local isArcade = settings and settings.difficultyMotor == 1
+        local isClogSlowdownClient = (spec.data and (spec.data.clogLevel or 0) >= 45.0)
+        local speedLimitEnabled = (not settings or settings.enableSpeedLimit) or isClogSlowdownClient
+        local isArcade = (settings and settings.difficultyMotor == 1) and (not isClogSlowdownClient)
 
         if cutterIsWorking and not isReversing and not isHelperTurning then
             spec._rhmClientDisengagedTime = 0
@@ -2951,9 +3188,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         rhm_Combine.syncDashboardBridge(self, spec)
         return
     end
-    
-    local spec_combine = self.spec_combine
-
     
     if not spec or not spec.loadCalculator then
         return
@@ -3004,6 +3238,29 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             spec.loadCalculator.currentWeedRatio = 0
         end
         spec.isSpeedLimitActive = false
+        if spec.cloggingSystem then
+            local sys = spec.cloggingSystem
+            if sys.clogLevel > 0 or sys.clogState > 0 or sys.isPlayerReversing or sys.aiRecoverActive then
+                local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+                local cloggingMode = (settings and settings.cloggingMode) or 2
+                local clogSensitivity = (settings and settings.clogSensitivity) or 2
+                local clogFactors = (settings and settings.clogFactors) or 2
+                local aiCloggingMode = (settings and settings.aiCloggingMode) or 1
+                local clogDropPile = settings and settings.clogDropPile == true
+                local mType = (spec.combineMemory and spec.combineMemory.machineType) or spec.machineType or "grain"
+                local tType = spec.threshingType or "grain"
+                local isAi = rhm_Combine.isAiWorkerActive(self)
+                local spd = (self.getLastSpeed and self:getLastSpeed()) or 0
+                local isHeaderTurnedOn = (isTurnedOn == true) and rhm_Combine.getIsAnyCutterTurnedOn(self)
+                sys:update(
+                    self, dt, 0, 0, 0, 14, 0, 1.0, mType, tType,
+                    isTurnedOn == true, false, false, spd, isAi,
+                    cloggingMode, clogSensitivity, clogFactors, aiCloggingMode, clogDropPile,
+                    isHeaderTurnedOn
+                )
+            end
+            rhm_Combine.syncCloggingData(self, spec)
+        end
         rhm_Combine.syncDashboardBridge(self, spec)
         if spec.dataDirtyFlag and type(spec.dataDirtyFlag) == "number" then
             self:raiseDirtyFlags(spec.dataDirtyFlag)
@@ -3131,6 +3388,29 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
             spec.loadCalculator.currentWeedRatio = 0
         end
         spec.isSpeedLimitActive = false
+        if spec.cloggingSystem then
+            local sys = spec.cloggingSystem
+            if sys.clogLevel > 0 or sys.clogState > 0 or sys.isPlayerReversing or sys.aiRecoverActive then
+                local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+                local cloggingMode = (settings and settings.cloggingMode) or 2
+                local clogSensitivity = (settings and settings.clogSensitivity) or 2
+                local clogFactors = (settings and settings.clogFactors) or 2
+                local aiCloggingMode = (settings and settings.aiCloggingMode) or 1
+                local clogDropPile = settings and settings.clogDropPile == true
+                local mType = (spec.combineMemory and spec.combineMemory.machineType) or spec.machineType or "grain"
+                local tType = spec.threshingType or "grain"
+                local isAi = rhm_Combine.isAiWorkerActive(self)
+                local spd = (self.getLastSpeed and self:getLastSpeed()) or 0
+                local isHeaderTurnedOn = (isTurnedOn == true) and rhm_Combine.getIsAnyCutterTurnedOn(self)
+                sys:update(
+                    self, dt, 0, 0, 0, 14, 0, 1.0, mType, tType,
+                    isTurnedOn == true, false, false, spd, isAi,
+                    cloggingMode, clogSensitivity, clogFactors, aiCloggingMode, clogDropPile,
+                    isHeaderTurnedOn
+                )
+            end
+            rhm_Combine.syncCloggingData(self, spec)
+        end
         rhm_Combine.syncDashboardBridge(self, spec)
         
         -- EN: Sync reset to clients so their HUD clears too.
@@ -3346,7 +3626,6 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         end
 
         spec._fieldCheckTimer = (spec._fieldCheckTimer or 0) + dt
-        local distMovedSq = (cutX - (spec._lastFieldCheckX or 0))^2 + (cutZ - (spec._lastFieldCheckZ or 0))^2
 
         -- EN: Update detected field ID ONLY when actively cutting standing crop on the ground.
         --     When turning on headlands, roads, or verges with 0 area, field identity stays locked to
@@ -3354,7 +3633,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         -- UA: Оновлюємо ID поля ТІЛЬКИ коли йде активний зріз рослин на землі.
         --     Під час розвороту на хедленді чи дорозі з 0 площею ID зафіксовано за поточним полем,
         --     щоб залишки зерна при зсипанні зараховувалися справжньому полю!
-        if isActivelyCutting then
+        if isActivelyCutting and cutX ~= nil and cutZ ~= nil then
+            local distMovedSq = (cutX - (spec._lastFieldCheckX or 0))^2 + (cutZ - (spec._lastFieldCheckZ or 0))^2
             if spec._fieldCheckTimer >= 800 or distMovedSq >= 25.0 or spec._lastDetectedFieldId == nil or spec._lastDetectedFieldId == 0 then
                 spec._fieldCheckTimer = 0
                 spec._lastFieldCheckX = cutX
@@ -3451,6 +3731,53 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         spec.data.forageBlowerPowerHp = (spec.loadCalculator and spec.loadCalculator.lastPowerForageBlower) or 0
     end
 
+    if self.isServer and spec.cloggingSystem then
+        local sys = spec.cloggingSystem
+        local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+        local cloggingMode = (settings and settings.cloggingMode) or 2
+        local clogSensitivity = (settings and settings.clogSensitivity) or 2
+        local clogFactors = (settings and settings.clogFactors) or 2
+        local aiCloggingMode = (settings and settings.aiCloggingMode) or 1
+        local clogDropPile = settings and settings.clogDropPile == true
+
+        local mType = (spec.combineMemory and spec.combineMemory.machineType) or spec.machineType or "grain"
+        local tType = spec.threshingType or "grain"
+        local cropName = (spec.combineMemory and spec.combineMemory.currentCrop) or ""
+        local mLimit = 14.0
+        if RHM_MoistureAdapter and RHM_MoistureAdapter.getCropMoistureLimit then
+            mLimit = RHM_MoistureAdapter.getCropMoistureLimit(cropName, spec.lastFillType) or 14.0
+        end
+        local loadPct = (spec.data and spec.data.load) or (spec.loadCalculator:getEngineLoad()) or 0
+        local massKgS = (spec.loadCalculator and spec.loadCalculator.rawAvgMass) or 0
+        local moistPct = (spec.data and spec.data.moisture) or 0
+        local weedR = spec.currentWeedRatio or 0
+        local effVal = (spec.loadCalculator and spec.loadCalculator.settingsEfficiency) or 1.0
+        local isAiWorker = rhm_Combine.isAiWorkerActive(self)
+
+        sys:update(
+            self, dt, loadPct, massKgS, moistPct, mLimit, weedR, effVal,
+            mType, tType, true, cutterIsTurnedOn, true, currentSpeed,
+            isAiWorker, cloggingMode, clogSensitivity, clogFactors, aiCloggingMode, clogDropPile,
+            true
+        )
+        rhm_Combine.syncCloggingData(self, spec)
+
+        if sys.justHitBlocked or sys.justHitSlipClutch then
+            if sys.justHitBlocked then
+                -- Stop attached cutters as well when drum jams hard
+                local cuttersToStop = rhm_Combine.getAllAttachedCutters(self, spec._attachedCuttersBuffer)
+                for cutter, _ in pairs(cuttersToStop) do
+                    if cutter ~= self and cutter.setIsTurnedOn and cutter.getIsTurnedOn and cutter:getIsTurnedOn() then
+                        cutter:setIsTurnedOn(false, true)
+                    end
+                end
+            end
+            if spec.dataDirtyFlag and type(spec.dataDirtyFlag) == "number" then
+                self:raiseDirtyFlags(spec.dataDirtyFlag)
+            end
+        end
+    end
+
     rhm_Combine.syncDashboardBridge(self, spec)
 
     local isAi = rhm_Combine.isAiWorkerActive(self)
@@ -3531,7 +3858,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         local motorObj = rhm_Combine.getMotorizedCarrier(self)
         local isAI = rhm_Combine.isAiWorkerActive(self)
         local isPlayerControlled = (type(self.getIsControlled) == "function" and self:getIsControlled())
-        if not isPlayerControlled and motorObj ~= self and type(motorObj.getIsControlled) == "function" then
+        if not isPlayerControlled and motorObj ~= nil and motorObj ~= self and type(motorObj.getIsControlled) == "function" then
             isPlayerControlled = motorObj:getIsControlled()
         end
         local isMoving = (self.getLastSpeed and self:getLastSpeed() > 0.3)
@@ -3542,8 +3869,10 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                 local currentLimit = spec.loadCalculator:getSpeedLimit()
 
                 local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
-                local speedLimitEnabled = settings and settings.enableSpeedLimit
-                local isArcade = settings and settings.difficultyMotor == 1 -- DIFFICULTY_ARCADE
+                local clogLvlNow = (spec.cloggingSystem and spec.cloggingSystem.clogLevel) or (spec.data and spec.data.clogLevel) or 0
+                local isClogSlowdownServer = clogLvlNow >= 45.0
+                local speedLimitEnabled = (settings and settings.enableSpeedLimit) or isClogSlowdownServer
+                local isArcade = (settings and settings.difficultyMotor == 1) and (not isClogSlowdownServer) -- DIFFICULTY_ARCADE
 
                 if (not speedLimitEnabled) or isArcade then
                     -- EN: In Arcade mode or when speed limiting is disabled, RHM never limits or touches the motor.
@@ -3572,6 +3901,11 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                             if currentLimit < smoothed then
                                 local isHighLoad = (spec.data and spec.data.load and spec.data.load > 115)
                                 local maxDecelRate = isHighLoad and 1.4 or 0.65
+                                if clogLvlNow >= 65.0 then
+                                    maxDecelRate = 2.4
+                                elseif clogLvlNow >= 45.0 then
+                                    maxDecelRate = math.max(maxDecelRate, 1.4)
+                                end
                                 local maxStep = maxDecelRate * dtSec
                                 smoothed = math.max(currentLimit, smoothed - maxStep)
                             elseif currentLimit > smoothed then
@@ -3637,6 +3971,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                 elseif math.abs((data.hectaresPerHour or 0) - (last.hectaresPerHour or 0)) > 0.05 then hasSignificantChange = true
                 elseif data.overloadLevel ~= last.overloadLevel then hasSignificantChange = true
                 elseif math.abs((data.moisture or 0) - (last.moisture or 0)) > 0.5 then hasSignificantChange = true
+                elseif data.clogState ~= last.clogState or data.clogCause ~= last.clogCause or data.isClogReversing ~= last.isClogReversing then hasSignificantChange = true
+                elseif math.abs((data.clogLevel or 0) - (last.clogLevel or 0)) > 0.8 then hasSignificantChange = true
                 end
             end
             
@@ -3650,6 +3986,10 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                 spec.lastSyncedData.hectaresPerHour = data.hectaresPerHour
                 spec.lastSyncedData.overloadLevel = data.overloadLevel
                 spec.lastSyncedData.moisture = data.moisture
+                spec.lastSyncedData.clogLevel = data.clogLevel
+                spec.lastSyncedData.clogState = data.clogState
+                spec.lastSyncedData.clogCause = data.clogCause
+                spec.lastSyncedData.isClogReversing = data.isClogReversing
                 
                 if spec.dataDirtyFlag and type(spec.dataDirtyFlag) == "number" then
                     self:raiseDirtyFlags(spec.dataDirtyFlag)
@@ -3748,6 +4088,13 @@ function rhm_Combine:saveToXMLFile(xmlFile, key, usedModNames)
             xmlFile:setValue(tKey .. ".reasons#wear",     trip.reasons.wear or 0)
             xmlFile:setValue(tKey .. ".reasons#slope",    trip.reasons.slope or 0)
         end
+    end
+
+    if spec.cloggingSystem then
+        local cKey = key .. ".clog"
+        xmlFile:setValue(cKey .. "#level", spec.cloggingSystem.clogLevel or 0)
+        xmlFile:setValue(cKey .. "#state", spec.cloggingSystem.clogState or 0)
+        xmlFile:setValue(cKey .. "#cause", spec.cloggingSystem.clogCause or 0)
     end
     
     rhm_log(string.format("RHM [Combine]: RHM: [SAVE] Saved combine state for %s: crop=%s, fan=%s, upper=%s, lower=%s, rotor=%s, feeder=%s, load=%s, tripLiters=%.0f", 
@@ -4009,6 +4356,23 @@ function rhm_Combine:loadFromSavegame(savegame)
             self:getFullName() or "?", savedTrip.harvestedAreaHa or 0, savedTrip.harvestedLiters or 0, savedTrip.fuelUsedL or 0))
     end
 
+    if spec.cloggingSystem then
+        local cCandidateKeys = {
+            string.format("%s.%s.clog", savegame.key, modName),
+            string.format("%s.FS25_RealisticHarvesting.rhm_Combine.clog", savegame.key),
+            string.format("%s.rhm_Combine.clog", savegame.key),
+        }
+        for _, cKey in ipairs(cCandidateKeys) do
+            if xmlFile:hasProperty(cKey) then
+                spec.cloggingSystem.clogLevel = math.max(0, math.min(100, readFloat(cKey .. "#level", 0) or 0))
+                spec.cloggingSystem.clogState = math.max(0, math.min(3, readInt(cKey .. "#state", 0) or 0))
+                spec.cloggingSystem.clogCause = math.max(0, math.min(5, readInt(cKey .. "#cause", 0) or 0))
+                rhm_Combine.syncCloggingData(self, spec)
+                break
+            end
+        end
+    end
+
     return true
 end
 
@@ -4077,6 +4441,10 @@ function rhm_Combine:onWriteStream(streamId, connection)
     streamWriteFloat32(streamId, (spec.loadCalculator and spec.loadCalculator.wearLoss) or 0)
     streamWriteBool(streamId, spec.loadCalculator and spec.loadCalculator.isStrawChopperActive == true or false)
     streamWriteFloat32(streamId, (spec.loadCalculator and spec.loadCalculator.lastValidYield) or 0)
+    streamWriteFloat32(streamId, spec.data.clogLevel or 0)
+    streamWriteUInt8(streamId, spec.data.clogState or 0)
+    streamWriteUInt8(streamId, spec.data.clogCause or 0)
+    streamWriteBool(streamId, spec.data.isClogReversing == true)
     
     -- RHM_CombineMemory settings (sync on initial connect)
     local mem = spec.combineMemory
@@ -4153,6 +4521,10 @@ function rhm_Combine:onReadStream(streamId, connection)
         streamReadFloat32(streamId) -- tutorial wear losses
         streamReadBool(streamId)    -- straw chopper activity
         streamReadFloat32(streamId) -- last measured yield
+        streamReadFloat32(streamId) -- clogLevel
+        streamReadUInt8(streamId)   -- clogState
+        streamReadUInt8(streamId)   -- clogCause
+        streamReadBool(streamId)    -- isClogReversing
         -- RHM_CombineMemory defaults (skip)
         streamReadUInt8(streamId)
         streamReadUInt8(streamId)
@@ -4207,6 +4579,15 @@ function rhm_Combine:onReadStream(streamId, connection)
     spec.data.wearLoss = streamReadFloat32(streamId)
     spec.data.isStrawChopperActive = streamReadBool(streamId)
     spec.data.lastValidYield = streamReadFloat32(streamId)
+    spec.data.clogLevel = streamReadFloat32(streamId)
+    spec.data.clogState = streamReadUInt8(streamId)
+    spec.data.clogCause = streamReadUInt8(streamId)
+    spec.data.isClogReversing = streamReadBool(streamId)
+    if spec.cloggingSystem then
+        spec.cloggingSystem.clogLevel = spec.data.clogLevel
+        spec.cloggingSystem.clogState = spec.data.clogState
+        spec.cloggingSystem.clogCause = spec.data.clogCause
+    end
     
     -- RHM_CombineMemory settings
     local fan = streamReadUInt8(streamId)
@@ -4312,6 +4693,15 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
             spec.data.wearLoss = streamReadFloat32(streamId)
             spec.data.isStrawChopperActive = streamReadBool(streamId)
             spec.data.lastValidYield = streamReadFloat32(streamId)
+            spec.data.clogLevel = streamReadFloat32(streamId)
+            spec.data.clogState = streamReadUInt8(streamId)
+            spec.data.clogCause = streamReadUInt8(streamId)
+            spec.data.isClogReversing = streamReadBool(streamId)
+            if spec.cloggingSystem then
+                spec.cloggingSystem.clogLevel = spec.data.clogLevel
+                spec.cloggingSystem.clogState = spec.data.clogState
+                spec.cloggingSystem.clogCause = spec.data.clogCause
+            end
 
             -- Active machine trip odometer
             local hasTrip = streamReadBool(streamId)
@@ -4415,6 +4805,10 @@ function rhm_Combine:onWriteUpdateStream(streamId, connection, dirtyMask)
             streamWriteFloat32(streamId, (spec.loadCalculator and spec.loadCalculator.wearLoss) or 0)
             streamWriteBool(streamId, spec.loadCalculator and spec.loadCalculator.isStrawChopperActive == true or false)
             streamWriteFloat32(streamId, (spec.loadCalculator and spec.loadCalculator.lastValidYield) or 0)
+            streamWriteFloat32(streamId, data.clogLevel or 0)
+            streamWriteUInt8(streamId, data.clogState or 0)
+            streamWriteUInt8(streamId, data.clogCause or 0)
+            streamWriteBool(streamId, data.isClogReversing == true)
 
             -- Active machine trip odometer
             local trip = spec.trip
@@ -4548,6 +4942,17 @@ function rhm_Combine:onRegisterActionEvents(isActiveForInput, isActiveForInputIg
                     g_inputBinding:setActionEventTextVisibility(cursorEventId, true)
                 end
             end
+            -- Реєструємо дію Реверсу Жаткового Шнека / Барабана (Утримання RShift+B)
+            if InputAction.RHM_REVERSE_FEEDER then
+                local _, revEventId = self:addActionEvent(spec.actionEvents, InputAction.RHM_REVERSE_FEEDER, self, rhm_Combine.actionReverseFeeder, true, true, false, true, nil, nil, true, true)
+                if revEventId then
+                    g_inputBinding:setActionEventTextPriority(revEventId, GS_PRIO_HIGH)
+                    if g_i18n:hasText("input_RHM_REVERSE_FEEDER") then
+                        g_inputBinding:setActionEventText(revEventId, g_i18n:getText("input_RHM_REVERSE_FEEDER"))
+                    end
+                    g_inputBinding:setActionEventTextVisibility(revEventId, false)
+                end
+            end
             rhm_Combine.registerExternalControlActions(self, spec.actionEvents)
         end
     end
@@ -4589,6 +4994,46 @@ function rhm_Combine:actionToggleMouseCursor(actionName, inputValue, callbackSta
     end
 end
 
+function rhm_Combine:actionReverseFeeder(actionName, inputValue, callbackState, isAnalog)
+    local spec = self.spec_rhm_Combine
+    if not spec or not spec.cloggingSystem then return end
+
+    local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+    if settings and settings.cloggingMode == 1 then
+        spec.isHoldingReverseFeeder = false
+        return
+    end
+
+    local isDown = (inputValue or 0) > 0
+    if spec.isHoldingReverseFeeder == isDown then
+        return
+    end
+    spec.isHoldingReverseFeeder = isDown
+
+    if isDown then
+        local cState = (spec.data and spec.data.clogState) or 0
+        if cState == 3 and settings and settings.cloggingMode == 3 then
+            local msg = (g_i18n and g_i18n:hasText("rhm_clog_warn_need_onfoot") and g_i18n:getText("rhm_clog_warn_need_onfoot"))
+                or "Hard blockage! Exit cab and clear blockage near feeder manually!"
+            if g_currentMission and g_currentMission.showBlinkingWarning then
+                g_currentMission:showBlinkingWarning(msg, 2500)
+            end
+        elseif ((self.getLastSpeed and self:getLastSpeed()) or 0) >= 1.2 and ((spec.data and spec.data.clogLevel) or 0) > 0 then
+            local msg = (g_i18n and g_i18n:hasText("rhm_clog_warn_stop_first") and g_i18n:getText("rhm_clog_warn_stop_first"))
+                or "Stop the combine completely before reversing the feeder!"
+            if g_currentMission and g_currentMission.showBlinkingWarning then
+                g_currentMission:showBlinkingWarning(msg, 2000)
+            end
+        end
+    end
+
+    if g_server ~= nil then
+        spec.cloggingSystem:setPlayerReversing(self, isDown)
+    elseif g_client and g_client:getServerConnection() then
+        g_client:getServerConnection():sendEvent(RHM_ClogActionEvent.new(self, RHM_ClogActionEvent.ACTION_SET_REVERSING, isDown))
+    end
+end
+
 -- EN: Self-healing check on vehicle enter: ensure indoor cameras keep allowTranslation = false.
 -- UA: Самозцілення при вході в комбайн: гарантуємо, що салонні камери мають allowTranslation = false.
 function rhm_Combine:onEnterVehicle(isControlling)
@@ -4619,8 +5064,18 @@ end
 function rhm_Combine:onLeaveVehicle(wasEntered)
     if self.isClient then
         local spec_rhm = self.spec_rhm_Combine
-        if spec_rhm and spec_rhm.samples and spec_rhm.samples.overloadAlarm and g_soundManager then
-            g_soundManager:stopSample(spec_rhm.samples.overloadAlarm)
+        if spec_rhm then
+            spec_rhm.isHoldingReverseFeeder = false
+            if spec_rhm.samples and g_soundManager then
+                for _, s in pairs(spec_rhm.samples) do
+                    if s then g_soundManager:stopSample(s) end
+                end
+            end
+        end
+        if g_server ~= nil and spec_rhm and spec_rhm.cloggingSystem then
+            spec_rhm.cloggingSystem:setPlayerReversing(self, false)
+        elseif g_client and g_client:getServerConnection() and spec_rhm and spec_rhm.cloggingSystem and spec_rhm.cloggingSystem.isPlayerReversing then
+            g_client:getServerConnection():sendEvent(RHM_ClogActionEvent.new(self, RHM_ClogActionEvent.ACTION_SET_REVERSING, false))
         end
 
         if g_realisticHarvestManager then
@@ -4663,8 +5118,8 @@ end
 function rhm_Combine:onDelete()
     local spec = self.spec_rhm_Combine
     if spec and spec.samples and g_soundManager then
-        if spec.samples.overloadAlarm then
-            g_soundManager:stopSample(spec.samples.overloadAlarm)
+        for _, s in pairs(spec.samples) do
+            if s then g_soundManager:stopSample(s) end
         end
         g_soundManager:deleteSamples(spec.samples)
         spec.samples = nil

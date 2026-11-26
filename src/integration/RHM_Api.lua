@@ -21,13 +21,6 @@ RHM_Api.wearProvider = nil
 -- 1. VEHICLE RESOLUTION & HIERARCHY TRAVERSAL
 -- ============================================================================
 
----EN: Recursively resolves a combine harvester instance from any passed vehicle,
----    tractor (with trailed root crop harvester), or attached implement.
----    Falls back to current controlled vehicle if vehicle is nil.
----UA: Безпечно знаходить екземпляр комбайна з будь-якого переданого транспорту,
----    трактора (з причіпним комбайном) або жатки. Якщо nil — бере керовану техніку.
----@param vehicle table|nil
----@return table|nil combineVehicle
 ---EN: Checks if a vehicle node is a genuine harvester, strictly excluding balers, cutting balers, mobile pelletizers, and bale shredders.
 ---UA: Перевіряє чи є транспортний засіб справжнім комбайном, суворо виключаючи преси, гранулятори та подрібнювачі тюків.
 local function isGenuineCombine(node)
@@ -65,6 +58,13 @@ local function isGenuineCombine(node)
         or node.spec_sugarCaneHarvester ~= nil
 end
 
+---EN: Recursively resolves a combine harvester instance from any passed vehicle,
+---    tractor (with trailed root crop harvester), or attached implement.
+---    Falls back to current controlled vehicle if vehicle is nil.
+---UA: Безпечно знаходить екземпляр комбайна з будь-якого переданого транспорту,
+---    трактора (з причіпним комбайном) або жатки. Якщо nil — бере керовану техніку.
+---@param vehicle table|nil
+---@return table|nil combineVehicle
 function RHM_Api.findCombine(vehicle)
     local target = vehicle
     if target == nil and g_currentMission ~= nil then
@@ -135,25 +135,26 @@ end
 ---UA: Надійно визначає ID активної ферми поточного гравця в FS25.
 ---@return number farmId
 function RHM_Api.getActiveFarmId()
-    if g_currentMission then
-        if g_currentMission.player and g_currentMission.player.getFarmId then
+    local farmId = 1
+    if g_currentMission ~= nil then
+        if g_currentMission.player ~= nil and g_currentMission.player.getFarmId ~= nil then
             local pFarm = g_currentMission.player:getFarmId()
-            if pFarm and pFarm ~= 0 and (not FarmManager or pFarm ~= FarmManager.SPECTATOR_FARM_ID) then
-                return tonumber(pFarm) or 1
+            if pFarm ~= nil and pFarm ~= 0 and (FarmManager == nil or pFarm ~= FarmManager.SPECTATOR_FARM_ID) then
+                farmId = pFarm
             end
-        elseif g_currentMission.player and g_currentMission.player.farmId then
+        elseif g_currentMission.player ~= nil and g_currentMission.player.farmId ~= nil then
             local pFarm = g_currentMission.player.farmId
-            if pFarm and pFarm ~= 0 and (not FarmManager or pFarm ~= FarmManager.SPECTATOR_FARM_ID) then
-                return tonumber(pFarm) or 1
+            if pFarm ~= nil and pFarm ~= 0 and (FarmManager == nil or pFarm ~= FarmManager.SPECTATOR_FARM_ID) then
+                farmId = pFarm
             end
-        elseif g_currentMission.getFarmId then
+        elseif g_currentMission.getFarmId ~= nil then
             local mFarm = g_currentMission:getFarmId()
-            if mFarm and mFarm ~= 0 and (not FarmManager or mFarm ~= FarmManager.SPECTATOR_FARM_ID) then
-                return tonumber(mFarm) or 1
+            if mFarm ~= nil and mFarm ~= 0 and (FarmManager == nil or mFarm ~= FarmManager.SPECTATOR_FARM_ID) then
+                farmId = mFarm
             end
         end
     end
-    return 1
+    return tonumber(farmId) or 1
 end
 
 ---EN: Finds any actively operating combine harvester belonging to the farm.
@@ -268,7 +269,7 @@ end
 ---    Returns nil if the vehicle is not an RHM-managed combine harvester.
 ---UA: Повертає реальне фізичне навантаження (0.0 .. 150.0+ %).
 ---@param vehicle table|nil
----@return number|nil engineLoadPct or nil if unmanaged
+---@return number engineLoadPct
 function RHM_Api.getEngineLoad(vehicle)
     local combine = RHM_Api.findCombine(vehicle)
     if combine and combine.spec_rhm_Combine then
@@ -498,21 +499,24 @@ function RHM_Api.getWorkingWidth(vehicle)
         local w = 0
         if obj.getWorkingWidth then
             local raw = obj:getWorkingWidth()
-            if raw and tonumber(raw) and tonumber(raw) > 0 then
-                w = tonumber(raw)
+            local num = raw and tonumber(raw) or nil
+            if num and num > 0 then
+                w = num
             end
         end
         if w == 0 and obj.spec_cutter and obj.spec_cutter.workingWidth then
             local raw = obj.spec_cutter.workingWidth
-            if raw and tonumber(raw) and tonumber(raw) > 0 then
-                w = tonumber(raw)
+            local num = raw and tonumber(raw) or nil
+            if num and num > 0 then
+                w = num
             end
         end
         if w == 0 and obj.configFileName and g_storeManager and g_storeManager.getItemByXMLFilename then
             local item = g_storeManager:getItemByXMLFilename(obj.configFileName)
             if item and item.specs and item.specs.workingWidth then
                 local rawW = tostring(item.specs.workingWidth)
-                local parsed = tonumber(string.match(rawW, "%d+%.?%d*"))
+                local matchStr = string.match(rawW, "%d+%.?%d*")
+                local parsed = matchStr and tonumber(matchStr) or nil
                 if parsed and parsed > 0 then
                     w = parsed
                 end
@@ -521,7 +525,8 @@ function RHM_Api.getWorkingWidth(vehicle)
         if w == 0 and obj.xmlFile and obj.xmlFile.getValue then
             local rawW = obj.xmlFile:getValue("vehicle.storeData.specs.workingWidth")
             if rawW then
-                local parsed = tonumber(string.match(tostring(rawW), "%d+%.?%d*"))
+                local matchStr = string.match(tostring(rawW), "%d+%.?%d*")
+                local parsed = matchStr and tonumber(matchStr) or nil
                 if parsed and parsed > 0 then
                     w = parsed
                 end
@@ -752,7 +757,9 @@ end
 function RHM_Api.getLiveFieldMoisture(vehicle, fillType)
     local combine = RHM_Api.findCombine(vehicle)
     if combine and RHM_MoistureAdapter and RHM_MoistureAdapter.getLiveFieldMoisture then
-        local targetFill = fillType or (combine.spec_rhm_Combine and (combine.spec_rhm_Combine.lastFillType or (combine.spec_rhm_Combine.combineMemory and combine.spec_rhm_Combine.combineMemory.currentCrop)))
+        local specRhm = combine.spec_rhm_Combine
+        local fallbackCrop = specRhm and (specRhm.lastFillType or (specRhm.combineMemory and specRhm.combineMemory.currentCrop))
+        local targetFill = fillType or fallbackCrop
         return RHM_MoistureAdapter.getLiveFieldMoisture(combine, targetFill)
     end
     return nil
@@ -1589,34 +1596,56 @@ function RHM_Api.setHudLayout(layout)
 end
 
 -- ============================================================================
--- 10. ACTIVE FARM & UTILITY HELPERS
+-- 9B. CLOGGING & FEEDER STATUS
 -- ============================================================================
 
----EN: Resolves active player farm ID reliably across FS25 singleplayer and dedicated server.
----UA: Надійно визначає ID активної ферми гравця в FS25 (синглплеєр та мультиплеєр).
----@return number farmId
-function RHM_Api.getActiveFarmId()
-    local farmId = 1
-    if g_currentMission ~= nil then
-        if g_currentMission.player ~= nil and g_currentMission.player.getFarmId ~= nil then
-            local pFarm = g_currentMission.player:getFarmId()
-            if pFarm ~= nil and pFarm ~= 0 and (FarmManager == nil or pFarm ~= FarmManager.SPECTATOR_FARM_ID) then
-                farmId = pFarm
-            end
-        elseif g_currentMission.player ~= nil and g_currentMission.player.farmId ~= nil then
-            local pFarm = g_currentMission.player.farmId
-            if pFarm ~= nil and pFarm ~= 0 and (FarmManager == nil or pFarm ~= FarmManager.SPECTATOR_FARM_ID) then
-                farmId = pFarm
-            end
-        elseif g_currentMission.getFarmId ~= nil then
-            local mFarm = g_currentMission:getFarmId()
-            if mFarm ~= nil and mFarm ~= 0 and (FarmManager == nil or mFarm ~= FarmManager.SPECTATOR_FARM_ID) then
-                farmId = mFarm
-            end
-        end
+---EN: Returns current clogging buildup percentage (0.0 to 100.0).
+---UA: Повертає поточний рівень забивання комбайна (0.0 .. 100.0%).
+---@param vehicle table|nil
+---@return number clogLevel
+function RHM_Api.getClogLevel(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.data then
+        return combine.spec_rhm_Combine.data.clogLevel or 0.0
     end
-    return tonumber(farmId) or 1
+    return 0.0
 end
+
+---EN: Returns clogging state code (0=Normal, 1=Slug Warning, 2=Slip Clutch, 3=Hard Blockage).
+---UA: Повертає код стану забивання (0=Норма, 1=Попередження, 2=Запобіжна муфта, 3=Повне забивання).
+---@param vehicle table|nil
+---@return number clogState
+function RHM_Api.getClogState(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.data then
+        return combine.spec_rhm_Combine.data.clogState or 0
+    end
+    return 0
+end
+
+---EN: Returns true when combine feeder/drum is slip-clutching or blocked (clogState >= 2).
+---UA: Повертає true якщо комбайн забуксував на запобіжній муфті або повністю забитий.
+---@param vehicle table|nil
+---@return boolean
+function RHM_Api.isClogged(vehicle)
+    return RHM_Api.getClogState(vehicle) >= 2
+end
+
+---EN: Returns active primary clogging cause code (0=None, 1=Overload, 2=Moisture, 3=Weeds, 4=Settings, 5=Surge).
+---UA: Повертає код основної причини забивання.
+---@param vehicle table|nil
+---@return number clogCause
+function RHM_Api.getClogCause(vehicle)
+    local combine = RHM_Api.findCombine(vehicle)
+    if combine and combine.spec_rhm_Combine and combine.spec_rhm_Combine.data then
+        return combine.spec_rhm_Combine.data.clogCause or 0
+    end
+    return 0
+end
+
+-- ============================================================================
+-- 10. ACTIVE FARM & UTILITY HELPERS
+-- ============================================================================
 
 ---EN: Resolves crop density in kg per liter (kg/L) through RHM_UnitConverter.
 ---UA: Визначає густину культури в кг на літр (кг/л) через RHM_UnitConverter.

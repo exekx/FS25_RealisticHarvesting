@@ -599,5 +599,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Upozornění: externí mód upravil interní fyzikální funkce Realistic Harvesting mimo oficiální API. To může způsobit nepřesné zatížení motoru, zaseknutí omezovače rychlosti nebo chybné ztráty zrna. Vypněte prosím neoficiální doplňky třetích stran." />
         <text name="rhm_warn_conflicting_combine_mod" text="Upozornění: společně s Realistic Harvesting je načten další mod pro realismus nebo řízení rychlosti a zatížení sklízecích mlátiček. Současné používání dvou fyzikálních systémů mlátičky může způsobovat konflikty omezení rychlosti, zatížení motoru a ztrát sklizně. Ponechte prosím v této uložené hře aktivní pouze jeden z nich." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Zpětný chod vkládání / Vyčistit (Držet)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Ručně vyčistit ucpání (Pěšky)" />
+        <text name="rhm_setting_clog_mode_title" text="Ucpávání kombajnu" />
+        <text name="rhm_setting_clog_mode_desc" text="Simuluje ucpání při přetížení, vlhkosti nebo plevelu. Pouze zpětný chod: z kabiny; Realistický: pěšky u lišty." />
+        <text name="rhm_clog_mode_off" text="Vypnuto" />
+        <text name="rhm_clog_mode_reverse" text="Pouze zpětný chod" />
+        <text name="rhm_clog_mode_realistic" text="Realistický (Zpětný + Pěšky)" />
+        <text name="rhm_setting_clog_sens_title" text="Citlivost ucpání" />
+        <text name="rhm_setting_clog_sens_desc" text="Určuje rychlost hromadění ucpání při přetížení nebo náročných podmínkách." />
+        <text name="rhm_clog_sens_low" text="Nízká (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standardní (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Vysoká (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Příčiny ucpání" />
+        <text name="rhm_setting_clog_factors_desc" text="Zvolte, zda ucpání způsobí jen extrémní přetížení, nebo i vlhkost, plevel a seřízení." />
+        <text name="rhm_clog_factors_overload" text="Pouze přetížení" />
+        <text name="rhm_clog_factors_all" text="Vše (Zatížení + Vlhkost a Plevel)" />
+        <text name="rhm_setting_clog_ai_title" text="Ucpávání AI pracovníků" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Obnova zpomalí a krátce vrátí chod AI; Ruční zastaví AI; Vypnuto dává AI imunitu." />
+        <text name="rhm_clog_ai_auto" text="Auto-Obnova" />
+        <text name="rhm_clog_ai_manual" text="Ruční pomoc" />
+        <text name="rhm_clog_ai_off" text="Vypnuto (AI imunní)" />
+        <text name="rhm_setting_clog_pile_title" text="Vysypat hromadu při čištění" />
+        <text name="rhm_setting_clog_pile_desc" text="Vysype malou hromádku slámy před lištu po uvolnění ucpání." />
+        <text name="rhm_clog_warn_slip" text="Prokluzová spojka aktivní! Zastavte a podržte RShift+B pro zpětný chod!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Kombajn je ucpaný! Zastavte a podržte RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Kombajn je ucpaný! Vystupte a vyčistěte u lišty (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Silné ucpání! Vystupte z kabiny a ručně vyčistěte prostor u lišty!" />
+        <text name="rhm_clog_warn_stop_first" text="Před zpětným chodem úplně zastavte!" />
+        <text name="rhm_clog_cleared_msg" text="Ucpání odstraněno!" />
+        <text name="rhm_clog_onfoot_prompt" text="Podržte RShift+C pro vyčištění" />
+        <text name="rhm_clog_cause_overload" text="Přetížení" />
+        <text name="rhm_clog_cause_moisture" text="Vysoká vlhkost" />
+        <text name="rhm_clog_cause_weeds" text="Plevel" />
+        <text name="rhm_clog_cause_settings" text="Kalibrace" />
+        <text name="rhm_clog_cause_surge" text="Náraz hmoty" />
+        <text name="rhm_hud_clog_slug" text="ZÁTOR" />
+        <text name="rhm_hud_clog_slip" text="SPOJKA" />
+        <text name="rhm_hud_clog_jam" text="UCPÁNO" />
+        <text name="rhm_hud_clog_clear" text="ČISTIT" />
+        <text name="rhm_ui_clog_risk" text="Riziko ucpání" />
+        <text name="rhm_tut_clog_title" text="UCPÁNÍ KOMBAJNU" />
+        <text name="rhm_tut_clog_msg" text="Dlouhé přetížení nebo vlhká zaplevelená sklizeň může spustit prokluz spojky nebo ucpat mlátičku. Zastavte a držte RShift+B (v Realistickém režimu vyčistěte pěšky u lišty pomocí RShift+C)." />
     </texts>
 </l10n>

@@ -597,5 +597,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Waarschuwing: een externe mod heeft interne fysicafuncties van Realistic Harvesting buiten de officiële API om aangepast. Dit kan leiden tot onjuiste motorbelasting, vastgelopen snelheidsbegrenzer of foutieve oogstverliezen. Schakel onofficiële add-ons van derden uit." />
         <text name="rhm_warn_conflicting_combine_mod" text="Waarschuwing: er is naast Realistic Harvesting een andere mod voor maaidorserrealisme of snelheids- en belastingsregeling geladen. Het tegelijk uitvoeren van twee fysicaregelaars voor maaidorsers kan conflicterende snelheidslimieten, motorbelastingen en oogstverliezen veroorzaken. Schakel in dit opgeslagen spel slechts één van beide in." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Invoer omkeren / Verstopping verhelpen (Vasthouden)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Verstopping handmatig verhelpen (Te voet)" />
+        <text name="rhm_setting_clog_mode_title" text="Maaidorser verstopping" />
+        <text name="rhm_setting_clog_mode_desc" text="Simuleert verstopping door overbelasting, vocht of onkruid. Alleen omkeren: in cabine; Realistisch: uitstappen bij zware blokkade." />
+        <text name="rhm_clog_mode_off" text="Uit" />
+        <text name="rhm_clog_mode_reverse" text="Alleen omkeren" />
+        <text name="rhm_clog_mode_realistic" text="Realistisch (Omkeren + Te voet)" />
+        <text name="rhm_setting_clog_sens_title" text="Verstoppingsgevoeligheid" />
+        <text name="rhm_setting_clog_sens_desc" text="Regelt hoe snel verstopping ontstaat bij overbelasting of zware omstandigheden." />
+        <text name="rhm_clog_sens_low" text="Laag (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standaard (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Hoog (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Oorzaken verstopping" />
+        <text name="rhm_setting_clog_factors_desc" text="Kies voor alleen extreme motorbelasting of ook vocht, onkruid en verkeerde afstelling." />
+        <text name="rhm_clog_factors_overload" text="Alleen overbelasting" />
+        <text name="rhm_clog_factors_all" text="Alle (Belasting + Vocht &amp; Onkruid)" />
+        <text name="rhm_setting_clog_ai_title" text="AI-werker verstopping" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Herstel remt tijdig en keert kort om; Handmatig stopt de helper; Uit maakt AI immuun." />
+        <text name="rhm_clog_ai_auto" text="Auto-Herstel" />
+        <text name="rhm_clog_ai_manual" text="Handmatige hulp" />
+        <text name="rhm_clog_ai_off" text="Uit (AI immuun)" />
+        <text name="rhm_setting_clog_pile_title" text="Hoop lossen na verhelpen" />
+        <text name="rhm_setting_clog_pile_desc" text="Legt een klein hoopje stro/haksel voor het maaibord bij het verhelpen." />
+        <text name="rhm_clog_warn_slip" text="Slipkoppeling actief! Stop volledig en houd RShift+B vast!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Invoer verstopt! Stop volledig en houd RShift+B vast!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Invoer verstopt! Stap uit en reinig bij het maaibord (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Zware verstopping! Stap uit en verhelp de blokkade handmatig bij het maaibord!" />
+        <text name="rhm_clog_warn_stop_first" text="Zet de machine eerst volledig stil voor omkeren!" />
+        <text name="rhm_clog_cleared_msg" text="Verstopping verholpen!" />
+        <text name="rhm_clog_onfoot_prompt" text="Houd RShift+C vast om te reinigen" />
+        <text name="rhm_clog_cause_overload" text="Overbelasting" />
+        <text name="rhm_clog_cause_moisture" text="Hoog vocht" />
+        <text name="rhm_clog_cause_weeds" text="Veel onkruid" />
+        <text name="rhm_clog_cause_settings" text="Afstelling" />
+        <text name="rhm_clog_cause_surge" text="Massapiek" />
+        <text name="rhm_hud_clog_slug" text="PROP" />
+        <text name="rhm_hud_clog_slip" text="SLIP" />
+        <text name="rhm_hud_clog_jam" text="VAST" />
+        <text name="rhm_hud_clog_clear" text="REINIG" />
+        <text name="rhm_ui_clog_risk" text="Verstop.risico" />
+        <text name="rhm_tut_clog_title" text="INVOER VERSTOPPING" />
+        <text name="rhm_tut_clog_msg" text="Langdurige overbelasting of nat, onkruidrijk gewas kan de slipkoppeling activeren of de invoer blokkeren. Stop en houd RShift+B vast (in Realistisch-modus te voet bij het maaibord met RShift+C)." />
     </texts>
 </l10n>

@@ -599,5 +599,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Ziel-Motorlast (-)" />
         <text name="rhm_warn_external_physics_override" text="Warnung: Eine externe Mod hat interne Physikfunktionen von Realistic Harvesting außerhalb der offiziellen API verändert. Dies kann zu falscher Motorlast, blockierter Geschwindigkeitsbegrenzung oder fehlerhaften Ernteverlusten führen. Bitte deaktivieren Sie inoffizielle Drittanbieter-Addons." />
         <text name="rhm_warn_conflicting_combine_mod" text="Warnung: Neben Realistic Harvesting ist ein weiterer Mod für Mähdrescher-Realismus oder Last- und Geschwindigkeitsregelung aktiv. Der gleichzeitige Betrieb zweier Mähdrescher-Physiksteuerungen kann zu widersprüchlichen Geschwindigkeitsbegrenzungen, Motorlasten und Ernteverlusten führen. Bitte aktiviere in diesem Spielstand nur einen davon." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Einzug rückwärts / Verstopfung lösen (Halten)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Verstopfung manuell beseitigen (Zu Fuß)" />
+        <text name="rhm_setting_clog_mode_title" text="Mähdrescher-Verstopfung" />
+        <text name="rhm_setting_clog_mode_desc" text="Simuliert Verstopfungen durch Überlast, Feuchtigkeit oder Unkraut. Nur Rückwärts: Kabine; Realistisch: Aussteigen bei Blockade." />
+        <text name="rhm_clog_mode_off" text="Aus" />
+        <text name="rhm_clog_mode_reverse" text="Nur Reversieren" />
+        <text name="rhm_clog_mode_realistic" text="Realistisch (Reversieren + Zu Fuß)" />
+        <text name="rhm_setting_clog_sens_title" text="Verstopfungs-Empfindlichkeit" />
+        <text name="rhm_setting_clog_sens_desc" text="Bestimmt, wie schnell sich Gutstau bei extremer Überlast oder schwierigen Bedingungen aufbaut." />
+        <text name="rhm_clog_sens_low" text="Niedrig (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standard (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Hoch (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Verstopfungs-Ursachen" />
+        <text name="rhm_setting_clog_factors_desc" text="Wähle, ob nur extreme Überlast oder zusätzlich Feuchtigkeit, Unkraut und Fehleinstellung zur Verstopfung führen." />
+        <text name="rhm_clog_factors_overload" text="Nur Überlast" />
+        <text name="rhm_clog_factors_all" text="Alle (Last + Feuchte &amp; Unkraut)" />
+        <text name="rhm_setting_clog_ai_title" text="KI-Helfer Verstopfung" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Erholung bremst Helfer rechtzeitig und reversiert kurz; Manuell stoppt KI; Aus macht KI immun." />
+        <text name="rhm_clog_ai_auto" text="Auto-Erholung" />
+        <text name="rhm_clog_ai_manual" text="Manuelle Hilfe" />
+        <text name="rhm_clog_ai_off" text="Aus (KI Immun)" />
+        <text name="rhm_setting_clog_pile_title" text="Auswurf-Haufen ablegen" />
+        <text name="rhm_setting_clog_pile_desc" text="Legt beim Beseitigen einer Verstopfung einen kleinen Stroh-/Häckselhaufen vor dem Schneidwerk ab." />
+        <text name="rhm_clog_warn_slip" text="Rutschkupplung aktiv! Anhalten und RShift+B zum Reversieren gedrückt halten!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Dreschwerk blockiert! Anhalten und RShift+B gedrückt halten!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Dreschwerk blockiert! Aussteigen und am Schneidwerk reinigen (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Schwere Blockade! Aussteigen und Verstopfung am Einzug manuell beseitigen!" />
+        <text name="rhm_clog_warn_stop_first" text="Mähdrescher vor dem Reversieren komplett anhalten!" />
+        <text name="rhm_clog_cleared_msg" text="Verstopfung beseitigt!" />
+        <text name="rhm_clog_onfoot_prompt" text="RShift+C halten zum Reinigen" />
+        <text name="rhm_clog_cause_overload" text="Überlast" />
+        <text name="rhm_clog_cause_moisture" text="Hohe Feuchte" />
+        <text name="rhm_clog_cause_weeds" text="Unkraut" />
+        <text name="rhm_clog_cause_settings" text="Einstellung" />
+        <text name="rhm_clog_cause_surge" text="Gutstoß" />
+        <text name="rhm_hud_clog_slug" text="STAU" />
+        <text name="rhm_hud_clog_slip" text="SLIP" />
+        <text name="rhm_hud_clog_jam" text="VOLL" />
+        <text name="rhm_hud_clog_clear" text="LÖSEN" />
+        <text name="rhm_ui_clog_risk" text="Staurisiko" />
+        <text name="rhm_tut_clog_title" text="EINZUG-VERSTOPFUNG" />
+        <text name="rhm_tut_clog_msg" text="Anhaltende Überlast oder feuchtes, verunkrautetes Erntegut kann die Rutschkupplung auslösen oder den Einzug blockieren. Anhalten und RShift+B halten (im Realistisch-Modus Blockaden zu Fuß am Schneidwerk mit RShift+C lösen)." />
     </texts>
 </l10n>

@@ -64,7 +64,7 @@ function RHM_HarvestHistoryAnalytics:getActiveTrip()
     end
 
     if farm and farm.combineTrips then
-        for machineKey, mTrip in pairs(farm.combineTrips) do
+        for _, mTrip in pairs(farm.combineTrips) do
             if mTrip.isActive or (mTrip.sessionDuration and mTrip.sessionDuration > 0) or (mTrip.harvestedLiters and mTrip.harvestedLiters > 0) then
                 return mTrip
             end

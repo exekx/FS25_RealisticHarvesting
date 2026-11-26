@@ -599,5 +599,47 @@
         <text name="input_RHM_TARGET_LOAD_DEC" text="RHM: Target Engine Load (-)" />
         <text name="rhm_warn_external_physics_override" text="Ostrzeżenie: zewnętrzny mod zmodyfikował wewnętrzne funkcje fizyki Realistic Harvesting poza oficjalnym API. Może to powodować błędne obciążenie silnika, zablokowanie ogranicznika prędkości lub nieprawidłowe straty plonu. Wyłącz nieoficjalne dodatki innych autorów." />
         <text name="rhm_warn_conflicting_combine_mod" text="Uwaga: obok Realistic Harvesting wczytano inny mod realizmu lub kontroli prędkości i obciążenia kombajnu. Jednoczesne działanie dwóch kontrolerów fizyki kombajnu może powodować konflikty limitu prędkości, obciążenia silnika oraz strat plonu. W tym zapisie gry pozostaw włączony tylko jeden z nich." />
+        <text name="input_RHM_REVERSE_FEEDER" text="RHM: Rewers podajnika / Odblokuj (Przytrzymaj)" />
+        <text name="input_RHM_CLEAR_CLOG" text="RHM: Oczyść zator ręcznie (Pieszo)" />
+        <text name="rhm_setting_clog_mode_title" text="Zapychanie kombajnu" />
+        <text name="rhm_setting_clog_mode_desc" text="Symuluje zapychanie od przeciążenia, wilgoci lub chwastów. Tylko rewers: z kabiny; Realistyczny: czyszczenie pieszo." />
+        <text name="rhm_clog_mode_off" text="Wyłączone" />
+        <text name="rhm_clog_mode_reverse" text="Tylko rewers" />
+        <text name="rhm_clog_mode_realistic" text="Realistyczny (Rewers + Pieszo)" />
+        <text name="rhm_setting_clog_sens_title" text="Czułość zapychania" />
+        <text name="rhm_setting_clog_sens_desc" text="Określa szybkość narastania zatoru przy przeciążeniu lub trudnych warunkach zbioru." />
+        <text name="rhm_clog_sens_low" text="Niska (0.6x)" />
+        <text name="rhm_clog_sens_std" text="Standardowa (1.0x)" />
+        <text name="rhm_clog_sens_high" text="Wysoka (1.5x)" />
+        <text name="rhm_setting_clog_factors_title" text="Przyczyny zapychania" />
+        <text name="rhm_setting_clog_factors_desc" text="Wybierz czy zator wynika tylko z dużego przeciążenia, czy także z wilgotności, chwastów i kalibracji." />
+        <text name="rhm_clog_factors_overload" text="Tylko przeciążenie" />
+        <text name="rhm_clog_factors_all" text="Wszystkie (Obciąż. + Wilgoć i Chwasty)" />
+        <text name="rhm_setting_clog_ai_title" text="Zapychanie pracowników SI" />
+        <text name="rhm_setting_clog_ai_desc" text="Auto-Odzysk zwalnia i krótko cofa podajnik SI; Ręczna zatrzymuje SI; Wył. daje odporność SI." />
+        <text name="rhm_clog_ai_auto" text="Auto-Odzyskiwanie" />
+        <text name="rhm_clog_ai_manual" text="Pomoc ręczna" />
+        <text name="rhm_clog_ai_off" text="Wyłączone (SI odporne)" />
+        <text name="rhm_setting_clog_pile_title" text="Zrzut pryzmy przy rewersie" />
+        <text name="rhm_setting_clog_pile_desc" text="Wysypuje małą pryzmę słomy/sieczki przed hederem po usunięciu zatoru." />
+        <text name="rhm_clog_warn_slip" text="Sprzęgło przeciążeniowe! Zatrzymaj się i przytrzymaj RShift+B dla rewersu!" />
+        <text name="rhm_clog_warn_blocked_reverse" text="Zator podajnika! Zatrzymaj się całkowicie i przytrzymaj RShift+B!" />
+        <text name="rhm_clog_warn_blocked_foot" text="Zator podajnika! Wysiądź i oczyść przy hederze (RShift+C)!" />
+        <text name="rhm_clog_warn_need_onfoot" text="Pełny zator! Wyjdź z kabiny i oczyść podajnik ręcznie przy hederze!" />
+        <text name="rhm_clog_warn_stop_first" text="Zatrzymaj kombajn całkowicie przed włączeniem rewersu!" />
+        <text name="rhm_clog_cleared_msg" text="Zator usunięty!" />
+        <text name="rhm_clog_onfoot_prompt" text="Przytrzymaj RShift+C aby oczyścić" />
+        <text name="rhm_clog_cause_overload" text="Przeciążenie" />
+        <text name="rhm_clog_cause_moisture" text="Wysoka wilgoć" />
+        <text name="rhm_clog_cause_weeds" text="Chwasty" />
+        <text name="rhm_clog_cause_settings" text="Kalibracja" />
+        <text name="rhm_clog_cause_surge" text="Skok masy" />
+        <text name="rhm_hud_clog_slug" text="ZATOR" />
+        <text name="rhm_hud_clog_slip" text="SPRZĘG" />
+        <text name="rhm_hud_clog_jam" text="BLOK" />
+        <text name="rhm_hud_clog_clear" text="OCZYŚĆ" />
+        <text name="rhm_ui_clog_risk" text="Ryzyko zatoru" />
+        <text name="rhm_tut_clog_title" text="ZAPYCHANIE PODAJNIKA" />
+        <text name="rhm_tut_clog_msg" text="Długotrwałe przeciążenie lub wilgotne, zachwaszczone zboże mogą uruchomić sprzęgło lub zablokować młocarnię. Zatrzymaj się i przytrzymaj RShift+B (w trybie Realistycznym czyść pieszo przy hederze klawiszem RShift+C)." />
     </texts>
 </l10n>

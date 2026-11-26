@@ -73,7 +73,9 @@ function RHM_CombineMemory:saveCurrentProfile(cropName)
         if not wasCalibrated and cropName == self.currentCrop and self.combine then
             if g_server then
                 local spec = self.combine.spec_rhm_Combine
-                if spec and spec.settingsDirtyFlag then self.combine:raiseDirtyFlags(spec.settingsDirtyFlag) end
+                if spec and spec.settingsDirtyFlag and type(spec.settingsDirtyFlag) == "number" then
+                    self.combine:raiseDirtyFlags(spec.settingsDirtyFlag)
+                end
             elseif g_client then
                 local event = RHM_CombineSettingsEvent.new(self.combine, "CALIBRATE", 0, false, nil, cropName)
                 g_client:getServerConnection():sendEvent(event)

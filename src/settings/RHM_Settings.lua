@@ -81,6 +81,11 @@ function RHMSettings.new(manager)
     self.enableWeedLoad = true         -- EN: Weed resistance and motor load / UA: Опір та навантаження на двигун від бур'янів
     self.enableMoisture = true
     self.enableIndependentLaunch = true -- EN: Separate header start enabled by default / UA: Окремий запуск жатки увімкнено за замовчуванням
+    self.cloggingMode = 2               -- EN: 1=Off, 2=Reverse Only, 3=Realistic (Reverse + On-Foot) / UA: 1=Вимкнено, 2=Тільки реверс, 3=Реалістичний
+    self.clogSensitivity = 2            -- EN: 1=Low (0.6x), 2=Standard (1.0x), 3=High (1.5x) / UA: 1=Низька, 2=Стандартна, 3=Висока
+    self.clogFactors = 2                -- EN: 1=Overload Only, 2=All (Overload + Moisture & Weeds) / UA: 1=Тільки перевантаження, 2=Всі фактори
+    self.aiCloggingMode = 1             -- EN: 1=Auto-Recover, 2=Manual Assist, 3=Off (AI Immune) / UA: 1=Авто-очистка, 2=Ручна, 3=Вимкнено для ШІ
+    self.clogDropPile = false           -- EN: Drop cleared straw/chaff pile ahead of cutter on reverse / UA: Скидати купу соломи при реверсі жатки
     self.alarmMode = RHMSettings.ALARM_MODE_SMART -- EN: Alarm mode (1=Smart, 2=Continuous, 3=Off) / UA: Режим зумера
     self.enableAlarmSound = true        -- EN: Cabin overload buzzer alarm / UA: Кабінний зумер перевантаження
     self.soundVolume = 1.0              -- EN: Sound volume scale (0.0 to 1.0, 0% to 100%) / UA: Рівень гучності звуків (0.0 до 1.0, 0% до 100%)
@@ -271,6 +276,11 @@ function RHMSettings:resetToDefaults()
         self.enableWeedLoad = true
         self.enableMoisture = true
         self.enableIndependentLaunch = true
+        self.cloggingMode = 2
+        self.clogSensitivity = 2
+        self.clogFactors = 2
+        self.aiCloggingMode = 1
+        self.clogDropPile = false
     end
     self.showHUD = true
     self.showLoad = true
