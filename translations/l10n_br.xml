@@ -639,5 +639,7 @@
         <text name="rhm_ui_clog_risk" text="Risco embuch." />
         <text name="rhm_tut_clog_title" text="EMBUCHAMENTO" />
         <text name="rhm_tut_clog_msg" text="Sobrecarga prolongada ou lavoura úmida e com mato podem patinar a embreagem ou travar o rotor. Pare e segure RShift+B (no modo Realista, limpe a pé perto da barra com RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Redução auto de velocidade (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Reduz automaticamente a velocidade de avanço quando o embuchamento passa de 65% para evitar um travamento total em 100%." />
     </texts>
 </l10n>

@@ -587,26 +587,52 @@ function RHM_CombineMemory:checkSettingsForCrop(cropName, context, returnWarning
     local warnings = returnWarnings and {} or nil
     local efficiencyScore = 0  -- EN: Impacts throughput/speed / UA: Впливає на пропускну здатність/швидкість
     local lossScore = 0        -- EN: Impacts direct crop loss / UA: Впливає на прямі втрати врожаю
+    local clogRiskSum = 0      -- EN: Proportional green-zone exit clogging risk / UA: Пропорційний ризик забивання при виході з зеленої зони
     
     local effParamCount = 0
     local lossParamCount = 0
+    local activeParamsList = RHM_CombineSettingsDatabase:getParamsForMachineType(self.machineType)
+    local totalActiveParams = math.max(1, #activeParamsList)
 
-    for param, value in pairs(self.currentSettings) do
-        if optimalSettings[param] then
+    for _, param in ipairs(activeParamsList) do
+        local value = self.currentSettings[param]
+        if value ~= nil and optimalSettings[param] then
             local optimal   = optimalSettings[param].optimal
             local tolerance = optimalSettings[param].tolerance
             local deviation = math.abs(value - optimal)
 
             local score = 0
             if deviation <= tolerance then
-                -- EN: GREEN ZONE: Within tolerance = 100% factory efficiency, 0 penalty, 0 bonus.
-                -- UA: ЗЕЛЕНА ЗОНА: У межах допуску = 100% заводський ККД, 0 штрафу, 0 бонусу.
+                -- EN: GREEN ZONE: Within tolerance = 100% factory efficiency, 0 penalty, 0 bonus, 0 clogging risk.
+                -- UA: ЗЕЛЕНА ЗОНА: У межах допуску = 100% заводський ККД, 0 штрафу, 0 бонусу, 0 ризику забивання.
                 score = 0.0
             else
                 -- EN: RED ZONE: Maladjustment penalty only, capped at 6.0 per parameter.
                 -- UA: ЧЕРВОНА ЗОНА: Тільки штраф за розрегулювання, обмежений до 6.0 на параметр.
                 local excess = deviation - tolerance
                 score = math.min(6.0, excess * 0.33)
+
+                -- Proportional green-zone exit clogging contribution:
+                -- Small deviations just outside the green band produce gentle risk; large deviations scale up smoothly.
+                -- Physical direction weighting:
+                --   LOW rotor RPM (stalling inertia), LOW concave clearance (pinched throat),
+                --   and LOW sieve/fan (choked tailings elevator & shoe mat) choke mass directly (weight 1.0 - 1.15).
+                --   HIGH settings (over-speed or wide-open clearance/sieves) pass straw more easily (weight 0.45).
+                local isLow = (value < optimal)
+                local dirWeight = isLow and 1.05 or 0.45
+                if param == "rotor" and isLow then
+                    dirWeight = 1.25
+                elseif (param == "concave" or param == "feeder") and isLow then
+                    dirWeight = 1.15
+                elseif (param == "lowerSieve" or param == "upperSieve") and isLow then
+                    dirWeight = 1.00
+                elseif param == "fan" and isLow then
+                    dirWeight = 0.85
+                end
+                local maxSpan = math.max(20.0, (isLow and (optimal - tolerance) or (100.0 - (optimal + tolerance))))
+                local normExcess = math.min(1.25, excess / maxSpan)
+                local paramClogRisk = (normExcess ^ 1.20) * dirWeight
+                clogRiskSum = clogRiskSum + paramClogRisk
 
                 if warnings then
                     table.insert(warnings, {
@@ -690,6 +716,9 @@ function RHM_CombineMemory:checkSettingsForCrop(cropName, context, returnWarning
     -- UA: Обмежуємо штрафи строго до [0.0, 25.0] (жодних від'ємних значень/бонусів).
     local efficiencyPenalty = math.max(0.0, math.min(efficiencyScore, 25.0))
     local lossPenalty = math.max(0.0, math.min(lossScore, 25.0))
+
+    -- Normalize clogging risk across active machine parameters (0.0 in green zone, up to ~1.5 when all sliders are severely misadjusted)
+    self.settingsClogRisk = math.min(1.5, (clogRiskSum / totalActiveParams) * 1.45)
 
     return efficiencyPenalty, lossPenalty, warnings
 end

@@ -171,6 +171,7 @@ function rhm_Combine.registerOverwrittenFunctions(vehicleType)
     safeRegisterOverwrittenFunction("stopThreshing", rhm_Combine.stopThreshing)
     safeRegisterOverwrittenFunction("verifyCombine", rhm_Combine.verifyCombine)
     safeRegisterOverwrittenFunction("getCanBeTurnedOn", rhm_Combine.getCanBeTurnedOn)
+    safeRegisterOverwrittenFunction("updateVehiclePhysics", rhm_Combine.updateVehiclePhysics)
 end
 
 -- EN: Registers XML paths for vehicle config (shop/modDesc XML). Persists combine settings per-vehicle.
@@ -2315,9 +2316,11 @@ function rhm_Combine:getSpeedLimit(superFunc, onlyIfWorking)
         return limit, doCheckSpeedLimit
     end
     
-    -- EN: Check if speed limiting is enabled in settings (clogging slowdown at >=45% always remains active when clogging is on).
-    -- UA: Перевіряємо чи увімкнено обмеження швидкості в налаштуваннях (примусове гальмування від забивання >=45% діє завжди).
-    local isClogSlowdown = ((spec.data and spec.data.clogLevel) or (spec.cloggingSystem and spec.cloggingSystem.clogLevel) or 0) >= 45.0
+    -- EN: Check if speed limiting is enabled in settings (clogging slowdown at >=65% when clogAutoSlowdown is on, or at 100% hard jam).
+    -- UA: Перевіряємо чи увімкнено обмеження швидкості в налаштуваннях (авто-гальмування від забивання >=65% діє коли увімкнено перемикач, або при 100% клині).
+    local clogLvlForLimit = ((spec.data and spec.data.clogLevel) or (spec.cloggingSystem and spec.cloggingSystem.clogLevel) or 0)
+    local autoSlowSetting = g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.clogAutoSlowdown == true
+    local isClogSlowdown = (clogLvlForLimit >= 100.0) or (autoSlowSetting and clogLvlForLimit >= 65.0)
     if g_realisticHarvestManager and g_realisticHarvestManager.settings and not isClogSlowdown then
         if not g_realisticHarvestManager.settings.enableSpeedLimit then
             spec.isSpeedLimitActive = false
@@ -2483,6 +2486,46 @@ function rhm_Combine:getMotorLoadPercentage(superFunc)
     return vanillaLoad
 end
 
+-- EN: Override for updateVehiclePhysics. When the thresher suffers a 100% hard blockage (clogState == 3),
+--     forcibly disengages cruise control and brakes forward motion to a full stop (0 km/h),
+--     while still allowing the player to back up in reverse if needed.
+-- UA: Перевизначення updateVehiclePhysics. При повному клині молотарки на 100% (clogState == 3)
+--     примусово вимикає круїз-контроль та гальмує рух уперед до повної зупинки (0 км/год),
+--     залишаючи можливість здати назад заднім ходом.
+function rhm_Combine:updateVehiclePhysics(superFunc, axisForward, axisSide, doHandbrake, dt)
+    local spec_rhm = self.spec_rhm_Combine
+    if not (spec_rhm and spec_rhm.isRhmCombine) and self.getAttachedImplements ~= nil then
+        local implList = self:getAttachedImplements()
+        if implList ~= nil then
+            for i = 1, #implList do
+                local obj = implList[i] and implList[i].object
+                if obj and obj.spec_rhm_Combine and obj.spec_rhm_Combine.isRhmCombine then
+                    spec_rhm = obj.spec_rhm_Combine
+                    break
+                end
+            end
+        end
+    end
+    if spec_rhm and spec_rhm.isRhmCombine then
+        local cState = (spec_rhm.cloggingSystem and spec_rhm.cloggingSystem.clogState) or (spec_rhm.data and spec_rhm.data.clogState) or 0
+        if cState == 3 then
+            if self.setCruiseControlState ~= nil and self.getCruiseControlState ~= nil and Drivable ~= nil then
+                if self:getCruiseControlState() ~= Drivable.CRUISECONTROL_STATE_OFF then
+                    self:setCruiseControlState(Drivable.CRUISECONTROL_STATE_OFF, true)
+                end
+            end
+            local revDir = (self.getReverserDirection and self:getReverserDirection()) or 1
+            local forwardIntent = (axisForward or 0) * revDir
+            local isMovingForwardNow = (self.movingDirection or 0) > 0 and ((self.getLastSpeed and self:getLastSpeed()) or 0) > 0.15
+            if forwardIntent > 0 or isMovingForwardNow then
+                axisForward = 0
+                doHandbrake = true
+            end
+        end
+    end
+    return superFunc(self, axisForward, axisSide, doHandbrake, dt)
+end
+
 -- EN: Override for startThreshing. Conditionally starts attached cutters based on settings.
 --     If Independent Launch is enabled: cutters only auto-start for AI (not the player).
 --     If Independent Launch is disabled: cutters always auto-start (classic vanilla behavior).
@@ -2611,10 +2654,10 @@ end
 function rhm_Combine:verifyCombine(superFunc, fruitType, outputFillType)
     local isAIActive = rhm_Combine.isAiWorkerActive(self)
 
-    -- EN: Block crop intake only when feeder slip clutch has critically tripped (>=90%) or hard-jammed (state 3).
-    --     Below 90%, the combine continues cutting while forcibly reducing ground speed.
-    -- UA: Блокуємо подачу маси лише при критичному зриві муфти (>=90%) або повному забиванні (стан 3).
-    --     До 90% комбайн продовжує косити з примусовим зниженням швидкості.
+    -- EN: Block crop intake only when thresher/feeder is 100% hard-jammed (state 3), simultaneously with full vehicle stop.
+    --     Below 100%, the header continues cutting without leaving unharvested gaps on the field.
+    -- UA: Блокуємо подачу маси лише при 100% повному клині (стан 3), одночасно з повною зупинкою комбайна.
+    --     До 100% жатка продовжує косити без пропусків на полі.
     local spec_rhm = self.spec_rhm_Combine
     if spec_rhm then
         local halted = false
@@ -2623,7 +2666,7 @@ function rhm_Combine:verifyCombine(superFunc, fruitType, outputFillType)
         else
             local cState = (spec_rhm.data and spec_rhm.data.clogState) or 0
             local cLevel = (spec_rhm.data and spec_rhm.data.clogLevel) or 0
-            halted = (cState == 3) or (cLevel >= 90.0)
+            halted = (cState == 3) or (cLevel >= 100.0)
         end
         if halted then
             return nil
@@ -2669,19 +2712,19 @@ function rhm_Combine:updateWarnings(dt)
     if spec_rhm and spec_rhm.data then
         local cState = spec_rhm.data.clogState or 0
         if cState == 3 then
-            self._rhmLastWarningTime = now
-            local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
-            local isRealistic = settings and settings.cloggingMode == 3
-            local key = isRealistic and "rhm_clog_warn_blocked_foot" or "rhm_clog_warn_blocked_reverse"
-            local fallback = isRealistic and "Thresher jammed! Exit cab and clear feeder manually!" or "Thresher jammed! Hold RShift+B to reverse feeder!"
-            local msg = (g_i18n and g_i18n:hasText(key) and g_i18n:getText(key)) or fallback
-            g_currentMission:showBlinkingWarning(msg, 2500)
+            if not spec_rhm._warnedBlockedThisJam then
+                spec_rhm._warnedBlockedThisJam = true
+                self._rhmLastWarningTime = now
+                local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+                local isRealistic = settings and settings.cloggingMode == 3
+                local key = isRealistic and "rhm_clog_warn_blocked_foot" or "rhm_clog_warn_blocked_reverse"
+                local fallback = isRealistic and "Thresher jammed! Exit cab and clear feeder manually!" or "Thresher jammed! Hold RShift+B to reverse feeder!"
+                local msg = (g_i18n and g_i18n:hasText(key) and g_i18n:getText(key)) or fallback
+                g_currentMission:showBlinkingWarning(msg, 2500)
+            end
             return
-        elseif cState == 2 then
-            self._rhmLastWarningTime = now
-            local msg = (g_i18n and g_i18n:hasText("rhm_clog_warn_slip") and g_i18n:getText("rhm_clog_warn_slip")) or "Slip clutch active! Stop and hold RShift+B to reverse feeder!"
-            g_currentMission:showBlinkingWarning(msg, 2500)
-            return
+        else
+            spec_rhm._warnedBlockedThisJam = false
         end
     end
 
@@ -3137,7 +3180,8 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
         local isReversing = rhm_Combine.getIsVehicleReversing(self)
         local isThreshing = (self.getIsTurnedOn and self:getIsTurnedOn()) or (self.spec_combine and self.spec_combine.isThreshing)
         local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
-        local isClogSlowdownClient = (spec.data and (spec.data.clogLevel or 0) >= 45.0)
+        local clogLvlClient = (spec.data and spec.data.clogLevel) or 0
+        local isClogSlowdownClient = (clogLvlClient >= 100.0) or (settings and settings.clogAutoSlowdown == true and clogLvlClient >= 65.0)
         local speedLimitEnabled = (not settings or settings.enableSpeedLimit) or isClogSlowdownClient
         local isArcade = (settings and settings.difficultyMotor == 1) and (not isClogSlowdownClient)
 
@@ -3771,6 +3815,19 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
                         cutter:setIsTurnedOn(false, true)
                     end
                 end
+                -- Immediately disengage cruise control and command full-stop braking on the carrier
+                local carrierToStop = rhm_Combine.getMotorizedCarrier(self) or self.rootVehicle or self
+                if carrierToStop then
+                    if carrierToStop.setCruiseControlState ~= nil and Drivable ~= nil then
+                        carrierToStop:setCruiseControlState(Drivable.CRUISECONTROL_STATE_OFF)
+                    end
+                    if carrierToStop.brakeToStop ~= nil then
+                        carrierToStop:brakeToStop()
+                    end
+                    if carrierToStop.brake ~= nil then
+                        carrierToStop:brake(1.0)
+                    end
+                end
             end
             if spec.dataDirtyFlag and type(spec.dataDirtyFlag) == "number" then
                 self:raiseDirtyFlags(spec.dataDirtyFlag)
@@ -3870,7 +3927,7 @@ function rhm_Combine:onUpdateTick(dt, isActiveForInput, isActiveForInputIgnoreSe
 
                 local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
                 local clogLvlNow = (spec.cloggingSystem and spec.cloggingSystem.clogLevel) or (spec.data and spec.data.clogLevel) or 0
-                local isClogSlowdownServer = clogLvlNow >= 45.0
+                local isClogSlowdownServer = (clogLvlNow >= 100.0) or ((isAI or (settings and settings.clogAutoSlowdown == true)) and clogLvlNow >= 65.0)
                 local speedLimitEnabled = (settings and settings.enableSpeedLimit) or isClogSlowdownServer
                 local isArcade = (settings and settings.difficultyMotor == 1) and (not isClogSlowdownServer) -- DIFFICULTY_ARCADE
 
@@ -4693,10 +4750,22 @@ function rhm_Combine:onReadUpdateStream(streamId, timestamp, connection)
             spec.data.wearLoss = streamReadFloat32(streamId)
             spec.data.isStrawChopperActive = streamReadBool(streamId)
             spec.data.lastValidYield = streamReadFloat32(streamId)
+            local prevClogState = spec.data.clogState or 0
             spec.data.clogLevel = streamReadFloat32(streamId)
             spec.data.clogState = streamReadUInt8(streamId)
             spec.data.clogCause = streamReadUInt8(streamId)
             spec.data.isClogReversing = streamReadBool(streamId)
+            if spec.data.clogState == 3 and prevClogState ~= 3 then
+                local carrierToStop = rhm_Combine.getMotorizedCarrier(self) or self.rootVehicle or self
+                if carrierToStop then
+                    if carrierToStop.setCruiseControlState ~= nil and Drivable ~= nil then
+                        carrierToStop:setCruiseControlState(Drivable.CRUISECONTROL_STATE_OFF, true)
+                    end
+                    if carrierToStop.brakeToStop ~= nil then
+                        carrierToStop:brakeToStop()
+                    end
+                end
+            end
             if spec.cloggingSystem then
                 spec.cloggingSystem.clogLevel = spec.data.clogLevel
                 spec.cloggingSystem.clogState = spec.data.clogState

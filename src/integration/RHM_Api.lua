@@ -1643,6 +1643,13 @@ function RHM_Api.getClogCause(vehicle)
     return 0
 end
 
+---EN: Returns true if automatic speed reduction at >=65% clogging is enabled in global server settings.
+---UA: Повертає true, якщо авто-зменшення швидкості при забиванні >=65% увімкнено в серверних налаштуваннях.
+---@return boolean
+function RHM_Api.isClogAutoSlowdownEnabled()
+    return (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.clogAutoSlowdown == true) or false
+end
+
 -- ============================================================================
 -- 10. ACTIVE FARM & UTILITY HELPERS
 -- ============================================================================

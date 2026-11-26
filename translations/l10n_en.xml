@@ -641,5 +641,7 @@
         <text name="rhm_ui_clog_risk" text="Clog Risk" />
         <text name="rhm_tut_clog_title" text="FEEDER CLOGGING" />
         <text name="rhm_tut_clog_msg" text="Prolonged overload or wet, weedy crops can trip the slip clutch or jam the feeder. Stop completely and hold RShift+B to reverse and clear it (in Realistic mode, hard jams must be cleared on foot near the header with RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Clog Auto-Slowdown (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Automatically reduces ground speed when feeder strain exceeds 65% to help prevent a 100% hard jam. Turn Off if you prefer full manual speed control until the slip clutch trips." />
     </texts>
 </l10n>

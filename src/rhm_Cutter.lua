@@ -48,7 +48,7 @@ local function getAttachedCombineState(cutter)
     local cState = (spec.cloggingSystem and spec.cloggingSystem:getState()) or (spec.data and spec.data.clogState) or 0
     local cLevel = (spec.cloggingSystem and spec.cloggingSystem:getLevel()) or (spec.data and spec.data.clogLevel) or 0
     local spd = (combine.getLastSpeed and combine:getLastSpeed()) or 0
-    local isClogged = (cState == 3) or (cLevel >= 90.0)
+    local isClogged = (cState == 3) or (cLevel >= 100.0)
     local isReversing = (cLevel > 0) and (
         (spec.data and spec.data.isClogReversing == true)
         or (spec.cloggingSystem and spec.cloggingSystem.isPlayerReversing == true)

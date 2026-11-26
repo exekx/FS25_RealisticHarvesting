@@ -637,5 +637,7 @@
         <text name="rhm_ui_clog_risk" text="堵塞風險" />
         <text name="rhm_tut_clog_title" text="餵入堵塞保護" />
         <text name="rhm_tut_clog_msg" text="持續超載或高濕多草作物會導致安全離合打滑或滾筒卡死。請停車按住 RShift+B 反轉清理（真實模式下徹底卡死需下車按 RShift+C）。" />
+        <text name="rhm_setting_clog_slowdown_title" text="堵塞自動減速 (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="當餵入堵塞超過 65% 時自動降低行駛速度，以防止達到 100% 完全卡死。" />
     </texts>
 </l10n>

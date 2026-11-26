@@ -641,5 +641,7 @@
         <text name="rhm_ui_clog_risk" text="Staurisiko" />
         <text name="rhm_tut_clog_title" text="EINZUG-VERSTOPFUNG" />
         <text name="rhm_tut_clog_msg" text="Anhaltende Überlast oder feuchtes, verunkrautetes Erntegut kann die Rutschkupplung auslösen oder den Einzug blockieren. Anhalten und RShift+B halten (im Realistisch-Modus Blockaden zu Fuß am Schneidwerk mit RShift+C lösen)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Auto-Verlangsamung bei Verstopfung (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Reduziert automatisch die Fahrgeschwindigkeit ab 65% Einzugsbelastung, um eine 100%-Blockade zu verhindern. Ausschalten für volle manuelle Geschwindigkeitskontrolle." />
     </texts>
 </l10n>

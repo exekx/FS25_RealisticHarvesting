@@ -637,5 +637,7 @@
         <text name="rhm_ui_clog_risk" text="Nguy cơ nghẽn" />
         <text name="rhm_tut_clog_title" text="NGHẼN HÀM NẠP" />
         <text name="rhm_tut_clog_msg" text="Quá tải kéo dài hoặc cây ẩm nhiều cỏ dại có thể làm trượt ly hợp hoặc kẹt trống đập. Dừng hẳn và giữ RShift+B (chế độ Thực tế xuống xe bấm RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Tự động giảm tốc khi nghẹt (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Tự động giảm tốc độ di chuyển khi mức nghẹt vượt quá 65% để ngăn kẹt cứng 100%." />
     </texts>
 </l10n>

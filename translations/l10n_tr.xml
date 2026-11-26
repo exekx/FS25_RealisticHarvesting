@@ -639,5 +639,7 @@
         <text name="rhm_ui_clog_risk" text="Tıkanma Riski" />
         <text name="rhm_tut_clog_title" text="BESLEYİCİ TIKANMASI" />
         <text name="rhm_tut_clog_msg" text="Uzun süreli aşırı yük veya nemli/otlu ürün kavramayı kaydırabilir veya tamburu tıkayabilir. Durup RShift+B basılı tutun (Gerçekçi modda inip RShift+C ile açın)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Tıkanmada Otomatik Yavaşlama (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Tıkanma %65'i aştığında %100 tam sıkışmayı önlemek için sürüş hızını otomatik olarak düşürür." />
     </texts>
 </l10n>

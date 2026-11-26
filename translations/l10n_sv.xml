@@ -637,5 +637,7 @@
         <text name="rhm_ui_clog_risk" text="Stopprisk" />
         <text name="rhm_tut_clog_title" text="IGENSÄTTNING" />
         <text name="rhm_tut_clog_msg" text="Långvarig överbelastning eller fuktig gröda med ogräs kan lösa ut slirkopplingen eller sätta igen tröskan. Stanna och håll RShift+B (i Realistiskt läge rensas hårda stopp till fots med RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Auto-inbromsning vid igensättning (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Sänker automatiskt körhastigheten när igensättningen överstiger 65% för att motverka ett totalstopp vid 100%." />
     </texts>
 </l10n>

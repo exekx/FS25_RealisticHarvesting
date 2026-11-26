@@ -342,6 +342,16 @@ function RHMSettingsUI.inject(settings)
     if clogPileOpt and clogPileOpt.setDisabled then clogPileOpt:setDisabled(not isAdmin) end
     RHMSettingsUI.clogDropPileOption = clogPileOpt
 
+    local clogSlowdownOpt = addBinaryRow(settingsPage, gameLayout, "clog_slowdown", "rhm_setting_clog_slowdown_title", "rhm_setting_clog_slowdown_desc",
+        settings.clogAutoSlowdown == true,
+        function(val)
+            if not settings:canChangeServerSettings() then return end
+            settings.clogAutoSlowdown = val
+            settings:saveAndSync("clogAutoSlowdown")
+        end)
+    if clogSlowdownOpt and clogSlowdownOpt.setDisabled then clogSlowdownOpt:setDisabled(not isAdmin) end
+    RHMSettingsUI.clogAutoSlowdownOption = clogSlowdownOpt
+
     -- === SECTION: Visuals / HUD ===
     addSection(settingsPage, "rhm_section_visuals", generalLayout)
 
@@ -508,6 +518,7 @@ function RHMSettingsUI.refreshUI(settings)
     setOpt(RHMSettingsUI.clogFactorsOption,     settings.clogFactors or 2,           not isAdmin)
     setOpt(RHMSettingsUI.aiCloggingModeOption,  settings.aiCloggingMode or 1,        not isAdmin)
     setOpt(RHMSettingsUI.clogDropPileOption,    (settings.clogDropPile == true) and 2 or 1, not isAdmin)
+    setOpt(RHMSettingsUI.clogAutoSlowdownOption,(settings.clogAutoSlowdown == true) and 2 or 1, not isAdmin)
 
     setOpt(RHMSettingsUI.hudOption,         settings.showHUD           and 2 or 1, false)
     setOpt(RHMSettingsUI.hudStyleOption,    settings.hudStyle or 2,                false)

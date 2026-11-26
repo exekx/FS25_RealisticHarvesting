@@ -75,18 +75,19 @@ function RHM_ClogActionEvent:run(connection)
         end
     end
 
+    local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+    local dropPile = (settings ~= nil and settings.clogDropPile == true) or false
     if self.actionType == RHM_ClogActionEvent.ACTION_SET_REVERSING then
         clogSys:setPlayerReversing(vehicle, self.flagValue == true)
     elseif self.actionType == RHM_ClogActionEvent.ACTION_REVERSE_COMPLETE then
         -- Enforce realistic mode rule: hard blockage requires on-foot clearing when cloggingMode == 3
-        local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
         local cloggingMode = (settings and settings.cloggingMode) or 2
         if clogSys.clogState == RHM_CloggingSystem.STATE_BLOCKED and cloggingMode == 3 then
             return
         end
-        clogSys:clearBlockage(vehicle, true)
+        clogSys:clearBlockage(vehicle, dropPile)
     elseif self.actionType == RHM_ClogActionEvent.ACTION_MANUAL_CLEAR_COMPLETE then
-        clogSys:clearBlockage(vehicle, true)
+        clogSys:clearBlockage(vehicle, dropPile)
     end
 
     rhm_Combine.syncCloggingData(vehicle, spec)

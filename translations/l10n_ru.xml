@@ -641,5 +641,7 @@
         <text name="rhm_ui_clog_risk" text="Риск затора" />
         <text name="rhm_tut_clog_title" text="ЗАБИВАНИЕ КОМБАЙНА" />
         <text name="rhm_tut_clog_msg" text="Длительный перегруз или влажные засорённые посевы могут вызвать пробуксовку муфты или клин. Остановитесь и удерживайте RShift+B (в Реалистичном режиме клин чистится пешком у жатки через RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Авто-снижение скорости (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Автоматически снижает скорость движения при забивании свыше 65%, чтобы предотвратить полный клин на 100%." />
     </texts>
 </l10n>

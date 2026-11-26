@@ -639,5 +639,7 @@
         <text name="rhm_ui_clog_risk" text="Risco entup." />
         <text name="rhm_tut_clog_title" text="ENTUPIMENTO" />
         <text name="rhm_tut_clog_msg" text="Sobrecarga prolongada ou seara húmida podem acionar a embraiagem ou encravar o cilindro. Pare e mantenha RShift+B (no modo Realista, limpe a pé com RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Redução auto de velocidade (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Reduz automaticamente a velocidade de avanço quando o entupimento ultrapassa 65% para evitar um bloqueio total a 100%." />
     </texts>
 </l10n>

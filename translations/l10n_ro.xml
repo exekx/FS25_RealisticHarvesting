@@ -639,5 +639,7 @@
         <text name="rhm_ui_clog_risk" text="Risc blocaj" />
         <text name="rhm_tut_clog_title" text="ÎNFUNDARE COMBINĂ" />
         <text name="rhm_tut_clog_msg" text="Suprasarcina prelungită sau cultura umedă cu buruieni pot declanșa ambreiajul sau bloca batoza. Oprește și ține RShift+B (în modul Realist, curăță pe jos cu RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Încetinire automată la înfundare (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Reduce automat viteza de deplasare când înfundarea depășește 65% pentru a preveni blocarea completă la 100%." />
     </texts>
 </l10n>

@@ -637,5 +637,7 @@
         <text name="rhm_ui_clog_risk" text="막힘 위험" />
         <text name="rhm_tut_clog_title" text="투입부 막힘" />
         <text name="rhm_tut_clog_msg" text="지속적인 과부하나 젖고 잡초가 많은 작물은 클러치를 미끄러지게 하거나 탈곡통을 막습니다. 정차 후 RShift+B를 누르세요 (현실적 모드에서는 하차 후 RShift+C로 제거)." />
+        <text name="rhm_setting_clog_slowdown_title" text="막힘 시 자동 감속 (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="막힘 수준이 65%를 초과하면 주행 속도를 자동으로 줄여 100% 완전 막힘을 방지합니다." />
     </texts>
 </l10n>

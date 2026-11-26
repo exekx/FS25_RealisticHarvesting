@@ -86,6 +86,7 @@ function RHMSettings.new(manager)
     self.clogFactors = 2                -- EN: 1=Overload Only, 2=All (Overload + Moisture & Weeds) / UA: 1=Тільки перевантаження, 2=Всі фактори
     self.aiCloggingMode = 1             -- EN: 1=Auto-Recover, 2=Manual Assist, 3=Off (AI Immune) / UA: 1=Авто-очистка, 2=Ручна, 3=Вимкнено для ШІ
     self.clogDropPile = false           -- EN: Drop cleared straw/chaff pile ahead of cutter on reverse / UA: Скидати купу соломи при реверсі жатки
+    self.clogAutoSlowdown = false       -- EN: Automatic speed reduction when clogging >= 65% to prevent hard jam / UA: Авто-зменшення швидкості при забиванні >= 65%
     self.alarmMode = RHMSettings.ALARM_MODE_SMART -- EN: Alarm mode (1=Smart, 2=Continuous, 3=Off) / UA: Режим зумера
     self.enableAlarmSound = true        -- EN: Cabin overload buzzer alarm / UA: Кабінний зумер перевантаження
     self.soundVolume = 1.0              -- EN: Sound volume scale (0.0 to 1.0, 0% to 100%) / UA: Рівень гучності звуків (0.0 до 1.0, 0% до 100%)
@@ -281,6 +282,7 @@ function RHMSettings:resetToDefaults()
         self.clogFactors = 2
         self.aiCloggingMode = 1
         self.clogDropPile = false
+        self.clogAutoSlowdown = false
     end
     self.showHUD = true
     self.showLoad = true

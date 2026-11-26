@@ -641,5 +641,7 @@
         <text name="rhm_ui_clog_risk" text="Riziko ucpání" />
         <text name="rhm_tut_clog_title" text="UCPÁNÍ KOMBAJNU" />
         <text name="rhm_tut_clog_msg" text="Dlouhé přetížení nebo vlhká zaplevelená sklizeň může spustit prokluz spojky nebo ucpat mlátičku. Zastavte a držte RShift+B (v Realistickém režimu vyčistěte pěšky u lišty pomocí RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Auto-zpomalení při zahlcení (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Automaticky snižuje pojezdovou rychlost při zahlcení nad 65 %, aby se předešlo úplnému ucpání na 100 %." />
     </texts>
 </l10n>

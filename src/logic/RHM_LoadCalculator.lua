@@ -1258,6 +1258,16 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
         end
 
         pProcess = ((avgTph * eSpec * procMoisture * weedFactor) / eff) * pRotorExtra
+        self.lastPowerProcessClean = pProcess
+
+        -- Feederhouse & concave mat congestion drag: when clogging builds above 45%,
+        -- compressed straw/weed wads rub against the rotor cage and feeder floor, adding up to +16% process power demand.
+        local clogSpec = vehicle and vehicle.spec_rhm_Combine
+        local activeClogLevel = (clogSpec and ((clogSpec.cloggingSystem and clogSpec.cloggingSystem.clogLevel) or (clogSpec.data and clogSpec.data.clogLevel))) or 0
+        if activeClogLevel > 45.0 then
+            local clogDragRatio = math.min(1.0, (activeClogLevel - 45.0) / 50.0)
+            pProcess = pProcess * (1.0 + clogDragRatio * 0.16)
+        end
 
         -- EN: Worn threshing and chopping parts demand more power, as a registered wear provider reports
         -- UA: Зношені молотильні та подрібнювальні вузли потребують більше потужності (за даними провайдера зносу)
@@ -1342,8 +1352,10 @@ function RHM_LoadCalculator:calculateEngineLoad(vehicle)
         pTotal = pBase + pHeader + pProcess + pChopper + pSoil
     elseif isCutterActive then
         -- Running empty (cutter spinning, no crop intake)
+        self.lastPowerProcessClean = 0
         pTotal = pBase + (pHeader * 0.25) + pChopper
     else
+        self.lastPowerProcessClean = 0
         pTotal = 0
     end
 
@@ -1422,8 +1434,10 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         local rhmSpecArcade = vehicle and vehicle.spec_rhm_Combine
         if rhmSpecArcade and rhmSpecArcade.cloggingSystem then
             local isAi = rhm_Combine and rhm_Combine.isAiWorkerActive and rhm_Combine.isAiWorkerActive(vehicle)
-            local aiClogMode = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.aiCloggingMode) or 1
-            local clogMult = rhmSpecArcade.cloggingSystem:getSpeedMultiplier(isAi, aiClogMode)
+            local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+            local aiClogMode = (settings and settings.aiCloggingMode) or 1
+            local clogAutoSlow = settings and settings.clogAutoSlowdown == true
+            local clogMult = rhmSpecArcade.cloggingSystem:getSpeedMultiplier(isAi, aiClogMode, clogAutoSlow)
             if clogMult <= 0.01 then
                 self.speedLimit = 0.001
                 return
@@ -1479,8 +1493,10 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
             local rhmSpecGap = vehicle and vehicle.spec_rhm_Combine
             if rhmSpecGap and rhmSpecGap.cloggingSystem then
                 local isAi = rhm_Combine and rhm_Combine.isAiWorkerActive and rhm_Combine.isAiWorkerActive(vehicle)
-                local aiClogMode = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.aiCloggingMode) or 1
-                local clogMult = rhmSpecGap.cloggingSystem:getSpeedMultiplier(isAi, aiClogMode)
+                local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+                local aiClogMode = (settings and settings.aiCloggingMode) or 1
+                local clogAutoSlow = settings and settings.clogAutoSlowdown == true
+                local clogMult = rhmSpecGap.cloggingSystem:getSpeedMultiplier(isAi, aiClogMode, clogAutoSlow)
                 if clogMult <= 0.01 then
                     self.speedLimit = 0.001
                 elseif clogMult < 0.99 then
@@ -1542,7 +1558,9 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
         local kHeader = ((self.headerHp or headerHp or 0) * 0.80) / math.max(1.0, maxWorkingSpeed)
 
         -- Crop processing & straw chopper power slope: HP per (km/h)
-        local pProcess = self.lastPowerProcess or 0
+        -- Use clean base process power without temporary clog friction drag so clogging (>45%)
+        -- does not cause vEquilibrium to brake the combine when clogAutoSlowdown is OFF!
+        local pProcess = self.lastPowerProcessClean or self.lastPowerProcess or 0
         local pChopper = self.lastPowerChopper or 0
         local instantKCrop = (pProcess + pChopper) / effectiveSpeed
         if instantKCrop < 0.1 then
@@ -1788,12 +1806,15 @@ function RHM_LoadCalculator:calculateSpeedLimit(vehicle)
     end
 
     -- CLOGGING PREVENTION & AUTO-RECOVER HOLD:
-    -- Proactively slows AI workers as clog buildup crosses 52%/65%, and halts forward feed during active blockage/auto-recover.
+    -- Proactively slows AI workers (and player when clogAutoSlowdown is enabled) as clog buildup crosses 65%,
+    -- and halts forward feed during active blockage/auto-recover.
     local rhmSpec = vehicle and vehicle.spec_rhm_Combine
     if rhmSpec and rhmSpec.cloggingSystem then
         local isAi = rhm_Combine and rhm_Combine.isAiWorkerActive and rhm_Combine.isAiWorkerActive(vehicle)
-        local aiClogMode = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings.aiCloggingMode) or 1
-        local clogMult = rhmSpec.cloggingSystem:getSpeedMultiplier(isAi, aiClogMode)
+        local settings = g_realisticHarvestManager and g_realisticHarvestManager.settings
+        local aiClogMode = (settings and settings.aiCloggingMode) or 1
+        local clogAutoSlow = settings and settings.clogAutoSlowdown == true
+        local clogMult = rhmSpec.cloggingSystem:getSpeedMultiplier(isAi, aiClogMode, clogAutoSlow)
         if clogMult <= 0.01 then
             self.speedLimit = 0.001
         elseif clogMult < 0.99 then
@@ -2007,6 +2028,7 @@ end
 function RHM_LoadCalculator:updateSettingsImpact()
     self.settingsEfficiency = 1.0
     self.settingsLoss = 0
+    self.settingsClogRisk = 0.0
 
     local isArcadeMotor = false
     local isArcadeLoss = false
@@ -2026,6 +2048,7 @@ function RHM_LoadCalculator:updateSettingsImpact()
     end
     if not self.combineMemory or not self.currentCrop then return end
     local effPenalty, lossPenalty, _ = self.combineMemory:checkSettingsForCrop(self.currentCrop)
+    self.settingsClogRisk = self.combineMemory.settingsClogRisk or 0.0
     
     if not isArcadeMotor then
         local penalty = math.max(0.0, effPenalty or 0)
@@ -2157,10 +2180,8 @@ function RHM_LoadCalculator:calculateTotalCropLoss(vehicle)
     if self.combineMemory and self.combineMemory.currentCrop then
         self.currentCrop = self.combineMemory.currentCrop
     end
-    if not self.settingsLoss or self._lastSettingsCrop ~= self.currentCrop then
-        self._lastSettingsCrop = self.currentCrop
-        self:updateSettingsImpact()
-    end
+    self._lastSettingsCrop = self.currentCrop
+    self:updateSettingsImpact()
     local wearLoss = 0
     if vehicle then
         wearLoss = self:calculateWearLoss(vehicle)
@@ -2255,14 +2276,25 @@ function RHM_LoadCalculator:calculateTotalCropLoss(vehicle)
         end
     end
 
-    self.baseLoss = baseLoss
-    self.overloadLoss = baseLoss
+    -- 6. Clogging Matting Loss: Partially choked concave and feeder wads (50%..99%) prevent grain
+    -- from separating through the dense straw mat, adding up to +7.0% walker/rotor carry-over loss.
+    local clogLoss = 0
+    local clogSpec = vehicle and vehicle.spec_rhm_Combine
+    local activeClogLevel = (clogSpec and ((clogSpec.cloggingSystem and clogSpec.cloggingSystem.clogLevel) or (clogSpec.data and clogSpec.data.clogLevel))) or 0
+    if activeClogLevel > 50.0 then
+        local lossMult = (g_realisticHarvestManager and g_realisticHarvestManager.settings and g_realisticHarvestManager.settings:getLossMultiplier()) or 1.0
+        local clogNorm = math.min(1.0, (activeClogLevel - 50.0) / 45.0)
+        clogLoss = (clogNorm ^ 1.15) * 7.0 * lossMult
+    end
+
+    self.baseLoss = baseLoss + clogLoss
+    self.overloadLoss = self.baseLoss
     self.settingsAddedLoss = settingsAddedLoss
     self.wearLoss = wearLoss
     self.slopeLoss = slopeLoss
     self.moistureLoss = moistureLoss
 
-    local totalLoss = baseLoss + settingsAddedLoss + wearLoss + slopeLoss + moistureLoss
+    local totalLoss = self.baseLoss + settingsAddedLoss + wearLoss + slopeLoss + moistureLoss
     totalLoss = math.min(totalLoss, 50)
     self.totalLoss = totalLoss
     self.totalCropLoss = totalLoss

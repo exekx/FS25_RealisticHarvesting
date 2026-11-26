@@ -641,5 +641,7 @@
         <text name="rhm_ui_clog_risk" text="Rischio blocco" />
         <text name="rhm_tut_clog_title" text="INGOLFAMENTO" />
         <text name="rhm_tut_clog_msg" text="Sovraccarico prolungato o raccolto umido possono far slittare la frizione o bloccare il battitore. Fermati e tieni RShift+B (in modalità Realistica sblocca a piedi con RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Rallentamento auto intasamento (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Riduce automaticamente la velocità di avanzamento quando l'intasamento supera il 65% per prevenire un blocco totale al 100%." />
     </texts>
 </l10n>

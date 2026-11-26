@@ -32,7 +32,8 @@ RHMSettingsManager.SERVER_SETTINGS = {
     "clogSensitivity",
     "clogFactors",
     "aiCloggingMode",
-    "clogDropPile"
+    "clogDropPile",
+    "clogAutoSlowdown"
 }
 
 -- EN: List of client-side setting keys (personal, per-player, HUD-related).
@@ -78,6 +79,7 @@ RHMSettingsManager.defaultConfig = {
     clogFactors = 2,
     aiCloggingMode = 1,
     clogDropPile = false,
+    clogAutoSlowdown = false,
     showMoisture = true,
     enableAlarmSound = true,
     alarmMode = 1,

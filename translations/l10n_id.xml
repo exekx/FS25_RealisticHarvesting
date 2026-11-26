@@ -637,5 +637,7 @@
         <text name="rhm_ui_clog_risk" text="Risiko Sumbat" />
         <text name="rhm_tut_clog_title" text="PENYUMBATAN PENGUMPAN" />
         <text name="rhm_tut_clog_msg" text="Beban berlebih terus-menerus atau tanaman basah ber-gulma dapat memicu kopling selip atau macet. Berhenti dan tahan RShift+B (mode Realistis bersihkan jalan kaki dengan RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Perlambat Otomatis Saat Macet (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Secara otomatis mengurangi kecepatan maju saat sumbatan melebihi 65% untuk mencegah kemacetan total 100%." />
     </texts>
 </l10n>

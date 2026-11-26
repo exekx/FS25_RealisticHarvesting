@@ -199,28 +199,24 @@ function RHM_CloggingSystem:clearBlockage(vehicle, allowPileDrop)
     self.reingestCooldownTimer = math.max(self.reingestCooldownTimer or 0.0, 1.5)
 end
 
----EN: Returns true only when the slip clutch has fully tripped out (>=90%) or hard-jammed (100%), halting crop intake.
+---EN: Returns true only when the thresher/feeder has hard-jammed at 100% (STATE_BLOCKED), halting crop intake simultaneously with full vehicle stop.
 function RHM_CloggingSystem:isIntakeHalted()
-    return (self.clogState == RHM_CloggingSystem.STATE_BLOCKED) or ((self.clogLevel or 0.0) >= 90.0)
+    return (self.clogState == RHM_CloggingSystem.STATE_BLOCKED) or ((self.clogLevel or 0.0) >= 100.0)
 end
 
----EN: Returns progressive speed multiplier for BOTH player and AI workers as clogging builds up (45% -> 100%).
-function RHM_CloggingSystem:getSpeedMultiplier(isAiWorker, aiCloggingMode)
-    if self.clogState == RHM_CloggingSystem.STATE_BLOCKED or self.aiRecoverActive then
+---EN: Returns progressive speed multiplier for player (when clogAutoSlowdown is enabled) and AI workers as clogging builds up (>=65%).
+function RHM_CloggingSystem:getSpeedMultiplier(isAiWorker, aiCloggingMode, clogAutoSlowdown)
+    if self.clogState == RHM_CloggingSystem.STATE_BLOCKED or (self.clogLevel or 0.0) >= 100.0 or self.aiRecoverActive then
         return 0.0
     end
     local lvl = self.clogLevel or 0.0
     if isAiWorker and aiCloggingMode == RHM_CloggingSystem.AI_AUTO_RECOVER and lvl >= 78.0 then
         return 0.0
     end
-    if lvl >= 90.0 then
-        return isAiWorker and 0.0 or 0.14
-    elseif lvl >= 65.0 then
-        local t = (lvl - 65.0) / 25.0
-        return 0.65 - (t * 0.41)
-    elseif lvl >= 45.0 then
-        local t = (lvl - 45.0) / 20.0
-        return 0.92 - (t * 0.27)
+    local autoSlow = (clogAutoSlowdown == true) or (isAiWorker and aiCloggingMode == RHM_CloggingSystem.AI_AUTO_RECOVER)
+    if autoSlow and lvl >= 65.0 then
+        local t = math.min(1.0, (lvl - 65.0) / 35.0)
+        return 0.85 - (t * 0.35)
     end
     return 1.0
 end
@@ -314,34 +310,10 @@ function RHM_CloggingSystem:update(
 
     local headerTurnedOn = (isCutterTurnedOn ~= nil) and (isCutterTurnedOn == true) or (isCutterOn == true)
 
-    -- AI Auto-Recover proactive trigger before slip clutch disengages at 90%
+    -- AI Auto-Recover proactive trigger before reaching hard blockage
     if isAiWorker and aiCloggingMode == RHM_CloggingSystem.AI_AUTO_RECOVER and self.clogLevel >= 78.0 then
         self.aiRecoverActive = true
         self.aiRecoverTimer = 0.0
-        return
-    end
-
-    -- Critical tripped slip-clutch zone (90% .. 99.9%): header intake is disengaged.
-    -- Requires stopping and reversing (RShift+B); stubbornly pushing forward escalates to 100% HARD_BLOCKAGE.
-    if self.clogLevel >= 90.0 then
-        if isThreshing and isCutterOn and isMovingForward and (speedKmh or 0) > 1.3 then
-            local pushSens = SENSITIVITY_MULTIPLIERS[clogSensitivity or 2] or 1.0
-            local speedFactor = math.min(1.25, math.max(0.60, (speedKmh or 0) / 3.0))
-            local pushRate = 1.45 * speedFactor * pushSens
-            self.slipPushTimer = self.slipPushTimer + dtSec
-            self.clogLevel = math.min(100.0, self.clogLevel + pushRate * dtSec)
-            if self.clogLevel >= 100.0 then
-                self.clogLevel = 100.0
-                self.clogState = RHM_CloggingSystem.STATE_BLOCKED
-                self.justHitBlocked = true
-                if vehicle and vehicle.setIsTurnedOn and vehicle.getIsTurnedOn and vehicle:getIsTurnedOn() then
-                    vehicle:setIsTurnedOn(false, true)
-                end
-            end
-        else
-            self.slipPushTimer = math.max(0.0, self.slipPushTimer - dtSec * 0.5)
-        end
-        self.clogState = (self.clogLevel >= 100.0) and RHM_CloggingSystem.STATE_BLOCKED or RHM_CloggingSystem.STATE_SLIP_CLUTCH
         return
     end
 
@@ -379,60 +351,72 @@ function RHM_CloggingSystem:update(
     if isThreshing and isMovingForward and self.reingestCooldownTimer <= 0.0 then
         -- 1. Core Overload (deadband: load < 95% never triggers pure overload clog)
         if load >= 95.0 then
-            local excessLoad = (load - 91.0) / 17.0
-            rateOverload = (excessLoad ^ 1.25) * 4.2
+            local excessLoad = (load - 91.0) / 16.0
+            rateOverload = (excessLoad ^ 1.25) * 4.5
         end
 
         -- 2. Environmental & Calibration factors (only when clogFactors == 2 and actively cutting crop)
         if clogFactors ~= RHM_CloggingSystem.FACTOR_OVERLOAD_ONLY and isActivelyFeeding then
-            local loadWeight = math.min(1.8, math.max(0.45, (load - 55.0) / 35.0))
+            local loadWeight = math.min(1.85, math.max(0.55, (load - 35.0) / 40.0))
 
-            -- Excess moisture beyond +1.5% margin (e.g. midnight dew >=16%) under >=65% load
+            -- Excess moisture beyond +1.5% margin (e.g. midnight dew >=16%) under >=50% load
             local mPct = moisturePct or 0.0
             local mLim = moistureLimitPct or 14.0
-            local isDamp = load >= 65.0 and mPct > (mLim + 1.5)
+            local isDamp = load >= 50.0 and mPct > (mLim + 1.5)
             if isDamp then
-                local mExcess = (mPct - (mLim + 1.5)) / 5.0
-                rateMoisture = mExcess * 1.55 * loadWeight
+                local mExcess = (mPct - (mLim + 1.5)) / 4.8
+                rateMoisture = mExcess * 1.75 * loadWeight
             end
 
-            -- Green weeds wrapping onto auger/drum (PF patchy weed fields average >6% across wide headers at >=60% load)
+            -- Green weeds wrapping onto auger/drum (PF patchy weed fields average >5% across wide headers at >=45% load)
             local wRatio = weedRatio or 0.0
-            local hasWeeds = load >= 60.0 and wRatio > 0.06
+            local hasWeeds = load >= 45.0 and wRatio > 0.05
             if hasWeeds then
-                local wExcess = (wRatio - 0.06) / 0.35
-                rateWeeds = wExcess * 1.85 * loadWeight
+                local wExcess = (wRatio - 0.05) / 0.30
+                rateWeeds = wExcess * 2.15 * loadWeight
             end
 
             -- Damp sap synergy: wet stems + green weed sap stick together even faster
             if isDamp and hasWeeds then
-                rateWeeds = rateWeeds + 0.30 * loadWeight
+                rateWeeds = rateWeeds + 0.35 * loadWeight
             end
 
-            -- Suboptimal machine calibration (<86% settings efficiency at >=75% load)
-            local eff = settingsEff or 1.0
-            if load >= 75.0 and eff < 0.86 then
-                local sExcess = (0.86 - eff) / 0.25
-                rateSettings = sExcess * 2.0 * loadWeight
+            -- Suboptimal machine calibration: proportional to slider exit from Green Zone (settingsClogRisk > 0)
+            -- All sliders inside green zone -> settingsClogRisk == 0 -> 0% clog buildup.
+            -- Small exit from green zone -> gentle buildup; extreme LOW/HIGH miscalibration -> strong buildup up to 100%.
+            local calibRisk = 0.0
+            if vehicle and vehicle.spec_rhm_Combine then
+                local rhmSpec = vehicle.spec_rhm_Combine
+                calibRisk = (rhmSpec.loadCalculator and rhmSpec.loadCalculator.settingsClogRisk)
+                    or (rhmSpec.combineMemory and rhmSpec.combineMemory.settingsClogRisk)
+                    or 0.0
+            end
+            if calibRisk <= 0.0 and (settingsEff or 1.0) < 0.99 then
+                calibRisk = (1.0 - (settingsEff or 1.0)) * 4.5
+            end
+            if load >= 25.0 and calibRisk > 0.03 then
+                rateSettings = calibRisk * 2.85 * loadWeight
             end
 
-            -- Sudden mass slug surge (entering dense patch or heavy windrow at >=88% load)
-            if load >= 88.0 and safeMass > 1.8 and prevMass > 0.5 and safeMass > (prevMass * 1.45) then
+            -- Sudden mass slug surge (entering dense patch or heavy windrow at >=85% load)
+            if load >= 85.0 and safeMass > 1.8 and prevMass > 0.5 and safeMass > (prevMass * 1.45) then
                 rateSurge = math.min(3.5, (safeMass / prevMass - 1.45) * 3.0)
             end
         end
     end
 
     local rawPosRate = (rateOverload + rateMoisture + rateWeeds + rateSettings + rateSurge) * sensMult * typeMult
-    if self.clogLevel >= 65.0 and isActivelyFeeding and load >= 88.0 then
-        rawPosRate = rawPosRate + (0.45 * sensMult)
+    if self.clogLevel >= 65.0 and isActivelyFeeding and (rawPosRate > 0.05 or load >= 82.0) then
+        -- Active slip-clutch friction buildup: once feeder is in SLIP (>=65%) and player keeps pushing
+        -- without fixing the underlying cause, buildup continues steadily toward 90% -> 100%
+        rawPosRate = rawPosRate + (0.85 * sensMult)
     end
 
     local highLevelDamper = 1.0
     if self.clogLevel >= 75.0 then
-        highLevelDamper = 0.45
+        highLevelDamper = 0.85
     elseif self.clogLevel >= 65.0 then
-        highLevelDamper = 0.72
+        highLevelDamper = 0.90
     end
     local totalPosRate = rawPosRate * highLevelDamper
 
@@ -476,9 +460,10 @@ function RHM_CloggingSystem:update(
                 end
             elseif self.clogLevel < 65.0 then
                 local mLim = moistureLimitPct or 14.0
+                local calibRiskNow = (vehicle and vehicle.spec_rhm_Combine and vehicle.spec_rhm_Combine.loadCalculator and vehicle.spec_rhm_Combine.loadCalculator.settingsClogRisk) or 0.0
                 local cleanEnvelope = (weedRatio or 0.0) <= 0.04
                     and (moisturePct or 0.0) <= (mLim + 1.0)
-                    and (settingsEff or 1.0) >= 0.86
+                    and calibRiskNow <= 0.03
                 if cleanEnvelope then
                     if load <= 70.0 then
                         decayRate = 0.45

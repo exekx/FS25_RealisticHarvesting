@@ -641,5 +641,7 @@
         <text name="rhm_ui_clog_risk" text="Riesgo atasco" />
         <text name="rhm_tut_clog_title" text="ATASCO DEL EMBOCADOR" />
         <text name="rhm_tut_clog_msg" text="Sobrecargas prolongadas o cultivos húmedos con maleza pueden hacer zafar el embrague o trabar la trilla. Detente y mantén RShift+B (en modo Realista, destraba a pie con RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Reducción auto de velocidad (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Reduce automáticamente la velocidad de avance cuando el atasco supera el 65% para evitar un bloqueo total al 100%." />
     </texts>
 </l10n>

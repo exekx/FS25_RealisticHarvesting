@@ -641,5 +641,7 @@
         <text name="rhm_ui_clog_risk" text="Ryzyko zatoru" />
         <text name="rhm_tut_clog_title" text="ZAPYCHANIE PODAJNIKA" />
         <text name="rhm_tut_clog_msg" text="Długotrwałe przeciążenie lub wilgotne, zachwaszczone zboże mogą uruchomić sprzęgło lub zablokować młocarnię. Zatrzymaj się i przytrzymaj RShift+B (w trybie Realistycznym czyść pieszo przy hederze klawiszem RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Auto-zwalnianie przy zapychaniu (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Automatycznie zmniejsza prędkość jazdy, gdy zapchanie przekroczy 65%, aby zapobiec całkowitemu zablokowaniu na 100%." />
     </texts>
 </l10n>

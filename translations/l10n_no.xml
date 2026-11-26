@@ -637,5 +637,7 @@
         <text name="rhm_ui_clog_risk" text="Stopprisiko" />
         <text name="rhm_tut_clog_title" text="TILSTOPPING" />
         <text name="rhm_tut_clog_msg" text="Langvarig overbelastning eller våt avling med ugress kan utløse slurekoblingen eller tette treskeren. Stopp og hold RShift+B (i Realistisk modus renses blokkeringer til fots med RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Auto-nedbremsing ved tilstopping (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Reduserer automatisk kjørehastigheten når tilstoppingen overstiger 65% for å forhindre 100% full blokkering." />
     </texts>
 </l10n>

@@ -641,5 +641,7 @@
         <text name="rhm_ui_clog_risk" text="Dugulásveszély" />
         <text name="rhm_tut_clog_title" text="BEHORDÓ ELTÖMŐDÉS" />
         <text name="rhm_tut_clog_msg" text="Tartós túlterhelés vagy nedves, gyomos termény megcsúszathatja a kuplungot vagy eldugíthatja a dobot. Állj meg és tartsd az RShift+B-t (Reális módban gyalog tisztítsd az RShift+C-vel)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Automatikus lassítás eltömődésnél (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Automatikusan csökkenti a haladási sebességet 65% feletti eltömődésnél a 100%-os teljes elakadás megelőzésére." />
     </texts>
 </l10n>

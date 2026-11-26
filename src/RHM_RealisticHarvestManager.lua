@@ -763,7 +763,8 @@ function RHM_RealisticHarvestManager:updateOnFootClogClearing(dt)
             g_soundManager:stopSample(spec.samples.manualClear)
         end
         if g_server ~= nil then
-            sys:clearBlockage(target, true)
+            local dropPile = (self.settings ~= nil and self.settings.clogDropPile == true) or false
+            sys:clearBlockage(target, dropPile)
             rhm_Combine.syncCloggingData(target, spec)
             if spec.dataDirtyFlag and type(spec.dataDirtyFlag) == "number" then
                 target:raiseDirtyFlags(spec.dataDirtyFlag)

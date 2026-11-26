@@ -637,5 +637,7 @@
         <text name="rhm_ui_clog_risk" text="Tukosriski" />
         <text name="rhm_tut_clog_title" text="SYÖTÖN TUKKEUTUMINEN" />
         <text name="rhm_tut_clog_msg" text="Pitkä ylikuorma tai märkä, rikkakasvipitoinen kasvusto voi laukaista luistokytkimen tai tukkia puintikelan. Pysähdy ja pidä RShift+B (Realistisessa tilassa avaa jalan painamalla RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Autom. hidastus tukkeutuessa (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Laskee ajonopeutta automaattisesti tukkeuman ylittäessä 65% täyden 100% jumiutumisen estämiseksi." />
     </texts>
 </l10n>

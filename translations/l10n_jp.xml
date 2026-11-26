@@ -637,5 +637,7 @@
         <text name="rhm_ui_clog_risk" text="詰まりリスク" />
         <text name="rhm_tut_clog_title" text="フィーダー詰まり" />
         <text name="rhm_tut_clog_msg" text="長時間の過負荷や湿った雑草の多い作物ではクラッチが滑ったり脱穀部が詰まります。停車して RShift+B を長押ししてください（リアルでは RShift+C で降車除去）。" />
+        <text name="rhm_setting_clog_slowdown_title" text="詰まり時の自動減速 (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="詰まりが65%を超えた際に自動で車速を落とし、100%の完全停止を防ぎます。" />
     </texts>
 </l10n>

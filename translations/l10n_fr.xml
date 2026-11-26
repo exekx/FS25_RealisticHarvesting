@@ -643,5 +643,7 @@
         <text name="rhm_ui_clog_risk" text="Risque bourrage" />
         <text name="rhm_tut_clog_title" text="BOURRAGE CONVOYEUR" />
         <text name="rhm_tut_clog_msg" text="Une surcharge prolongée ou une récolte humide/enherbée peut faire patiner le limiteur ou bloquer le batteur. Arrêtez-vous et maintenez RShift+B pour inverser (en mode Réaliste, sortez débourrer à pied avec RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Ralentissement auto bourrage (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Réduit automatiquement la vitesse d'avancement lorsque le bourrage dépasse 65% afin d'éviter un blocage complet à 100%." />
     </texts>
 </l10n>

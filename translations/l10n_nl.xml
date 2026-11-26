@@ -639,5 +639,7 @@
         <text name="rhm_ui_clog_risk" text="Verstop.risico" />
         <text name="rhm_tut_clog_title" text="INVOER VERSTOPPING" />
         <text name="rhm_tut_clog_msg" text="Langdurige overbelasting of nat, onkruidrijk gewas kan de slipkoppeling activeren of de invoer blokkeren. Stop en houd RShift+B vast (in Realistisch-modus te voet bij het maaibord met RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Auto-vertraging bij verstopping (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Verlaagt automatisch de rijsnelheid wanneer de verstopping boven 65% komt om een volledige blokkade op 100% te voorkomen." />
     </texts>
 </l10n>

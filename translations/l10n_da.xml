@@ -637,5 +637,7 @@
         <text name="rhm_ui_clog_risk" text="Stoprisiko" />
         <text name="rhm_tut_clog_title" text="TILSTOPNING" />
         <text name="rhm_tut_clog_msg" text="Langvarig overbelastning eller våde afgrøder med ukrudt kan aktivere koblingen eller blokere tærskeren. Stop og hold RShift+B (i Realistisk tilstand renses hårde stop til fods med RShift+C)." />
+        <text name="rhm_setting_clog_slowdown_title" text="Auto-nedbremsning ved tilstopning (>65%)" />
+        <text name="rhm_setting_clog_slowdown_desc" text="Reducerer automatisk kørehastigheden, når tilstopningen overstiger 65%, for at forhindre en 100% blokering." />
     </texts>
 </l10n>
